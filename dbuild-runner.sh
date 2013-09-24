@@ -30,7 +30,7 @@ then
 fi
 cd "dbuild-${DBUILDVERSION}"
 
-bin/dbuild "$DBUILDCONFIG" 2>&1 | tee dbuild.out
+bin/dbuild "../$DBUILDCONFIG" 2>&1 | tee dbuild.out
 set +x
 BUILD_ID="$(grep '^\[info\]  uuid = ' dbuild.out | sed -e 's/\[info\]  uuid = //')"
 echo "The repeatable UUID of this build was: ${BUILD_ID}"
