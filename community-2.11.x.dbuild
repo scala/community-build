@@ -22,12 +22,30 @@ build.projects:[
     system: "scala",
     uri:    "git://github.com/scala/scala.git#master"
   },{
+    name: "scala-xml",
+    uri: "git://github.com/scala/scala-xml.git"
+    extra.sbt-version: "0.13.0"
+    // deps.ignore: "org.scala-lang#scala-library"
+  }, {
+    name: "scala-parser-combinators",
+    uri: "git://github.com/scala/scala-parser-combinators.git"
+    extra.sbt-version: "0.13.0"
+    // deps.ignore: "org.scala-lang#scala-library"
+  }, {
+    name: "scala-partest",
+    uri: "git://github.com/scala/scala-partest.git"
+    extra.sbt-version: "0.13.0"
+  }, {
+    name: "scala-partest-interface",
+    uri: "git://github.com/scala/scala-partest-interface.git"
+    extra.sbt-version: "0.13.0"
+  },{
     name:   "sbt-full-library",
     uri:    "git://github.com/dragos/sbt-full-library"
   },{
     name:   "shapeless",
     uri:    "git://github.com/milessabin/shapeless.git#scala-2.11.x"
-    extra: { sbt-version: "0.13.0" }
+    extra.sbt-version: "0.13.0"
   },{
     name:   "genjavadoc",
     uri:    "git://github.com/typesafehub/genjavadoc.git#master" // master (currently) for 2.11.x
