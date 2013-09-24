@@ -1,0 +1,185 @@
+// This configuration file should eventually contain a set of projects
+// and repositories, tracking the development of various community
+// projects on top of a given development Scala version.
+//
+// Its purpose is to allow developers to be informed whenever a change
+// in any of their dependencies breaks their code. A notification can
+// automatically be sent (via email) to one or more project maintainers
+// for each project or set or projects (see the "notifications" section,
+// at the end of the file).
+//
+// Currently this file contains references to patched repositories, and
+// other temporary hacks, which may or may not be current; please submit
+// pull requests, in order to point us to more stable or appropriate
+// repositories/branches for the various listed projects
+//
+// This is the community build for the Scala 2.11.x branch
+//
+
+build.projects:[
+  {
+    name:  "scala",
+    system: "scala",
+    uri:    "git://github.com/scala/scala.git#master"
+  },{
+    name:   "sbt-full-library",
+    uri:    "git://github.com/dragos/sbt-full-library"
+  },{
+    name:   "shapeless",
+    uri:    "git://github.com/milessabin/shapeless.git#scala-2.11.x"
+    extra: { sbt-version: "0.13.0" }
+  },{
+    name:   "genjavadoc",
+    uri:    "git://github.com/typesafehub/genjavadoc.git#master" // master (currently) for 2.11.x
+    extra: {
+      projects: ["genjavadoc-plugin"]
+    }
+  },{
+    name:   "genjavadoc-bis",
+    uri:    "git://github.com/typesafehub/genjavadoc.git#master" // master (currently) for 2.11.x
+    extra: {
+        projects: ["tests","javaOut"]
+        run-tests: false
+    }
+  },{
+    name:"akka",
+    uri:    "git://github.com/akka/akka.git"
+    extra: {
+    projects: ["akka-actor"]
+    options: ["-Dakka.genjavadoc.enabled=true"]
+    }
+  },{
+    name: "scalabuff"
+    uri: "git://github.com/SandroGrzicic/ScalaBuff.git"
+    extra: { run-tests: false }
+  },{
+    name:"akka-bis",
+    uri:    "git://github.com/akka/akka.git#master"
+    extra: {
+    projects: ["akka-actor-tests","akka-camel",
+               "akka-contrib","akka-dataflow"
+               "akka-kernel","akka-osgi",
+               "akka-osgi-aries","akka-remote","akka-sample-camel",
+               "akka-sample-fsm","akka-sample-hello",
+               "akka-sample-hello-kernel",
+               "akka-sample-remote","akka-samples","akka-sbt-plugin",
+               "akka-testkit","akka-zeromq","akka-transactor"]
+    // akka-file-mailbox, akka-durable-mailboxex depend on akka-mailboxes-common, and
+    // akka-mailboxes-common won't compile with current scalatest (trait WordSpec <-> class)
+    exclude: ["akka-actor","akka-mailboxes-common"]
+    options: ["-Dakka.genjavadoc.enabled=true"]
+    run-tests: false
+    }
+  },{
+    name: "zeromq-scala-binding"
+// master includes this fix (and others), which break akka-zeromq (?)
+// https://github.com/valotrading/zeromq-scala-binding/commit/c2a8a87673a1a3468486d1af9a6460bfed25c7a2
+//    uri: "git://github.com/valotrading/zeromq-scala-binding.git"
+// therefore:
+    uri: "git://github.com/valotrading/zeromq-scala-binding.git#062e9438e322ec29d75b9649cb2aafa6ba3198a6"
+// (which has a broken libdep of scalatest, however (cross full))
+    extra: { run-tests: false }
+  },{
+    name: "scalatest"
+    uri: "git://github.com/scalatest/scalatest.git"
+//    uri: "git://github.com/cunei/scalatest.git"
+//    uri: "git://github.com/scalatest/scalatest.git#509f71b85b5b265b6e2454c65f0e984dbb889d66"
+    extra: {
+      projects: ["scalatest"]
+      run-tests: false
+    }
+  }, {
+    name:   "scalacheck",
+    uri:    "git://github.com/cunei/scalacheck.git#master"
+  },{
+    name: "scala-arm",
+    uri: "git://github.com/jsuereth/scala-arm.git"
+  }, {
+    name:   "scalaz",
+    uri: "git://github.com/jsuereth/scalaz.git#wip-scalaz-seven-scala-2.11"
+//    uri:    "git://github.com/scalaz/scalaz.git#series/7.0.x"
+    extra: {
+      // "iteratee" still not working
+      exclude: ["tests","iteratee"]
+    }
+  }, {
+    name:   "sbinary",
+    uri:    "git://github.com/cunei/sbinary.git"
+    extra: {
+      projects: ["core"]
+// compilation of the test file binaryTests is currently failing
+//      run-tests: false
+    }
+  },{
+    name: "scalameter",
+    uri: "git://github.com/axel22/scalameter.git"
+  }, {
+    name:   "sbt",
+    uri:    "git://github.com/sbt/sbt.git#0.13"
+    extra: {
+      projects: ["compiler-interface",
+                 "classpath","logging","io","control","classfile",
+                 "process","relation","interface","persist","api",
+                 "compiler-integration","incremental-compiler","compile","launcher-interface"
+                ],
+      run-tests: false
+      sbt-version: "0.13.0"
+    }
+  }, {
+    name:   "zinc",
+    uri:    "https://github.com/typesafehub/zinc.git"
+  }, {
+    name:   "sbt-republish",
+    uri:    "http://github.com/typesafehub/sbt-republish.git"
+  }, {
+    name:   "scalaz-bis",
+    uri: "git://github.com/jsuereth/scalaz.git#wip-scalaz-seven-scala-2.11"
+//    uri:    "git://github.com/scalaz/scalaz.git#series/7.0.x"
+    extra: {
+      projects: ["tests"]
+      exclude: ["scalacheck-binding","concurrent","xml","iteratee","effect","typelevel","core"]
+      run-tests: false
+    }
+  },{
+    name:   "specs2",
+    uri: "git://github.com/etorreborre/specs2.git"
+    // one test is currently failing
+    extra: { run-tests: false, sbt-version: "0.13.0" }
+  },{
+    name:   "scala-stm",
+    uri:    "git://github.com/nbronson/scala-stm.git"
+  }
+]
+options.notifications: {
+  send:[{
+    kind: email
+    when: bad
+    projects: "."
+    send.to: ["qbranch@typesafe.com"]
+  },{
+    kind: flowdock
+    when: bad
+    send.detailed: true
+  },{
+    kind: flowdock
+    when: good
+    send.detailed: false
+  },{
+    projects: "."
+    kind: console
+    when: always
+  }]
+  default.send: [{
+    kind: email
+    from: "jenkins-dbuild <antonio.cunei@typesafe.com>"
+    smtp.server: "psemail.epfl.ch"
+    smtp.encryption: none
+  },{
+    kind: flowdock
+    projects: "."
+    when: always
+    send.token: "/home/jenkinsdbuild/dbuild-q.token"
+    send.from: "community-dbuild"
+  }]
+}
+
