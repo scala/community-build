@@ -24,11 +24,13 @@ build.projects:[
   },{
     name: "scala-xml",
     uri: "git://github.com/scala/scala-xml.git"
-    extra.sbt-version: "0.13.0"
+    extra: {
+      sbt-version: "0.13.0",
+      commands: [ 
+        "set Testkeys.includeTestDependencies := false" // Break the cycle between Partest + scala-xml
+       ]
+    }
     // deps.ignore: "org.scala-lang#scala-library"
-    commands: [ 
-      "set Testkeys.includeTestDependencies := false" // Break the cycle between Partest + scala-xml
-    ]
   }, {
     name: "scala-parser-combinators",
     uri: "git://github.com/scala/scala-parser-combinators.git"
