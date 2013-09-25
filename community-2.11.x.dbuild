@@ -27,14 +27,19 @@ build.projects:[
     extra: {
       sbt-version: "0.13.0",
       commands: [ 
-        "set Testkeys.includeTestDependencies := false" // Break the cycle between Partest + scala-xml
+        "set TestKeys.includeTestDependencies := false" // Break the cycle between Partest + scala-xml
        ]
     }
     // deps.ignore: "org.scala-lang#scala-library"
   }, {
     name: "scala-parser-combinators",
     uri: "git://github.com/scala/scala-parser-combinators.git"
-    extra.sbt-version: "0.13.0"
+    extra: {
+      sbt-version: "0.13.0"
+      commands: [ 
+        "set TestKeys.includeTestDependencies := false" // Break the cycle between Partest + scala-xml
+      ]
+    }
     // deps.ignore: "org.scala-lang#scala-library"
   }, {
     name: "scala-partest",
