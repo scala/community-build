@@ -26,7 +26,8 @@ build.projects:[
     uri:    "git://github.com/dragos/sbt-full-library"
   },{
     name:   "shapeless",
-    uri:    "git://github.com/milessabin/shapeless.git#3085c3cb56906dcbafcc39cc785e594750800f79"
+    uri:    "git://github.com/milessabin/shapeless.git"
+    extra.sbt-version: "0.13.0"
   },{
     name:   "genjavadoc",
     uri:    "git://github.com/typesafehub/genjavadoc.git#2.10.x"
