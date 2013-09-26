@@ -157,11 +157,11 @@ options.notifications: {
   },{
     kind: flowdock
     when: bad
-    send.detailed: true
+    send.detail: short
   },{
     kind: flowdock
     when: good
-    send.detailed: false
+    send.detail: summary
   },{
     projects: "."
     kind: console
@@ -178,7 +178,7 @@ options.notifications: {
     kind: flowdock
     projects: "."
     send: {
-      from: "community-dbuild"
+      from: "dbuild"
       token: "/home/jenkinsdbuild/dbuild-q.token"
     }
   }]
