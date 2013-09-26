@@ -187,7 +187,7 @@ options.notifications: {
     kind: email
     when: bad
     projects: "."
-    send.to: ["qbranch@typesafe.com"]
+    send.to: ["qbranch@typesafe.com", "akka.official@gmail.com"]
   },{
     kind: flowdock
     when: bad
