@@ -140,7 +140,7 @@ build.projects:[
     }
   },{
     name:   "specs2",
-    uri: "git://github.com/etorreborre/specs2.git"
+    uri: "git://github.com/etorreborre/specs2.git#specs2-shapeless-2.0"
     // one test is currently failing
     extra: { run-tests: false, sbt-version: "0.13.0" }
   },{
