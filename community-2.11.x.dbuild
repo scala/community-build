@@ -34,7 +34,10 @@ build.projects:[
         "set TestKeys.includeTestDependencies := false" // Break the cycle between Partest + scala-xml
        ]
     }
-    // deps.ignore: "org.scala-lang#scala-library"
+    deps.ignore: [ 
+       "org.scala-lang#scala-library",
+       "org.scala-lang#scala-compiler"
+    ]
   }, {
     name: "scala-parser-combinators",
     uri: "git://github.com/scala/scala-parser-combinators.git"
@@ -44,6 +47,10 @@ build.projects:[
         "set TestKeys.includeTestDependencies := false" // Break the cycle between Partest + scala-xml
       ]
     }
+    deps.ignore: [ 
+       "org.scala-lang#scala-library",
+       "org.scala-lang#scala-compiler"
+    ]
     // deps.ignore: "org.scala-lang#scala-library"
   }, {
     name: "scala-partest",
@@ -53,6 +60,10 @@ build.projects:[
     name: "scala-partest-interface",
     uri: "git://github.com/scala/scala-partest-interface.git"
     extra.sbt-version: "0.13.0"
+    deps.ignore: [ 
+       "org.scala-lang#scala-library",
+       "org.scala-lang#scala-compiler"
+    ]
   },{
     name:   "sbt-full-library",
     uri:    "git://github.com/dragos/sbt-full-library"
@@ -217,4 +228,3 @@ options.notifications: {
     }
   }]
 }
-
