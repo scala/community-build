@@ -104,6 +104,7 @@ build.projects:[
     uri:    "git://github.com/scalaz/scalaz.git#series/7.0.x"
     extra: {
       exclude: ["tests"]
+      sbt-version: "0.13.0"
     }
   }, {
     name:   "sbinary",
@@ -137,6 +138,7 @@ build.projects:[
       projects: ["tests"]
       exclude: ["scalacheck-binding","concurrent","xml","iteratee","effect","typelevel","core"]
       run-tests: false
+      sbt-version: "0.13.0"
     }
   },{
     name:   "specs2",
