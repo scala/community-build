@@ -21,10 +21,6 @@ build.projects:[
     name:  "scala",
     system: "scala",
     uri:    "git://github.com/scala/scala.git#master",
-    deps.ignore: [ 
-       "org.scala-lang.modules#scala-xml",
-       "org.scala-lang.modules#scala-parser-combinators"
-    ]
   },{
     name: "scala-xml",
     uri: "git://github.com/scala/scala-xml.git"
