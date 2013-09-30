@@ -132,7 +132,7 @@ build.projects:[
     }
   }, {
     name:   "scalacheck",
-    uri:    "git://github.com/cunei/scalacheck.git#master"
+    uri:    "git://github.com/rickynils/scalacheck.git#master"
   },{
     name: "scala-arm",
     uri: "git://github.com/jsuereth/scala-arm.git"
