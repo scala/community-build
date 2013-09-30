@@ -51,7 +51,10 @@ build.projects:[
   },{
     name: "scalabuff"
     uri: "git://github.com/SandroGrzicic/ScalaBuff.git"
-    extra: { run-tests: false }
+    extra: {
+      run-tests: false
+      sbt-version: "0.13.0"
+    }
   },{
     name:"akka-bis",
     uri:    "git://github.com/akka/akka.git#master"
