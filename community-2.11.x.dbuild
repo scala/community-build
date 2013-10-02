@@ -81,7 +81,7 @@ build.projects:[
         run-tests: false
     }
   },{
-    name:"akka",
+    name:"akka-actor",
     uri:    "git://github.com/akka/akka.git"
     extra: {
     projects: ["akka-actor"]
@@ -95,7 +95,7 @@ build.projects:[
       sbt-version: "0.13.0"
     }
   },{
-    name:"akka-bis",
+    name:"akka",
     uri:    "git://github.com/akka/akka.git#master"
     extra: {
     projects: ["akka-actor-tests","akka-camel",
@@ -194,10 +194,17 @@ build.projects:[
 ]
 options.notifications: {
   send:[{
-    kind: email
     when: bad
     projects: "."
-    send.to: ["qbranch@typesafe.com", "akka.official@gmail.com"]
+    send.to: ["qbranch@typesafe.com"]
+  },{
+    when: bad
+    projects: "akka"
+    send.to: ["akka.official@gmail.com"]
+  },{
+    when: bad
+    projects: "slick"
+    send.to: ["stefan.zeiger@typesafe.com"]
   },{
     kind: flowdock
     when: bad

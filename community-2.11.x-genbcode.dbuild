@@ -26,12 +26,51 @@ build.projects:[
       build-options: ["-Dscalac.args=\"-Ybackend:GenBCode\""]
     }
   },{
+    name: "scala-xml",
+    uri: "git://github.com/scala/scala-xml.git"
+    extra: {
+      sbt-version: "0.13.0",
+      commands: [ 
+        "set TestKeys.includeTestDependencies := false" // Break the cycle between Partest + scala-xml
+       ]
+    }
+    deps.ignore: [ 
+       "org.scala-lang#scala-library",
+       "org.scala-lang#scala-compiler"
+    ]
+  }, {
+    name: "scala-parser-combinators",
+    uri: "git://github.com/scala/scala-parser-combinators.git"
+    extra: {
+      sbt-version: "0.13.0"
+      commands: [ 
+        "set TestKeys.includeTestDependencies := false" // Break the cycle between Partest + scala-xml
+      ]
+    }
+    deps.ignore: [ 
+       "org.scala-lang#scala-library",
+       "org.scala-lang#scala-compiler"
+    ]
+    // deps.ignore: "org.scala-lang#scala-library"
+  }, {
+    name: "scala-partest",
+    uri: "git://github.com/scala/scala-partest.git"
+    extra.sbt-version: "0.13.0"
+  }, {
+    name: "scala-partest-interface",
+    uri: "git://github.com/scala/scala-partest-interface.git"
+    extra.sbt-version: "0.13.0"
+    deps.ignore: [ 
+       "org.scala-lang#scala-library",
+       "org.scala-lang#scala-compiler"
+    ]
+  },{
     name:   "sbt-full-library",
     uri:    "git://github.com/dragos/sbt-full-library"
   },{
     name:   "shapeless",
     uri:    "git://github.com/milessabin/shapeless.git#scala-2.11.x"
-    extra: { sbt-version: "0.13.0" }
+    extra.sbt-version: "0.13.0"
   },{
     name:   "genjavadoc",
     uri:    "git://github.com/typesafehub/genjavadoc.git#master" // master (currently) for 2.11.x
@@ -46,7 +85,7 @@ build.projects:[
         run-tests: false
     }
   },{
-    name:"akka",
+    name:"akka-actor",
     uri:    "git://github.com/akka/akka.git"
     extra: {
     projects: ["akka-actor"]
@@ -55,9 +94,12 @@ build.projects:[
   },{
     name: "scalabuff"
     uri: "git://github.com/SandroGrzicic/ScalaBuff.git"
-    extra: { run-tests: false }
+    extra: {
+      run-tests: false
+      sbt-version: "0.13.0"
+    }
   },{
-    name:"akka-bis",
+    name:"akka",
     uri:    "git://github.com/akka/akka.git#master"
     extra: {
     projects: ["akka-actor-tests","akka-camel",
@@ -94,7 +136,7 @@ build.projects:[
     }
   }, {
     name:   "scalacheck",
-    uri:    "git://github.com/cunei/scalacheck.git#master"
+    uri:    "git://github.com/rickynils/scalacheck.git#master"
   },{
     name: "scala-arm",
     uri: "git://github.com/jsuereth/scala-arm.git"
@@ -156,10 +198,17 @@ build.projects:[
 ]
 options.notifications: {
   send:[{
-    kind: email
     when: bad
     projects: "."
-    send.to: ["qbranch@typesafe.com", "akka.official@gmail.com"]
+    send.to: ["qbranch@typesafe.com"]
+  },{
+    when: bad
+    projects: "akka"
+    send.to: ["akka.official@gmail.com"]
+  },{
+    when: bad
+    projects: "slick"
+    send.to: ["stefan.zeiger@typesafe.com"]
   },{
     kind: flowdock
     when: bad
@@ -189,4 +238,3 @@ options.notifications: {
     }
   }]
 }
-
