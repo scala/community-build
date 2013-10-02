@@ -26,6 +26,9 @@ build.projects:[
       build-options: ["-Dscalac.args=\"-Ybackend:GenBCode\""]
     }
   },{
+    name: "slick"
+    uri:  "git://github.com/slick/slick.git"
+  },{
     name: "scala-xml",
     uri: "git://github.com/scala/scala-xml.git"
     extra: {

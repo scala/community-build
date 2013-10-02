@@ -22,6 +22,9 @@ build.projects:[
     system: "scala",
     uri:    "git://github.com/scala/scala.git#master",
   },{
+    name: "slick"
+    uri:  "git://github.com/slick/slick.git"
+  },{
     name: "scala-xml",
     uri: "git://github.com/scala/scala-xml.git"
     extra: {
