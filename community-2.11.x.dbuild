@@ -152,8 +152,6 @@ build.projects:[
     uri:    "git://github.com/cunei/sbinary.git"
     extra: {
       projects: ["core"]
-// compilation of the test file binaryTests is currently failing
-//      run-tests: false
     }
   },{
     name: "scalameter",
