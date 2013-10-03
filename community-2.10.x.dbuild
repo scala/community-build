@@ -112,7 +112,6 @@ build.projects:[
   }, {
     name:   "sbinary",
     uri:    "git://github.com/harrah/sbinary.git"
-    extra: { projects: ["core"] }
   },{
     name: "sperformance",
     uri: "git://github.com/jsuereth/sperformance.git"

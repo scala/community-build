@@ -150,9 +150,6 @@ build.projects:[
   }, {
     name:   "sbinary",
     uri:    "git://github.com/cunei/sbinary.git"
-    extra: {
-      projects: ["core"]
-    }
   },{
     name: "scalameter",
     uri: "git://github.com/axel22/scalameter.git"
