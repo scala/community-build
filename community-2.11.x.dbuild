@@ -1,123 +1,261 @@
-// This configuration file should eventually contain a set of projects
+// This configuration file lists contain a set of projects
 // and repositories, tracking the development of various community
-// projects on top of a given development Scala version.
+// projects on top of a given (stable or release) Scala version.
 //
 // Its purpose is to allow developers to be informed whenever a change
-// in any of their dependencies breaks their code. A notification can
-// automatically be sent (via email) to one or more project maintainers
-// for each project or set or projects (see the "notifications" section,
-// at the end of the file).
+// in one of the project breaks one or more other projects.
+// A notification can automatically be sent (via email) to one or more
+// project maintainers for each project or set or projects (see the
+// "notifications" section, at the end of the file).
 //
-// Currently this file contains references to patched repositories, and
-// other temporary hacks, which may or may not be current; please submit
-// pull requests, in order to point us to more stable or appropriate
-// repositories/branches for the various listed projects
 //
-// This is the community build for the Scala 2.11.x branch
+// This is the Typesafe development build file for the Scala 2.11.x branch.
+// ------------------------------------------------------------------------
+//
+// This build file tracks the Scala 2.11.x branch, and is used
+// to track the current development of Typesafe projects against
+// (mostly) stable versions of their other required projects.
+//
+// Therefore:
+// - Typesafe projects are either master or a development/unstable branch
+// - the other projects are either from a stable release, a pre-release,
+//   or a branch from a fork that is intended to stabilize the project.
 //
 
+
+vars: {
+//  scalaz-uri: "git://github.com/cunei/scalaz.git#v7.0.3-2.11"
+//  scalaz-uri: "git://github.com/scalaz/scalaz.git#scalaz-seven"
+  scalaz-uri: "git://github.com/cunei/scalaz.git#scalaz-seven-dbuild"
+
+  //
+  // these subprojects compile successfully
+  //
+  akka-ok: [ akka-actor, akka-sample-osgi-dining-hakkers-api, akka-testkit, akka-dataflow,
+             akka-actor-tests, akka-osgi, akka-osgi-aries, akka-sample-osgi-dining-hakkers-command,
+             akka-transactor, akka-remote, akka-mailboxes-common, akka-persistence-experimental,
+             akka-file-mailbox, akka-durable-mailboxes, akka-sample-fsm, akka-slf4j, akka-zeromq,
+             akka-sample-persistence, akka-camel, akka-sample-camel, akka-agent, akka-kernel,
+             akka-sample-hello-kernel, akka-sample-hello, akka-sample-remote,
+             akka-sample-osgi-dining-hakkers-uncommons, akka-sample-osgi-dining-hakkers,
+             akka-samples, akka ]
+
+  //
+  // these subprojects do compile successfully at the moment
+  //
+  akka-ko: [ akka-sbt-plugin, akka-channels-experimental, akka-channels-tests,
+             akka-multi-node-testkit, akka-remote-tests, akka-sample-multi-node,
+             akka-cluster, akka-contrib, akka-sample-cluster,
+             akka-sample-osgi-dining-hakkers-core, akka-docs,
+             akka-sample-osgi-dining-hakkers-integration, all-tests, atmos ]
+
+}
+
+
+
+
+
+
+
+build.options.extraction-version: "2.11.0-M5"
+build.options.cross-version: disabled
 build.projects:[
+  // Scala 2.11.x development branch
+  //
   {
     name:  "scala",
-    system: "scala",
-    uri:    "git://github.com/scala/scala.git#master",
-  },{
-    name: "slick"
-    uri:  "git://github.com/slick/slick.git"
-  },{
-    name: "scala-xml",
-    uri: "git://github.com/scala/scala-xml.git"
-    extra: {
-      sbt-version: "0.13.0",
-      commands: [ 
-        "set TestKeys.includeTestDependencies := false" // Break the cycle between Partest + scala-xml
-       ]
-    }
-    deps.ignore: [ 
-       "org.scala-lang#scala-library",
-       "org.scala-lang#scala-compiler"
-    ]
-  }, {
-    name: "scala-parser-combinators",
-    uri: "git://github.com/scala/scala-parser-combinators.git"
-    extra: {
+    system: assemble
+    extra.parts.options: {
+      cross-version: standard
       sbt-version: "0.13.0"
-      commands: [ 
-        "set TestKeys.includeTestDependencies := false" // Break the cycle between Partest + scala-xml
-      ]
     }
-    deps.ignore: [ 
-       "org.scala-lang#scala-library",
-       "org.scala-lang#scala-compiler"
+    extra.parts.projects: [
+      {
+        system: "scala",
+        name:  "scala",
+        uri:    "git://github.com/scala/scala.git"
+      }
+      {
+        name: "scala-xml",
+        uri: "git://github.com/scala/scala-xml.git"
+        extra: {
+          sbt-version: "0.13.0",
+          commands: [
+//            "set TestKeys.includeTestDependencies := false" // Break the cycle between Partest + scala-xml
+          ]
+        }
+      }
+      {
+        name: "scala-parser-combinators",
+        uri: "git://github.com/scala/scala-parser-combinators.git"
+        extra: {
+          sbt-version: "0.13.0"
+          commands: [
+//            "set TestKeys.includeTestDependencies := false" // Break the cycle between Partest + scala-xml
+          ]
+        }
+      }
     ]
-    // deps.ignore: "org.scala-lang#scala-library"
-  }, {
+  }
+
+
+
+  {
+    name: "Play2",
+    uri: "git://github.com/playframework/Play20.git",
+    extra: {
+      projects: ["Play"]
+                directory: "framework"
+    }
+    extra.sbt-version: "0.13.0"
+  }
+
+
+  {
     name: "scala-partest",
     uri: "git://github.com/scala/scala-partest.git"
     extra.sbt-version: "0.13.0"
-  }, {
+  }
+  {
     name: "scala-partest-interface",
     uri: "git://github.com/scala/scala-partest-interface.git"
     extra.sbt-version: "0.13.0"
-    deps.ignore: [ 
-       "org.scala-lang#scala-library",
-       "org.scala-lang#scala-compiler"
-    ]
-  },{
-    name:   "sbt-full-library",
-    uri:    "git://github.com/dragos/sbt-full-library"
-  },{
-    name:   "shapeless",
+  }
+
+
+	
+  {
+      name: macro-paradise
+
+    // macro-paradise is used by SPECS2-2.2.2
+    //
+    uri: "git://github.com/scalamacros/paradise.git#2.11.0"
+    extra.sbt-version: "0.13.0"
+    extra.projects: "macro-paradise"
+  }
+
+
+  //
+  // Community projects (not from Typesafe), and other support libraries:
+  // these should be stable releases, pre-releases, or branches aimed
+  // at stabilizing those projects when used in conjunction with this Scala version.
+  //
+
+  {
+      name: scala-stm
+
+    // "release-0.7" is a stable branch, used to cut 0.7
+    // against new Scala milestones at this time
+    uri:    "git://github.com/nbronson/scala-stm.git#release-0.7"
+
+    // a minor incompatibility with recent versions of scalatest, therefore:
+    extra.run-tests: false
+  }
+  {
+        name: shapeless
+
+    // The most recent shapeless is in the form of 2.0.0 milestones
+    // (currently in development). We rather track here the stable 1.2.4,
+    // from its release branch.
+    // This works:
+//    uri:    "git://github.com/milessabin/shapeless.git#shapeless-1.2.4-scala-2.11.x"
+    // examples seem broken, so we only compile core
+    extra.projects: shapeless-core
+
+    // here is master (2.0), needed by the suitably patched specs2
+    // note that this doesn't work at this time.
+//    uri:    "git://github.com/milessabin/shapeless.git#master"
     uri:    "git://github.com/milessabin/shapeless.git#scala-2.11.x"
     extra.sbt-version: "0.13.0"
-  },{
-    name:   "genjavadoc",
-    uri:    "git://github.com/typesafehub/genjavadoc.git#master" // master (currently) for 2.11.x
+
+  }
+  {
+        name: specs2
+
+    // SPECS2-2.2.x has not been officially published with 2.11.x (yet)
+
+//    uri: "git://github.com/etorreborre/specs2.git#specs2-shapeless-2.0"
+    uri: "git://github.com/retronym/specs2.git#specs2-shapeless-2.0-Scala-2.11"
+//    uri: "git://github.com/etorreborre/specs2.git#SPECS2-2.2"
+//    uri: "file:///home/cunei/activities/temp_gettami/specs2a#wip-211"
+//    uri: "git://github.com/retronym/specs2.git#topic/scala-modules-and-by-name"
+    // one test is currently failing
+    extra: { run-tests: false, sbt-version: "0.13.0", projects: specs2 }
+  }
+  {
+        name: scalacheck
+
+    // uri: "git://github.com/rickynils/scalacheck.git#1.10.1"
+    //
+    // scalacheck v1.10.1 won't compile as-is with 2.11, but
+    // just adding scala-parser-combinators is sufficient; see:
+//    uri:    "git://github.com/cunei/scalacheck.git#1.10.1-2.11"
+    uri:    "git://github.com/rickynils/scalacheck.git#1.10.1_sonatype"
+    extra.sbt-version: "0.13.0"
+    extra.run-tests: false
+  }
+  {
+        name: sbinary
+
+    // some 2.11.x-compatible code exists in the
+    // 2.11 branch, but does not compile correctly;
+    // the code in master works ok, as of
+    // 8e45fe13f72e362369ef58ca6c1e44efedcd7dec
+    //
+    // This should be replaced by a more stable
+    // release/branch for 2.11.x
+    //
+    uri:    "git://github.com/harrah/sbinary.git#8e45fe13f72e362369ef58ca6c1e44efedcd7dec"
+  }
+  {
+        name: scalaz
+
+    // This is scalaz v7.0.3; we just add xml
+    // and parser combinators, plus one minor fix
+    //
+    uri: ${vars.scalaz-uri}
     extra: {
-      projects: ["genjavadoc-plugin"]
-    }
-  },{
-    name:   "genjavadoc-bis",
-    uri:    "git://github.com/typesafehub/genjavadoc.git#master" // master (currently) for 2.11.x
-    extra: {
-        projects: ["tests","javaOut"]
-        run-tests: false
-    }
-  },{
-    name:"akka-actor",
-    uri:    "git://github.com/akka/akka.git"
-    extra: {
-    projects: ["akka-actor"]
-    options: ["-Dakka.genjavadoc.enabled=true"]
-    }
-  },{
-    name: "scalabuff"
-    uri: "git://github.com/SandroGrzicic/ScalaBuff.git"
-    extra: {
-      run-tests: false
+      // examples don't compile correctly
+      // but they are not necessary to compile
+      // the other projects, so they are
+      // segregated in an auxiliary project
+      exclude: ["tests","example"]
       sbt-version: "0.13.0"
     }
-  },{
-    name:"akka",
-    uri:    "git://github.com/akka/akka.git#master"
-    extra: {
-    projects: ["akka-actor-tests","akka-camel",
-               "akka-contrib","akka-dataflow"
-               "akka-kernel","akka-osgi",
-               "akka-osgi-aries","akka-remote","akka-sample-camel",
-               "akka-sample-fsm","akka-sample-hello",
-               "akka-sample-hello-kernel",
-               "akka-sample-remote","akka-samples","akka-sbt-plugin",
-               "akka-testkit","akka-zeromq","akka-transactor"]
-    // akka-file-mailbox, akka-durable-mailboxex depend on akka-mailboxes-common, and
-    // akka-mailboxes-common won't compile with current scalatest (trait WordSpec <-> class)
-    exclude: ["akka-actor","akka-mailboxes-common"]
-    options: ["-Dakka.genjavadoc.enabled=true"]
-    run-tests: false
-    }
-  },{
+  }
+  {
+    // see project "scalaz"
+    name: scalaz-examples
+    uri: ${vars.scalaz-uri}
+    extra.projects: example
+    extra.exclude: [core, xml, effect, iteratee,
+                    typelevel, concurrent, scalacheck-binding, scalaz]
+    extra.sbt-version: "0.13.0"
+  }
+  {
+    // see project "scalaz"
+    name: scalaz-tests
+    uri: ${vars.scalaz-uri}
+    extra.projects: tests
+    extra.exclude: [core, xml, effect, iteratee,
+                    typelevel, concurrent, scalacheck-binding, scalaz]
+    extra.sbt-version: "0.13.0"
+  }
+  {
+      name:   "genjavadoc-plugin",
+
+    // v0.5_2.11.0-M5 is the most recent 2.11 tag
+    //
+//    uri:    "git://github.com/typesafehub/genjavadoc.git#v0.5_2.11.0-M5"
+    uri:    "git://github.com/cunei/genjavadoc.git#master" // master (currently) for 2.11.x
+    extra.projects: genjavadoc-plugin
+  }
+
+
+
+
+  {
     name: "zeromq-scala-binding"
-// master includes this fix (and others), which break akka-zeromq (?)
 // https://github.com/valotrading/zeromq-scala-binding/commit/c2a8a87673a1a3468486d1af9a6460bfed25c7a2
 //    uri: "git://github.com/valotrading/zeromq-scala-binding.git"
 // therefore:
@@ -126,90 +264,121 @@ build.projects:[
     extra: { run-tests: false }
   },{
     name: "scalatest"
-    uri: "git://github.com/scalatest/scalatest.git"
+    //
+    // The most recent 2.11.x-compatible release of scalatest is:
+    //   org.scalatest#scalatest_2.11.0-M5;2.0.M7
+    // which was uploaded on 11-Sep-2013.
+    // However, no specific tag/branch is present in the scalatest repo
+    //
+//    uri: "git://github.com/scalatest/scalatest.git"
+//    uri: "git://github.com/scalatest/scalatest.git#release-2.0.RC1-for-scala-2.10"
 //    uri: "git://github.com/cunei/scalatest.git"
+    uri: "git://github.com/cunei/scalatest.git#wip-211"
+//
 //    uri: "git://github.com/scalatest/scalatest.git#509f71b85b5b265b6e2454c65f0e984dbb889d66"
     extra: {
       projects: ["scalatest"]
       run-tests: false
     }
-  }, {
-    name:   "scalacheck",
-    uri:    "git://github.com/rickynils/scalacheck.git#master"
   },{
     name: "scala-arm",
     uri: "git://github.com/jsuereth/scala-arm.git"
-  }, {
-    name:   "scalaz",
-    uri: "git://github.com/jsuereth/scalaz.git#wip-scalaz-seven-scala-2.11"
-//    uri:    "git://github.com/scalaz/scalaz.git#series/7.0.x"
-    extra: {
-      // "iteratee" still not working
-      exclude: ["tests","iteratee"]
-    }
-  }, {
-    name:   "sbinary",
-    uri:    "git://github.com/cunei/sbinary.git"
+//  },{
+//    name:   "scalaz-tests",
+//    uri: "git://github.com/cunei/scalaz.git#v7.0.3-2.11"
+//    extra: {
+//      projects: ["tests"]
+//      exclude: ["scalacheck-binding","concurrent","xml","iteratee","effect","typelevel","core"]
+//      run-tests: false
+//    }
   },{
-    name: "scalameter",
-    uri: "git://github.com/axel22/scalameter.git"
-  }, {
+    name:   "genjavadoc",
+//    uri:    "git://github.com/typesafehub/genjavadoc.git#v0.5_2.11.0-M5"
+    uri:    "git://github.com/cunei/genjavadoc.git#master" // master (currently) for 2.11.x
+    extra: {
+        projects: ["tests","javaOut"]
+        run-tests: false
+    }
+  },
+
+
+
+  //
+  // Typesafe-developed projects: development branches / master / unstable releases
+  //
+  {
+    name: "slick"
+    uri:  "git://github.com/slick/slick.git"
+    extra.sbt-version: "0.13.0"
+  }
+  {
+    name:"akka"
+    uri:    "git://github.com/akka/akka.git#master"
+    extra: {
+      options: ["-Dakka.genjavadoc.enabled=true"]
+      run-tests: false
+      exclude: ${vars.akka-ko}
+    }
+    extra.sbt-version: "0.13.0"
+  }
+  {
+    name:"akka-bad"
+    uri:    "git://github.com/akka/akka.git#master"
+    extra: {
+      options: ["-Dakka.genjavadoc.enabled=true"]
+      run-tests: false
+      projects: ${vars.akka-ko}
+      exclude: ${vars.akka-ok}
+    }
+    extra.sbt-version: "0.13.0"
+  }
+  {
     name:   "sbt",
-    uri:    "git://github.com/sbt/sbt.git#0.13"
+    uri:    "git://github.com/sbt/sbt.git#0.13-2.11"
     extra: {
       projects: ["compiler-interface",
                  "classpath","logging","io","control","classfile",
                  "process","relation","interface","persist","api",
-                 "compiler-integration","incremental-compiler","compile","launcher-interface"
+                 "compiler-integration","incremental-compiler","compile",
+                 "launcher-interface"
                 ],
       run-tests: false
-      sbt-version: "0.13.0"
     }
   }, {
     name:   "zinc",
     uri:    "https://github.com/typesafehub/zinc.git"
+  },{
+    name:   "sbt-full-library",
+    uri:    "git://github.com/dragos/sbt-full-library"
+          extra.commands: [
+            " "
+          ]
   }, {
     name:   "sbt-republish",
     uri:    "http://github.com/typesafehub/sbt-republish.git"
-  }, {
-    name:   "scalaz-bis",
-    uri: "git://github.com/jsuereth/scalaz.git#wip-scalaz-seven-scala-2.11"
-//    uri:    "git://github.com/scalaz/scalaz.git#series/7.0.x"
-    extra: {
-      projects: ["tests"]
-      exclude: ["scalacheck-binding","concurrent","xml","iteratee","effect","typelevel","core"]
-      run-tests: false
-    }
-  },{
-    name:   "specs2",
-    uri: "git://github.com/etorreborre/specs2.git"
-    // one test is currently failing
-    extra: { run-tests: false, sbt-version: "0.13.0" }
-  },{
-    name:   "scala-stm",
-    uri:    "git://github.com/nbronson/scala-stm.git"
   }
 ]
+
 options.notifications: {
   send:[{
-    when: bad
+    when: []//bad
     projects: "."
     send.to: ["qbranch@typesafe.com"]
   },{
-    when: bad
+    when: []//bad
     projects: "akka"
     send.to: ["akka.official@gmail.com"]
   },{
-    when: bad
+    when: []//bad
     projects: "slick"
     send.to: ["stefan.zeiger@typesafe.com"]
   },{
     kind: flowdock
-    when: bad
+    when: []//bad
     send.detail: short
   },{
     kind: flowdock
-    when: good
+    when: []//good
     send.detail: summary
   },{
     projects: "."
