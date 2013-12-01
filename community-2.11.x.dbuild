@@ -75,8 +75,8 @@ build.projects:[
       {
         system: "scala",
         name:  "scala",
-//        uri:    "git://github.com/scala/scala.git"
-        uri:    "git://github.com/scala/scala.git#d19954eb94afb27ca90b3bbcfb9eecec5e85428a"
+        uri:    "git://github.com/scala/scala.git"
+//        uri:    "git://github.com/scala/scala.git#d19954eb94afb27ca90b3bbcfb9eecec5e85428a"
       }
       {
         name: "scala-xml",
@@ -233,37 +233,11 @@ build.projects:[
     uri:    "git://github.com/harrah/sbinary.git#8e45fe13f72e362369ef58ca6c1e44efedcd7dec"
   }
   {
-        name: scalaz
+      name: scalaz
 
-    // This is scalaz v7.0.3; we just add xml
-    // and parser combinators, plus one minor fix
+    // Currently tracking series/7.0.x
     //
     uri: ${vars.scalaz-uri}
-    extra: {
-      // examples don't compile correctly
-      // but they are not necessary to compile
-      // the other projects, so they are
-      // segregated in an auxiliary project
-      exclude: ["tests","example"]
-      sbt-version: "0.13.0"
-    }
-  }
-  {
-    // see project "scalaz"
-    name: scalaz-examples
-    uri: ${vars.scalaz-uri}
-    extra.projects: example
-    extra.exclude: [core, xml, effect, iteratee,
-                    typelevel, concurrent, scalacheck-binding, scalaz]
-    extra.sbt-version: "0.13.0"
-  }
-  {
-    // see project "scalaz"
-    name: scalaz-tests
-    uri: ${vars.scalaz-uri}
-    extra.projects: tests
-    extra.exclude: [core, xml, effect, iteratee,
-                    typelevel, concurrent, scalacheck-binding, scalaz]
     extra.sbt-version: "0.13.0"
   }
   {
