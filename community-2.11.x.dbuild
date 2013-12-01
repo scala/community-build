@@ -374,11 +374,11 @@ options.notifications: {
     send.to: ["stefan.zeiger@typesafe.com"]
   },{
     kind: flowdock
-    when: []//bad
+    when: [bad]
     send.detail: short
   },{
     kind: flowdock
-    when: []//good
+    when: [good]
     send.detail: summary
   },{
     projects: "."
