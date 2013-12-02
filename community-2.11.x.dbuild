@@ -199,10 +199,11 @@ build.projects:[
 
 //    uri: "git://github.com/etorreborre/specs2.git#specs2-shapeless-2.0"
 //    uri: "git://github.com/retronym/specs2.git#specs2-shapeless-2.0-Scala-2.11"
-    uri: "git://github.com/retronym/specs2#topic/2.11-compat"
+//    uri: "git://github.com/retronym/specs2#topic/2.11-compat"
 //    uri: "git://github.com/etorreborre/specs2.git#SPECS2-2.2"
 //    uri: "file:///home/cunei/activities/temp_gettami/specs2a#wip-211"
 //    uri: "git://github.com/retronym/specs2.git#topic/scala-modules-and-by-name"
+    uri: "git://github.com/etorreborre/specs2.git"
     // one test is currently failing
     extra: { run-tests: false, sbt-version: "0.13.0", projects: specs2 }
   }
