@@ -335,8 +335,7 @@ build.projects:[
   }
   {
     name:   "sbt",
-//    uri:    "git://github.com/sbt/sbt.git#0.13-2.11"
-    uri:    "git://github.com/sbt/sbt.git#pull/1021/head"
+    uri:    "git://github.com/sbt/sbt.git#0.13"
     extra.sbt-version: "0.13.0"
     extra: {
       projects: ["compiler-interface",
