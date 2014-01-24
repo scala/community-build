@@ -40,6 +40,7 @@ vars: {
              akka-sample-persistence, akka-camel, akka-agent, akka-kernel,
              akka-sample-hello-kernel,
              akka-sample-osgi-dining-hakkers-uncommons, akka-sample-osgi-dining-hakkers,
+             akka-sample-main-scala, akka-sample-main-java, akka-sample-camel-scala, akka-sample-camel-java, akka-sample-remote-scala, akka-sample-remote-java, akka-sample-cluster-scala, akka-sample-cluster-java,
              akka-samples, akka ]
 
   //
