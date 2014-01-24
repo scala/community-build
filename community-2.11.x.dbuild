@@ -45,9 +45,8 @@ vars: {
   //
   // these subprojects do compile successfully at the moment
   //
-  akka-ko: [ akka-sbt-plugin, akka-channels-experimental, akka-channels-tests,
-             akka-multi-node-testkit, akka-remote-tests, akka-sample-multi-node,
-             akka-cluster, akka-contrib, akka-sample-cluster,
+  akka-ko: [ akka-multi-node-testkit, akka-remote-tests, akka-sample-multi-node,
+             akka-cluster, akka-contrib,
              akka-sample-osgi-dining-hakkers-core, akka-docs,
              akka-sample-osgi-dining-hakkers-integration, all-tests, atmos ]
 
