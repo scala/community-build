@@ -37,8 +37,8 @@ vars: {
              akka-actor-tests, akka-osgi, akka-osgi-aries, akka-sample-osgi-dining-hakkers-command,
              akka-transactor, akka-remote, akka-mailboxes-common, akka-persistence-experimental,
              akka-file-mailbox, akka-durable-mailboxes, akka-sample-fsm, akka-slf4j, akka-zeromq,
-             akka-sample-persistence, akka-camel, akka-sample-camel, akka-agent, akka-kernel,
-             akka-sample-hello-kernel, akka-sample-hello, akka-sample-remote,
+             akka-sample-persistence, akka-camel, akka-agent, akka-kernel,
+             akka-sample-hello-kernel,
              akka-sample-osgi-dining-hakkers-uncommons, akka-sample-osgi-dining-hakkers,
              akka-samples, akka ]
 
