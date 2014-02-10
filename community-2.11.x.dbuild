@@ -343,26 +343,6 @@ build.projects:[
 
 options.notifications: {
   send:[{
-    when: []//bad
-    projects: "."
-    send.to: ["qbranch@typesafe.com"]
-  },{
-    when: []//bad
-    projects: "akka"
-    send.to: ["akka.official@gmail.com"]
-  },{
-    when: []//bad
-    projects: "slick"
-    send.to: ["stefan.zeiger@typesafe.com"]
-  },{
-    kind: flowdock
-    when: [bad]
-    send.detail: short
-  },{
-    kind: flowdock
-    when: [good]
-    send.detail: summary
-  },{
     projects: "."
     kind: console
     when: always
