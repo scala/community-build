@@ -367,19 +367,5 @@ options.notifications: {
     kind: console
     when: always
   }]
-  default: [{
-    kind: email
-    send: {
-      from: "jenkins-dbuild <antonio.cunei@typesafe.com>"
-      smtp.server: "psemail.epfl.ch"
-      smtp.encryption: none
-    }
-  },{
-    kind: flowdock
-    projects: "."
-    send: {
-      from: "dbuild"
-      token: "/home/jenkinsdbuild/dbuild-q.token"
-    }
-  }]
+  default: []
 }
