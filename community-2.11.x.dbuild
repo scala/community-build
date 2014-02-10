@@ -29,28 +29,6 @@ vars: {
 //  scalaz-uri: "git://github.com/cunei/scalaz.git#scalaz-seven-dbuild"
 //  scalaz-uri: "git://github.com/scalaz/scalaz.git#v7.0.5" // fails because of version parsing
   scalaz-uri: "git://github.com/scalaz/scalaz.git#series/7.0.x"
-
-  //
-  // these subprojects compile successfully
-  //
-  akka-ok: [ akka-actor, akka-sample-osgi-dining-hakkers-api, akka-testkit, akka-dataflow,
-             akka-actor-tests, akka-osgi, akka-osgi-aries, akka-sample-osgi-dining-hakkers-command,
-             akka-transactor, akka-remote, akka-mailboxes-common, akka-persistence-experimental,
-             akka-file-mailbox, akka-durable-mailboxes, akka-sample-fsm, akka-slf4j, akka-zeromq,
-             akka-sample-persistence, akka-camel, akka-agent, akka-kernel,
-             akka-sample-hello-kernel,
-             akka-sample-osgi-dining-hakkers-uncommons, akka-sample-osgi-dining-hakkers,
-             akka-sample-main-scala, akka-sample-main-java, akka-sample-camel-scala, akka-sample-camel-java, akka-sample-remote-scala, akka-sample-remote-java, akka-sample-cluster-scala, akka-sample-cluster-java,
-             akka-samples, akka ]
-
-  //
-  // these subprojects do compile successfully at the moment
-  //
-  akka-ko: [ akka-multi-node-testkit, akka-remote-tests, akka-sample-multi-node,
-             akka-cluster, akka-contrib,
-             akka-sample-osgi-dining-hakkers-core, akka-docs,
-             akka-sample-osgi-dining-hakkers-integration, all-tests, atmos ]
-
 }
 
 
