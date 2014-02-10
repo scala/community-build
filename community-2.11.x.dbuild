@@ -312,27 +312,7 @@ build.projects:[
     uri:  "git://github.com/slick/slick.git"
     extra.sbt-version: "0.13.0"
   }
-  {
-    name:"akka"
-    uri:    "git://github.com/akka/akka.git#master"
-    extra: {
-      options: ["-Dakka.genjavadoc.enabled=true"]
-      run-tests: false
-      exclude: ${vars.akka-ko}
-    }
-    extra.sbt-version: "0.13.0"
-  }
-  {
-    name:"akka-bad"
-    uri:    "git://github.com/akka/akka.git#master"
-    extra: {
-      options: ["-Dakka.genjavadoc.enabled=true"]
-      run-tests: false
-      projects: ${vars.akka-ko}
-      exclude: ${vars.akka-ok}
-    }
-    extra.sbt-version: "0.13.0"
-  }
+ 
   {
     name:   "sbt",
     uri:    "git://github.com/sbt/sbt.git#0.13"
