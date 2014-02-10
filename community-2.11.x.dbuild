@@ -37,7 +37,7 @@ vars: {
 
 
 
-build.options.extraction-version: "2.11.0-M5"
+build.options.extraction-version: "2.11.0-M8"
 build.options.cross-version: disabled
 build.projects:[
   // Scala 2.11.x development branch
@@ -207,17 +207,6 @@ build.projects:[
     uri: ${vars.scalaz-uri}
     extra.sbt-version: "0.13.0"
   }
-  {
-      name:   "genjavadoc-plugin",
-
-    // v0.5_2.11.0-M5 is the most recent 2.11 tag
-    //
-//    uri:    "git://github.com/typesafehub/genjavadoc.git#v0.5_2.11.0-M5"
-    uri:    "git://github.com/cunei/genjavadoc.git#master" // master (currently) for 2.11.x
-    extra.projects: genjavadoc-plugin
-  }
-
-
 
 
   {
@@ -258,16 +247,7 @@ build.projects:[
 //      exclude: ["scalacheck-binding","concurrent","xml","iteratee","effect","typelevel","core"]
 //      run-tests: false
 //    }
-  },{
-    name:   "genjavadoc",
-//    uri:    "git://github.com/typesafehub/genjavadoc.git#v0.5_2.11.0-M5"
-    uri:    "git://github.com/cunei/genjavadoc.git#master" // master (currently) for 2.11.x
-    extra: {
-        projects: ["tests","javaOut"]
-        run-tests: false
-    }
   },
-
 
 
   //
