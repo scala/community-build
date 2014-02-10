@@ -124,18 +124,6 @@ build.projects:[
   }
 
 
-	
-  {
-      name: macro-paradise
-
-    // macro-paradise is used by SPECS2-2.2.2
-    //
-    uri: "git://github.com/scalamacros/paradise.git#2.11.0"
-    extra.sbt-version: "0.13.0"
-    extra.projects: "macro-paradise"
-  }
-
-
   //
   // Community projects (not from Typesafe), and other support libraries:
   // these should be stable releases, pre-releases, or branches aimed
