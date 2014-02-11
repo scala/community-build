@@ -49,7 +49,7 @@ build.projects:[
       cross-version: standard
       sbt-version: "0.13.0"
     }
-    extra:.build-options: ["-Dlocker.skip=1"] // speed things up a little
+    extra.build-options: ["-Dlocker.skip=1"] // speed things up a little
     extra.parts.projects: [
       {
         system: "scala",
