@@ -220,7 +220,7 @@ build.projects:[
     extra: { run-tests: false }
   },{
     name: "scalatest"
-    uri: "git://github.com/scalatest/scalatest.git"
+    uri: "git://github.com/scalatest/scalatest.git#scala-2.11-M8"
     extra: {
       projects: ["scalatest"]
       run-tests: false
