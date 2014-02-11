@@ -53,8 +53,7 @@ build.projects:[
       {
         system: "scala",
         name:  "scala",
-        uri:    "git://github.com/scala/scala.git"
-//        uri:    "git://github.com/scala/scala.git#d19954eb94afb27ca90b3bbcfb9eecec5e85428a"
+        uri:    "git://github.com/retronym/scala.git#topic/pull-binary"
       }
       {
         name: "scala-xml",
@@ -251,7 +250,7 @@ build.projects:[
 
 
   //
-  // Typesafe-developed projects: development branches / master / unstable releases
+  // Typesafe-developed projects: degvelopment branches / master / unstable releases
   //
   {
     name: "slick"
