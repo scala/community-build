@@ -54,7 +54,7 @@ build.projects:[
         system: "scala",
         name:  "scala",
         uri:    "git://github.com/scala/scala.git"
-        extra.build-options: ["-Dlocker.skip=1"] // speed things up a little
+        extra.build-options: ["-Dlocker.skip=1", "-Ddocs.skip=1"] // speed things up a little
       }
       {
         name: "scala-xml",
