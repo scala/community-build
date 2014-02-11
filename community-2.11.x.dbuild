@@ -197,7 +197,7 @@ build.projects:[
     // This should be replaced by a more stable
     // release/branch for 2.11.x
     //
-    uri:    "git://github.com/harrah/sbinary.git#8e45fe13f72e362369ef58ca6c1e44efedcd7dec"
+    uri:    "git://github.com/harrah/sbinary.git"
   }
   {
       name: scalaz
@@ -225,19 +225,7 @@ build.projects:[
       projects: ["scalatest"]
       run-tests: false
     }
-  },{
-    name: "scala-arm",
-    uri: "git://github.com/jsuereth/scala-arm.git"
-//  },{
-//    name:   "scalaz-tests",
-//    uri: "git://github.com/cunei/scalaz.git#v7.0.3-2.11"
-//    extra: {
-//      projects: ["tests"]
-//      exclude: ["scalacheck-binding","concurrent","xml","iteratee","effect","typelevel","core"]
-//      run-tests: false
-//    }
   },
-
 
   //
   // Typesafe-developed projects: degvelopment branches / master / unstable releases
