@@ -220,18 +220,7 @@ build.projects:[
     extra: { run-tests: false }
   },{
     name: "scalatest"
-    //
-    // The most recent 2.11.x-compatible release of scalatest is:
-    //   org.scalatest#scalatest_2.11.0-M5;2.0.M7
-    // which was uploaded on 11-Sep-2013.
-    // However, no specific tag/branch is present in the scalatest repo
-    //
-//    uri: "git://github.com/scalatest/scalatest.git"
-//    uri: "git://github.com/scalatest/scalatest.git#release-2.0.RC1-for-scala-2.10"
-//    uri: "git://github.com/cunei/scalatest.git"
-//    uri: "git://github.com/cunei/scalatest.git#wip-211"
-//    uri: "git://github.com/scalatest/scalatest.git#509f71b85b5b265b6e2454c65f0e984dbb889d66"
-    uri: "git://github.com/cunei/scalatest.git#buildFor2.11.0-M7"
+    uri: "git://github.com/scalatest/scalatest.git"
     extra: {
       projects: ["scalatest"]
       run-tests: false
