@@ -244,7 +244,7 @@ build.projects:[
   //
   {
     name: "slick"
-    uri:  "git://github.com/slick/slick.git"
+    uri:  "git://github.com/retronym/slick.git#tmp/2.11-compat-2"
     extra.sbt-version: "0.13.0"
   }
  
