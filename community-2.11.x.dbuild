@@ -53,7 +53,7 @@ build.projects:[
       {
         system: "scala",
         name:  "scala",
-        uri:    "git://github.com/retronym/scala.git#topic/pull-binary"
+        uri:    "git://github.com/scala/scala.git"
       }
       {
         name: "scala-xml",
