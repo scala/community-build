@@ -32,11 +32,6 @@ vars: {
 }
 
 
-
-
-
-
-
 build.options.extraction-version: "2.11.0-M8"
 build.options.cross-version: disabled
 build.projects:[
@@ -80,13 +75,6 @@ build.projects:[
   }
 
 
-
-
-
-
-
-
-
 //  {
 //    name: "Play2-core",
 //    uri: "git://github.com/playframework/Play20.git",
@@ -103,33 +91,22 @@ build.projects:[
 //  }
 
 
-
-
-
-
-
-
-
-
-
   {
     name: "scala-partest",
     uri: "git://github.com/scala/scala-partest.git"
-    extra.sbt-version: "0.13.0"
+    extra.sbt-version: "0.13.1"
   }
   {
     name: "scala-partest-interface",
     uri: "git://github.com/scala/scala-partest-interface.git"
-    extra.sbt-version: "0.13.0"
+    extra.sbt-version: "0.13.1"
   }
-
 
   //
   // Community projects (not from Typesafe), and other support libraries:
   // these should be stable releases, pre-releases, or branches aimed
   // at stabilizing those projects when used in conjunction with this Scala version.
   //
-
   {
       name: scala-stm
 
@@ -141,82 +118,40 @@ build.projects:[
     extra.run-tests: false
   }
   {
-        name: shapeless
-
-    // The most recent shapeless is in the form of 2.0.0 milestones
-    // (currently in development). We rather track here the stable 1.2.4,
-    // from its release branch.
-    // This works:
-//    uri:    "git://github.com/milessabin/shapeless.git#shapeless-1.2.4-scala-2.11.x"
-    // examples seem broken, so we only compile core
-    extra.projects: shapeless-core
-
-    // here is master (2.0), needed by the suitably patched specs2
-    // note that this doesn't work at this time.
-//    uri:    "git://github.com/milessabin/shapeless.git#master"
+    name: shapeless
     uri:    "git://github.com/milessabin/shapeless.git#scala-2.11.x"
-    extra.sbt-version: "0.13.0"
+    extra.sbt-version: "0.13.1"
 
   }
   {
-        name: specs2
-
-    // SPECS2-2.2.x has not been officially published with 2.11.x (yet)
-
-//    uri: "git://github.com/etorreborre/specs2.git#specs2-shapeless-2.0"
-//    uri: "git://github.com/retronym/specs2.git#specs2-shapeless-2.0-Scala-2.11"
-//    uri: "git://github.com/retronym/specs2#topic/2.11-compat"
-//    uri: "git://github.com/etorreborre/specs2.git#SPECS2-2.2"
-//    uri: "file:///home/cunei/activities/temp_gettami/specs2a#wip-211"
-//    uri: "git://github.com/retronym/specs2.git#topic/scala-modules-and-by-name"
+    name: specs2
     uri: "git://github.com/etorreborre/specs2.git"
-    // one test is currently failing
-    extra: { run-tests: false, sbt-version: "0.13.0", projects: specs2 }
+    extra.sbt-version: "0.13.1"
   }
   {
-        name: scalacheck
-
-    // uri: "git://github.com/rickynils/scalacheck.git#1.10.1"
-    //
-    // scalacheck v1.10.1 won't compile as-is with 2.11, but
-    // just adding scala-parser-combinators is sufficient; see:
-//    uri:    "git://github.com/cunei/scalacheck.git#1.10.1-2.11"
-//    uri:    "git://github.com/rickynils/scalacheck.git#1.10.1_sonatype"
+    name: scalacheck
     uri:    "git://github.com/rickynils/scalacheck.git#1.11.1"
-    extra.sbt-version: "0.13.0"
+    extra.sbt-version: "0.13.1"
     extra.run-tests: false
   }
   {
-        name: sbinary
-
-    // some 2.11.x-compatible code exists in the
-    // 2.11 branch, but does not compile correctly;
-    // the code in master works ok, as of
-    // 8e45fe13f72e362369ef58ca6c1e44efedcd7dec
-    //
-    // This should be replaced by a more stable
-    // release/branch for 2.11.x
-    //
+    name: sbinary
     uri:    "git://github.com/harrah/sbinary.git"
+    extra.sbt-version: "0.13.1"
   }
   {
-      name: scalaz
-
-    // Currently tracking series/7.0.x
-    //
+    name: scalaz
     uri: ${vars.scalaz-uri}
-    extra.sbt-version: "0.13.0"
+    extra.sbt-version: "0.13.1"
   }
-
-
   {
     name: "zeromq-scala-binding"
-// master includes this fix (and others), which break akka-zeromq (?)
-// https://github.com/valotrading/zeromq-scala-binding/commit/c2a8a87673a1a3468486d1af9a6460bfed25c7a2
-//    uri: "git://github.com/valotrading/zeromq-scala-binding.git"
-// therefore:
+    // master includes this fix (and others), which break akka-zeromq (?)
+    // https://github.com/valotrading/zeromq-scala-binding/commit/c2a8a87673a1a3468486d1af9a6460bfed25c7a2
+    //    uri: "git://github.com/valotrading/zeromq-scala-binding.git"
+    // therefore:
     uri: "git://github.com/valotrading/zeromq-scala-binding.git#062e9438e322ec29d75b9649cb2aafa6ba3198a6"
-// (which has a broken libdep of scalatest, however (cross full))
+    // (which has a broken libdep of scalatest, however (cross full))
     extra: { run-tests: false }
   },{
     name: "scalatest"
@@ -239,7 +174,7 @@ build.projects:[
   {
     name:   "sbt",
     uri:    "git://github.com/sbt/sbt.git#0.13"
-    extra.sbt-version: "0.13.0"
+    extra.sbt-version: "0.13.1"
     extra: {
       projects: ["compiler-interface",
                  "classpath","logging","io","control","classfile",
@@ -255,9 +190,9 @@ build.projects:[
   },{
     name:   "sbt-full-library",
     uri:    "git://github.com/dragos/sbt-full-library"
-          extra.commands: [
-            " "
-          ]
+    extra.commands: [
+      " "
+    ]
   }, {
     name:   "sbt-republish",
     uri:    "http://github.com/typesafehub/sbt-republish.git"
