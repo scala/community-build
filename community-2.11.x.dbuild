@@ -152,12 +152,13 @@ build.projects:[
     // therefore:
     uri: "git://github.com/valotrading/zeromq-scala-binding.git#062e9438e322ec29d75b9649cb2aafa6ba3198a6"
     // (which has a broken libdep of scalatest, however (cross full))
-    extra: { run-tests: false }
+    extra: {run-tests: false }
   },{
     name: "scalatest"
     uri: "git://github.com/scalatest/scalatest.git#scala-2.11-M8"
     extra: {
       projects: ["scalatest"]
+      commands: "set libraryDependencies += \"org.scala-lang.modules\" %% \"scala-xml\" % \"1.0.0-RC6\""
       run-tests: false
     }
   },
