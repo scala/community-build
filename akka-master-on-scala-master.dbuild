@@ -1,0 +1,151 @@
+// Akka builds against Scala 2.11.x
+
+
+vars: {
+  akka-branch: master
+  genjavadoc-branch:v0.5_2.11.0-M8
+}
+
+
+build.options.extraction-version: "2.11.0-M5"
+build.options.cross-version: disabled
+build.projects: [
+  // Scala 2.11.x development branch
+  //
+  {
+    name:  "scala",
+    system: assemble
+    extra.parts.options: {
+      cross-version: standard
+      sbt-version: "0.13.1"
+    }
+    extra.parts.projects: [
+      {
+        system: "scala",
+        name:  "scala",
+        //uri:    "git://github.com/scala/scala.git#master"
+        //uri:    "git://github.com/scala/scala.git#eba3cc6a9e4bb091db3cc7d68dc64abb803f52c7"
+        uri:    "git://github.com/scala/scala.git#64ad11b49bd7630d596e950953a5b15d3abf1689"
+        extra.build-options: ["-Dlocker.skip=1"] // speed things up a little
+      }
+      {
+        name: "scala-xml",
+        uri: "git://github.com/scala/scala-xml.git"
+        extra: {
+          sbt-version: "0.13.1",
+          commands: [
+//            "set TestKeys.includeTestDependencies := false" // Break the cycle between Partest + scala-xml
+          ]
+        }
+      }
+      {
+        name: "scala-parser-combinators",
+        uri: "git://github.com/scala/scala-parser-combinators.git"
+        extra: {
+          sbt-version: "0.13.1"
+          commands: [
+//            "set TestKeys.includeTestDependencies := false" // Break the cycle between Partest + scala-xml
+          ]
+        }
+      }
+      {
+        name: "scala-continuations",
+        uri: "git://github.com/scala/scala-continuations.git"
+        extra: {
+          sbt-version: "0.13.1"
+          commands: [
+//            "set TestKeys.includeTestDependencies := false" // Break the cycle between Partest + scala-xml
+          ]
+        }
+      }
+    ]
+  }
+
+
+  {
+    name: "scala-partest",
+    uri: "git://github.com/scala/scala-partest.git"
+    extra.sbt-version: "0.13.1"
+  }
+
+
+  {
+    name: "scala-partest-interface",
+    uri: "git://github.com/scala/scala-partest-interface.git"
+    extra.sbt-version: "0.13.1"
+  }
+
+
+  {
+    name: "scalacheck"
+    uri:    "git://github.com/rickynils/scalacheck.git#1.11.3"
+    extra.sbt-version: "0.13.1"
+    extra.run-tests: false
+  }
+
+
+  {
+    name: "scalatest"
+    //uri: "git://github.com/scalatest/scalatest.git#master"
+    //uri: "git://github.com/scalatest/scalatest.git#scala-2.11-M8"
+    uri: "git://github.com/bantonsson/scalatest.git#wip-dbuild-on-scala-master-ban"
+    extra: {
+      sbt-version: "0.13.1"
+      projects: ["scalatest"]
+      run-tests: false
+    }
+  }
+
+
+  {
+    name:   "genjavadoc-plugin",
+    uri:    "git://github.com/typesafehub/genjavadoc.git#"${vars.genjavadoc-branch}
+    extra.projects: genjavadoc-plugin
+    extra.sbt-version: "0.13.1"
+  }
+
+
+  {
+    name:   "genjavadoc",
+    uri:    "git://github.com/typesafehub/genjavadoc.git#"${vars.genjavadoc-branch}
+    extra: {
+      sbt-version: "0.13.1"
+      projects: ["tests","javaOut"]
+      run-tests: false
+    }
+  }
+
+
+  {
+    name:"akka"
+    uri:    "git://github.com/akka/akka.git#"${vars.akka-branch}
+    extra: {
+      options: ["-Dakka.genjavadoc.enabled=true", "-Dakka.scaladoc.diagrams=false"]
+      projects: akka-scala-nightly
+      run-tests: false
+    }
+    extra.sbt-version: "0.13.1"
+  }
+]
+
+
+options: {
+//  deploy:[{
+//    uri="file:///Users/bjorn/.dbuild-repo"
+//  }]
+//notifications: {
+//  send:[{
+//    when: [ "always" ]
+//    projects: "."
+//    send.to: ["bjorn.antonsson@typesafe.com"]
+//  }]
+//  default: [{
+//    kind: email
+//    send: {
+//      from: "jenkins-dbuild <antonio.cunei@typesafe.com>"
+//      smtp.server: "psemail.epfl.ch"
+//      smtp.encryption: none
+//    }
+//  }]
+//}
+}
