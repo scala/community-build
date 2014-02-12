@@ -176,12 +176,6 @@ build.projects:[
     uri:    "git://github.com/sbt/sbt.git#0.13"
     extra.sbt-version: "0.13.1"
     extra: {
-      projects: ["compiler-interface",
-                 "classpath","logging","io","control","classfile",
-                 "process","relation","interface","persist","api",
-                 "compiler-integration","incremental-compiler","compile",
-                 "launcher-interface"
-                ],
       run-tests: false
     }
   }, {
