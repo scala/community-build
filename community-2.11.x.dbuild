@@ -24,11 +24,7 @@
 
 
 vars: {
-//  scalaz-uri: "git://github.com/cunei/scalaz.git#v7.0.3-2.11"
-//  scalaz-uri: "git://github.com/scalaz/scalaz.git#scalaz-seven"
-//  scalaz-uri: "git://github.com/cunei/scalaz.git#scalaz-seven-dbuild"
-//  scalaz-uri: "git://github.com/scalaz/scalaz.git#v7.0.5" // fails because of version parsing
-  scalaz-uri: "git://github.com/scalaz/scalaz.git#series/7.0.x"
+  scalaz-uri: "git://github.com/retronym/scalaz.git#ticket/private-parts"
 }
 
 
@@ -162,6 +158,34 @@ build.projects:[
       run-tests: false
     }
   },
+
+  {
+    name:   "genjavadoc-plugin",
+    uri:    "git://github.com/typesafehub/genjavadoc.git#"${vars.genjavadoc-branch}
+    extra.projects: genjavadoc-plugin
+    extra.sbt-version: "0.13.1"
+  }
+
+  {
+    name:   "genjavadoc",
+    uri:    "git://github.com/typesafehub/genjavadoc.git#"${vars.genjavadoc-branch}
+    extra: {
+      sbt-version: "0.13.1"
+      projects: ["tests","javaOut"]
+      run-tests: false
+    }
+  }
+
+  {
+    name:"akka"
+    uri:    "git://github.com/akka/akka.git#"${vars.akka-branch}
+    extra: {
+      options: ["-Dakka.genjavadoc.enabled=true", "-Dakka.scaladoc.diagrams=false"]
+      projects: akka-scala-nightly
+      run-tests: false
+    }
+    extra.sbt-version: "0.13.1"
+  }
 
   //
   // Typesafe-developed projects: degvelopment branches / master / unstable releases
