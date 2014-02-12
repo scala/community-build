@@ -204,6 +204,7 @@ build.projects:[
     extra.sbt-version: "0.13.1"
     extra: {
       run-tests: false
+      exclude: ["launch-test"]
     }
   }, {
     name:   "zinc",
