@@ -24,6 +24,7 @@
 
 
 vars: {
+  akka-branch: master
   scalaz-uri: "git://github.com/retronym/scalaz.git#ticket/private-parts"
   genjavadoc-branch: "v0.5_2.11.0-M8"
 }
