@@ -197,7 +197,13 @@ build.projects:[
     uri:  "git://github.com/retronym/slick.git#tmp/2.11-compat-2"
     extra.sbt-version: "0.13.0"
   }
- 
+
+  {
+    name:   "browse",
+    uri:    "git://github.com/retronym/browse.git#topic/2.11-compat"
+    extra.sbt-version: "0.13.1"
+  }
+
   {
     name:   "sbt",
     uri:    "git://github.com/sbt/sbt.git#0.13"
