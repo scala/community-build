@@ -180,10 +180,10 @@ build.projects:[
 
   {
     name:"akka"
-    uri:    "git://github.com/retronym/akka.git#topic/2.11-compat"
+    uri:    "git://github.com/akka/akka.git#master"
     extra: {
       options: ["-Dakka.genjavadoc.enabled=true", "-Dakka.scaladoc.diagrams=false"]
-      projects: akka-scala-nightly
+      projects: ["akka-scala-nightly"]
       run-tests: false
     }
     extra.sbt-version: "0.13.1"
