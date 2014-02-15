@@ -24,7 +24,7 @@
 
 
 vars: {
-  scalaz-uri: "git://github.com/scalaz/scalaz.git#series/7.0.x"
+  scalaz-uri: "git://github.com/retronym/scalaz.git#topic/no-app-func-u"
   genjavadoc-branch: "v0.5_2.11.0-M8"
 }
 
@@ -141,7 +141,6 @@ build.projects:[
     name: scalaz
     uri: ${vars.scalaz-uri}
     extra.sbt-version: "0.13.1"
-    extra.exclude: ["typelevel", "example"]
   }
   {
     name: "zeromq-scala-binding"
