@@ -203,6 +203,7 @@ build.projects:[
     uri:    "git://github.com/retronym/browse.git#topic/2.11-compat"
     extra.sbt-version: "0.13.1"
     extra.commands: "set libraryDependencies += \"org.scala-lang.modules\" %% \"scala-xml\" % \"1.0.0-RC6\""
+    extra.exclude: ["test", "test-link"]
   }
 
   {
