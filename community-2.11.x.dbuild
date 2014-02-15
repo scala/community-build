@@ -24,7 +24,7 @@
 
 
 vars: {
-  scalaz-uri: "git://github.com/series/scalaz.git#series/7.0.x"
+  scalaz-uri: "git://github.com/scalaz/scalaz.git#series/7.0.x"
   genjavadoc-branch: "v0.5_2.11.0-M8"
 }
 
@@ -204,7 +204,7 @@ build.projects:[
     uri:    "git://github.com/retronym/browse.git#topic/2.11-compat"
     extra.sbt-version: "0.13.1"
     extra.commands: "set libraryDependencies += \"org.scala-lang.modules\" %% \"scala-xml\" % \"1.0.0-RC6\""
-    extra.exclude: ["test", "test-link"]
+    extra.exclude: ["test", "testLink"]
   }
 
   {
