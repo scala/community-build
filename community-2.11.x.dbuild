@@ -116,7 +116,7 @@ build.projects:[
   }
   {
     name: shapeless
-    uri:    "git://github.com/milessabin/shapeless.git#scala-2.11.x"
+    uri:    "git://github.com/retronym/shapeless.git#topic/7753-SIP-18"
     extra.sbt-version: "0.13.1"
 
   }
