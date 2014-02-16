@@ -72,20 +72,26 @@ build.projects:[
   }
 
 
-//  {
-//    name: "Play2-core",
-//    uri: "git://github.com/playframework/Play20.git",
-//    extra: {
-//      projects: ["Play"]
-//                directory: "framework"
-//    }
-//    extra.sbt-version: "0.13.0"
-//  }
-//  {
-//    name: "scala-io"
-//    uri: "git://github.com/scala-incubator/scala-io.git#2.10.x"
-//    extra.sbt-version: "0.11.3"
-//  }
+  {
+    name: "Play2-core",
+    uri: "git://github.com/playframework/playframework.git#fc3022be07513fce53a596b81f91ceaf03e26453",
+    extra: {
+      projects: ["Play"]
+      directory: "framework"
+    }
+    extra.sbt-version: "0.13.1"
+  }
+  {
+    name: "scala-io"
+    uri: "git://github.com/jesseeichar/scala-io.git#release/0.4.2_2.10.2"
+    extra.sbt-version: "0.12.4"
+  }
+
+  {
+    name: "scala-arm"
+    uri: "git://github.com/jsuereth/scala-arm#v1.3"
+    extra.sbt-version: "0.12.4"
+  }  
 
 
   {
