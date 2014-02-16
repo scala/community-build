@@ -97,6 +97,13 @@ build.projects:[
     name: "scala-io"
     uri: "git://github.com/jesseeichar/scala-io.git#release/0.4.2_2.10.2"
     extra.sbt-version: "0.12.4"
+    extra: {
+      projects: ["core", "file"]
+      // work-around for failure in Scaladoc (regression, to be investiagted)
+      commands: [
+        "set every sources in (Compile,doc) := Seq.empty"
+      ]
+    }
   }
 
   {
