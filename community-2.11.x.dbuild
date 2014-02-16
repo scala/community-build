@@ -101,7 +101,7 @@ build.projects:[
 
   {
     name: "scala-arm"
-    uri: "git://github.com/jsuereth/scala-arm#v1.3"
+    uri: "git://github.com/gkossakowski/scala-arm#v1.3-scala-2.11-compat"
     extra.sbt-version: "0.12.4"
   }  
 
