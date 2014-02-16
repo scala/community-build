@@ -71,6 +71,18 @@ build.projects:[
     ]
   }
 
+  {
+    name: "scala-continuations"
+    uri: "git://github.com/scala/scala-continuations.git"
+    extra.sbt-version: "0.13.1"
+    // workaround for NPE in continuations plugin:
+    // java.lang.NullPointerException
+    //    at scala.tools.nsc.transform.Mixin$MixinTransformer.scala$tools$nsc$transform$Mixin$MixinTransformer$$postTransform(Mixin.scala:1127)
+    //    at scala.tools.nsc.transform.Mixin$MixinTransformer$$anonfun$transform$1.apply(Mixin.scala:1234)
+    //    at scala.tools.nsc.transform.Mixin$MixinTransformer$$anonfun$transform$1.apply(Mixin.scala:1234)
+    extra.run-tests: false
+  }
+
 
   {
     name: "Play2-core",
