@@ -86,7 +86,7 @@ build.projects:[
 
   {
     name: "Play2-core",
-    uri: "git://github.com/playframework/playframework.git#fc3022be07513fce53a596b81f91ceaf03e26453",
+    uri: "git://github.com/gkossakowski/playframework.git#scala-2.11",
     extra: {
       projects: ["Play"]
       directory: "framework"
