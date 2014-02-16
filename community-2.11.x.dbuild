@@ -24,7 +24,7 @@
 
 
 vars: {
-  scalaz-uri: "git://github.com/retronym/scalaz.git#ticket/private-parts"
+  scalaz-uri: "git://github.com/retronym/scalaz.git#topic/no-app-func-u"
   genjavadoc-branch: "v0.5_2.11.0-M8"
 }
 
@@ -122,7 +122,7 @@ build.projects:[
   }
   {
     name: shapeless
-    uri:    "git://github.com/milessabin/shapeless.git#scala-2.11.x"
+    uri:    "git://github.com/retronym/shapeless.git#topic/7753-SIP-18"
     extra.sbt-version: "0.13.1"
 
   }
@@ -186,10 +186,10 @@ build.projects:[
 
   {
     name:"akka"
-    uri:    "git://github.com/retronym/akka.git#topic/2.11-compat"
+    uri:    "git://github.com/akka/akka.git#master"
     extra: {
       options: ["-Dakka.genjavadoc.enabled=true", "-Dakka.scaladoc.diagrams=false"]
-      projects: akka-scala-nightly
+      projects: ["akka-scala-nightly"]
       run-tests: false
     }
     extra.sbt-version: "0.13.1"
@@ -208,6 +208,8 @@ build.projects:[
     name:   "browse",
     uri:    "git://github.com/retronym/browse.git#topic/2.11-compat"
     extra.sbt-version: "0.13.1"
+    extra.commands: "set libraryDependencies += \"org.scala-lang.modules\" %% \"scala-xml\" % \"1.0.0-RC6\""
+    extra.exclude: ["test", "testLink"]
   }
 
   {
