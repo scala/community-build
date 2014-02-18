@@ -146,7 +146,7 @@ build.projects:[
   }
   {
     name: specs2
-    uri: "git://github.com/etorreborre/specs2.git"
+    uri: "git://github.com/etorreborre/specs2.git#d069a0b818707cc6ad778007b79b075734804cfc"
     extra.sbt-version: "0.13.1"
     extra.run-tests: false // at least SnippetsTest is failing.
   }
