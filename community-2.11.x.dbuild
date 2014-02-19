@@ -71,21 +71,58 @@ build.projects:[
     ]
   }
 
+  {
+    name: "scala-continuations"
+    uri: "git://github.com/scala/scala-continuations.git"
+    extra.sbt-version: "0.13.1"
+    // workaround for NPE in continuations plugin:
+    // java.lang.NullPointerException
+    //    at scala.tools.nsc.transform.Mixin$MixinTransformer.scala$tools$nsc$transform$Mixin$MixinTransformer$$postTransform(Mixin.scala:1127)
+    //    at scala.tools.nsc.transform.Mixin$MixinTransformer$$anonfun$transform$1.apply(Mixin.scala:1234)
+    //    at scala.tools.nsc.transform.Mixin$MixinTransformer$$anonfun$transform$1.apply(Mixin.scala:1234)
+    extra.run-tests: false
+  }
 
-//  {
-//    name: "Play2-core",
-//    uri: "git://github.com/playframework/Play20.git",
-//    extra: {
-//      projects: ["Play"]
-//                directory: "framework"
-//    }
-//    extra.sbt-version: "0.13.0"
-//  }
-//  {
-//    name: "scala-io"
-//    uri: "git://github.com/scala-incubator/scala-io.git#2.10.x"
-//    extra.sbt-version: "0.11.3"
-//  }
+
+  {
+    name: "Play2-core",
+    uri: "git://github.com/gkossakowski/playframework.git#scala-2.11",
+    extra: {
+      projects: ["Play"]
+      directory: "framework"
+      run-tests: false
+      commands: [
+        // workaround for the problem with PlayVersion.scala file is being passed twice to Scala compiler
+        // and we get double definition error
+        "set sources in (PlayProject, Compile, compile) := (sources in (PlayProject, Compile, compile)).value.distinct"
+      ]
+    }
+    extra.sbt-version: "0.13.1"
+  }
+  {
+    name: "scala-io"
+    // my own fork:
+    // 1. disables building of scaladoc docs (due to regression in scaladoc)
+    // 2. adds dependency on scala-parser-combinators
+    // 3. removes use of sbteclipse plugin that Artifactory cannot resolve
+    uri: "git://github.com/gkossakowski/scala-io.git#0.4.2-scala-2.11"
+    extra.sbt-version: "0.13.1"
+    extra: {
+      projects: ["core", "file"]
+      commands: [
+        // workaround for https://issues.scala-lang.org/browse/SI-8306
+        "set scalacOptions in fileProject += \"-Yconst-opt:false\""
+      ]
+      // one of the tests fail for some reason
+      run-tests: false
+    }
+  }
+
+  {
+    name: "scala-arm"
+    uri: "git://github.com/gkossakowski/scala-arm#v1.3-scala-2.11-compat"
+    extra.sbt-version: "0.12.4"
+  }  
 
 
   {
