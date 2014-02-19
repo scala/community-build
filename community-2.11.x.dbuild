@@ -104,8 +104,9 @@ build.projects:[
     // my own fork:
     // 1. disables building of scaladoc docs (due to regression in scaladoc)
     // 2. adds dependency on scala-parser-combinators
+    // 3. removes use of sbteclipse plugin that Artifactory cannot resolve
     uri: "git://github.com/gkossakowski/scala-io.git#0.4.2-scala-2.11"
-    extra.sbt-version: "0.12.4"
+    extra.sbt-version: "0.13.1"
     extra: {
       projects: ["core", "file"]
     }
