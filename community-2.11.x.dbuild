@@ -90,6 +90,12 @@ build.projects:[
     extra: {
       projects: ["Play"]
       directory: "framework"
+      run-tests: false
+      commands: [
+        // workaround for the problem with PlayVersion.scala file is being passed twice to Scala compiler
+        // and we get double definition error
+        "set sources in (PlayProject, Compile, compile) := (sources in (PlayProject, Compile, compile)).value.distinct"
+      ]
     }
     extra.sbt-version: "0.13.1"
   }
