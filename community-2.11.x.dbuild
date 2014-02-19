@@ -116,13 +116,13 @@ build.projects:[
   }
   {
     name: shapeless
-    uri:    "git://github.com/retronym/shapeless.git#topic/7753-SIP-18"
+    uri:    "git://github.com/milessabin/shapeless.git#pull/80/head"
     extra.sbt-version: "0.13.1"
 
   }
   {
     name: specs2
-    uri: "git://github.com/etorreborre/specs2.git"
+    uri: "git://github.com/etorreborre/specs2.git#pull/238/head"
     extra.sbt-version: "0.13.1"
     extra.run-tests: false // at least SnippetsTest is failing.
   }
@@ -194,7 +194,7 @@ build.projects:[
   //
   {
     name: "slick"
-    uri:  "git://github.com/retronym/slick.git#tmp/2.11-compat-2"
+    uri:  "git://github.com/xeno-by/slick.git#palladium0"
     extra.sbt-version: "0.13.0"
   }
 
@@ -208,7 +208,7 @@ build.projects:[
 
   {
     name:   "sbt",
-    uri:    "git://github.com/sbt/sbt.git#0.13"
+    uri:    "git://github.com/sbt/sbt.git#pull/1127/head"
     extra.sbt-version: "0.13.1"
     extra: {
       run-tests: false
