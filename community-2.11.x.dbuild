@@ -45,7 +45,7 @@ build.projects:[
       {
         system: "scala",
         name:  "scala",
-        uri:    "git://github.com/scala/scala.git#3973f29cec9f06724941b68577908f546341c45e"
+        uri:    "git://github.com/scala/scala.git"
         extra.build-options: ["-Dlocker.skip=1", "-Ddocs.skip=1"] // speed things up a little
       }
       {
