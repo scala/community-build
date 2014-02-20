@@ -45,7 +45,7 @@ build.projects:[
       {
         system: "scala",
         name:  "scala",
-        uri:    "git://github.com/scala/scala.git#00d19344b0c19a2999e48c6bd9326b94c7b54346"
+        uri:    "git://github.com/scala/scala.git"
         extra.build-options: ["-Dlocker.skip=1", "-Ddocs.skip=1"] // speed things up a little
       }
       {
@@ -97,19 +97,31 @@ build.projects:[
     extra: {
       projects: ["Play-Json"]
       directory: "framework"
+      run-tests: false
+      commands: [
+        // workaround for the problem with PlayVersion.scala file is being passed twice to Scala compiler
+        // and we get double definition error
+        "set sources in (PlayProject, Compile, compile) := (sources in (PlayProject, Compile, compile)).value.distinct"
+      ]
     }
     extra.sbt-version: "0.13.1"
   }
   {
     name: "scala-io"
-    uri: "git://github.com/jesseeichar/scala-io.git#release/0.4.2_2.10.2"
-    extra.sbt-version: "0.12.4"
+    // my own fork:
+    // 1. disables building of scaladoc docs (due to regression in scaladoc)
+    // 2. adds dependency on scala-parser-combinators
+    // 3. removes use of sbteclipse plugin that Artifactory cannot resolve
+    uri: "git://github.com/gkossakowski/scala-io.git#0.4.2-scala-2.11"
+    extra.sbt-version: "0.13.1"
     extra: {
       projects: ["core", "file"]
-      // work-around for failure in Scaladoc (regression, to be investiagted)
       commands: [
-        "set every sources in (Compile,doc) := Seq.empty"
+        // workaround for https://issues.scala-lang.org/browse/SI-8306
+        "set scalacOptions in fileProject += \"-Yconst-opt:false\""
       ]
+      // one of the tests fail for some reason
+      run-tests: false
     }
   }
 
@@ -148,13 +160,13 @@ build.projects:[
   }
   {
     name: shapeless
-    uri:    "git://github.com/retronym/shapeless.git#topic/7753-SIP-18"
+    uri:    "git://github.com/milessabin/shapeless.git#pull/80/head"
     extra.sbt-version: "0.13.1"
 
   }
   {
     name: specs2
-    uri: "git://github.com/etorreborre/specs2.git"
+    uri: "git://github.com/etorreborre/specs2.git#pull/238/head"
     extra.sbt-version: "0.13.1"
     extra.run-tests: false // at least SnippetsTest is failing.
   }
@@ -226,7 +238,7 @@ build.projects:[
   //
   {
     name: "slick"
-    uri:  "git://github.com/retronym/slick.git#tmp/2.11-compat-2"
+    uri:  "git://github.com/xeno-by/slick.git#palladium0"
     extra.sbt-version: "0.13.0"
   }
 
@@ -240,7 +252,7 @@ build.projects:[
 
   {
     name:   "sbt",
-    uri:    "git://github.com/sbt/sbt.git#0.13"
+    uri:    "git://github.com/sbt/sbt.git#pull/1127/head"
     extra.sbt-version: "0.13.1"
     extra: {
       run-tests: false
