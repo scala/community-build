@@ -75,6 +75,12 @@ build.projects:[
     name: "scala-continuations"
     uri: "git://github.com/scala/scala-continuations.git"
     extra.sbt-version: "0.13.1"
+    // Trying to avoid unexplained error on Toolbox based tests: "bad option: -P:continuations:enable"
+    // This is reproducible outside of dbuild, but hard to pin down.
+    // Example: https://gist.github.com/retronym/9122414
+    // Note the plugin JAR was rebuild on inspect `test:test`, even though there was no source change.
+    // After that, the next `test` worked.
+    extra.commands: ["clean", "plugin/compile:package"]
   }
 
 
