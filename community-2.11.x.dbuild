@@ -225,7 +225,7 @@ build.projects:[
   //
   {
     name: "slick"
-    uri:  "git://github.com/slick/slick.git#pulls/686/head"
+    uri:  "git://github.com/slick/slick.git#pull/686/head"
     extra.sbt-version: "0.13.0"
   }
 
