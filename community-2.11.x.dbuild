@@ -108,6 +108,15 @@ build.projects:[
     // !!!: probably we should investigate
     extra.run-tests: false
   }
+
+  {
+    name: "spray-twirl",
+    uri: "git://github.com/gkossakowski/twirl.git#scala-2.11"
+    extra.projects: ["twirl-api"]
+    extra.sbt-version: "0.13.1"
+  }
+
+  {
     name: "spray-json",
     // forked so I could upgrade to sbt 0.13.1 and remove problematic sbt plugins
     uri: "git://github.com/gkossakowski/spray-json.git#1.2.5-scala-2.11",
