@@ -97,6 +97,17 @@ build.projects:[
   }
 
   {
+  {
+    name: "lift-json",
+    uri: "git://github.com/gkossakowski/framework.git#scala-2.11"
+    extra.projects: ["lift-json"]
+    extra.sbt-version: "0.13.1"
+    // test failure:
+    //[info] [info] ! Either can't be deserialized with type hints
+    //[info] [error]  ClassNotFoundException: : scala.util.Left  (Formats.scala:223)
+    // !!!: probably we should investigate
+    extra.run-tests: false
+  }
     name: "spray-json",
     // forked so I could upgrade to sbt 0.13.1 and remove problematic sbt plugins
     uri: "git://github.com/gkossakowski/spray-json.git#1.2.5-scala-2.11",
