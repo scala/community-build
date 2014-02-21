@@ -109,10 +109,6 @@ build.projects:[
     extra.sbt-version: "0.13.1"
     extra: {
       projects: ["core", "file"]
-      commands: [
-        // workaround for https://issues.scala-lang.org/browse/SI-8306
-        "set scalacOptions in fileProject += \"-Yconst-opt:false\""
-      ]
       // one of the tests fail for some reason
       run-tests: false
     }
@@ -252,7 +248,7 @@ build.projects:[
 
   {
     name:   "sbt",
-    uri:    "git://github.com/sbt/sbt.git#pulls/1135/head"
+    uri:    "git://github.com/sbt/sbt.git#pull/1135/head"
     extra.sbt-version: "0.13.1"
     extra: {
       run-tests: false
