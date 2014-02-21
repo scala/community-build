@@ -233,6 +233,7 @@ build.projects:[
     name: "async"
     uri: "git://github.com/scala/async.git"
     extra.sbt-version: "0.13.1"
+    extra.run-tests: false // ToolBox based tests report missing JARs. Probably some poor assumption in the async tests.
   }
 
   {
@@ -251,7 +252,7 @@ build.projects:[
 
   {
     name:   "sbt",
-    uri:    "git://github.com/sbt/sbt.git#0.13"
+    uri:    "git://github.com/sbt/sbt.git#pulls/1135/head"
     extra.sbt-version: "0.13.1"
     extra: {
       run-tests: false
