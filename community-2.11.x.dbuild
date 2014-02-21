@@ -231,7 +231,7 @@ build.projects:[
   //
   {
     name: "async"
-    uri: "git@github.com:scala/async.git"
+    uri: "git://github.com/scala/async.git"
     extra.sbt-version: "0.13.1"
   }
 
