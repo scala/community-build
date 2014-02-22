@@ -24,7 +24,7 @@
 
 
 vars: {
-  scalaz-uri: "git://github.com/retronym/scalaz.git#topic/no-app-func-u"
+  scalaz-uri: "git://github.com/scalaz/scalaz.git#series/7.0.x"
   genjavadoc-branch: "v0.5_2.11.0-M8"
 }
 
@@ -75,12 +75,12 @@ build.projects:[
     name: "scala-continuations"
     uri: "git://github.com/scala/scala-continuations.git"
     extra.sbt-version: "0.13.1"
-    // workaround for NPE in continuations plugin:
-    // java.lang.NullPointerException
-    //    at scala.tools.nsc.transform.Mixin$MixinTransformer.scala$tools$nsc$transform$Mixin$MixinTransformer$$postTransform(Mixin.scala:1127)
-    //    at scala.tools.nsc.transform.Mixin$MixinTransformer$$anonfun$transform$1.apply(Mixin.scala:1234)
-    //    at scala.tools.nsc.transform.Mixin$MixinTransformer$$anonfun$transform$1.apply(Mixin.scala:1234)
-    extra.run-tests: false
+    // Trying to avoid unexplained error on Toolbox based tests: "bad option: -P:continuations:enable"
+    // This is reproducible outside of dbuild, but hard to pin down.
+    // Example: https://gist.github.com/retronym/9122414
+    // Note the plugin JAR was rebuild on inspect `test:test`, even though there was no source change.
+    // After that, the next `test` worked.
+    extra.commands: ["clean", "plugin/compile:package"]
   }
 
   {
@@ -175,10 +175,6 @@ build.projects:[
     extra.sbt-version: "0.13.1"
     extra: {
       projects: ["core", "file"]
-      commands: [
-        // workaround for https://issues.scala-lang.org/browse/SI-8306
-        "set scalacOptions in fileProject += \"-Yconst-opt:false\""
-      ]
       // one of the tests fail for some reason
       run-tests: false
     }
@@ -296,8 +292,15 @@ build.projects:[
   // Typesafe-developed projects: degvelopment branches / master / unstable releases
   //
   {
+    name: "async"
+    uri: "git://github.com/scala/async.git"
+    extra.sbt-version: "0.13.1"
+    extra.run-tests: false // ToolBox based tests report missing JARs. Probably some poor assumption in the async tests.
+  }
+
+  {
     name: "slick"
-    uri:  "git://github.com/xeno-by/slick.git#palladium0"
+    uri:  "git://github.com/slick/slick.git#pull/686/head"
     extra.sbt-version: "0.13.0"
   }
 
