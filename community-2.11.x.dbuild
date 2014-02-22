@@ -311,7 +311,7 @@ build.projects:[
 
   {
     name:   "sbt",
-    uri:    "git://github.com/sbt/sbt.git#pull/1127/head"
+    uri:    "git://github.com/sbt/sbt.git#0.13"
     extra.sbt-version: "0.13.1"
     extra: {
       run-tests: false
