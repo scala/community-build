@@ -29,15 +29,15 @@ vars: {
 }
 
 
-build.options.extraction-version: "2.11.0-M8"
-build.options.cross-version: disabled
+build.extraction-version: "2.11.0-M8"
+build.cross-version: disabled
 build.projects:[
   // Scala 2.11.x development branch
   //
   {
     name:  "scala",
     system: assemble
-    extra.parts.options: {
+    extra.parts: {
       cross-version: standard
       sbt-version: "0.13.0"
     }
