@@ -43,6 +43,8 @@ vars: {
   sbt-ref                      : "sbt/sbt.git#0.13"
   async-ref                    : "scala/async.git"
   scala-ref                    : "scala/scala.git#master"
+  // allow overriding scala-ref using the scala_ref environment variable
+  scala-ref: ${?scala_ref}
   scala-continuations-ref      : "scala/scala-continuations.git"
   scala-parser-combinators-ref : "scala/scala-parser-combinators.git"
   scala-partest-ref            : "scala/scala-partest.git"
@@ -58,22 +60,22 @@ vars: {
   // https://github.com/valotrading/zeromq-scala-binding/commit/c2a8a87673a1a3468486d1af9a6460bfed25c7a2
   // therefore (which has a broken libdep of scalatest, however (cross full)):
   zeromq-scala-binding-ref     : "valotrading/zeromq-scala-binding.git#062e9438e322ec29d75b9649cb2aafa6ba3198a6"
-  // allow overriding scala-ref using the scala_ref environment variable
-  scala-ref: ${?scala_ref}
-}
 
+  sbt-version-override         : "0.13.1"
+  sbt-version-override-prev    : "0.12.4"
+}
 
 build.extraction-version: "2.11.0-M8"
 build.cross-version: disabled
+
 build.projects:[
-  // Scala 2.11.x development branch
-  //
+  // Scala 2.11.x
   {
     name:  "scala",
     system: assemble
     extra.parts: {
       cross-version: standard
-      sbt-version: "0.13.0"
+      sbt-version: ${vars.sbt-version-override}
     }
     extra.parts.projects: [
       {
@@ -85,22 +87,12 @@ build.projects:[
       {
         name: "scala-xml",
         uri: "https://github.com/"${vars.scala-xml-ref}
-        extra: {
-          sbt-version: "0.13.0",
-          commands: [
-//            "set TestKeys.includeTestDependencies := false" // Break the cycle between Partest + scala-xml
-          ]
-        }
+        extra.sbt-version: ${vars.sbt-version-override}
       }
       {
         name: "scala-parser-combinators",
         uri: "https://github.com/"${vars.scala-parser-combinators-ref}
-        extra: {
-          sbt-version: "0.13.0"
-          commands: [
-//            "set TestKeys.includeTestDependencies := false" // Break the cycle between Partest + scala-xml
-          ]
-        }
+        extra.sbt-version: ${vars.sbt-version-override}
       }
     ]
   }
@@ -108,7 +100,7 @@ build.projects:[
   {
     name: "scala-continuations"
     uri: "https://github.com/"${vars.scala-continuations-ref}
-    extra.sbt-version: "0.13.1"
+    extra.sbt-version: ${vars.sbt-version-override}
     // Trying to avoid unexplained error on Toolbox based tests: "bad option: -P:continuations:enable"
     // This is reproducible outside of dbuild, but hard to pin down.
     // Example: https://gist.github.com/retronym/9122414
@@ -123,7 +115,7 @@ build.projects:[
     uri: "https://github.com/"${vars.parboiled-ref},
     extra: {
       projects: ["parboiled-scala"]
-      sbt-version: "0.13.1"
+      sbt-version: ${vars.sbt-version-override}
       // tests do not compile due to source incompatible change in scalatest
       // TestNGSuite became a class but was a trait
       run-tests: false
@@ -138,14 +130,14 @@ build.projects:[
     // also, changes to scalap required adapting source code of json4s
     uri: "https://github.com/"${vars.json4s-ref}
     extra.projects: ["json4s-native", "json4s-jackson"]
-    extra.sbt-version: "0.13.1"
+    extra.sbt-version: ${vars.sbt-version-override}
   }
 
   {
     name: "lift-json",
     uri: "https://github.com/"${vars.framework-ref}
     extra.projects: ["lift-json"]
-    extra.sbt-version: "0.13.1"
+    extra.sbt-version: ${vars.sbt-version-override}
     // test failure:
     //[info] [info] ! Either can't be deserialized with type hints
     //[info] [error]  ClassNotFoundException: : scala.util.Left  (Formats.scala:223)
@@ -157,14 +149,14 @@ build.projects:[
     name: "spray-twirl",
     uri: "https://github.com/"${vars.twirl-ref}
     extra.projects: ["twirl-api"]
-    extra.sbt-version: "0.13.1"
+    extra.sbt-version: ${vars.sbt-version-override}
   }
 
   {
     name: "spray-json",
     // forked so I could upgrade to sbt 0.13.1 and remove problematic sbt plugins
     uri: "https://github.com/"${vars.spray-json-ref},
-    extra.sbt-version: "0.12.4"
+    extra.sbt-version: ${vars.sbt-version-override-prev}
   }
 
   {
@@ -172,7 +164,7 @@ build.projects:[
     // forked so I could remove problematic sbt plugins
     uri: "https://github.com/"${vars.spray-ref},
     extra: {
-      sbt-version: "0.13.1"
+      sbt-version: ${vars.sbt-version-override}
       commands: [
         // disable running sphinx, it would be great if dbuild
         // oferred a mechanism for excluding particular project (e.g. docs)
@@ -197,8 +189,9 @@ build.projects:[
         "set sources in (PlayProject, Compile, compile) := (sources in (PlayProject, Compile, compile)).value.distinct"
       ]
     }
-    extra.sbt-version: "0.13.1"
+    extra.sbt-version: ${vars.sbt-version-override}
   }
+
   {
     name: "scala-io"
     // my own fork:
@@ -206,7 +199,7 @@ build.projects:[
     // 2. adds dependency on scala-parser-combinators
     // 3. removes use of sbteclipse plugin that Artifactory cannot resolve
     uri: "https://github.com/"${vars.scala-io-ref}
-    extra.sbt-version: "0.13.1"
+    extra.sbt-version: ${vars.sbt-version-override}
     extra: {
       projects: ["core", "file"]
       // one of the tests fail for some reason
@@ -217,19 +210,20 @@ build.projects:[
   {
     name: "scala-arm"
     uri: "https://github.com/"${vars.scala-arm-ref}
-    extra.sbt-version: "0.12.4"
+    extra.sbt-version: ${vars.sbt-version-override-prev}
   }  
 
 
   {
     name: "scala-partest",
     uri: "https://github.com/"${vars.scala-partest-ref}
-    extra.sbt-version: "0.13.1"
+    extra.sbt-version: ${vars.sbt-version-override}
   }
+
   {
     name: "scala-partest-interface",
     uri: "https://github.com/"${vars.scala-partest-interface-ref}
-    extra.sbt-version: "0.13.1"
+    extra.sbt-version: ${vars.sbt-version-override}
   }
 
   //
@@ -247,39 +241,47 @@ build.projects:[
     // a minor incompatibility with recent versions of scalatest, therefore:
     extra.run-tests: false
   }
+
   {
     name: shapeless
     uri:    "https://github.com/"${vars.shapeless-ref}
-    extra.sbt-version: "0.13.1"
+    extra.sbt-version: ${vars.sbt-version-override}
 
   }
+
   {
     name: specs2
     uri: "https://github.com/"${vars.specs2-ref}
-    extra.sbt-version: "0.13.1"
+    extra.sbt-version: ${vars.sbt-version-override}
     extra.run-tests: false // at least SnippetsTest is failing.
   }
+
   {
     name: scalacheck
     uri:    "https://github.com/"${vars.scalacheck-ref}
-    extra.sbt-version: "0.13.1"
+    extra.sbt-version: ${vars.sbt-version-override}
     extra.run-tests: false
   }
+
   {
     name: sbinary
     uri:    "https://github.com/"${vars.sbinary-ref}
-    extra.sbt-version: "0.13.1"
+    extra.sbt-version: ${vars.sbt-version-override}
   }
+
   {
     name: scalaz
     uri: "https://github.com/"${vars.scalaz-ref}
-    extra.sbt-version: "0.13.1"
+    extra.sbt-version: ${vars.sbt-version-override}
   }
+
   {
     name: "zeromq-scala-binding"
     uri: "https://github.com/"${vars.zeromq-scala-binding-ref}
     extra: {run-tests: false }
-  },{
+  }
+
+  {
     name: "scalatest"
     uri: "https://github.com/"${vars.scalatest-ref}
     extra: {
@@ -287,20 +289,20 @@ build.projects:[
       commands: "set libraryDependencies += \"org.scala-lang.modules\" %% \"scala-xml\" % \"1.0.0-RC6\""
       run-tests: false
     }
-  },
+  }
 
   {
     name:   "genjavadoc-plugin",
     uri:    "https://github.com/"${vars.genjavadoc-ref}
     extra.projects: genjavadoc-plugin
-    extra.sbt-version: "0.13.1"
+    extra.sbt-version: ${vars.sbt-version-override}
   }
 
   {
     name:   "genjavadoc",
     uri:    "https://github.com/"${vars.genjavadoc-ref}
     extra: {
-      sbt-version: "0.13.1"
+      sbt-version: ${vars.sbt-version-override}
       projects: ["tests","javaOut"]
       run-tests: false
     }
@@ -314,7 +316,7 @@ build.projects:[
       projects: ["akka-scala-nightly"]
       run-tests: false
     }
-    extra.sbt-version: "0.13.1"
+    extra.sbt-version: ${vars.sbt-version-override}
   }
 
   //
@@ -323,20 +325,20 @@ build.projects:[
   {
     name: "async"
     uri: "https://github.com/"${vars.async-ref}
-    extra.sbt-version: "0.13.1"
+    extra.sbt-version: ${vars.sbt-version-override}
     extra.run-tests: false // ToolBox based tests report missing JARs. Probably some poor assumption in the async tests.
   }
 
   {
     name: "slick"
     uri:  "https://github.com/"${vars.slick-ref}
-    extra.sbt-version: "0.13.0"
+    extra.sbt-version: ${vars.sbt-version-override}
   }
 
   {
     name:   "browse",
     uri:    "https://github.com/"${vars.browse-ref}
-    extra.sbt-version: "0.13.1"
+    extra.sbt-version: ${vars.sbt-version-override}
     extra.commands: "set libraryDependencies += \"org.scala-lang.modules\" %% \"scala-xml\" % \"1.0.0-RC6\""
     extra.exclude: ["test", "testLink"]
   }
@@ -344,21 +346,24 @@ build.projects:[
   {
     name:   "sbt",
     uri:    "https://github.com/"${vars.sbt-ref}
-    extra.sbt-version: "0.13.1"
+    extra.sbt-version: ${vars.sbt-version-override}
     extra: {
       run-tests: false
       exclude: ["launch-test"]
     }
-  }, {
+  }
+
+  {
     name:   "zinc",
     uri:    "https://github.com/"${vars.zinc-ref}
-  },{
+  }
+
+  {
     name:   "sbt-full-library",
     uri:    "https://github.com/"${vars.sbt-full-library-ref}
-    extra.commands: [
-      " "
-    ]
-  }, {
+  }
+
+  {
     name:   "sbt-republish",
     uri:    "http://github.com/"${vars.sbt-republish-ref}
   }
