@@ -72,6 +72,8 @@ vars: {
 
   sbt-version-override         : "0.13.1"
   sbt-version-override-prev    : "0.12.4"
+  // needed for specs2 as they are using the withNameHashing option
+  sbt-version-override-next    : "0.13.2-M2"
 }
 
 vars.ivyPat: ", [organization]/[module]/(scala_[scalaVersion]/)(sbt_[sbtVersion]/)[revision]/[type]s/[artifact](-[classifier]).[ext]"
@@ -262,7 +264,7 @@ build.projects:[
   {
     name: specs2
     uri: "https://github.com/"${vars.specs2-ref}
-    extra.sbt-version: ${vars.sbt-version-override}
+    extra.sbt-version: ${vars.sbt-version-override-next}
     extra.run-tests: false // at least SnippetsTest is failing.
   }
 
