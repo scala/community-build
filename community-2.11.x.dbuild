@@ -79,17 +79,22 @@ vars: {
 vars.ivyPat: ", [organization]/[module]/(scala_[scalaVersion]/)(sbt_[sbtVersion]/)[revision]/[type]s/[artifact](-[classifier]).[ext]"
 options.resolvers: {
   0: "local"
-  1: "maven-central"
-  2: "sonatype-snapshots: https://oss.sonatype.org/content/repositories/snapshots"
-  3: "sonatype-releases: https://oss.sonatype.org/content/repositories/releases"
-  4: "java-annoying-cla-shtuff: http://download.java.net/maven/2/"
-  5: "typesafe-releases: http://typesafe.artifactoryonline.com/typesafe/releases"
-  6: "typesafe-ivy-releases: http://typesafe.artifactoryonline.com/typesafe/ivy-releases"${vars.ivyPat}
-  7: "dbuild-snapshots: http://typesafe.artifactoryonline.com/typesafe/temp-distributed-build-snapshots"${vars.ivyPat}
-  8: "sbt-plugin-releases: http://scalasbt.artifactoryonline.com/scalasbt/sbt-plugin-releases"${vars.ivyPat}
-  9: "jgit-repo: http://download.eclipse.org/jgit/maven"
-  // needed for spray
- 10: "spray-repo: http://repo.spray.io"
+  1: "a7-maven: https://a7.typesafe.com:8082/artifactory/repo"
+  2: "a7-ivy: https://a7.typesafe.com:8082/artifactory/repo"${vars.ivyPat}
+
+//
+// a7 is proxying:
+//
+// 01: "maven-central"
+// 02: "sonatype-snapshots: https://oss.sonatype.org/content/repositories/snapshots"
+// 03: "sonatype-releases: https://oss.sonatype.org/content/repositories/releases"
+// 04: "java-annoying-cla-stuff: http://download.java.net/maven/2/"
+// 05: "typesafe-releases: http://typesafe.artifactoryonline.com/typesafe/releases"
+// 06: "typesafe-ivy-releases: http://typesafe.artifactoryonline.com/typesafe/ivy-releases"${vars.ivyPat}
+// 07: "dbuild-snapshots: http://typesafe.artifactoryonline.com/typesafe/temp-distributed-build-snapshots"${vars.ivyPat}
+// 08: "sbt-plugin-releases: http://scalasbt.artifactoryonline.com/scalasbt/sbt-plugin-releases"${vars.ivyPat}
+// 09: "jgit-repo: http://download.eclipse.org/jgit/maven"
+// 10: "spray-repo: http://repo.spray.io"
 }
 
 build.extraction-version: "2.11.0-M8"
