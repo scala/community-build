@@ -1,0 +1,323 @@
+//vars.scala-uri: "file:///home/cunei/activities/clones/scala-cunei#wip-localrepo" // honor maven.repo.local
+//vars.scala-uri: "file:///home/cunei/activities/clones/scala-cunei#2dddb03b267770afcd0249ad700e55d53019e637" // do not honor maven.repo.local
+//vars.scala-uri: "file:///home/cunei/activities/temp_break/scala-cunei#5e0425547b525328eb7ae1a65903ebbf97f8ef8c" // temp debug
+//vars.scala-uri: "git://github.com/scala/scala.git#v2.11.0-M8"
+vars.scala-uri: "git://github.com/scala/scala.git#master"
+//vars.scala-uri: "git://github.com/scala/scala.git#0e578e693196f93b1ba4f972a2c96d468bef464a"
+
+//vars.verStarr: "2.11.0-M7"
+vars.verStarr: "2.11.0-RC1" // source broken ( refers to M8 modules??? )
+
+
+vars: {
+
+  // target versions. They need to be constant across the bootstrapping process,
+  // otherwise the "replacement" of artifacts while progressing from one layer
+  // to the other won't work correctly.
+
+  verScala: "2.11.4-test" // scala core
+  verXml:   "0.15.197" // scala-xml
+  verParCo: "0.16.198" // scala-partest-combinators
+  verSwing: "0.11.193" // scala-swing
+  verCont:  "0.12.194" // scala-continuations
+  verCheck: "0.13.195" // scalacheck
+  verPart:  "0.14.196" // scala-partest
+
+
+  // "deps.inject" does not change the libraryDependencies. It only
+  // informs dbuild about a dependency that, for whatever reason,
+  // cannot be discovered automatically.
+  base: {
+    deps.inject: [ "org.scala-lang.modules#scala-xml",
+                   "org.scala-lang.modules#scala-parser-combinators" ]
+  }
+  scalaSwing: ${vars.base} {
+    uri: "git://github.com/scala/scala-swing.git"
+    set-version: ${vars.verSwing}
+  }
+  scalaCont: ${vars.base} {
+    uri: "git://github.com/scala/scala-continuations.git"
+    set-version: ${vars.verCont}
+  }
+  scalaCheck: ${vars.base} { // needed to compile scala-partest
+    uri:    "git://github.com/rickynils/scalacheck.git#1.11.3"
+    extra.run-tests: false
+    set-version: ${vars.verCheck}
+  }
+  scalaPart: ${vars.base} {
+    uri: "git://github.com/scala/scala-partest.git"
+    set-version: ${vars.verPart}
+  }
+  scalaXml: ${vars.base} {
+    uri: "git://github.com/scala/scala-xml.git"
+    set-version: ${vars.verXml}
+  }
+  scalaParCo: ${vars.base} {
+    uri: "git://github.com/scala/scala-parser-combinators.git"
+    set-version: ${vars.verParCo}
+  }
+  docsOff: {
+    commands: [
+      "set sources in doc in Compile := List()"
+//    "set every logLevel := Level.Debug"
+    ]
+  }
+}
+
+
+include file("common-2.11.x.conf")
+
+
+build: ${?build} [
+{
+  space.from: ""
+  space.to: zero
+  cross-version: full
+//  cross-version: disabled
+  sbt-version: "0.13.0"
+  projects: [
+  {
+      // SCALACHECK IS ALSO NEEDED TO COMPILE THE CORE SCALA COMPILER/LIBRARY
+      // I /must/ place it within the "assemble" section, otherwise assemble
+      // will be unable to rewrite the dependency to/from the compiler, and will
+      // just ignore the dependency from scala-partest to scalacheck, emitting
+      // the warning:
+      // WARN: The dependency of scala-partest on org.scalacheck#scalacheck will be ignored.
+
+    system: "assemble"
+    name: "starr"
+    extra.parts: {
+      cross-version: standard
+      sbt-version: "0.13.0"
+      projects: [
+      {
+        system: "scala"
+        name:  "scala"
+        uri:    "git://github.com/scala/scala.git#v"${vars.verStarr}
+        set-version: ${vars.verScala}
+        extra.build-options: [ "-Ddocs.skip=1","-Dlocker.skip=1" ]
+      }
+      ${vars.scalaXml}   { name: "scala-xml" }
+      ${vars.scalaParCo} { name: "scala-pars-comb" }
+      ${vars.scalaCheck} { name: "scalacheck" }
+      ${vars.scalaPart}  { name: "scala-partest" }
+      ${vars.scalaCont}  { name: "scala-continuations" }
+      ${vars.scalaSwing} { name: "scala-swing" }
+    ]}
+  }
+  ]
+}
+
+
+// Now we have a compiler to start with. First of all,
+// we compile scala-xml and scala-parser-combinators;
+// then we use the initial compiler and these two
+// modules to compile the rest
+
+
+
+// ok. Now, let's compile the core (which, being ant-based,
+// will always compile using its own starr). Then we compile
+// the modules using this compiler, and finally we recompile
+// the compiler using the previously built core and the
+// modules.
+// (we can then optionally proceed to further compilations
+// of the compiler and the modules, to verify stability)
+
+{
+  space.from: zero // first
+  space.to: [ second, third ]
+  sbt-version: "0.13.0"
+  extraction-version: "2.11.0-M6"
+  cross-version: standard
+  projects: [
+  {
+    name: "scala-2"
+    system: scala
+    uri: ${vars.scala-uri}
+    extra.build-options: [ "-Ddocs.skip=1","-Dlocker.skip=1" ] // "-Dscalac.args.optimise=-optimise", "-debug" ]
+    set-version: ${vars.verScala}
+  }
+  ]
+}
+
+
+// These modules are compiled but *never used*. The compiler "2-scala"
+// contains in its pom a (useless) reference to xml_2.11.0-starr;0.0.0
+// and same for parser-combinators, so we have to provide them when
+// the "2-scala" compiler runs. however, due to the various
+// "-Ddocs.skip=1" and "set sources in doc in Compile := List()",
+// scaladoc is never used (and neither the modules). That can be
+// proven by manually patching the pom of the compiler jar to
+// exclude said dependencies (we would actually benefit from a
+// "boot" flag for ant, that skips the compilation of scaladoc
+// altogether, does not try to download modules via maven,
+// and does not include xml and combinators in the compiler pom.
+
+{
+  space.from: zero // first
+  space.to: second
+  sbt-version: "0.13.0"
+  extraction-version: "2.11.0-M6"
+  cross-version: full
+  projects: [
+     // To make sure that the compiler does not use xml or parser combinators,
+     // despite having them as a dependency, we create dummy projects that generate
+     // corresponding empty jars (their uri is "nil:", hence no source).
+     {
+       name: "dummy-xml"
+       extra.commands: [ "set organization := \"org.scala-lang.modules\"", "set name := \"scala-xml\"" ]
+       set-version: ${vars.verXml}
+     }
+     {
+       name: "dummy-pars-comb"
+       extra.commands: [ "set organization := \"org.scala-lang.modules\"", "set name := \"scala-parser-combinators\"" ]
+       set-version: ${vars.verParCo}
+     }
+  ]
+}
+
+
+
+
+{
+  space.from: second
+  space.to: [ third, fourth ]
+  sbt-version: "0.13.0"
+  extraction-version: "2.11.0-M6"
+  cross-version: full
+  projects: [
+    ${vars.scalaXml} {
+      name: "xml-3"
+      extra: 
+      ${vars.docsOff}
+    }
+    ${vars.scalaParCo} {
+      name: "pars-comb-3"
+      extra: ${vars.docsOff}
+    }
+  ]
+}
+
+
+{
+  space.from: third
+  space.to: [ third, fourth ]
+  sbt-version: "0.13.0"
+  extraction-version: "2.11.0-M6"
+  cross-version: full
+  projects: [
+    ${vars.scalaCheck} { name: "scalacheck-3" }
+    ${vars.scalaPart}  { name: "partest-3" }
+    ${vars.scalaCont}  { name: "continuations-3" }
+    ${vars.scalaSwing} { name: "swing-3" }
+  ]
+}
+
+{
+  space.from: third
+  space.to: [ fourth, fifth ]
+  sbt-version: "0.13.0"
+  extraction-version: "2.11.0-M6"
+  cross-version: standard
+  projects: [
+  {
+    name: "scala-4"
+    system: scala
+    uri: ${vars.scala-uri}
+    set-version: ${vars.verScala}
+    extra.build-options: [ "-Dlocker.skip=1" ] // "-Dscalac.args.optimise=-optimise", "-debug" ]
+    deps.inject: [ "org.scala-lang.plugins#scala-continuations-plugin",
+                   "org.scala-lang.plugins#scala-continuations-library",
+                   "org.scala-lang.modules#scala-swing",
+                   "org.scala-lang.modules#scala-partest",
+                   "org.scalacheck#scalacheck" ]
+  }
+  ]
+}
+
+// good until here; the core published to the fourth
+// space is complete (with docs). For the sake of
+// stability checking, let's compile further.
+// First, the modules once more.
+
+{
+  space.from: fourth
+  space.to: [ fifth, sixth ]
+  sbt-version: "0.13.0"
+  extraction-version: "2.11.0-M6"
+  cross-version: full
+  projects: [
+    ${vars.scalaXml}   { name: "xml-5" }
+    ${vars.scalaParCo} { name: "pars-comb-5" }
+  ]
+}
+{
+  space.from: fifth
+  space.to: [ fifth, sixth, seventh, default ]
+  sbt-version: "0.13.0"
+  extraction-version: "2.11.0-M6"
+  cross-version: full
+  projects: [
+    ${vars.scalaCheck} { name: "scalacheck-5" }
+    ${vars.scalaPart}  { name: "partest-5" }
+    ${vars.scalaCont}  { name: "continuations-5" }
+    ${vars.scalaSwing} { name: "swing-5" }
+  ]
+}
+
+// and finally, once more the core.
+
+{
+  space.from: fifth
+  space.to: [ sixth, seventh, default ]
+  sbt-version: "0.13.0"
+  extraction-version: "2.11.0-M6"
+  cross-version: standard
+  projects: [
+  {
+    name: "scala-6"
+    system: scala
+    uri: ${vars.scala-uri}
+    set-version: ${vars.verScala}
+    extra.build-options: [ "-Dlocker.skip=1" ] // "-Dscalac.args.optimise=-optimise", "-debug" ]
+    deps.inject: [ "org.scala-lang.plugins#scala-continuations-plugin",
+                   "org.scala-lang.plugins#scala-continuations-library",
+                   "org.scala-lang.modules#scala-swing",
+                   "org.scala-lang.modules#scala-partest",
+                   "org.scalacheck#scalacheck" ]
+  }
+  ]
+}
+
+
+// and once more xml/par-comb with docs
+
+{
+  space.from: sixth
+  space.to: [ seventh, default ]
+  sbt-version: "0.13.0"
+  extraction-version: "2.11.0-M6"
+  cross-version: full
+  projects: [
+    ${vars.scalaXml}   { name: "xml-7" }
+    ${vars.scalaParCo} { name: "pars-comb-7" }
+  ]
+}
+]
+
+
+options.compare: [{
+  a   : [ "scala-4" ]
+  b   : [ "scala-6" ]
+  skip: [ "META-INF/MANIFEST.MF", "*.properties", "*.html" ]
+ },{
+  a   : [ "pars-comb-5", "xml-5" ]
+  b   : [ "pars-comb-7", "xml-7" ]
+  skip: [ "META-INF/MANIFEST.MF", "*.properties", "*.html" ]
+ },{
+  a   : [ "partest-3", "swing-3", "continuations-3", "scalacheck-3" ]
+  b   : [ "partest-5", "swing-5", "continuations-5", "scalacheck-5" ]
+  skip: [ "META-INF/MANIFEST.MF", "*.properties", "*.html" ]
+ }
+]
