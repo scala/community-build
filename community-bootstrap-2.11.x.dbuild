@@ -40,10 +40,10 @@ vars: {
   // the target Scala version, initially. We also use versions
   // of the modules that are compatible with this starr core.
   verStarr:      "2.11.0-RC1"
-  verStarrXml:   "1.0-RC4"
-  verStarrParCo: "1.0-RC2"
+  verStarrXml:   "1.0.0-RC7"
+  verStarrParCo: "1.0.0-RC5"
+  verStarrPart:  "1.0.0-RC8"
   verStarrSwing: "1.0.0-RC2"
-  verStarrPart:  "1.0-RC5"
   verStarrCont:  "1.0.0-RC3"
   verStarrCheck: "1.11.3"
 
@@ -86,6 +86,7 @@ vars: {
     uri: "git://github.com/"${vars.scala-parser-combinators-ref}
     set-version: ${vars.verParCo}
   }
+  starrModule: "git://github.com/scala/scala-"
   docsOff: {
     commands: [
       "set sources in doc in Compile := List()"
@@ -136,33 +137,32 @@ build: ${?build} [
         system: "scala"
         name:  "starr-scala"
         uri:    "git://github.com/scala/scala.git#v"${vars.verStarr}
-        set-version: ${vars.verScala}
         extra.build-options: [ "-Ddocs.skip=1","-Dlocker.skip=1" ]
       }
       ${vars.scalaXml}   { name: "starr-scala-xml"
-        uri: "git://github.com/v"${vars.verStarrXml}
+        uri: ${vars.starrModule}"xml#v"${vars.verStarrXml}
       }
       ${vars.scalaParCo} { name: "starr-scala-pars-comb"
-        uri: "git://github.com/v"${vars.verStarrParCo}
+        uri: ${vars.starrModule}"parser-combinators#v"${vars.verStarrParCo}
       }
       ${vars.scalaPart}  { name: "starr-scala-partest"
-        uri: "git://github.com/v"${vars.verPart}
+        uri: ${vars.starrModule}"partest#"v${vars.verStarrPart}
       }
       ${vars.scalaCont}  { name: "starr-scala-continuations"
-        uri: "git://github.com/v"${vars.verCont}
+        uri: ${vars.starrModule}"continuations#v"${vars.verStarrCont}
       }
       ${vars.scalaSwing} { name: "starr-scala-swing"
-        uri: "git://github.com/v"${vars.verStarrSwing}
+        uri: ${vars.starrModule}"swing#v"${vars.verStarrSwing}
       }
       ${vars.scalaCheck} { name: "starr-scalacheck"
-        uri: "git://github.com/"${vars.verCheck}
+        uri: "git://github.com/rickynils/scalacheck.git#"${vars.verStarrCheck}
       }
     ]}
   }
   ]
 }
 
-// starr lives in the "zero" space.
+// starr lives in the space "zero".
 
 // Now, let's compile the core using starr. Then, we compile
 // all the locker modules using this first compiler: this is
@@ -171,7 +171,7 @@ build: ${?build} [
 // only the new compiler, and nothing else from starr.
 
 {
-  space.from: zero // first
+  space.from: zero
   space.to: [ second, third ]
   projects: [ ${vars.scalaBuild} {
     name: "init-scala"
@@ -188,7 +188,7 @@ build: ${?build} [
 // that all dependencies are satisfied.
 
 {
-  space.from: zero // first
+  space.from: zero
   space.to: second
   sbt-version: ${vars.sbt-version-override}
   extraction-version: ${vars.extraction}
