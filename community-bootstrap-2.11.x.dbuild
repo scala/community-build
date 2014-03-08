@@ -136,6 +136,7 @@ build: ${?build} [
       {
         system: "scala"
         name:  "starr-scala"
+        set-version: ${vars.verScala}
         uri:    "git://github.com/scala/scala.git#v"${vars.verStarr}
         extra.build-options: [ "-Ddocs.skip=1","-Dlocker.skip=1" ]
       }
@@ -184,8 +185,8 @@ build: ${?build} [
 // (sans docs), but its pom still refers to xml and parser
 // combinators.
 // In order to proceed, we create two dummy implementations
-// for those two modules, which are never actually used, so
-// that all dependencies are satisfied.
+// for those two modules (which are never actually used), so
+// that the dependencies of the core are satisfied.
 
 {
   space.from: zero
@@ -300,7 +301,7 @@ build: ${?build} [
 // At this point we fully completed the first stage of
 // our bootstrap. The space "default" contains the locker
 // compiler, and the six locker modules, all of which
-// have already compiled using the new init compiler.
+// have been compiled using the new init compiler.
 //
 // We use locker to compile the remaining projects;
 // since it is in the default space, all the other
