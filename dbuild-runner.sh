@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -ex
+set -e
 set -o pipefail
 export LANG="en_US.UTF-8"
 export HOME="$(pwd)"
@@ -30,7 +30,6 @@ then
 fi
 
 "dbuild-${DBUILDVERSION}/bin/dbuild" "$DBUILDCONFIG" 2>&1 | tee "dbuild-${DBUILDVERSION}/dbuild.out"
-set +x
 BUILD_ID="$(grep '^\[info\]  uuid = ' "dbuild-${DBUILDVERSION}/dbuild.out" | sed -e 's/\[info\]  uuid = //')"
 echo "The repeatable UUID of this build was: ${BUILD_ID}"
 egrep -q "The dbuild result is.*SUCCESS" "dbuild-${DBUILDVERSION}/dbuild.out"
