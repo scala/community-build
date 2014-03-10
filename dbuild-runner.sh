@@ -28,10 +28,9 @@ then
   tar xfz "dbuild-${DBUILDVERSION}.tgz"
   rm "dbuild-${DBUILDVERSION}.tgz"
 fi
-cd "dbuild-${DBUILDVERSION}"
 
-bin/dbuild "../$DBUILDCONFIG" 2>&1 | tee dbuild.out
+"dbuild-${DBUILDVERSION}/bin/dbuild" "$DBUILDCONFIG" 2>&1 | tee "dbuild-${DBUILDVERSION}/dbuild.out"
 set +x
-BUILD_ID="$(grep '^\[info\]  uuid = ' dbuild.out | sed -e 's/\[info\]  uuid = //')"
+BUILD_ID="$(grep '^\[info\]  uuid = ' "dbuild-${DBUILDVERSION}/dbuild.out" | sed -e 's/\[info\]  uuid = //')"
 echo "The repeatable UUID of this build was: ${BUILD_ID}"
-egrep -q "The dbuild result is.*SUCCESS" dbuild.out
+egrep -q "The dbuild result is.*SUCCESS" "dbuild-${DBUILDVERSION}/dbuild.out"

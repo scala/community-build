@@ -2,3 +2,4 @@
 .ivy2/
 .m2/
 /dbuild-*/
+/target-*/
