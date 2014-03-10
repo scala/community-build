@@ -68,6 +68,12 @@ vars: {
   scalaCont: ${vars.base} {
     uri: "git://github.com/"${vars.scala-continuations-ref}
     set-version: ${vars.verCont}
+    // Trying to avoid unexplained error on Toolbox based tests: "bad option: -P:continuations:enable"
+    // This is reproducible outside of dbuild, but hard to pin down.
+    // Example: https://gist.github.com/retronym/9122414
+    // Note the plugin JAR was rebuild on inspect `test:test`, even though there was no source change.
+    // After that, the next `test` worked.
+    extra.commands: ["clean", "plugin/compile:package"]
   }
   scalaCheck: ${vars.base} { // needed to compile scala-partest
     uri:    "git://github.com/"${vars.scalacheck-ref}
