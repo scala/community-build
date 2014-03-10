@@ -4,13 +4,14 @@ set -o pipefail
 export LANG="en_US.UTF-8"
 export HOME="$(pwd)"
 
-if [ "$#" -ne "2" ]
+if [ "$#" -lt "2" ]
 then
-  echo "Usage: $0 <dbuild-file> <dbuild-version>"
+  echo "Usage: $0 <dbuild-file> <dbuild-version> [<dbuild-options>]"
   exit 1
 fi
 DBUILDCONFIG="$1"
 DBUILDVERSION="$2"
+shift;shift
 
 if [ ! -f "$DBUILDCONFIG" ]
 then
@@ -29,7 +30,8 @@ then
   rm "dbuild-${DBUILDVERSION}.tgz"
 fi
 
-"dbuild-${DBUILDVERSION}/bin/dbuild" "$DBUILDCONFIG" 2>&1 | tee "dbuild-${DBUILDVERSION}/dbuild.out"
+echo "dbuild-${DBUILDVERSION}/bin/dbuild" "${@}" "$DBUILDCONFIG"
+"dbuild-${DBUILDVERSION}/bin/dbuild" "${@}" "$DBUILDCONFIG" 2>&1 | tee "dbuild-${DBUILDVERSION}/dbuild.out"
 BUILD_ID="$(grep '^\[info\]  uuid = ' "dbuild-${DBUILDVERSION}/dbuild.out" | sed -e 's/\[info\]  uuid = //')"
 echo "The repeatable UUID of this build was: ${BUILD_ID}"
 egrep -q "The dbuild result is.*SUCCESS" "dbuild-${DBUILDVERSION}/dbuild.out"
