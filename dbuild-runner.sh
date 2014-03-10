@@ -19,8 +19,8 @@ then
 fi
 
 echo "dbuild version: $DBUILDVERSION"
-echo "dbuild config:"
-sed 's/"\([^@"]*\)@[^"]*\.[^"]*"/"\1@..."/g' <"$DBUILDCONFIG"
+echo "dbuild config: $DBUILDCONFIG"
+#sed 's/"\([^@"]*\)@[^"]*\.[^"]*"/"\1@..."/g' <"$DBUILDCONFIG"
 
 if [ ! -d "dbuild-${DBUILDVERSION}" ]
 then
