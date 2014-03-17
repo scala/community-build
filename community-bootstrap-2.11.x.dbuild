@@ -33,6 +33,47 @@ vars: {
 // the variables that refer to the branches that are being tested.
 include file("common-2.11.x.conf")
 
+//
+// The notification section for this build file
+//
+options.notifications: {
+  send:[{
+    when: bad
+    projects: "."
+    send.to: ["qbranch@typesafe.com"]
+  },{
+    when: bad
+    projects: "akka"
+    send.to: ["akka.official@gmail.com"]
+  },{
+    when: bad
+    projects: "slick"
+    send.to: ["stefan.zeiger@typesafe.com"]
+  },{
+    kind: flowdock
+    when: bad
+    send.detail: short
+  },{
+    projects: "."
+    kind: console
+    when: always
+  }]
+  default: [{
+    kind: email
+    send: {
+      from: "jenkins-dbuild <mailer@typesafe.com>"
+      smtp.server: "psemail.epfl.ch"
+      smtp.encryption: none
+    }
+  },{
+    kind: flowdock
+    projects: "."
+    send: {
+      from: "dbuild"
+      token: "/home/jenkinsdbuild/dbuild-q.token"
+    }
+  }]
+}
 
 // Other definitions used during the bootstrap
 vars: {
