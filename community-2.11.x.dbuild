@@ -5,7 +5,9 @@
 //
 
 
-vars.base: {}
+vars.base: {
+  extra.options += "-XX:+UseConcMarkSweepGC"
+}
 include file("common-2.11.x.conf")
 
 //

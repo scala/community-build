@@ -23,8 +23,7 @@ vars: {
   base: {
     deps.inject: [ "org.scala-lang.modules#scala-xml",
                    "org.scala-lang.modules#scala-parser-combinators" ]
-    // if you want to test optimized builds for all projects, just add:
-    // options += "-optimise"
+    extra.options += "-XX:+UseConcMarkSweepGC" 
   }
 }
 
