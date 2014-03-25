@@ -23,7 +23,7 @@ vars: {
   base: {
     deps.inject: [ "org.scala-lang.modules#scala-xml",
                    "org.scala-lang.modules#scala-parser-combinators" ]
-    extra.options += "-XX:+UseConcMarkSweepGC" 
+    extra.options += "-XX:MaxPermSize=768m"
   }
 }
 

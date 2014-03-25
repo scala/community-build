@@ -6,7 +6,7 @@
 
 
 vars.base: {
-  extra.options += "-XX:+UseConcMarkSweepGC"
+  extra.options += "-XX:MaxPermSize=768m"
 }
 include file("common-2.11.x.conf")
 
