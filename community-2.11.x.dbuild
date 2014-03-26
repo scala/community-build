@@ -6,7 +6,7 @@
 
 
 vars.base: {
-  extra.options += "-XX:MaxPermSize=768m"
+  extra.options += "-XX:MaxPermSize=1024m"
   extra.options += "-XX:PermSize=256m"
   extra.options += "-XX:MaxPermHeapExpansion=128m"
   extra.options += "-XX:MinPermHeapExpansion=8m"
