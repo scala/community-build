@@ -24,6 +24,9 @@ vars: {
     deps.inject: [ "org.scala-lang.modules#scala-xml",
                    "org.scala-lang.modules#scala-parser-combinators" ]
     extra.options += "-XX:MaxPermSize=768m"
+    extra.options += "-XX:PermSize=256m"
+    extra.options += "-XX:MaxPermHeapExpansion=128m"
+    extra.options += "-XX:MinPermHeapExpansion=8m"
   }
 }
 
