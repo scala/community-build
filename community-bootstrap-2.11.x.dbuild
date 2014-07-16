@@ -137,9 +137,8 @@ vars: {
   }
   starrModule: "git://github.com/scala/scala-"
   docsOff: {
-    commands: [
-      "set sources in doc in Compile := List()"
-//    "set every logLevel := Level.Debug"
+    settings: [
+      "sources in doc in Compile := List()"
     ]
   }
   // used while building the Scala compiler that is directly built by starr
@@ -249,12 +248,12 @@ build: ${?build} [
      // corresponding empty jars (their uri is "nil:", hence no source).
      {
        name: "dummy-xml"
-       extra.commands: [ "set organization := \"org.scala-lang.modules\"", "set name := \"scala-xml\"" ]
+       extra.settings: [ "organization := \"org.scala-lang.modules\"", "name := \"scala-xml\"" ]
        set-version: ${vars.verXml}
      }
      {
        name: "dummy-pars-comb"
-       extra.commands: [ "set organization := \"org.scala-lang.modules\"", "set name := \"scala-parser-combinators\"" ]
+       extra.settings: [ "organization := \"org.scala-lang.modules\"", "name := \"scala-parser-combinators\"" ]
        set-version: ${vars.verParCo}
      }
   ]
@@ -263,7 +262,7 @@ build: ${?build} [
 // The initial core and the two dummy modules have been published
 // into the space "second". We can now compile the real versions of
 // xml and parser combinators, as long as we never invoke scaladoc.
-// That is accomplished with: "set sources in doc in Compile := List()"
+// That is accomplished with: "sources in doc in Compile := List()"
 // (here in vars.docsOff).
 
 {
