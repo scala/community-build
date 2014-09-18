@@ -1,14 +1,21 @@
-community-builds
-================
+Scala Community Build
+=====================
 
-This repository contains configuration files that
-are automatically tested daily using dbuild. The test
-results are automatically sent to the recipients
-specified in the "notifications" section of each file.
+This is a repository with configuration files that
+let us build many Scala open source projects at once easily.
 
-Please check http://typesafehub.github.io/distributed-build for
-further information. Pull requests are welcome.
+As of September 18th 2014, there are 77 Scala projects configured
+to be built together. This gives us an ability of building over 1.2
+million lines of Scala code with a single command.
 
-The [2.11.x community build](https://jenkins-dbuild.typesafe.com:8499/job/Community-2.11.x) runs nightly.
+Community build includes Scala itself. This enables us to validate changes to
+Scala compiler, Scala standard library and Scala modules. The [2.11.x community build](https://jenkins-dbuild.typesafe.com:8499/job/Community-2.11.x) runs nightly and checks changes applied to 2.11.x development branch. Builds for
+[Scala 2.12.x](https://jenkins-dbuild.typesafe.com:8499/job/Community-2.12.x/) are available too.
 
-(Typesafe employees: also check [this](https://docs.google.com/a/typesafe.com/spreadsheet/ccc?key=0AkT2BN62FrUEdG1lVVZLbHBab29BaXN2TndGSWNLelE)).
+Community build is powered by dbuild tool developed by Typesafe. More details about dbuild
+are coming soon.
+
+## Adding a new project configuration
+
+Docs should come in a few weeks. Meanwhile, brave souls should look existing configurations
+in `common-2.11.x.conf` file.
