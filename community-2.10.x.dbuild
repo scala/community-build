@@ -150,6 +150,9 @@ build.projects:[
   },{
     name:   "scala-stm",
     uri:    "git://github.com/nbronson/scala-stm.git"
+  },{
+    name: "jsonz",
+    uri: "git://github.com/Banno/jsonz.git"
   }
 ]
 options.notifications: {
@@ -194,4 +197,3 @@ options.notifications: {
     }
   }]
 }
-
