@@ -153,6 +153,10 @@ build.projects:[
   },{
     name: "jsonz",
     uri: "git://github.com/Banno/jsonz.git"
+    extra: {
+      sbt-version: ${vars.sbt-version-override}
+      commands += "set libraryDependencies += ++= Seq(${\"org.scalaz\" %% \"scalaz-typelevel\" % \"7.1.0\",\"com.fasterxml.jackson.module\" %% \"jackson-module-scala\" % \"2.4.1\",\"org.joda\" % \"joda-convert\" % \"1.1\",\"joda-time\" % \"joda-time\" % \"2.0\"})"
+    }
   }
 ]
 options.notifications: {
