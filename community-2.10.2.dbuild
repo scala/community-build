@@ -81,7 +81,7 @@
     uri: "git://github.com/jsuereth/scala-arm.git"
   }, {
     name:   "scalaz",
-    uri:    "git://github.com/scalaz/scalaz.git#series/7.0.x"
+    uri:    "git://github.com/scalaz/scalaz.git#series/7.1.x"
     extra: {
       exclude: ["tests"]
     }
@@ -111,7 +111,7 @@
     uri:    "http://github.com/typesafehub/sbt-republish.git"
   }, {
     name:   "scalaz-bis",
-    uri:    "git://github.com/scalaz/scalaz.git#series/7.0.x"
+    uri:    "git://github.com/scalaz/scalaz.git#series/7.1.x"
     extra: {
       projects: ["tests"]
       exclude: ["scalacheck-binding","concurrent","xml","iteratee","effect","typelevel","core"]
