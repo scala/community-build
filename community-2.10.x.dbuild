@@ -104,7 +104,7 @@ build.projects:[
     extra: { commands: ["set scalacOptions in Test in compile <<= (scalacOptions in Test in compile) map { opts => opts take 2 }"] }
   }, {
     name:   "scalaz",
-    uri:    "git://github.com/scalaz/scalaz.git#series/7.0.x"
+    uri:    "git://github.com/scalaz/scalaz.git#series/7.1.x"
     extra: {
       exclude: ["tests"]
       sbt-version: "0.13.0"
@@ -135,7 +135,7 @@ build.projects:[
     uri:    "http://github.com/typesafehub/sbt-republish.git"
   }, {
     name:   "scalaz-bis",
-    uri:    "git://github.com/scalaz/scalaz.git#series/7.0.x"
+    uri:    "git://github.com/scalaz/scalaz.git#series/7.1.x"
     extra: {
       projects: ["tests"]
       exclude: ["scalacheck-binding","concurrent","xml","iteratee","effect","typelevel","core"]
