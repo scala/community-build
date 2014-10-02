@@ -1,19 +1,19 @@
 Scala Community Build
 =====================
 
-This is a repository with configuration files that
-let us build many Scala open source projects at once easily.
+This repository contains configuration files that
+enable us to build many Scala open source projects all at once.
 
 As of September 18th 2014, there are 77 Scala projects configured
-to be built together. We have an ability of building over 1.2
+to be built together. With [dbuild](https://github.com/typesafehub/dbuild), 
+we have the ability to build over 1.2
 million lines of Scala code with a single command!
 
-Community build includes Scala itself. This enables Scala team to validate changes to
-Scala compiler, Scala standard library and Scala modules. The [2.11.x community build](https://jenkins-dbuild.typesafe.com:8499/job/Community-2.11.x) runs nightly and checks changes applied to 2.11.x development branch. Builds covering
+The Scala community build includes Scala itself. This enables the Scala team to validate changes to
+the Scala compiler, the Scala standard library and Scala modules. The [2.11.x community build](https://jenkins-dbuild.typesafe.com:8499/job/Community-2.11.x) runs nightly and checks changes applied to the 2.11.x development branch. Builds covering
 [Scala 2.12.x](https://jenkins-dbuild.typesafe.com:8499/job/Community-2.12.x/) development branch are available too.
 
-Community build is powered by dbuild tool developed by Typesafe. More details about dbuild
-are coming soon.
+The community build is powered by [dbuild](https://github.com/typesafehub/dbuild), a tool developed by Typesafe. More details about dbuild are coming soon.
 
 ## Adding a new project configuration
 
