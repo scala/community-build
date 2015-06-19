@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+scripts/dbuild-runner.sh "community.dbuild" "0.9.1" "${@}"

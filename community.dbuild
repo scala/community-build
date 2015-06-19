@@ -7,55 +7,13 @@
 
 vars.base: {
 }
-include file("common-2.11.x.conf")
-
-//
-// The notification section for this build file
-//
-options.notifications: {
-  send:[{
-    when: bad
-    projects: "."
-    send.to: ["qbranch@typesafe.com"]
-  },{
-    when: bad
-    projects: "akka"
-    send.to: ["akka.official@gmail.com"]
-  },{
-    when: bad
-    projects: "slick"
-    send.to: ["stefan.zeiger@typesafe.com"]
-  },{
-    kind: flowdock
-    when: bad
-    send.detail: short
-  },{
-    projects: "."
-    kind: console
-    when: always
-  }]
-  default: [{
-    kind: email
-    send: {
-      from: "jenkins-dbuild <mailer@typesafe.com>"
-      smtp.server: "psemail.epfl.ch"
-      smtp.encryption: none
-    }
-  },{
-    kind: flowdock
-    projects: "."
-    send: {
-      from: "dbuild"
-      token: "/home/jenkinsdbuild/dbuild-q.token"
-    }
-  }]
-}
+include file("common.conf")
 
 //
 // And the generation of the artifacts more closely related to the Scala compiler.
 //
 build += {
-  extraction-version: "2.11.0-M8"
+  extraction-version: "2.11.6"
   cross-version: disabled
   sbt-version: ${vars.sbt-version-override}
   projects: [
@@ -66,7 +24,7 @@ build += {
     extra.parts: {
       cross-version: standard
       sbt-version: ${vars.sbt-version-override}
-      extraction-version: "2.11.0-M8"
+      extraction-version: "2.11.6"
       cross-version: disabled
     }
     extra.parts.projects: [

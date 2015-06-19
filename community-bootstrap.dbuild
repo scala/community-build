@@ -29,62 +29,21 @@ vars: {
 
 // Now, include the definitions of all the projects. Also pull in
 // the variables that refer to the branches that are being tested.
-include file("common-2.11.x.conf")
+include file("common.conf")
 
-//
-// The notification section for this build file
-//
-options.notifications: {
-  send:[{
-    when: bad
-    projects: "."
-    send.to: ["qbranch@typesafe.com"]
-  },{
-    when: bad
-    projects: "akka"
-    send.to: ["akka.official@gmail.com"]
-  },{
-    when: bad
-    projects: "slick"
-    send.to: ["stefan.zeiger@typesafe.com"]
-  },{
-    kind: flowdock
-    when: bad
-    send.detail: short
-  },{
-    projects: "."
-    kind: console
-    when: always
-  }]
-  default: [{
-    kind: email
-    send: {
-      from: "jenkins-dbuild <mailer@typesafe.com>"
-      smtp.server: "psemail.epfl.ch"
-      smtp.encryption: none
-    }
-  },{
-    kind: flowdock
-    projects: "."
-    send: {
-      from: "dbuild"
-      token: "/home/jenkinsdbuild/dbuild-q.token"
-    }
-  }]
-}
 
 // Other definitions used during the bootstrap
 vars: {
   // the "starr" version of Scala that will be used to compile
   // the target Scala version, initially. We also use versions
   // of the modules that are compatible with this starr core.
-  verStarr:      "2.11.0-RC1"
-  verStarrXml:   "1.0.0-RC7"
-  verStarrParCo: "1.0.0-RC5"
-  verStarrPart:  "1.0.0-RC8"
-  verStarrSwing: "1.0.0-RC2"
-  verStarrCont:  "1.0.0-RC3"
-  verStarrCheck: "1.11.3"
+  verStarr:      "2.11.6"
+  verStarrXml:   "1.0.4"
+  verStarrParCo: "1.0.4"
+  verStarrPart:  "1.0.7"
+  verStarrSwing: "1.0.2"
+  verStarrCont:  "1.0.2"
+  verStarrCheck: "1.11.6"
 
   // we also use starr to extract dependencies
   extraction:    ${vars.verStarr}
