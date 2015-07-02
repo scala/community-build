@@ -1,5 +1,7 @@
 # Scala Community Build
 
+[![Join the chat at https://gitter.im/scala/community-builds](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/scala/community-builds?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 This repository contains configuration files that enable us to build and test
 many Scala open source projects together using Typesafe's
 [dbuild](https://github.com/typesafehub/dbuild).
