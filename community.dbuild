@@ -13,7 +13,7 @@ include file("common.conf")
 // And the generation of the artifacts more closely related to the Scala compiler.
 //
 build += {
-  extraction-version: "2.11.6"
+  extraction-version: "2.12.0-M1"
   cross-version: disabled
   sbt-version: ${vars.sbt-version-override}
   projects: [
@@ -24,7 +24,7 @@ build += {
     extra.parts: {
       cross-version: standard
       sbt-version: ${vars.sbt-version-override}
-      extraction-version: "2.11.6"
+      extraction-version: "2.12.0-M1"
       cross-version: disabled
     }
     extra.parts.projects: [
@@ -43,18 +43,6 @@ build += {
         uri: "https://github.com/"${vars.scala-parser-combinators-ref}
       }
     ]
-  }
-
-  ${vars.base} {
-    name: "scala-continuations"
-    uri: "https://github.com/"${vars.scala-continuations-ref}
-    extra.sbt-version: ${vars.sbt-version-override}
-    // Trying to avoid unexplained error on Toolbox based tests: "bad option: -P:continuations:enable"
-    // This is reproducible outside of dbuild, but hard to pin down.
-    // Example: https://gist.github.com/retronym/9122414
-    // Note the plugin JAR was rebuild on inspect `test:test`, even though there was no source change.
-    // After that, the next `test` worked.
-    extra.commands: ["clean", "plugin/compile:package"]
   }
 
   ${vars.base} {
