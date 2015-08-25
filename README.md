@@ -42,3 +42,7 @@ edit `common.conf`.
 
 The [dbuild documentation](http://typesafehub.github.com/dbuild) might help.
 Especially the "Building a single target project" [part](http://typesafehub.github.io/dbuild/0.9.1/dbuild.html#building-a-single-target-project).
+
+## Is my project eligible?
+
+see https://github.com/scala/community-builds/wiki
