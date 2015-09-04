@@ -32,13 +32,20 @@ then
   a=( ${DBUILDVERSION//./ } )
   maj=$(strip0 "${a[0]}")
   min=$(strip0 "${a[1]}")
+  patch=$(strip0 "${a[2]}")
   if [[ ( $maj -lt 1 ) && ( $min -lt 9 ) ]]
   then
     # old location for dbuild <0.9.0 (stored on S3)
     wget "http://downloads.typesafe.com/dbuild/${DBUILDVERSION}/dbuild-${DBUILDVERSION}.tgz"
   else
-    # new location for dbuild >=0.9.0 (regular artifact)
-    wget "http://repo.typesafe.com/typesafe/temp-distributed-build-snapshots/com.typesafe.dbuild/dbuild/${DBUILDVERSION}/tgzs/dbuild-${DBUILDVERSION}.tgz"
+    if [[ ( $maj -lt 1 ) && ( $min -eq 9 ) && ( $patch -lt 2) ]]
+    then
+      # new location for dbuild 0.9.[01] (regular artifact)
+      wget "http://repo.typesafe.com/typesafe/temp-distributed-build-snapshots/com.typesafe.dbuild/dbuild/${DBUILDVERSION}/tgzs/dbuild-${DBUILDVERSION}.tgz"
+    else
+      # new location for dbuild >=0.9.2 (regular artifact)
+      wget "http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.dbuild/dbuild/${DBUILDVERSION}/tgzs/dbuild-${DBUILDVERSION}.tgz"
+    fi
   fi
   tar xfz "dbuild-${DBUILDVERSION}.tgz"
   rm "dbuild-${DBUILDVERSION}.tgz"
