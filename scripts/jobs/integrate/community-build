@@ -1,2 +1,9 @@
 #!/usr/bin/env bash
-scripts/dbuild-runner.sh "community.dbuild" "0.9.1" "${@}"
+
+DBUILDVERSION=0.9.1
+
+# otherwise this directory just keeps growing.
+# see scala/scala-jenkins-infra#115
+rm -rf target-$DBUILDVERSION
+
+scripts/dbuild-runner.sh "community.dbuild" "$DBUILDVERSION" "${@}"
