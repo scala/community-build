@@ -30,7 +30,7 @@ Java 6; 2.12.x, Java 8.
 
 Then run:
 
-    ./scripts/jobs/integrate/community-build -l
+    ./scripts/jobs/integrate/community-build -n
 
 While you wait, make yourself a sandwich.  (If you have time,
 make yourself a sandwich-making machine.)
