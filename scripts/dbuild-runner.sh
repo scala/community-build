@@ -49,6 +49,14 @@ then
   fi
   tar xfz "dbuild-${DBUILDVERSION}.tgz"
   rm "dbuild-${DBUILDVERSION}.tgz"
+  # work around https://github.com/typesafehub/dbuild/issues/175
+  # until we can move to a newer version of dbuild that has the fix;
+  # see https://github.com/scala/community-builds/issues/108 .
+  # (this isn't a problem on Jenkins because the scala-ci maven repo
+  # has everything under the sun cached; attempting to run dbuild
+  # locally was when I hit this. - ST 9/4/2015
+  sed -i.bak "s/typesafe.artifactoryonline.com/repo.typesafe.com/g"  "dbuild-${DBUILDVERSION}/bin/"*.properties
+  sed -i.bak "s/scalasbt.artifactoryonline.com/repo.scala-sbt.org/g" "dbuild-${DBUILDVERSION}/bin/"*.properties
 fi
 
 echo "dbuild-${DBUILDVERSION}/bin/dbuild" "${@}" "$DBUILDCONFIG"
