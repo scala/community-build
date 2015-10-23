@@ -1,3 +1,4 @@
+.sbt/
 .dbuild/
 .ivy2/
 .m2/
