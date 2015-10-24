@@ -32,16 +32,33 @@ then
   a=( ${DBUILDVERSION//./ } )
   maj=$(strip0 "${a[0]}")
   min=$(strip0 "${a[1]}")
+  patch=$(strip0 "${a[2]}")
   if [[ ( $maj -lt 1 ) && ( $min -lt 9 ) ]]
   then
     # old location for dbuild <0.9.0 (stored on S3)
     wget "http://downloads.typesafe.com/dbuild/${DBUILDVERSION}/dbuild-${DBUILDVERSION}.tgz"
   else
-    # new location for dbuild >=0.9.0 (regular artifact)
-    wget "http://repo.typesafe.com/typesafe/temp-distributed-build-snapshots/com.typesafe.dbuild/dbuild/${DBUILDVERSION}/tgzs/dbuild-${DBUILDVERSION}.tgz"
+    if [[ ( $maj -lt 1 ) && ( $min -eq 9 ) && ( $patch -lt 2) ]]
+    then
+      # new location for dbuild 0.9.[01] (regular artifact)
+      wget "http://repo.typesafe.com/typesafe/temp-distributed-build-snapshots/com.typesafe.dbuild/dbuild/${DBUILDVERSION}/tgzs/dbuild-${DBUILDVERSION}.tgz"
+    else
+      # new location for dbuild >=0.9.2 (regular artifact)
+      wget "http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.dbuild/dbuild/${DBUILDVERSION}/tgzs/dbuild-${DBUILDVERSION}.tgz"
+    fi
   fi
   tar xfz "dbuild-${DBUILDVERSION}.tgz"
   rm "dbuild-${DBUILDVERSION}.tgz"
+  # work around https://github.com/typesafehub/dbuild/issues/175
+  # until we can move to a newer version of dbuild that has the fix;
+  # see https://github.com/scala/community-builds/issues/108 .
+  # note that this only actually applies if you run dbuild with
+  # `-l` or `-r`, which tells dbuild to ignore the list of resolvers
+  # in common.conf and use its built-in list instead.  but my
+  # current understanding is that the resolver list in common.conf
+  # should be fine both for Jenkins and for local operation. - ST 9/4/2015
+  sed -i.bak "s/typesafe.artifactoryonline.com/repo.typesafe.com/g"  "dbuild-${DBUILDVERSION}/bin/"*.properties
+  sed -i.bak "s/scalasbt.artifactoryonline.com/repo.scala-sbt.org/g" "dbuild-${DBUILDVERSION}/bin/"*.properties
 fi
 
 echo "dbuild-${DBUILDVERSION}/bin/dbuild" "${@}" "$DBUILDCONFIG"
