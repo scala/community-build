@@ -34,13 +34,18 @@ build += {
         uri:    "https://github.com/"${vars.scala-ref}
         extra.build-options: ["-Dlocker.skip=1", "-Ddocs.skip=1"] // speed things up a little
       }
+      // override scalaVersion in the modules since otherwise we get
+      // whatever random Scala version the module has -- it might be a
+      // 2.12.x version, we don't want that!
       {
         name: "scala-xml"
         uri: "https://github.com/"${vars.scala-xml-ref}
+        extra.commands: "set scalaVersion := \"2.11.7\""
       }
       {
         name: "scala-parser-combinators"
         uri: "https://github.com/"${vars.scala-parser-combinators-ref}
+        extra.commands: "set scalaVersion := \"2.11.7\""
       }
     ]
   }
