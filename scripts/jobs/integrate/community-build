@@ -2,14 +2,8 @@
 
 DBUILDVERSION=0.9.1
 
-# prevent crosstalk between jdk6 and jdk8 community builds
-# TODO: obv, it would be more elegant to key off `jvmSelect`
-CACHEDIR=~/.dbuild/cache-$DBUILDVERSION-jdk8
-
 # otherwise this directory just keeps growing.
 # see scala/scala-jenkins-infra#115
 rm -rf target-$DBUILDVERSION
 
-scripts/dbuild-runner.sh "community.dbuild" "$DBUILDVERSION" \
-  "-Ddbuild.cache.dir=$CACHEDIR" \
-  "${@}"
+scripts/dbuild-runner.sh "community.dbuild" "$DBUILDVERSION" "${@}"
