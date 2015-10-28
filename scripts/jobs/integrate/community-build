@@ -4,6 +4,6 @@ DBUILDVERSION=0.9.1
 
 # otherwise this directory just keeps growing.
 # see scala/scala-jenkins-infra#115
-rm -rf target-$DBUILDVERSION
+rm -rf target-$DBUILDVERSION/project-builds
 
 scripts/dbuild-runner.sh "community.dbuild" "$DBUILDVERSION" "${@}"
