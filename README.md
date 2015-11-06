@@ -11,4 +11,4 @@ How much is many?  It's over a million lines of Scala code, total.
 Why? The main goal of this is to guard against regressions in new
 versions of Scala (language, standard library, and modules).
 
-For more information, [visit the wiki](https://github.com/scala/community-builds).
+For more information, [visit the wiki](https://github.com/scala/community-builds/wiki).
