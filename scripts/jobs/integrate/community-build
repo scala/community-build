@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-DBUILDVERSION=0.9.1
+DBUILDVERSION=0.9.4
 
 # prevent crosstalk between jdk6 and jdk8 community builds
 # TODO: obv, it would be more elegant to key off `jvmSelect`
