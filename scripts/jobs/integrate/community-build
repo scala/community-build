@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-DBUILDVERSION=0.9.1
+DBUILDVERSION=0.9.5
 
 # otherwise these directories just keep growing.
 # see scala/scala-jenkins-infra#115
