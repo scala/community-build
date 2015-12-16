@@ -34,7 +34,8 @@ build += {
         system: "scala"
         name:  "scala"
         uri:    "https://github.com/"${vars.scala-ref}
-        extra.build-options: ["-Dlocker.skip=1", "-Ddocs.skip=1"] // speed things up a little
+        // skip docs to speed up the build
+        extra.build-options: ["-Ddocs.skip=1", ${vars.scala-build-bootstrap-opt}, ${vars.scala-build-extra-opt}]
       }
       // override scalaVersion in the modules since otherwise we get
       // whatever random Scala version the module has -- it might be a
