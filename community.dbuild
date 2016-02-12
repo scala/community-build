@@ -49,6 +49,7 @@ build += {
         name: "scala-parser-combinators"
         uri: "https://github.com/"${vars.scala-parser-combinators-ref}
         extra.commands: "set scalaVersion := \"2.11.7\""
+        extra.projects: ["scala-parser-combinatorsJVM"]
       }
     ]
   }
