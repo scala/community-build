@@ -1,6 +1,6 @@
 //
 // Define a set of common settings for all projects, and include
-// all the 2.11 projects. The included file also contains a large set of
+// all the 2.12 projects. The included file also contains a large set of
 // vars definitions, which are used later in this file as well.
 //
 
@@ -19,7 +19,7 @@ build += {
   space.from: default
   space.to: [ default, specs2_36, specs2_24 ]
   projects: [
-  // Scala 2.11.x
+  // Scala 2.12.x
   {
     name:  "scala",
     system: assemble
@@ -43,12 +43,12 @@ build += {
       {
         name: "scala-xml"
         uri: "https://github.com/"${vars.scala-xml-ref}
-        extra.commands: "set scalaVersion := \"2.11.7\""
+        extra.commands: "set scalaVersion := \"2.12.0-M3\""
       }
       {
         name: "scala-parser-combinators"
         uri: "https://github.com/"${vars.scala-parser-combinators-ref}
-        extra.commands: "set scalaVersion := \"2.11.7\""
+        extra.commands: "set scalaVersion := \"2.12.0-M3\""
         extra.projects: ["scala-parser-combinatorsJVM"]
       }
     ]
