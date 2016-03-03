@@ -15,7 +15,7 @@ include file("common.conf")
 build += {
   extraction-version: "2.11.7"
   cross-version: disabled
-  sbt-version: ${vars.sbt-version-override}
+  sbt-version: ${vars.sbt-version}
   projects: [
   // Scala 2.11.x
   {
@@ -23,7 +23,7 @@ build += {
     system: assemble
     extra.parts: {
       cross-version: standard
-      sbt-version: ${vars.sbt-version-override}
+      sbt-version: ${vars.sbt-version}
       extraction-version: "2.11.7"
       cross-version: disabled
     }
@@ -54,7 +54,6 @@ build += {
   ${vars.base} {
     name: "scala-continuations"
     uri: "https://github.com/"${vars.scala-continuations-ref}
-    extra.sbt-version: ${vars.sbt-version-override}
     // Trying to avoid unexplained error on Toolbox based tests: "bad option: -P:continuations:enable"
     // This is reproducible outside of dbuild, but hard to pin down.
     // Example: https://gist.github.com/retronym/9122414
