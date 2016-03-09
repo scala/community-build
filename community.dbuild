@@ -43,12 +43,12 @@ build += {
       {
         name: "scala-xml"
         uri: "https://github.com/"${vars.scala-xml-ref}
-        extra.commands: "set scalaVersion := \"2.12.0-M4\""
+        extra.commands: "set scalaVersion := \"2.12.0-213c6d3-nightly\""
       }
       {
         name: "scala-parser-combinators"
         uri: "https://github.com/"${vars.scala-parser-combinators-ref}
-        extra.commands: "set scalaVersion := \"2.12.0-M4\""
+        extra.commands: "set scalaVersion := \"2.12.0-213c6d3-nightly\""
         extra.projects: ["scala-parser-combinatorsJVM"]
       }
     ]
