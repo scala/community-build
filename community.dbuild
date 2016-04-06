@@ -15,7 +15,7 @@ include file("common.conf")
 build += {
   extraction-version: "2.12.0-M4"
   cross-version: disabled
-  sbt-version: ${vars.sbt-version-override}
+  sbt-version: ${vars.sbt-version}
   space.from: default
   space.to: [ default, specs2_36, specs2_24 ]
   projects: [
@@ -25,7 +25,7 @@ build += {
     system: assemble
     extra.parts: {
       cross-version: standard
-      sbt-version: ${vars.sbt-version-override}
+      sbt-version: ${vars.sbt-version}
       extraction-version: "2.12.0-M4"
       cross-version: disabled
     }
