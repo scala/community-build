@@ -43,12 +43,18 @@ build += {
       {
         name: "scala-xml"
         uri: "https://github.com/"${vars.scala-xml-ref}
-        extra.commands: "set scalaVersion := \"2.12.0-4d20b81-nightly\""
+        extra.commands: [ 
+          "set scalaVersion := \"2.12.0-4d20b81-nightly\"",
+          "set publishArtifact in (Compile, packageDoc) in ThisBuild := false" 
+        ]
       }
       {
         name: "scala-parser-combinators"
         uri: "https://github.com/"${vars.scala-parser-combinators-ref}
-        extra.commands: "set scalaVersion := \"2.12.0-4d20b81-nightly\""
+        extra.commands: [ 
+          "set scalaVersion := \"2.12.0-4d20b81-nightly\"",
+          "set publishArtifact in (Compile, packageDoc) in ThisBuild := false" 
+        ]
         extra.projects: ["scala-parser-combinatorsJVM"]
       }
     ]
