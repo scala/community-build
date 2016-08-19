@@ -13,7 +13,7 @@ include file("common.conf")
 // And the generation of the artifacts more closely related to the Scala compiler.
 //
 build += {
-  extraction-version: "2.12.0-M4"
+  extraction-version: "2.12.0-M5"
   cross-version: disabled
   sbt-version: ${vars.sbt-version}
   space.from: default
@@ -26,7 +26,7 @@ build += {
     extra.parts: {
       cross-version: standard
       sbt-version: ${vars.sbt-version}
-      extraction-version: "2.12.0-M4"
+      extraction-version: "2.12.0-M5"
       cross-version: disabled
     }
     extra.parts.projects: [
@@ -44,7 +44,7 @@ build += {
         name: "scala-xml"
         uri: "https://github.com/"${vars.scala-xml-ref}
         extra.commands: [ 
-          "set scalaVersion := \"2.12.0-M4-9901daf\"",
+          "set scalaVersion := \"2.12.0-M5\"",
           "set publishArtifact in (Compile, packageDoc) in ThisBuild := false" 
         ]
       }
@@ -52,7 +52,7 @@ build += {
         name: "scala-parser-combinators"
         uri: "https://github.com/"${vars.scala-parser-combinators-ref}
         extra.commands: [ 
-          "set scalaVersion := \"2.12.0-M4-9901daf\"",
+          "set scalaVersion := \"2.12.0-M5\"",
           "set publishArtifact in (Compile, packageDoc) in ThisBuild := false" 
         ]
         extra.projects: ["scala-parser-combinatorsJVM"]
