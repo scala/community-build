@@ -13,67 +13,41 @@ include file("common.conf")
 // And the generation of the artifacts more closely related to the Scala compiler.
 //
 build += {
-  extraction-version: "2.12.0-M5"
-  cross-version: disabled
   sbt-version: ${vars.sbt-version}
+  extraction-version: ${vars.scala-version}
+  cross-version: disabled
   space.from: default
   space.to: [ default, specs2_36, specs2_24 ]
+
   projects: [
-  // Scala 2.12.x
   {
     name:  "scala",
     system: assemble
-    extra.parts: {
-      cross-version: standard
-      sbt-version: ${vars.sbt-version}
-      extraction-version: "2.12.0-M5"
-      cross-version: disabled
-    }
     extra.parts.projects: [
       {
-        system: "scala"
-        name:  "scala"
-        uri:    "https://github.com/"${vars.scala-ref}
-        // skip docs to speed up the build
-        extra.build-options: ["-Ddocs.skip=1", ${vars.scala-build-bootstrap-opt}, ${vars.scala-build-extra-opt}]
-      }
-      // override scalaVersion in the modules since otherwise we get
-      // whatever random Scala version the module has -- it might be a
-      // 2.12.x version, we don't want that!
-      {
-        name: "scala-xml"
-        uri: "https://github.com/"${vars.scala-xml-ref}
-        extra.commands: [ 
-          "set scalaVersion := \"2.12.0-M5\"",
-          "set publishArtifact in (Compile, packageDoc) in ThisBuild := false" 
-        ]
+        set-version: ${vars.scala-version}
+        name:   scala-library
+        system: aether
+        uri:   "aether:org.scala-lang#scala-library;"${vars.scala-version}
       }
       {
-        name: "scala-parser-combinators"
-        uri: "https://github.com/"${vars.scala-parser-combinators-ref}
-        extra.commands: [ 
-          "set scalaVersion := \"2.12.0-M5\"",
-          "set publishArtifact in (Compile, packageDoc) in ThisBuild := false" 
-        ]
-        extra.projects: ["scala-parser-combinatorsJVM"]
+        set-version: ${vars.scala-version}
+        name:   scala-reflect
+        system: aether
+        uri:   "aether:org.scala-lang#scala-reflect;"${vars.scala-version}
+      }
+      {
+        set-version: ${vars.scala-version}
+        name:   scala-compiler
+        system: aether
+        uri:   "aether:org.scala-lang#scala-compiler;"${vars.scala-version}
+      }
+      {
+        set-version: ${vars.scala-xml-version}
+        name:   scala-xml
+        system: aether
+        uri:   "aether:org.scala-lang.modules#scala-xml_"${vars.scala-binary-version}";"${vars.scala-xml-version}
       }
     ]
   }
-
-  ${vars.base} {
-    name: "scala-partest"
-    uri: "https://github.com/"${vars.scala-partest-ref}
-  }
-
-  ${vars.base} {
-    name: scalacheck
-    uri:    "https://github.com/"${vars.scalacheck-ref}
-    extra.run-tests: false
-  }
-
-  ${vars.base} {
-    name: "scala-swing"
-    uri: "https://github.com/"${vars.scala-swing-ref}
-  }
-]
-}
+]}
