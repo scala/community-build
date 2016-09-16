@@ -56,7 +56,7 @@ execRunner () {
   "${@}" 2>&1 | tee "dbuild-${DBUILDVERSION}/dbuild.out"
 }
 
-execRunner "dbuild-${DBUILDVERSION}/bin/dbuild" "${@}" "$DBUILDCONFIG"
+execRunner "dbuild-${DBUILDVERSION}/bin/dbuild" "${@}" "$DBUILDCONFIG" shapeless
 
 STATUS="$?"
 BUILD_ID="$(grep '^\[info\]  uuid = ' "dbuild-${DBUILDVERSION}/dbuild.out" | sed -e 's/\[info\]  uuid = //')"
