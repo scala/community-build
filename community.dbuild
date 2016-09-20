@@ -19,7 +19,7 @@ build += {
   projects: [
   // Scala 2.11.x
   {
-    name:  "scala",
+    name:  "scala"
     system: assemble
     extra.parts: {
       cross-version: standard
