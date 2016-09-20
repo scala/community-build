@@ -51,8 +51,13 @@ then
   rm "dbuild-${DBUILDVERSION}.tgz"
 fi
 
-echo "dbuild-${DBUILDVERSION}/bin/dbuild" "${@}" "$DBUILDCONFIG"
-"dbuild-${DBUILDVERSION}/bin/dbuild" "${@}" "$DBUILDCONFIG" 2>&1 | tee "dbuild-${DBUILDVERSION}/dbuild.out"
+execRunner () {
+  echo "${@}"
+  "${@}" 2>&1 | tee "dbuild-${DBUILDVERSION}/dbuild.out"
+}
+
+execRunner "dbuild-${DBUILDVERSION}/bin/dbuild" "${@}" "$DBUILDCONFIG" shapeless
+
 STATUS="$?"
 BUILD_ID="$(grep '^\[info\]  uuid = ' "dbuild-${DBUILDVERSION}/dbuild.out" | sed -e 's/\[info\]  uuid = //')"
 echo "The repeatable UUID of this build was: ${BUILD_ID}"
