@@ -42,11 +42,12 @@ build += {
         system: aether
         uri:   "aether:org.scala-lang#scala-compiler;"${vars.scala-version}
       }
+      // override scalaVersion here since otherwise we get
+      // whatever random Scala version the module has
       {
-        set-version: ${vars.scala-xml-version}
-        name:   scala-xml
-        system: aether
-        uri:   "aether:org.scala-lang.modules#scala-xml_"${vars.scala-binary-version}";"${vars.scala-xml-version}
+        name: "scala-xml"
+        uri: "https://github.com/"${vars.scala-xml-ref}
+        extra.commands: "set scalaVersion := \""${vars.scala-version}"\""
       }
     ]
   }
