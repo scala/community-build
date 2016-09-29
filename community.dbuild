@@ -1,17 +1,97 @@
-//
-// Define a set of common settings for all projects, and include
-// all the 2.12 projects. The included file also contains a large set of
-// vars definitions, which are used later in this file as well.
-//
+//// from environment
 
-
-vars.base: {
+vars: {
+  scala-version: ""
+  scala-version: ${?scala_ref}
+  scalac-opts: ""
+  scalac-opts: ${?scalac_opts}
 }
-include file("common.conf")
 
-//
-// And the generation of the artifacts more closely related to the Scala compiler.
-//
+//// vars.base
+
+// Each project is prefixed by ${vars.base} { ...
+// so that common options or settings can be set by the
+// configuration that includes this common file.
+// Note however that += won't work inside vars.base.
+// It's https://github.com/typesafehub/config/issues/160.
+// That's why if you override extra.commands you must
+// explicitly include default-commands.
+
+vars: {
+  base: {}
+}
+
+//// shared settings
+
+vars {
+  default-commands: []
+  sbt-version: "0.13.12"
+}
+
+//// compiler options manipulation
+
+// appendScalacOptions and removeScalacOptions
+// let us work around https://github.com/typesafehub/dbuild/issues/144
+vars.default-commands += """
+set commands ++= {
+  def alterScalacOptions(s: State, fn: Seq[String] => Seq[String]): State = {
+    val extracted = Project extract s
+    import extracted._
+    val r = Project.relation(extracted.structure, true)
+    val allDefs = r._1s.toSeq
+    val projectScope = Load.projectScope(currentRef)
+    val scopes = allDefs.filter(_.key == scalacOptions.key).map(_.scope).distinct
+    val redefined = scopes.map(scope => scalacOptions in scope <<= (scalacOptions in scope).map(fn))
+    val session = extracted.session.appendRaw(redefined)
+    BuiltinCommands.reapply(session, structure, s)
+  }
+  def appendScalacOptions(s: State, args: Seq[String]) = {
+    def appendDistinct[A](x: Seq[A], y: Seq[A]) =
+      x.filterNot(y.contains) ++ y
+    alterScalacOptions(s, appendDistinct(_, args))
+  }
+  def removeScalacOptions(s: State, args: Seq[String]) =
+    alterScalacOptions(s, _.filterNot(args.contains))
+  Seq(
+    Command.args("appendScalacOptions", "<option>")(appendScalacOptions),
+    Command.args("removeScalacOptions", "<option>")(removeScalacOptions))
+}
+"""
+vars.default-commands += "appendScalacOptions "${vars.scalac-opts}
+vars.base.extra.commands = ${vars.default-commands}
+
+//// resolvers
+
+vars.ivyPat: ", [organisation]/[module]/(scala_[scalaVersion]/)(sbt_[sbtVersion]/)[revision]/[type]s/[artifact](-[classifier]).[ext]"
+options.resolvers: {
+  01: "local"
+
+  02: "dbuild: https://scala-ci.typesafe.com/artifactory/dbuild/"
+  03: "dbuild-ivy: https://scala-ci.typesafe.com/artifactory/dbuild-ivy/"${vars.ivyPat}
+  04: "dbuild-unchecked: https://scala-ci.typesafe.com/artifactory/dbuild-unchecked/" // for sbt plugins not available on ivy (they'll fail the pom check on the `dbuild` cache repo above)
+
+  05: "scala-pr-validation-snapshots: https://scala-ci.typesafe.com/artifactory/scala-pr-validation-snapshots"
+
+  // without this Scala.js can't find the Scala library sources. TODO: why? Artifactory config issue?
+  20: "private-repo: https://scala-ci.typesafe.com/artifactory/scala-release-temp/"
+}
+
+//// cache
+
+// we don't have enough disk space to keep stuff longer
+options.cleanup: {
+  extraction: {
+    success: 96
+    failure: 120
+  }
+  build: {
+    success: 96
+    failure: 120
+  }
+}
+
+//// Scala itself
+
 build += {
   sbt-version: ${vars.sbt-version}
   extraction-version: ${vars.scala-version}
@@ -46,9 +126,702 @@ build += {
       // whatever random Scala version the module has
       {
         name: "scala-xml"
-        uri: "https://github.com/"${vars.scala-xml-ref}
+        uri: "https://github.com/scala/scala-xml.git"
         extra.commands: "set scalaVersion := \""${vars.scala-version}"\""
       }
     ]
   }
+]}
+
+//// a few projects we have multiple entries for and need to make sure
+//// we use the same uri each time
+
+vars: {
+  akka-ref: "https://github.com/akka/akka.git"
+  genjavadoc-ref: "https://github.com/typesafehub/genjavadoc.git#v0.5_2.11.0-M8"
+}
+
+//// space: default
+
+build += {
+  check-missing: [ true, false ]
+  cross-version: [ disabled, standard ]
+  space.from: default
+  space.to: [ default, specs2_36, specs2_24 ]
+  extraction-version: ${vars.scala-version}
+  sbt-version: ${vars.sbt-version}
+
+  projects: [
+
+  ${vars.base} {
+    name: "scala-partest-interface"
+    uri: "https://github.com/scala/scala-partest-interface.git"
+  }
+
+  ${vars.base} {
+    name: "scala-partest"
+    uri: "https://github.com/scala/scala-partest.git"
+  }
+
+  ${vars.base} {
+    name: "scala-swing"
+    uri: "https://github.com/scala/scala-swing.git#2.0.x"
+  }
+
+  ${vars.base} {
+    name: "scala-parser-combinators"
+    uri: "https://github.com/scala/scala-parser-combinators.git"
+    extra.exclude: ["scala-parser-combinatorsJS"]
+  }
+
+  ${vars.base} {
+    name: scalacheck
+    uri: "https://github.com/rickynils/scalacheck.git#1.11.6"
+    extra.run-tests: false   // TODO: is this needed? if yes, document why, if no, re-enable
+  }
+
+  // "release-0.7" is a stable branch, used to cut 0.7 against new Scala milestones at this time
+  ${vars.base} {
+    name: scala-stm
+    uri:    "https://github.com/nbronson/scala-stm.git#release-0.7"
+    // a minor incompatibility with recent versions of scalatest, therefore:
+    extra.run-tests: false // TODO enable tests
+  }
+
+  ${vars.base} {
+    name: shapeless
+    uri:    "https://github.com/milessabin/shapeless.git"
+    extra.projects: ["coreJVM"]
+    // optimizer related. Lukas may want to revisit before 2.12 final
+    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
+    extra.run-tests: false // TODO enable tests
+  }
+
+  ${vars.base} {
+    name: "scoverage"
+    uri:  "https://github.com/SethTisue/scalac-scoverage-plugin.git#newer-scala-logging"
+    extra: ${vars.base.extra} {
+      exclude: ["scalac-scoverage-runtimeJS"] // no Scala.js please
+      run-tests: false // TODO: [info] java.io.FileNotFoundException: Could not locate [~/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.0.jar].
+    }
+  }
+
+  ${vars.base} {
+    name: "scala-java8-compat"
+    uri: "https://github.com/szeiger/scala-java8-compat.git#wip/scala-2.12.0-rc1-compat"
+    // For some reason dbuild includes test sources in the javadocs, which trips up javadoc because
+    // we use "assert" as an identifier there. We disable doc building to avoid that.
+    extra.commands: ${vars.default-commands} [ "set publishArtifact in packageDoc := false" ]
+  }
+
+  ${vars.base} {
+    name: scalaz
+    // TODO SI-8079 fix + variance of Id
+    uri: "https://github.com/SethTisue/scalaz.git#community-build-2.12"
+    // [scalaz] [error] Could not run test scalaz.NeedTest: java.lang.AssertionError: false !== true
+    extra.run-tests: false // TODO enable tests
+  }
+
+  ${vars.base} {
+    name: scalaz-stream
+    // master has a "snapshot-0.7a" version setting which makes a picky regex
+    // in dbuild 0.9.4 choke; it's https://github.com/typesafehub/dbuild/issues/182.
+    // but the problem no longer exists on the 0.8 and 0.9 branches, so
+    // once we move to one of those, we won't need the fork anymore.
+    uri: "https://github.com/lrytz/scalaz-stream.git#fix-2.12-infer"
+    extra.run-tests: false // TODO enable tests
+    // seems to get stuck after [info] + toInputStream.after close read should return -1: OK, proved property.
+    // The stack dump looks like this for minutes on end:
+    // ```
+    // at scalaz.stream.AsyncTopicSpec$$$Lambda$370/1411106347.apply(Unknown Source)
+    // at scalaz.stream.Process$class.scalaz$stream$Process$class$$$anonfun$8(Process.scala:61)
+    // at scalaz.stream.Process$class$$Lambda$205/214494001.apply(Unknown Source)
+    // at scalaz.stream.Process$class.scalaz$stream$Process$class$$$anonfun$13(Process.scala:115)
+    // at scalaz.stream.Process$class$$Lambda$240/283752252.apply(Unknown Source)
+    // at scalaz.stream.Util$.Try(Util.scala:38)
+    // at scalaz.stream.Process$class.scalaz$stream$Process$class$$$anonfun$12(Process.scala:115)
+    // at scalaz.stream.Process$class$$Lambda$239/1861849028.apply(Unknown Source)
+    // at scalaz.Trampoline$.scalaz$Trampoline$$$anonfun$28(Free.scala:234)
+    // at scalaz.Trampoline$$$Lambda$230/516810462.apply(Unknown Source)
+    // at scalaz.Free.scalaz$Free$$$anonfun$15(Free.scala:172)
+    // at scalaz.Free$$Lambda$221/2004765452.apply(Unknown Source)
+    // at scalaz.Free.go2$1(Free.scala:119)
+    // at scalaz.Free.go(Free.scala:122)
+    // at scalaz.Free.run(Free.scala:172)
+    // at scalaz.stream.Process$class.scalaz$stream$Process$class$$$anonfun$9(Process.scala:84)
+    // at scalaz.stream.Process$class$$Lambda$237/879163424.apply(Unknown Source)
+    // at scalaz.stream.Util$.Try(Util.scala:38)
+    // ```
+  }
+
+  ${vars.base} {
+    name: scodec-bits
+    uri: "https://github.com/adriaanm/scodec-bits.git#dbuild-sam"
+    extra: ${vars.base.extra} {
+      projects: ["coreJVM"] // TODO: preemptive
+      commands: ${vars.default-commands} [
+        "set scalacOptions in coreJVM := Seq(\"-opt:l:classpath\", \"-deprecation\", \"-encoding\", \"UTF-8\", \"-feature\", \"-unchecked\", \"-Xlint\", \"-Yno-adapted-args\", \"-Ywarn-dead-code\", \"-Ywarn-numeric-widen\", \"-Ywarn-value-discard\", \"-Xfuture\", \"-Ywarn-unused-import\")"
+      ]
+      run-tests: false   // TODO: preemptive
+    }
+  }
+
+  ${vars.base} {
+    name: "scala-records"
+    uri: "https://github.com/scala-records/scala-records.git"
+    extra.exclude: ["coreJS"]
+  }
+
+  ${vars.base} {
+    name: "scalatest"
+    uri: "https://github.com/SethTisue/scalatest.git#3.0.x-community-build"
+    extra: ${vars.base.extra} {
+      projects: ["scalatest", "scalactic"]
+      run-tests: false // TODO enable tests
+    }
+  }
+
+  ${vars.base} {
+    name:   "genjavadoc-plugin"
+    uri:    ${vars.genjavadoc-ref}
+    extra.projects: genjavadoc-plugin
+  }
+
+  ${vars.base} {
+    name:   "genjavadoc"
+    uri:    ${vars.genjavadoc-ref}
+    extra: ${vars.base.extra} {
+      projects: ["tests","javaOut"]
+      run-tests: false // TODO enable tests
+    }
+  }
+
+  ${vars.base} {
+    name: "akka"
+    uri: ${vars.akka-ref}
+    extra: ${vars.base.extra} {
+      options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
+      projects: ["akka-actor"]
+    }
+  }
+
+  ${vars.base} {
+    name:   "scala-refactoring"
+    // There's no suitable release yet, so we depend on this commit. Upgrade to the next tagged version once released
+    uri:    "https://github.com/scala-ide/scala-refactoring.git#44dca8b74808528693f884cfd3c5c9d3ed13e519"
+    extra: ${vars.base.extra} {
+      directory: "org.scala-refactoring.library"
+      run-tests: false // TODO enable tests
+    }
+  }
+
+  // TODO
+  // broken -- does not compile due to source incompat lang change??
+  // ${vars.base} {
+  //   name:   "scalariform"
+  //   uri:    "https://github.com/daniel-trinh/scalariform.git"
+  //   // avoid building misc subproject that depends on Swing (and is not needed by any other project)
+  //   extra.projects: ["scalariform"]
+  //   extra.run-tests: false
+  // }
+
+  ${vars.base} {
+    name: "async"
+    uri: "https://github.com/scala/async.git"
+    extra.run-tests: false // TODO: ToolBox based tests report missing JARs. Probably some poor assumption in the async tests.
+  }
+
+  ${vars.base} {
+    name: "slick"
+    uri:  "https://github.com/slick/slick.git"
+    // without this dbuild doesn't pick up that one of the subprojects has this dependency.
+    // it doesn't even make sense; it seems to me that testNGSettings should not be adding
+    // a dependency of the plugin to the libraryDependencies of the test code.
+    // the line in question is:
+    //   https://github.com/sbt/sbt-testng-interface/blob/ca730f705f48af2139f39bc726b474afec072738/plugin/src/main/scala/de/johoop/testngplugin/TestNGPlugin.scala#L44
+    // I think it's a confusion of levels, but maybe I'm missing something. - ST 8/27/15
+    deps.inject: ["de.johoop#sbt-testng-interface"]
+    // disable fragile tests (https://github.com/scala/community-builds/issues/12#issuecomment-149941055)
+    extra.exclude: ["osgitests"]
+  }
+
+  ${vars.base} {
+    name: "sbt-testng-interface"
+    uri: "https://github.com/SethTisue/sbt-testng-interface.git#no-bintray"
+    extra.projects: ["sbt-testng-interface"]  // just the interface, we don't need to build the plugin
+  }
+
+  ${vars.base} {
+    name:   "browse"
+    uri:    "https://github.com/SethTisue/browse.git#topic/2.12-compat"
+  }
+
+  ${vars.base} {
+    name: sbinary
+    uri:    "https://github.com/adriaanm/sbinary.git#community-build"
+    extra: ${vars.base.extra} {
+      commands: ${vars.default-commands} [
+        "removeScalacOptions -Yinline-warnings"
+      ]
+    }
+  }
+
+  ${vars.base} {
+    name:   "scala-js"
+    uri:    "http://github.com/scala-js/scala-js.git"
+    extra: ${vars.base.extra} {
+      // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
+      options: ["-Xmx2048m"]
+      projects: [ tools, testSuite, stubs ]
+      commands: ${vars.default-commands} [
+        // - Disable compiler/test because it is very fragile.
+        "set test in (Build.compiler, Test) := {}"
+        // - Disable fatal Scaladoc warnings, also fragile
+        "removeScalacOptions -Xfatal-warnings"
+        //   We disable source map tests to save ourselves a `npm install source-map-support` on the workers.
+        //   Although only `testSuite` actually has tests, dbuild will try to run the tests for all projects
+        //   that `testSuite` depends on (transitively), so we need to set it in a bunch of places.
+        "set Seq(library, testInterface, jUnitRuntime, testSuite).map(p => jsEnv in p := NodeJSEnv(executable = \"nodejs\").value.withSourceMap(false))"
+      ]
+    }
+  }
+
+  ${vars.base} {
+    name:   "utest"
+    uri:    "http://github.com/lihaoyi/utest.git#0.4.3"
+    // no Scala.js plz
+    extra.projects: ["utestJVM"]
+  }
+
+  ${vars.base} {
+    name:   "acyclic"
+    uri:    "http://github.com/lihaoyi/acyclic.git"
+  }
+
+  ${vars.base} {
+    name:    "sourcecode"
+    uri:     "http://github.com/lihaoyi/sourcecode.git"
+    // no Scala.js plz
+    extra.projects: ["sourcecodeJVM"]
+  }
+
+  ${vars.base} {
+    name: "fastparse"
+    // disable sbt-coursier plugin; https://github.com/scala/community-builds/issues/294
+    uri: "http://github.com/SethTisue/fastparse.git#no-coursier"
+    // no Scala.js plz
+    extra.projects: ["fastparseJVM"]
+    extra.run-tests: false // TODO: tests depend on lambda toString looking like e.g `<function1>`
+    // with 0.13.11 I got
+    // Running "test" in: fastparseJVM
+    // Compiling 9 Scala sources to [...]/fastparse/jvm/target/scala-2.11/test-classes...
+    // java.lang.IndexOutOfBoundsException: 0
+    //   at scala.collection.LinearSeqOptimized$class.apply(LinearSeqOptimized.scala:65)
+    //   at scala.collection.immutable.List.apply(List.scala:84)
+    //   at xsbt.ExtractAPI.makeParameter$1(ExtractAPI.scala:295)
+    // the issue is reproducible outside of the community build, so it's apparently
+    // an sbt regression. reported at https://github.com/sbt/sbt/issues/2497
+    extra.sbt-version: "0.13.9"
+  }
+
+  ${vars.base} {
+    name:   "macro-paradise"
+    // TODO use 2.12.x branch once needed changes are merged there?
+    uri:    "http://github.com/scalamacros/paradise.git#2.12.0-RC1"
+  }
+
+  ${vars.base} {
+    name:   "macro-compat"
+    uri:    "http://github.com/milessabin/macro-compat.git"
+    // no Scala.js plz
+    extra.projects: ["testJVM"]
+  }
+
+  ${vars.base} {
+    name:   "scala-logging"
+    uri:    "http://github.com/typesafehub/scala-logging.git"
+  }
+
+  ${vars.base} {
+    name:   "scalaprops"
+    // // master uses FreeT from scalaz 7.2, we're on 7.1
+    uri:    "http://github.com/scalaprops/scalaprops.git#0.1.x"
+    // will be needed if we start tracking master. not needed on 0.1.x branch
+    // extra.projects: ["rootJVM"]  // no Scala.js please
+  }
+
+  ${vars.base} {
+    name:   "fs2"
+    // current "master" as of Sep 2016
+    uri:    "http://github.com/functional-streams-for-scala/fs2.git#series/0.9"
+    extra.exclude: [
+      "coreJS" // no Scala.js please
+      "docs"   // because we don't have Tut (yet?)
+      "benchmark" // not really necessary and would pull in a JMH dependency
+    ]
+  }
+
+  ${vars.base} {
+    name:   "cats"
+    // https://github.com/typelevel/cats/issues/1396, https://github.com/typelevel/cats/issues/1377
+    uri:    "http://github.com/SethTisue/cats.git#community-build-2.12"
+    // this is only some of Cats. we should try and add more
+    extra.projects: ["coreJVM"] // no Scala.js please
+    extra.commands: ${vars.default-commands} [
+      // too fragile
+      "removeScalacOptions -Xfatal-warnings"
+      // no longer exists in 2.12
+      "removeScalacOptions -Yinline-warnings"
+    ]
+  }
+
+  ${vars.base} {
+    name:   "simulacrum"
+    uri:    "http://github.com/mpilquist/simulacrum.git"
+    extra.projects: ["coreJVM", "examplesJVM"] // no Scala.js please
+  }
+
+  // TODO report upstream: version-checking logic, ScalaTest 3.0 compat
+  ${vars.base} {
+    name: "parboiled"
+    uri: "https://github.com/SethTisue/parboiled.git#community-build-2.12"
+    extra.projects: ["parboiled-scala"]
+    extra.run-tests: false // TODO test failures, why?!
+  }
+
+  ${vars.base} {
+    name: "machinist"
+    uri: "https://github.com/typelevel/machinist.git"
+    extra.projects: ["machinistJVM"]  // no Scala.js please
+  }
+
+  ${vars.base} {
+    name: kind_projector
+    uri:  "https://github.com/non/kind-projector.git#v0.7.1"
+    extra: ${vars.base.extra} {
+      run-tests: false // TODO: not needed?
+    }
+  }
+
+]}
+
+//// space: specs2_24
+
+build += {
+  check-missing: [ true, false ]
+  cross-version: [ disabled, standard ]
+  space.from: specs2_24
+  space.to: [ specs2_24 ]
+  extraction-version: ${vars.scala-version}
+  sbt-version: ${vars.sbt-version}
+  projects: [
+
+  ${vars.base} {
+    name: specs2_24
+    // "etorreborre/specs2.git#SPECS2-2.4.17"
+    uri: "https://github.com/adriaanm/specs2.git#community-build-2.4"
+    extra.projects: ["specs2"] // so that it actually publishes org.specs2 % specs2? -- needed to put some random artifacts in the jar: https://github.com/typesafehub/dbuild/issues/173
+    extra.run-tests: false // TODO: at least SnippetsTest is failing.
+  }
+
+  ${vars.base} {
+    name: "discipline"
+    uri: "https://github.com/typelevel/discipline.git#v0.2"
+  }
+
+  ${vars.base} {
+    name: "spire"
+    uri: "https://github.com/SethTisue/spire.git#community-build-2.12"
+    // TODO: tests crash with:
+    // [info] [error] Could not run test spire.laws.LawTests:
+    // java.lang.ClassFormatError: Duplicate method name&signature in class file spire/std/OrderProductInstances$$anon$228
+    extra.projects: ["spireJVM"]  // no Scala.js please
+    extra.run-tests: false
+    // no longer exists in 2.12
+    extra.commands: ${vars.default-commands} [
+      "removeScalacOptions -Yinline-warnings"
+    ]
+  }
+
+  ${vars.base} {
+    name: "breeze"
+    // forked because Scala version checking logic needed tweak
+    uri: "https://github.com/SethTisue/breeze.git#community-build-2.12"
+    // failing tests reported upstream at https://github.com/scalanlp/breeze/issues/587
+    extra.run-tests: false
+  }
+
+  // in this space because it depends on scoverage
+  ${vars.base} {
+    name:   "twitter-util"
+    // try master instead if develop proves too fragile?
+    uri:    "http://github.com/twitter/util.git#develop"
+    // this isn't really necessary and would pull in a JMH dependency
+    extra.exclude: ["util-benchmark"]
+    // recommended at https://github.com/twitter/util/issues/173:
+    // "We use that when we don't think the tests will be reliable in a ci environment"
+    extra.options: ["-DSKIP_FLAKY=true"]
+    // TODO tests pass in 2.11.x-jdk8, why not here?
+    extra.run-tests: false // https://github.com/scala/scala-dev/issues/203#issuecomment-239649902
+  }
+
+]}
+
+//// space: specs2_36
+
+build += {
+  check-missing: [ true, false ]
+  cross-version: [ disabled, standard ]
+  space.from: specs2_36
+  space.to: [ specs2_36 ]
+  extraction-version: ${vars.scala-version}
+  sbt-version: ${vars.sbt-version}
+  projects: [
+
+  ${vars.base} {
+    name: specs2_36
+    // "etorreborre/specs2.git#SPECS2-3.6.2"
+    uri: "https://github.com/adriaanm/specs2.git#community-build-3.6"
+    extra.projects: ["specs2"] // so that it actually publishes org.specs2 % specs2? -- needed to put some random artifacts in the jar: https://github.com/typesafehub/dbuild/issues/173
+    extra.run-tests: false // TODO: at least SnippetsTest is failing.
+  }
+
+  ${vars.base} {
+    name: "ssl-config"
+    // TODO submit upstream -- extraction fails with JsonMappingException because
+    // the ssl-config build overrides `onLoad`, which the dbuild plugin uses to do extraction
+    uri: "https://github.com/SethTisue/ssl-config.git#be-dbuild-friendly"
+  }
+
+  ${vars.base} {
+    name: "spray-json"
+    uri: "https://github.com/spray/spray-json.git"
+  }
+
+  // this is separate from "akka" because there is a circular dependency between
+  // the akka and ssl-config repos. (akka-http depends on ssl-config-akka which
+  // depends on akka-actor)
+  ${vars.base} {
+    name: "akka-more"
+    uri: ${vars.akka-ref}
+    extra: ${vars.base.extra} {
+      options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
+      projects: ["akka-scala-nightly"]
+      exclude: [
+        "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
+        "akka-actor"  // because we already built it in "akka"
+        "akka-bench-jmh"  // we'd have to add a resolver to get the JMH dependency - ST 8/17/15
+      ]
+      run-tests: false // TODO wip on this at https://github.com/scala/community-builds/pull/317
+      // Scaladoc generation failure reported upstream at https://github.com/akka/akka/issues/21543
+      commands: ${vars.default-commands} [
+        "set sources in doc in Compile in httpCore := List()"
+      ]
+    }
+  }
+
+  ${vars.base} {
+    name:   "scalikejdbc"
+    uri:    "http://github.com/scalikejdbc/scalikejdbc.git"
+    // don't build sbt plugin
+    extra.exclude: ["mapper-generator"]
+  }
+
+  ${vars.base} {
+    name:   "scopt"
+    uri:    "http://github.com/scopt/scopt.git#scopt3"
+  }
+
+// TODO upgrade to latest
+// stuck on 0.13.7-M2 because we'll need to add more dependencies to upgrade
+// [sbt] [error] **** Missing dependency: the library org.scala-sbt#serialization is not provided (in space "default") by any project in this configuration file.
+// [sbt] [error] In order to control which version is used, please add the corresponding project to the build file
+// [sbt] [error] (or use "check-missing:false" to ignore (not recommended)).
+  // ${vars.base} {
+  //  name:   "sbt"
+  // // 0.13.7-M2 + drop ListBuffer.readOnly (after 0.13.7-M2, new dependencies were added --> TODO: add them here as well)
+  //  uri:    "https://github.com/adriaanm/sbt.git#community-build"
+  //  extra: ${vars.base.extra} {
+  //    run-tests: false // TODO enable tests
+  //    commands: ${vars.default-commands} [
+  //      "set every javaVersionPrefix in javaVersionCheck := Some(\"1.8\")"
+  //    ]
+  //    exclude: ["root","launch-test"]
+  //  }
+  // }
+
+  // TODO move back to master; see https://github.com/scala/community-builds/issues/234
+  // for details
+// TODO: update to current sbt version?? what is it for anyway? (IDE?)
+// ${vars.base} {
+//   name:   "sbt-republish"
+//   uri:    "http://github.com/typesafehub/sbt-republish.git#9f7109c705175c6d8e7e99c60e53959f9e4c5df0"
+//   space: default // We don't compile plugins, for 0.12/2.9.x
+// }
+
+  ${vars.base} {
+    name:   "zinc"
+    uri:    "https://github.com/typesafehub/zinc.git"
+    // with 0.13.9 I got
+    // project/Scriptit.scala:56: method distinctParser in object Defaults cannot be accessed in object sbt.Defaults
+    extra.sbt-version: "0.13.8"
+  }
+
+  ${vars.base} {
+    name: "play-twirl"
+    extra.exclude: [ "plugin", "apiJS" ]
+    uri: "https://github.com/playframework/twirl.git#master"
+  }
+
+  ${vars.base} {
+    name: "play-doc"
+    uri: "https://github.com/playframework/play-doc.git#master"
+  }
+
+  ${vars.base} {
+    name: "play2-core"
+    uri: "https://github.com/playframework/playframework.git"
+    extra: ${vars.base.extra} {
+      projects: ["Play"]
+      exclude: ["SBT-Plugin"]
+      directory: "framework"
+      run-tests: false // TODO enable tests
+      commands: ${vars.default-commands} [
+        // workaround for the problem with PlayVersion.scala file is being passed twice to Scala compiler
+        // and we get double definition error
+        "set sources in (PlayProject, Compile, compile) := (sources in (PlayProject, Compile, compile)).value.distinct"
+        // there was some Scaladoc error here I didn't bother to look into
+        "set sources in doc in Compile in PlayProject := List()"
+      ]
+    }
+  }
+
+]}
+
+//// space: ensime
+
+build += {
+  check-missing: [ true, false ]
+  cross-version: [ disabled, standard ]
+  space.from: specs2_24
+  space.to: [ ensime ]
+  extraction-version: ${vars.scala-version}
+  sbt-version: ${vars.sbt-version}
+  projects: [
+
+  //  TODO: does not compile on java 8
+  // ${vars.base} {
+  //   name: "json4s"
+  //   uri: "https://github.com/json4s/json4s.git#v3.2.10_2.11"
+  //   extra.projects: ["json4s-native", "json4s-jackson"]
+  // }
+
+  ${vars.base} {
+    name: "lift-json"
+    uri: "https://github.com/lift/framework.git#3.0-M2-release"
+    extra.projects: ["lift-json"]
+    // TODO: test failure:
+    //[info] [info] ! Either can't be deserialized with type hints
+    //[info] [error]  ClassNotFoundException: : scala.util.Left  (Formats.scala:223)
+    // !!!: probably we should investigate
+    extra.run-tests: false
+  }
+
+  ${vars.base} {
+    name: "spray-twirl"
+    // only building project twirl-api, fixed sha from master branch that has Scala 2.11 compatibility patches merged
+    uri: "https://github.com/spray/twirl.git#102978cb508684aee0cfa09d71027965cdcd77b4"
+    extra.projects: ["twirl-api"]
+  }
+
+  ${vars.base} {
+    name: "jawn"
+    uri: "http://github.com/non/jawn.git"
+    // omitted because currently commented out elsewhere in this file: json4s, spray
+    // omitted TODO: play
+    // omitted: argonaut, rojoma-v3, rojoma, benchmark
+    extra.projects: ["ast", "parser"]
+    // no longer exists in 2.12
+    extra.commands: ${vars.default-commands} [
+      "removeScalacOptions -Yinline-warnings"
+    ]
+  }
+
+  // note that we don't have MiMa in the JDK6 build.  I tried but it
+  // was running out of PermGen when running the functional tests.
+  // rather than sink time into investigating, just confining it to
+  // JDK8 world seems perfectly fine.
+  ${vars.base} {
+    name:   "mima"
+    // normally MiMa runs on 2.10 (because sbt 0.13 does), so the 2.12 compat branch won't
+    // be merged onto master for quite a while yet
+    uri:    "http://github.com/SethTisue/migration-manager.git#2.12-compat"
+    // compiling the plugin isn't really necessary as long as sbt remains
+    // in Scala 2.10 world, and besides, it was giving "can't expand
+    // macros compiled by previous versions of Scala" errors I don't want
+    // to take the time to investigate
+    extra.exclude: ["sbtplugin"]
+  }
+
+  // TODO: stuck on json4s
+  // ${vars.base} {
+  //   name: "spray"
+  //   uri: "https://github.com/spray/spray.git#v1.3.3"
+  //   extra: ${vars.base.extra} {
+  //     // skip tests for now; see https://github.com/scala/community-builds/issues/110
+  //     run-tests: false
+  //     // disable subprojects depending on shapeless 1
+  //     exclude: ["spray-routing", "spray-routing-tests"]
+  //     // disable running sphinx, it would be great if dbuild
+  //     // oferred a mechanism for excluding particular project (e.g. docs)
+  //     commands: ${vars.default-commands} [
+  //       "set SphinxSupport.sphinxCompile in docs := Seq.empty"
+  //     ]
+  //     // disable parallel execution of tests as a work around for non-deterministic
+  //     // failures, see: https://github.com/scala/community-builds/pull/69#issuecomment-63324597
+  //     settings += "parallelExecution in GlobalScope in Test := false"
+  //   }
+  // }
+
+  // this is commit corresponding to 1.3.0 release, unfortunely pimpathon doesn't tag its releases
+  // ${vars.base} {
+  //   name:   "pimpathon"
+  //   uri:    "https://github.com/stacycurl/pimpathon.git#d2354dd92f5481610f4610edba3574880b07263e"
+  // }
+
+  ${vars.base} {
+    name:   "scalamock"
+    uri:    "https://github.com/paulbutcher/scalamock.git"
+    extra.exclude: [ "specs2", "examples" ]
+  }
+
+  // TODO: stuck on spray
+  // ${vars.base} {
+  //   name:   "ensime"
+  // // master depends on Akka HTTP and Akka Stream, which are tricky to depend on
+  // // (they are built only a special branch). so freeze right before the dependency was added.
+  //   uri:    "https://github.com/ensime/ensime-server.git#f4de40f6ce93afa75fd5bbe153c5f1df73035b1a"
+  //   // scaladoc fails with
+  //   // [ensime] [info] Compiling 73 Scala sources to .../target/scala-2.11/classes...
+  //   // [ensime] [info] Main Scala API documentation to .../target/scala-2.11/api...
+  //   // [ensime] [error] .../src/main/scala/org/ensime/indexer/SourceResolver.scala:55: value toMultiMap is not a member of scala.collection.immutable.Set[(org.ensime.indexer.PackageName, org.apache.commons.vfs2.FileObject)]
+  //   // [ensime] [error] possible cause: maybe a semicolon is missing before `value toMultiMap'?
+  //   // [ensime] [error]   }.toMultiMap[Set]
+  //   extra.commands: ${vars.default-commands}
+  //     "set every sources in doc in Compile := List()"
+  //   ]
+  // }
+
+  // master uses Shapeless 2.3 only features, so at this time it doesn't make sense to
+  // track. there is no other branch we can track, so we use a version tag.  at time of
+  // writing (Oct 2015) 1.1.0 is both the latest released version and the version that
+  // Ensime depends on.  and Ensime is the main reason we're adding this at all
+  // TODO: doesn't pick up spray-json dependency, perhaps I'm not understanding
+  // the spaces stuff? punting on it since it's only needed for ensime which is
+  // commented out right now anyway
+  // ${vars.base} {
+  //   name:   "spray-json-shapeless"
+  //   uri:    "https://github.com/fommil/spray-json-shapeless.git#v1.1.0"
+  // }
+
 ]}
