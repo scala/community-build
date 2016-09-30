@@ -199,7 +199,7 @@ build += {
 
   ${vars.base} {
     name: "scoverage"
-    uri:  "https://github.com/SethTisue/scalac-scoverage-plugin.git#newer-scala-logging"
+    uri:  "https://github.com/scoverage/scalac-scoverage-plugin.git"
     extra: ${vars.base.extra} {
       exclude: ["scalac-scoverage-runtimeJS"] // no Scala.js please
       run-tests: false // TODO: [info] java.io.FileNotFoundException: Could not locate [~/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.0.jar].
