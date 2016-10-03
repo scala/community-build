@@ -208,7 +208,7 @@ build += {
 
   ${vars.base} {
     name: "scala-java8-compat"
-    uri: "https://github.com/szeiger/scala-java8-compat.git#wip/scala-2.12.0-rc1-compat"
+    uri: "https://github.com/scala/scala-java8-compat.git"
     // For some reason dbuild includes test sources in the javadocs, which trips up javadoc because
     // we use "assert" as an identifier there. We disable doc building to avoid that.
     extra.commands: ${vars.default-commands} [ "set publishArtifact in packageDoc := false" ]
@@ -682,6 +682,7 @@ build += {
     name: "play2-core"
     uri: "https://github.com/playframework/playframework.git"
     extra: ${vars.base.extra} {
+      // TODO: enable more projects? these are just a few that seemed especially high-value
       projects: ["Play"]
       exclude: ["SBT-Plugin"]
       directory: "framework"
