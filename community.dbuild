@@ -683,45 +683,10 @@ build += {
   //   }
   // }
 
-  // this is commit corresponding to 1.3.0 release, unfortunely pimpathon doesn't tag its releases
-  // ${vars.base} {
-  //   name:   "pimpathon"
-  //   uri:    "https://github.com/stacycurl/pimpathon.git#d2354dd92f5481610f4610edba3574880b07263e"
-  // }
-
   ${vars.base} {
     name:   "scalamock"
     uri:    "https://github.com/paulbutcher/scalamock.git"
     extra.exclude: [ "specs2", "examples" ]
   }
-
-  // TODO: stuck on spray
-  // ${vars.base} {
-  //   name:   "ensime"
-  // // master depends on Akka HTTP and Akka Stream, which are tricky to depend on
-  // // (they are built only a special branch). so freeze right before the dependency was added.
-  //   uri:    "https://github.com/ensime/ensime-server.git#f4de40f6ce93afa75fd5bbe153c5f1df73035b1a"
-  //   // scaladoc fails with
-  //   // [ensime] [info] Compiling 73 Scala sources to .../target/scala-2.11/classes...
-  //   // [ensime] [info] Main Scala API documentation to .../target/scala-2.11/api...
-  //   // [ensime] [error] .../src/main/scala/org/ensime/indexer/SourceResolver.scala:55: value toMultiMap is not a member of scala.collection.immutable.Set[(org.ensime.indexer.PackageName, org.apache.commons.vfs2.FileObject)]
-  //   // [ensime] [error] possible cause: maybe a semicolon is missing before `value toMultiMap'?
-  //   // [ensime] [error]   }.toMultiMap[Set]
-  //   extra.commands: ${vars.default-commands}
-  //     "set every sources in doc in Compile := List()"
-  //   ]
-  // }
-
-  // master uses Shapeless 2.3 only features, so at this time it doesn't make sense to
-  // track. there is no other branch we can track, so we use a version tag.  at time of
-  // writing (Oct 2015) 1.1.0 is both the latest released version and the version that
-  // Ensime depends on.  and Ensime is the main reason we're adding this at all
-  // TODO: doesn't pick up spray-json dependency, perhaps I'm not understanding
-  // the spaces stuff? punting on it since it's only needed for ensime which is
-  // commented out right now anyway
-  // ${vars.base} {
-  //   name:   "spray-json-shapeless"
-  //   uri:    "https://github.com/fommil/spray-json-shapeless.git#v1.1.0"
-  // }
 
 ]}
