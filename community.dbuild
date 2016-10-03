@@ -216,8 +216,7 @@ build += {
 
   ${vars.base} {
     name: scalaz
-    // TODO SI-8079 fix + variance of Id
-    uri: "https://github.com/SethTisue/scalaz.git#community-build-2.12"
+    uri: "https://github.com/scalaz/scalaz.git#series/7.1.x"
     // [scalaz] [error] Could not run test scalaz.NeedTest: java.lang.AssertionError: false !== true
     extra.run-tests: false // TODO enable tests
   }
