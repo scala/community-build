@@ -518,7 +518,8 @@ build += {
 
   ${vars.base} {
     name: "discipline"
-    uri: "https://github.com/typelevel/discipline.git#v0.2"
+    uri: "https://github.com/typelevel/discipline.git#v0.7"
+    extra.projects: ["disciplineJVM"]  // no Scala.js please
   }
 
   ${vars.base} {
