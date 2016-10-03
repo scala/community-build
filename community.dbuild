@@ -96,8 +96,6 @@ build += {
   sbt-version: ${vars.sbt-version}
   extraction-version: ${vars.scala-version}
   cross-version: disabled
-  space.from: default
-  space.to: [ default, specs2_36, specs2_24 ]
 
   projects: [
   {
@@ -141,13 +139,11 @@ vars: {
   genjavadoc-ref: "https://github.com/typesafehub/genjavadoc.git#v0.5_2.11.0-M8"
 }
 
-//// space: default
+//// everything else
 
 build += {
   check-missing: [ true, false ]
   cross-version: [ disabled, standard ]
-  space.from: default
-  space.to: [ default, specs2_36, specs2_24 ]
   extraction-version: ${vars.scala-version}
   sbt-version: ${vars.sbt-version}
 
@@ -527,27 +523,6 @@ build += {
     extra.exclude: ["sbtplugin"]
   }
 
-]}
-
-//// space: specs2_24
-
-build += {
-  check-missing: [ true, false ]
-  cross-version: [ disabled, standard ]
-  space.from: specs2_24
-  space.to: [ specs2_24 ]
-  extraction-version: ${vars.scala-version}
-  sbt-version: ${vars.sbt-version}
-  projects: [
-
-  ${vars.base} {
-    name: specs2_24
-    // "etorreborre/specs2.git#SPECS2-2.4.17"
-    uri: "https://github.com/adriaanm/specs2.git#community-build-2.4"
-    extra.projects: ["specs2"] // so that it actually publishes org.specs2 % specs2? -- needed to put some random artifacts in the jar: https://github.com/typesafehub/dbuild/issues/173
-    extra.run-tests: false // TODO: at least SnippetsTest is failing.
-  }
-
   ${vars.base} {
     name: "spire"
     uri: "https://github.com/SethTisue/spire.git#community-build-2.12"
@@ -569,19 +544,6 @@ build += {
     // failing tests reported upstream at https://github.com/scalanlp/breeze/issues/587
     extra.run-tests: false
   }
-
-]}
-
-//// space: specs2_36
-
-build += {
-  check-missing: [ true, false ]
-  cross-version: [ disabled, standard ]
-  space.from: specs2_36
-  space.to: [ specs2_36 ]
-  extraction-version: ${vars.scala-version}
-  sbt-version: ${vars.sbt-version}
-  projects: [
 
   ${vars.base} {
     name: specs2_36
@@ -701,19 +663,6 @@ build += {
       ]
     }
   }
-
-]}
-
-//// space: ensime
-
-build += {
-  check-missing: [ true, false ]
-  cross-version: [ disabled, standard ]
-  space.from: specs2_24
-  space.to: [ ensime ]
-  extraction-version: ${vars.scala-version}
-  sbt-version: ${vars.sbt-version}
-  projects: [
 
   //  TODO: does not compile on java 8
   // ${vars.base} {
