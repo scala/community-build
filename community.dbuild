@@ -599,41 +599,6 @@ build += {
     uri:    "http://github.com/scopt/scopt.git#scopt3"
   }
 
-// TODO upgrade to latest
-// stuck on 0.13.7-M2 because we'll need to add more dependencies to upgrade
-// [sbt] [error] **** Missing dependency: the library org.scala-sbt#serialization is not provided (in space "default") by any project in this configuration file.
-// [sbt] [error] In order to control which version is used, please add the corresponding project to the build file
-// [sbt] [error] (or use "check-missing:false" to ignore (not recommended)).
-  // ${vars.base} {
-  //  name:   "sbt"
-  // // 0.13.7-M2 + drop ListBuffer.readOnly (after 0.13.7-M2, new dependencies were added --> TODO: add them here as well)
-  //  uri:    "https://github.com/adriaanm/sbt.git#community-build"
-  //  extra: ${vars.base.extra} {
-  //    run-tests: false // TODO enable tests
-  //    commands: ${vars.default-commands} [
-  //      "set every javaVersionPrefix in javaVersionCheck := Some(\"1.8\")"
-  //    ]
-  //    exclude: ["root","launch-test"]
-  //  }
-  // }
-
-  // TODO move back to master; see https://github.com/scala/community-builds/issues/234
-  // for details
-// TODO: update to current sbt version?? what is it for anyway? (IDE?)
-// ${vars.base} {
-//   name:   "sbt-republish"
-//   uri:    "http://github.com/typesafehub/sbt-republish.git#9f7109c705175c6d8e7e99c60e53959f9e4c5df0"
-//   space: default // We don't compile plugins, for 0.12/2.9.x
-// }
-
-  ${vars.base} {
-    name:   "zinc"
-    uri:    "https://github.com/typesafehub/zinc.git"
-    // with 0.13.9 I got
-    // project/Scriptit.scala:56: method distinctParser in object Defaults cannot be accessed in object sbt.Defaults
-    extra.sbt-version: "0.13.8"
-  }
-
   ${vars.base} {
     name: "play-twirl"
     extra.exclude: [ "plugin", "apiJS" ]
