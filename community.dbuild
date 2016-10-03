@@ -495,6 +495,38 @@ build += {
     uri:  "https://github.com/non/kind-projector.git"
   }
 
+  ${vars.base} {
+    name: "discipline"
+    uri: "https://github.com/typelevel/discipline.git#v0.7"
+    extra.projects: ["disciplineJVM"]  // no Scala.js please
+  }
+
+  ${vars.base} {
+    name:   "twitter-util"
+    // try master instead if develop proves too fragile?
+    uri:    "http://github.com/twitter/util.git#develop"
+    // this isn't really necessary and would pull in a JMH dependency
+    extra.exclude: ["util-benchmark"]
+    // recommended at https://github.com/twitter/util/issues/173:
+    // "We use that when we don't think the tests will be reliable in a ci environment"
+    extra.options: ["-DSKIP_FLAKY=true"]
+    // TODO tests pass in 2.11.x-jdk8, why not here?
+    extra.run-tests: false // https://github.com/scala/scala-dev/issues/203#issuecomment-239649902
+  }
+
+  // note that we don't have MiMa in the JDK6 build.  I tried but it
+  // was running out of PermGen when running the functional tests.
+  // rather than sink time into investigating, just confining it to
+  // JDK8 world seems perfectly fine.
+  ${vars.base} {
+    name:   "mima"
+    // normally MiMa runs on 2.10 (because sbt 0.13 does), so the 2.12 compat branch won't
+    // be merged onto master for quite a while yet
+    uri:    "http://github.com/SethTisue/migration-manager.git#2.12-compat"
+    // we don't compile sbt plugins
+    extra.exclude: ["sbtplugin"]
+  }
+
 ]}
 
 //// space: specs2_24
@@ -517,12 +549,6 @@ build += {
   }
 
   ${vars.base} {
-    name: "discipline"
-    uri: "https://github.com/typelevel/discipline.git#v0.7"
-    extra.projects: ["disciplineJVM"]  // no Scala.js please
-  }
-
-  ${vars.base} {
     name: "spire"
     uri: "https://github.com/SethTisue/spire.git#community-build-2.12"
     // TODO: tests crash with:
@@ -542,20 +568,6 @@ build += {
     uri: "https://github.com/SethTisue/breeze.git#community-build-2.12"
     // failing tests reported upstream at https://github.com/scalanlp/breeze/issues/587
     extra.run-tests: false
-  }
-
-  // in this space because it depends on scoverage
-  ${vars.base} {
-    name:   "twitter-util"
-    // try master instead if develop proves too fragile?
-    uri:    "http://github.com/twitter/util.git#develop"
-    // this isn't really necessary and would pull in a JMH dependency
-    extra.exclude: ["util-benchmark"]
-    // recommended at https://github.com/twitter/util/issues/173:
-    // "We use that when we don't think the tests will be reliable in a ci environment"
-    extra.options: ["-DSKIP_FLAKY=true"]
-    // TODO tests pass in 2.11.x-jdk8, why not here?
-    extra.run-tests: false // https://github.com/scala/scala-dev/issues/203#issuecomment-239649902
   }
 
 ]}
@@ -735,22 +747,6 @@ build += {
     // omitted TODO: play
     // omitted: argonaut, rojoma-v3, rojoma, benchmark
     extra.projects: ["ast", "parser"]
-  }
-
-  // note that we don't have MiMa in the JDK6 build.  I tried but it
-  // was running out of PermGen when running the functional tests.
-  // rather than sink time into investigating, just confining it to
-  // JDK8 world seems perfectly fine.
-  ${vars.base} {
-    name:   "mima"
-    // normally MiMa runs on 2.10 (because sbt 0.13 does), so the 2.12 compat branch won't
-    // be merged onto master for quite a while yet
-    uri:    "http://github.com/SethTisue/migration-manager.git#2.12-compat"
-    // compiling the plugin isn't really necessary as long as sbt remains
-    // in Scala 2.10 world, and besides, it was giving "can't expand
-    // macros compiled by previous versions of Scala" errors I don't want
-    // to take the time to investigate
-    extra.exclude: ["sbtplugin"]
   }
 
   // TODO: stuck on json4s
