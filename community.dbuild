@@ -255,13 +255,9 @@ build += {
 
   ${vars.base} {
     name: scodec-bits
-    uri: "https://github.com/adriaanm/scodec-bits.git#dbuild-sam"
+    uri: "https://github.com/scodec/scodec-bits.git#series/1.0.x"
     extra: ${vars.base.extra} {
-      projects: ["coreJVM"] // TODO: preemptive
-      commands: ${vars.default-commands} [
-        "set scalacOptions in coreJVM := Seq(\"-opt:l:classpath\", \"-deprecation\", \"-encoding\", \"UTF-8\", \"-feature\", \"-unchecked\", \"-Xlint\", \"-Yno-adapted-args\", \"-Ywarn-dead-code\", \"-Ywarn-numeric-widen\", \"-Ywarn-value-discard\", \"-Xfuture\", \"-Ywarn-unused-import\")"
-      ]
-      run-tests: false   // TODO: preemptive
+      projects: ["coreJVM"]
     }
   }
 
