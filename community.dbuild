@@ -629,12 +629,11 @@ build += {
     }
   }
 
-  //  TODO: does not compile on java 8
-  // ${vars.base} {
-  //   name: "json4s"
-  //   uri: "https://github.com/json4s/json4s.git#v3.2.10_2.11"
-  //   extra.projects: ["json4s-native", "json4s-jackson"]
-  // }
+  ${vars.base} {
+    name: "json4s"
+    uri: "https://github.com/json4s/json4s.git#3.5"  // this is the current "master" branch (as of Oct 2016)
+    extra.projects: ["json4s-native", "json4s-jackson"] // TODO: exclude subprojects we don't want, rather than naming a few we want. probably adding more would work?
+  }
 
   ${vars.base} {
     name: "lift-json"
