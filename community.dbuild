@@ -735,10 +735,6 @@ build += {
     // omitted TODO: play
     // omitted: argonaut, rojoma-v3, rojoma, benchmark
     extra.projects: ["ast", "parser"]
-    // no longer exists in 2.12
-    extra.commands: ${vars.default-commands} [
-      "removeScalacOptions -Yinline-warnings"
-    ]
   }
 
   // note that we don't have MiMa in the JDK6 build.  I tried but it
