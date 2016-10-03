@@ -505,8 +505,9 @@ build += {
     // recommended at https://github.com/twitter/util/issues/173:
     // "We use that when we don't think the tests will be reliable in a ci environment"
     extra.options: ["-DSKIP_FLAKY=true"]
-    // TODO tests pass in 2.11.x-jdk8, why not here?
-    extra.run-tests: false // https://github.com/scala/scala-dev/issues/203#issuecomment-239649902
+    // they're still on ScalaTest 2, we're on ScalaTest 3 here, so the tests don't even
+    // compile (as of October 2016)
+    extra.run-tests: false
   }
 
   // note that we don't have MiMa in the JDK6 build.  I tried but it
