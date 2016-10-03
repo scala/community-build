@@ -491,11 +491,8 @@ build += {
   }
 
   ${vars.base} {
-    name: kind_projector
-    uri:  "https://github.com/non/kind-projector.git#v0.7.1"
-    extra: ${vars.base.extra} {
-      run-tests: false // TODO: not needed?
-    }
+    name: "kind-projector"
+    uri:  "https://github.com/non/kind-projector.git"
   }
 
 ]}
