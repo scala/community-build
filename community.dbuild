@@ -250,7 +250,15 @@ build += {
 
   ${vars.base} {
     name: scodec-bits
-    uri: "https://github.com/scodec/scodec-bits.git#series/1.0.x"
+    uri: "https://github.com/scodec/scodec-bits.git#series/1.1.x"
+    extra: ${vars.base.extra} {
+      projects: ["coreJVM"]
+    }
+  }
+
+  ${vars.base} {
+    name: scodec
+    uri: "https://github.com/scodec/scodec.git#series/1.10.x"
     extra: ${vars.base.extra} {
       projects: ["coreJVM"]
     }
