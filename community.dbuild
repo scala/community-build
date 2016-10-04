@@ -136,7 +136,6 @@ build += {
 
 vars: {
   akka-ref: "https://github.com/akka/akka.git"
-  genjavadoc-ref: "https://github.com/typesafehub/genjavadoc.git#v0.5_2.11.0-M8"
 }
 
 //// everything else
@@ -273,18 +272,10 @@ build += {
   }
 
   ${vars.base} {
-    name:   "genjavadoc-plugin"
-    uri:    ${vars.genjavadoc-ref}
-    extra.projects: genjavadoc-plugin
-  }
-
-  ${vars.base} {
-    name:   "genjavadoc"
-    uri:    ${vars.genjavadoc-ref}
-    extra: ${vars.base.extra} {
-      projects: ["tests","javaOut"]
-      run-tests: false // TODO enable tests
-    }
+    name: "genjavadoc"
+    uri: "https://github.com/typesafehub/genjavadoc.git"
+    // TODO Failed tests: com.typesafe.genjavadoc.BasicSpec (looks like maybe the test is too sensitive to ordering?)
+    extra.run-tests: false // TODO enable tests
   }
 
   ${vars.base} {
