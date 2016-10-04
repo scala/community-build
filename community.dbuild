@@ -625,10 +625,10 @@ build += {
   ${vars.base} {
     name: "jawn"
     uri: "http://github.com/non/jawn.git"
-    // omitted because currently commented out elsewhere in this file: json4s, spray
+    // omitted because currently commented out elsewhere in this file: spray
     // omitted TODO: play
     // omitted: argonaut, rojoma-v3, rojoma, benchmark
-    extra.projects: ["ast", "parser"]
+    extra.projects: ["ast", "parser", "json4s"]
   }
 
   // TODO: stuck on json4s
