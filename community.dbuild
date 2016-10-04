@@ -217,38 +217,6 @@ build += {
   }
 
   ${vars.base} {
-    name: scalaz-stream
-    // master has a "snapshot-0.7a" version setting which makes a picky regex
-    // in dbuild 0.9.4 choke; it's https://github.com/typesafehub/dbuild/issues/182.
-    // but the problem no longer exists on the 0.8 and 0.9 branches, so
-    // once we move to one of those, we won't need the fork anymore.
-    uri: "https://github.com/lrytz/scalaz-stream.git#fix-2.12-infer"
-    extra.run-tests: false // TODO enable tests
-    // seems to get stuck after [info] + toInputStream.after close read should return -1: OK, proved property.
-    // The stack dump looks like this for minutes on end:
-    // ```
-    // at scalaz.stream.AsyncTopicSpec$$$Lambda$370/1411106347.apply(Unknown Source)
-    // at scalaz.stream.Process$class.scalaz$stream$Process$class$$$anonfun$8(Process.scala:61)
-    // at scalaz.stream.Process$class$$Lambda$205/214494001.apply(Unknown Source)
-    // at scalaz.stream.Process$class.scalaz$stream$Process$class$$$anonfun$13(Process.scala:115)
-    // at scalaz.stream.Process$class$$Lambda$240/283752252.apply(Unknown Source)
-    // at scalaz.stream.Util$.Try(Util.scala:38)
-    // at scalaz.stream.Process$class.scalaz$stream$Process$class$$$anonfun$12(Process.scala:115)
-    // at scalaz.stream.Process$class$$Lambda$239/1861849028.apply(Unknown Source)
-    // at scalaz.Trampoline$.scalaz$Trampoline$$$anonfun$28(Free.scala:234)
-    // at scalaz.Trampoline$$$Lambda$230/516810462.apply(Unknown Source)
-    // at scalaz.Free.scalaz$Free$$$anonfun$15(Free.scala:172)
-    // at scalaz.Free$$Lambda$221/2004765452.apply(Unknown Source)
-    // at scalaz.Free.go2$1(Free.scala:119)
-    // at scalaz.Free.go(Free.scala:122)
-    // at scalaz.Free.run(Free.scala:172)
-    // at scalaz.stream.Process$class.scalaz$stream$Process$class$$$anonfun$9(Process.scala:84)
-    // at scalaz.stream.Process$class$$Lambda$237/879163424.apply(Unknown Source)
-    // at scalaz.stream.Util$.Try(Util.scala:38)
-    // ```
-  }
-
-  ${vars.base} {
     name: scodec-bits
     uri: "https://github.com/scodec/scodec-bits.git#series/1.1.x"
     extra: ${vars.base.extra} {
@@ -546,11 +514,19 @@ build += {
   }
 
   ${vars.base} {
-    name: specs2_36
-    // "etorreborre/specs2.git#SPECS2-3.6.2"
-    uri: "https://github.com/adriaanm/specs2.git#community-build-3.6"
+    name: specs2
+    // TODO: fork includes a change to a `packagedArtifacts` setting,
+    // https://github.com/SethTisue/specs2/commit/8607423579c0f8f9285a8a7a95404a78a3d6aab4
+    // not submitted upstream yet
+    uri: "https://github.com/SethTisue/specs2.git#community-build-2.12"
     extra.projects: ["specs2"] // so that it actually publishes org.specs2 % specs2? -- needed to put some random artifacts in the jar: https://github.com/typesafehub/dbuild/issues/173
-    extra.run-tests: false // TODO: at least SnippetsTest is failing.
+    extra.run-tests: false // TODO: ??? - hasn't been tried lately
+    extra.commands: ${vars.default-commands} [
+      // too fragile? TODO: I got a non-exhaustive match warning that
+      // could conceivably indicate some real regression. or maybe it's
+      // just a version mismatch for some library? who knows
+      "removeScalacOptions -Xfatal-warnings"
+    ]
   }
 
   ${vars.base} {
@@ -600,7 +576,7 @@ build += {
   }
 
   ${vars.base} {
-    name: "play-twirl"
+    name: "twirl"
     extra.exclude: [ "plugin", "apiJS" ]
     uri: "https://github.com/playframework/twirl.git#master"
   }
@@ -647,13 +623,6 @@ build += {
   }
 
   ${vars.base} {
-    name: "spray-twirl"
-    // only building project twirl-api, fixed sha from master branch that has Scala 2.11 compatibility patches merged
-    uri: "https://github.com/spray/twirl.git#102978cb508684aee0cfa09d71027965cdcd77b4"
-    extra.projects: ["twirl-api"]
-  }
-
-  ${vars.base} {
     name: "jawn"
     uri: "http://github.com/non/jawn.git"
     // omitted because currently commented out elsewhere in this file: json4s, spray
@@ -684,7 +653,11 @@ build += {
 
   ${vars.base} {
     name:   "scalamock"
-    uri:    "https://github.com/paulbutcher/scalamock.git"
+    // TODO forked because specs2 support requires specs2 2.x but we only
+    // have 3.x here now. and because excluding that subproject here isn't enough
+    // (see diffs in the fork for details)
+    uri:    "https://github.com/SethTisue/scalamock.git#community-build-2.12"
+    // not sure why "examples" is also excluded? maybe it has specs2 stuff too?
     extra.exclude: [ "specs2", "examples" ]
   }
 
