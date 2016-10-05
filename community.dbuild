@@ -212,7 +212,6 @@ build += {
   ${vars.base} {
     name: "scalaz"
     uri: "https://github.com/scalaz/scalaz.git#series/7.2.x"
-    extra.run-tests: false // TODO enable tests? hasn't been tried lately (as of October 2016)
     extra.projects: ["rootJVM"]  // no Scala.js please
   }
 
