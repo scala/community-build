@@ -590,11 +590,12 @@ build += {
     name: "play2-core"
     uri: "https://github.com/playframework/playframework.git"
     extra: ${vars.base.extra} {
-      // TODO: enable more projects? these are just a few that seemed especially high-value
-      projects: ["Play"]
+      // TODO: enable more projects? these are just a few that seemed especially high-value.
+      // we tried including "Play-Integration-Test" but hit a mysterious StackOverflowError
+      // in scala.tools.nsc.javac.JavaScanners; see https://github.com/scala/community-builds/issues/304
+      projects: ["Play", "Play-Test", "Play-WS"]
       exclude: ["SBT-Plugin"]
       directory: "framework"
-      run-tests: false // TODO enable tests
       commands: ${vars.default-commands} [
         // workaround for the problem with PlayVersion.scala file is being passed twice to Scala compiler
         // and we get double definition error
