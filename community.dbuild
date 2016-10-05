@@ -210,10 +210,10 @@ build += {
   }
 
   ${vars.base} {
-    name: scalaz
-    uri: "https://github.com/scalaz/scalaz.git#series/7.1.x"
-    // [scalaz] [error] Could not run test scalaz.NeedTest: java.lang.AssertionError: false !== true
-    extra.run-tests: false // TODO enable tests
+    name: "scalaz"
+    uri: "https://github.com/scalaz/scalaz.git#series/7.2.x"
+    extra.run-tests: false // TODO enable tests? hasn't been tried lately (as of October 2016)
+    extra.projects: ["rootJVM"]  // no Scala.js please
   }
 
   ${vars.base} {
@@ -402,10 +402,8 @@ build += {
 
   ${vars.base} {
     name:   "scalaprops"
-    // // master uses FreeT from scalaz 7.2, we're on 7.1
-    uri:    "http://github.com/scalaprops/scalaprops.git#0.1.x"
-    // will be needed if we start tracking master. not needed on 0.1.x branch
-    // extra.projects: ["rootJVM"]  // no Scala.js please
+    uri:    "http://github.com/scalaprops/scalaprops.git"
+    extra.projects: ["rootJVM"]  // no Scala.js please
   }
 
   ${vars.base} {
