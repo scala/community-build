@@ -4,8 +4,8 @@ set -e
 
 # otherwise these directories just keep growing.
 # see scala/scala-jenkins-infra#115
-rm -rf target-$DBUILDVERSION/project-builds
-rm -rf target-$DBUILDVERSION/extraction
+rm -rf target-*/project-builds
+rm -rf target-*/extraction
 
 # TODO: in scala-jenkins-infra, make an actual parameter for
 # specifying projects to be built, instead of hijacking the
