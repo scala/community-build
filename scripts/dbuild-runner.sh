@@ -61,6 +61,13 @@ then
   sed -i.bak "s/scalasbt.artifactoryonline.com/repo.scala-sbt.org/g" "dbuild-${DBUILDVERSION}/bin/"*.properties
 fi
 
+# sigh, Ubuntu has nodejs but OS X has node
+if hash nodejs 2>/dev/null; then
+    export NODE=nodejs
+else
+    export NODE=node
+fi
+
 echo "dbuild-${DBUILDVERSION}/bin/dbuild" "${@}" "$DBUILDCONFIG"
 "dbuild-${DBUILDVERSION}/bin/dbuild" "${@}" "$DBUILDCONFIG" 2>&1 | tee "dbuild-${DBUILDVERSION}/dbuild.out"
 STATUS="$?"
