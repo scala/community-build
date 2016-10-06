@@ -7,4 +7,8 @@ set -e
 rm -rf target-$DBUILDVERSION/project-builds
 rm -rf target-$DBUILDVERSION/extraction
 
-scripts/run.sh "${@}"
+# TODO: in scala-jenkins-infra, make an actual parameter for
+# specifying projects to be built, instead of hijacking the
+# "scala_build_extra_opt" name for that purpose
+
+./run.sh $scala_build_extra_opt

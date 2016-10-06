@@ -3,7 +3,10 @@
 # This script is suitable for local use.
 # It is also invoked by Jenkins (from scripts/jobs/integrate/community-build).
 
-# usage: ./run.sh [<dbuild-options>]
+# usage:
+# ./run.sh
+# ./run.sh project1
+# ./run.sh project1,project2,project3
 
 set -e
 set -o pipefail
@@ -40,8 +43,8 @@ fi
 # use -n since running locally you don't want notifications sent,
 # and on our Jenkins setup it doesn't actually work (for now anyway)
 
-echo "dbuild-${DBUILDVERSION}/bin/dbuild" -n "${@}" "$DBUILDCONFIG"
-"dbuild-${DBUILDVERSION}/bin/dbuild" -n "${@}" "$DBUILDCONFIG" 2>&1 | tee "dbuild-${DBUILDVERSION}/dbuild.out"
+echo "dbuild-${DBUILDVERSION}/bin/dbuild" -n "$DBUILDCONFIG" "${@}"
+"dbuild-${DBUILDVERSION}/bin/dbuild" -n "$DBUILDCONFIG" "${@}" 2>&1 | tee "dbuild-${DBUILDVERSION}/dbuild.out"
 STATUS="$?"
 BUILD_ID="$(grep '^\[info\]  uuid = ' "dbuild-${DBUILDVERSION}/dbuild.out" | sed -e 's/\[info\]  uuid = //')"
 echo "The repeatable UUID of this build was: ${BUILD_ID}"
