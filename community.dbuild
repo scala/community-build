@@ -5,6 +5,8 @@ vars: {
   scala-version: ${?scala_ref}
   scalac-opts: ""
   scalac-opts: ${?scalac_opts}
+  node: "node"
+  node: ${?NODE}
 }
 
 //// vars.base
@@ -336,10 +338,10 @@ build += {
         "set test in (Build.compiler, Test) := {}"
         // - Disable fatal Scaladoc warnings, also fragile
         "removeScalacOptions -Xfatal-warnings"
-        //   We disable source map tests to save ourselves a `npm install source-map-support` on the workers.
+        // - We disable source map tests to save ourselves a `npm install source-map-support` on the workers.
         //   Although only `testSuite` actually has tests, dbuild will try to run the tests for all projects
         //   that `testSuite` depends on (transitively), so we need to set it in a bunch of places.
-        "set Seq(library, testInterface, jUnitRuntime, testSuite).map(p => jsEnv in p := NodeJSEnv(executable = \"nodejs\").value.withSourceMap(false))"
+        "set Seq(library, testInterface, jUnitRuntime, testSuite).map(p => jsEnv in p := NodeJSEnv(executable = \""${vars.node}"\").value.withSourceMap(false))"
       ]
     }
   }
