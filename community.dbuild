@@ -516,11 +516,7 @@ build += {
 
   ${vars.base} {
     name: specs2
-    // TODO: fork includes a change to a `packagedArtifacts` setting,
-    // https://github.com/SethTisue/specs2/commit/8607423579c0f8f9285a8a7a95404a78a3d6aab4
-    // not submitted upstream yet
-    uri: "https://github.com/SethTisue/specs2.git#community-build-2.12"
-    extra.projects: ["specs2"] // so that it actually publishes org.specs2 % specs2? -- needed to put some random artifacts in the jar: https://github.com/typesafehub/dbuild/issues/173
+    uri: "https://github.com/etorreborre/specs2.git"
     extra.run-tests: false // TODO: ??? - hasn't been tried lately
     extra.commands: ${vars.default-commands} [
       // too fragile? TODO: I got a non-exhaustive match warning that
