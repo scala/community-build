@@ -157,7 +157,7 @@ build += {
 
   ${vars.base} {
     name: "scala-partest"
-    uri: "https://github.com/scala/scala-partest.git"
+    uri: "https://github.com/scala/scala-partest.git#2.12.0"
   }
 
   ${vars.base} {
@@ -172,9 +172,9 @@ build += {
   }
 
   ${vars.base} {
-    name: scalacheck
-    uri: "https://github.com/rickynils/scalacheck.git#1.11.6"
-    extra.run-tests: false   // TODO: is this needed? if yes, document why, if no, re-enable
+    name: "scalacheck"
+    uri: "https://github.com/rickynils/scalacheck.git#1.12.x"
+    extra.projects: ["jvm"]  // no Scala.js please
   }
 
   // "release-0.7" is a stable branch, used to cut 0.7 against new Scala milestones at this time
@@ -215,7 +215,6 @@ build += {
     name: "scalaz"
     uri: "https://github.com/scalaz/scalaz.git#series/7.2.x"
     extra.projects: ["rootJVM"]  // no Scala.js please
-    extra.run-tests: false // TODO needs newer ScalaCheck (1.12 or perhaps 1.13)
   }
 
   ${vars.base} {
