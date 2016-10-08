@@ -415,7 +415,7 @@ build += {
     // https://github.com/typelevel/cats/issues/1396, https://github.com/typelevel/cats/issues/1377
     uri:    "http://github.com/SethTisue/cats.git#community-build-2.12"
     // this is only some of Cats. we should try and add more
-    extra.projects: ["coreJVM"] // no Scala.js please
+    extra.projects: ["coreJVM", "macrosJVM"] // no Scala.js please
     extra.commands: ${vars.default-commands} [
       // too fragile
       "removeScalacOptions -Xfatal-warnings"
@@ -624,6 +624,34 @@ build += {
     uri:    "https://github.com/SethTisue/scalamock.git#community-build-2.12"
     // not sure why "examples" is also excluded? maybe it has specs2 stuff too?
     extra.exclude: [ "specs2", "examples" ]
+  }
+
+  ${vars.base} {
+    name: "argonaut"
+    uri: "https://github.com/argonaut-io/argonaut.git"
+    extra.exclude: [
+      // fails to declare its scala-parser-combinators dependency,
+      // and anyway we don't want to run benchmarks
+      "argonaut-benchmark"
+      // I got into trouble trying to add this -- it depended on
+      // cats-laws which needs ScalaCheck 1.13
+      "argonaut-cats"
+    ]
+  }
+
+  ${vars.base} {
+    name: "monocle"
+    // TODO move to master once full 2.12 support is there, and try to
+    // enable more subprojects besides just these few
+    uri: "https://github.com/julien-truffaut/Monocle.git#scala-2.12-RC1-core"
+    extra.projects: ["coreJVM", "macrosJVM", "lawJVM"]
+  }
+
+  ${vars.base} {
+    name: "catalysts"
+    uri: "https://github.com/typelevel/catalysts.git"
+    // TODO add more projects? hasn't been tried yet
+    extra.projects: ["platformJVM"]
   }
 
 ]}
