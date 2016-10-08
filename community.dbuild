@@ -498,8 +498,10 @@ build += {
     // TODO: tests crash with:
     // [info] [error] Could not run test spire.laws.LawTests:
     // java.lang.ClassFormatError: Duplicate method name&signature in class file spire/std/OrderProductInstances$$anon$228
-    extra.projects: ["spireJVM"]  // no Scala.js please
     extra.run-tests: false
+    // hopefully avoid intermittent OutOfMemoryErrors during compilation
+    extra.options: ["-Xmx2048m"]
+    extra.projects: ["spireJVM"]  // no Scala.js please
     // no longer exists in 2.12
     extra.commands: ${vars.default-commands} [
       "removeScalacOptions -Yinline-warnings"
