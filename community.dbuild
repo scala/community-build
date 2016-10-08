@@ -519,9 +519,7 @@ build += {
 
   ${vars.base} {
     name: "ssl-config"
-    // TODO submit upstream -- extraction fails with JsonMappingException because
-    // the ssl-config build overrides `onLoad`, which the dbuild plugin uses to do extraction
-    uri: "https://github.com/SethTisue/ssl-config.git#be-dbuild-friendly"
+    uri: "https://github.com/typesafehub/ssl-config.git"
   }
 
   ${vars.base} {
