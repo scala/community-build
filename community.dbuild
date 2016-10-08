@@ -510,8 +510,7 @@ build += {
 
   ${vars.base} {
     name: "breeze"
-    // forked because Scala version checking logic needed tweak
-    uri: "https://github.com/SethTisue/breeze.git#community-build-2.12"
+    uri: "https://github.com/scalanlp/breeze.git"
     // failing tests reported upstream at https://github.com/scalanlp/breeze/issues/587
     extra.run-tests: false
   }
