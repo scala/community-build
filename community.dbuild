@@ -498,8 +498,10 @@ build += {
     // TODO: tests crash with:
     // [info] [error] Could not run test spire.laws.LawTests:
     // java.lang.ClassFormatError: Duplicate method name&signature in class file spire/std/OrderProductInstances$$anon$228
-    extra.projects: ["spireJVM"]  // no Scala.js please
     extra.run-tests: false
+    // hopefully avoid intermittent OutOfMemoryErrors during compilation
+    extra.options: ["-Xmx2048m"]
+    extra.projects: ["spireJVM"]  // no Scala.js please
     // no longer exists in 2.12
     extra.commands: ${vars.default-commands} [
       "removeScalacOptions -Yinline-warnings"
@@ -516,11 +518,7 @@ build += {
 
   ${vars.base} {
     name: specs2
-    // TODO: fork includes a change to a `packagedArtifacts` setting,
-    // https://github.com/SethTisue/specs2/commit/8607423579c0f8f9285a8a7a95404a78a3d6aab4
-    // not submitted upstream yet
-    uri: "https://github.com/SethTisue/specs2.git#community-build-2.12"
-    extra.projects: ["specs2"] // so that it actually publishes org.specs2 % specs2? -- needed to put some random artifacts in the jar: https://github.com/typesafehub/dbuild/issues/173
+    uri: "https://github.com/etorreborre/specs2.git"
     extra.run-tests: false // TODO: ??? - hasn't been tried lately
     extra.commands: ${vars.default-commands} [
       // too fragile? TODO: I got a non-exhaustive match warning that
@@ -615,13 +613,9 @@ build += {
 
   ${vars.base} {
     name: "lift-json"
-    uri: "https://github.com/lift/framework.git#3.0-M2-release"
+    // TODO unfork once https://github.com/lift/framework/pull/1812 gets merged
+    uri: "https://github.com/SethTisue/framework.git#community-build-2.12"
     extra.projects: ["lift-json"]
-    // TODO: test failure:
-    //[info] [info] ! Either can't be deserialized with type hints
-    //[info] [error]  ClassNotFoundException: : scala.util.Left  (Formats.scala:223)
-    // !!!: probably we should investigate
-    extra.run-tests: false
   }
 
   ${vars.base} {
