@@ -614,11 +614,6 @@ build += {
     // TODO unfork once https://github.com/lift/framework/pull/1812 gets merged
     uri: "https://github.com/SethTisue/framework.git#community-build-2.12"
     extra.projects: ["lift-json"]
-    // TODO: test failure:
-    //[info] [info] ! Either can't be deserialized with type hints
-    //[info] [error]  ClassNotFoundException: : scala.util.Left  (Formats.scala:223)
-    // !!!: probably we should investigate
-    extra.run-tests: false
   }
 
   ${vars.base} {
