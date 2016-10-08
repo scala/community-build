@@ -323,12 +323,8 @@ build += {
 
   ${vars.base} {
     name: sbinary
-    uri:    "https://github.com/adriaanm/sbinary.git#community-build"
-    extra: ${vars.base.extra} {
-      commands: ${vars.default-commands} [
-        "removeScalacOptions -Yinline-warnings"
-      ]
-    }
+    // TODO forked (from sbt/sbinary) to remove bintray gunk that doesn't work with dbuild
+    uri: "https://github.com/SethTisue/sbinary.git#community-build-2.12"
   }
 
   ${vars.base} {
