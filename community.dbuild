@@ -621,29 +621,12 @@ build += {
     name: "jawn"
     uri: "http://github.com/non/jawn.git"
     // omitted TODO: play
-    // omitted: argonaut, rojoma-v3, rojoma, benchmark
+    // omitted: rojoma-v3, rojoma, benchmark, argonaut
+    // (we have Argonaut in the community build, but it depends on jawn! dbuild
+    // doesn't like the circularity. I think we could break it by having two jawn entries,
+    // one for the core and one for the extras, but I haven't tried yet)
     extra.projects: ["ast", "parser", "json4s", "spray"]
   }
-
-  // TODO: stuck on json4s
-  // ${vars.base} {
-  //   name: "spray"
-  //   uri: "https://github.com/spray/spray.git#v1.3.3"
-  //   extra: ${vars.base.extra} {
-  //     // skip tests for now; see https://github.com/scala/community-builds/issues/110
-  //     run-tests: false
-  //     // disable subprojects depending on shapeless 1
-  //     exclude: ["spray-routing", "spray-routing-tests"]
-  //     // disable running sphinx, it would be great if dbuild
-  //     // oferred a mechanism for excluding particular project (e.g. docs)
-  //     commands: ${vars.default-commands} [
-  //       "set SphinxSupport.sphinxCompile in docs := Seq.empty"
-  //     ]
-  //     // disable parallel execution of tests as a work around for non-deterministic
-  //     // failures, see: https://github.com/scala/community-builds/pull/69#issuecomment-63324597
-  //     settings += "parallelExecution in GlobalScope in Test := false"
-  //   }
-  // }
 
   ${vars.base} {
     name:   "scalamock"
