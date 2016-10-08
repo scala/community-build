@@ -489,9 +489,9 @@ build += {
   // JDK8 world seems perfectly fine.
   ${vars.base} {
     name:   "mima"
-    // normally MiMa runs on 2.10 (because sbt 0.13 does), so the 2.12 compat branch won't
+    // normally MiMa runs on 2.10 (because sbt 0.13 does), so the branch won't
     // be merged onto master for quite a while yet
-    uri:    "http://github.com/SethTisue/migration-manager.git#2.12-compat"
+    uri:    "http://github.com/typesafehub/migration-manager.git#scala-2.12"
     // we don't compile sbt plugins
     extra.exclude: ["sbtplugin"]
   }
