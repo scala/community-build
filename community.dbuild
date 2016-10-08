@@ -611,7 +611,8 @@ build += {
 
   ${vars.base} {
     name: "lift-json"
-    uri: "https://github.com/lift/framework.git#3.0-M2-release"
+    // TODO unfork once https://github.com/lift/framework/pull/1812 gets merged
+    uri: "https://github.com/SethTisue/framework.git#community-build-2.12"
     extra.projects: ["lift-json"]
     // TODO: test failure:
     //[info] [info] ! Either can't be deserialized with type hints
