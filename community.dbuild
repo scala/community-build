@@ -373,16 +373,6 @@ build += {
     // no Scala.js plz
     extra.projects: ["fastparseJVM"]
     extra.run-tests: false // TODO: tests depend on lambda toString looking like e.g `<function1>`
-    // with 0.13.11 I got
-    // Running "test" in: fastparseJVM
-    // Compiling 9 Scala sources to [...]/fastparse/jvm/target/scala-2.11/test-classes...
-    // java.lang.IndexOutOfBoundsException: 0
-    //   at scala.collection.LinearSeqOptimized$class.apply(LinearSeqOptimized.scala:65)
-    //   at scala.collection.immutable.List.apply(List.scala:84)
-    //   at xsbt.ExtractAPI.makeParameter$1(ExtractAPI.scala:295)
-    // the issue is reproducible outside of the community build, so it's apparently
-    // an sbt regression. reported at https://github.com/sbt/sbt/issues/2497
-    extra.sbt-version: "0.13.9"
   }
 
   ${vars.base} {
@@ -425,7 +415,7 @@ build += {
     // https://github.com/typelevel/cats/issues/1396, https://github.com/typelevel/cats/issues/1377
     uri:    "http://github.com/SethTisue/cats.git#community-build-2.12"
     // this is only some of Cats. we should try and add more
-    extra.projects: ["coreJVM"] // no Scala.js please
+    extra.projects: ["coreJVM", "macrosJVM"] // no Scala.js please
     extra.commands: ${vars.default-commands} [
       // too fragile
       "removeScalacOptions -Xfatal-warnings"
@@ -529,9 +519,7 @@ build += {
 
   ${vars.base} {
     name: "ssl-config"
-    // TODO submit upstream -- extraction fails with JsonMappingException because
-    // the ssl-config build overrides `onLoad`, which the dbuild plugin uses to do extraction
-    uri: "https://github.com/SethTisue/ssl-config.git#be-dbuild-friendly"
+    uri: "https://github.com/typesafehub/ssl-config.git"
   }
 
   ${vars.base} {
@@ -621,29 +609,12 @@ build += {
     name: "jawn"
     uri: "http://github.com/non/jawn.git"
     // omitted TODO: play
-    // omitted: argonaut, rojoma-v3, rojoma, benchmark
+    // omitted: rojoma-v3, rojoma, benchmark, argonaut
+    // (we have Argonaut in the community build, but it depends on jawn! dbuild
+    // doesn't like the circularity. I think we could break it by having two jawn entries,
+    // one for the core and one for the extras, but I haven't tried yet)
     extra.projects: ["ast", "parser", "json4s", "spray"]
   }
-
-  // TODO: stuck on json4s
-  // ${vars.base} {
-  //   name: "spray"
-  //   uri: "https://github.com/spray/spray.git#v1.3.3"
-  //   extra: ${vars.base.extra} {
-  //     // skip tests for now; see https://github.com/scala/community-builds/issues/110
-  //     run-tests: false
-  //     // disable subprojects depending on shapeless 1
-  //     exclude: ["spray-routing", "spray-routing-tests"]
-  //     // disable running sphinx, it would be great if dbuild
-  //     // oferred a mechanism for excluding particular project (e.g. docs)
-  //     commands: ${vars.default-commands} [
-  //       "set SphinxSupport.sphinxCompile in docs := Seq.empty"
-  //     ]
-  //     // disable parallel execution of tests as a work around for non-deterministic
-  //     // failures, see: https://github.com/scala/community-builds/pull/69#issuecomment-63324597
-  //     settings += "parallelExecution in GlobalScope in Test := false"
-  //   }
-  // }
 
   ${vars.base} {
     name:   "scalamock"
@@ -653,6 +624,34 @@ build += {
     uri:    "https://github.com/SethTisue/scalamock.git#community-build-2.12"
     // not sure why "examples" is also excluded? maybe it has specs2 stuff too?
     extra.exclude: [ "specs2", "examples" ]
+  }
+
+  ${vars.base} {
+    name: "argonaut"
+    uri: "https://github.com/argonaut-io/argonaut.git"
+    extra.exclude: [
+      // fails to declare its scala-parser-combinators dependency,
+      // and anyway we don't want to run benchmarks
+      "argonaut-benchmark"
+      // I got into trouble trying to add this -- it depended on
+      // cats-laws which needs ScalaCheck 1.13
+      "argonaut-cats"
+    ]
+  }
+
+  ${vars.base} {
+    name: "monocle"
+    // TODO move to master once full 2.12 support is there, and try to
+    // enable more subprojects besides just these few
+    uri: "https://github.com/julien-truffaut/Monocle.git#scala-2.12-RC1-core"
+    extra.projects: ["coreJVM", "macrosJVM", "lawJVM"]
+  }
+
+  ${vars.base} {
+    name: "catalysts"
+    uri: "https://github.com/typelevel/catalysts.git"
+    // TODO add more projects? hasn't been tried yet
+    extra.projects: ["platformJVM"]
   }
 
 ]}
