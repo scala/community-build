@@ -2,10 +2,10 @@
 
 vars: {
   scala-version: ""
-  scala-version: ${?scala_ref}
+  scala-version: ${?version}
   scalac-opts: ""
   scalac-opts: ${?scalac_opts}
-  node: "node"
+  node: "node" // node-js
   node: ${?NODE}
 }
 
