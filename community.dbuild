@@ -109,6 +109,7 @@ build += {
         name:   scala-library
         system: aether
         uri:   "aether:org.scala-lang#scala-library;"${vars.scala-version}
+        extra.sources: true  // Scala.js wants this
       }
       {
         set-version: ${vars.scala-version}
