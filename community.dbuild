@@ -22,6 +22,7 @@ vars: {
 vars: {
   base: {}
 }
+include file("project-refs.conf")
 
 //// shared settings
 
@@ -134,12 +135,6 @@ build += {
   }
 ]}
 
-//// a few projects we have multiple entries for and need to make sure
-//// we use the same uri each time
-
-vars: {
-  akka-ref: "https://github.com/akka/akka.git"
-}
 
 //// everything else
 
@@ -153,42 +148,42 @@ build += {
 
   ${vars.base} {
     name: "scala-partest-interface"
-    uri: "https://github.com/scala/scala-partest-interface.git"
+    uri:  ${vars.uris.scala-partest-interface-uri}
   }
 
   ${vars.base} {
     name: "scala-partest"
-    uri: "https://github.com/scala/scala-partest.git#2.12.0"
+    uri:  ${vars.uris.scala-partest-uri}
   }
 
   ${vars.base} {
     name: "scala-swing"
-    uri: "https://github.com/scala/scala-swing.git#2.0.x"
+    uri:  ${vars.uris.scala-swing-uri}
   }
 
   ${vars.base} {
     name: "scala-parser-combinators"
-    uri: "https://github.com/scala/scala-parser-combinators.git"
+    uri:  ${vars.uris.scala-parser-combinators-uri}
     extra.exclude: ["scala-parser-combinatorsJS"]
   }
 
   ${vars.base} {
     name: "scalacheck"
-    uri: "https://github.com/rickynils/scalacheck.git#1.12.x"
+    uri:  ${vars.uris.scalacheck-uri}
     extra.projects: ["jvm"]  // no Scala.js please
   }
 
   // "release-0.7" is a stable branch, used to cut 0.7 against new Scala milestones at this time
   ${vars.base} {
-    name: scala-stm
-    uri:    "https://github.com/nbronson/scala-stm.git#release-0.7"
+    name: "scala-stm"
+    uri:  ${vars.uris.scala-stm-uri}
     // a minor incompatibility with recent versions of scalatest, therefore:
     extra.run-tests: false // TODO enable tests
   }
 
   ${vars.base} {
-    name: shapeless
-    uri:    "https://github.com/milessabin/shapeless.git"
+    name: "shapeless"
+    uri:  ${vars.uris.shapeless-uri}
     extra.projects: ["coreJVM"]
     // optimizer related. Lukas may want to revisit before 2.12 final
     extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
@@ -197,7 +192,7 @@ build += {
 
   ${vars.base} {
     name: "scoverage"
-    uri:  "https://github.com/scoverage/scalac-scoverage-plugin.git"
+    uri:  ${vars.uris.scoverage-uri}
     extra: ${vars.base.extra} {
       exclude: ["scalac-scoverage-runtimeJS"] // no Scala.js please
       run-tests: false // TODO: [info] java.io.FileNotFoundException: Could not locate [~/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.0.jar].
@@ -206,7 +201,7 @@ build += {
 
   ${vars.base} {
     name: "scala-java8-compat"
-    uri: "https://github.com/scala/scala-java8-compat.git"
+    uri:  ${vars.uris.scala-java8-compat-uri}
     // For some reason dbuild includes test sources in the javadocs, which trips up javadoc because
     // we use "assert" as an identifier there. We disable doc building to avoid that.
     extra.commands: ${vars.default-commands} [ "set publishArtifact in packageDoc := false" ]
@@ -214,21 +209,21 @@ build += {
 
   ${vars.base} {
     name: "scalaz"
-    uri: "https://github.com/scalaz/scalaz.git#series/7.2.x"
+    uri:  ${vars.uris.scalaz-uri}
     extra.projects: ["rootJVM"]  // no Scala.js please
   }
 
   ${vars.base} {
-    name: scodec-bits
-    uri: "https://github.com/scodec/scodec-bits.git#series/1.1.x"
+    name: "scodec-bits"
+    uri:  ${vars.uris.scodec-bits-uri}
     extra: ${vars.base.extra} {
       projects: ["coreJVM"]
     }
   }
 
   ${vars.base} {
-    name: scodec
-    uri: "https://github.com/scodec/scodec.git#series/1.10.x"
+    name: "scodec"
+    uri:  ${vars.uris.scodec-uri}
     extra: ${vars.base.extra} {
       projects: ["coreJVM"]
     }
@@ -236,13 +231,13 @@ build += {
 
   ${vars.base} {
     name: "scala-records"
-    uri: "https://github.com/scala-records/scala-records.git"
+    uri:  ${vars.uris.scala-records-uri}
     extra.exclude: ["coreJS"]
   }
 
   ${vars.base} {
     name: "scalatest"
-    uri: "https://github.com/SethTisue/scalatest.git#3.0.x-community-build"
+    uri:  ${vars.uris.scalatest-uri}
     extra: ${vars.base.extra} {
       projects: ["scalatest", "scalactic"]
       run-tests: false // TODO enable tests
@@ -251,14 +246,14 @@ build += {
 
   ${vars.base} {
     name: "genjavadoc"
-    uri: "https://github.com/typesafehub/genjavadoc.git"
+    uri:  ${vars.uris.genjavadoc-uri}
     // TODO Failed tests: com.typesafe.genjavadoc.BasicSpec (looks like maybe the test is too sensitive to ordering?)
     extra.run-tests: false // TODO enable tests
   }
 
   ${vars.base} {
     name: "akka"
-    uri: ${vars.akka-ref}
+    uri:  ${vars.uris.akka-uri}
     extra: ${vars.base.extra} {
       options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
       projects: ["akka-actor"]
@@ -266,9 +261,9 @@ build += {
   }
 
   ${vars.base} {
-    name:   "scala-refactoring"
+    name: "scala-refactoring"
+    uri:  ${vars.uris.scala-refactoring-uri}
     // There's no suitable release yet, so we depend on this commit. Upgrade to the next tagged version once released
-    uri:    "https://github.com/scala-ide/scala-refactoring.git#44dca8b74808528693f884cfd3c5c9d3ed13e519"
     extra: ${vars.base.extra} {
       directory: "org.scala-refactoring.library"
       run-tests: false // TODO enable tests
@@ -287,13 +282,13 @@ build += {
 
   ${vars.base} {
     name: "async"
-    uri: "https://github.com/scala/async.git"
+    uri:  ${vars.uris.async-uri}
     extra.run-tests: false // TODO: ToolBox based tests report missing JARs. Probably some poor assumption in the async tests.
   }
 
   ${vars.base} {
     name: "slick"
-    uri:  "https://github.com/slick/slick.git"
+    uri:  ${vars.uris.slick-uri}
     // without this dbuild doesn't pick up that one of the subprojects has this dependency.
     // it doesn't even make sense; it seems to me that testNGSettings should not be adding
     // a dependency of the plugin to the libraryDependencies of the test code.
@@ -307,7 +302,7 @@ build += {
 
   ${vars.base} {
     name: "sbt-testng-interface"
-    uri: "https://github.com/SethTisue/sbt-testng-interface.git#no-bintray"
+    uri:  ${vars.uris.sbt-testng-interface-uri}
     extra.projects: ["sbt-testng-interface"]  // just the interface, we don't need to build the plugin
   }
 
@@ -318,19 +313,19 @@ build += {
   // maintaining. I will leave it in place, but if it starts acting up,
   // I think we could just drop it.
   ${vars.base} {
-    name:   "browse"
-    uri:    "https://github.com/SethTisue/browse.git#topic/2.12-compat"
+    name: "browse"
+    uri:  ${vars.uris.browse-uri}
   }
 
   ${vars.base} {
-    name: sbinary
+    name: "sbinary"
+    uri:  ${vars.uris.sbinary-uri}
     // TODO forked (from sbt/sbinary) to remove bintray gunk that doesn't work with dbuild
-    uri: "https://github.com/SethTisue/sbinary.git#community-build-2.12"
   }
 
   ${vars.base} {
-    name:   "scala-js"
-    uri:    "http://github.com/scala-js/scala-js.git"
+    name: "scala-js"
+    uri:  ${vars.uris.scala-js-uri}
     extra: ${vars.base.extra} {
       // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
       options: ["-Xmx2048m"]
@@ -349,60 +344,60 @@ build += {
   }
 
   ${vars.base} {
-    name:   "utest"
-    uri:    "http://github.com/lihaoyi/utest.git#0.4.3"
+    name: "utest"
+    uri:  ${vars.uris.utest-uri}
     // no Scala.js plz
     extra.projects: ["utestJVM"]
   }
 
   ${vars.base} {
-    name:   "acyclic"
-    uri:    "http://github.com/lihaoyi/acyclic.git"
+    name: "acyclic"
+    uri:  ${vars.uris.acyclic-uri}
   }
 
   ${vars.base} {
-    name:    "sourcecode"
-    uri:     "http://github.com/lihaoyi/sourcecode.git"
+    name: "sourcecode"
+    uri:  ${vars.uris.sourcecode-uri}
     // no Scala.js plz
     extra.projects: ["sourcecodeJVM"]
   }
 
   ${vars.base} {
     name: "fastparse"
+    uri:  ${vars.uris.fastparse-uri}
     // disable sbt-coursier plugin; https://github.com/scala/community-builds/issues/294
-    uri: "http://github.com/SethTisue/fastparse.git#no-coursier"
     // no Scala.js plz
     extra.projects: ["fastparseJVM"]
     extra.run-tests: false // TODO: tests depend on lambda toString looking like e.g `<function1>`
   }
 
   ${vars.base} {
-    name:   "macro-paradise"
+    name: "macro-paradise"
+    uri:  ${vars.uris.macro-paradise-uri}
     // TODO use 2.12.x branch once needed changes are merged there?
-    uri:    "http://github.com/scalamacros/paradise.git#2.12.0-RC1"
   }
 
   ${vars.base} {
-    name:   "macro-compat"
-    uri:    "http://github.com/milessabin/macro-compat.git"
+    name: "macro-compat"
+    uri:  ${vars.uris.macro-compat-uri}
     // no Scala.js plz
     extra.projects: ["testJVM"]
   }
 
   ${vars.base} {
-    name:   "scala-logging"
-    uri:    "http://github.com/typesafehub/scala-logging.git"
+    name: "scala-logging"
+    uri:  ${vars.uris.scala-logging-uri}
   }
 
   ${vars.base} {
-    name:   "scalaprops"
-    uri:    "http://github.com/scalaprops/scalaprops.git"
+    name: "scalaprops"
+    uri:  ${vars.uris.scalaprops-uri}
     extra.projects: ["rootJVM"]  // no Scala.js please
   }
 
   ${vars.base} {
-    name:   "kxbmap-configs"
-    uri:    "http://github.com/kxbmap/configs.git"
+    name: "kxbmap-configs"
+    uri:  ${vars.uris.kxbmap-configs-uri}
     extra.exclude: [
       "docs"  // because we don't have Tut (yet?)
       "bench" // not really necessary and would pull in a JMH dependency
@@ -410,9 +405,9 @@ build += {
   }
 
   ${vars.base} {
-    name:   "fs2"
+    name: "fs2"
+    uri:  ${vars.uris.fs2-uri}
     // current "master" as of Sep 2016
-    uri:    "http://github.com/functional-streams-for-scala/fs2.git#series/0.9"
     extra.exclude: [
       "coreJS" // no Scala.js please
       "docs"   // because we don't have Tut (yet?)
@@ -421,9 +416,9 @@ build += {
   }
 
   ${vars.base} {
-    name:   "cats"
+    name: "cats"
+    uri:  ${vars.uris.cats-uri}
     // https://github.com/typelevel/cats/issues/1396, https://github.com/typelevel/cats/issues/1377
-    uri:    "http://github.com/SethTisue/cats.git#community-build-2.12"
     // this is only some of Cats. we should try and add more
     extra.projects: ["coreJVM", "macrosJVM"] // no Scala.js please
     extra.commands: ${vars.default-commands} [
@@ -435,40 +430,40 @@ build += {
   }
 
   ${vars.base} {
-    name:   "simulacrum"
-    uri:    "http://github.com/mpilquist/simulacrum.git"
+    name: "simulacrum"
+    uri:  ${vars.uris.simulacrum-uri}
     extra.projects: ["coreJVM", "examplesJVM"] // no Scala.js please
   }
 
   // TODO report upstream: version-checking logic, ScalaTest 3.0 compat
   ${vars.base} {
     name: "parboiled"
-    uri: "https://github.com/SethTisue/parboiled.git#community-build-2.12"
+    uri:  ${vars.uris.parboiled-uri}
     extra.projects: ["parboiled-scala"]
     extra.run-tests: false // TODO test failures, why?!
   }
 
   ${vars.base} {
     name: "machinist"
-    uri: "https://github.com/typelevel/machinist.git"
+    uri:  ${vars.uris.machinist-uri}
     extra.projects: ["machinistJVM"]  // no Scala.js please
   }
 
   ${vars.base} {
     name: "kind-projector"
-    uri:  "https://github.com/non/kind-projector.git"
+    uri:  ${vars.uris.kind-projector-uri}
   }
 
   ${vars.base} {
     name: "discipline"
-    uri: "https://github.com/typelevel/discipline.git#v0.7"
+    uri:  ${vars.uris.discipline-uri}
     extra.projects: ["disciplineJVM"]  // no Scala.js please
   }
 
   ${vars.base} {
-    name:   "twitter-util"
+    name: "twitter-util"
+    uri:  ${vars.uris.twitter-util-uri}
     // try master instead if develop proves too fragile?
-    uri:    "http://github.com/twitter/util.git#develop"
     // this isn't really necessary and would pull in a JMH dependency
     extra.exclude: ["util-benchmark"]
     // recommended at https://github.com/twitter/util/issues/173:
@@ -484,17 +479,17 @@ build += {
   // rather than sink time into investigating, just confining it to
   // JDK8 world seems perfectly fine.
   ${vars.base} {
-    name:   "mima"
+    name: "mima"
+    uri:  ${vars.uris.mima-uri}
     // normally MiMa runs on 2.10 (because sbt 0.13 does), so the branch won't
     // be merged onto master for quite a while yet
-    uri:    "http://github.com/typesafehub/migration-manager.git#scala-2.12"
     // we don't compile sbt plugins
     extra.exclude: ["sbtplugin"]
   }
 
   ${vars.base} {
     name: "spire"
-    uri: "https://github.com/SethTisue/spire.git#community-build-2.12"
+    uri:  ${vars.uris.spire-uri}
     // TODO: tests crash with:
     // [info] [error] Could not run test spire.laws.LawTests:
     // java.lang.ClassFormatError: Duplicate method name&signature in class file spire/std/OrderProductInstances$$anon$228
@@ -510,14 +505,14 @@ build += {
 
   ${vars.base} {
     name: "breeze"
-    uri: "https://github.com/scalanlp/breeze.git"
+    uri:  ${vars.uris.breeze-uri}
     // failing tests reported upstream at https://github.com/scalanlp/breeze/issues/587
     extra.run-tests: false
   }
 
   ${vars.base} {
-    name: specs2
-    uri: "https://github.com/etorreborre/specs2.git"
+    name: "specs2"
+    uri:  ${vars.uris.specs2-uri}
     extra.run-tests: false // TODO: ??? - hasn't been tried lately
     extra.commands: ${vars.default-commands} [
       // too fragile? TODO: I got a non-exhaustive match warning that
@@ -529,12 +524,12 @@ build += {
 
   ${vars.base} {
     name: "ssl-config"
-    uri: "https://github.com/typesafehub/ssl-config.git"
+    uri:  ${vars.uris.ssl-config-uri}
   }
 
   ${vars.base} {
     name: "spray-json"
-    uri: "https://github.com/spray/spray-json.git"
+    uri:  ${vars.uris.spray-json-uri}
   }
 
   // this is separate from "akka" because there is a circular dependency between
@@ -542,7 +537,7 @@ build += {
   // depends on akka-actor)
   ${vars.base} {
     name: "akka-more"
-    uri: ${vars.akka-ref}
+    uri:  ${vars.uris.akka-more-uri}
     extra: ${vars.base.extra} {
       options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
       projects: ["akka-scala-nightly"]
@@ -560,31 +555,31 @@ build += {
   }
 
   ${vars.base} {
-    name:   "scalikejdbc"
-    uri:    "http://github.com/scalikejdbc/scalikejdbc.git"
+    name: "scalikejdbc"
+    uri:  ${vars.uris.scalikejdbc-uri}
     // don't build sbt plugin
     extra.exclude: ["mapper-generator"]
   }
 
   ${vars.base} {
-    name:   "scopt"
-    uri:    "http://github.com/scopt/scopt.git#scopt3"
+    name: "scopt"
+    uri:  ${vars.uris.scopt-uri}
   }
 
   ${vars.base} {
     name: "twirl"
+    uri:  ${vars.uris.twirl-uri}
     extra.exclude: [ "plugin", "apiJS" ]
-    uri: "https://github.com/playframework/twirl.git#master"
   }
 
   ${vars.base} {
     name: "play-doc"
-    uri: "https://github.com/playframework/play-doc.git#master"
+    uri:  ${vars.uris.play-doc-uri}
   }
 
   ${vars.base} {
     name: "play2-core"
-    uri: "https://github.com/playframework/playframework.git"
+    uri:  ${vars.uris.play2-core-uri}
     extra: ${vars.base.extra} {
       // TODO: enable more projects? these are just a few that seemed especially high-value.
       // we tried including "Play-Integration-Test" but hit a mysterious StackOverflowError
@@ -604,20 +599,21 @@ build += {
 
   ${vars.base} {
     name: "json4s"
-    uri: "https://github.com/json4s/json4s.git#3.5"  // this is the current "master" branch (as of Oct 2016)
+    uri:  ${vars.uris.json4s-uri}
+    // this is the current "master" branch (as of Oct 2016)
     extra.projects: ["json4s-native", "json4s-jackson"] // TODO: exclude subprojects we don't want, rather than naming a few we want. probably adding more would work?
   }
 
   ${vars.base} {
     name: "lift-json"
+    uri:  ${vars.uris.lift-json-uri}
     // TODO unfork once https://github.com/lift/framework/pull/1812 gets merged
-    uri: "https://github.com/SethTisue/framework.git#community-build-2.12"
     extra.projects: ["lift-json"]
   }
 
   ${vars.base} {
     name: "jawn"
-    uri: "http://github.com/non/jawn.git"
+    uri:  ${vars.uris.jawn-uri}
     // omitted TODO: play
     // omitted: rojoma-v3, rojoma, benchmark, argonaut
     // (we have Argonaut in the community build, but it depends on jawn! dbuild
@@ -627,18 +623,18 @@ build += {
   }
 
   ${vars.base} {
-    name:   "scalamock"
+    name: "scalamock"
+    uri:  ${vars.uris.scalamock-uri}
     // TODO forked because specs2 support requires specs2 2.x but we only
     // have 3.x here now. and because excluding that subproject here isn't enough
     // (see diffs in the fork for details)
-    uri:    "https://github.com/SethTisue/scalamock.git#community-build-2.12"
     // not sure why "examples" is also excluded? maybe it has specs2 stuff too?
     extra.exclude: [ "specs2", "examples" ]
   }
 
   ${vars.base} {
     name: "argonaut"
-    uri: "https://github.com/argonaut-io/argonaut.git"
+    uri:  ${vars.uris.argonaut-uri}
     extra.exclude: [
       // fails to declare its scala-parser-combinators dependency,
       // and anyway we don't want to run benchmarks
@@ -651,15 +647,15 @@ build += {
 
   ${vars.base} {
     name: "monocle"
+    uri:  ${vars.uris.monocle-uri}
     // TODO move to master once full 2.12 support is there, and try to
     // enable more subprojects besides just these few
-    uri: "https://github.com/julien-truffaut/Monocle.git#scala-2.12-RC1-core"
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM"]
   }
 
   ${vars.base} {
     name: "catalysts"
-    uri: "https://github.com/typelevel/catalysts.git"
+    uri:  ${vars.uris.catalysts-uri}
     // TODO add more projects? hasn't been tried yet
     extra.projects: ["platformJVM"]
   }
