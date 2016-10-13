@@ -7,8 +7,5 @@ set -e
 rm -rf target-*/project-builds
 rm -rf target-*/extraction
 
-# TODO: in scala-jenkins-infra, make an actual parameter for
-# specifying projects to be built, instead of hijacking the
-# "scala_build_extra_opt" name for that purpose
-
-./run.sh $scala_build_extra_opt
+# the `projects` jenkins job param can be used to limit the projects to build
+./run.sh $projects
