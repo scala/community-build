@@ -499,7 +499,7 @@ build += {
     // java.lang.ClassFormatError: Duplicate method name&signature in class file spire/std/OrderProductInstances$$anon$228
     extra.run-tests: false
     // hopefully avoid intermittent OutOfMemoryErrors during compilation
-    extra.options: ["-Xmx2048m"]
+    extra.options: ["-Xmx2560m"]
     extra.projects: ["spireJVM"]  // no Scala.js please
     // no longer exists in 2.12
     extra.commands: ${vars.default-commands} [
