@@ -429,6 +429,8 @@ build += {
     ]
   }
 
+  // TODO: we temporarily addressed https://github.com/scala/community-builds/issues/347
+  // by freezing at 2a75226 (September 2016), a better fix is needed
   ${vars.base} {
     name: "simulacrum"
     uri:  ${vars.uris.simulacrum-uri}
