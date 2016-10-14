@@ -3,10 +3,13 @@
 # This script is suitable for local use.
 # It is also invoked by Jenkins (from scripts/jobs/integrate/community-build).
 
-# usage:
-# ./run.sh
-# ./run.sh project1
-# ./run.sh project1,project2,project3
+# usage examples:
+#   version=2.12.x-933bab2-nightly ./run.sh
+#   version=2.12.x-933bab2-nightly ./run.sh project1
+#   version=2.12.x-933bab2-nightly ./run.sh project1,project2,project3
+# fill in the Scala branch and SHA as appropriate, perhaps by looking at
+# the parameters of a recent green Jenkins run at e.g.
+# https://scala-ci.typesafe.com/job/scala-2.12.x-integrate-community-build/
 
 set -e
 set -o pipefail
