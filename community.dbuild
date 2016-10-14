@@ -435,12 +435,14 @@ build += {
     extra.projects: ["coreJVM", "examplesJVM"] // no Scala.js please
   }
 
-  // TODO report upstream: version-checking logic, ScalaTest 3.0 compat
+  // if this starts giving us trouble, it would be OK to just drop it,
+  // as per Mathias's comments at https://github.com/sirthias/parboiled/pull/100
+  // ("it's quite unmaintained. Also, I don't think there are any real users left")
   ${vars.base} {
     name: "parboiled"
     uri:  ${vars.uris.parboiled-uri}
     extra.projects: ["parboiled-scala"]
-    extra.run-tests: false // TODO test failures, why?!
+    extra.run-tests: false
   }
 
   ${vars.base} {
