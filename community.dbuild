@@ -660,4 +660,9 @@ build += {
     extra.projects: ["platformJVM"]
   }
 
+  ${vars.base} {
+    name: "scala-continuations"
+    uri:  ${vars.uris.scala-continuations-uri}
+  }
+
 ]}
