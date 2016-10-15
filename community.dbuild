@@ -669,4 +669,44 @@ build += {
     uri:  ${vars.uris.scala-continuations-uri}
   }
 
+  // using xuwei-k's fork which has changes needed for 2.12 compat,
+  // submitted upstream: https://github.com/veact/scala-ssh/pull/5
+  ${vars.base} {
+    name: "scala-ssh"
+    uri:  ${vars.uris.scala-ssh-uri}
+    // Failed tests: com.decodified.scalassh.SshClientSpec
+    extra.test-tasks: "compile"
+  }
+
+  // forked for a small build change, contributed upstream:
+  // https://github.com/FasterXML/jackson-module-scala/pull/290
+  ${vars.base} {
+    name: "jackson-module-scala"
+    uri:  ${vars.uris.jackson-module-scala-uri}
+    // we're lying and telling it Java 8 is Java 7, but in this context
+    // the lie isn't important
+    extra.options: ["-DJAVA7_HOME="${JAVA_HOME}]
+  }
+
+  ${vars.base} {
+    name: "scalameter"
+    uri:  ${vars.uris.scalameter-uri}
+    check-missing: false
+    deps.ignore: [
+      // doesn't support 2.12 (yet?)
+      "org.mongodb#casbah"
+      // this one is unmaintained and doesn't support Scala 2.12...
+      "com.decodified#scala-ssh"
+    ]
+    deps.inject: [
+      // ...but this one does
+      "com.veact#scala-ssh"
+    ]
+    // Failed tests:
+    // - org.scalameter.persistence.JSONSerializationPersistorTest
+    // - org.scalameter.persistence.SerializationPersistorTest
+    // - org.scalameter.persistence.GZIPJSONSerializationPersistorTest
+    extra.test-tasks: "compile"
+  }
+
 ]}
