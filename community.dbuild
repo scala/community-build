@@ -173,12 +173,13 @@ build += {
     extra.projects: ["jvm"]  // no Scala.js please
   }
 
-  // "release-0.7" is a stable branch, used to cut 0.7 against new Scala milestones at this time
+  // "release-0.7" is a stable branch, used to cut 0.7 against new Scala milestones at this time;
+  // no commits on master since April 2015 (checked October 2016)
   ${vars.base} {
     name: "scala-stm"
     uri:  ${vars.uris.scala-stm-uri}
-    // a minor incompatibility with recent versions of scalatest, therefore:
-    extra.run-tests: false // TODO enable tests
+    // a minor source incompatibility with ScalaTest 3.0, therefore:
+    extra.run-tests: false
   }
 
   ${vars.base} {
@@ -187,7 +188,8 @@ build += {
     extra.projects: ["coreJVM"]
     // optimizer related. Lukas may want to revisit before 2.12 final
     extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
-    extra.run-tests: false // TODO enable tests
+    // TODO Failed tests: shapeless.CachedTest
+    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
@@ -195,7 +197,7 @@ build += {
     uri:  ${vars.uris.scoverage-uri}
     extra: ${vars.base.extra} {
       exclude: ["scalac-scoverage-runtimeJS"] // no Scala.js please
-      run-tests: false // TODO: [info] java.io.FileNotFoundException: Could not locate [~/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.0.jar].
+      test-tasks: "compile" // TODO: [info] java.io.FileNotFoundException: Could not locate [~/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.0.jar].
     }
   }
 
@@ -240,7 +242,7 @@ build += {
     uri:  ${vars.uris.scalatest-uri}
     extra: ${vars.base.extra} {
       projects: ["scalatest", "scalactic"]
-      run-tests: false // TODO enable tests
+      test-tasks: ["compile"] // TODO enable tests
     }
   }
 
@@ -248,7 +250,7 @@ build += {
     name: "genjavadoc"
     uri:  ${vars.uris.genjavadoc-uri}
     // TODO Failed tests: com.typesafe.genjavadoc.BasicSpec (looks like maybe the test is too sensitive to ordering?)
-    extra.run-tests: false // TODO enable tests
+    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
@@ -260,30 +262,23 @@ build += {
     }
   }
 
+  // forked because master doesn't quite work on 2.12; one needed change
+  // submitted upstream at https://github.com/scala-ide/scalariform/pull/233/files
   ${vars.base} {
-    name: "scala-refactoring"
-    uri:  ${vars.uris.scala-refactoring-uri}
-    // There's no suitable release yet, so we depend on this commit. Upgrade to the next tagged version once released
-    extra: ${vars.base.extra} {
-      directory: "org.scala-refactoring.library"
-      run-tests: false // TODO enable tests
-    }
+    name: "scalariform"
+    uri: ${vars.uris.scalariform-uri}
+    // warnings reported upstream at https://github.com/scala-ide/scalariform/issues/234
+    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
+    // tests don't compile on ScalaTest 3.0. reported upstream at
+    // https://github.com/scala-ide/scalariform/issues/232
+    extra.run-tests: false
   }
-
-  // TODO
-  // broken -- does not compile due to source incompat lang change??
-  // ${vars.base} {
-  //   name:   "scalariform"
-  //   uri:    "https://github.com/daniel-trinh/scalariform.git"
-  //   // avoid building misc subproject that depends on Swing (and is not needed by any other project)
-  //   extra.projects: ["scalariform"]
-  //   extra.run-tests: false
-  // }
 
   ${vars.base} {
     name: "async"
     uri:  ${vars.uris.async-uri}
-    extra.run-tests: false // TODO: ToolBox based tests report missing JARs. Probably some poor assumption in the async tests.
+    // TODO: ToolBox based tests report missing JARs. Probably some poor assumption in the async tests.
+    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
@@ -368,7 +363,8 @@ build += {
     // disable sbt-coursier plugin; https://github.com/scala/community-builds/issues/294
     // no Scala.js plz
     extra.projects: ["fastparseJVM"]
-    extra.run-tests: false // TODO: tests depend on lambda toString looking like e.g `<function1>`
+    // TODO: tests depend on lambda toString looking like e.g `<function1>`
+    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
@@ -444,7 +440,7 @@ build += {
     name: "parboiled"
     uri:  ${vars.uris.parboiled-uri}
     extra.projects: ["parboiled-scala"]
-    extra.run-tests: false
+    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
@@ -497,7 +493,7 @@ build += {
     // TODO: tests crash with:
     // [info] [error] Could not run test spire.laws.LawTests:
     // java.lang.ClassFormatError: Duplicate method name&signature in class file spire/std/OrderProductInstances$$anon$228
-    extra.run-tests: false
+    extra.test-tasks: ["compile"]
     // hopefully avoid intermittent OutOfMemoryErrors during compilation
     extra.options: ["-Xmx2560m"]
     extra.projects: ["spireJVM"]  // no Scala.js please
@@ -511,13 +507,13 @@ build += {
     name: "breeze"
     uri:  ${vars.uris.breeze-uri}
     // failing tests reported upstream at https://github.com/scalanlp/breeze/issues/587
-    extra.run-tests: false
+    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
     name: "specs2"
     uri:  ${vars.uris.specs2-uri}
-    extra.run-tests: false // TODO: ??? - hasn't been tried lately
+    extra.test-tasks: ["compile"] // TODO: ??? - hasn't been tried lately
     extra.commands: ${vars.default-commands} [
       // too fragile? TODO: I got a non-exhaustive match warning that
       // could conceivably indicate some real regression. or maybe it's
@@ -550,7 +546,8 @@ build += {
         "akka-actor"  // because we already built it in "akka"
         "akka-bench-jmh"  // we'd have to add a resolver to get the JMH dependency - ST 8/17/15
       ]
-      run-tests: false // TODO wip on this at https://github.com/scala/community-builds/pull/317
+      // TODO wip on this at https://github.com/scala/community-builds/pull/317
+      test-tasks: ["compile"]
       // Scaladoc generation failure reported upstream at https://github.com/akka/akka/issues/21543
       commands: ${vars.default-commands} [
         "set sources in doc in Compile in httpCore := List()"
