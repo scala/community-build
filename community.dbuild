@@ -702,11 +702,6 @@ build += {
       // ...but this one does
       "com.veact#scala-ssh"
     ]
-    // Failed tests:
-    // - org.scalameter.persistence.JSONSerializationPersistorTest
-    // - org.scalameter.persistence.SerializationPersistorTest
-    // - org.scalameter.persistence.GZIPJSONSerializationPersistorTest
-    extra.test-tasks: "compile"
   }
 
   ${vars.base} {
