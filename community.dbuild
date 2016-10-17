@@ -709,4 +709,18 @@ build += {
     extra.test-tasks: "compile"
   }
 
+  ${vars.base} {
+    name: "scala-json-ast"
+    uri:  ${vars.uris.scala-json-ast-uri}
+    // but why does scalafmt turn up in libraryDependencies at all?
+    // see https://github.com/olafurpg/scalafmt/issues/485#issuecomment-253601375
+    check-missing: false
+    deps.ignore: [
+      "com.geirsson#scalafmt-cli"
+      "com.geirsson#scalafmt"
+    ]
+    // no Scala.js please, and no benchmarks either
+    extra.projects: ["scalaJsonASTJVM"]
+  }
+
 ]}
