@@ -128,7 +128,7 @@ build += {
       // whatever random Scala version the module has
       {
         name: "scala-xml"
-        uri: "https://github.com/scala/scala-xml.git"
+        uri: ${vars.uris.scala-xml-uri}
         extra.commands: "set scalaVersion := \""${vars.scala-version}"\""
       }
     ]
