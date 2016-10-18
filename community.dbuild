@@ -262,8 +262,6 @@ build += {
     }
   }
 
-  // forked because master doesn't quite work on 2.12; one needed change
-  // submitted upstream at https://github.com/scala-ide/scalariform/pull/233/files
   ${vars.base} {
     name: "scalariform"
     uri: ${vars.uris.scalariform-uri}
