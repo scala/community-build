@@ -423,12 +423,16 @@ build += {
     ]
   }
 
-  // TODO: we temporarily addressed https://github.com/scala/community-builds/issues/347
-  // by freezing at 2a75226 (September 2016), a better fix is needed
   ${vars.base} {
     name: "simulacrum"
     uri:  ${vars.uris.simulacrum-uri}
-    extra.projects: ["coreJVM", "examplesJVM"] // no Scala.js please
+    // wartremover injects itself here, but it isn't a real dependency
+    extra.settings: [
+      "libraryDependencies in LocalProject(\"coreJVM\"    ) ~= (_.filterNot(_.name == \"wartremover\"))"
+      "libraryDependencies in LocalProject(\"examplesJVM\") ~= (_.filterNot(_.name == \"wartremover\"))"
+    ]
+    // no Scala.js please
+    extra.projects: ["coreJVM", "examplesJVM"]
   }
 
   // if this starts giving us trouble, it would be OK to just drop it,
