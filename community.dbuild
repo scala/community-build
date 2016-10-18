@@ -253,6 +253,8 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
+  // frozen at an October 2016 commit for now, before akka-http got moved to a separate repo.
+  // addressing that properly is https://github.com/scala/community-builds/issues/356
   ${vars.base} {
     name: "akka"
     uri:  ${vars.uris.akka-uri}
