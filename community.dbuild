@@ -539,6 +539,11 @@ build += {
     uri:  ${vars.uris.spray-json-uri}
   }
 
+  ${vars.base} {
+    name: "spray-json-shapeless"
+    uri:  ${vars.uris.spray-json-shapeless-uri}
+  }
+
   // this is separate from "akka" because there is a circular dependency between
   // the akka and ssl-config repos. (akka-http depends on ssl-config-akka which
   // depends on akka-actor)
