@@ -436,11 +436,18 @@ build += {
   // if this starts giving us trouble, it would be OK to just drop it,
   // as per Mathias's comments at https://github.com/sirthias/parboiled/pull/100
   // ("it's quite unmaintained. Also, I don't think there are any real users left")
+  // We have parboiled2 below.
   ${vars.base} {
     name: "parboiled"
     uri:  ${vars.uris.parboiled-uri}
     extra.projects: ["parboiled-scala"]
     extra.test-tasks: ["compile"]
+  }
+
+  ${vars.base} {
+    name: "parboiled2"
+    uri:  ${vars.uris.parboiled2-uri}
+    extra.projects: ["parboiledJVM", "examples"]
   }
 
   ${vars.base} {
