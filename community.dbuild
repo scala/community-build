@@ -54,7 +54,7 @@ set commands ++= {
     alterScalacOptions(s, appendDistinct(_, args))
   }
   def removeScalacOptions(s: State, args: Seq[String]) =
-    alterScalacOptions(s, _.filterNot(args.contains))
+    alterScalacOptions(s, _.filterNot(opt => args.exists(opt.containsSlice)))
   Seq(
     Command.args("appendScalacOptions", "<option>")(appendScalacOptions),
     Command.args("removeScalacOptions", "<option>")(removeScalacOptions))
@@ -425,12 +425,18 @@ build += {
     ]
   }
 
-  // TODO: we temporarily addressed https://github.com/scala/community-builds/issues/347
-  // by freezing at 2a75226 (September 2016), a better fix is needed
+  {
+    name: "wartremover"
+    system: aether
+    uri: "aether:org.wartremover#wartremover_2.12.0-M5;1.1.1"
+  }
+
   ${vars.base} {
     name: "simulacrum"
     uri:  ${vars.uris.simulacrum-uri}
-    extra.projects: ["coreJVM", "examplesJVM"] // no Scala.js please
+    extra.commands: ${vars.default-commands} [ "removeScalacOptions wartremover" ]
+    // no Scala.js please
+    extra.projects: ["coreJVM", "examplesJVM"]
   }
 
   // if this starts giving us trouble, it would be OK to just drop it,
