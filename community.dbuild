@@ -468,17 +468,21 @@ build += {
     extra.projects: ["disciplineJVM"]  // no Scala.js please
   }
 
+  // tracking "develop" branch.
+  // try master instead if develop proves too fragile?
   ${vars.base} {
     name: "twitter-util"
     uri:  ${vars.uris.twitter-util-uri}
-    // try master instead if develop proves too fragile?
-    // this isn't really necessary and would pull in a JMH dependency
-    extra.exclude: ["util-benchmark"]
+    extra.exclude: [
+      // this isn't really necessary and would pull in a JMH dependency
+      "util-benchmark"
+    ]
     // recommended at https://github.com/twitter/util/issues/173:
     // "We use that when we don't think the tests will be reliable in a ci environment"
     extra.options: ["-DSKIP_FLAKY=true"]
     // they're still on ScalaTest 2, we're on ScalaTest 3 here, so the tests don't even
-    // compile (as of October 2016)
+    // compile (as of October 2016).  when the time comes to re-enable this, watch
+    // out for https://github.com/twitter/util/issues/180 though
     extra.run-tests: false
   }
 
@@ -493,6 +497,10 @@ build += {
     // be merged onto master for quite a while yet
     // we don't compile sbt plugins
     extra.exclude: ["sbtplugin"]
+    // on master, the build was recently redone and no longer works with 0.13.12.
+    // that work hasn't been merged onto the 2.12 branch yet.  probably by the time
+    // that happens, we'll already have moved to 0.13.13 final here anyway
+    // extra.sbt-version: "0.13.13-RC3"
   }
 
   ${vars.base} {
