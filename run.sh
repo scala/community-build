@@ -17,6 +17,8 @@ set -o pipefail
 export LANG="en_US.UTF-8"
 export HOME="$(pwd)"
 
+echo "scala version:" ${version:?must set version environment variable}
+
 DBUILDVERSION=0.9.5
 echo "dbuild version: $DBUILDVERSION"
 
