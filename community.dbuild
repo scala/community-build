@@ -567,8 +567,6 @@ build += {
         "akka-actor"  // because we already built it in "akka"
         "akka-bench-jmh"  // we'd have to add a resolver to get the JMH dependency - ST 8/17/15
       ]
-      // TODO wip on this at https://github.com/scala/community-builds/pull/317
-      test-tasks: ["compile"]
       // Scaladoc generation failure reported upstream at https://github.com/akka/akka/issues/21543
       commands: ${vars.default-commands} [
         "set sources in doc in Compile in httpCore := List()"
