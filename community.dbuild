@@ -411,12 +411,11 @@ build += {
     ]
   }
 
-  // forked because of https://github.com/typelevel/cats/issues/1396
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
     // this is only some of Cats. we should try and add more
-    extra.projects: ["coreJVM", "macrosJVM"] // no Scala.js please
+    extra.projects: ["catsJVM"] // no Scala.js please
     extra.commands: ${vars.default-commands} [
       // too fragile
       "removeScalacOptions -Xfatal-warnings"
