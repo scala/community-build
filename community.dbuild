@@ -666,8 +666,7 @@ build += {
   ${vars.base} {
     name: "monocle"
     uri:  ${vars.uris.monocle-uri}
-    // TODO move to master once full 2.12 support is there, and try to
-    // enable more subprojects besides just these few
+    // try to enable more subprojects besides just these few?
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM"]
   }
 
