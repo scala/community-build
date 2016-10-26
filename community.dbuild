@@ -731,4 +731,12 @@ build += {
     extra.projects: ["scalaJsonASTJVM"]
   }
 
+  // using Lars Hupel's fork with 0.12 support. unfork
+  // after https://github.com/lihaoyi/scalatags/pull/142 is merged?
+  ${vars.base} {
+    name: "scalatags"
+    uri:  ${vars.uris.scalatags-uri}
+    extra.projects: ["scalatagsJVM"]  // no Scala.js
+  }
+
 ]}
