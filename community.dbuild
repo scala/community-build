@@ -411,7 +411,6 @@ build += {
     ]
   }
 
-  // forked because of https://github.com/typelevel/cats/issues/1396
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
