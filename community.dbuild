@@ -253,8 +253,6 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
-  // frozen at an October 2016 commit for now, before akka-http got moved to a separate repo.
-  // addressing that properly is https://github.com/scala/community-builds/issues/356
   ${vars.base} {
     name: "akka"
     uri:  ${vars.uris.akka-uri}
@@ -549,8 +547,7 @@ build += {
   }
 
   // this is separate from "akka" because there is a circular dependency between
-  // the akka and ssl-config repos. (akka-http depends on ssl-config-akka which
-  // depends on akka-actor)
+  // the akka and ssl-config repos
   ${vars.base} {
     name: "akka-more"
     uri:  ${vars.uris.akka-more-uri}
@@ -564,6 +561,14 @@ build += {
       ]
       // TODO wip on this at https://github.com/scala/community-builds/pull/317
       test-tasks: ["compile"]
+    }
+  }
+
+  ${vars.base} {
+    name: "akka-http"
+    uri:  ${vars.uris.akka-http-uri}
+    extra: ${vars.base.extra} {
+      options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false"]
       // Scaladoc generation failure reported upstream at https://github.com/akka/akka/issues/21543
       commands: ${vars.default-commands} [
         "set sources in doc in Compile in httpCore := List()"
