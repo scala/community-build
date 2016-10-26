@@ -28,7 +28,7 @@ include file("project-refs.conf")
 
 vars {
   default-commands: []
-  sbt-version: "0.13.12"
+  sbt-version: "0.13.13-RC3"
 }
 
 //// compiler options manipulation
@@ -495,10 +495,6 @@ build += {
     // be merged onto master for quite a while yet
     // we don't compile sbt plugins
     extra.exclude: ["sbtplugin"]
-    // on master, the build was recently redone and no longer works with 0.13.12.
-    // that work hasn't been merged onto the 2.12 branch yet.  probably by the time
-    // that happens, we'll already have moved to 0.13.13 final here anyway
-    // extra.sbt-version: "0.13.13-RC3"
   }
 
 // TODO Spire is commented out because of https://github.com/non/spire/issues/592
