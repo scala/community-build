@@ -28,7 +28,7 @@ include file("project-refs.conf")
 
 vars {
   default-commands: []
-  sbt-version: "0.13.12"
+  sbt-version: "0.13.13-RC3"
 }
 
 //// compiler options manipulation
@@ -213,6 +213,12 @@ build += {
     name: "scalaz"
     uri:  ${vars.uris.scalaz-uri}
     extra.projects: ["rootJVM"]  // no Scala.js please
+    extra.exclude: [
+      // we're on ScalaCheck 1.12 not 1.13
+      "scalacheck-binding_1_13JVM"
+      // but testsJVM depends on 1.13 so we have to exclude it too :-(
+      "testsJVM"
+    ]
   }
 
   ${vars.base} {
@@ -253,8 +259,6 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
-  // frozen at an October 2016 commit for now, before akka-http got moved to a separate repo.
-  // addressing that properly is https://github.com/scala/community-builds/issues/356
   ${vars.base} {
     name: "akka"
     uri:  ${vars.uris.akka-uri}
@@ -411,7 +415,6 @@ build += {
     ]
   }
 
-  // forked because of https://github.com/typelevel/cats/issues/1396
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
@@ -495,10 +498,6 @@ build += {
     // be merged onto master for quite a while yet
     // we don't compile sbt plugins
     extra.exclude: ["sbtplugin"]
-    // on master, the build was recently redone and no longer works with 0.13.12.
-    // that work hasn't been merged onto the 2.12 branch yet.  probably by the time
-    // that happens, we'll already have moved to 0.13.13 final here anyway
-    // extra.sbt-version: "0.13.13-RC3"
   }
 
 // TODO Spire is commented out because of https://github.com/non/spire/issues/592
@@ -554,8 +553,7 @@ build += {
   }
 
   // this is separate from "akka" because there is a circular dependency between
-  // the akka and ssl-config repos. (akka-http depends on ssl-config-akka which
-  // depends on akka-actor)
+  // the akka and ssl-config repos
   ${vars.base} {
     name: "akka-more"
     uri:  ${vars.uris.akka-more-uri}
@@ -569,6 +567,14 @@ build += {
       ]
       // TODO wip on this at https://github.com/scala/community-builds/pull/317
       test-tasks: ["compile"]
+    }
+  }
+
+  ${vars.base} {
+    name: "akka-http"
+    uri:  ${vars.uris.akka-http-uri}
+    extra: ${vars.base.extra} {
+      options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false"]
       // Scaladoc generation failure reported upstream at https://github.com/akka/akka/issues/21543
       commands: ${vars.default-commands} [
         "set sources in doc in Compile in httpCore := List()"
@@ -670,8 +676,7 @@ build += {
   ${vars.base} {
     name: "monocle"
     uri:  ${vars.uris.monocle-uri}
-    // TODO move to master once full 2.12 support is there, and try to
-    // enable more subprojects besides just these few
+    // try to enable more subprojects besides just these few?
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM"]
   }
 
@@ -734,6 +739,14 @@ build += {
     ]
     // no Scala.js please, and no benchmarks either
     extra.projects: ["scalaJsonASTJVM"]
+  }
+
+  // using Lars Hupel's fork with 0.12 support. unfork
+  // after https://github.com/lihaoyi/scalatags/pull/142 is merged?
+  ${vars.base} {
+    name: "scalatags"
+    uri:  ${vars.uris.scalatags-uri}
+    extra.projects: ["scalatagsJVM"]  // no Scala.js
   }
 
 ]}
