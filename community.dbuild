@@ -753,4 +753,9 @@ build += {
     extra.projects: ["scalatagsJVM"]  // no Scala.js
   }
 
+  ${vars.base} {
+    name: "scalafx"
+    uri:  ${vars.uris.scalafx-uri}
+  }
+
 ]}
