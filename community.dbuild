@@ -664,6 +664,7 @@ build += {
     extra.exclude: [ "specs2", "examples" ]
   }
 
+  // frozen at a84800d, right before they moved to ScalaCheck 1.13
   ${vars.base} {
     name: "argonaut"
     uri:  ${vars.uris.argonaut-uri}
