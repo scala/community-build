@@ -436,8 +436,7 @@ build += {
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
-    // this is only some of Cats. we should try and add more
-    extra.projects: ["coreJVM", "macrosJVM", "lawsJVM", "kernelLawsJVM"]
+    extra.projects: ["catsJVM"] // no Scala.js please
     extra.commands: ${vars.default-commands} [
       // too fragile
       "removeScalacOptions -Xfatal-warnings"
