@@ -581,7 +581,8 @@ build += {
       commands: ${vars.default-commands} [
         "set sources in doc in Compile in httpCore := List()"
       ]
-      // TODO failing: akka.http.scaladsl.server.directives.DebuggingDirectivesSpec
+      // "HTTP is sadly very timing sensitive we're working on improving its stability regularly,
+      // OK to disable it for now." - Konrad M, October 2016
       test-tasks: ["compile"]
     }
   }
