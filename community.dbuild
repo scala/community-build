@@ -553,6 +553,11 @@ build += {
     uri:  ${vars.uris.spray-json-shapeless-uri}
   }
 
+  ${vars.base} {
+    name: "pcplod"
+    uri:  ${vars.uris.pcplod-uri}
+  }
+
   // this is separate from "akka" because there is a circular dependency between
   // the akka and ssl-config repos
   ${vars.base} {
