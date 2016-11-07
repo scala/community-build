@@ -236,7 +236,7 @@ build += {
     uri:  ${vars.uris.scalatest-uri}
     extra: ${vars.base.extra} {
       projects: ["scalatest", "scalactic"]
-      test-tasks: ["compile"] // TODO enable tests
+      test-tasks: ["compile"] // TODO run tests -- need to exclude browser-based tests somehow
     }
   }
 
