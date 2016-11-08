@@ -200,7 +200,6 @@ build += {
     uri:  ${vars.uris.scoverage-uri}
     extra: ${vars.base.extra} {
       exclude: ["scalac-scoverage-runtimeJS"] // no Scala.js please
-      test-tasks: "compile" // TODO: [info] java.io.FileNotFoundException: Could not locate [~/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.0.jar].
     }
   }
 
