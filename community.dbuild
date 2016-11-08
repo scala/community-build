@@ -22,7 +22,9 @@ vars: {
 vars: {
   base: {}
 }
+
 include file("project-refs.conf")
+include file("resolvers.conf")
 
 //// shared settings
 
@@ -62,23 +64,6 @@ set commands ++= {
 """
 vars.default-commands += "appendScalacOptions "${vars.scalac-opts}
 vars.base.extra.commands = ${vars.default-commands}
-
-//// resolvers
-
-vars.ivyPat: ", [organisation]/[module]/(scala_[scalaVersion]/)(sbt_[sbtVersion]/)[revision]/[type]s/[artifact](-[classifier]).[ext]"
-options.resolvers: {
-  01: "local"
-
-  02: "dbuild: https://scala-ci.typesafe.com/artifactory/dbuild/"
-  03: "dbuild-ivy: https://scala-ci.typesafe.com/artifactory/dbuild-ivy/"${vars.ivyPat}
-  04: "dbuild-unchecked: https://scala-ci.typesafe.com/artifactory/dbuild-unchecked/" // for sbt plugins not available on ivy (they'll fail the pom check on the `dbuild` cache repo above)
-
-  // this is so we can run the build against an as-yet-unmerged PR if we want
-  05: "scala-pr-validation-snapshots: https://scala-ci.typesafe.com/artifactory/scala-pr-validation-snapshots"
-
-  // and this is where we get Scala nightlies
-  20: "private-repo: https://scala-ci.typesafe.com/artifactory/scala-release-temp/"
-}
 
 //// cache
 
