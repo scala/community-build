@@ -640,11 +640,18 @@ build += {
     }
   }
 
+  // 3.5 is the current stable branch (as of Oct 2016)
+  // there is also a brand-new development branch, 3.6, we should
+  // maybe switch to at some point
   ${vars.base} {
     name: "json4s"
     uri:  ${vars.uris.json4s-uri}
-    // this is the current "master" branch (as of Oct 2016)
-    extra.projects: ["json4s-native", "json4s-jackson"] // TODO: exclude subprojects we don't want, rather than naming a few we want. probably adding more would work?
+    // in 0b28498f they started setting the MiMa previous version in a way that involves
+    // scalaBinaryVersion in a dbuild-unfriendly way.  running MiMa isn't really important
+    // so rather than ask them to mess with it, let's just disable it
+    extra.commands: ["set every com.typesafe.tools.mima.plugin.MimaKeys.previousArtifacts := Set.empty"]
+    // TODO: exclude subprojects we don't want, rather than naming a few we want. probably adding more would work?
+    extra.projects: ["json4s-native", "json4s-jackson", "json4s-ast"]
   }
 
   ${vars.base} {
