@@ -709,14 +709,12 @@ build += {
     extra.test-tasks: "compile"
   }
 
-  // forked for a small build change, contributed upstream:
-  // https://github.com/FasterXML/jackson-module-scala/pull/290
   ${vars.base} {
     name: "jackson-module-scala"
     uri:  ${vars.uris.jackson-module-scala-uri}
     // we're lying and telling it Java 8 is Java 7, but in this context
     // the lie isn't important
-    extra.options: ["-DJAVA7_HOME="${JAVA_HOME}]
+    extra.options: ["-Djava7.home="${JAVA_HOME}]
   }
 
   ${vars.base} {
