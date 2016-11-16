@@ -759,4 +759,13 @@ build += {
     extra.projects: ["testModuleJVM"]  // no Scala.js, no benchmarks
   }
 
+  ${vars.base} {
+    name: "scala-abide"
+    uri:  ${vars.uris.scala-abide-uri}
+    extra.exclude: [
+      "root"       // dbuild thinks it tries to publish root#root
+      "sbt-abide"  // we never build sbt plugins
+    ]
+  }
+
 ]}
