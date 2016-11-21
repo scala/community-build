@@ -23,7 +23,7 @@ function latestNightly() {
   curl -f -s -L $url | grep ^version= | cut -d= -f2
 }
 
-version=${version-`latestNightly`}
+export version=${version-`latestNightly`}
 echo "re-run as:"
 echo version=$version ./run.sh ${@}
 
