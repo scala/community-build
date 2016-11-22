@@ -9,7 +9,7 @@
 #   version=2.12.1-933bab2-nightly ./run.sh project1
 #   version=2.12.1-933bab2-nightly ./run.sh project1,project2,project3
 # if no Scala version is specified, we use the last green run from
-# https://scala-ci.typesafe.com/job/scala-2.12.x-integrate-community-build/
+# https://scala-ci.typesafe.com/job/scala-2.13.x-integrate-community-build/
 
 set -e
 set -o pipefail
@@ -19,7 +19,7 @@ export HOME="$(pwd)"
 
 function latestNightly() {
   >&2 echo "No Scala version specified. Using latest nightly."
-  url='https://scala-ci.typesafe.com/job/scala-2.12.x-integrate-bootstrap/lastSuccessfulBuild/artifact/jenkins.properties/*view*/'
+  url='https://scala-ci.typesafe.com/job/scala-2.13.x-integrate-bootstrap/lastSuccessfulBuild/artifact/jenkins.properties/*view*/'
   curl -f -s -L $url | grep ^version= | cut -d= -f2
 }
 
