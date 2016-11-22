@@ -538,17 +538,11 @@ build += {
     uri:  ${vars.uris.spray-json-uri}
   }
 
-  // currently frozen at a November 2016 commit from just before an
-  // sbt-sensible version bump that failed to resolve:
-  // [spray-json-shapeless] sbt.ResolveException: unresolved dependency: com.fommil#sbt-sensible;1.0.6: not found
   ${vars.base} {
     name: "spray-json-shapeless"
     uri:  ${vars.uris.spray-json-shapeless-uri}
   }
 
-  // currently frozen at a November 2016 commit from just before an
-  // sbt-sensible version bump that failed to resolve:
-  // [pcplod] sbt.ResolveException: unresolved dependency: com.fommil#sbt-sensible;1.0.6: not found
   ${vars.base} {
     name: "pcplod"
     uri:  ${vars.uris.pcplod-uri}
