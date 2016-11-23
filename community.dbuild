@@ -762,4 +762,10 @@ build += {
     extra.projects: ["scalatagsJVM"]  // no Scala.js
   }
 
+  ${vars.base} {
+    name: "scala-refactoring"
+    uri:  ${vars.uris.scala-refactoring-uri}
+    extra.directory: "org.scala-refactoring.library"
+  }
+
 ]}
