@@ -240,6 +240,8 @@ build += {
     }
   }
 
+  // We are currently using Adriaan's api-doc-comment branch.  We should make sure that branch
+  // becomes a pull request, which gets merged, so we can start using master again.
   ${vars.base} {
     name: "genjavadoc"
     uri:  ${vars.uris.genjavadoc-uri}
@@ -292,17 +294,6 @@ build += {
     name: "sbt-testng-interface"
     uri:  ${vars.uris.sbt-testng-interface-uri}
     extra.projects: ["sbt-testng-interface"]  // just the interface, we don't need to build the plugin
-  }
-
-  // this is a very old, not really maintained project.  the sbt/sxr repo
-  // has some newer commits, but hasn't been updated (as of October 2016)
-  // to support Scala 2.12.  if 2.12 support starts happening, we could
-  // point to the new repo. if it doesn't, I don't think this entry is worth
-  // maintaining. I will leave it in place, but if it starts acting up,
-  // I think we could just drop it.
-  ${vars.base} {
-    name: "browse"
-    uri:  ${vars.uris.browse-uri}
   }
 
   ${vars.base} {
@@ -538,17 +529,11 @@ build += {
     uri:  ${vars.uris.spray-json-uri}
   }
 
-  // currently frozen at a November 2016 commit from just before an
-  // sbt-sensible version bump that failed to resolve:
-  // [spray-json-shapeless] sbt.ResolveException: unresolved dependency: com.fommil#sbt-sensible;1.0.6: not found
   ${vars.base} {
     name: "spray-json-shapeless"
     uri:  ${vars.uris.spray-json-shapeless-uri}
   }
 
-  // currently frozen at a November 2016 commit from just before an
-  // sbt-sensible version bump that failed to resolve:
-  // [pcplod] sbt.ResolveException: unresolved dependency: com.fommil#sbt-sensible;1.0.6: not found
   ${vars.base} {
     name: "pcplod"
     uri:  ${vars.uris.pcplod-uri}
@@ -760,6 +745,12 @@ build += {
     name: "scalatags"
     uri:  ${vars.uris.scalatags-uri}
     extra.projects: ["scalatagsJVM"]  // no Scala.js
+  }
+
+  ${vars.base} {
+    name: "scala-refactoring"
+    uri:  ${vars.uris.scala-refactoring-uri}
+    extra.directory: "org.scala-refactoring.library"
   }
 
 ]}
