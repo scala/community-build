@@ -27,7 +27,7 @@ export version=${version-`latestNightly`}
 echo "re-run as:"
 echo version=$version ./run.sh ${@}
 
-DBUILDVERSION=0.9.5
+DBUILDVERSION=0.9.7-RC1
 echo "dbuild version: $DBUILDVERSION"
 
 DBUILDCONFIG=community.dbuild
