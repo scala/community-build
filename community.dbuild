@@ -168,8 +168,6 @@ build += {
     extra.run-tests: false
   }
 
-  // temporarily frozen at a commit just before 546f0453 with introduced the
-  // use of CrossVersion.patch; see https://github.com/scala/community-builds/issues/384
   ${vars.base} {
     name: "shapeless"
     uri:  ${vars.uris.shapeless-uri}
@@ -357,8 +355,6 @@ build += {
     // TODO use 2.12.x branch once needed changes are merged there?
   }
 
-  // temporarily frozen at a commit just before 546f0453 with introduced the
-  // use of CrossVersion.patch; see https://github.com/scala/community-builds/issues/384
   ${vars.base} {
     name: "macro-compat"
     uri:  ${vars.uris.macro-compat-uri}
