@@ -14,7 +14,7 @@ set -o pipefail
 export LANG="en_US.UTF-8"
 export HOME="$(pwd)"
 
-DBUILDVERSION=0.9.5
+DBUILDVERSION=0.9.7-RC1
 echo "dbuild version: $DBUILDVERSION"
 
 DBUILDCONFIG=community.dbuild
