@@ -240,6 +240,8 @@ build += {
     }
   }
 
+  // We are currently using Adriaan's api-doc-comment branch.  We should make sure that branch
+  // becomes a pull request, which gets merged, so we can start using master again.
   ${vars.base} {
     name: "genjavadoc"
     uri:  ${vars.uris.genjavadoc-uri}
@@ -292,17 +294,6 @@ build += {
     name: "sbt-testng-interface"
     uri:  ${vars.uris.sbt-testng-interface-uri}
     extra.projects: ["sbt-testng-interface"]  // just the interface, we don't need to build the plugin
-  }
-
-  // this is a very old, not really maintained project.  the sbt/sxr repo
-  // has some newer commits, but hasn't been updated (as of October 2016)
-  // to support Scala 2.12.  if 2.12 support starts happening, we could
-  // point to the new repo. if it doesn't, I don't think this entry is worth
-  // maintaining. I will leave it in place, but if it starts acting up,
-  // I think we could just drop it.
-  ${vars.base} {
-    name: "browse"
-    uri:  ${vars.uris.browse-uri}
   }
 
   ${vars.base} {
