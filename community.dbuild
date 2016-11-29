@@ -753,4 +753,10 @@ build += {
     extra.directory: "org.scala-refactoring.library"
   }
 
+  ${vars.base} {
+    name: "nyaya"
+    uri:  ${vars.uris.nyaya-uri}
+    extra.projects: ["testModuleJVM"]  // no Scala.js, no benchmarks
+  }
+
 ]}
