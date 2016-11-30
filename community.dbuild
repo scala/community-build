@@ -764,6 +764,8 @@ build += {
     ]
   }
 
+  // forked because of scalaBinaryVersion issue in the build.  easy to
+  // submit upstream and unfork
   ${vars.base} {
     name: "minitest"
     uri:  ${vars.uris.minitest-uri}
