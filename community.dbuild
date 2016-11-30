@@ -764,4 +764,20 @@ build += {
     ]
   }
 
+  // forked because of scalaBinaryVersion issue in the build.  easy to
+  // submit upstream and unfork
+  ${vars.base} {
+    name: "minitest"
+    uri:  ${vars.uris.minitest-uri}
+    extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
+  }
+
+  ${vars.base} {
+    name: "monix"
+    uri:  ${vars.uris.monix-uri}
+    extra.projects: ["coreJVM", "tckTests"]  // no Scala.js, no benchmarks
+    // sigh, depends on cats-laws which needs ScalaCheck 1.13
+    extra.exclude: ["catsJVM"]
+  }
+
 ]}
