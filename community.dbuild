@@ -767,7 +767,7 @@ build += {
   ${vars.base} {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
-    extra.projects: ["coreJVM"]  // no Scala.js, no benchmarks
+    extra.projects: ["coreJVM", "tckTests"]  // no Scala.js, no benchmarks
   }
 
 ]}
