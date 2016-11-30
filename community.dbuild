@@ -765,6 +765,12 @@ build += {
   }
 
   ${vars.base} {
+    name: "minitest"
+    uri:  ${vars.uris.minitest-uri}
+    extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
+  }
+
+  ${vars.base} {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
     extra.projects: ["coreJVM", "tckTests"]  // no Scala.js, no benchmarks
