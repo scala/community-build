@@ -168,8 +168,6 @@ build += {
     extra.run-tests: false
   }
 
-  // temporarily frozen at a commit just before 546f0453 with introduced the
-  // use of CrossVersion.patch; see https://github.com/scala/community-builds/issues/384
   ${vars.base} {
     name: "shapeless"
     uri:  ${vars.uris.shapeless-uri}
@@ -357,8 +355,6 @@ build += {
     // TODO use 2.12.x branch once needed changes are merged there?
   }
 
-  // temporarily frozen at a commit just before 546f0453 with introduced the
-  // use of CrossVersion.patch; see https://github.com/scala/community-builds/issues/384
   ${vars.base} {
     name: "macro-compat"
     uri:  ${vars.uris.macro-compat-uri}
@@ -751,6 +747,21 @@ build += {
     name: "scala-refactoring"
     uri:  ${vars.uris.scala-refactoring-uri}
     extra.directory: "org.scala-refactoring.library"
+  }
+
+  ${vars.base} {
+    name: "nyaya"
+    uri:  ${vars.uris.nyaya-uri}
+    extra.projects: ["testModuleJVM"]  // no Scala.js, no benchmarks
+  }
+
+  ${vars.base} {
+    name: "scala-abide"
+    uri:  ${vars.uris.scala-abide-uri}
+    extra.exclude: [
+      "root"       // dbuild thinks it tries to publish root#root
+      "sbt-abide"  // we never build sbt plugins
+    ]
   }
 
 ]}
