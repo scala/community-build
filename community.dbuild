@@ -554,9 +554,6 @@ build += {
     }
   }
 
-  // frozen at a November 2016 commit before a dependency on a custom built of sbt-bintray
-  // was added, using a resolver our Artifactory doesn't have.  details at
-  // https://github.com/scala/community-builds/issues/400
   ${vars.base} {
     name: "akka-http"
     uri:  ${vars.uris.akka-http-uri}
