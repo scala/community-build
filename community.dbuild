@@ -505,6 +505,9 @@ build += {
 //     extra.test-tasks: ["compile"]
 //   }
 
+  // frozen at a November 2016 commit, before an incorrect dependency on
+  // si2712fix-plugin was added. reported upstream at
+  // https://github.com/etorreborre/specs2/issues/526
   ${vars.base} {
     name: "specs2"
     uri:  ${vars.uris.specs2-uri}
