@@ -247,6 +247,8 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
+  // frozen at a December 2016 commit, reported upstream at
+  // https://github.com/akka/akka-http/issues/606
   ${vars.base} {
     name: "akka"
     uri:  ${vars.uris.akka-uri}
@@ -503,6 +505,9 @@ build += {
 //     extra.test-tasks: ["compile"]
 //   }
 
+  // frozen at a November 2016 commit, before an incorrect dependency on
+  // si2712fix-plugin was added. reported upstream at
+  // https://github.com/etorreborre/specs2/issues/526
   ${vars.base} {
     name: "specs2"
     uri:  ${vars.uris.specs2-uri}
@@ -537,6 +542,8 @@ build += {
 
   // this is separate from "akka" because there is a circular dependency between
   // the akka and ssl-config repos
+  // frozen at a December 2016 commit, reported upstream at
+  // https://github.com/akka/akka-http/issues/606
   ${vars.base} {
     name: "akka-more"
     uri:  ${vars.uris.akka-more-uri}
@@ -554,9 +561,6 @@ build += {
     }
   }
 
-  // frozen at a November 2016 commit before a dependency on a custom built of sbt-bintray
-  // was added, using a resolver our Artifactory doesn't have.  details at
-  // https://github.com/scala/community-builds/issues/400
   ${vars.base} {
     name: "akka-http"
     uri:  ${vars.uris.akka-http-uri}
@@ -705,22 +709,6 @@ build += {
     // we're lying and telling it Java 8 is Java 7, but in this context
     // the lie isn't important
     extra.options: ["-Djava7.home="${JAVA_HOME}]
-  }
-
-  ${vars.base} {
-    name: "scalameter"
-    uri:  ${vars.uris.scalameter-uri}
-    check-missing: false
-    deps.ignore: [
-      // doesn't support 2.12 (yet?)
-      "org.mongodb#casbah"
-      // this one is unmaintained and doesn't support Scala 2.12...
-      "com.decodified#scala-ssh"
-    ]
-    deps.inject: [
-      // ...but this one does
-      "com.veact#scala-ssh"
-    ]
   }
 
   ${vars.base} {
