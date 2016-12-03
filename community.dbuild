@@ -711,6 +711,22 @@ build += {
   }
 
   ${vars.base} {
+    name: "scalameter"
+    uri:  ${vars.uris.scalameter-uri}
+    check-missing: false
+    deps.ignore: [
+      // doesn't support 2.12 (yet?)
+      "org.mongodb#casbah"
+      // this one is unmaintained and doesn't support Scala 2.12...
+      "com.decodified#scala-ssh"
+    ]
+    deps.inject: [
+      // ...but this one does
+      "com.veact#scala-ssh"
+    ]
+  }
+
+  ${vars.base} {
     name: "scala-json-ast"
     uri:  ${vars.uris.scala-json-ast-uri}
     // but why does scalafmt turn up in libraryDependencies at all?
