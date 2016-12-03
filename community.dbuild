@@ -579,7 +579,7 @@ build += {
     extra.exclude: ["mapper-generator"]
     // recurring test failures reported upstream at
     // https://github.com/scalikejdbc/scalikejdbc/issues/574
-    test-tasks: ["compile"]
+    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
