@@ -603,9 +603,7 @@ build += {
     uri:  ${vars.uris.play2-core-uri}
     extra: ${vars.base.extra} {
       // TODO: enable more projects? these are just a few that seemed especially high-value.
-      // we tried including "Play-Integration-Test" but hit a mysterious StackOverflowError
-      // in scala.tools.nsc.javac.JavaScanners; see https://github.com/scala/community-builds/issues/304
-      projects: ["Play", "Play-Test", "Play-WS"]
+      projects: ["Play", "Play-Test", "Play-WS", "Play-Integration-Test"]
       exclude: ["SBT-Plugin"]
       directory: "framework"
       commands: ${vars.default-commands} [
