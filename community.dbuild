@@ -247,8 +247,7 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
-  // frozen at a December 2016 commit, reported upstream at
-  // https://github.com/akka/akka-http/issues/606
+  // using release-2.4 branch since master is 2.5 now and has breaking changes
   ${vars.base} {
     name: "akka"
     uri:  ${vars.uris.akka-uri}
@@ -542,8 +541,7 @@ build += {
 
   // this is separate from "akka" because there is a circular dependency between
   // the akka and ssl-config repos
-  // frozen at a December 2016 commit, reported upstream at
-  // https://github.com/akka/akka-http/issues/606
+  // using release-2.4 branch since master is 2.5 now and has breaking changes
   ${vars.base} {
     name: "akka-more"
     uri:  ${vars.uris.akka-more-uri}
