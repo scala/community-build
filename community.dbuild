@@ -579,7 +579,7 @@ build += {
     extra.exclude: ["mapper-generator"]
     // recurring test failures reported upstream at
     // https://github.com/scalikejdbc/scalikejdbc/issues/574
-    test-tasks: ["compile"]
+    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
@@ -708,6 +708,22 @@ build += {
     // we're lying and telling it Java 8 is Java 7, but in this context
     // the lie isn't important
     extra.options: ["-Djava7.home="${JAVA_HOME}]
+  }
+
+  ${vars.base} {
+    name: "scalameter"
+    uri:  ${vars.uris.scalameter-uri}
+    check-missing: false
+    deps.ignore: [
+      // doesn't support 2.12 (yet?)
+      "org.mongodb#casbah"
+      // this one is unmaintained and doesn't support Scala 2.12...
+      "com.decodified#scala-ssh"
+    ]
+    deps.inject: [
+      // ...but this one does
+      "com.veact#scala-ssh"
+    ]
   }
 
   ${vars.base} {
