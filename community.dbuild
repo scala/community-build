@@ -247,8 +247,6 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
-  // For now, we have frozen Akka at 2.4.12, since Play doesn't compile with the latest
-  // changes on master.  https://github.com/scala/community-builds/issues/416
   ${vars.base} {
     name: "akka"
     uri:  ${vars.uris.akka-uri}
@@ -539,8 +537,6 @@ build += {
 
   // this is separate from "akka" because there is a circular dependency between
   // the akka and ssl-config repos
-  // For now, we have frozen Akka at 2.4.12, since Play doesn't compile with the latest
-  // changes on master.  https://github.com/scala/community-builds/issues/416
   ${vars.base} {
     name: "akka-more"
     uri:  ${vars.uris.akka-more-uri}
