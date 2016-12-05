@@ -238,8 +238,6 @@ build += {
     }
   }
 
-  // We are currently using Adriaan's api-doc-comment branch.  We should make sure that branch
-  // becomes a pull request, which gets merged, so we can start using master again.
   ${vars.base} {
     name: "genjavadoc"
     uri:  ${vars.uris.genjavadoc-uri}
