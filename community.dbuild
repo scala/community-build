@@ -647,11 +647,6 @@ build += {
   ${vars.base} {
     name: "scalamock"
     uri:  ${vars.uris.scalamock-uri}
-    // TODO forked because specs2 support requires specs2 2.x but we only
-    // have 3.x here now. and because excluding that subproject here isn't enough
-    // (see diffs in the fork for details)
-    // not sure why "examples" is also excluded? maybe it has specs2 stuff too?
-    extra.exclude: [ "specs2", "examples" ]
   }
 
   // frozen at a84800d, right before they moved to ScalaCheck 1.13
