@@ -457,10 +457,6 @@ build += {
     // recommended at https://github.com/twitter/util/issues/173:
     // "We use that when we don't think the tests will be reliable in a ci environment"
     extra.options: ["-DSKIP_FLAKY=true"]
-    // they're still on ScalaTest 2, we're on ScalaTest 3 here, so the tests don't even
-    // compile (as of October 2016).  when the time comes to re-enable this, watch
-    // out for https://github.com/twitter/util/issues/180 though
-    extra.run-tests: false
   }
 
   // note that we don't have MiMa in the JDK6 build.  I tried but it
