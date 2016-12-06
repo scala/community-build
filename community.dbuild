@@ -534,6 +534,8 @@ build += {
 //     extra.test-tasks: ["compile"]
 //   }
 
+  // frozen at a November 2016 commit for now because of some weird issue
+  // I don't understand yet; see https://github.com/scala/community-builds/pull/428
   ${vars.base} {
     name: "specs2"
     uri:  ${vars.uris.specs2-uri}
