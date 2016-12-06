@@ -323,8 +323,8 @@ build += {
   }
 
   ${vars.base} {
-    name: "sbt-testng-interface"
-    uri:  ${vars.uris.sbt-testng-interface-uri}
+    name: "sbt-testng"
+    uri:  ${vars.uris.sbt-testng-uri}
     extra.projects: ["sbt-testng-interface"]  // just the interface, we don't need to build the plugin
   }
 
