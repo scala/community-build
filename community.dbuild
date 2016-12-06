@@ -238,8 +238,6 @@ build += {
     }
   }
 
-  // We are currently using Adriaan's api-doc-comment branch.  We should make sure that branch
-  // becomes a pull request, which gets merged, so we can start using master again.
   ${vars.base} {
     name: "genjavadoc"
     uri:  ${vars.uris.genjavadoc-uri}
@@ -247,6 +245,7 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
+  // tracking release-2.4 because master is 2.5 and breaking changes are happening
   ${vars.base} {
     name: "akka"
     uri:  ${vars.uris.akka-uri}
@@ -254,6 +253,43 @@ build += {
       options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
       projects: ["akka-actor"]
       commands: ["set every apiURL := None"]  // https://github.com/scala/community-builds/issues/373
+    }
+  }
+
+  // tracking release-2.4 because master is 2.5 and breaking changes are happening
+  // this is separate from "akka" because there is a circular dependency between
+  // the akka and ssl-config repos
+  ${vars.base} {
+    name: "akka-more"
+    uri:  ${vars.uris.akka-more-uri}
+    extra: ${vars.base.extra} {
+      options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
+      projects: ["akka-scala-nightly"]
+      commands: ["set every apiURL := None"]  // https://github.com/scala/community-builds/issues/373
+      exclude: [
+        "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
+        "akka-actor"  // because we already built it in "akka"
+        "akka-bench-jmh"  // we'd have to add a resolver to get the JMH dependency - ST 8/17/15
+      ]
+      // TODO wip on this at https://github.com/scala/community-builds/pull/317
+      test-tasks: ["compile"]
+    }
+  }
+
+  // forked (December 2016) to get rid of the usual bintray-sbt stuff that
+  // makes dbuild upset
+  ${vars.base} {
+    name: "akka-http"
+    uri:  ${vars.uris.akka-http-uri}
+    extra: ${vars.base.extra} {
+      options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false"]
+      // Scaladoc generation failure reported upstream at https://github.com/akka/akka/issues/21543
+      commands: ${vars.default-commands} [
+        "set sources in doc in Compile in httpCore := List()"
+      ]
+      // "HTTP is sadly very timing sensitive we're working on improving its stability regularly,
+      // OK to disable it for now." - Konrad M, October 2016
+      test-tasks: ["compile"]
     }
   }
 
@@ -288,9 +324,10 @@ build += {
     extra.exclude: ["osgitests"]
   }
 
+  // forked to get rid of bintray stuff that was causing errors
   ${vars.base} {
-    name: "sbt-testng-interface"
-    uri:  ${vars.uris.sbt-testng-interface-uri}
+    name: "sbt-testng"
+    uri:  ${vars.uris.sbt-testng-uri}
     extra.projects: ["sbt-testng-interface"]  // just the interface, we don't need to build the plugin
   }
 
@@ -459,10 +496,6 @@ build += {
     // recommended at https://github.com/twitter/util/issues/173:
     // "We use that when we don't think the tests will be reliable in a ci environment"
     extra.options: ["-DSKIP_FLAKY=true"]
-    // they're still on ScalaTest 2, we're on ScalaTest 3 here, so the tests don't even
-    // compile (as of October 2016).  when the time comes to re-enable this, watch
-    // out for https://github.com/twitter/util/issues/180 though
-    extra.run-tests: false
   }
 
   // note that we don't have MiMa in the JDK6 build.  I tried but it
@@ -503,6 +536,8 @@ build += {
 //     extra.test-tasks: ["compile"]
 //   }
 
+  // frozen at a November 2016 commit for now because of some weird issue
+  // I don't understand yet; see https://github.com/scala/community-builds/pull/428
   ${vars.base} {
     name: "specs2"
     uri:  ${vars.uris.specs2-uri}
@@ -533,43 +568,6 @@ build += {
   ${vars.base} {
     name: "pcplod"
     uri:  ${vars.uris.pcplod-uri}
-  }
-
-  // this is separate from "akka" because there is a circular dependency between
-  // the akka and ssl-config repos
-  ${vars.base} {
-    name: "akka-more"
-    uri:  ${vars.uris.akka-more-uri}
-    extra: ${vars.base.extra} {
-      options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
-      projects: ["akka-scala-nightly"]
-      commands: ["set every apiURL := None"]  // https://github.com/scala/community-builds/issues/373
-      exclude: [
-        "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
-        "akka-actor"  // because we already built it in "akka"
-        "akka-bench-jmh"  // we'd have to add a resolver to get the JMH dependency - ST 8/17/15
-      ]
-      // TODO wip on this at https://github.com/scala/community-builds/pull/317
-      test-tasks: ["compile"]
-    }
-  }
-
-  // frozen at a November 2016 commit before a dependency on a custom built of sbt-bintray
-  // was added, using a resolver our Artifactory doesn't have.  details at
-  // https://github.com/scala/community-builds/issues/400
-  ${vars.base} {
-    name: "akka-http"
-    uri:  ${vars.uris.akka-http-uri}
-    extra: ${vars.base.extra} {
-      options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false"]
-      // Scaladoc generation failure reported upstream at https://github.com/akka/akka/issues/21543
-      commands: ${vars.default-commands} [
-        "set sources in doc in Compile in httpCore := List()"
-      ]
-      // "HTTP is sadly very timing sensitive we're working on improving its stability regularly,
-      // OK to disable it for now." - Konrad M, October 2016
-      test-tasks: ["compile"]
-    }
   }
 
   ${vars.base} {
@@ -650,14 +648,12 @@ build += {
     extra.projects: ["ast", "parser", "json4s", "spray"]
   }
 
+  // forked (from a November 2016 commit) because of bintray-sbt errors;
+  // see https://github.com/typesafehub/dbuild/issues/158 (fixed in
+  // at least some cases in dbuild 0.9.7-RC1? not in this case)
   ${vars.base} {
     name: "scalamock"
     uri:  ${vars.uris.scalamock-uri}
-    // TODO forked because specs2 support requires specs2 2.x but we only
-    // have 3.x here now. and because excluding that subproject here isn't enough
-    // (see diffs in the fork for details)
-    // not sure why "examples" is also excluded? maybe it has specs2 stuff too?
-    extra.exclude: [ "specs2", "examples" ]
   }
 
   // frozen at a84800d, right before they moved to ScalaCheck 1.13
