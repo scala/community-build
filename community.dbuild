@@ -322,6 +322,7 @@ build += {
     extra.exclude: ["osgitests"]
   }
 
+  // forked to get rid of bintray stuff that was causing errors
   ${vars.base} {
     name: "sbt-testng"
     uri:  ${vars.uris.sbt-testng-uri}
