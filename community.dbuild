@@ -159,13 +159,11 @@ build += {
     extra.projects: ["jvm"]  // no Scala.js please
   }
 
-  // "release-0.7" is a stable branch, used to cut 0.7 against new Scala milestones at this time;
-  // no commits on master since April 2015 (checked October 2016)
+  // tracking master as of December 2016.  if master proves unstable,
+  // we could try "release-0.8" (or a newer branch if there is one)
   ${vars.base} {
     name: "scala-stm"
     uri:  ${vars.uris.scala-stm-uri}
-    // a minor source incompatibility with ScalaTest 3.0, therefore:
-    extra.run-tests: false
   }
 
   ${vars.base} {
