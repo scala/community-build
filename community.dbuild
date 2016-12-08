@@ -788,4 +788,19 @@ build += {
     extra.exclude: ["catsJVM"]
   }
 
+  ${vars.base} {
+    name: "conductr-lib"
+    uri:  ${vars.uris.conductr-lib-uri}
+    extra.exclude: [
+      // not our Akka version
+      "akka23Common", "akka23ConductRBundleLib", "akka23TestLib"
+      // we don't have Lagom yet
+      "lagom1ConductRBundleLib"
+      // not our Play version
+      "play23Common", "play23ConductRBundleLib", "play23ConductRClientLib"
+      // also not our Play version
+      "play24Common", "play24ConductRBundleLib", "play24ConductRClientLib"
+    ]
+  }
+
 ]}
