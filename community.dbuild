@@ -651,6 +651,11 @@ build += {
   ${vars.base} {
     name: "scalamock"
     uri:  ${vars.uris.scalamock-uri}
+    extra.commands: [
+      // work around https://github.com/scala/scala-dev/issues/252 ;
+      // see https://github.com/scala/community-builds/issues/434
+      "set unmanagedSourceDirectories in (`scalamock-core`, Compile) += baseDirectory.value / \"core\" / \"src\" / \"main\" / \"scala-2.12\""
+    ]
   }
 
   // frozen at a84800d, right before they moved to ScalaCheck 1.13
