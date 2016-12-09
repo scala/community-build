@@ -820,6 +820,8 @@ build += {
     ]
   }
 
+  // forked (December 2016) to get rid of the usual bintray-sbt stuff that
+  // makes dbuild upset
   ${vars.base} {
     name: "akka-contrib-extra"
     uri:  ${vars.uris.akka-contrib-extra-uri}
