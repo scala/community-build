@@ -820,4 +820,9 @@ build += {
     ]
   }
 
+  ${vars.base} {
+    name: "akka-contrib-extra"
+    uri:  ${vars.uris.akka-contrib-extra-uri}
+  }
+
 ]}
