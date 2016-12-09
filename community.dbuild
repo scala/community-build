@@ -807,6 +807,15 @@ build += {
     name: "akka-sse"
     uri:  ${vars.uris.akka-sse-uri}
     extra.exclude: ["akka-sse-jmh"]  // no benchmarking stuff plz
+    // disable scalafmt
+    extra.commands: ["set every scalafmt := {}"]
+    // but why does scalafmt turn up in libraryDependencies at all?
+    // see https://github.com/olafurpg/scalafmt/issues/485#issuecomment-253601375
+    check-missing: false
+    deps.ignore: [
+      "com.geirsson#scalafmt-cli"
+      "com.geirsson#scalafmt"
+    ]
   }
 
 ]}
