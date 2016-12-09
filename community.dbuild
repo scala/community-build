@@ -803,6 +803,8 @@ build += {
     ]
   }
 
+  // forked (December 2016) to get rid of the usual bintray-sbt stuff that
+  // makes dbuild upset
   ${vars.base} {
     name: "akka-sse"
     uri:  ${vars.uris.akka-sse-uri}
