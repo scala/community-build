@@ -803,4 +803,10 @@ build += {
     ]
   }
 
+  ${vars.base} {
+    name: "akka-sse"
+    uri:  ${vars.uris.akka-sse-uri}
+    extra.exclude: ["akka-sse-jmh"]  // no benchmarking stuff plz
+  }
+
 ]}
