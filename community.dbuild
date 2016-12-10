@@ -802,6 +802,8 @@ build += {
       "play24Common", "play24ConductRBundleLib", "play24ConductRClientLib"
       // "That particular lib shouldn't be processed", says Christopher
       "akka24ConductRClientLib"
+      // Play stuff didn't work, maybe try again later?
+      "play25ConductRBundleLib", "play25ConductRClientLib", "play25Common"
     ]
   }
 
