@@ -800,9 +800,13 @@ build += {
       "play23Common", "play23ConductRBundleLib", "play23ConductRClientLib"
       // also not our Play version
       "play24Common", "play24ConductRBundleLib", "play24ConductRClientLib"
+      // "That particular lib shouldn't be processed", says Christopher
+      "akka24ConductRClientLib"
     ]
   }
 
+  // added because conductr-lib depends on it.  if we don't end up keeping
+  // conductr-lib, this could go too.
   // forked (December 2016) to get rid of the usual bintray-sbt stuff that
   // makes dbuild upset
   ${vars.base} {
@@ -820,6 +824,8 @@ build += {
     ]
   }
 
+  // added because conductr-lib depends on it.  if we don't end up keeping
+  // conductr-lib, this could go too.
   // forked (December 2016) to get rid of the usual bintray-sbt stuff that
   // makes dbuild upset
   ${vars.base} {
