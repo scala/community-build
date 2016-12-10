@@ -788,4 +788,55 @@ build += {
     extra.exclude: ["catsJVM"]
   }
 
+  ${vars.base} {
+    name: "conductr-lib"
+    uri:  ${vars.uris.conductr-lib-uri}
+    extra.exclude: [
+      // not our Akka version
+      "akka23Common", "akka23ConductRBundleLib", "akka23TestLib"
+      // we don't have Lagom yet
+      "lagom1ConductRBundleLib"
+      // not our Play version
+      "play23Common", "play23ConductRBundleLib", "play23ConductRClientLib"
+      // also not our Play version
+      "play24Common", "play24ConductRBundleLib", "play24ConductRClientLib"
+      // "That particular lib shouldn't be processed", says Christopher
+      "akka24ConductRClientLib"
+      // Play stuff didn't work, maybe try again later?
+      "play25ConductRBundleLib", "play25ConductRClientLib", "play25Common"
+    ]
+  }
+
+  // this was added because conductr-lib's Play integration depended on it,
+  // but we ended up not including that integration (for now anyway?), so
+  // nothing depends on this.  leaving it in since we might as well, but
+  // if it acts up, it can go.
+  // forked (December 2016) to get rid of the usual bintray-sbt stuff that
+  // makes dbuild upset
+  ${vars.base} {
+    name: "akka-sse"
+    uri:  ${vars.uris.akka-sse-uri}
+    extra.exclude: ["akka-sse-jmh"]  // no benchmarking stuff plz
+    // disable scalafmt
+    extra.commands: ["set every scalafmt := {}"]
+    // but why does scalafmt turn up in libraryDependencies at all?
+    // see https://github.com/olafurpg/scalafmt/issues/485#issuecomment-253601375
+    check-missing: false
+    deps.ignore: [
+      "com.geirsson#scalafmt-cli"
+      "com.geirsson#scalafmt"
+    ]
+  }
+
+  // this was added because conductr-lib's Play integration depended on it,
+  // but we ended up not including that integration (for now anyway?), so
+  // nothing depends on this.  leaving it in since we might as well, but
+  // if it acts up, it can go.
+  // forked (December 2016) to get rid of the usual bintray-sbt stuff that
+  // makes dbuild upset
+  ${vars.base} {
+    name: "akka-contrib-extra"
+    uri:  ${vars.uris.akka-contrib-extra-uri}
+  }
+
 ]}
