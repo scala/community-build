@@ -807,8 +807,10 @@ build += {
     ]
   }
 
-  // added because conductr-lib depends on it.  if we don't end up keeping
-  // conductr-lib, this could go too.
+  // this was added because conductr-lib's Play integration depended on it,
+  // but we ended up not including that integration (for now anyway?), so
+  // nothing depends on this.  leaving it in since we might as well, but
+  // if it acts up, it can go.
   // forked (December 2016) to get rid of the usual bintray-sbt stuff that
   // makes dbuild upset
   ${vars.base} {
@@ -826,8 +828,10 @@ build += {
     ]
   }
 
-  // added because conductr-lib depends on it.  if we don't end up keeping
-  // conductr-lib, this could go too.
+  // this was added because conductr-lib's Play integration depended on it,
+  // but we ended up not including that integration (for now anyway?), so
+  // nothing depends on this.  leaving it in since we might as well, but
+  // if it acts up, it can go.
   // forked (December 2016) to get rid of the usual bintray-sbt stuff that
   // makes dbuild upset
   ${vars.base} {
