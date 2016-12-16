@@ -374,8 +374,6 @@ build += {
     uri:  ${vars.uris.acyclic-uri}
   }
 
-  // forked (December 2016) until needed upstream build change
-  // is merged, namely https://github.com/lihaoyi/sourcecode/pull/26
   ${vars.base} {
     name: "sourcecode"
     uri:  ${vars.uris.sourcecode-uri}
