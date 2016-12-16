@@ -532,6 +532,8 @@ build += {
 
   // frozen at a November 2016 commit for now because of some weird issue
   // I don't understand yet; see https://github.com/scala/community-builds/pull/428
+  // and forked in December 2016 (fork point 5f35b86b451b0c6f231b514c84c48c39508bf8cf)
+  // to make build 2.13 friendly. we should contribute upstream at unfreeze time
   ${vars.base} {
     name: "specs2"
     uri:  ${vars.uris.specs2-uri}
