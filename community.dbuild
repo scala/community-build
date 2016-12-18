@@ -70,12 +70,12 @@ vars.base.extra.commands = ${vars.default-commands}
 // we don't have enough disk space to keep stuff longer
 options.cleanup: {
   extraction: {
-    success: 192
-    failure: 240
+    success: 96
+    failure: 120
   }
   build: {
-    success: 192
-    failure: 240
+    success: 96
+    failure: 120
   }
 }
 
