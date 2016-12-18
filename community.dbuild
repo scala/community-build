@@ -70,12 +70,12 @@ vars.base.extra.commands = ${vars.default-commands}
 // we don't have enough disk space to keep stuff longer
 options.cleanup: {
   extraction: {
-    success: 96
-    failure: 120
+    success: 192
+    failure: 240
   }
   build: {
-    success: 96
-    failure: 120
+    success: 192
+    failure: 240
   }
 }
 
@@ -774,8 +774,6 @@ build += {
     ]
   }
 
-  // forked because of scalaBinaryVersion issue in the build.  easy to
-  // submit upstream and unfork
   ${vars.base} {
     name: "minitest"
     uri:  ${vars.uris.minitest-uri}
