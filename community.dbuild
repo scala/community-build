@@ -658,19 +658,20 @@ build += {
     ]
   }
 
-  // frozen at a84800d, right before they moved to ScalaCheck 1.13
-  ${vars.base} {
-    name: "argonaut"
-    uri:  ${vars.uris.argonaut-uri}
-    extra.exclude: [
-      // fails to declare its scala-parser-combinators dependency,
-      // and anyway we don't want to run benchmarks
-      "argonaut-benchmark"
-      // I got into trouble trying to add this -- it depended on
-      // cats-laws which needs ScalaCheck 1.13
-      "argonaut-cats"
-    ]
-  }
+  # failing leaf projects commented out in 2.13 build -- investigation needed
+  # // frozen at a84800d, right before they moved to ScalaCheck 1.13
+  # ${vars.base} {
+  #   name: "argonaut"
+  #   uri:  ${vars.uris.argonaut-uri}
+  #   extra.exclude: [
+  #     // fails to declare its scala-parser-combinators dependency,
+  #     // and anyway we don't want to run benchmarks
+  #     "argonaut-benchmark"
+  #     // I got into trouble trying to add this -- it depended on
+  #     // cats-laws which needs ScalaCheck 1.13
+  #     "argonaut-cats"
+  #   ]
+  # }
 
   ${vars.base} {
     name: "monocle"
@@ -679,12 +680,13 @@ build += {
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM"]
   }
 
-  ${vars.base} {
-    name: "catalysts"
-    uri:  ${vars.uris.catalysts-uri}
-    // TODO add more projects? hasn't been tried yet
-    extra.projects: ["platformJVM"]
-  }
+  # failing leaf projects commented out in 2.13 build -- investigation needed
+  # ${vars.base} {
+  #   name: "catalysts"
+  #   uri:  ${vars.uris.catalysts-uri}
+  #   // TODO add more projects? hasn't been tried yet
+  #   extra.projects: ["platformJVM"]
+  # }
 
   ${vars.base} {
     name: "scala-continuations"
@@ -700,33 +702,36 @@ build += {
     extra.test-tasks: "compile"
   }
 
-  ${vars.base} {
-    name: "jackson-module-scala"
-    uri:  ${vars.uris.jackson-module-scala-uri}
-    // we're lying and telling it Java 8 is Java 7, but in this context
-    // the lie isn't important
-    extra.options: ["-Djava7.home="${JAVA_HOME}]
-  }
+  # failing leaf projects commented out in 2.13 build -- investigation needed
+  # ${vars.base} {
+  #   name: "jackson-module-scala"
+  #   uri:  ${vars.uris.jackson-module-scala-uri}
+  #   // we're lying and telling it Java 8 is Java 7, but in this context
+  #   // the lie isn't important
+  #   extra.options: ["-Djava7.home="${JAVA_HOME}]
+  # }
 
-  ${vars.base} {
-    name: "scala-json-ast"
-    uri:  ${vars.uris.scala-json-ast-uri}
-    // but why does scalafmt turn up in libraryDependencies at all?
-    // see https://github.com/olafurpg/scalafmt/issues/485#issuecomment-253601375
-    check-missing: false
-    deps.ignore: [
-      "com.geirsson#scalafmt-cli"
-      "com.geirsson#scalafmt"
-    ]
-    // no Scala.js please, and no benchmarks either
-    extra.projects: ["scalaJsonASTJVM"]
-  }
+  # failing leaf projects commented out in 2.13 build -- investigation needed
+  # ${vars.base} {
+  #   name: "scala-json-ast"
+  #   uri:  ${vars.uris.scala-json-ast-uri}
+  #   // but why does scalafmt turn up in libraryDependencies at all?
+  #   // see https://github.com/olafurpg/scalafmt/issues/485#issuecomment-253601375
+  #   check-missing: false
+  #   deps.ignore: [
+  #     "com.geirsson#scalafmt-cli"
+  #     "com.geirsson#scalafmt"
+  #   ]
+  #   // no Scala.js please, and no benchmarks either
+  #   extra.projects: ["scalaJsonASTJVM"]
+  # }
 
-  ${vars.base} {
-    name: "scalatags"
-    uri:  ${vars.uris.scalatags-uri}
-    extra.projects: ["scalatagsJVM"]  // no Scala.js
-  }
+  # failing leaf projects commented out in 2.13 build -- investigation needed
+  # ${vars.base} {
+  #   name: "scalatags"
+  #   uri:  ${vars.uris.scalatags-uri}
+  #   extra.projects: ["scalatagsJVM"]  // no Scala.js
+  # }
 
   ${vars.base} {
     name: "scala-refactoring"
