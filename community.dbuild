@@ -556,10 +556,11 @@ build += {
     uri:  ${vars.uris.spray-json-uri}
   }
 
-  ${vars.base} {
-    name: "spray-json-shapeless"
-    uri:  ${vars.uris.spray-json-shapeless-uri}
-  }
+  # failing leaf projects commented out in 2.13 build -- investigation needed
+  #  ${vars.base} {
+  #    name: "spray-json-shapeless"
+  #    uri:  ${vars.uris.spray-json-shapeless-uri}
+  #  }
 
   ${vars.base} {
     name: "pcplod"
@@ -592,25 +593,26 @@ build += {
     uri:  ${vars.uris.play-doc-uri}
   }
 
-  ${vars.base} {
-    name: "play2-core"
-    uri:  ${vars.uris.play2-core-uri}
-    extra: ${vars.base.extra} {
-      // TODO: enable more projects? these are just a few that seemed especially high-value.
-      // we tried including "Play-Integration-Test" but hit a mysterious StackOverflowError
-      // in scala.tools.nsc.javac.JavaScanners; see https://github.com/scala/community-builds/issues/304
-      projects: ["Play", "Play-Test", "Play-WS"]
-      exclude: ["SBT-Plugin"]
-      directory: "framework"
-      commands: ${vars.default-commands} [
-        // workaround for the problem with PlayVersion.scala file is being passed twice to Scala compiler
-        // and we get double definition error
-        "set sources in (PlayProject, Compile, compile) := (sources in (PlayProject, Compile, compile)).value.distinct"
-        // there was some Scaladoc error here I didn't bother to look into
-        "set sources in doc in Compile in PlayProject := List()"
-      ]
-    }
-  }
+  # failing leaf projects commented out in 2.13 build -- investigation needed
+  # ${vars.base} {
+  #   name: "play2-core"
+  #   uri:  ${vars.uris.play2-core-uri}
+  #   extra: ${vars.base.extra} {
+  #     // TODO: enable more projects? these are just a few that seemed especially high-value.
+  #     // we tried including "Play-Integration-Test" but hit a mysterious StackOverflowError
+  #     // in scala.tools.nsc.javac.JavaScanners; see https://github.com/scala/community-builds/issues/304
+  #     projects: ["Play", "Play-Test", "Play-WS"]
+  #     exclude: ["SBT-Plugin"]
+  #     directory: "framework"
+  #     commands: ${vars.default-commands} [
+  #       // workaround for the problem with PlayVersion.scala file is being passed twice to Scala compiler
+  #       // and we get double definition error
+  #       "set sources in (PlayProject, Compile, compile) := (sources in (PlayProject, Compile, compile)).value.distinct"
+  #       // there was some Scaladoc error here I didn't bother to look into
+  #       "set sources in doc in Compile in PlayProject := List()"
+  #     ]
+  #   }
+  # }
 
   // 3.5 is the current stable branch (as of Oct 2016)
   // there is also a brand-new development branch, 3.6, we should
