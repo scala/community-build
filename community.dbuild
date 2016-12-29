@@ -635,8 +635,6 @@ build += {
     extra.projects: ["json4s-native", "json4s-jackson", "json4s-ast"]
   }
 
-  // frozen at a December 2016 commit before a test failure started;
-  // reported upstream at https://github.com/lift/framework/issues/1820
   ${vars.base} {
     name: "lift-json"
     uri:  ${vars.uris.lift-json-uri}
