@@ -639,6 +639,9 @@ build += {
     name: "lift-json"
     uri:  ${vars.uris.lift-json-uri}
     extra.projects: ["lift-json"]
+    // "not found: type Cogen" compile errors because ScalaCheck 1.13
+    // is now required here but we're still on 1.12
+    extra.run-tests: false
   }
 
   ${vars.base} {
