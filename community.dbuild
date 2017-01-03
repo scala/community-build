@@ -840,4 +840,17 @@ build += {
     uri:  ${vars.uris.akka-contrib-extra-uri}
   }
 
+  ${vars.base} {
+    name: "unfiltered"
+    uri:  ${vars.uris.unfiltered-uri}
+    // Failed test: unfiltered.netty.SslServerSpec
+    //   (it worked locally but failed on Jenkins, who knows why?)
+    extra.test-tasks: "compile"
+  }
+
+  ${vars.base} {
+    name: "dispatch"
+    uri:  ${vars.uris.dispatch-uri}
+  }
+
 ]}
