@@ -840,4 +840,14 @@ build += {
     uri:  ${vars.uris.akka-contrib-extra-uri}
   }
 
+  ${vars.base} {
+    name: "unfiltered"
+    uri:  ${vars.uris.unfiltered-uri}
+  }
+
+  ${vars.base} {
+    name: "dispatch"
+    uri:  ${vars.uris.dispatch-uri}
+  }
+
 ]}
