@@ -422,15 +422,22 @@ build += {
     ]
   }
 
+  // series/0.9 is current "master" as of Sep 2016; there is a series/1.0
+  // we might want to switch to at some point?
   ${vars.base} {
     name: "fs2"
     uri:  ${vars.uris.fs2-uri}
-    // current "master" as of Sep 2016
     extra.exclude: [
       "coreJS" // no Scala.js please
       "docs"   // because we don't have Tut (yet?)
       "benchmark" // not really necessary and would pull in a JMH dependency
     ]
+  }
+
+  ${vars.base} {
+    name: "fs2-cats"
+    uri:  ${vars.uris.fs2-cats-uri}
+    extra.projects: ["fs2CatsJVM"]  // no Scala.js
   }
 
   ${vars.base} {
@@ -650,6 +657,11 @@ build += {
     extra.projects: ["ast", "parser", "json4s", "spray"]
   }
 
+  ${vars.base} {
+    name: "jawn-fs2"
+    uri:  ${vars.uris.jawn-fs2-uri}
+  }
+
   // forked (from a November 2016 commit) because of bintray-sbt errors;
   // see https://github.com/typesafehub/dbuild/issues/158 (fixed in
   // at least some cases in dbuild 0.9.7-RC1? not in this case)
@@ -854,6 +866,61 @@ build += {
       // depends on tut which we don't have
       "docs"
     ]
+  }
+
+  ${vars.base} {
+    name: "log4s"
+    uri:  ${vars.uris.log4s-uri}
+  }
+
+  ${vars.base} {
+    name: "http4s-websocket"
+    uri:  ${vars.uris.http4s-websocket-uri}
+  }
+
+  // frozen at v0.12.4 because that's the version http4s depends on,
+  // and anyway it's the most recent tag as of January 2017.
+  // a more recent commit (namely 9b2c7cc5) makes a source-incompatible
+  // change to a package name that http4s uses
+  ${vars.base} {
+    name: "blaze"
+    uri: ${vars.uris.blaze-uri}
+  }
+
+  // well, this is a big build with lots of subprojects, many of which involve
+  // integration with other libraries. so many of them had issues I didn't
+  // spend that much time looking into each one and seeing if it might be
+  // fixable, or ought to be reported upstream, or what.
+  ${vars.base} {
+    name: "http4s"
+    uri:  ${vars.uris.http4s-uri}
+    extra.commands: ${vars.default-commands} [
+      // well, here's a new one. we don't have Typelevel Scala.
+      // if it works with Scala Scala, maybe it's because they're only
+      // depending on TLS stuff in 2.11?
+      "set scalaOrganization in ThisBuild := \"org.scala-lang\""
+      // too fragile
+      "removeScalacOptions -Xfatal-warnings"
+    ]
+    extra.exclude: [
+      // no benchmarks please
+      "bench"
+      // not sure what this is about. didn't investigate or attempt workaround.
+      // scala-xml/src/main/scala/scalaxml/ElemInstances.scala:30: wrong number of type parameters for method flatMap: [AA >: org.http4s.DecodeFailure, D](f: fs2.Chunk[Byte] => cats.data.EitherT[fs2.Task,AA,D])(implicit F: cats.Monad[fs2.Task])cats.data.EitherT[fs2.Task,AA,D]
+      "scala-xml"
+      // blaze-server/src/test/scala/org/http4s/server/blaze/BlazeServerSpec.scala:14: value run is not a member of fs2.Task[org.http4s.server.Server]
+      "blaze-server"
+      // "not found: object scalaz" ?!
+      "blaze-client"
+      // "not found: object scodec" ?!
+      "async-http-client"
+      // these depend on circe, which we don't have (yet?)
+      "circe", "examples", "examples-tomcat", "examples-jetty", "examples-blaze", "examples-war"
+      // this depends on tut, which we don't have (yet?)
+      "docs"
+    ]
+    // Failed tests: org.http4s.server.middleware.DefaultHeadSpec
+    extra.test-tasks: "compile"
   }
 
 ]}
