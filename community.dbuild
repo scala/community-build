@@ -853,4 +853,17 @@ build += {
     uri:  ${vars.uris.dispatch-uri}
   }
 
+  ${vars.base} {
+    name: "atto"
+    uri:  ${vars.uris.atto-uri}
+    extra.exclude: [
+      // just scalaz72 plz!
+      "scalaz71"
+      // depends on scalaz71
+      "atto", "tests"
+      // depends on tut which we don't have
+      "docs"
+    ]
+  }
+
 ]}
