@@ -198,10 +198,8 @@ build += {
     uri:  ${vars.uris.scalaz-uri}
     extra.projects: ["rootJVM"]  // no Scala.js please
     extra.exclude: [
-      // we're on ScalaCheck 1.12 not 1.13
-      "scalacheck-binding_1_13JVM"
-      // but testsJVM depends on 1.13 so we have to exclude it too :-(
-      "testsJVM"
+      // we're on ScalaCheck 1.13 not 1.12
+      "scalacheck-binding_1_12JVM"
     ]
   }
 
@@ -439,7 +437,7 @@ build += {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
     // this is only some of Cats. we should try and add more
-    extra.projects: ["coreJVM", "macrosJVM"] // no Scala.js please
+    extra.projects: ["coreJVM", "macrosJVM", "lawsJVM", "kernelLawsJVM"]
     extra.commands: ${vars.default-commands} [
       // too fragile
       "removeScalacOptions -Xfatal-warnings"
@@ -639,9 +637,6 @@ build += {
     name: "lift-json"
     uri:  ${vars.uris.lift-json-uri}
     extra.projects: ["lift-json"]
-    // "not found: type Cogen" compile errors because ScalaCheck 1.13
-    // is now required here but we're still on 1.12
-    extra.run-tests: false
   }
 
   ${vars.base} {
@@ -668,17 +663,14 @@ build += {
     ]
   }
 
-  // frozen at a84800d, right before they moved to ScalaCheck 1.13
   ${vars.base} {
     name: "argonaut"
     uri:  ${vars.uris.argonaut-uri}
+    extra.projects: ["argonautJVM"]  // no Scala.js
     extra.exclude: [
       // fails to declare its scala-parser-combinators dependency,
       // and anyway we don't want to run benchmarks
       "argonaut-benchmark"
-      // I got into trouble trying to add this -- it depended on
-      // cats-laws which needs ScalaCheck 1.13
-      "argonaut-cats"
     ]
   }
 
@@ -785,8 +777,6 @@ build += {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
     extra.projects: ["coreJVM", "tckTests"]  // no Scala.js, no benchmarks
-    // sigh, depends on cats-laws which needs ScalaCheck 1.13
-    extra.exclude: ["catsJVM"]
   }
 
   ${vars.base} {
