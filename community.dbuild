@@ -436,11 +436,11 @@ build += {
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
-    extra.projects: ["catsJVM"] // no Scala.js please
-    extra.exclude: [
-      "bench"  // we don't do benchmarks
-      "docs"   // requires tut
-    ]
+    // for some reason, adding the umbrella "catsJVM" project but excluding "bench"
+    // and "docs" doesn't succeed in removing the depending on cats-bench.
+    // using deps.ignore doesn't fix it either. not sure how else to fix it
+    // other than just enumerating what we want:
+    extra.projects: ["coreJVM", "freeJVM", "kernelJVM", "kernelLawsJVM", "lawsJVM", "macrosJVM", "testsJVM"]
     extra.commands: ${vars.default-commands} [
       // too fragile
       "removeScalacOptions -Xfatal-warnings"
