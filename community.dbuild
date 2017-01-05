@@ -115,7 +115,9 @@ build += {
       {
         name: "scala-xml"
         uri: "https://github.com/scala/scala-xml.git"
-        extra.commands: "set scalaVersion := \""${vars.scala-version}"\""
+        extra.commands: ${vars.default-commands} [
+          "set scalaVersion := \""${vars.scala-version}"\""
+        ]
       }
     ]
   }
@@ -237,7 +239,7 @@ build += {
   ${vars.base} {
     name: "genjavadoc"
     uri:  ${vars.uris.genjavadoc-uri}
-    extra.commands: [
+    extra.commands: ${vars.default-commands} [
       // work around https://github.com/scala/scala-dev/issues/252 ;
       // see https://github.com/scala/community-builds/issues/434
       "set unmanagedSourceDirectories in (`genjavadoc-plugin`, Compile) += baseDirectory.value / \"plugin\" / \"src\" / \"main\" / \"scala-2.12\""
@@ -642,7 +644,9 @@ build += {
     // in 0b28498f they started setting the MiMa previous version in a way that involves
     // scalaBinaryVersion in a dbuild-unfriendly way.  running MiMa isn't really important
     // so rather than ask them to mess with it, let's just disable it
-    extra.commands: ["set every com.typesafe.tools.mima.plugin.MimaKeys.previousArtifacts := Set.empty"]
+    extra.commands: ${vars.default-commands} [
+      "set every com.typesafe.tools.mima.plugin.MimaKeys.previousArtifacts := Set.empty"
+    ]
     // TODO: exclude subprojects we don't want, rather than naming a few we want. probably adding more would work?
     extra.projects: ["json4s-native", "json4s-jackson", "json4s-ast"]
   }
@@ -675,7 +679,7 @@ build += {
   ${vars.base} {
     name: "scalamock"
     uri:  ${vars.uris.scalamock-uri}
-    extra.commands: [
+    extra.commands: ${vars.default-commands} [
       // work around https://github.com/scala/scala-dev/issues/252 ;
       // see https://github.com/scala/community-builds/issues/434
       "set unmanagedSourceDirectories in (`scalamock-core`, Compile) += baseDirectory.value / \"core\" / \"src\" / \"main\" / \"scala-2.12\""
@@ -828,7 +832,9 @@ build += {
     uri:  ${vars.uris.akka-sse-uri}
     extra.exclude: ["akka-sse-jmh"]  // no benchmarking stuff plz
     // disable scalafmt
-    extra.commands: ["set every scalafmt := {}"]
+    extra.commands: ${vars.default-commands} [
+      "set every scalafmt := {}"
+    ]
     // but why does scalafmt turn up in libraryDependencies at all?
     // see https://github.com/olafurpg/scalafmt/issues/485#issuecomment-253601375
     check-missing: false
