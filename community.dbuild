@@ -923,4 +923,9 @@ build += {
     extra.test-tasks: "compile"
   }
 
+  ${vars.base} {
+    name: "upickle-pprint"
+    uri:  ${vars.uris.upickle-pprint-uri}
+  }
+
 ]}
