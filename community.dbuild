@@ -437,6 +437,10 @@ build += {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
     extra.projects: ["catsJVM"] // no Scala.js please
+    extra.exclude: [
+      "bench"  // we don't do benchmarks
+      "docs"   // requires tut
+    ]
     extra.commands: ${vars.default-commands} [
       // too fragile
       "removeScalacOptions -Xfatal-warnings"
