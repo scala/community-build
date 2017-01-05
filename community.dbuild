@@ -926,6 +926,7 @@ build += {
   ${vars.base} {
     name: "upickle-pprint"
     uri:  ${vars.uris.upickle-pprint-uri}
+    extra.projects: ["upickleJVM", "pprintJVM"]  // no Scala.js
   }
 
 ]}
