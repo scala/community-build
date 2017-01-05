@@ -443,8 +443,11 @@ build += {
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
-    // this is only some of Cats. we should try and add more
-    extra.projects: ["coreJVM", "macrosJVM", "lawsJVM", "kernelLawsJVM"]
+    // for some reason, adding the umbrella "catsJVM" project but excluding "bench"
+    // and "docs" doesn't succeed in removing the depending on cats-bench.
+    // using deps.ignore doesn't fix it either. not sure how else to fix it
+    // other than just enumerating what we want:
+    extra.projects: ["coreJVM", "freeJVM", "kernelJVM", "kernelLawsJVM", "lawsJVM", "macrosJVM", "testsJVM"]
     extra.commands: ${vars.default-commands} [
       // too fragile
       "removeScalacOptions -Xfatal-warnings"
