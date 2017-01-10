@@ -540,8 +540,6 @@ build += {
 //     extra.test-tasks: ["compile"]
 //   }
 
-  // forked (updated January 2017) to make build 2.13 friendly;
-  // we should contribute upstream
   ${vars.base} {
     name: "specs2"
     uri:  ${vars.uris.specs2-uri}
