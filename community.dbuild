@@ -901,6 +901,10 @@ build += {
       "set scalaOrganization in ThisBuild := \"org.scala-lang\""
       // too fragile
       "removeScalacOptions -Xfatal-warnings"
+      // won't be needed once https://github.com/http4s/http4s/pull/841
+      // is merged (and once it's on the topic/cats branch too, if we're
+      // still using that branch by that time)
+      "removeScalacOptions -Yinline-warnings"
     ]
     extra.exclude: [
       // no benchmarks please
