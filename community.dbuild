@@ -687,6 +687,14 @@ build += {
       // and anyway we don't want to run benchmarks
       "argonaut-benchmark"
     ]
+    extra.commands: ${vars.default-commands} [
+      // work around issue where we get shared/src/main/scala-2.13.0-abcd123-nightly instead;
+      // weird because we get jvm/src/main/scala-2.13 without any tweak needed; maybe it
+      // will fix itself once we're using -bin- version numbers? or maybe it's an sbt bug
+      // we should report upstream? even if this were fixed, we'd also need to submit an
+      // argonaut PR adding a scala-2.13 directory, right now we're just using the 2.12 one
+      "set unmanagedSourceDirectories in (argonautJVM, Compile) += (baseDirectory in argonautParent).value / \"argonaut\" / \"shared\" / \"src\" / \"main\" / \"scala-2.12\""
+    ]
   }
 
   ${vars.base} {
@@ -696,13 +704,14 @@ build += {
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM"]
   }
 
-  # failing leaf projects commented out in 2.13 build -- investigation needed
-  # ${vars.base} {
-  #   name: "catalysts"
-  #   uri:  ${vars.uris.catalysts-uri}
-  #   // TODO add more projects? hasn't been tried yet
-  #   extra.projects: ["platformJVM"]
-  # }
+  // forked for tweak to build, already submitted upstream as
+  // https://github.com/typelevel/catalysts/pull/10
+  ${vars.base} {
+    name: "catalysts"
+    uri:  ${vars.uris.catalysts-uri}
+    // TODO add more projects? hasn't been tried yet
+    extra.projects: ["platformJVM"]
+  }
 
   ${vars.base} {
     name: "scala-continuations"
@@ -922,6 +931,8 @@ build += {
     extra.projects: ["fansiJVM"]  // no Scala.js
   }
 
+  // forked for tweak to build, already submitted upstream as
+  // https://github.com/lihaoyi/upickle-pprint/pull/195
   ${vars.base} {
     name: "upickle-pprint"
     uri:  ${vars.uris.upickle-pprint-uri}
