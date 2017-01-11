@@ -938,4 +938,10 @@ build += {
     extra.projects: ["upickleJVM", "pprintJVM"]  // no Scala.js
   }
 
+  ${vars.base} {
+    name: "algebra"
+    uri:  ${vars.uris.algebra-uri}
+    extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js, no benchmarks, no docs
+  }
+
 ]}
