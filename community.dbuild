@@ -526,30 +526,20 @@ build += {
     extra.exclude: ["sbtplugin"]
   }
 
-// TODO Spire is commented out because of https://github.com/non/spire/issues/592
-// and Breeze because it depends on Spire
-//   ${vars.base} {
-//     name: "spire"
-//     uri:  ${vars.uris.spire-uri}
-//     // TODO: tests crash with:
-//     // [info] [error] Could not run test spire.laws.LawTests:
-//     // java.lang.ClassFormatError: Duplicate method name&signature in class file spire/std/OrderProductInstances$$anon$228
-//     extra.test-tasks: ["compile"]
-//     // hopefully avoid intermittent OutOfMemoryErrors during compilation
-//     extra.options: ["-Xmx2560m"]
-//     extra.projects: ["spireJVM"]  // no Scala.js please
-//     // no longer exists in 2.12
-//     extra.commands: ${vars.default-commands} [
-//       "removeScalacOptions -Yinline-warnings"
-//     ]
-//   }
-//
-//   ${vars.base} {
-//     name: "breeze"
-//     uri:  ${vars.uris.breeze-uri}
-//     // failing tests reported upstream at https://github.com/scalanlp/breeze/issues/587
-//     extra.test-tasks: ["compile"]
-//   }
+  ${vars.base} {
+    name: "spire"
+    uri:  ${vars.uris.spire-uri}
+    // hopefully avoid intermittent OutOfMemoryErrors during compilation
+    extra.options: ["-Xmx2560m"]
+    extra.projects: ["spireJVM"]  // no Scala.js please
+  }
+
+  ${vars.base} {
+    name: "breeze"
+    uri:  ${vars.uris.breeze-uri}
+    // failing tests reported upstream at https://github.com/scalanlp/breeze/issues/587
+    extra.test-tasks: ["compile"]
+  }
 
   ${vars.base} {
     name: "specs2"
