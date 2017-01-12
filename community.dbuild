@@ -895,6 +895,14 @@ build += {
   // integration with other libraries. so many of them had issues I didn't
   // spend that much time looking into each one and seeing if it might be
   // fixable, or ought to be reported upstream, or what.
+  // note that we are using the topic/cats branch, not master, since master
+  // uses scalaz-stream which we dropped from the community build a while back
+  // in favor of fs2.
+  // note also that we are frozen at a January 2017 commit on that branch,
+  // because more recent commits failed to compile.
+  // note that if this all proves to be more trouble than it's worth,
+  // it's fine to drop it for a while (certainly at least until the
+  // topic/cats branch is merged, anyway)
   ${vars.base} {
     name: "http4s"
     uri:  ${vars.uris.http4s-uri}
