@@ -381,7 +381,6 @@ build += {
     extra.projects: ["sourcecodeJVM"]
   }
 
-  // forked to disable sbt-coursier plugin; https://github.com/scala/community-builds/issues/294
   ${vars.base} {
     name: "fastparse"
     uri:  ${vars.uris.fastparse-uri}
