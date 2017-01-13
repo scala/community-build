@@ -953,4 +953,12 @@ build += {
     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js, no benchmarks, no docs
   }
 
+  // forked (January 2017) to get rid of the usual bintray-sbt stuff that
+  // makes dbuild upset
+  ${vars.base} {
+    name: "tut"
+    uri:  ${vars.uris.tut-uri}
+    extra.exclude: ["plugin"]  // we never build sbt plugins
+  }
+
 ]}
