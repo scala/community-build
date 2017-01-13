@@ -686,8 +686,6 @@ build += {
     ]
   }
 
-  // frozen at a January 2017 commit because of a build regression;
-  // reported upstream at https://github.com/julien-truffaut/Monocle/issues/492
   ${vars.base} {
     name: "monocle"
     uri:  ${vars.uris.monocle-uri}
