@@ -418,7 +418,6 @@ build += {
     name: "kxbmap-configs"
     uri:  ${vars.uris.kxbmap-configs-uri}
     extra.exclude: [
-      "docs"  // because we don't have Tut (yet?)
       "bench" // not really necessary and would pull in a JMH dependency
     ]
   }
@@ -430,7 +429,6 @@ build += {
     uri:  ${vars.uris.fs2-uri}
     extra.exclude: [
       "coreJS" // no Scala.js please
-      "docs"   // because we don't have Tut (yet?)
       "benchmark" // not really necessary and would pull in a JMH dependency
     ]
   }
@@ -867,8 +865,6 @@ build += {
       "scalaz71"
       // depends on scalaz71
       "atto", "tests"
-      // depends on tut which we don't have
-      "docs"
     ]
   }
 
@@ -928,8 +924,6 @@ build += {
       "async-http-client"
       // these depend on circe, which we don't have (yet?)
       "circe", "examples", "examples-tomcat", "examples-jetty", "examples-blaze", "examples-war"
-      // this depends on tut, which we don't have (yet?)
-      "docs"
     ]
     // Failed tests: org.http4s.server.middleware.DefaultHeadSpec
     extra.test-tasks: "compile"
