@@ -166,6 +166,9 @@ build += {
   ${vars.base} {
     name: "scala-stm"
     uri:  ${vars.uris.scala-stm-uri}
+    // scala.concurrent.stm.CommitBarrierSuite failing;
+    // reported upstream at https://github.com/nbronson/scala-stm/issues/53
+    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
@@ -418,7 +421,6 @@ build += {
     name: "kxbmap-configs"
     uri:  ${vars.uris.kxbmap-configs-uri}
     extra.exclude: [
-      "docs"  // because we don't have Tut (yet?)
       "bench" // not really necessary and would pull in a JMH dependency
     ]
   }
@@ -430,7 +432,6 @@ build += {
     uri:  ${vars.uris.fs2-uri}
     extra.exclude: [
       "coreJS" // no Scala.js please
-      "docs"   // because we don't have Tut (yet?)
       "benchmark" // not really necessary and would pull in a JMH dependency
     ]
   }
@@ -842,6 +843,9 @@ build += {
   ${vars.base} {
     name: "dispatch"
     uri:  ${vars.uris.dispatch-uri}
+    // running tests was intermittently hanging. reported upstream at
+    // https://github.com/dispatch/reboot/issues/137
+    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
@@ -851,9 +855,7 @@ build += {
       // just scalaz72 plz!
       "scalaz71"
       // depends on scalaz71
-      "atto", "tests"
-      // depends on tut which we don't have
-      "docs"
+      "atto", "tests", "docs"
     ]
   }
 
@@ -916,9 +918,7 @@ build += {
       // "not found: object scodec" ?!
       "async-http-client"
       // these depend on circe, which we don't have (yet?)
-      "circe", "examples", "examples-tomcat", "examples-jetty", "examples-blaze", "examples-war"
-      // this depends on tut, which we don't have (yet?)
-      "docs"
+      "circe", "examples", "examples-tomcat", "examples-jetty", "examples-blaze", "examples-war", "docs"
     ]
     // Failed tests: org.http4s.server.middleware.DefaultHeadSpec
     extra.test-tasks: "compile"
@@ -942,6 +942,14 @@ build += {
     name: "algebra"
     uri:  ${vars.uris.algebra-uri}
     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js, no benchmarks, no docs
+  }
+
+  // forked (January 2017) to get rid of the usual bintray-sbt stuff that
+  // makes dbuild upset
+  ${vars.base} {
+    name: "tut"
+    uri:  ${vars.uris.tut-uri}
+    extra.exclude: ["plugin"]  // we never build sbt plugins
   }
 
 ]}
