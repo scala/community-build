@@ -759,10 +759,11 @@ build += {
     extra.projects: ["scalatagsJVM"]  // no Scala.js
   }
 
-  ${vars.base} {
-    name: "scala-refactoring"
-    uri:  ${vars.uris.scala-refactoring-uri}
-  }
+// not 2.12.1 friendly yet, as of January 2017
+//  ${vars.base} {
+//    name: "scala-refactoring"
+//    uri:  ${vars.uris.scala-refactoring-uri}
+//  }
 
   ${vars.base} {
     name: "nyaya"
