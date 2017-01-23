@@ -606,6 +606,11 @@ build += {
   }
 
   ${vars.base} {
+    name: "play-ws"
+    uri:  ${vars.uris.play-ws-uri}
+  }
+
+  ${vars.base} {
     name: "play-core"
     uri:  ${vars.uris.play-core-uri}
     extra: ${vars.base.extra} {
