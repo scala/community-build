@@ -767,6 +767,9 @@ build += {
   ${vars.base} {
     name: "scala-refactoring"
     uri:  ${vars.uris.scala-refactoring-uri}
+    extra.commands: ${vars.default-commands} [
+      "removeScalacOptions -Xfatal-warnings"  // too fragile
+    ]
   }
 
   ${vars.base} {
