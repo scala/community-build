@@ -608,6 +608,8 @@ build += {
   ${vars.base} {
     name: "play-ws"
     uri:  ${vars.uris.play-ws-uri}
+    // [play-ws] [error] play-ahc-ws-standalone/src/main/java/play/libs/ws/ahc/StandaloneAhcWSRequest.java:24: cannot find symbol
+    extra.exclude: ["play-ahc-ws-standalone"]
   }
 
   ${vars.base} {
