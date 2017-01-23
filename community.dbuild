@@ -606,6 +606,13 @@ build += {
   }
 
   ${vars.base} {
+    name: "play-ws"
+    uri:  ${vars.uris.play-ws-uri}
+    // [play-ws] [error] play-ahc-ws-standalone/src/main/java/play/libs/ws/ahc/StandaloneAhcWSRequest.java:24: cannot find symbol
+    extra.exclude: ["play-ahc-ws-standalone"]
+  }
+
+  ${vars.base} {
     name: "play-core"
     uri:  ${vars.uris.play-core-uri}
     extra: ${vars.base.extra} {
@@ -759,11 +766,13 @@ build += {
     extra.projects: ["scalatagsJVM"]  // no Scala.js
   }
 
-// not 2.12.1 friendly yet, as of January 2017
-//  ${vars.base} {
-//    name: "scala-refactoring"
-//    uri:  ${vars.uris.scala-refactoring-uri}
-//  }
+  ${vars.base} {
+    name: "scala-refactoring"
+    uri:  ${vars.uris.scala-refactoring-uri}
+    extra.commands: ${vars.default-commands} [
+      "removeScalacOptions -Xfatal-warnings"  // too fragile
+    ]
+  }
 
   ${vars.base} {
     name: "nyaya"
