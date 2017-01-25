@@ -598,6 +598,8 @@ build += {
   ${vars.base} {
     name: "play-ws"
     uri:  ${vars.uris.play-ws-uri}
+    // too fragile
+    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
     // [play-ws] [error] play-ahc-ws-standalone/src/main/java/play/libs/ws/ahc/StandaloneAhcWSRequest.java:24: cannot find symbol
     extra.exclude: ["play-ahc-ws-standalone"]
   }
