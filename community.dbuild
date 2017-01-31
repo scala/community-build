@@ -593,6 +593,7 @@ build += {
   ${vars.base} {
     name: "play-json"
     uri:  ${vars.uris.play-json-uri}
+    extra.projects: ["play-jsonJVM"]  // no Scala.js plz
   }
 
   ${vars.base} {
