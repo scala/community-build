@@ -41,6 +41,7 @@ build += {
         name: "scala-xml"
         uri: "https://github.com/"${vars.scala-xml-ref}
         extra.commands: "set scalaVersion := \"2.11.8\""
+        extra.projects: ["xmlJVM"]
       }
       {
         name: "scala-parser-combinators"
