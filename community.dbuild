@@ -590,10 +590,14 @@ build += {
     uri:  ${vars.uris.play-doc-uri}
   }
 
+  // frozen at 2.6.0-M1 for now, because at the moment (Feb 3 2017),
+  // play-ahc-ws-standalone (which is part of play-ws) doesn't compile
+  // against current master
   ${vars.base} {
     name: "play-json"
     uri:  ${vars.uris.play-json-uri}
-    extra.projects: ["play-jsonJVM"]  // no Scala.js plz
+    // uncomment once we're tracking master again
+    // extra.projects: ["play-jsonJVM"]  // no Scala.js plz
   }
 
   ${vars.base} {
@@ -601,8 +605,12 @@ build += {
     uri:  ${vars.uris.play-ws-uri}
     // too fragile
     extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
-    // [play-ws] [error] play-ahc-ws-standalone/src/main/java/play/libs/ws/ahc/StandaloneAhcWSRequest.java:24: cannot find symbol
-    extra.exclude: ["play-ahc-ws-standalone"]
+  }
+
+  // dependency of play-ws
+  ${vars.base} {
+    name: "cachecontrol"
+    uri:  ${vars.uris.cachecontrol-uri}
   }
 
   ${vars.base} {
