@@ -13,7 +13,7 @@ include file("common.conf")
 // And the generation of the artifacts more closely related to the Scala compiler.
 //
 build += {
-  extraction-version: "2.11.7"
+  extraction-version: "2.11.8"
   cross-version: disabled
   sbt-version: ${vars.sbt-version}
   projects: [
@@ -24,7 +24,7 @@ build += {
     extra.parts: {
       cross-version: standard
       sbt-version: ${vars.sbt-version}
-      extraction-version: "2.11.7"
+      extraction-version: "2.11.8"
       cross-version: disabled
     }
     extra.parts.projects: [
@@ -40,12 +40,12 @@ build += {
       {
         name: "scala-xml"
         uri: "https://github.com/"${vars.scala-xml-ref}
-        extra.commands: "set scalaVersion := \"2.11.7\""
+        extra.commands: "set scalaVersion := \"2.11.8\""
       }
       {
         name: "scala-parser-combinators"
         uri: "https://github.com/"${vars.scala-parser-combinators-ref}
-        extra.commands: "set scalaVersion := \"2.11.7\""
+        extra.commands: "set scalaVersion := \"2.11.8\""
         extra.projects: ["scala-parser-combinatorsJVM"]
       }
     ]
