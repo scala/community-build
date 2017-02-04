@@ -118,6 +118,7 @@ build += {
         extra.commands: ${vars.default-commands} [
           "set scalaVersion := \""${vars.scala-version}"\""
         ]
+        extra.projects: ["xmlJVM"]
       }
     ]
   }
