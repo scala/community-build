@@ -723,8 +723,6 @@ build += {
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM"]
   }
 
-  // forked for tweak to build, already submitted upstream as
-  // https://github.com/typelevel/catalysts/pull/10
   ${vars.base} {
     name: "catalysts"
     uri:  ${vars.uris.catalysts-uri}
