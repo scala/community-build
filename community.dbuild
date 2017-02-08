@@ -118,6 +118,7 @@ build += {
         extra.commands: ${vars.default-commands} [
           "set scalaVersion := \""${vars.scala-version}"\""
         ]
+        extra.projects: ["xmlJVM"]
       }
     ]
   }
@@ -590,18 +591,39 @@ build += {
     uri:  ${vars.uris.play-doc-uri}
   }
 
+  // frozen at 2.6.0-M1 for now, because at the moment (Feb 3 2017),
+  // play-ahc-ws-standalone (which is part of play-ws) doesn't compile
+  // against current master
   ${vars.base} {
     name: "play-json"
     uri:  ${vars.uris.play-json-uri}
+    // uncomment once we're tracking master again
+    // extra.projects: ["play-jsonJVM"]  // no Scala.js plz
   }
 
   ${vars.base} {
     name: "play-ws"
     uri:  ${vars.uris.play-ws-uri}
-    // too fragile
-    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
-    // [play-ws] [error] play-ahc-ws-standalone/src/main/java/play/libs/ws/ahc/StandaloneAhcWSRequest.java:24: cannot find symbol
-    extra.exclude: ["play-ahc-ws-standalone"]
+    extra.commands: ${vars.default-commands} [
+       // too fragile
+      "removeScalacOptions -Xfatal-warnings"
+      // I hypothesize that this is needed to work around
+      // https://issues.scala-lang.org/browse/SI-10067
+      // for which a fix is already in 2.12.x but hasn't been merged onto 2.13.x.
+      // not absolutely sure on that, but... for now, this makes the build pass.
+      // the error was:
+      // [play-ws] [error] /home/jenkins/workspace/scala-2.13.x-integrate-community-build/target-0.9.7-RC1/project-builds/play-ws-7e0bca02107bce0b31105dc6e0f47b8e8a2ed952/play-ahc-ws-standalone/src/main/java/play/libs/oauth/OAuth.java:19: not found: type ServiceInfo
+      // [play-ws] [error]     public OAuth(ServiceInfo info) {
+      // [play-ws] [error]                  ^
+      // [play-ws] [error] /home/jenkins/workspace/scala-2.13.x-integrate-community-build/target-0.9.7-RC1/project-builds/play-ws-7e0bca02107bce0b31105dc6e0f47b8e8a2ed952/play-ahc-ws-standalone/src/main/java/play/libs/oauth/OAuth.java:23: not found: type ServiceInfo
+      "set sources in doc in Compile in `play-ahc-ws-standalone` := List()"
+    ]
+  }
+
+  // dependency of play-ws
+  ${vars.base} {
+    name: "cachecontrol"
+    uri:  ${vars.uris.cachecontrol-uri}
   }
 
   ${vars.base} {
