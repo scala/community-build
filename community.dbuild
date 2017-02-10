@@ -228,7 +228,10 @@ build += {
   ${vars.base} {
     name: "scala-records"
     uri:  ${vars.uris.scala-records-uri}
-    extra.exclude: ["coreJS"]
+    extra.exclude: [
+      "coreJS"  // no Scala.js please
+      "root"    // dbuild thinks it tries to publish root#root
+    ]
   }
 
   ${vars.base} {
@@ -388,8 +391,10 @@ build += {
   ${vars.base} {
     name: "fastparse"
     uri:  ${vars.uris.fastparse-uri}
-    // no Scala.js plz
-    extra.projects: ["fastparseJVM"]
+    extra.projects: [
+      "fastparseJVM"   // no Scala.js plz
+      "scalaparseJVM"  // dependency of Scala.meta (!)
+    ]
     // TODO: tests depend on lambda toString looking like e.g `<function1>`
     extra.test-tasks: ["compile"]
   }
@@ -988,6 +993,62 @@ build += {
     name: "tut"
     uri:  ${vars.uris.tut-uri}
     extra.exclude: ["plugin"]  // we never build sbt plugins
+  }
+
+  // forked to remove the usual bintray gunk
+  ${vars.base} {
+    name: "scalameta"
+    uri:  ${vars.uris.scalameta-uri}
+    // else, bintray stuff goes boom
+    extra.options: ["-Dsbt.prohibit.publish=true"]
+    extra.exclude: ["readme"]  // requires scalatex-site which requires Scala.js
+  }
+
+  // forked to remove wartremover and coursier
+  ${vars.base} {
+    name: "scalafix"
+    uri:  ${vars.uris.scalafix-uri}
+    extra.exclude: [
+      "scalafix-sbt"  // we never build sbt plugins
+      "scalafix-nsc"  // depends on circe which we don't have yet
+      // this didn't work; I decided to postpone any investigation. dbuild output an
+      // immensely long error (tens of megabytes), enough to choke Jenkins
+      "scalafix-tests"
+      // Missing dependency: the library com.github.alexarchambault#case-app
+      "cli"
+      // requires scalatex-site which requires Scala.js
+      "readme"
+    ]
+  }
+
+  ${vars.base} {
+    name: "scalatex"
+    uri:  ${vars.uris.scalatex-uri}
+    extra.exclude: [
+      "scalatexSbtPlugin"  // we never build sbt plugins
+      "site", "readme", "scrollspy"  // these use Scala.js
+    ]
+  }
+
+  // for now we're just building ammonite-ops, not all of ammonite.
+  // ammonite-ops is the piece scalatex needed.  trying to build all
+  // projects here resulted in a circular ammonite/scalatex dependency.
+  // we might look into that some other time.
+  ${vars.base} {
+    name: "ammonite"
+    uri:  ${vars.uris.ammonite-uri}
+    extra.projects: ["ops"]
+  }
+
+  ${vars.base} {
+    name: "geny"
+    uri:  ${vars.uris.geny-uri}
+    extra.projects: ["genyJVM"]  // no Scala.js plz
+  }
+
+  ${vars.base} {
+    name: "scalaj-http"
+    uri:  ${vars.uris.scalaj-http-uri}
   }
 
 ]}
