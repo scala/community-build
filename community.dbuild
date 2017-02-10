@@ -822,6 +822,8 @@ build += {
     extra.projects: ["coreJVM", "tckTests"]  // no Scala.js, no benchmarks
   }
 
+  // frozen at a December 2016 commit; reported at
+  // https://github.com/scala/community-builds/issues/473
   ${vars.base} {
     name: "conductr-lib"
     uri:  ${vars.uris.conductr-lib-uri}
