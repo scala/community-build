@@ -1010,6 +1010,7 @@ build += {
     // use Scala 2.12 source directories for 2.13 too
     extra.commands: [
       "set unmanagedSourceDirectories in (common, Compile) += (baseDirectory in common).value / \"src\" / \"main\" / \"scala-2.12\""
+      "set unmanagedSourceDirectories in (scalahost, Compile) += (baseDirectory in scalahost).value / \"src\" / \"main\" / \"scala-2.12.1\""
     ]
     // else, bintray stuff goes boom
     extra.options: ["-Dsbt.prohibit.publish=true"]
