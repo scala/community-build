@@ -23,8 +23,8 @@ vars: {
   base: {}
 }
 
-include file("project-refs.conf")
-include file("resolvers.conf")
+include file(".dbuild/project-refs.conf")
+include file(".dbuild/resolvers.conf")
 
 //// shared settings
 
