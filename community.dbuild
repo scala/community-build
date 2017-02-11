@@ -755,6 +755,8 @@ build += {
     // we're lying and telling it Java 8 is Java 7, but in this context
     // the lie isn't important
     extra.options: ["-Djava7.home="${JAVA_HOME}]
+    // too fragile
+    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
   }
 
   # failing leaf projects commented out in 2.13 build -- investigation needed
@@ -772,12 +774,15 @@ build += {
   #   extra.projects: ["scalaJsonASTJVM"]
   # }
 
-  # failing leaf projects commented out in 2.13 build -- investigation needed
-  # ${vars.base} {
-  #   name: "scalatags"
-  #   uri:  ${vars.uris.scalatags-uri}
-  #   extra.projects: ["scalatagsJVM"]  // no Scala.js
-  # }
+  ${vars.base} {
+    name: "scalatags"
+    uri:  ${vars.uris.scalatags-uri}
+    extra.projects: ["scalatagsJVM"]  // no Scala.js
+    // their build.sbt has 'scalaVersion.value startsWith "2.12."', so that doesn't get 2.13
+    extra.commands: [
+      "set unmanagedSourceDirectories in (scalatagsJVM, Compile) += baseDirectory.value / \"shared\" / \"src\" / \"main\" / \"scala-2.11\""
+    ]
+  }
 
   # failing leaf projects commented out in 2.13 build -- investigation needed
   # ${vars.base} {
