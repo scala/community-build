@@ -559,11 +559,13 @@ build += {
     uri:  ${vars.uris.spray-json-uri}
   }
 
-  # failing leaf projects commented out in 2.13 build -- investigation needed
-  #  ${vars.base} {
-  #    name: "spray-json-shapeless"
-  #    uri:  ${vars.uris.spray-json-shapeless-uri}
-  #  }
+  ${vars.base} {
+    name: "spray-json-shapeless"
+    uri:  ${vars.uris.spray-json-shapeless-uri}
+    // tests don't compile, starting circa January 2017 -- see
+    // https://github.com/scala/community-builds/issues/475
+    extra.run-tests: false
+  }
 
   ${vars.base} {
     name: "pcplod"
@@ -755,6 +757,8 @@ build += {
     // we're lying and telling it Java 8 is Java 7, but in this context
     // the lie isn't important
     extra.options: ["-Djava7.home="${JAVA_HOME}]
+    // too fragile
+    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
   }
 
   # failing leaf projects commented out in 2.13 build -- investigation needed
@@ -772,12 +776,15 @@ build += {
   #   extra.projects: ["scalaJsonASTJVM"]
   # }
 
-  # failing leaf projects commented out in 2.13 build -- investigation needed
-  # ${vars.base} {
-  #   name: "scalatags"
-  #   uri:  ${vars.uris.scalatags-uri}
-  #   extra.projects: ["scalatagsJVM"]  // no Scala.js
-  # }
+  ${vars.base} {
+    name: "scalatags"
+    uri:  ${vars.uris.scalatags-uri}
+    extra.projects: ["scalatagsJVM"]  // no Scala.js
+    // their build.sbt has 'scalaVersion.value startsWith "2.12."', so that doesn't get 2.13
+    extra.commands: [
+      "set unmanagedSourceDirectories in (scalatagsJVM, Compile) += baseDirectory.value / \"shared\" / \"src\" / \"main\" / \"scala-2.11\""
+    ]
+  }
 
   # failing leaf projects commented out in 2.13 build -- investigation needed
   # ${vars.base} {
@@ -821,6 +828,8 @@ build += {
     extra.projects: ["coreJVM", "tckTests"]  // no Scala.js, no benchmarks
   }
 
+  // frozen at a December 2016 commit; reported at
+  // https://github.com/scala/community-builds/issues/473
   ${vars.base} {
     name: "conductr-lib"
     uri:  ${vars.uris.conductr-lib-uri}
@@ -994,38 +1003,38 @@ build += {
     extra.exclude: ["plugin"]  // we never build sbt plugins
   }
 
-  # failing leaf projects commented out in 2.13 build -- investigation needed
-  # (this isn't quite a leaf, but at the moment only scalafix depends on it)
-  #   // forked to remove the usual bintray gunk
-  #   ${vars.base} {
-  #     name: "scalameta"
-  #     uri:  ${vars.uris.scalameta-uri}
-  #     // use Scala 2.12 source directories for 2.13 too
-  #     extra.commands: [
-  #       "set unmanagedSourceDirectories in (common, Compile) += (baseDirectory in common).value / \"src\" / \"main\" / \"scala-2.12\""
-  #     ]
-  #     // else, bintray stuff goes boom
-  #     extra.options: ["-Dsbt.prohibit.publish=true"]
-  #     extra.exclude: ["readme"]  // requires scalatex-site which requires Scala.js
-  #   }
+  // forked to remove the usual bintray gunk
+  ${vars.base} {
+    name: "scalameta"
+    uri:  ${vars.uris.scalameta-uri}
+    // use Scala 2.12 source directories for 2.13 too
+    extra.commands: [
+      "set unmanagedSourceDirectories in (common, Compile) += (baseDirectory in common).value / \"src\" / \"main\" / \"scala-2.12\""
+    ]
+    // else, bintray stuff goes boom
+    extra.options: ["-Dsbt.prohibit.publish=true"]
+    extra.exclude: ["readme"]  // requires scalatex-site which requires Scala.js
+  }
 
-  # failing leaf projects commented out in 2.13 build -- investigation needed
-  #   // forked to remove wartremover and coursier
-  #   ${vars.base} {
-  #     name: "scalafix"
-  #     uri:  ${vars.uris.scalafix-uri}
-  #     extra.exclude: [
-  #       "scalafix-sbt"  // we never build sbt plugins
-  #       "scalafix-nsc"  // depends on circe which we don't have yet
-  #       // this didn't work; I decided to postpone any investigation. dbuild output an
-  #       // immensely long error (tens of megabytes), enough to choke Jenkins
-  #       "scalafix-tests"
-  #       // Missing dependency: the library com.github.alexarchambault#case-app
-  #       "cli"
-  #       // requires scalatex-site which requires Scala.js
-  #       "readme"
-  #     ]
-  #   }
+  // forked to remove wartremover and coursier
+  ${vars.base} {
+    name: "scalafix"
+    uri:  ${vars.uris.scalafix-uri}
+    extra.exclude: [
+      "scalafix-sbt"  // we never build sbt plugins
+      // "These tests depend on various projects (circe, shapeless,...) to
+      // reproduce bugs that surfaced in larger integration tests"
+      // says Olaf.  depends on circe which we don't have here yet
+      "scalafix-nsc"
+      // didn't work, and anyway, Olafur says it isn't appropriate to include;
+      // it "involves cloning other projects and compiling them"
+      "scalafix-tests"
+      // Missing dependency: the library com.github.alexarchambault#case-app
+      "cli"
+      // requires scalatex-site which requires Scala.js
+      "readme"
+    ]
+  }
 
   ${vars.base} {
     name: "scalatex"
