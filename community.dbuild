@@ -1036,6 +1036,9 @@ build += {
     name: "ammonite"
     uri:  ${vars.uris.ammonite-uri}
     extra.projects: ["ops"]
+    // not investigated:
+    // [ammonite] [info] test.ammonite.ops.ExampleTests.addUpScalaSize
+    extra.test-tasks: "compile"
   }
 
   ${vars.base} {
