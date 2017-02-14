@@ -2,5 +2,6 @@
 .dbuild/
 .ivy2/
 .m2/
+/clones-*/
 /dbuild-*/
 /target-*/

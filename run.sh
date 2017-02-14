@@ -4,11 +4,11 @@
 # It is also invoked by Jenkins (from scripts/jobs/integrate/community-build).
 
 # usage examples:
-#   version=2.12.x-933bab2-nightly ./run.sh
-#   version=2.12.x-933bab2-nightly ./run.sh project1
-#   version=2.12.x-933bab2-nightly ./run.sh project1,project2,project3
-# fill in the Scala branch and SHA as appropriate, perhaps by looking at
-# the parameters of a recent green Jenkins run at e.g.
+#   ./run.sh
+#   version=2.12.1-933bab2-nightly ./run.sh
+#   version=2.12.1-933bab2-nightly ./run.sh project1
+#   version=2.12.1-933bab2-nightly ./run.sh project1,project2,project3
+# if no Scala version is specified, we use the last green run from
 # https://scala-ci.typesafe.com/job/scala-2.12.x-integrate-community-build/
 
 set -e
@@ -17,9 +17,17 @@ set -o pipefail
 export LANG="en_US.UTF-8"
 export HOME="$(pwd)"
 
-echo "scala version:" ${version:?must set version environment variable}
+function latestNightly() {
+  >&2 echo "No Scala version specified. Using latest nightly."
+  url='https://scala-ci.typesafe.com/job/scala-2.12.x-integrate-bootstrap/lastSuccessfulBuild/artifact/jenkins.properties/*view*/'
+  curl -f -s -L $url | grep ^version= | cut -d= -f2
+}
 
-DBUILDVERSION=0.9.5
+export version=${version-`latestNightly`}
+echo "re-run as:"
+echo version=$version ./run.sh ${@}
+
+DBUILDVERSION=0.9.7-RC1
 echo "dbuild version: $DBUILDVERSION"
 
 DBUILDCONFIG=community.dbuild

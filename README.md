@@ -13,4 +13,6 @@ versions of Scala (language, standard library, and modules). It's also
 a service to the open source community, providing early notice of
 issues and incompatibilities.
 
+**Can I run it myself?** Sure, just clone the repo and run `./run.sh`.
+
 [Further documentation is in the wiki](https://github.com/scala/community-builds/wiki).
