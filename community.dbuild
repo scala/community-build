@@ -1010,7 +1010,15 @@ build += {
     ]
     // else, bintray stuff goes boom
     extra.options: ["-Dsbt.prohibit.publish=true"]
-    extra.exclude: ["readme"]  // requires scalatex-site which requires Scala.js
+    // requires scalatex-site which requires Scala.js
+    extra.exclude: ["readme"]
+    // use right version-specific source directories regardless of our weird dbuild Scala version numbers
+    extra.commands: [
+      "set unmanagedSourceDirectories in (common, Compile) += (baseDirectory in common).value / \"src\" / \"main\" / \"scala-2.12\""
+      "set unmanagedSourceDirectories in (dialects, Compile) += (baseDirectory in dialects).value / \"src\" / \"main\" / \"scala-2.12\""
+      "set unmanagedSourceDirectories in (scalameta, Compile) += (baseDirectory in scalameta).value / \"src\" / \"main\" / \"scala-2.12\""
+      "set unmanagedSourceDirectories in (scalahost, Compile) += (baseDirectory in scalahost).value / \"src\" / \"main\" / \"scala-2.12.1\""
+    ]
   }
 
   // forked to remove wartremover and coursier
@@ -1050,6 +1058,9 @@ build += {
     name: "ammonite"
     uri:  ${vars.uris.ammonite-uri}
     extra.projects: ["ops"]
+    // not investigated:
+    // [ammonite] [info] test.ammonite.ops.ExampleTests.addUpScalaSize
+    extra.test-tasks: "compile"
   }
 
   ${vars.base} {
