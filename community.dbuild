@@ -609,14 +609,10 @@ build += {
     uri:  ${vars.uris.play-doc-uri}
   }
 
-  // frozen at 2.6.0-M1 for now, because at the moment (Feb 3 2017),
-  // play-ahc-ws-standalone (which is part of play-ws) doesn't compile
-  // against current master
   ${vars.base} {
     name: "play-json"
     uri:  ${vars.uris.play-json-uri}
-    // uncomment once we're tracking master again
-    // extra.projects: ["play-jsonJVM"]  // no Scala.js plz
+    extra.projects: ["play-jsonJVM"]  // no Scala.js plz
   }
 
   ${vars.base} {
