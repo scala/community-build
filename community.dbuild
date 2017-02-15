@@ -999,47 +999,45 @@ build += {
     extra.exclude: ["plugin"]  // we never build sbt plugins
   }
 
-  // forked to remove the usual bintray gunk
-  ${vars.base} {
-    name: "scalameta"
-    uri:  ${vars.uris.scalameta-uri}
-    // use Scala 2.12 source directories for 2.13 too
-    extra.commands: [
-      "set unmanagedSourceDirectories in (common, Compile) += (baseDirectory in common).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (scalahost, Compile) += (baseDirectory in scalahost).value / \"src\" / \"main\" / \"scala-2.12.1\""
-    ]
-    // else, bintray stuff goes boom
-    extra.options: ["-Dsbt.prohibit.publish=true"]
-    // requires scalatex-site which requires Scala.js
-    extra.exclude: ["readme"]
-    // use right version-specific source directories regardless of our weird dbuild Scala version numbers
-    extra.commands: [
-      "set unmanagedSourceDirectories in (common, Compile) += (baseDirectory in common).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (dialects, Compile) += (baseDirectory in dialects).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (scalameta, Compile) += (baseDirectory in scalameta).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (scalahost, Compile) += (baseDirectory in scalahost).value / \"src\" / \"main\" / \"scala-2.12.1\""
-    ]
-  }
+  # [scalameta] [info]   java.lang.RuntimeException: unsupported Scala version 2.13.0-5b9ed75-nightly
+  # right now only scalafix depends on this, so it's a near-leaf
+  #   // forked to remove the usual bintray gunk
+  #   ${vars.base} {
+  #     name: "scalameta"
+  #     uri:  ${vars.uris.scalameta-uri}
+  #     // else, bintray stuff goes boom
+  #     extra.options: ["-Dsbt.prohibit.publish=true"]
+  #     // requires scalatex-site which requires Scala.js
+  #     extra.exclude: ["readme"]
+  #     // use right version-specific source directories regardless of our weird dbuild Scala version numbers
+  #     extra.commands: [
+  #       "set unmanagedSourceDirectories in (common, Compile) += (baseDirectory in common).value / \"src\" / \"main\" / \"scala-2.12\""
+  #       "set unmanagedSourceDirectories in (dialects, Compile) += (baseDirectory in dialects).value / \"src\" / \"main\" / \"scala-2.12\""
+  #       "set unmanagedSourceDirectories in (scalameta, Compile) += (baseDirectory in scalameta).value / \"src\" / \"main\" / \"scala-2.12\""
+  #       "set unmanagedSourceDirectories in (scalahost, Compile) += (baseDirectory in scalahost).value / \"src\" / \"main\" / \"scala-2.12.1\""
+  #     ]
+  #   }
 
-  // forked to remove wartremover and coursier
-  ${vars.base} {
-    name: "scalafix"
-    uri:  ${vars.uris.scalafix-uri}
-    extra.exclude: [
-      "scalafix-sbt"  // we never build sbt plugins
-      // "These tests depend on various projects (circe, shapeless,...) to
-      // reproduce bugs that surfaced in larger integration tests"
-      // says Olaf.  depends on circe which we don't have here yet
-      "scalafix-nsc"
-      // didn't work, and anyway, Olafur says it isn't appropriate to include;
-      // it "involves cloning other projects and compiling them"
-      "scalafix-tests"
-      // Missing dependency: the library com.github.alexarchambault#case-app
-      "cli"
-      // requires scalatex-site which requires Scala.js
-      "readme"
-    ]
-  }
+  # commented out because scalameta is commented out
+  #   // forked to remove wartremover and coursier
+  #   ${vars.base} {
+  #     name: "scalafix"
+  #     uri:  ${vars.uris.scalafix-uri}
+  #     extra.exclude: [
+  #       "scalafix-sbt"  // we never build sbt plugins
+  #       // "These tests depend on various projects (circe, shapeless,...) to
+  #       // reproduce bugs that surfaced in larger integration tests"
+  #       // says Olaf.  depends on circe which we don't have here yet
+  #       "scalafix-nsc"
+  #       // didn't work, and anyway, Olafur says it isn't appropriate to include;
+  #       // it "involves cloning other projects and compiling them"
+  #       "scalafix-tests"
+  #       // Missing dependency: the library com.github.alexarchambault#case-app
+  #       "cli"
+  #       // requires scalatex-site which requires Scala.js
+  #       "readme"
+  #     ]
+  #   }
 
   ${vars.base} {
     name: "scalatex"
