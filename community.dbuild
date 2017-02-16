@@ -706,6 +706,10 @@ build += {
       // and anyway we don't want to run benchmarks
       "argonaut-benchmark"
     ]
+    // work around https://github.com/scala/scala-dev/issues/252
+    extra.commands: ${vars.default-commands} [
+      "set unmanagedSourceDirectories in (argonautJVM, Compile) += baseDirectory.value / \"shared\" / \"src\" / \"main\" / \"scala-2.12\""
+    ]
   }
 
   ${vars.base} {
