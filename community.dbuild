@@ -709,13 +709,9 @@ build += {
       // and anyway we don't want to run benchmarks
       "argonaut-benchmark"
     ]
+    // work around https://github.com/scala/scala-dev/issues/252
     extra.commands: ${vars.default-commands} [
-      // work around issue where we get shared/src/main/scala-2.13.0-abcd123-nightly instead;
-      // weird because we get jvm/src/main/scala-2.13 without any tweak needed; maybe it
-      // will fix itself once we're using -bin- version numbers? or maybe it's an sbt bug
-      // we should report upstream? even if this were fixed, we'd also need to submit an
-      // argonaut PR adding a scala-2.13 directory, right now we're just using the 2.12 one
-      "set unmanagedSourceDirectories in (argonautJVM, Compile) += (baseDirectory in argonautParent).value / \"argonaut\" / \"shared\" / \"src\" / \"main\" / \"scala-2.12\""
+      "set unmanagedSourceDirectories in (argonautJVM, Compile) += baseDirectory.value / \"argonaut\" / \"shared\" / \"src\" / \"main\" / \"scala-2.12\""
     ]
   }
 
