@@ -820,8 +820,6 @@ build += {
     extra.projects: ["coreJVM", "tckTests"]  // no Scala.js, no benchmarks
   }
 
-  // frozen at a December 2016 commit; reported at
-  // https://github.com/scala/community-builds/issues/473
   ${vars.base} {
     name: "conductr-lib"
     uri:  ${vars.uris.conductr-lib-uri}
@@ -829,7 +827,7 @@ build += {
       // not our Akka version
       "akka23Common", "akka23ConductRBundleLib", "akka23TestLib"
       // we don't have Lagom yet
-      "lagom1ConductRBundleLib"
+      "lagom1JavaConductRBundleLib", "lagom1ScalaConductRBundleLib"
       // not our Play version
       "play23Common", "play23ConductRBundleLib", "play23ConductRClientLib"
       // also not our Play version
