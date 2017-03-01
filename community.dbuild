@@ -753,20 +753,28 @@ build += {
     extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
   }
 
-  # failing leaf projects commented out in 2.13 build -- investigation needed
-  # ${vars.base} {
-  #   name: "scala-json-ast"
-  #   uri:  ${vars.uris.scala-json-ast-uri}
-  #   // but why does scalafmt turn up in libraryDependencies at all?
-  #   // see https://github.com/olafurpg/scalafmt/issues/485#issuecomment-253601375
-  #   check-missing: false
-  #   deps.ignore: [
-  #     "com.geirsson#scalafmt-cli"
-  #     "com.geirsson#scalafmt"
-  #   ]
-  #   // no Scala.js please, and no benchmarks either
-  #   extra.projects: ["scalaJsonASTJVM"]
-  # }
+  ${vars.base} {
+    name: "scalameter"
+    uri:  ${vars.uris.scalameter-uri}
+    check-missing: false
+    deps.ignore: [
+      // doesn't support 2.12 (yet?)
+      "org.mongodb#casbah"
+      // this one is unmaintained and doesn't support Scala 2.12...
+      "com.decodified#scala-ssh"
+    ]
+    deps.inject: [
+      // ...but this one does
+      "com.veact#scala-ssh"
+    ]
+  }
+
+  ${vars.base} {
+    name: "scala-json-ast"
+    uri:  ${vars.uris.scala-json-ast-uri}
+    // no Scala.js please, and no benchmarks either
+    extra.projects: ["scalaJsonASTJVM"]
+  }
 
   ${vars.base} {
     name: "scalatags"
@@ -848,18 +856,7 @@ build += {
   ${vars.base} {
     name: "akka-sse"
     uri:  ${vars.uris.akka-sse-uri}
-    extra.exclude: ["akka-sse-jmh"]  // no benchmarking stuff plz
-    // disable scalafmt
-    extra.commands: ${vars.default-commands} [
-      "set every scalafmt := {}"
-    ]
-    // but why does scalafmt turn up in libraryDependencies at all?
-    // see https://github.com/olafurpg/scalafmt/issues/485#issuecomment-253601375
-    check-missing: false
-    deps.ignore: [
-      "com.geirsson#scalafmt-cli"
-      "com.geirsson#scalafmt"
-    ]
+    extra.exclude: ["jmh"]  // no benchmarking stuff plz
   }
 
   // this was added because conductr-lib's Play integration depended on it,
