@@ -369,6 +369,8 @@ build += {
     }
   }
 
+  // temporarily forked (for trivial 2.13 fix) while we wait for Haoyi to merge
+  // https://github.com/lihaoyi/utest/pull/107
   ${vars.base} {
     name: "utest"
     uri:  ${vars.uris.utest-uri}
