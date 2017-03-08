@@ -741,8 +741,8 @@
             <propagateQueryParams>false</propagateQueryParams>
         </remoteRepository>
         <remoteRepository>
-            <key>scala-ci-private-repo</key>
-            <type>maven</type>
+            <key>scala-integration</key>
+            <type>ivy</type>
             <includesPattern>org/scala-lang/**</includesPattern>
             <repoLayoutRef>ivy-default</repoLayoutRef>
             <dockerApiVersion>V2</dockerApiVersion>
@@ -755,27 +755,22 @@
             <suppressPomConsistencyChecks>true</suppressPomConsistencyChecks>
             <propertySets/>
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
-            <xray>
-                <enabled>false</enabled>
-                <blockUnscannedArtifacts>false</blockUnscannedArtifacts>
-            </xray>
-            <url>https://scala-ci.typesafe.com/artifactory/scala-release-temp/</url>
+            <url>https://scala-ci.typesafe.com/artifactory/scala-integration/</url>
             <offline>false</offline>
             <hardFail>false</hardFail>
             <storeArtifactsLocally>true</storeArtifactsLocally>
             <fetchJarsEagerly>true</fetchJarsEagerly>
             <fetchSourcesEagerly>true</fetchSourcesEagerly>
-            <retrievalCachePeriodSecs>3600</retrievalCachePeriodSecs>
+            <retrievalCachePeriodSecs>86400</retrievalCachePeriodSecs>
             <assumedOfflinePeriodSecs>300</assumedOfflinePeriodSecs>
-            <missedRetrievalCachePeriodSecs>3600</missedRetrievalCachePeriodSecs>
+            <missedRetrievalCachePeriodSecs>1800</missedRetrievalCachePeriodSecs>
             <remoteRepoChecksumPolicyType>generate-if-absent</remoteRepoChecksumPolicyType>
             <unusedArtifactsCleanupPeriodHours>0</unusedArtifactsCleanupPeriodHours>
             <shareConfiguration>false</shareConfiguration>
             <synchronizeProperties>false</synchronizeProperties>
             <listRemoteFolderItems>true</listRemoteFolderItems>
-            <remoteRepoLayoutRef>ivy-default</remoteRepoLayoutRef>
             <rejectInvalidJars>false</rejectInvalidJars>
-            <p2OriginalUrl>https://scala-ci.typesafe.com/artifactory/scala-release-temp/</p2OriginalUrl>
+            <p2OriginalUrl>https://scala-ci.typesafe.com/artifactory/scala-integration/</p2OriginalUrl>
             <contentSynchronisation>
                 <enabled>false</enabled>
                 <statistics>
@@ -975,7 +970,7 @@
                 <repositoryRef>typesafe-ivy-releases</repositoryRef>
                 <repositoryRef>maven-central</repositoryRef>
                 <repositoryRef>sbt-plugin-releases</repositoryRef>
-                <repositoryRef>scala-ci-private-repo</repositoryRef>
+                <repositoryRef>scala-integration</repositoryRef>
                 <repositoryRef>scala-pr-validation-snapshots</repositoryRef>
             </repositories>
             <pomRepositoryReferencesCleanupPolicy>discard_active_reference</pomRepositoryReferencesCleanupPolicy>
