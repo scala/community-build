@@ -508,10 +508,6 @@ build += {
     // recommended at https://github.com/twitter/util/issues/173:
     // "We use that when we don't think the tests will be reliable in a ci environment"
     extra.options: ["-DSKIP_FLAKY=true"]
-    // 2.13-only failures, not investigated (we should get back to it later in 2.13 cycle);
-    // it's the same com.fasterxml.jackson.databind.JsonMappingException that made us
-    // not run jackson-module-scala tests
-    extra.test-tasks: "compile"
   }
 
   // note that we don't have MiMa in the JDK6 build.  I tried but it
@@ -762,10 +758,6 @@ build += {
     extra.options: ["-Djava7.home="${JAVA_HOME}]
     // too fragile
     extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
-    // 2.13-only failures, not investigated (we should get back to it later in 2.13 cycle);
-    // the com.fasterxml.jackson.databind.JsonMappingException here also makes
-    // tests fail in twitter-util and scalaj-http
-    extra.test-tasks: "compile"
   }
 
 # failing leaf projects commented out in 2.13 build -- scalaVersion handling
@@ -1078,10 +1070,6 @@ build += {
   ${vars.base} {
     name: "scalaj-http"
     uri:  ${vars.uris.scalaj-http-uri}
-    // 2.13-only failures, not investigated (we should get back to it later in 2.13 cycle);
-    // it's the same com.fasterxml.jackson.databind.JsonMappingException that made us
-    // not run jackson-module-scala tests
-    extra.test-tasks: "compile"
   }
 
 ]}
