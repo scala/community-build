@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+# http://stackoverflow.com/questions/59895/getting-the-source-directory-of-a-bash-script-from-within
+baseDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $baseDir
+
+[[ $# == 1 ]] || {
+  echo "Usage: freeze [jenkinsBuildNumber]"
+  exit 42
+}
+buildNumber=$1
+
+startPattern=".*You can repeat this build.*using this configuration:"
+endPattern=".*---== End Repeatable dbuild Configuration ===---"
+
+# first sed: remve double space http://unix.stackexchange.com/a/179319
+# second sed: indent
+versions=$(curl https://scala-ci.typesafe.com/job/scala-2.13.x-integrate-community-build/$buildNumber/consoleText \
+           | awk "/$startPattern/{y=1;next}/$endPattern/"{y=0}y \
+           | jq -re '.build.projects[] | "\(.name)-uri: \"\(.uri)\""' \
+           | grep -v scala-uri \
+           | sort \
+           | column -t \
+           | sed 's/\( *\) /\1/g' \
+           | sed 's/^/  /')
+
+cat <<EOF > project-refs.conf
+vars.uris: {
+$versions
+}
+EOF
