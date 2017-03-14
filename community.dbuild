@@ -749,7 +749,8 @@ build += {
   // it broke some version checking logic, resulting in
   // com.fasterxml.jackson.databind.JsonMappingException when running
   // tests, not only in this project but also downstream in
-  // twitter-util and scalaj-http.  TODO: report the issue upstream
+  // twitter-util and scalaj-http.  reported the problem upstream at
+  // https://github.com/FasterXML/jackson-module-scala/issues/319
   ${vars.base} {
     name: "jackson-module-scala"
     uri:  ${vars.uris.jackson-module-scala-uri}
