@@ -271,42 +271,45 @@ build += {
     }
   }
 
-  // tracking release-2.4 because master is 2.5 and breaking changes are happening
-  // this is separate from "akka" because there is a circular dependency between
-  // the akka and ssl-config repos
-  ${vars.base} {
-    name: "akka-more"
-    uri:  ${vars.uris.akka-more-uri}
-    extra: ${vars.base.extra} {
-      options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
-      projects: ["akka-scala-nightly"]
-      commands: ["set every apiURL := None"]  // https://github.com/scala/community-builds/issues/373
-      exclude: [
-        "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
-        "akka-actor"  // because we already built it in "akka"
-        "akka-bench-jmh"  // we'd have to add a resolver to get the JMH dependency - ST 8/17/15
-      ]
-      // TODO wip on this at https://github.com/scala/community-builds/pull/317
-      test-tasks: ["compile"]
-    }
-  }
+# commented out (March 2017) because they're using deprecated/removed stuff;
+# see https://github.com/scala/scala/pull/5358#issuecomment-286908882
+#  // tracking release-2.4 because master is 2.5 and breaking changes are happening
+#  // this is separate from "akka" because there is a circular dependency between
+#  // the akka and ssl-config repos
+#  ${vars.base} {
+#    name: "akka-more"
+#    uri:  ${vars.uris.akka-more-uri}
+#    extra: ${vars.base.extra} {
+#      options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
+#      projects: ["akka-scala-nightly"]
+#      commands: ["set every apiURL := None"]  // https://github.com/scala/community-builds/issues/373
+#      exclude: [
+#        "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
+#        "akka-actor"  // because we already built it in "akka"
+#        "akka-bench-jmh"  // we'd have to add a resolver to get the JMH dependency - ST 8/17/15
+#      ]
+#      // TODO wip on this at https://github.com/scala/community-builds/pull/317
+#      test-tasks: ["compile"]
+#    }
+#  }
 
-  // forked (December 2016) to get rid of the usual bintray-sbt stuff that
-  // makes dbuild upset
-  ${vars.base} {
-    name: "akka-http"
-    uri:  ${vars.uris.akka-http-uri}
-    extra: ${vars.base.extra} {
-      options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false"]
-      // Scaladoc generation failure reported upstream at https://github.com/akka/akka/issues/21543
-      commands: ${vars.default-commands} [
-        "set sources in doc in Compile in httpCore := List()"
-      ]
-      // "HTTP is sadly very timing sensitive we're working on improving its stability regularly,
-      // OK to disable it for now." - Konrad M, October 2016
-      test-tasks: ["compile"]
-    }
-  }
+# commented out (March 2017) because it depends on akka-more
+#  // forked (December 2016) to get rid of the usual bintray-sbt stuff that
+#  // makes dbuild upset
+#  ${vars.base} {
+#    name: "akka-http"
+#    uri:  ${vars.uris.akka-http-uri}
+#    extra: ${vars.base.extra} {
+#      options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false"]
+#      // Scaladoc generation failure reported upstream at https://github.com/akka/akka/issues/21543
+#      commands: ${vars.default-commands} [
+#        "set sources in doc in Compile in httpCore := List()"
+#      ]
+#      // "HTTP is sadly very timing sensitive we're working on improving its stability regularly,
+#      // OK to disable it for now." - Konrad M, October 2016
+#      test-tasks: ["compile"]
+#    }
+#  }
 
   ${vars.base} {
     name: "scalariform"
@@ -609,24 +612,25 @@ build += {
     extra.projects: ["play-jsonJVM"]  // no Scala.js plz
   }
 
-  ${vars.base} {
-    name: "play-ws"
-    uri:  ${vars.uris.play-ws-uri}
-    extra.commands: ${vars.default-commands} [
-       // too fragile
-      "removeScalacOptions -Xfatal-warnings"
-      // I hypothesize that this is needed to work around
-      // https://issues.scala-lang.org/browse/SI-10067
-      // for which a fix is already in 2.12.x but hasn't been merged onto 2.13.x.
-      // not absolutely sure on that, but... for now, this makes the build pass.
-      // the error was:
-      // [play-ws] [error] /home/jenkins/workspace/scala-2.13.x-integrate-community-build/target-0.9.7-RC1/project-builds/play-ws-7e0bca02107bce0b31105dc6e0f47b8e8a2ed952/play-ahc-ws-standalone/src/main/java/play/libs/oauth/OAuth.java:19: not found: type ServiceInfo
-      // [play-ws] [error]     public OAuth(ServiceInfo info) {
-      // [play-ws] [error]                  ^
-      // [play-ws] [error] /home/jenkins/workspace/scala-2.13.x-integrate-community-build/target-0.9.7-RC1/project-builds/play-ws-7e0bca02107bce0b31105dc6e0f47b8e8a2ed952/play-ahc-ws-standalone/src/main/java/play/libs/oauth/OAuth.java:23: not found: type ServiceInfo
-      "set sources in doc in Compile in `play-ahc-ws-standalone` := List()"
-    ]
-  }
+# commented out (March 2017) because it depends on akka-more
+#  ${vars.base} {
+#    name: "play-ws"
+#    uri:  ${vars.uris.play-ws-uri}
+#    extra.commands: ${vars.default-commands} [
+#       // too fragile
+#      "removeScalacOptions -Xfatal-warnings"
+#      // I hypothesize that this is needed to work around
+#      // https://issues.scala-lang.org/browse/SI-10067
+#      // for which a fix is already in 2.12.x but hasn't been merged onto 2.13.x.
+#      // not absolutely sure on that, but... for now, this makes the build pass.
+#      // the error was:
+#      // [play-ws] [error] /home/jenkins/workspace/scala-2.13.x-integrate-community-build/target-0.9.7-RC1/project-builds/play-ws-7e0bca02107bce0b31105dc6e0f47b8e8a2ed952/play-ahc-ws-standalone/src/main/java/play/libs/oauth/OAuth.java:19: not found: type ServiceInfo
+#      // [play-ws] [error]     public OAuth(ServiceInfo info) {
+#      // [play-ws] [error]                  ^
+#      // [play-ws] [error] /home/jenkins/workspace/scala-2.13.x-integrate-community-build/target-0.9.7-RC1/project-builds/play-ws-7e0bca02107bce0b31105dc6e0f47b8e8a2ed952/play-ahc-ws-standalone/src/main/java/play/libs/oauth/OAuth.java:23: not found: type ServiceInfo
+#      "set sources in doc in Compile in `play-ahc-ws-standalone` := List()"
+#    ]
+#  }
 
   // dependency of play-ws
   ${vars.base} {
@@ -634,25 +638,26 @@ build += {
     uri:  ${vars.uris.cachecontrol-uri}
   }
 
-  ${vars.base} {
-    name: "play-core"
-    uri:  ${vars.uris.play-core-uri}
-    extra: ${vars.base.extra} {
-      // TODO: enable more projects? these are just a few that seemed especially high-value.
-      // we tried including "Play-Integration-Test" but hit a mysterious StackOverflowError
-      // in scala.tools.nsc.javac.JavaScanners; see https://github.com/scala/community-builds/issues/304
-      projects: ["Play", "Play-Test", "Play-WS"]
-      exclude: ["SBT-Plugin"]
-      directory: "framework"
-      commands: ${vars.default-commands} [
-        // workaround for the problem with PlayVersion.scala file is being passed twice to Scala compiler
-        // and we get double definition error
-        "set sources in (PlayProject, Compile, compile) := (sources in (PlayProject, Compile, compile)).value.distinct"
-        // there was some Scaladoc error here I didn't bother to look into
-        "set sources in doc in Compile in PlayProject := List()"
-      ]
-    }
-  }
+# commented out (March 2017) because it depends on akka-more
+#  ${vars.base} {
+#    name: "play-core"
+#    uri:  ${vars.uris.play-core-uri}
+#    extra: ${vars.base.extra} {
+#      // TODO: enable more projects? these are just a few that seemed especially high-value.
+#      // we tried including "Play-Integration-Test" but hit a mysterious StackOverflowError
+#      // in scala.tools.nsc.javac.JavaScanners; see https://github.com/scala/community-builds/issues/304
+#      projects: ["Play", "Play-Test", "Play-WS"]
+#      exclude: ["SBT-Plugin"]
+#      directory: "framework"
+#      commands: ${vars.default-commands} [
+#        // workaround for the problem with PlayVersion.scala file is being passed twice to Scala compiler
+#        // and we get double definition error
+#        "set sources in (PlayProject, Compile, compile) := (sources in (PlayProject, Compile, compile)).value.distinct"
+#        // there was some Scaladoc error here I didn't bother to look into
+#        "set sources in doc in Compile in PlayProject := List()"
+#      ]
+#    }
+#  }
 
   // 3.5 is the current stable branch (as of Oct 2016)
   // there is also a brand-new development branch, 3.6, we should
@@ -820,14 +825,15 @@ build += {
     extra.projects: ["testModuleJVM"]  // no Scala.js, no benchmarks
   }
 
-  ${vars.base} {
-    name: "scala-abide"
-    uri:  ${vars.uris.scala-abide-uri}
-    extra.exclude: [
-      "root"       // dbuild thinks it tries to publish root#root
-      "sbt-abide"  // we never build sbt plugins
-    ]
-  }
+# commented out (March 2017) because it depends on akka-more
+#  ${vars.base} {
+#    name: "scala-abide"
+#    uri:  ${vars.uris.scala-abide-uri}
+#    extra.exclude: [
+#      "root"       // dbuild thinks it tries to publish root#root
+#      "sbt-abide"  // we never build sbt plugins
+#    ]
+#  }
 
   ${vars.base} {
     name: "minitest"
@@ -841,47 +847,49 @@ build += {
     extra.projects: ["coreJVM", "tckTests"]  // no Scala.js, no benchmarks
   }
 
-  ${vars.base} {
-    name: "conductr-lib"
-    uri:  ${vars.uris.conductr-lib-uri}
-    extra.exclude: [
-      // not our Akka version
-      "akka23Common", "akka23ConductRBundleLib", "akka23TestLib"
-      // we don't have Lagom yet
-      "lagom1JavaConductRBundleLib", "lagom1ScalaConductRBundleLib"
-      // not our Play version
-      "play23Common", "play23ConductRBundleLib", "play23ConductRClientLib"
-      // also not our Play version
-      "play24Common", "play24ConductRBundleLib", "play24ConductRClientLib"
-      // "That particular lib shouldn't be processed", says Christopher
-      "akka24ConductRClientLib"
-      // Play stuff didn't work, maybe try again later?
-      "play25ConductRBundleLib", "play25ConductRClientLib", "play25Common"
-    ]
-  }
+# commented out (March 2017) because it depends on akka-more
+#  ${vars.base} {
+#    name: "conductr-lib"
+#    uri:  ${vars.uris.conductr-lib-uri}
+#    extra.exclude: [
+#      // not our Akka version
+#      "akka23Common", "akka23ConductRBundleLib", "akka23TestLib"
+#      // we don't have Lagom yet
+#      "lagom1JavaConductRBundleLib", "lagom1ScalaConductRBundleLib"
+#      // not our Play version
+#      "play23Common", "play23ConductRBundleLib", "play23ConductRClientLib"
+#      // also not our Play version
+#      "play24Common", "play24ConductRBundleLib", "play24ConductRClientLib"
+#      // "That particular lib shouldn't be processed", says Christopher
+#      "akka24ConductRClientLib"
+#      // Play stuff didn't work, maybe try again later?
+#      "play25ConductRBundleLib", "play25ConductRClientLib", "play25Common"
+#    ]
+#  }
 
-  // this was added because conductr-lib's Play integration depended on it,
-  // but we ended up not including that integration (for now anyway?), so
-  // nothing depends on this.  leaving it in since we might as well, but
-  // if it acts up, it can go.
-  // forked (December 2016) to get rid of the usual bintray-sbt stuff that
-  // makes dbuild upset
-  ${vars.base} {
-    name: "akka-sse"
-    uri:  ${vars.uris.akka-sse-uri}
-    extra.exclude: ["jmh"]  // no benchmarking stuff plz
-  }
+# commented out (March 2017) because it depends on akka-more
+#  // this was added because conductr-lib's Play integration depended on it,
+#  // but we ended up not including that integration (for now anyway?), so
+#  // nothing depends on this.  leaving it in since we might as well, but
+#  // if it acts up, it can go.
+#  // forked (December 2016) to get rid of the usual bintray-sbt stuff that
+#  // makes dbuild upset
+#  ${vars.base} {
+#    name: "akka-sse"
+#    uri:  ${vars.uris.akka-sse-uri}
+#    extra.exclude: ["jmh"]  // no benchmarking stuff plz
+#  }
 
-  // this was added because conductr-lib's Play integration depended on it,
-  // but we ended up not including that integration (for now anyway?), so
-  // nothing depends on this.  leaving it in since we might as well, but
-  // if it acts up, it can go.
-  // forked (December 2016) to get rid of the usual bintray-sbt stuff that
-  // makes dbuild upset
-  ${vars.base} {
-    name: "akka-contrib-extra"
-    uri:  ${vars.uris.akka-contrib-extra-uri}
-  }
+#  // this was added because conductr-lib's Play integration depended on it,
+#  // but we ended up not including that integration (for now anyway?), so
+#  // nothing depends on this.  leaving it in since we might as well, but
+#  // if it acts up, it can go.
+#  // forked (December 2016) to get rid of the usual bintray-sbt stuff that
+#  // makes dbuild upset
+#  ${vars.base} {
+#    name: "akka-contrib-extra"
+#    uri:  ${vars.uris.akka-contrib-extra-uri}
+#  }
 
   ${vars.base} {
     name: "unfiltered"
