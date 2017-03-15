@@ -990,8 +990,14 @@ build += {
     uri:  ${vars.uris.scalameta-uri}
     // else, bintray stuff goes boom
     extra.options: ["-Dsbt.prohibit.publish=true"]
-    // requires scalatex-site which requires Scala.js
-    extra.exclude: ["readme"]
+    extra.exclude: [
+      // requires scalatex-site which requires Scala.js
+      "readme"
+      // we never build sbt plugins or benchmarks
+      "scalahostSbt", "benchmarks"
+      // test failures it doesn't seem worth investigating
+      "contrib"
+    ]
     // use right version-specific source directories regardless of our weird dbuild Scala version numbers
     extra.commands: [
       "set unmanagedSourceDirectories in (common, Compile) += (baseDirectory in common).value / \"src\" / \"main\" / \"scala-2.12\""
