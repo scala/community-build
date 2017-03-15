@@ -1053,4 +1053,9 @@ build += {
     uri:  ${vars.uris.scalaj-http-uri}
   }
 
+  ${vars.base} {
+    name: "scalafx"
+    uri:  ${vars.uris.scalafx-uri}
+  }
+
 ]}
