@@ -995,7 +995,7 @@ build += {
       "readme"
       // we never build sbt plugins or benchmarks
       "scalahostSbt", "benchmarks"
-      // test failures it doesn't seem worth investigating
+      // test failures it doesn't seem worth investigating; pulls down external source trees
       "contrib"
     ]
     // use right version-specific source directories regardless of our weird dbuild Scala version numbers
@@ -1058,6 +1058,11 @@ build += {
   ${vars.base} {
     name: "scalaj-http"
     uri:  ${vars.uris.scalaj-http-uri}
+  }
+
+  ${vars.base} {
+    name: "typesafe-emoji"
+    uri:  ${vars.uris.typesafe-emoji-uri}
   }
 
 ]}
