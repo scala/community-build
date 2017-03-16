@@ -339,14 +339,14 @@ build += {
     extra.exclude: ["osgitests"]
   }
 
-  // forked to get rid of bintray stuff that was causing errors
+  // forked (updated March 2017) to get rid of bintray stuff that was causing errors
   ${vars.base} {
     name: "sbt-testng"
     uri:  ${vars.uris.sbt-testng-uri}
     extra.projects: ["sbt-testng-interface"]  // just the interface, we don't need to build the plugin
   }
 
-  // forked (from sbt/sbinary) to remove bintray gunk that doesn't work with dbuild
+  // forked (from sbt/sbinary; updated March 2017) to remove bintray gunk that doesn't work with dbuild
   ${vars.base} {
     name: "sbinary"
     uri:  ${vars.uris.sbinary-uri}
@@ -687,7 +687,7 @@ build += {
     uri:  ${vars.uris.jawn-fs2-uri}
   }
 
-  // forked (from a November 2016 commit) because of bintray-sbt errors;
+  // forked (updated March 2017) because of bintray-sbt errors;
   // see https://github.com/typesafehub/dbuild/issues/158 (fixed in
   // at least some cases in dbuild 0.9.7-RC1? not in this case)
   ${vars.base} {
@@ -698,6 +698,7 @@ build += {
       // see https://github.com/scala/community-builds/issues/434
       "set unmanagedSourceDirectories in (`scalamock-core`, Compile) += baseDirectory.value / \"core\" / \"src\" / \"main\" / \"scala-2.12\""
     ]
+    extra.projects: ["ScalaMockJVM"]  // no Scala.js
   }
 
   ${vars.base} {
@@ -975,7 +976,7 @@ build += {
     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js, no benchmarks, no docs
   }
 
-  // forked (January 2017) to get rid of the usual bintray-sbt stuff that
+  // forked (updated March 2017) to get rid of the usual bintray-sbt stuff that
   // makes dbuild upset
   ${vars.base} {
     name: "tut"
@@ -983,7 +984,7 @@ build += {
     extra.exclude: ["plugin"]  // we never build sbt plugins
   }
 
-  // forked to remove the usual bintray gunk
+  // forked (updated March 2017) to remove the usual bintray gunk
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
@@ -992,6 +993,8 @@ build += {
     extra.exclude: [
       // requires scalatex-site which requires Scala.js
       "readme"
+      // we never build sbt plugins or benchmarks
+      "scalahostSbt", "benchmarks"
       // test failures it doesn't seem worth investigating; pulls down external source trees
       "contrib"
     ]
@@ -1004,7 +1007,7 @@ build += {
     ]
   }
 
-  // forked to remove wartremover and coursier
+  // forked (updated March 2017) to remove wartremover and coursier
   ${vars.base} {
     name: "scalafix"
     uri:  ${vars.uris.scalafix-uri}
