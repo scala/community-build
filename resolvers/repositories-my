@@ -1,0 +1,4 @@
+[repositories]
+  local
+  my-ivy-proxy: http://localhost:8081/artifactory/ivy-proxy, [organization]/[module]/(scala_[scalaVersion]/)(sbt_[sbtVersion]/)[revision]/[type]s/[artifact](-[classifier]).[ext]
+  my-mvn-proxy: http://localhost:8081/artifactory/mvn-proxy
