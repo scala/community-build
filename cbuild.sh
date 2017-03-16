@@ -18,7 +18,7 @@ function latestNightly() {
 scala_version_default=`latestNightly`
 scala_version="$scala_version_default"
 root_dir=$(pwd)
-config_dir="configs/scala-2.12.x"
+config_dir="configs"
 dbuild_file="$config_dir/community.dbuild"
 project_refs_conf="$config_dir/project-refs.conf"
 resolvers_file_default="$config_dir/resolvers.conf"
@@ -50,8 +50,7 @@ Options:
 
 Examples:
   ./cbuild.sh
-  ./cbuild.sh -c config/tls-2.12.x
-  ./cbuild.sh -c . # mimics the behaviour of the original run.sh
+  ./cbuild.sh -c configs-tls
   version=2.12 ./cbuild.sh
   version=2.12.1-933bab2-nightly ./cbuild.sh project1
   version=2.12.1-933bab2-nightly ./cbuild.sh project1,project2,project3
