@@ -698,7 +698,7 @@ build += {
     extra.commands: ${vars.default-commands} [
       // work around https://github.com/scala/scala-dev/issues/252 ;
       // see https://github.com/scala/community-builds/issues/434
-      "set unmanagedSourceDirectories in (`scalamock-core-jvm`, Compile) += baseDirectory.value / "core" / "src" / "main" / "scala-2.12""
+      "set unmanagedSourceDirectories in (`scalamock-core-jvm`, Compile) += baseDirectory.value / \"core\" / \"src\" / \"main\" / \"scala-2.12\""
     ]
     extra.projects: ["ScalaMockJVM"]  // no Scala.js
   }
