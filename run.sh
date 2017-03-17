@@ -52,8 +52,8 @@ Examples:
   ./run.sh
   ./run.sh -c configs-tls
   version=2.12 ./run.sh
-  version=2.12.1-933bab2-nightly ./run.sh project1
-  version=2.12.1-933bab2-nightly ./run.sh project1,project2,project3
+  version=2.12.1-bin-933bab2 ./run.sh project1
+  version=2.12.1-bin-933bab2 ./run.sh project1,project2,project3
 
 If no Scala version is specified, we use the last green run from
    https://scala-ci.typesafe.com/job/scala-2.13.x-integrate-community-build/
