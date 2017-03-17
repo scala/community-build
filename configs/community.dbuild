@@ -645,7 +645,7 @@ build += {
     extra.commands: ${vars.default-commands} [
       // work around https://github.com/scala/scala-dev/issues/252 ;
       // see https://github.com/scala/community-builds/issues/434
-      "set unmanagedSourceDirectories in (`scalamock-coreJVM`, Compile) += baseDirectory.value / \"core\" / \"src\" / \"main\" / \"scala-2.12\""
+      "set unmanagedSourceDirectories in (`scalamock-core-jvm`, Compile) += baseDirectory.value / \"core\" / \"src\" / \"main\" / \"scala-2.12\""
     ]
     extra.projects: ["ScalaMockJVM"]  // no Scala.js
   }
@@ -864,7 +864,11 @@ build += {
     extra.exclude: ["plugin"]  // we never build sbt plugins
   }
 
-  // forked (updated March 2017) to remove the usual bintray gunk
+  // forked (updated March 2017) to remove the usual bintray gunk.
+  // refreshing the fork should be approached with caution;
+  // see Olafur's comment at
+  // https://github.com/scala/community-builds/issues/499#issuecomment-287307613
+  // about the instability of both scalameta and scalafix
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
@@ -887,7 +891,12 @@ build += {
     ]
   }
 
-  // forked (updated March 2017) to remove wartremover and coursier
+  // forked (February 2017) to remove wartremover and coursier
+  // fork tweaked March 2017 to alter scalameta dependency
+  // caution, refreshing the fork any further could be problematic;
+  // see Olafur's comment at
+  // https://github.com/scala/community-builds/issues/499#issuecomment-287307613
+  // about the instability of both scalameta and scalafix
   ${vars.base} {
     name: "scalafix"
     uri:  ${vars.uris.scalafix-uri}
