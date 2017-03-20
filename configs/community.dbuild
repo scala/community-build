@@ -537,6 +537,9 @@ build += {
     extra.exclude: ["sbtplugin"]
   }
 
+  // frozen (March 2017) because org changed from org.spire-math to org.typelevel;
+  // we can unfreeze once they've published and once breeze has updated their
+  // dependency (https://github.com/scala/community-builds/issues/503)
   ${vars.base} {
     name: "spire"
     uri:  ${vars.uris.spire-uri}
