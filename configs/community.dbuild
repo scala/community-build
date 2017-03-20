@@ -718,6 +718,9 @@ build += {
     ]
   }
 
+  // frozen at March 2017 commit because Scala Native support added
+  // subsequently broke our CI; same issue as scalaz:
+  // https://github.com/scala/community-builds/issues/500
   ${vars.base} {
     name: "monocle"
     uri:  ${vars.uris.monocle-uri}
