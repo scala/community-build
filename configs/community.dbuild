@@ -422,6 +422,8 @@ build += {
     uri:  ${vars.uris.scala-logging-uri}
   }
 
+  // frozen (March 2017) because latest version doesn't compile;
+  // see https://github.com/scala/community-builds/issues/504
   ${vars.base} {
     name: "scalaprops"
     uri:  ${vars.uris.scalaprops-uri}
