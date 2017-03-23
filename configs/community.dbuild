@@ -963,4 +963,14 @@ build += {
     extra.commands: ["set libraryDependencies in junit += \"org.hamcrest\" % \"hamcrest-core\" % \"1.3\" % \"test\""]
   }
 
+  // others are not depending on this yet ("not ready for general
+  // population yet", says Owein in March 2017) but I was interested
+  // in including it anyway just to have a few more compiler plugins
+  // in the build, it's an underrepresented category.  we can freeze
+  // or drop it if it proves to be trouble
+  ${vars.base} {
+    name: "twotails"
+    uri:  ${vars.uris.twotails-uri}
+  }
+
 ]}
