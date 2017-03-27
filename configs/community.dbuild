@@ -896,6 +896,8 @@ build += {
       "scalaz71"
       // depends on scalaz71
       "atto", "tests", "docs"
+      // no Scala.js
+      "catsJS", "coreJS", "scalaz72JS"
     ]
   }
 
