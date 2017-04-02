@@ -419,23 +419,6 @@ build += {
     ]
   }
 
-  // series/0.9 is current "master" as of Sep 2016; there is a series/1.0
-  // we might want to switch to at some point?
-  ${vars.base} {
-    name: "fs2"
-    uri:  ${vars.uris.fs2-uri}
-    extra.exclude: [
-      "coreJS" // no Scala.js please
-      "benchmark" // not really necessary and would pull in a JMH dependency
-    ]
-  }
-
-  ${vars.base} {
-    name: "fs2-cats"
-    uri:  ${vars.uris.fs2-cats-uri}
-    extra.projects: ["fs2CatsJVM"]  // no Scala.js
-  }
-
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
@@ -460,12 +443,6 @@ build += {
   }
 
   ${vars.base} {
-    name: "parboiled2"
-    uri:  ${vars.uris.parboiled2-uri}
-    extra.projects: ["parboiledJVM", "examples"]
-  }
-
-  ${vars.base} {
     name: "machinist"
     uri:  ${vars.uris.machinist-uri}
     extra.projects: ["machinistJVM"]  // no Scala.js please
@@ -482,20 +459,6 @@ build += {
     extra.projects: ["disciplineJVM"]  // no Scala.js please
   }
 
-  // tracking "develop" branch.
-  // try master instead if develop proves too fragile?
-  ${vars.base} {
-    name: "twitter-util"
-    uri:  ${vars.uris.twitter-util-uri}
-    extra.exclude: [
-      // this isn't really necessary and would pull in a JMH dependency
-      "util-benchmark"
-    ]
-    // recommended at https://github.com/twitter/util/issues/173:
-    // "We use that when we don't think the tests will be reliable in a ci environment"
-    extra.options: ["-DSKIP_FLAKY=true"]
-  }
-
   // note that we don't have MiMa in the JDK6 build.  I tried but it
   // was running out of PermGen when running the functional tests.
   // rather than sink time into investigating, just confining it to
@@ -507,24 +470,6 @@ build += {
     // be merged onto master for quite a while yet
     // we don't compile sbt plugins
     extra.exclude: ["sbtplugin"]
-  }
-
-  // frozen (March 2017) because org changed from org.spire-math to org.typelevel;
-  // we can unfreeze once they've published and once breeze has updated their
-  // dependency (https://github.com/scala/community-builds/issues/503)
-  ${vars.base} {
-    name: "spire"
-    uri:  ${vars.uris.spire-uri}
-    // hopefully avoid intermittent OutOfMemoryErrors during compilation
-    extra.options: ["-Xmx2560m"]
-    extra.projects: ["spireJVM"]  // no Scala.js please
-  }
-
-  ${vars.base} {
-    name: "breeze"
-    uri:  ${vars.uris.breeze-uri}
-    // failing tests reported upstream at https://github.com/scalanlp/breeze/issues/587
-    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
@@ -543,19 +488,6 @@ build += {
   ${vars.base} {
     name: "ssl-config"
     uri:  ${vars.uris.ssl-config-uri}
-  }
-
-  ${vars.base} {
-    name: "spray-json"
-    uri:  ${vars.uris.spray-json-uri}
-  }
-
-  ${vars.base} {
-    name: "spray-json-shapeless"
-    uri:  ${vars.uris.spray-json-shapeless-uri}
-    // tests don't compile, starting circa January 2017 -- see
-    // https://github.com/scala/community-builds/issues/475
-    extra.run-tests: false
   }
 
   ${vars.base} {
@@ -615,51 +547,6 @@ build += {
     name: "lift-json"
     uri:  ${vars.uris.lift-json-uri}
     extra.projects: ["lift-json"]
-  }
-
-  ${vars.base} {
-    name: "jawn"
-    uri:  ${vars.uris.jawn-uri}
-    // omitted TODO: play
-    // omitted: rojoma-v3, rojoma, benchmark, argonaut
-    // (we have Argonaut in the community build, but it depends on jawn! dbuild
-    // doesn't like the circularity. I think we could break it by having two jawn entries,
-    // one for the core and one for the extras, but I haven't tried yet)
-    extra.projects: ["ast", "parser", "json4s", "spray"]
-  }
-
-  ${vars.base} {
-    name: "jawn-fs2"
-    uri:  ${vars.uris.jawn-fs2-uri}
-  }
-
-  // forked (updated March 2017) because of bintray-sbt errors;
-  // see https://github.com/typesafehub/dbuild/issues/158 (fixed in
-  // at least some cases in dbuild 0.9.7-RC1? not in this case)
-  ${vars.base} {
-    name: "scalamock"
-    uri:  ${vars.uris.scalamock-uri}
-    extra.commands: ${vars.default-commands} [
-      // work around https://github.com/scala/scala-dev/issues/252 ;
-      // see https://github.com/scala/community-builds/issues/434
-      "set unmanagedSourceDirectories in (`scalamock-core-jvm`, Compile) += baseDirectory.value / \"core\" / \"src\" / \"main\" / \"scala-2.12\""
-    ]
-    extra.projects: ["ScalaMockJVM"]  // no Scala.js
-  }
-
-  ${vars.base} {
-    name: "argonaut"
-    uri:  ${vars.uris.argonaut-uri}
-    extra.projects: ["argonautJVM"]  // no Scala.js
-    extra.exclude: [
-      // fails to declare its scala-parser-combinators dependency,
-      // and anyway we don't want to run benchmarks
-      "argonaut-benchmark"
-    ]
-    // work around https://github.com/scala/scala-dev/issues/252
-    extra.commands: ${vars.default-commands} [
-      "set unmanagedSourceDirectories in (argonautJVM, Compile) += baseDirectory.value / \"argonaut\" / \"shared\" / \"src\" / \"main\" / \"scala-2.12\""
-    ]
   }
 
   // frozen at March 2017 commit because Scala Native support added
@@ -792,64 +679,10 @@ build += {
     uri: ${vars.uris.blaze-uri}
   }
 
-  // well, this is a big build with lots of subprojects, many of which involve
-  // integration with other libraries. so many of them had issues I didn't
-  // spend that much time looking into each one and seeing if it might be
-  // fixable, or ought to be reported upstream, or what.
-  // note that we are using the topic/cats branch, not master, since master
-  // uses scalaz-stream which we dropped from the community build a while back
-  // in favor of fs2.
-  // note also that we are frozen at a January 2017 commit on that branch,
-  // because more recent commits failed to compile.
-  // note that if this all proves to be more trouble than it's worth,
-  // it's fine to drop it for a while (certainly at least until the
-  // topic/cats branch is merged, anyway)
-  ${vars.base} {
-    name: "http4s"
-    uri:  ${vars.uris.http4s-uri}
-    extra.commands: ${vars.default-commands} [
-      // well, here's a new one. we don't have Typelevel Scala.
-      // if it works with Scala Scala, maybe it's because they're only
-      // depending on TLS stuff in 2.11?
-      "set scalaOrganization in ThisBuild := \"org.scala-lang\""
-      // too fragile
-      "removeScalacOptions -Xfatal-warnings"
-      // won't be needed once https://github.com/http4s/http4s/pull/841
-      // is merged (and once it's on the topic/cats branch too, if we're
-      // still using that branch by that time)
-      "removeScalacOptions -Yinline-warnings"
-    ]
-    extra.exclude: [
-      // no benchmarks please
-      "bench"
-      // not sure what this is about. didn't investigate or attempt workaround.
-      // scala-xml/src/main/scala/scalaxml/ElemInstances.scala:30: wrong number of type parameters for method flatMap: [AA >: org.http4s.DecodeFailure, D](f: fs2.Chunk[Byte] => cats.data.EitherT[fs2.Task,AA,D])(implicit F: cats.Monad[fs2.Task])cats.data.EitherT[fs2.Task,AA,D]
-      "scala-xml"
-      // blaze-server/src/test/scala/org/http4s/server/blaze/BlazeServerSpec.scala:14: value run is not a member of fs2.Task[org.http4s.server.Server]
-      "blaze-server"
-      // "not found: object scalaz" ?!
-      "blaze-client"
-      // "not found: object scodec" ?!
-      "async-http-client"
-      // these depend on circe, which we don't have (yet?)
-      "circe", "examples", "examples-tomcat", "examples-jetty", "examples-blaze", "examples-war", "docs"
-    ]
-    // Failed tests: org.http4s.server.middleware.DefaultHeadSpec
-    extra.test-tasks: "compile"
-  }
-
   ${vars.base} {
     name: "fansi"
     uri:  ${vars.uris.fansi-uri}
     extra.projects: ["fansiJVM"]  // no Scala.js
-  }
-
-  // forked for tweak to build, already submitted upstream as
-  // https://github.com/lihaoyi/upickle-pprint/pull/195
-  ${vars.base} {
-    name: "upickle-pprint"
-    uri:  ${vars.uris.upickle-pprint-uri}
-    extra.projects: ["upickleJVM", "pprintJVM"]  // no Scala.js
   }
 
   ${vars.base} {
@@ -864,58 +697,6 @@ build += {
     name: "tut"
     uri:  ${vars.uris.tut-uri}
     extra.exclude: ["plugin"]  // we never build sbt plugins
-  }
-
-  // forked (updated March 2017) to remove the usual bintray gunk.
-  // refreshing the fork should be approached with caution;
-  // see Olafur's comment at
-  // https://github.com/scala/community-builds/issues/499#issuecomment-287307613
-  // about the instability of both scalameta and scalafix
-  ${vars.base} {
-    name: "scalameta"
-    uri:  ${vars.uris.scalameta-uri}
-    // else, bintray stuff goes boom
-    extra.options: ["-Dsbt.prohibit.publish=true"]
-    extra.exclude: [
-      // requires scalatex-site which requires Scala.js
-      "readme"
-      // we never build sbt plugins or benchmarks
-      "scalahostSbt", "benchmarks"
-      // test failures it doesn't seem worth investigating; pulls down external source trees
-      "contrib"
-    ]
-    // use right version-specific source directories regardless of our weird dbuild Scala version numbers
-    extra.commands: [
-      "set unmanagedSourceDirectories in (common, Compile) += (baseDirectory in common).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (dialects, Compile) += (baseDirectory in dialects).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (scalameta, Compile) += (baseDirectory in scalameta).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (scalahost, Compile) += (baseDirectory in scalahost).value / \"src\" / \"main\" / \"scala-2.12.1\""
-    ]
-  }
-
-  // forked (February 2017) to remove wartremover and coursier
-  // fork tweaked March 2017 to alter scalameta dependency
-  // caution, refreshing the fork any further could be problematic;
-  // see Olafur's comment at
-  // https://github.com/scala/community-builds/issues/499#issuecomment-287307613
-  // about the instability of both scalameta and scalafix
-  ${vars.base} {
-    name: "scalafix"
-    uri:  ${vars.uris.scalafix-uri}
-    extra.exclude: [
-      "scalafix-sbt"  // we never build sbt plugins
-      // "These tests depend on various projects (circe, shapeless,...) to
-      // reproduce bugs that surfaced in larger integration tests"
-      // says Olaf.  depends on circe which we don't have here yet
-      "scalafix-nsc"
-      // didn't work, and anyway, Olafur says it isn't appropriate to include;
-      // it "involves cloning other projects and compiling them"
-      "scalafix-tests"
-      // Missing dependency: the library com.github.alexarchambault#case-app
-      "cli"
-      // requires scalatex-site which requires Scala.js
-      "readme"
-    ]
   }
 
   ${vars.base} {
