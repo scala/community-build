@@ -1088,4 +1088,9 @@ build += {
     uri:  ${vars.uris.twotails-uri}
   }
 
+  ${vars.base} {
+     name: "scala-gopher"
+     uri:  ${vars.uris.scala-gopher-uri}
+  }
+
 ]}
