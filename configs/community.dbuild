@@ -443,6 +443,12 @@ build += {
   }
 
   ${vars.base} {
+    name: "parboiled2"
+    uri:  ${vars.uris.parboiled2-uri}
+    extra.projects: ["parboiledJVM", "examples"]
+  }
+
+  ${vars.base} {
     name: "machinist"
     uri:  ${vars.uris.machinist-uri}
     extra.projects: ["machinistJVM"]  // no Scala.js please
@@ -488,6 +494,21 @@ build += {
   ${vars.base} {
     name: "ssl-config"
     uri:  ${vars.uris.ssl-config-uri}
+  }
+
+  // forked for 2.13 compat -- contributed upstream (April 2017)
+  // at https://github.com/spray/spray-json/pull/225
+  ${vars.base} {
+    name: "spray-json"
+    uri:  ${vars.uris.spray-json-uri}
+  }
+
+  ${vars.base} {
+    name: "spray-json-shapeless"
+    uri:  ${vars.uris.spray-json-shapeless-uri}
+    // tests don't compile, starting circa January 2017 -- see
+    // https://github.com/scala/community-builds/issues/475
+    extra.run-tests: false
   }
 
   ${vars.base} {
@@ -547,6 +568,17 @@ build += {
     name: "lift-json"
     uri:  ${vars.uris.lift-json-uri}
     extra.projects: ["lift-json"]
+  }
+
+  ${vars.base} {
+    name: "jawn"
+    uri:  ${vars.uris.jawn-uri}
+    // omitted TODO: play
+    // omitted: rojoma-v3, rojoma, benchmark, argonaut
+    // (we have Argonaut in the community build, but it depends on jawn! dbuild
+    // doesn't like the circularity. I think we could break it by having two jawn entries,
+    // one for the core and one for the extras, but I haven't tried yet)
+    extra.projects: ["ast", "parser", "json4s", "spray"]
   }
 
   // frozen at March 2017 commit because Scala Native support added
@@ -683,6 +715,15 @@ build += {
     name: "fansi"
     uri:  ${vars.uris.fansi-uri}
     extra.projects: ["fansiJVM"]  // no Scala.js
+  }
+
+  // forked (January 2017) for 2.13 compat; change contributed upstream
+  // at https://github.com/lihaoyi/upickle-pprint/pull/195 ; still
+  // hasn't been merged as of April 2017
+  ${vars.base} {
+    name: "upickle-pprint"
+    uri:  ${vars.uris.upickle-pprint-uri}
+    extra.projects: ["upickleJVM", "pprintJVM"]  // no Scala.js
   }
 
   ${vars.base} {
