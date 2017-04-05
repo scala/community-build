@@ -337,8 +337,13 @@ build += {
     //   https://github.com/sbt/sbt-testng-interface/blob/ca730f705f48af2139f39bc726b474afec072738/plugin/src/main/scala/de/johoop/testngplugin/TestNGPlugin.scala#L44
     // I think it's a confusion of levels, but maybe I'm missing something. - ST 8/27/15
     deps.inject: ["de.johoop#sbt-testng-interface"]
-    // disable fragile tests (https://github.com/scala/community-builds/issues/12#issuecomment-149941055)
-    extra.exclude: ["osgitests"]
+    extra.exclude: [
+      // disable fragile tests (https://github.com/scala/community-builds/issues/12#issuecomment-149941055)
+      "osgitests"
+      // Processing subproject: root
+      // Missing dependency: the library com.novocode#ornate
+      "root"
+    ]
   }
 
   // forked (updated March 2017) to get rid of bintray stuff that was causing errors
@@ -703,7 +708,7 @@ build += {
   ${vars.base} {
     name: "argonaut"
     uri:  ${vars.uris.argonaut-uri}
-    extra.projects: ["argonautJVM"]  // no Scala.js
+    extra.projects: ["argonautJVM", "argonaut-monocleJVM"]  // no Scala.js
     extra.exclude: [
       // fails to declare its scala-parser-combinators dependency,
       // and anyway we don't want to run benchmarks
@@ -1091,6 +1096,21 @@ build += {
   ${vars.base} {
      name: "scala-gopher"
      uri:  ${vars.uris.scala-gopher-uri}
+  }
+
+  // forked (April 2017) for dbuild-friendly scalaVersion handling
+  // (we should contribute upstream)
+  ${vars.base} {
+    name: "pimpathon"
+    uri:  ${vars.uris.pimpathon-uri}
+  }
+
+  // added because it's a dependency of pimpathon.
+  // forked (April 2017) to use a newer version of the gatling build
+  // plugin which doesn't involve bintray-sbt (which breaks dbuild)
+  ${vars.base} {
+    name: "jsonpath"
+    uri:  ${vars.uris.jsonpath-uri}
   }
 
 ]}
