@@ -496,8 +496,6 @@ build += {
     uri:  ${vars.uris.ssl-config-uri}
   }
 
-  // forked for 2.13 compat -- contributed upstream (April 2017)
-  // at https://github.com/spray/spray-json/pull/225
   ${vars.base} {
     name: "spray-json"
     uri:  ${vars.uris.spray-json-uri}
