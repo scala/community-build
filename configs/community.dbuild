@@ -202,8 +202,6 @@ build += {
     extra.commands: ${vars.default-commands} [ "set publishArtifact in packageDoc := false" ]
   }
 
-  // frozen (at a March 2017 commit) because they added scala-native support;
-  // details at https://github.com/scala/community-builds/issues/500
   ${vars.base} {
     name: "scalaz"
     uri:  ${vars.uris.scalaz-uri}
