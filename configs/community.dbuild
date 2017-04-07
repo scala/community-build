@@ -800,6 +800,9 @@ build += {
   ${vars.base} {
      name: "scala-gopher"
      uri:  ${vars.uris.scala-gopher-uri}
+     // too many intermittent failures -- reported at
+     // https://github.com/rssh/scala-gopher/issues/20
+     extra.test-tasks: ["compile"]
   }
 
 ]}
