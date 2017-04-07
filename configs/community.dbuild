@@ -316,8 +316,12 @@ build += {
     //   https://github.com/sbt/sbt-testng-interface/blob/ca730f705f48af2139f39bc726b474afec072738/plugin/src/main/scala/de/johoop/testngplugin/TestNGPlugin.scala#L44
     // I think it's a confusion of levels, but maybe I'm missing something. - ST 8/27/15
     deps.inject: ["de.johoop#sbt-testng-interface"]
-    // disable fragile tests (https://github.com/scala/community-builds/issues/12#issuecomment-149941055)
-    extra.exclude: ["osgitests"]
+    extra.exclude: [
+      // unless we exclude, it looks for an Ornate dependency here
+      "root"
+      // disable fragile tests (https://github.com/scala/community-builds/issues/12#issuecomment-149941055)
+      "osgitests"
+    ]
   }
 
   // forked (updated March 2017) to get rid of bintray stuff that was causing errors
