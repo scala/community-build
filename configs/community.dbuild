@@ -1075,6 +1075,8 @@ build += {
     uri:  ${vars.uris.scalaj-http-uri}
   }
 
+  // forked (April 2017) to get rid of the usual bintray-sbt stuff that
+  // makes dbuild upset
   ${vars.base} {
     name: "typesafe-emoji"
     uri:  ${vars.uris.typesafe-emoji-uri}
