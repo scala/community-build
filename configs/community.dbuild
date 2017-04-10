@@ -588,9 +588,12 @@ build += {
     extra.run-tests: false
   }
 
+  // disable -Xfatal-warnings because of new unused warnings introduced
+  // by https://github.com/scala/scala/pull/5402
   ${vars.base} {
     name: "pcplod"
     uri:  ${vars.uris.pcplod-uri}
+    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
   }
 
   ${vars.base} {
@@ -988,6 +991,10 @@ build += {
     name: "tut"
     uri:  ${vars.uris.tut-uri}
     extra.exclude: ["plugin"]  // we never build sbt plugins
+    // because of new unused warnings introduced
+    // by https://github.com/scala/scala/pull/5402 ; probably they'll fix it upstream
+    // after 2.12.2 comes out
+    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
   }
 
   // forked (updated March 2017) to remove the usual bintray gunk.
