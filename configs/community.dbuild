@@ -410,6 +410,8 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
+  // forked at April 2017 commit because of 2.12.2 changes; reported upstream
+  // at https://github.com/scalamacros/paradise/issues/96
   ${vars.base} {
     name: "macro-paradise"
     uri:  ${vars.uris.macro-paradise-uri}
