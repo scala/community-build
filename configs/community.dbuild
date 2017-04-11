@@ -437,6 +437,8 @@ build += {
     name: "scalaprops"
     uri:  ${vars.uris.scalaprops-uri}
     extra.projects: ["rootJVM"]  // no Scala.js please
+    // new warnings from https://github.com/scala/scala/pull/5402
+    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
   }
 
   ${vars.base} {
@@ -642,6 +644,8 @@ build += {
   ${vars.base} {
     name: "play-ws"
     uri:  ${vars.uris.play-ws-uri}
+    // new warnings from https://github.com/scala/scala/pull/5402
+    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
   }
 
   // dependency of play-ws
@@ -915,6 +919,8 @@ build += {
       // no Scala.js
       "catsJS", "coreJS", "scalaz72JS"
     ]
+    // new warnings from https://github.com/scala/scala/pull/5402
+    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
   }
 
   ${vars.base} {
@@ -994,6 +1000,8 @@ build += {
     name: "algebra"
     uri:  ${vars.uris.algebra-uri}
     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js, no benchmarks, no docs
+    // new warnings from https://github.com/scala/scala/pull/5402
+    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
   }
 
   // forked (updated March 2017) to get rid of the usual bintray-sbt stuff that
