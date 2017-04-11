@@ -597,6 +597,7 @@ build += {
   // disable -Xfatal-warnings because of new unused warnings introduced
   // by https://github.com/scala/scala/pull/5402 ;
   // reported upstream at https://github.com/ensime/pcplod/issues/20
+  // also forked (April 2017) to update a related test result
   ${vars.base} {
     name: "pcplod"
     uri:  ${vars.uris.pcplod-uri}
