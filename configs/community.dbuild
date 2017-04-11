@@ -433,6 +433,7 @@ build += {
     uri:  ${vars.uris.scala-logging-uri}
   }
 
+  # forked (April 2017) for Scala.js related fix
   ${vars.base} {
     name: "scalaprops"
     uri:  ${vars.uris.scalaprops-uri}
