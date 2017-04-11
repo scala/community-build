@@ -48,7 +48,7 @@ include file(".dbuild/resolvers.conf")
 
 vars {
   default-commands: []
-  sbt-version: "0.13.13"
+  sbt-version: "0.13.15"
 }
 
 //// compiler options manipulation
@@ -337,6 +337,10 @@ build += {
     uri:  ${vars.uris.sbinary-uri}
   }
 
+  // frozen at April 2017 commit to avoid breaking utest.
+  // reported upstream at https://github.com/lihaoyi/utest/issues/108
+  // the possibility of tracking 0.6.x branch instead should also be considered;
+  // see discussion at https://github.com/scala/community-builds/issues/506
   ${vars.base} {
     name: "scala-js"
     uri:  ${vars.uris.scala-js-uri}
@@ -352,7 +356,7 @@ build += {
         // - We disable source map tests to save ourselves a `npm install source-map-support` on the workers.
         //   Although only `testSuite` actually has tests, dbuild will try to run the tests for all projects
         //   that `testSuite` depends on (transitively), so we need to set it in a bunch of places.
-        "set Seq(library, testInterface, jUnitRuntime, testSuite).map(p => jsEnv in p := NodeJSEnv(executable = \""${vars.node}"\").value.withSourceMap(false))"
+        "set Seq(library, testInterface, jUnitRuntime, testSuite).map(p => jsEnv in p := new org.scalajs.jsenv.nodejs.NodeJSEnv(executable = \""${vars.node}"\").withSourceMap(false))"
       ]
     }
   }
@@ -389,6 +393,8 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
+  // forked at April 2017 commit because of 2.12.2 changes; reported upstream
+  // at https://github.com/scalamacros/paradise/issues/96
   ${vars.base} {
     name: "macro-paradise"
     uri:  ${vars.uris.macro-paradise-uri}
@@ -511,9 +517,14 @@ build += {
     extra.run-tests: false
   }
 
+  // disable -Xfatal-warnings because of new unused warnings introduced
+  // by https://github.com/scala/scala/pull/5402 ;
+  // reported upstream at https://github.com/ensime/pcplod/issues/20
+  // also forked (April 2017) to update a related test result
   ${vars.base} {
     name: "pcplod"
     uri:  ${vars.uris.pcplod-uri}
+    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
   }
 
   ${vars.base} {
@@ -738,6 +749,10 @@ build += {
     name: "tut"
     uri:  ${vars.uris.tut-uri}
     extra.exclude: ["plugin"]  // we never build sbt plugins
+    // because of new unused warnings introduced
+    // by https://github.com/scala/scala/pull/5402 ; probably they'll fix it upstream
+    // after 2.12.2 comes out
+    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
   }
 
   ${vars.base} {
