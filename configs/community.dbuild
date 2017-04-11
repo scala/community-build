@@ -356,6 +356,8 @@ build += {
     uri:  ${vars.uris.sbinary-uri}
   }
 
+  // frozen at April 2017 commit to avoid breaking utest.
+  // reported upstream at https://github.com/lihaoyi/utest/issues/108
   ${vars.base} {
     name: "scala-js"
     uri:  ${vars.uris.scala-js-uri}
