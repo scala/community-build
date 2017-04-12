@@ -1128,4 +1128,21 @@ build += {
      extra.test-tasks: ["compile"]
   }
 
+  // adding (April 2017) because scalameta now depends on it
+  ${vars.base} {
+     name: "scalapb"
+     uri:  ${vars.uris.scalapb-uri}
+     // just this one for now, since I'm mainly just trying to get
+     // scalameta working again
+     extra.projects: ["runtimeJVM"]
+  }
+
+  // adding (April 2017) because scalameta depends on it
+  // (indirectly via scalapb)
+  ${vars.base} {
+     name: "scalapb-lenses"
+     uri:  ${vars.uris.scalapb-lenses-uri}
+     extra.projects: ["lensesJVM"]  // no Scala.js plz
+  }
+
 ]}
