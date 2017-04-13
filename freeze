@@ -24,7 +24,7 @@ versions=$(curl https://scala-ci.typesafe.com/job/scala-2.13.x-integrate-communi
            | sed 's/\( *\) /\1/g' \
            | sed 's/^/  /')
 
-cat <<EOF > project-refs.conf
+cat <<EOF > configs/project-refs.conf
 vars.uris: {
 $versions
 }
