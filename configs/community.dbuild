@@ -569,6 +569,9 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
+  // frozen (April 2017) because a newer commit caused a test failure in scalamock;
+  // see Adriaan's comment on the culprit commit:
+  // https://github.com/etorreborre/specs2/commit/e4e9ab771d213fb8becd51af180354bc240bb2c1#commitcomment-21743802
   ${vars.base} {
     name: "specs2"
     uri:  ${vars.uris.specs2-uri}
