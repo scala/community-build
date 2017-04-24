@@ -845,8 +845,6 @@ build += {
     extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
   }
 
-  // frozen (April 2017) because of test failure in AckSuite;
-  // see https://github.com/scala/community-builds/issues/531
   ${vars.base} {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
