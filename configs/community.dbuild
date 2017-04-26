@@ -672,8 +672,6 @@ build += {
     extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
   }
 
-  // frozen (April 2017) because of test failure in AckSuite;
-  // see https://github.com/scala/community-builds/issues/531
   ${vars.base} {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
@@ -688,6 +686,9 @@ build += {
     extra.test-tasks: "compile"
   }
 
+  // forked (April 2017) because of an incompatibility with recent
+  // lift-json changes. can be unforked once https://github.com/dispatch/reboot/pull/147
+  // is merged
   ${vars.base} {
     name: "dispatch"
     uri:  ${vars.uris.dispatch-uri}
