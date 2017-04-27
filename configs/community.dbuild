@@ -901,9 +901,6 @@ build += {
     extra.test-tasks: "compile"
   }
 
-  // forked (April 2017) because of an incompatibility with recent
-  // lift-json changes. can be unforked once https://github.com/dispatch/reboot/pull/147
-  // is merged
   ${vars.base} {
     name: "dispatch"
     uri:  ${vars.uris.dispatch-uri}
