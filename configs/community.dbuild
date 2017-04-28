@@ -30,7 +30,7 @@ include file(".dbuild/resolvers.conf")
 
 vars {
   default-commands: []
-  sbt-version: "0.13.15"
+  sbt-version: "0.13.16-RC1"
 }
 
 //// compiler options manipulation
