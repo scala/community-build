@@ -267,11 +267,6 @@ build += {
   ${vars.base} {
     name: "genjavadoc"
     uri:  ${vars.uris.genjavadoc-uri}
-    extra.commands: ${vars.default-commands} [
-      // work around https://github.com/scala/scala-dev/issues/252 ;
-      // see https://github.com/scala/community-builds/issues/434
-      "set unmanagedSourceDirectories in (`genjavadoc-plugin`, Compile) += baseDirectory.value / \"plugin\" / \"src\" / \"main\" / \"scala-2.12\""
-    ]
     // TODO Failed tests: com.typesafe.genjavadoc.BasicSpec (looks like the test is too sensitive to ordering)
     // TODO if we re-enable tests we'll probably also need to patch the version logic in BasicSpec.scala,
     // something like https://github.com/SethTisue/genjavadoc/commit/509628e5437dfe9b90f4715a4a74274a4cc79adf
@@ -411,7 +406,6 @@ build += {
     uri:  ${vars.uris.scala-logging-uri}
   }
 
-  # forked (April 2017) for Scala.js related fix
   ${vars.base} {
     name: "scalaprops"
     uri:  ${vars.uris.scalaprops-uri}
