@@ -359,10 +359,6 @@ build += {
     }
   }
 
-  // forked (April 2017) for 2.12.2 and 2.13 compat.
-  // can be unforked once these PRs are merged:
-  // * https://github.com/lihaoyi/utest/pull/107
-  // * https://github.com/lihaoyi/utest/pull/109
   ${vars.base} {
     name: "utest"
     uri:  ${vars.uris.utest-uri}
