@@ -264,6 +264,10 @@ build += {
     }
   }
 
+  // forked April 2017 because of a bug in genjavadoc build definition;
+  // gory details at https://github.com/scala/community-builds/issues/534 .
+  // can be unforked once https://github.com/typesafehub/genjavadoc/pull/104
+  // has been merged
   ${vars.base} {
     name: "genjavadoc"
     uri:  ${vars.uris.genjavadoc-uri}
