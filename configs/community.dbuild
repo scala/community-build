@@ -617,6 +617,7 @@ build += {
   ${vars.base} {
     name: "scopt"
     uri:  ${vars.uris.scopt-uri}
+    extra.projects: ["scoptJVM"]  // no Scala.js plz
   }
 
   ${vars.base} {
