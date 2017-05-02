@@ -1137,4 +1137,10 @@ build += {
      extra.projects: ["lensesJVM"]  // no Scala.js plz
   }
 
+  ${vars.base} {
+     name: "cats-effect"
+     uri:  ${vars.uris.cats-effect-uri}
+     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js plz
+  }
+
 ]}
