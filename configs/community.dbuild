@@ -1067,7 +1067,7 @@ build += {
     uri:  ${vars.uris.scalatex-uri}
     extra.exclude: [
       "scalatexSbtPlugin"  // we never build sbt plugins
-      "site", "readme", "scrollspy"  // these use Scala.js
+      "siteJS", "readme", "scrollspy"  // these use Scala.js
     ]
   }
 
