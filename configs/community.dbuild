@@ -408,6 +408,8 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
+  // forked (May 2017) to make a trivial source change for 2.12.3 compat;
+  // see https://github.com/scalamacros/paradise/issues/98
   ${vars.base} {
     name: "macro-paradise"
     uri:  ${vars.uris.macro-paradise-uri}
