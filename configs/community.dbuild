@@ -760,7 +760,7 @@ build += {
     uri:  ${vars.uris.scalatex-uri}
     extra.exclude: [
       "scalatexSbtPlugin"  // we never build sbt plugins
-      "site", "readme", "scrollspy"  // these use Scala.js
+      "siteJS", "readme", "scrollspy"  // these use Scala.js
     ]
   }
 
@@ -820,6 +820,12 @@ build += {
      // too many intermittent failures -- reported at
      // https://github.com/rssh/scala-gopher/issues/20
      extra.test-tasks: ["compile"]
+  }
+
+  ${vars.base} {
+     name: "cats-effect"
+     uri:  ${vars.uris.cats-effect-uri}
+     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js plz
   }
 
 ]}
