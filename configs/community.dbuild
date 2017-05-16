@@ -1138,6 +1138,8 @@ build += {
      extra.projects: ["lensesJVM"]  // no Scala.js plz
   }
 
+  // frozen at May 2017 commit because newer commits were failing;
+  // see https://github.com/scala/community-builds/issues/544
   ${vars.base} {
      name: "cats-effect"
      uri:  ${vars.uris.cats-effect-uri}
