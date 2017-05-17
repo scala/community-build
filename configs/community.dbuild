@@ -459,6 +459,8 @@ build += {
     extra.projects: ["fs2CatsJVM"]  // no Scala.js
   }
 
+  // frozen at May 2017 commit because newer commits caused a failure
+  // in monix: https://github.com/monix/monix/issues/366
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
