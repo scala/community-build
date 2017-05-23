@@ -986,10 +986,23 @@ build += {
     extra.projects: ["fansiJVM"]  // no Scala.js
   }
 
+  // as per https://github.com/lihaoyi/upickle-pprint/issues/209
+  // upickle is now obsolete (and the pprint part has its own repo now).
+  // leaving this here because it isn't causing, any trouble, and
+  // because we already have it forked/frozen. note that no other
+  // projects depend on it, so it could be dropped if any trouble
+  //  starts.  pprint is now separate.
   ${vars.base} {
-    name: "upickle-pprint"
-    uri:  ${vars.uris.upickle-pprint-uri}
-    extra.projects: ["upickleJVM", "pprintJVM"]  // no Scala.js
+    name: "upickle"
+    uri:  ${vars.uris.upickle-uri}
+    // no Scala.js; also only upickle no pprint
+    extra.projects: ["upickleJVM"]
+  }
+
+  ${vars.base} {
+    name: "pprint"
+    uri:  ${vars.uris.pprint-uri}
+    extra.projects: ["pprintJVM"]  // no Scala.js
   }
 
   ${vars.base} {
