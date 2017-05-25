@@ -729,15 +729,6 @@ build += {
     extra.projects: ["fansiJVM"]  // no Scala.js
   }
 
-  // forked (January 2017) for 2.13 compat; change contributed upstream
-  // at https://github.com/lihaoyi/upickle-pprint/pull/195 ; still
-  // hasn't been merged as of April 2017
-  ${vars.base} {
-    name: "upickle-pprint"
-    uri:  ${vars.uris.upickle-pprint-uri}
-    extra.projects: ["upickleJVM", "pprintJVM"]  // no Scala.js
-  }
-
   ${vars.base} {
     name: "algebra"
     uri:  ${vars.uris.algebra-uri}
