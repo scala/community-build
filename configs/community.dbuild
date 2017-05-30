@@ -899,9 +899,6 @@ build += {
   ${vars.base} {
     name: "dispatch"
     uri:  ${vars.uris.dispatch-uri}
-    // running tests was intermittently hanging. reported upstream at
-    // https://github.com/dispatch/reboot/issues/137
-    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
