@@ -156,6 +156,8 @@ build += {
     extra.exclude: ["scala-parser-combinatorsJS"]
   }
 
+  // frozen (June 2017) at an April 2017 commit; newer commits
+  // broke the scalacheck subproject of specs2
   ${vars.base} {
     name: "scalacheck"
     uri:  ${vars.uris.scalacheck-uri}
@@ -565,14 +567,17 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
-  // frozen (April 2017) because a newer commit caused a test failure in scalamock;
-  // see Adriaan's comment on the culprit commit:
-  // https://github.com/etorreborre/specs2/commit/e4e9ab771d213fb8becd51af180354bc240bb2c1#commitcomment-21743802
   ${vars.base} {
     name: "specs2"
     uri:  ${vars.uris.specs2-uri}
     extra.test-tasks: ["compile"] // TODO: ??? - hasn't been tried lately
-    extra.exclude: ["guide"]  // eff-related compile errors, as of January 2017 anyway
+    extra.exclude: [
+      // eff-related compile errors, as of January 2017 anyway
+      "guide"
+      // not community build relevant, and was causing error
+      // ("multiple projects have the same artifacts visible in the same space")
+      "pom"
+    ]
     extra.commands: ${vars.default-commands} [
       // too fragile? TODO: I got a non-exhaustive match warning that
       // could conceivably indicate some real regression. or maybe it's
