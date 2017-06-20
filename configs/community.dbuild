@@ -1170,4 +1170,19 @@ build += {
      extra.projects: ["doodleJVM"]  // no Scala.js plz
   }
 
+  // once https://github.com/scala/scala-collections-laws/pull/18
+  // is merged we can track master
+  ${vars.base} {
+     name: "scala-collections-laws"
+     uri: ${vars.uris.scala-collections-laws-uri}
+     // as per the repo readme
+     extra.options: ["-XX:MaxMetaspaceSize=1G", "-Xmx6G"]
+     // note that we're not actually doing
+     // `runMain tests.generated.collection.Test_All` which is what
+     // the repo readme says to do. dbuild doesn't let us set
+     // extra.test-tasks to a task that takes arguments.  (anyway,
+     // it's not clear it's really necessary or appropriate to
+     // actually run the whole thing as part of the community build?)
+  }
+
 ]}
