@@ -846,6 +846,9 @@ build += {
     extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
   }
 
+  // using series/2.x rather than master because tracking master
+  // was causing some compile failures, probably having to do with
+  // the dependency changes happening recently (June 2017)
   ${vars.base} {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
