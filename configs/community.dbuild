@@ -646,6 +646,8 @@ build += {
     extra.projects: ["play-jsonJVM"]  // no Scala.js plz
   }
 
+  // frozen (June 2017) after a test started failing;
+  // see https://github.com/scala/community-builds/issues/564
   ${vars.base} {
     name: "play-ws"
     uri:  ${vars.uris.play-ws-uri}
