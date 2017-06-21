@@ -600,6 +600,9 @@ build += {
     extra.projects: ["ast", "parser", "json4s", "spray"]
   }
 
+  // frozen (June 2017) at a November 2016 commit because newer commits failed
+  // to compile -- I guess because fs2 is changing? ticket is
+  // https://github.com/scala/community-builds/issues/563
   ${vars.base} {
     name: "monocle"
     uri:  ${vars.uris.monocle-uri}
