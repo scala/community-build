@@ -589,6 +589,9 @@ build += {
   ${vars.base} {
     name: "ssl-config"
     uri:  ${vars.uris.ssl-config-uri}
+    // repeated hangs during testing; see
+    // https://github.com/scala/community-builds/issues/560
+    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
