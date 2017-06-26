@@ -697,6 +697,11 @@ build += {
     extra.projects: ["lift-json"]
   }
 
+  // frozen (June 2017) at a June 2017 commit before breaking String
+  // vs. CharSequence changes went in and broke upickle.  see
+  // https://github.com/scala/community-builds/issues/565 .  we could
+  // unfreeze once there's a new jawn release for dependent projects
+  // to upgrade to
   ${vars.base} {
     name: "jawn"
     uri:  ${vars.uris.jawn-uri}
