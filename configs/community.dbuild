@@ -651,7 +651,7 @@ build += {
     name: "scala-json-ast"
     uri:  ${vars.uris.scala-json-ast-uri}
     // no Scala.js please, and no benchmarks either
-    extra.projects: ["scalaJsonASTJVM"]
+    extra.projects: ["scalaJsonJVM"]
   }
 
   ${vars.base} {
