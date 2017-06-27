@@ -417,14 +417,6 @@ build += {
     extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
   }
 
-  ${vars.base} {
-    name: "kxbmap-configs"
-    uri:  ${vars.uris.kxbmap-configs-uri}
-    extra.exclude: [
-      "bench" // not really necessary and would pull in a JMH dependency
-    ]
-  }
-
   // frozen at May 2017 commit because newer commits caused a failure
   // in monix: https://github.com/monix/monix/issues/366
   // and moved (in June 2017) to an even older (April 2017) commit
@@ -761,18 +753,6 @@ build += {
     uri:  ${vars.uris.algebra-uri}
     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js, no benchmarks, no docs
     // new warnings from https://github.com/scala/scala/pull/5402
-    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
-  }
-
-  // forked (updated March 2017) to get rid of the usual bintray-sbt stuff that
-  // makes dbuild upset
-  ${vars.base} {
-    name: "tut"
-    uri:  ${vars.uris.tut-uri}
-    extra.exclude: ["plugin"]  // we never build sbt plugins
-    // because of new unused warnings introduced
-    // by https://github.com/scala/scala/pull/5402 ; probably they'll fix it upstream
-    // after 2.12.2 comes out
     extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
   }
 
