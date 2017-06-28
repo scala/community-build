@@ -869,18 +869,13 @@ build += {
     name: "conductr-lib"
     uri:  ${vars.uris.conductr-lib-uri}
     extra.exclude: [
-      // not our Akka version
-      "akka23Common", "akka23ConductRBundleLib", "akka23TestLib"
       // we don't have Lagom yet
-      "lagom1JavaConductRBundleLib", "lagom1ScalaConductRBundleLib"
-      // not our Play version
-      "play23Common", "play23ConductRBundleLib", "play23ConductRClientLib"
-      // also not our Play version
-      "play24Common", "play24ConductRBundleLib", "play24ConductRClientLib"
-      // "That particular lib shouldn't be processed", says Christopher
-      "akka24ConductRClientLib"
+      "lagom13JavaConductRBundleLib", "lagom13ScalaConductRBundleLib"
+      // not our Akka version
+      "akka24Common", "akka24ConductRBundleLib", "akka24ConductRClientLib", "akka24TestLib"
       // Play stuff didn't work, maybe try again later?
       "play25ConductRBundleLib", "play25ConductRClientLib", "play25Common"
+      "play26ConductRBundleLib", "play26ConductRClientLib", "play26Common"
     ]
   }
 
