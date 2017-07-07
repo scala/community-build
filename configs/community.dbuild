@@ -143,6 +143,8 @@ build += {
   ${vars.base} {
     name: "scala-partest"
     uri:  ${vars.uris.scala-partest-uri}
+    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ] # Deprecated optimizer settings
+
   }
 
   ${vars.base} {
