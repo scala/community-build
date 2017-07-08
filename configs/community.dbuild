@@ -143,6 +143,8 @@ build += {
   ${vars.base} {
     name: "scala-partest"
     uri:  ${vars.uris.scala-partest-uri}
+    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ] # Deprecated optimizer settings
+
   }
 
   ${vars.base} {
@@ -863,20 +865,6 @@ build += {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
     extra.projects: ["coreJVM", "tckTests"]  // no Scala.js, no benchmarks
-  }
-
-  ${vars.base} {
-    name: "conductr-lib"
-    uri:  ${vars.uris.conductr-lib-uri}
-    extra.exclude: [
-      // we don't have Lagom yet
-      "lagom13JavaConductRBundleLib", "lagom13ScalaConductRBundleLib"
-      // not our Akka version
-      "akka24Common", "akka24ConductRBundleLib", "akka24ConductRClientLib", "akka24TestLib"
-      // Play stuff didn't work, maybe try again later?
-      "play25ConductRBundleLib", "play25ConductRClientLib", "play25Common"
-      "play26ConductRBundleLib", "play26ConductRClientLib", "play26Common"
-    ]
   }
 
   // this was added because conductr-lib's Play integration depended on it,
