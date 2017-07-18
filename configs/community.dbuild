@@ -117,6 +117,9 @@ build += {
         uri: "https://github.com/scala/scala-xml.git"
         extra.commands: ${vars.default-commands} [
           "set scalaVersion := \""${vars.scala-version}"\""
+          // work around https://github.com/scala/community-builds/issues/575
+          // (in a community build context, we don't need MiMa to run)
+          "set every ScalaModulePlugin.mimaPreviousVersion := None"
         ]
         extra.projects: ["xmlJVM"]
       }
