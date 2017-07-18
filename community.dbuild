@@ -40,7 +40,12 @@ build += {
       {
         name: "scala-xml"
         uri: "https://github.com/"${vars.scala-xml-ref}
-        extra.commands: "set scalaVersion := \"2.11.11\""
+        extra.commands: [
+          "set scalaVersion := \"2.11.11\""
+          // work around https://github.com/scala/community-builds/issues/575
+          // (in a community build context, we don't need MiMa to run)
+          "set every ScalaModulePlugin.mimaPreviousVersion := None"
+        ]
         extra.projects: ["xmlJVM"]
       }
       {
