@@ -314,9 +314,6 @@ build += {
     uri: ${vars.uris.scalariform-uri}
     // warnings reported upstream at https://github.com/scala-ide/scalariform/issues/234
     extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
-    // tests don't compile on ScalaTest 3.0. reported upstream at
-    // https://github.com/scala-ide/scalariform/issues/232
-    extra.run-tests: false
   }
 
   ${vars.base} {
