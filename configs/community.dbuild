@@ -139,6 +139,54 @@ build += {
   projects: [
 
   ${vars.base} {
+    name: "scala-parser-combinators"
+    uri:  ${vars.uris.scala-parser-combinators-uri}
+    extra.exclude: ["scala-parser-combinatorsJS"]
+  }
+
+  // if master proves difficult to track, the 0.6.x branch could be
+  // used instead; see discussion at
+  // https://github.com/scala/community-builds/issues/506
+  ${vars.base} {
+    name: "scala-js"
+    uri:  ${vars.uris.scala-js-uri}
+    extra: ${vars.base.extra} {
+      // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
+      options: ["-Xmx2048m"]
+      projects: [ tools, testSuite, stubs ]
+      commands: ${vars.default-commands} [
+        // - Disable compiler/test because it is very fragile.
+        "set test in (Build.compiler, Test) := {}"
+        // - Disable fatal Scaladoc warnings, also fragile
+        "removeScalacOptions -Xfatal-warnings"
+        // - We disable source map tests to save ourselves a `npm install source-map-support` on the workers.
+        //   Although only `testSuite` actually has tests, dbuild will try to run the tests for all projects
+        //   that `testSuite` depends on (transitively), so we need to set it in a bunch of places.
+        "set Seq(library, testInterface, jUnitRuntime, testSuite).map(p => jsEnv in p := new org.scalajs.jsenv.nodejs.NodeJSEnv(org.scalajs.jsenv.nodejs.NodeJSEnv.Config().withExecutable(\""${vars.node}"\").withSourceMap(false)))"
+      ]
+    }
+  }
+
+  // frozen (June 2017) at an April 2017 commit; newer commits
+  // broke the scalacheck subproject of specs2
+  ${vars.base} {
+    name: "scalacheck"
+    uri:  ${vars.uris.scalacheck-uri}
+    extra.projects: ["jvm"]  // no Scala.js please
+    // because of new unused warnings in 2.12.2
+    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
+  }
+
+  ${vars.base} {
+    name: "scalatest"
+    uri:  ${vars.uris.scalatest-uri}
+    extra: ${vars.base.extra} {
+      projects: ["scalatest", "scalactic"]
+      test-tasks: ["compile"] // TODO run tests -- need to exclude browser-based tests somehow
+    }
+  }
+
+  ${vars.base} {
     name: "scala-partest-interface"
     uri:  ${vars.uris.scala-partest-interface-uri}
   }
@@ -153,22 +201,6 @@ build += {
   ${vars.base} {
     name: "scala-swing"
     uri:  ${vars.uris.scala-swing-uri}
-  }
-
-  ${vars.base} {
-    name: "scala-parser-combinators"
-    uri:  ${vars.uris.scala-parser-combinators-uri}
-    extra.exclude: ["scala-parser-combinatorsJS"]
-  }
-
-  // frozen (June 2017) at an April 2017 commit; newer commits
-  // broke the scalacheck subproject of specs2
-  ${vars.base} {
-    name: "scalacheck"
-    uri:  ${vars.uris.scalacheck-uri}
-    extra.projects: ["jvm"]  // no Scala.js please
-    // because of new unused warnings in 2.12.2
-    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
   }
 
   // tracking master as of December 2016.  if master proves unstable,
@@ -241,15 +273,6 @@ build += {
       "coreJS"  // no Scala.js please
       "root"    // dbuild thinks it tries to publish root#root
     ]
-  }
-
-  ${vars.base} {
-    name: "scalatest"
-    uri:  ${vars.uris.scalatest-uri}
-    extra: ${vars.base.extra} {
-      projects: ["scalatest", "scalactic"]
-      test-tasks: ["compile"] // TODO run tests -- need to exclude browser-based tests somehow
-    }
   }
 
   ${vars.base} {
@@ -352,29 +375,6 @@ build += {
   ${vars.base} {
     name: "sbinary"
     uri:  ${vars.uris.sbinary-uri}
-  }
-
-  // if master proves difficult to track, the 0.6.x branch could be
-  // used instead; see discussion at
-  // https://github.com/scala/community-builds/issues/506
-  ${vars.base} {
-    name: "scala-js"
-    uri:  ${vars.uris.scala-js-uri}
-    extra: ${vars.base.extra} {
-      // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
-      options: ["-Xmx2048m"]
-      projects: [ tools, testSuite, stubs ]
-      commands: ${vars.default-commands} [
-        // - Disable compiler/test because it is very fragile.
-        "set test in (Build.compiler, Test) := {}"
-        // - Disable fatal Scaladoc warnings, also fragile
-        "removeScalacOptions -Xfatal-warnings"
-        // - We disable source map tests to save ourselves a `npm install source-map-support` on the workers.
-        //   Although only `testSuite` actually has tests, dbuild will try to run the tests for all projects
-        //   that `testSuite` depends on (transitively), so we need to set it in a bunch of places.
-        "set Seq(library, testInterface, jUnitRuntime, testSuite).map(p => jsEnv in p := new org.scalajs.jsenv.nodejs.NodeJSEnv(org.scalajs.jsenv.nodejs.NodeJSEnv.Config().withExecutable(\""${vars.node}"\").withSourceMap(false)))"
-      ]
-    }
   }
 
   // forked (April 2017) for 2.12.2 and 2.13 compat.
@@ -1185,6 +1185,13 @@ build += {
      // extra.test-tasks to a task that takes arguments.  (anyway,
      // it's not clear it's really necessary or appropriate to
      // actually run the whole thing as part of the community build?)
+  }
+
+  ${vars.base} {
+     name: "better-files"
+     uri: ${vars.uris.better-files-uri}
+     // test failure reported upstream at https://github.com/pathikrit/better-files/issues/165
+     extra.test-tasks: ["compile"]
   }
 
 ]}
