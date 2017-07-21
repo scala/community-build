@@ -1194,4 +1194,14 @@ build += {
      extra.test-tasks: ["compile"]
   }
 
+  ${vars.base} {
+     name: "scalafmt"
+     uri: ${vars.uris.scalafmt-uri}
+  }
+
+  ${vars.base} {
+     name: "scalastyle"
+     uri: ${vars.uris.scalastyle-uri}
+  }
+
 ]}
