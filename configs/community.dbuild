@@ -538,15 +538,9 @@ build += {
     extra.options: ["-DSKIP_FLAKY=true"]
   }
 
-  // note that we don't have MiMa in the JDK6 build.  I tried but it
-  // was running out of PermGen when running the functional tests.
-  // rather than sink time into investigating, just confining it to
-  // JDK8 world seems perfectly fine.
   ${vars.base} {
     name: "mima"
     uri:  ${vars.uris.mima-uri}
-    // normally MiMa runs on 2.10 (because sbt 0.13 does), so the branch won't
-    // be merged onto master for quite a while yet
     // we don't compile sbt plugins
     extra.exclude: ["sbtplugin"]
   }
