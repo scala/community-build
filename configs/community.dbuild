@@ -1078,6 +1078,41 @@ build += {
     ]
   }
 
+  // forked (July 2017) to remove coursier and sbt-idea-plugin
+  ${vars.base} {
+     name: "scalafmt"
+     uri: ${vars.uris.scalafmt-uri}
+     extra.exclude: [
+       // our artifactory doesn't have sbt-idea-plugin; we could add it,
+       // but this subproject seems inessential/irrelevant actually
+       "intellij"
+       // uses coursier (as a library, I think)
+       "bootstrap"
+     ]
+  }
+
+  // dependency of scalafmt
+  // forked (July 2017) for dbuild friendliness
+  ${vars.base} {
+     name: "meta-paradise"
+     uri: ${vars.uris.meta-paradise-uri}
+     // main goal right now (July 2017) is to get scalafmt in, so, let's just
+     // add the project we actually need and not worry about the rest
+     extra.projects: ["paradise"]
+    // use right version-specific source directory regardless of our weird dbuild Scala version number
+    extra.commands: [
+      "set unmanagedSourceDirectories in (paradise, Compile) += (baseDirectory in paradise).value / \"src\" / \"main\" / \"scala-2.12.2\""
+    ]
+  }
+
+  // dependency of scalafmt
+  // forked (July 2017) to remove coursier
+  ${vars.base} {
+    name: "metaconfig"
+    uri:  ${vars.uris.metaconfig-uri}
+    extra.projects: ["metaconfig-hoconJVM"]  // no Scala.js plz
+  }
+
   ${vars.base} {
     name: "scalatex"
     uri:  ${vars.uris.scalatex-uri}
