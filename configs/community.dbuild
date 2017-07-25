@@ -1116,7 +1116,7 @@ build += {
   ${vars.base} {
     name: "metaconfig"
     uri:  ${vars.uris.metaconfig-uri}
-    extra.projects: ["metaconfig-hoconJVM"]  // no Scala.js plz
+    extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
   }
 
   ${vars.base} {
