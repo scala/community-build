@@ -1080,6 +1080,8 @@ build += {
       "readme"
       // no Scala.js plz
       "coreJS", "diffJS"
+      // no Dotty stuff plz
+      "testsOutputDotty"
     ]
   }
 
