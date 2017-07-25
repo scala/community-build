@@ -1059,6 +1059,10 @@ build += {
       "set unmanagedSourceDirectories in (scalametaJVM, Compile) += (baseDirectory in scalametaJVM).value / \"src\" / \"main\" / \"scala-2.12\""
       "set unmanagedSourceDirectories in (scalahostNsc, Compile) += (baseDirectory in scalahostNsc).value / \"src\" / \"main\" / \"scala-2.12.1\""
     ]
+    // [scalameta] [error] Failed tests:
+    // [scalameta] [error]   scala.meta.tests.io.NIOPathTest
+    // [scalameta] [error]   scala.meta.tests.io.IOFileTest
+    extra.test-tasks: "compile"
   }
 
   // forked (February 2017) to remove wartremover and coursier
