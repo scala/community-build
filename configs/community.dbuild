@@ -910,9 +910,9 @@ build += {
       // just scalaz72 plz!
       "scalaz71"
       // depends on scalaz71
-      "atto", "testsJVM", "testsJS", "docs"
+      "atto", "testsJVM", "docs"
       // no Scala.js
-      "catsJS", "coreJS", "scalaz72JS"
+      "catsJS", "coreJS", "scalaz72JS", "testsJS"
     ]
     // new warnings from https://github.com/scala/scala/pull/5402
     extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
