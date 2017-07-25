@@ -30,7 +30,7 @@ include file(".dbuild/resolvers.conf")
 
 vars {
   default-commands: []
-  sbt-version: "0.13.15"
+  sbt-version: "0.13.16-RC1"
 }
 
 //// compiler options manipulation
@@ -538,15 +538,9 @@ build += {
     extra.options: ["-DSKIP_FLAKY=true"]
   }
 
-  // note that we don't have MiMa in the JDK6 build.  I tried but it
-  // was running out of PermGen when running the functional tests.
-  // rather than sink time into investigating, just confining it to
-  // JDK8 world seems perfectly fine.
   ${vars.base} {
     name: "mima"
     uri:  ${vars.uris.mima-uri}
-    // normally MiMa runs on 2.10 (because sbt 0.13 does), so the branch won't
-    // be merged onto master for quite a while yet
     // we don't compile sbt plugins
     extra.exclude: ["sbtplugin"]
   }
@@ -867,6 +861,22 @@ build += {
     extra.projects: ["coreJVM", "tckTests"]  // no Scala.js, no benchmarks
   }
 
+  ${vars.base} {
+    name: "conductr-lib"
+    uri:  ${vars.uris.conductr-lib-uri}
+    extra.exclude: [
+      // we don't have Lagom yet
+      "lagom13JavaConductRBundleLib", "lagom13ScalaConductRBundleLib"
+      // didn't compile (July 2017)
+      "akka24ConductRClientLib"
+      // not our Akka version
+      "akka25Common", "akka25ConductRBundleLib", "akka25ConductRClientLib", "akka25TestLib"
+      // Play stuff didn't work, maybe try again later?
+      "play25ConductRBundleLib", "play25ConductRClientLib", "play25Common"
+      "play26ConductRBundleLib", "play26ConductRClientLib", "play26Common"
+    ]
+  }
+
   // this was added because conductr-lib's Play integration depended on it,
   // but we ended up not including that integration (for now anyway?), so
   // nothing depends on this.  leaving it in since we might as well, but
@@ -1111,11 +1121,11 @@ build += {
     uri:  ${vars.uris.scalaj-http-uri}
   }
 
-  // forked (April 2017) to get rid of the usual bintray-sbt stuff that
-  // makes dbuild upset
+  // forked (April 2017; updated July 2017) to get rid of the usual bintray-sbt stuff
+  // that makes dbuild upset
   ${vars.base} {
-    name: "typesafe-emoji"
-    uri:  ${vars.uris.typesafe-emoji-uri}
+    name: "lightbend-emoji"
+    uri:  ${vars.uris.lightbend-emoji-uri}
   }
 
   // others are not depending on this yet ("not ready for general
@@ -1192,6 +1202,13 @@ build += {
      uri: ${vars.uris.better-files-uri}
      // test failure reported upstream at https://github.com/pathikrit/better-files/issues/165
      extra.test-tasks: ["compile"]
+  }
+
+  // forked (July 2017) to get rid of the usual bintray-sbt stuff that
+  // makes dbuild upset
+  ${vars.base} {
+     name: "scalastyle"
+     uri: ${vars.uris.scalastyle-uri}
   }
 
 ]}
