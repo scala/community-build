@@ -1065,10 +1065,8 @@ build += {
     extra.test-tasks: "compile"
   }
 
-  // forked (February 2017) to remove wartremover and coursier
-  // fork tweaked March 2017 to alter scalameta dependency
-  // caution, refreshing the fork any further could be problematic;
-  // see Olafur's comment at
+  // forked (July 2017) to remove coursier.
+  // caution, refreshing the fork is always problematic; see Olafur's comment at
   // https://github.com/scala/community-builds/issues/499#issuecomment-287307613
   // about the instability of both scalameta and scalafix
   ${vars.base} {
@@ -1080,6 +1078,8 @@ build += {
       "cli"
       // requires scalatex-site which requires Scala.js
       "readme"
+      // no Scala.js plz
+      "coreJS", "diffJS"
     ]
   }
 
