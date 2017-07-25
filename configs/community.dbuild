@@ -1076,13 +1076,6 @@ build += {
     uri:  ${vars.uris.scalafix-uri}
     extra.exclude: [
       "scalafix-sbt"  // we never build sbt plugins
-      // "These tests depend on various projects (circe, shapeless,...) to
-      // reproduce bugs that surfaced in larger integration tests"
-      // says Olaf.  depends on circe which we don't have here yet
-      "scalafix-nsc"
-      // didn't work, and anyway, Olafur says it isn't appropriate to include;
-      // it "involves cloning other projects and compiling them"
-      "scalafix-tests"
       // Missing dependency: the library com.github.alexarchambault#case-app
       "cli"
       // requires scalatex-site which requires Scala.js
