@@ -1092,13 +1092,9 @@ build += {
   ${vars.base} {
      name: "scalafmt"
      uri: ${vars.uris.scalafmt-uri}
-     extra.exclude: [
-       // our artifactory doesn't have sbt-idea-plugin; we could add it,
-       // but this subproject seems inessential/irrelevant actually
-       "intellij"
-       // uses coursier (as a library, I think)
-       "bootstrap"
-     ]
+     // let's keep our ambitions modest for now (July 2017)
+     // and just try to build core (and no Scala.js plz, of course)
+     extra.projects: ["coreJVM"]
   }
 
   // dependency of scalafmt
