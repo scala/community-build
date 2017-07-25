@@ -910,7 +910,7 @@ build += {
       // just scalaz72 plz!
       "scalaz71"
       // depends on scalaz71
-      "atto", "tests", "docs"
+      "atto", "testsJVM", "testsJS", "docs"
       // no Scala.js
       "catsJS", "coreJS", "scalaz72JS"
     ]
