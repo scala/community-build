@@ -1047,8 +1047,8 @@ build += {
     extra.exclude: [
       // requires scalatex-site which requires Scala.js
       "readme"
-      // we never build sbt plugins or benchmarks
-      "scalahostSbt", "benchmarks"
+      // we never build benchmarks
+      "benchmarks"
       // test failures it doesn't seem worth investigating; pulls down external source trees
       "contribJVM"
     ]
