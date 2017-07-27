@@ -477,6 +477,10 @@ build += {
     uri:  ${vars.uris.mima-uri}
     // we don't compile sbt plugins
     extra.exclude: ["sbtplugin"]
+    // use scala-2.12 source directory for 2.13 too
+    extra.commands: [
+      "set unmanagedSourceDirectories in (core, Compile) += baseDirectory.value / \"core\" / \"src\" / \"main\" / \"scala-2.12\""
+    ]
   }
 
   ${vars.base} {
