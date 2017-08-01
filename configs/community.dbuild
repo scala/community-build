@@ -1204,11 +1204,10 @@ build += {
      extra.test-tasks: ["compile"]
   }
 
-  // forked (July 2017) to get rid of the usual bintray-sbt stuff that
-  // makes dbuild upset
   ${vars.base} {
      name: "scalastyle"
      uri: ${vars.uris.scalastyle-uri}
+     extra.options: ["-Dscalastyle.publish-ivy-only=true"]
   }
 
 ]}
