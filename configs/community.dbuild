@@ -717,9 +717,6 @@ build += {
     uri:  ${vars.uris.jawn-fs2-uri}
   }
 
-  // forked (updated March 2017) because of bintray-sbt errors;
-  // see https://github.com/typesafehub/dbuild/issues/158 (fixed in
-  // at least some cases in dbuild 0.9.7? not in this case)
   ${vars.base} {
     name: "scalamock"
     uri:  ${vars.uris.scalamock-uri}
