@@ -340,8 +340,8 @@ build += {
   }
 
   ${vars.base} {
-    name: "async"
-    uri:  ${vars.uris.async-uri}
+    name: "scala-async"
+    uri:  ${vars.uris.scala-async-uri}
     // TODO: ToolBox based tests report missing JARs. Probably some poor assumption in the async tests.
     extra.test-tasks: ["compile"]
   }
