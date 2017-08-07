@@ -1197,8 +1197,6 @@ build += {
   ${vars.base} {
      name: "better-files"
      uri: ${vars.uris.better-files-uri}
-     // test failure reported upstream at https://github.com/pathikrit/better-files/issues/165
-     extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
