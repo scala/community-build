@@ -6,7 +6,7 @@ This repository contains configuration files that enable us to build and test
 a corpus of Scala open source projects together using Lightbend's
 [dbuild](https://github.com/typesafehub/dbuild).
 
-**How big is it?**  It's over a million lines of Scala code, total.
+**How big is it?**  It's over a million lines of Scala code, total, from **109** projects (as of August 2017).
 
 **Why do this?** The main goal is to guard against regressions in new
 versions of Scala (language, standard library, and modules). It's also
