@@ -446,27 +446,12 @@ build += {
     ]
   }
 
-  // series/0.9 is current "master" as of Sep 2016; there is a series/1.0
-  // we might want to switch to at some point?
   ${vars.base} {
     name: "fs2"
     uri:  ${vars.uris.fs2-uri}
-    extra.exclude: [
-      "coreJS" // no Scala.js please
-      "benchmark" // not really necessary and would pull in a JMH dependency
-    ]
+    extra.projects: ["coreJVM", "scodecJVM", "io"]  // no Scala.js, no benchmarks or docs
   }
 
-  ${vars.base} {
-    name: "fs2-cats"
-    uri:  ${vars.uris.fs2-cats-uri}
-    extra.projects: ["fs2CatsJVM"]  // no Scala.js
-  }
-
-  // frozen at May 2017 commit because newer commits caused a failure
-  // in monix: https://github.com/monix/monix/issues/366
-  // and moved (in June 2017) to an even older (April 2017) commit
-  // so that doodle compiles
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
@@ -710,9 +695,6 @@ build += {
     extra.projects: ["ast", "parser", "json4s", "spray"]
   }
 
-  // frozen (June 2017) at a November 2016 commit because newer commits failed
-  // to compile -- I guess because fs2 is changing? ticket is
-  // https://github.com/scala/community-builds/issues/563
   ${vars.base} {
     name: "jawn-fs2"
     uri:  ${vars.uris.jawn-fs2-uri}
@@ -850,13 +832,12 @@ build += {
     extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
   }
 
-  // using series/2.x rather than master because tracking master
-  // was causing some compile failures, probably having to do with
-  // the dependency changes happening recently (June 2017)
   ${vars.base} {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
-    extra.projects: ["coreJVM", "tckTests"]  // no Scala.js, no benchmarks
+    // no Scala.js, no benchmarks.
+    // (but also, perhaps this excludes more stuff than necessary?)
+    extra.projects: ["coreJVM"]
   }
 
   ${vars.base} {
@@ -962,29 +943,20 @@ build += {
     name: "http4s"
     uri:  ${vars.uris.http4s-uri}
     extra.commands: ${vars.default-commands} [
-      // well, here's a new one. we don't have Typelevel Scala.
-      // if it works with Scala Scala, maybe it's because they're only
-      // depending on TLS stuff in 2.11?
-      "set scalaOrganization in ThisBuild := \"org.scala-lang\""
       // too fragile
       "removeScalacOptions -Xfatal-warnings"
     ]
     extra.exclude: [
       // no benchmarks please
       "bench"
-      // not sure what this is about. didn't investigate or attempt workaround.
-      // scala-xml/src/main/scala/scalaxml/ElemInstances.scala:30: wrong number of type parameters for method flatMap: [AA >: org.http4s.DecodeFailure, D](f: fs2.Chunk[Byte] => cats.data.EitherT[fs2.Task,AA,D])(implicit F: cats.Monad[fs2.Task])cats.data.EitherT[fs2.Task,AA,D]
-      "scala-xml"
-      // blaze-server/src/test/scala/org/http4s/server/blaze/BlazeServerSpec.scala:14: value run is not a member of fs2.Task[org.http4s.server.Server]
-      "blaze-server"
-      // "not found: object scalaz" ?!
-      "blaze-client"
-      // "not found: object scodec" ?!
+      // Missing dependency: com.github.zainab-ali#fs2-reactive-streams
       "async-http-client"
       // these depend on circe, which we don't have (yet?)
       "circe", "examples", "examples-tomcat", "examples-jetty", "examples-blaze", "examples-war", "docs"
+      // weird errors, maybe not appropriate to run anyway
+      "load-test"
     ]
-    // Failed tests: org.http4s.server.middleware.DefaultHeadSpec
+    // Failed tests: org.http4s.CookieSpec, org.http4s.EntityDecoderSpec
     extra.test-tasks: "compile"
   }
 
@@ -1163,8 +1135,6 @@ build += {
      extra.projects: ["lensesJVM"]  // no Scala.js plz
   }
 
-  // frozen at May 2017 commit because newer commits were failing;
-  // see https://github.com/scala/community-builds/issues/544
   ${vars.base} {
      name: "cats-effect"
      uri:  ${vars.uris.cats-effect-uri}
