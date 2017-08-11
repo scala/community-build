@@ -642,13 +642,14 @@ build += {
     extra.projects: ["play-jsonJVM"]  // no Scala.js plz
   }
 
-  // frozen (June 2017) after a test started failing;
-  // see https://github.com/scala/community-builds/issues/564
   ${vars.base} {
     name: "play-ws"
     uri:  ${vars.uris.play-ws-uri}
     // new warnings from https://github.com/scala/scala/pull/5402
     extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
+    // NullPointerException in CachingSpec
+    // (https://github.com/scala/community-builds/issues/564)
+    extra.exclude: ["integration-tests"]
   }
 
   // dependency of play-ws
@@ -664,7 +665,7 @@ build += {
       // TODO: enable more projects? these are just a few that seemed especially high-value.
       // we tried including "Play-Integration-Test" but hit a mysterious StackOverflowError
       // in scala.tools.nsc.javac.JavaScanners; see https://github.com/scala/community-builds/issues/304
-      projects: ["Play", "Play-Test", "Play-WS"]
+      projects: ["Play", "Play-Test", "Play-WS", "Play-Cache", "Play-AHC-WS", "Filters-Helpers", "Play-Logback"]
       exclude: ["SBT-Plugin"]
       directory: "framework"
       commands: ${vars.default-commands} [
@@ -1203,6 +1204,15 @@ build += {
      name: "scalastyle"
      uri: ${vars.uris.scalastyle-uri}
      extra.options: ["-Dscalastyle.publish-ivy-only=true"]
+  }
+
+  ${vars.base} {
+     name: "play-webgoat"
+     uri: ${vars.uris.play-webgoat-uri}
+     // not sure how this gets pulled in but it's just doc not code, I think?
+     // so let's just ignore that it's missing
+     check-missing: false
+     deps.ignore: ["com.typesafe.play#play-omnidoc"]
   }
 
 ]}
