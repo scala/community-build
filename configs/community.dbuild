@@ -422,10 +422,20 @@ build += {
     extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
   }
 
-  // frozen at May 2017 commit because newer commits caused a failure
-  // in monix: https://github.com/monix/monix/issues/366
-  // and moved (in June 2017) to an even older (April 2017) commit
-  // so that doodle compiles
+  ${vars.base} {
+    name: "kxbmap-configs"
+    uri:  ${vars.uris.kxbmap-configs-uri}
+    extra.exclude: [
+      "bench" // not really necessary and would pull in a JMH dependency
+    ]
+  }
+
+  ${vars.base} {
+    name: "fs2"
+    uri:  ${vars.uris.fs2-uri}
+    extra.projects: ["coreJVM", "scodecJVM", "io"]  // no Scala.js, no benchmarks or docs
+  }
+
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
@@ -600,9 +610,6 @@ build += {
     extra.projects: ["ast", "parser", "json4s", "spray"]
   }
 
-  // frozen (June 2017) at a November 2016 commit because newer commits failed
-  // to compile -- I guess because fs2 is changing? ticket is
-  // https://github.com/scala/community-builds/issues/563
   ${vars.base} {
     name: "monocle"
     uri:  ${vars.uris.monocle-uri}
@@ -676,13 +683,12 @@ build += {
     extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
   }
 
-  // using series/2.x rather than master because tracking master
-  // was causing some compile failures, probably having to do with
-  // the dependency changes happening recently (June 2017)
   ${vars.base} {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
-    extra.projects: ["coreJVM", "tckTests"]  // no Scala.js, no benchmarks
+    // no Scala.js, no benchmarks.
+    // (but also, perhaps this excludes more stuff than necessary?)
+    extra.projects: ["coreJVM"]
   }
 
   ${vars.base} {
@@ -827,8 +833,6 @@ build += {
      extra.test-tasks: ["compile"]
   }
 
-  // frozen at May 2017 commit because newer commits were failing;
-  // see https://github.com/scala/community-builds/issues/544
   ${vars.base} {
      name: "cats-effect"
      uri:  ${vars.uris.cats-effect-uri}
