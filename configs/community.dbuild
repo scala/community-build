@@ -874,4 +874,73 @@ build += {
      extra.options: ["-Dscalastyle.publish-ivy-only=true"]
   }
 
+  // for sjson-new
+  {
+    name: "shaded-scalajson"
+    system: ivy
+    uri: "ivy:com.eed3si9n#shaded-scalajson_2.12;1.0.0-M4"
+  }
+
+  ${vars.base} {
+    name: "sjson-new"
+    uri:  ${vars.uris.sjson-new-uri}
+    extra.exclude: ["benchmark"]
+  }
+
+  ${vars.base} {
+    name: "gigahorse"
+    uri:  ${vars.uris.gigahorse-uri}
+  }
+
+  ${vars.base} {
+    name: "sbt-io"
+    uri:  ${vars.uris.sbt-io-uri}
+    extra.sbt-version: "1.0.0"
+    extra.commands: ["projects"]  // default commands don't work with sbt 1.0
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+  }
+
+  ${vars.base} {
+    name: "sbt-util"
+    uri:  ${vars.uris.sbt-util-uri}
+    extra.sbt-version: "1.0.0"
+    extra.commands: []  // default commands don't work with sbt 1.0
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+  }
+
+  ${vars.base} {
+    name: "sbt-librarymanagement"
+    uri:  ${vars.uris.sbt-librarymanagement-uri}
+    extra.sbt-version: "1.0.0"
+    extra.commands: []  // default commands don't work with sbt 1.0
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+  }
+
+  ${vars.base} {
+    name: "zinc"
+    uri:  ${vars.uris.zinc-uri}
+    extra.sbt-version: "1.0.0"
+    extra.commands: []  // default commands don't work with sbt 1.0
+    extra.exclude: ["zincBenchmarks"]
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    // Failed tests: sbt.internal.inc.ZincComponentCompilerSpec
+    extra.test-tasks: ["compile"]
+  }
+
+  ${vars.base} {
+    name: "sbt"
+    uri:  ${vars.uris.sbt-uri}
+    extra.sbt-version: "1.0.0"
+    extra.commands: []  // default commands don't work with sbt 1.0
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.exclude: [
+      // dbuild & sbt-bintray fight (Release.scala calls bintrayRepo.value.upload)
+      "bundledLauncherProj"
+      // depends on sxr_2.10?!
+      "sbtRoot"
+  ]
+    // some test code fails to compile, a specs2 version thing I think
+    extra.run-tests: false
+  }
+
 ]}
