@@ -425,6 +425,7 @@ build += {
   ${vars.base} {
     name: "kxbmap-configs"
     uri:  ${vars.uris.kxbmap-configs-uri}
+    extra.exclude: ["docs"]
   }
 
   ${vars.base} {
