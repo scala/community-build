@@ -1252,4 +1252,10 @@ build += {
     extra.run-tests: false
   }
 
+  ${vars.base} {
+    name: "squants"
+    uri:  ${vars.uris.squants-uri}
+    extra.projects: ["squantsJVM"]  // no Scala.js plz
+  }
+
 ]}
