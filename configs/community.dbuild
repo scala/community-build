@@ -425,9 +425,6 @@ build += {
   ${vars.base} {
     name: "kxbmap-configs"
     uri:  ${vars.uris.kxbmap-configs-uri}
-    extra.exclude: [
-      "bench" // not really necessary and would pull in a JMH dependency
-    ]
   }
 
   ${vars.base} {
