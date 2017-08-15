@@ -378,6 +378,9 @@ build += {
     name: "sbinary"
     uri:  ${vars.uris.sbinary-uri}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
   }
 
   // forked (April 2017) for 2.12.2 and 2.13 compat.
