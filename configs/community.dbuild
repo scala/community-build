@@ -1000,7 +1000,11 @@ build += {
     // because of new unused warnings introduced
     // by https://github.com/scala/scala/pull/5402 ; probably they'll fix it upstream
     // after 2.12.2 comes out
-    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
+    extra.commands: ${vars.default-commands} [
+      "removeScalacOptions -Xfatal-warnings"
+      "set every bintrayReleaseOnPublish := false"
+    ]
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
 
   // forked (updated March 2017) to remove the usual bintray gunk.
