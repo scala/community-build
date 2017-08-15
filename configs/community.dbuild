@@ -1012,7 +1012,10 @@ build += {
   // refreshing the fork should be approached with caution;
   // see Olafur's comment at
   // https://github.com/scala/community-builds/issues/499#issuecomment-287307613
-  // about the instability of both scalameta and scalafix
+  // about the instability of both scalameta and scalafix.
+  // when it comes time to refresh the fork, note that as of August
+  // 2017, bintray was removed on master, but coursier was added (so
+  // we can't unfork entirely).
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
