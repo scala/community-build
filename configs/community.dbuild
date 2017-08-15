@@ -1089,11 +1089,12 @@ build += {
     uri:  ${vars.uris.scalaj-http-uri}
   }
 
-  // forked (April 2017; updated July 2017) to get rid of the usual bintray-sbt stuff
-  // that makes dbuild upset
   ${vars.base} {
     name: "lightbend-emoji"
     uri:  ${vars.uris.lightbend-emoji-uri}
+    extra.sbt-version: "1.0.0"
+    extra.commands: []  // default commands don't work with sbt 1.0
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
 
   // others are not depending on this yet ("not ready for general
