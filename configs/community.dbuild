@@ -374,6 +374,7 @@ build += {
     ]
   }
 
+  // forked (from sbt/sbinary; updated March 2017) to remove bintray gunk that doesn't work with dbuild
   ${vars.base} {
     name: "sbinary"
     uri:  ${vars.uris.sbinary-uri}
