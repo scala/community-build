@@ -1023,7 +1023,7 @@ build += {
       "contribJVM"
     ]
     // use right version-specific source directories regardless of our weird dbuild Scala version numbers
-    extra.commands: [
+    extra.commands: ${vars.default-commands} [
       "set unmanagedSourceDirectories in (commonJVM, Compile) += (baseDirectory in commonJVM).value / \"src\" / \"main\" / \"scala-2.12\""
       "set unmanagedSourceDirectories in (dialectsJVM, Compile) += (baseDirectory in dialectsJVM).value / \"src\" / \"main\" / \"scala-2.12\""
       "set unmanagedSourceDirectories in (scalametaJVM, Compile) += (baseDirectory in scalametaJVM).value / \"src\" / \"main\" / \"scala-2.12\""
@@ -1205,7 +1205,7 @@ build += {
     name: "sbt-io"
     uri:  ${vars.uris.sbt-io-uri}
     extra.sbt-version: "1.0.0"
-    extra.commands: ["projects"]  // default commands don't work with sbt 1.0
+    extra.commands: []  // default commands don't work with sbt 1.0
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
 
