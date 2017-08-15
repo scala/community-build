@@ -447,6 +447,7 @@ build += {
     extra.exclude: ["docs"]
   }
 
+  // forked (August 2017) to remove coursier
   ${vars.base} {
     name: "fs2"
     uri:  ${vars.uris.fs2-uri}
