@@ -364,6 +364,7 @@ build += {
     ]
   }
 
+  // forked for now (bintray) until https://github.com/sbt/sbt-testng/pull/23 is merged
   ${vars.base} {
     name: "sbt-testng"
     uri:  ${vars.uris.sbt-testng-uri}
