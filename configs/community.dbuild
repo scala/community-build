@@ -364,7 +364,6 @@ build += {
     ]
   }
 
-  // forked for now (bintray) until https://github.com/sbt/sbt-testng/pull/23 is merged
   ${vars.base} {
     name: "sbt-testng"
     uri:  ${vars.uris.sbt-testng-uri}
@@ -375,10 +374,11 @@ build += {
     ]
   }
 
-  // forked (from sbt/sbinary; updated March 2017) to remove bintray gunk that doesn't work with dbuild
+  // unfork once https://github.com/sbt/sbinary/pull/8 is merged
   ${vars.base} {
     name: "sbinary"
     uri:  ${vars.uris.sbinary-uri}
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
 
   // forked (April 2017) for 2.12.2 and 2.13 compat.
