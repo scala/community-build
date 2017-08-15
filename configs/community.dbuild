@@ -364,11 +364,14 @@ build += {
     ]
   }
 
-  // forked (updated March 2017) to get rid of bintray stuff that was causing errors
   ${vars.base} {
     name: "sbt-testng"
     uri:  ${vars.uris.sbt-testng-uri}
     extra.projects: ["sbt-testng-interface"]  // just the interface, we don't need to build the plugin
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
   }
 
   // forked (from sbt/sbinary; updated March 2017) to remove bintray gunk that doesn't work with dbuild
