@@ -374,7 +374,6 @@ build += {
     ]
   }
 
-  // unfork once https://github.com/sbt/sbinary/pull/8 is merged
   ${vars.base} {
     name: "sbinary"
     uri:  ${vars.uris.sbinary-uri}
