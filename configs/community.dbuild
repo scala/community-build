@@ -1140,13 +1140,14 @@ build += {
      extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js plz
   }
 
-  // forked (June 2017) to get rid of the usual bintray-sbt stuff that
-  // makes dbuild upset; also waiting on upstream merge of
-  // https://github.com/underscoreio/doodle/pull/55
   ${vars.base} {
-     name: "doodle"
-     uri: ${vars.uris.doodle-uri}
-     extra.projects: ["doodleJVM"]  // no Scala.js plz
+    name: "doodle"
+    uri: ${vars.uris.doodle-uri}
+    extra.projects: ["doodleJVM"]  // no Scala.js plz
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
   }
 
   // once https://github.com/scala/scala-collections-laws/pull/18
