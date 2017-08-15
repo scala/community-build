@@ -857,10 +857,9 @@ build += {
     ]
   }
 
-  // this was added because conductr-lib's Play integration depended on it,
-  // but we ended up not including that integration (for now anyway?), so
-  // nothing depends on this.  leaving it in since we might as well, but
-  // if it acts up, it can go.
+  // can be removed anytime if it ever acts up, as the project is now
+  // obsolete/EOL (reference:
+  // https://github.com/hseeberger/akka-sse/commit/f18a359b489cc6a749709b5ce2d6beaafdd0f32f)
   // forked (December 2016) to get rid of the usual bintray-sbt stuff that
   // makes dbuild upset
   ${vars.base} {
