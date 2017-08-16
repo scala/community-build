@@ -303,11 +303,7 @@ build += {
     uri:  ${vars.uris.akka-more-uri}
     extra: ${vars.base.extra} {
       options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
-      projects: [
-        "akka-scala-nightly"
-        // akka-contrib-extras depends on this
-        "akka-distributed-data-experimental"
-      ]
+      projects: ["akka-scala-nightly"]
       commands: ["set every apiURL := None"]  // https://github.com/scala/community-builds/issues/373
       exclude: [
         "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
