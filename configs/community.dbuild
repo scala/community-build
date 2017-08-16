@@ -874,11 +874,13 @@ build += {
   // but we ended up not including that integration (for now anyway?), so
   // nothing depends on this.  leaving it in since we might as well, but
   // if it acts up, it can go.
-  // forked (December 2016) to get rid of the usual bintray-sbt stuff that
-  // makes dbuild upset
   ${vars.base} {
     name: "akka-contrib-extra"
     uri:  ${vars.uris.akka-contrib-extra-uri}
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
   }
 
   ${vars.base} {
