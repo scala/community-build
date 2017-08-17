@@ -7,6 +7,11 @@
 # * scalameter: because scalaVersion handling in their
 #   project/Build.scala needs updating
 # * scala-refactoring: ???, investigation needed
+# * gigahorse: requires akka-http
+# * lightbend-emoji, sbt, zinc, sbt-*: built with sbt 1.0
+#   which can maybe be made to work, but postponing it
+#   waiting for Toni to clarify what's going on at
+#   https://github.com/scala/community-builds/pull/590#issuecomment-322339858
 #
 # we should attempt to add them back later in the 2.13 cycle (by
 # copying their entries from the 2.12 config)
@@ -798,14 +803,6 @@ build += {
   }
 
   ${vars.base} {
-    name: "lightbend-emoji"
-    uri:  ${vars.uris.lightbend-emoji-uri}
-    extra.sbt-version: "1.0.0"
-    extra.commands: []  // default commands don't work with sbt 1.0
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-  }
-
-  ${vars.base} {
     name: "scala-parallel-collections"
     uri:  ${vars.uris.scala-parallel-collections-uri}
     // I have absolutely no idea why this would only be required in the
@@ -885,62 +882,6 @@ build += {
     name: "sjson-new"
     uri:  ${vars.uris.sjson-new-uri}
     extra.exclude: ["benchmark"]
-  }
-
-  ${vars.base} {
-    name: "gigahorse"
-    uri:  ${vars.uris.gigahorse-uri}
-  }
-
-  ${vars.base} {
-    name: "sbt-io"
-    uri:  ${vars.uris.sbt-io-uri}
-    extra.sbt-version: "1.0.0"
-    extra.commands: []  // default commands don't work with sbt 1.0
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-  }
-
-  ${vars.base} {
-    name: "sbt-util"
-    uri:  ${vars.uris.sbt-util-uri}
-    extra.sbt-version: "1.0.0"
-    extra.commands: []  // default commands don't work with sbt 1.0
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-  }
-
-  ${vars.base} {
-    name: "sbt-librarymanagement"
-    uri:  ${vars.uris.sbt-librarymanagement-uri}
-    extra.sbt-version: "1.0.0"
-    extra.commands: []  // default commands don't work with sbt 1.0
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-  }
-
-  ${vars.base} {
-    name: "zinc"
-    uri:  ${vars.uris.zinc-uri}
-    extra.sbt-version: "1.0.0"
-    extra.commands: []  // default commands don't work with sbt 1.0
-    extra.exclude: ["zincBenchmarks"]
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    // Failed tests: sbt.internal.inc.ZincComponentCompilerSpec
-    extra.test-tasks: ["compile"]
-  }
-
-  ${vars.base} {
-    name: "sbt"
-    uri:  ${vars.uris.sbt-uri}
-    extra.sbt-version: "1.0.0"
-    extra.commands: []  // default commands don't work with sbt 1.0
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    extra.exclude: [
-      // dbuild & sbt-bintray fight (Release.scala calls bintrayRepo.value.upload)
-      "bundledLauncherProj"
-      // depends on sxr_2.10?!
-      "sbtRoot"
-  ]
-    // some test code fails to compile, a specs2 version thing I think
-    extra.run-tests: false
   }
 
 ]}
