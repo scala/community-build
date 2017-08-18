@@ -284,10 +284,9 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
-  // tracking release-2.4 because master is 2.5 and breaking changes are happening
   ${vars.base} {
-    name: "akka"
-    uri:  ${vars.uris.akka-uri}
+    name: "akka-actor"
+    uri:  ${vars.uris.akka-actor-uri}
     extra: ${vars.base.extra} {
       options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
       projects: ["akka-actor"]
@@ -295,7 +294,6 @@ build += {
     }
   }
 
-  // tracking release-2.4 because master is 2.5 and breaking changes are happening
   // this is separate from "akka" because there is a circular dependency between
   // the akka and ssl-config repos
   ${vars.base} {
@@ -315,16 +313,21 @@ build += {
     }
   }
 
-  // forked (December 2016) to get rid of the usual bintray-sbt stuff that
-  // makes dbuild upset
   ${vars.base} {
     name: "akka-http"
     uri:  ${vars.uris.akka-http-uri}
     extra: ${vars.base.extra} {
-      options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false"]
+      exclude: ["docs"]
+      options: [
+        "-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false"
+        "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
+      ]
       // Scaladoc generation failure reported upstream at https://github.com/akka/akka/issues/21543
       commands: ${vars.default-commands} [
         "set sources in doc in Compile in httpCore := List()"
+        "set every bintrayReleaseOnPublish := false"
+        // sbt-osgi doesn't like dbuild-mangled version numbers
+        "set every OsgiKeys.bundleVersion := \"10.0.0\""
       ]
       // "HTTP is sadly very timing sensitive we're working on improving its stability regularly,
       // OK to disable it for now." - Konrad M, October 2016
@@ -851,23 +854,10 @@ build += {
       "lagom13JavaConductRBundleLib", "lagom13ScalaConductRBundleLib"
       // didn't compile (July 2017)
       "akka24ConductRClientLib"
-      // not our Akka version
-      "akka25Common", "akka25ConductRBundleLib", "akka25ConductRClientLib", "akka25TestLib"
       // Play stuff didn't work, maybe try again later?
       "play25ConductRBundleLib", "play25ConductRClientLib", "play25Common"
       "play26ConductRBundleLib", "play26ConductRClientLib", "play26Common"
     ]
-  }
-
-  // can be removed anytime if it ever acts up, as the project is now
-  // obsolete/EOL (reference:
-  // https://github.com/hseeberger/akka-sse/commit/f18a359b489cc6a749709b5ce2d6beaafdd0f32f)
-  // forked (December 2016) to get rid of the usual bintray-sbt stuff that
-  // makes dbuild upset
-  ${vars.base} {
-    name: "akka-sse"
-    uri:  ${vars.uris.akka-sse-uri}
-    extra.exclude: ["jmh"]  // no benchmarking stuff plz
   }
 
   // this was added because conductr-lib's Play integration depended on it,
@@ -879,6 +869,12 @@ build += {
   ${vars.base} {
     name: "akka-contrib-extra"
     uri:  ${vars.uris.akka-contrib-extra-uri}
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
+    // Failed tests: akka.contrib.http.DirectivesSpec
+    extra.test-tasks: "compile"
   }
 
   ${vars.base} {
@@ -1212,6 +1208,8 @@ build += {
   ${vars.base} {
     name: "gigahorse"
     uri:  ${vars.uris.gigahorse-uri}
+    // as of August 2017, doesn't compile against latest akka-http
+    extra.exclude: ["akkaHttp"]
   }
 
   ${vars.base} {
