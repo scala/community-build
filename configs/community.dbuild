@@ -516,6 +516,7 @@ build += {
 
   // tracking "develop" branch.
   // try master instead if develop proves too fragile?
+  // frozen August 2017 for a new extraction failure
   ${vars.base} {
     name: "twitter-util"
     uri:  ${vars.uris.twitter-util-uri}
