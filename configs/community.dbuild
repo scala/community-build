@@ -44,7 +44,6 @@ set commands ++= {
     import extracted._
     val r = Project.relation(extracted.structure, true)
     val allDefs = r._1s.toSeq
-    val projectScope = Load.projectScope(currentRef)
     val scopes = allDefs.filter(_.key == scalacOptions.key).map(_.scope).distinct
     val redefined = scopes.map(scope => scalacOptions in scope ~= fn)
     val session = extracted.session.appendRaw(redefined)
