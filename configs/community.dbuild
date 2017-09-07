@@ -1118,36 +1118,36 @@ build += {
   }
 
   ${vars.base} {
-     name: "scala-gopher"
-     uri:  ${vars.uris.scala-gopher-uri}
-     // too many intermittent failures -- reported at
-     // https://github.com/rssh/scala-gopher/issues/20
-     extra.test-tasks: ["compile"]
+    name: "scala-gopher"
+    uri:  ${vars.uris.scala-gopher-uri}
+    // too many intermittent failures -- reported at
+    // https://github.com/rssh/scala-gopher/issues/20
+    extra.test-tasks: ["compile"]
   }
 
   // adding (April 2017) because scalameta now depends on it.
   // frozen (June 2017) since more recent revisions didn't compile;
   // see https://github.com/scala/community-builds/issues/562
   ${vars.base} {
-     name: "scalapb"
-     uri:  ${vars.uris.scalapb-uri}
-     // just this one for now, since I'm mainly just trying to get
-     // scalameta working again
-     extra.projects: ["runtimeJVM"]
+    name: "scalapb"
+    uri:  ${vars.uris.scalapb-uri}
+    // just this one for now, since I'm mainly just trying to get
+    // scalameta working again
+    extra.projects: ["runtimeJVM"]
   }
 
   // adding (April 2017) because scalameta depends on it
   // (indirectly via scalapb)
   ${vars.base} {
-     name: "scalapb-lenses"
-     uri:  ${vars.uris.scalapb-lenses-uri}
-     extra.projects: ["lensesJVM"]  // no Scala.js plz
+    name: "scalapb-lenses"
+    uri:  ${vars.uris.scalapb-lenses-uri}
+    extra.projects: ["lensesJVM"]  // no Scala.js plz
   }
 
   ${vars.base} {
-     name: "cats-effect"
-     uri:  ${vars.uris.cats-effect-uri}
-     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js plz
+    name: "cats-effect"
+    uri:  ${vars.uris.cats-effect-uri}
+    extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js plz
   }
 
   ${vars.base} {
@@ -1163,36 +1163,36 @@ build += {
   // once https://github.com/scala/scala-collections-laws/pull/18
   // is merged we can track master
   ${vars.base} {
-     name: "scala-collections-laws"
-     uri: ${vars.uris.scala-collections-laws-uri}
-     // as per the repo readme
-     extra.options: ["-XX:MaxMetaspaceSize=1G", "-Xmx6G"]
-     // note that we're not actually doing
-     // `runMain tests.generated.collection.Test_All` which is what
-     // the repo readme says to do. dbuild doesn't let us set
-     // extra.test-tasks to a task that takes arguments.  (anyway,
-     // it's not clear it's really necessary or appropriate to
-     // actually run the whole thing as part of the community build?)
+    name: "scala-collections-laws"
+    uri: ${vars.uris.scala-collections-laws-uri}
+    // as per the repo readme
+    extra.options: ["-XX:MaxMetaspaceSize=1G", "-Xmx6G"]
+    // note that we're not actually doing
+    // `runMain tests.generated.collection.Test_All` which is what
+    // the repo readme says to do. dbuild doesn't let us set
+    // extra.test-tasks to a task that takes arguments.  (anyway,
+    // it's not clear it's really necessary or appropriate to
+    // actually run the whole thing as part of the community build?)
   }
 
   ${vars.base} {
-     name: "better-files"
-     uri: ${vars.uris.better-files-uri}
+    name: "better-files"
+    uri: ${vars.uris.better-files-uri}
   }
 
   ${vars.base} {
-     name: "scalastyle"
-     uri: ${vars.uris.scalastyle-uri}
-     extra.options: ["-Dscalastyle.publish-ivy-only=true"]
+    name: "scalastyle"
+    uri: ${vars.uris.scalastyle-uri}
+    extra.options: ["-Dscalastyle.publish-ivy-only=true"]
   }
 
   ${vars.base} {
-     name: "play-webgoat"
-     uri: ${vars.uris.play-webgoat-uri}
-     // not sure how this gets pulled in but it's just doc not code, I think?
-     // so let's just ignore that it's missing
-     check-missing: false
-     deps.ignore: ["com.typesafe.play#play-omnidoc"]
+    name: "play-webgoat"
+    uri: ${vars.uris.play-webgoat-uri}
+    // not sure how this gets pulled in but it's just doc not code, I think?
+    // so let's just ignore that it's missing
+    check-missing: false
+    deps.ignore: ["com.typesafe.play#play-omnidoc"]
   }
 
   // for sjson-new
