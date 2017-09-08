@@ -510,9 +510,6 @@ build += {
       // not community build relevant, and was causing error
       // ("multiple projects have the same artifacts visible in the same space")
       "pom"
-      // no Scala.js plz.  (I don't see a project which aggregates just the JVM projects.)
-      "analysisJS", "commonJS", "coreJS", "examplesJS", "fpJS", "junitJS", "matcherExtraJS"
-      "matcherJS", "mockJS", "scalacheckJS", "scalazJS", "shapelessJS"
     ]
     extra.commands: ${vars.default-commands} [
       // too fragile? TODO: I got a non-exhaustive match warning that
