@@ -384,10 +384,6 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
-  // forked (April 2017) for 2.12.2 and 2.13 compat.
-  // can be unforked once these PRs are merged:
-  // * https://github.com/lihaoyi/utest/pull/107
-  // * https://github.com/lihaoyi/utest/pull/109
   ${vars.base} {
     name: "utest"
     uri:  ${vars.uris.utest-uri}
@@ -407,6 +403,8 @@ build += {
     extra.projects: ["sourcecodeJVM"]
   }
 
+  // forked temporarily (September 2017) until this is merged:
+  // https://github.com/lihaoyi/fastparse/pull/166
   ${vars.base} {
     name: "fastparse"
     uri:  ${vars.uris.fastparse-uri}
