@@ -458,6 +458,8 @@ build += {
     extra.projects: ["coreJVM", "scodecJVM", "io"]  // no Scala.js, no benchmarks or docs
   }
 
+  # frozen at September 2017 commit because cats-effect was failing;
+  # see https://github.com/scala/community-builds/issues/600
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
