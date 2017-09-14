@@ -1004,14 +1004,11 @@ build += {
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
 
-  // forked (updated March 2017) to remove the usual bintray gunk.
+  // forked (updated September 2017) to remove coursier.
   // refreshing the fork should be approached with caution;
-  // see Olafur's comment at
+  // see Olafur's remarks at
   // https://github.com/scala/community-builds/issues/499#issuecomment-287307613
   // about the instability of both scalameta and scalafix.
-  // when it comes time to refresh the fork, note that as of August
-  // 2017, bintray was removed on master, but coursier was added (so
-  // we can't unfork entirely).
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
@@ -1033,10 +1030,10 @@ build += {
     ]
   }
 
-  // forked (February 2017) to remove wartremover and coursier
-  // fork tweaked March 2017 to alter scalameta dependency
-  // caution, refreshing the fork any further could be problematic;
-  // see Olafur's comment at
+  // forked (refreshed September 2017) to remove coursier
+  // and alter scalameta dependency.
+  // caution, refreshing the fork any further can be problematic;
+  // see Olafur's remarks at
   // https://github.com/scala/community-builds/issues/499#issuecomment-287307613
   // about the instability of both scalameta and scalafix
   ${vars.base} {
@@ -1044,13 +1041,6 @@ build += {
     uri:  ${vars.uris.scalafix-uri}
     extra.exclude: [
       "scalafix-sbt"  // we never build sbt plugins
-      // "These tests depend on various projects (circe, shapeless,...) to
-      // reproduce bugs that surfaced in larger integration tests"
-      // says Olaf.  depends on circe which we don't have here yet
-      "scalafix-nsc"
-      // didn't work, and anyway, Olafur says it isn't appropriate to include;
-      // it "involves cloning other projects and compiling them"
-      "scalafix-tests"
       // Missing dependency: the library com.github.alexarchambault#case-app
       "cli"
       // requires scalatex-site which requires Scala.js
