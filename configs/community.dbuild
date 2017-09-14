@@ -1118,9 +1118,7 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
-  // adding (April 2017) because scalameta now depends on it.
-  // frozen (June 2017) since more recent revisions didn't compile;
-  // see https://github.com/scala/community-builds/issues/562
+  // adding (April 2017) because scalameta now depends on it
   ${vars.base} {
     name: "scalapb"
     uri:  ${vars.uris.scalapb-uri}
