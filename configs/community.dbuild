@@ -1020,6 +1020,8 @@ build += {
       "benchmarks"
       // test failures it doesn't seem worth investigating; pulls down external source trees
       "contribJVM"
+      // Missing dependency: the library org.scalameta#semanticdb-sbt
+      "testsInputSbt"
     ]
     // use right version-specific source directories regardless of our weird dbuild Scala version numbers
     extra.commands: ${vars.default-commands} [
