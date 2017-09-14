@@ -1120,8 +1120,6 @@ build += {
   }
 
   // adding (April 2017) because scalameta now depends on it
-  // forked (September 2017) to make it compatible with current utest;
-  // we can unfork once https://github.com/scalapb/ScalaPB/pull/339 is merged
   ${vars.base} {
     name: "scalapb"
     uri:  ${vars.uris.scalapb-uri}
