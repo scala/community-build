@@ -1019,10 +1019,8 @@ build += {
     extra.options: ["-Dsbt.prohibit.publish=true"]
     extra.projects: ["scalametaJVM"]  // no Scala.js
     extra.exclude: [
-      // requires scalatex-site which requires Scala.js
-      "readme"
       // we never build sbt plugins or benchmarks
-      "scalahostSbt", "benchmarks"
+      "benchmarks"
       // test failures it doesn't seem worth investigating; pulls down external source trees
       "contribJVM"
     ]
@@ -1031,7 +1029,7 @@ build += {
       "set unmanagedSourceDirectories in (commonJVM, Compile) += (baseDirectory in commonJVM).value / \"src\" / \"main\" / \"scala-2.12\""
       "set unmanagedSourceDirectories in (dialectsJVM, Compile) += (baseDirectory in dialectsJVM).value / \"src\" / \"main\" / \"scala-2.12\""
       "set unmanagedSourceDirectories in (scalametaJVM, Compile) += (baseDirectory in scalametaJVM).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (scalahost, Compile) += (baseDirectory in scalahost).value / \"src\" / \"main\" / \"scala-2.12.1\""
+      "set unmanagedSourceDirectories in (semanticdbScalac, Compile) += (baseDirectory in semanticdbScalac).value / \"src\" / \"main\" / \"scala-2.12.3\""
     ]
   }
 
@@ -1120,6 +1118,11 @@ build += {
   }
 
   // adding (April 2017) because scalameta now depends on it
+  // forked/frozen (September 2017) because scalameta uses 0.6.2
+  // but newer commits are source-incompatible. oh, and also
+  // zinc expects the older version, too.
+  // the fork, here, is in order to include a utest version bump
+  // (since utest also made source-incompatible changes)
   ${vars.base} {
     name: "scalapb"
     uri:  ${vars.uris.scalapb-uri}
