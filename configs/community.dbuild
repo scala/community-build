@@ -1014,7 +1014,7 @@ build += {
     uri:  ${vars.uris.scalameta-uri}
     // else, bintray stuff goes boom
     extra.options: ["-Dsbt.prohibit.publish=true"]
-    extra.projects: ["scalametaJVM"]  // no Scala.js
+    extra.projects: ["scalametaJVM", "semanticdbScalac"]  // no Scala.js
     extra.exclude: [
       // we never build sbt plugins or benchmarks
       "benchmarks"
