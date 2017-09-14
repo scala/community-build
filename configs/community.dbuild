@@ -1049,6 +1049,8 @@ build += {
       "coreJS", "diffJS"
       // Missing dependency: the library org.scalameta#semanticdb-sbt
       "testsInputSbt"
+      // do I *look* like Dotty?
+      "testsOutputDotty"
     ]
   }
 
