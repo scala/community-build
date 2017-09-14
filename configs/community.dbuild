@@ -1052,7 +1052,7 @@ build += {
       // do I *look* like Dotty?
       "testsOutputDotty"
       // Missing dependency: the library org.renucci#scala-xml-quote is not provided
-      "testsOutput"
+      "testsOutput", "testsInput"
     ]
   }
 
