@@ -403,8 +403,6 @@ build += {
     extra.projects: ["sourcecodeJVM"]
   }
 
-  // forked temporarily (September 2017) until this is merged:
-  // https://github.com/lihaoyi/fastparse/pull/166
   ${vars.base} {
     name: "fastparse"
     uri:  ${vars.uris.fastparse-uri}
@@ -412,8 +410,6 @@ build += {
       "fastparseJVM"   // no Scala.js plz
       "scalaparseJVM"  // dependency of Scala.meta (!)
     ]
-    // TODO: tests depend on lambda toString looking like e.g `<function1>`
-    extra.test-tasks: ["compile"]
   }
 
   // forked (May 2017) to make a trivial source change for 2.12.3 compat;
