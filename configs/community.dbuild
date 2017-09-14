@@ -1056,6 +1056,14 @@ build += {
     ]
   }
 
+  // dependency of scalafmt
+  // forked (July 2017) to remove coursier
+  ${vars.base} {
+    name: "metaconfig"
+    uri:  ${vars.uris.metaconfig-uri}
+    extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
+  }
+
   ${vars.base} {
     name: "scalatex"
     uri:  ${vars.uris.scalatex-uri}
