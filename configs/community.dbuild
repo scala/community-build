@@ -1018,14 +1018,12 @@ build += {
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
-    // else, bintray stuff goes boom
-    extra.options: ["-Dsbt.prohibit.publish=true"]
     extra.projects: ["scalametaJVM"]  // no Scala.js
     extra.exclude: [
       // requires scalatex-site which requires Scala.js
       "readme"
-      // we never build sbt plugins or benchmarks
-      "scalahostSbt", "benchmarks"
+      // we never build benchmarks
+      "benchmarks"
       // test failures it doesn't seem worth investigating; pulls down external source trees
       "contribJVM"
     ]
@@ -1034,14 +1032,16 @@ build += {
       "set unmanagedSourceDirectories in (commonJVM, Compile) += (baseDirectory in commonJVM).value / \"src\" / \"main\" / \"scala-2.12\""
       "set unmanagedSourceDirectories in (dialectsJVM, Compile) += (baseDirectory in dialectsJVM).value / \"src\" / \"main\" / \"scala-2.12\""
       "set unmanagedSourceDirectories in (scalametaJVM, Compile) += (baseDirectory in scalametaJVM).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (scalahost, Compile) += (baseDirectory in scalahost).value / \"src\" / \"main\" / \"scala-2.12.1\""
+      "set unmanagedSourceDirectories in (scalahostNsc, Compile) += (baseDirectory in scalahostNsc).value / \"src\" / \"main\" / \"scala-2.12.1\""
     ]
+    // [scalameta] [error] Failed tests:
+    // [scalameta] [error]   scala.meta.tests.io.NIOPathTest
+    // [scalameta] [error]   scala.meta.tests.io.IOFileTest
+    extra.test-tasks: "compile"
   }
 
-  // forked (February 2017) to remove wartremover and coursier
-  // fork tweaked March 2017 to alter scalameta dependency
-  // caution, refreshing the fork any further could be problematic;
-  // see Olafur's comment at
+  // forked (July 2017) to remove coursier.
+  // caution, refreshing the fork is always problematic; see Olafur's comment at
   // https://github.com/scala/community-builds/issues/499#issuecomment-287307613
   // about the instability of both scalameta and scalafix
   ${vars.base} {
@@ -1049,18 +1049,46 @@ build += {
     uri:  ${vars.uris.scalafix-uri}
     extra.exclude: [
       "scalafix-sbt"  // we never build sbt plugins
-      // "These tests depend on various projects (circe, shapeless,...) to
-      // reproduce bugs that surfaced in larger integration tests"
-      // says Olaf.  depends on circe which we don't have here yet
-      "scalafix-nsc"
-      // didn't work, and anyway, Olafur says it isn't appropriate to include;
-      // it "involves cloning other projects and compiling them"
-      "scalafix-tests"
       // Missing dependency: the library com.github.alexarchambault#case-app
       "cli"
       // requires scalatex-site which requires Scala.js
       "readme"
+      // no Scala.js plz
+      "coreJS", "diffJS"
+      // no Dotty stuff plz
+      "testsOutputDotty"
     ]
+  }
+
+  // forked (July 2017) to remove coursier and sbt-idea-plugin
+  ${vars.base} {
+     name: "scalafmt"
+     uri: ${vars.uris.scalafmt-uri}
+     // let's keep our ambitions modest for now (July 2017)
+     // and just try to build core (and no Scala.js plz, of course)
+     extra.projects: ["coreJVM"]
+  }
+
+  // dependency of scalafmt
+  // forked (July 2017) for dbuild friendliness
+  ${vars.base} {
+     name: "meta-paradise"
+     uri: ${vars.uris.meta-paradise-uri}
+     // main goal right now (July 2017) is to get scalafmt in, so, let's just
+     // add the project we actually need and not worry about the rest
+     extra.projects: ["paradise"]
+    // use right version-specific source directory regardless of our weird dbuild Scala version number
+    extra.commands: [
+      "set unmanagedSourceDirectories in (paradise, Compile) += (baseDirectory in paradise).value / \"src\" / \"main\" / \"scala-2.12.2\""
+    ]
+  }
+
+  // dependency of scalafmt
+  // forked (July 2017) to remove coursier
+  ${vars.base} {
+    name: "metaconfig"
+    uri:  ${vars.uris.metaconfig-uri}
+    extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
   }
 
   ${vars.base} {
