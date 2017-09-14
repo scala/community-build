@@ -1014,12 +1014,10 @@ build += {
     uri:  ${vars.uris.scalameta-uri}
     // else, bintray stuff goes boom
     extra.options: ["-Dsbt.prohibit.publish=true"]
-    extra.projects: ["scalametaJVM", "semanticdbScalac"]  // no Scala.js
+    extra.projects: ["scalametaJVM", "contribJVM", "semanticdbScalac"]  // no Scala.js
     extra.exclude: [
       // we never build sbt plugins or benchmarks
       "benchmarks"
-      // test failures it doesn't seem worth investigating; pulls down external source trees
-      "contribJVM"
     ]
     // use right version-specific source directories regardless of our weird dbuild Scala version numbers
     extra.commands: ${vars.default-commands} [
