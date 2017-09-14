@@ -359,17 +359,14 @@ build += {
     ]
   }
 
-  // unfork once there's an sbt-houserules 0.3.4 release we can upgrade to?
   ${vars.base} {
     name: "sbinary"
     uri:  ${vars.uris.sbinary-uri}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ["set every scalafmtOnCompile := false"]
+    check-missing: false  // ignore missing scalafmt
   }
 
-  // forked (April 2017) for 2.12.2 and 2.13 compat.
-  // can be unforked once these PRs are merged:
-  // * https://github.com/lihaoyi/utest/pull/107
-  // * https://github.com/lihaoyi/utest/pull/109
   ${vars.base} {
     name: "utest"
     uri:  ${vars.uris.utest-uri}
@@ -389,6 +386,8 @@ build += {
     extra.projects: ["sourcecodeJVM"]
   }
 
+  // forked temporarily (September 2017) until this is merged:
+  // https://github.com/lihaoyi/fastparse/pull/166
   ${vars.base} {
     name: "fastparse"
     uri:  ${vars.uris.fastparse-uri}
@@ -443,6 +442,8 @@ build += {
     extra.projects: ["coreJVM", "scodecJVM", "io"]  // no Scala.js, no benchmarks or docs
   }
 
+  # frozen at September 2017 commit because cats-effect was failing;
+  # see https://github.com/scala/community-builds/issues/600
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
@@ -867,9 +868,6 @@ build += {
   ${vars.base} {
     name: "better-files"
     uri: ${vars.uris.better-files-uri}
-    // benchmarks/src/main/scala/better/files/Scanners.scala:133: object apache is not a member of package org
-    // reported upstream at https://github.com/pathikrit/better-files/issues/180
-    extra.exclude: ["benchmarks"]
   }
 
   ${vars.base} {
