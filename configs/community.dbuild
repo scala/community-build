@@ -1049,12 +1049,18 @@ build += {
       "testsInputSbt"
       // do I *look* like Dotty?
       "testsOutputDotty"
-      // Missing dependency: the library org.renucci#scala-xml-quote is not provided
-      // (should we try to add it?)
-      "testsOutput", "testsInput", "integration", "unit"
       // can't expand macros compiled by previous versions of Scala
       "testsOutputSbt"
     ]
+  }
+
+  // dependency of scalafix
+  // (we use allanrenucci's fork because that's where `organization` is set
+  // as scalafix expects; it's where 0.1.4 was apparently published from,
+  // which is the version scalafix declares a dependency on)
+  ${vars.base} {
+    name: "scala-xml-quote"
+    uri:  ${vars.uris.scala-xml-quote-uri}
   }
 
   // dependency of scalafmt
