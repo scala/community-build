@@ -1051,6 +1051,8 @@ build += {
       "testsOutputDotty"
       // can't expand macros compiled by previous versions of Scala
       "testsOutputSbt"
+      // Missing dependency: the library org.scalameta#semanticdb-sbt-runtime is not provided
+      "unit"
     ]
   }
 
