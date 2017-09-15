@@ -1050,7 +1050,8 @@ build += {
       // do I *look* like Dotty?
       "testsOutputDotty"
       // Missing dependency: the library org.renucci#scala-xml-quote is not provided
-      "testsOutput", "testsInput"
+      // (should we try to add it?)
+      "testsOutput", "testsInput", "integration"
       // can't expand macros compiled by previous versions of Scala
       "testsOutputSbt"
     ]
