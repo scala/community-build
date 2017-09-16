@@ -1029,7 +1029,6 @@ build += {
   }
 
   // forked (refreshed September 2017) to remove coursier
-  // and alter scalameta dependency.
   // caution, refreshing the fork any further can be problematic;
   // see Olafur's remarks at
   // https://github.com/scala/community-builds/issues/499#issuecomment-287307613
