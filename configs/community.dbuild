@@ -386,8 +386,7 @@ build += {
     extra.projects: ["sourcecodeJVM"]
   }
 
-  // forked temporarily (September 2017) until this is merged:
-  // https://github.com/lihaoyi/fastparse/pull/166
+  # forked (September 2017) to exempt a failing test file
   ${vars.base} {
     name: "fastparse"
     uri:  ${vars.uris.fastparse-uri}
@@ -395,8 +394,6 @@ build += {
       "fastparseJVM"   // no Scala.js plz
       "scalaparseJVM"  // dependency of Scala.meta (!)
     ]
-    // TODO: tests depend on lambda toString looking like e.g `<function1>`
-    extra.test-tasks: ["compile"]
   }
 
   // forked (May 2017) to make a trivial source change for 2.12.3 compat;
@@ -772,6 +769,23 @@ build += {
     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js, no benchmarks, no docs
     // new warnings from https://github.com/scala/scala/pull/5402
     extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
+  }
+
+  // dependency of scalafix
+  // (we use allanrenucci's fork because that's where `organization` is set
+  // as scalafix expects; it's where 0.1.4 was apparently published from,
+  // which is the version scalafix declares a dependency on)
+  ${vars.base} {
+    name: "scala-xml-quote"
+    uri:  ${vars.uris.scala-xml-quote-uri}
+  }
+
+  // dependency of scalafmt
+  // forked (July 2017) to remove coursier
+  ${vars.base} {
+    name: "metaconfig"
+    uri:  ${vars.uris.metaconfig-uri}
+    extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
   }
 
   ${vars.base} {
