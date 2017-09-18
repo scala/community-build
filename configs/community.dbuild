@@ -531,14 +531,6 @@ build += {
   }
 
   ${vars.base} {
-    name: "spray-json-shapeless"
-    uri:  ${vars.uris.spray-json-shapeless-uri}
-    // tests don't compile, starting circa January 2017 -- see
-    // https://github.com/scala/community-builds/issues/475
-    extra.run-tests: false
-  }
-
-  ${vars.base} {
     name: "pcplod"
     uri:  ${vars.uris.pcplod-uri}
     extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
