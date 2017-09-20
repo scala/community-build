@@ -1100,7 +1100,7 @@ build += {
   ${vars.base} {
     name: "lightbend-emoji"
     uri:  ${vars.uris.lightbend-emoji-uri}
-    extra.sbt-version: "1.0.1"
+    extra.sbt-version: "1.0.2"
     extra.commands: []  // default commands don't work with sbt 1.0
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
@@ -1219,7 +1219,7 @@ build += {
   ${vars.base} {
     name: "sbt-io"
     uri:  ${vars.uris.sbt-io-uri}
-    extra.sbt-version: "1.0.1"
+    extra.sbt-version: "1.0.2"
     extra.commands: []  // default commands don't work with sbt 1.0
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
@@ -1227,7 +1227,7 @@ build += {
   ${vars.base} {
     name: "sbt-util"
     uri:  ${vars.uris.sbt-util-uri}
-    extra.sbt-version: "1.0.1"
+    extra.sbt-version: "1.0.2"
     extra.commands: []  // default commands don't work with sbt 1.0
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
@@ -1235,7 +1235,7 @@ build += {
   ${vars.base} {
     name: "sbt-librarymanagement"
     uri:  ${vars.uris.sbt-librarymanagement-uri}
-    extra.sbt-version: "1.0.1"
+    extra.sbt-version: "1.0.2"
     extra.commands: []  // default commands don't work with sbt 1.0
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
@@ -1243,7 +1243,7 @@ build += {
   ${vars.base} {
     name: "zinc"
     uri:  ${vars.uris.zinc-uri}
-    extra.sbt-version: "1.0.1"
+    extra.sbt-version: "1.0.2"
     extra.commands: []  // default commands don't work with sbt 1.0
     extra.exclude: ["zincBenchmarks"]
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
@@ -1254,7 +1254,7 @@ build += {
   ${vars.base} {
     name: "sbt"
     uri:  ${vars.uris.sbt-uri}
-    extra.sbt-version: "1.0.1"
+    extra.sbt-version: "1.0.2"
     extra.commands: []  // default commands don't work with sbt 1.0
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.exclude: [
