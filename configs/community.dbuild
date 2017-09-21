@@ -409,7 +409,7 @@ build += {
     uri:  ${vars.uris.fastparse-uri}
     extra.projects: [
       "fastparseJVM"   // no Scala.js plz
-      "scalaparseJVM"  // dependency of Scala.meta (!)
+      "scalaparseJVM"  // not essential to include, but hey
     ]
   }
 
@@ -1036,13 +1036,14 @@ build += {
       "readme"
       // no Scala.js please
       "coreJS", "diffJS"
-      // Missing dependency: the library org.scalameta#semanticdb-sbt
+      // Scala 2.10 based
       "testsInputSbt"
       // do I *look* like Dotty?
       "testsOutputDotty"
       // can't expand macros compiled by previous versions of Scala
       "testsOutputSbt"
       // Missing dependency: the library org.scalameta#semanticdb-sbt-runtime is not provided
+      // (we should at least try to add it, see https://github.com/scala/community-builds/issues/608)
       "unit"
     ]
   }
