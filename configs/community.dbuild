@@ -1030,8 +1030,8 @@ build += {
     uri:  ${vars.uris.scalafix-uri}
     extra.exclude: [
       "scalafix-sbt"  // we never build sbt plugins
-      // Missing dependency: the library com.github.alexarchambault#case-app
-      "cli"
+      // maybe addable? see https://github.com/scala/community-builds/issues/608
+      "unit"
       // requires scalatex-site which requires Scala.js
       "readme"
       // no Scala.js please
@@ -1042,9 +1042,6 @@ build += {
       "testsOutputDotty"
       // can't expand macros compiled by previous versions of Scala
       "testsOutputSbt"
-      // Missing dependency: the library org.scalameta#semanticdb-sbt-runtime is not provided
-      // (we should at least try to add it, see https://github.com/scala/community-builds/issues/608)
-      "unit"
     ]
   }
 
@@ -1144,6 +1141,39 @@ build += {
     name: "scalapb-lenses"
     uri:  ${vars.uris.scalapb-lenses-uri}
     extra.projects: ["lensesJVM"]  // no Scala.js plz
+  }
+
+  // adding (September 2017) because scalafix's "cli" subproject uses it.
+  // forked to remove coursier and upgrade sbt-bintray
+  ${vars.base} {
+    name: "semanticdb-sbt"
+    uri:  ${vars.uris.semanticdb-sbt-uri}
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
+    // this is enough for scalafix
+    extra.projects: ["runtime"]
+  }
+
+  // adding (September 2017) because scalafix's "cli" subproject uses it.
+  // forked to modify some version number manipulation code to be
+  // dbuild-friendly; we should contribute the change upstream
+  ${vars.base} {
+    name: "paiges"
+    uri:  ${vars.uris.paiges-uri}
+    extra.projects: ["coreJVM", "catsJVM"]  // but not "benchmark"
+  }
+
+  // adding (September 2017) because scalafix's "cli" subproject uses it.
+  // forked to remove coursier.  we forked from the 1.1.x branch, not
+  // master, since there are source-incompatible changes on master,
+  // but scalafix's dependency is on 1.1.x
+  ${vars.base} {
+    name: "case-app"
+    uri:  ${vars.uris.case-app-uri}
+    // this is enough for scalafix, I didn't even try adding the rest
+    extra.projects: ["coreJVM"]
   }
 
   ${vars.base} {
