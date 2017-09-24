@@ -1029,9 +1029,8 @@ build += {
     name: "scalafix"
     uri:  ${vars.uris.scalafix-uri}
     extra.exclude: [
-      "scalafix-sbt"  // we never build sbt plugins
-      // maybe addable? see https://github.com/scala/community-builds/issues/608
-      "unit"
+      // we never build sbt plugins
+      "scalafix-sbt"
       // requires scalatex-site which requires Scala.js
       "readme"
       // no Scala.js please
