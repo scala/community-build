@@ -109,12 +109,15 @@ build += {
         system: aether
         uri:   "aether:org.scala-lang#scala-compiler;"${vars.scala-version}
       }
-      // override scalaVersion here since otherwise we get
-      // whatever random Scala version the module has
       {
         name: "scala-xml"
         uri: "https://github.com/scala/scala-xml.git"
+        // override sbt version here since otherwise we get
+        // whatever random sbt version the module has
+        extra.sbt-version: ${vars.sbt-version}
         extra.commands: ${vars.default-commands} [
+          // override scalaVersion here since otherwise we get
+          // whatever random Scala version the module has
           "set scalaVersion := \""${vars.scala-version}"\""
           // work around https://github.com/scala/community-builds/issues/575
           // (in a community build context, we don't need MiMa to run)
