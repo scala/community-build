@@ -1160,7 +1160,8 @@ build += {
 
   // adding (September 2017) because scalafix's "cli" subproject uses it.
   // forked to modify some version number manipulation code to be
-  // dbuild-friendly; we should contribute the change upstream
+  // dbuild-friendly; we can unfork once
+  // https://github.com/typelevel/paiges/pull/74 is merged
   ${vars.base} {
     name: "paiges"
     uri:  ${vars.uris.paiges-uri}
