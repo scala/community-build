@@ -1295,8 +1295,29 @@ build += {
       "bundledLauncherProj"
       // depends on sxr_2.10?!
       "sbtRoot"
-  ]
+    ]
     // some test code fails to compile, a specs2 version thing I think
+    extra.run-tests: false
+  }
+
+  // forked (September 2017) to upgrade to a dbuild-friendly bintray
+  // plugin.  can unfork once this is merged:
+  // https://github.com/sbt/sbt-launcher-package/pull/183
+  ${vars.base} {
+    name: "sbt-launcher-package"
+    uri:  ${vars.uris.sbt-launcher-package-uri}
+    extra.options: [
+      "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
+      // build.sbt yelps if this isn't set
+      "-Dsbt.build.version=1.0.2"
+    ]
+    extra.commands: [
+      "set every bintrayReleaseOnPublish := false"
+      // "One or more of the defined licenses were not among the following allowed licenses..."
+      "set bintrayOmitLicense in java9rtexport := true"
+    ]
+    // tests fails to compile; it's reproducible outside of the community
+    // build. reported upstream at https://github.com/sbt/sbt-launcher-package/issues/184
     extra.run-tests: false
   }
 
