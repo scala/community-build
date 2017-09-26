@@ -454,6 +454,8 @@ build += {
     name: "fs2"
     uri:  ${vars.uris.fs2-uri}
     extra.projects: ["coreJVM", "scodecJVM", "io"]  // no Scala.js, no benchmarks or docs
+    // because of new inferred-Any warnings in 2.12.4 (PR 5990)
+    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
   }
 
   # frozen at September 2017 commit because cats-effect was failing;
@@ -836,6 +838,8 @@ build += {
     // no Scala.js, no benchmarks.
     // (but also, perhaps this excludes more stuff than necessary?)
     extra.projects: ["coreJVM"]
+    // because of new inferred-Any warnings in 2.12.4 (PR 5990)
+    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
   }
 
   ${vars.base} {
@@ -1213,6 +1217,8 @@ build += {
   ${vars.base} {
     name: "better-files"
     uri: ${vars.uris.better-files-uri}
+    // because of new inferred-Any warnings in 2.12.4 (PR 5990)
+    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
   }
 
   ${vars.base} {
