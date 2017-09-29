@@ -1187,6 +1187,10 @@ build += {
     name: "cats-effect"
     uri:  ${vars.uris.cats-effect-uri}
     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js plz
+    extra.commands: ${vars.default-commands} [
+      // deprecation of assignment vs named arg
+      "removeScalacOptions -Xfatal-warnings"
+    ]
   }
 
   ${vars.base} {
