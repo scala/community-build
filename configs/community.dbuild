@@ -370,7 +370,7 @@ build += {
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     // may be needed again once we're on current sbt-houserules again
     // extra.commands: ["set every scalafmtOnCompile := false"]
-    check-missing: false  // ignore missing scalafmt
+    // check-missing: false  // ignore missing scalafmt
   }
 
   ${vars.base} {
