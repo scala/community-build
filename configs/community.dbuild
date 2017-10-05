@@ -132,12 +132,15 @@ build += {
         system: aether
         uri:   "aether:org.scala-lang#scala-compiler;"${vars.scala-version}
       }
-      // override scalaVersion here since otherwise we get
-      // whatever random Scala version the module has
       {
         name: "scala-xml"
         uri: "https://github.com/scala/scala-xml.git"
+        // override sbt version here since otherwise we get
+        // whatever random sbt version the module has
+        extra.sbt-version: ${vars.sbt-version}
         extra.commands: ${vars.default-commands} [
+          // override scalaVersion here since otherwise we get
+          // whatever random Scala version the module has
           "set scalaVersion := \""${vars.scala-version}"\""
           // work around https://github.com/scala/community-builds/issues/575
           // (in a community build context, we don't need MiMa to run)
@@ -398,7 +401,7 @@ build += {
     uri:  ${vars.uris.fastparse-uri}
     extra.projects: [
       "fastparseJVM"   // no Scala.js plz
-      "scalaparseJVM"  // dependency of Scala.meta (!)
+      "scalaparseJVM"  // not essential to include, but hey
     ]
   }
 
@@ -443,6 +446,8 @@ build += {
     name: "fs2"
     uri:  ${vars.uris.fs2-uri}
     extra.projects: ["coreJVM", "scodecJVM", "io"]  // no Scala.js, no benchmarks or docs
+    // because of new inferred-Any warnings in 2.12.4 (PR 5990)
+    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
   }
 
   # frozen at September 2017 commit because cats-effect was failing;
@@ -692,6 +697,8 @@ build += {
     // no Scala.js, no benchmarks.
     // (but also, perhaps this excludes more stuff than necessary?)
     extra.projects: ["coreJVM"]
+    // because of new inferred-Any warnings in 2.12.4 (PR 5990)
+    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
   }
 
   ${vars.base} {
@@ -838,6 +845,27 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
+  // adding (September 2017) because scalafix's "cli" subproject uses it.
+  // forked to modify some version number manipulation code to be
+  // dbuild-friendly; we can unfork once
+  // https://github.com/typelevel/paiges/pull/74 is merged
+  ${vars.base} {
+    name: "paiges"
+    uri:  ${vars.uris.paiges-uri}
+    extra.projects: ["coreJVM", "catsJVM"]  // but not "benchmark"
+  }
+
+  // adding (September 2017) because scalafix's "cli" subproject uses it.
+  // forked to remove coursier.  we forked from the 1.1.x branch, not
+  // master, since there are source-incompatible changes on master,
+  // but scalafix's dependency is on 1.1.x
+  ${vars.base} {
+    name: "case-app"
+    uri:  ${vars.uris.case-app-uri}
+    // this is enough for scalafix, I didn't even try adding the rest
+    extra.projects: ["coreJVM"]
+  }
+
   ${vars.base} {
     name: "cats-effect"
     uri:  ${vars.uris.cats-effect-uri}
@@ -872,6 +900,8 @@ build += {
   ${vars.base} {
     name: "better-files"
     uri: ${vars.uris.better-files-uri}
+    // because of new inferred-Any warnings in 2.12.4 (PR 5990)
+    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
   }
 
   ${vars.base} {
