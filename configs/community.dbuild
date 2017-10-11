@@ -552,7 +552,9 @@ build += {
   ${vars.base} {
     name: "breeze"
     uri:  ${vars.uris.breeze-uri}
-    // failing tests reported upstream at https://github.com/scalanlp/breeze/issues/587
+    extra.sbt-version: "1.0.2"
+    extra.commands: []  // default commands don't work with sbt 1.0
+    // failing tests not investigated/reported
     extra.test-tasks: ["compile"]
   }
 
