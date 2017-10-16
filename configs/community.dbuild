@@ -1,8 +1,6 @@
 # the following 2.12 projects are currently not included in 2.13:
 #
-# * akka-more: because they are using deprecated/removed stuff;
-#   see https://github.com/akka/akka/issues/22581.
-# * akka-http, akka-sse, akka-contrib-extra, play-ws, play-core,
+# * TODO!!! akka-sse, akka-contrib-extra, play-ws, play-core,
 #   conductr-lib, scala-abide: because they depend on akka-more
 # * scalameter: because scalaVersion handling in their
 #   project/Build.scala needs updating
@@ -317,6 +315,43 @@ build += {
       options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
       projects: ["akka-actor"]
       commands: ["set every apiURL := None"]  // https://github.com/scala/community-builds/issues/373
+    }
+  }
+
+  // tracking release-2.4 because master is 2.5 and breaking changes are happening
+  // this is separate from "akka" because there is a circular dependency between
+  // the akka and ssl-config repos
+  ${vars.base} {
+    name: "akka-more"
+    uri:  ${vars.uris.akka-more-uri}
+    extra: ${vars.base.extra} {
+      options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
+      projects: ["akka-scala-nightly"]
+      commands: ["set every apiURL := None"]  // https://github.com/scala/community-builds/issues/373
+      exclude: [
+        "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
+        "akka-actor"  // because we already built it in "akka"
+        "akka-bench-jmh"  // we'd have to add a resolver to get the JMH dependency - ST 8/17/15
+      ]
+      // TODO wip on this at https://github.com/scala/community-builds/pull/317
+      test-tasks: ["compile"]
+    }
+  }
+
+  // forked (December 2016) to get rid of the usual bintray-sbt stuff that
+  // makes dbuild upset
+  ${vars.base} {
+    name: "akka-http"
+    uri:  ${vars.uris.akka-http-uri}
+    extra: ${vars.base.extra} {
+      options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false"]
+      // Scaladoc generation failure reported upstream at https://github.com/akka/akka/issues/21543
+      commands: ${vars.default-commands} [
+        "set sources in doc in Compile in httpCore := List()"
+      ]
+      // "HTTP is sadly very timing sensitive we're working on improving its stability regularly,
+      // OK to disable it for now." - Konrad M, October 2016
+      test-tasks: ["compile"]
     }
   }
 
