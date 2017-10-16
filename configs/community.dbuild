@@ -923,4 +923,12 @@ build += {
     extra.exclude: ["benchmark"]
   }
 
+  ${vars.base} {
+    name: "sbt-io"
+    uri:  ${vars.uris.sbt-io-uri}
+    extra.sbt-version: "1.0.2"
+    extra.commands: []  // default commands don't work with sbt 1.0
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+  }
+
 ]}
