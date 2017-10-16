@@ -395,7 +395,6 @@ build += {
     extra.projects: ["sourcecodeJVM"]
   }
 
-  # forked (September 2017) to exempt a failing test file
   ${vars.base} {
     name: "fastparse"
     uri:  ${vars.uris.fastparse-uri}
