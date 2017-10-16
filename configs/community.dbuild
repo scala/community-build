@@ -15,7 +15,7 @@ vars: {
 // so that common options or settings can be set by the
 // configuration that includes this common file.
 // Note however that += won't work inside vars.base.
-// It's https://github.com/typesafehub/config/issues/160.
+// It's https://github.com/lightbend/config/issues/160.
 // That's why if you override extra.commands you must
 // explicitly include default-commands.
 
