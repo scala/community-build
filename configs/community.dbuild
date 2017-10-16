@@ -3,7 +3,7 @@
 # * akka-more: because they are using deprecated/removed stuff;
 #   see https://github.com/akka/akka/issues/22581.
 # * akka-http, akka-sse, akka-contrib-extra, play-ws, play-core,
-#   conductr-lib, scala-abide: because they depend on akka-more
+#   conductr-lib: because they depend on akka-more
 # * scalameter: because scalaVersion handling in their
 #   project/Build.scala needs updating
 # * scala-refactoring: ???, investigation needed
