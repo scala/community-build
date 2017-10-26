@@ -321,10 +321,8 @@ build += {
   ${vars.base} {
     name: "scalariform"
     uri: ${vars.uris.scalariform-uri}
-    // warnings reported upstream at https://github.com/scala-ide/scalariform/issues/234
-    // default commands don't work with sbt 1.0
-    extra.commands: [ "removeScalacOptions -Xfatal-warnings" ]
     extra.sbt-version: "1.0.2"
+    extra.commands: []  // default commands don't work with sbt 1.0
   }
 
   ${vars.base} {
