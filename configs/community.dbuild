@@ -842,6 +842,7 @@ build += {
     extra.exclude: [
       // we don't have Lagom yet
       "lagom13JavaConductRBundleLib", "lagom13ScalaConductRBundleLib"
+      "lagom14JavaConductRBundleLib", "lagom14ScalaConductRBundleLib"
       // didn't compile (July 2017)
       "akka24ConductRClientLib"
       // Play stuff didn't work, maybe try again later?
