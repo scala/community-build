@@ -313,6 +313,7 @@ build += {
     }
   }
 
+  // frozen (October 2017) because sbt-api-mappings version bump caused resolver failure
   ${vars.base} {
     name: "akka-http"
     uri:  ${vars.uris.akka-http-uri}
