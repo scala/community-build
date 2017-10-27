@@ -313,6 +313,7 @@ build += {
     }
   }
 
+  // frozen (October 2017) because sbt-api-mappings version bump caused resolver failure
   ${vars.base} {
     name: "akka-http"
     uri:  ${vars.uris.akka-http-uri}
@@ -338,7 +339,7 @@ build += {
   ${vars.base} {
     name: "scalariform"
     uri: ${vars.uris.scalariform-uri}
-    extra.sbt-version: "1.0.2"
+    extra.sbt-version: "1.0.3"
     extra.commands: []  // default commands don't work with sbt 1.0
   }
 
@@ -552,7 +553,7 @@ build += {
   ${vars.base} {
     name: "breeze"
     uri:  ${vars.uris.breeze-uri}
-    extra.sbt-version: "1.0.2"
+    extra.sbt-version: "1.0.3"
     extra.commands: []  // default commands don't work with sbt 1.0
     // failing tests not investigated/reported
     extra.test-tasks: ["compile"]
@@ -1097,7 +1098,7 @@ build += {
   ${vars.base} {
     name: "lightbend-emoji"
     uri:  ${vars.uris.lightbend-emoji-uri}
-    extra.sbt-version: "1.0.2"
+    extra.sbt-version: "1.0.3"
     extra.commands: []  // default commands don't work with sbt 1.0
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
@@ -1252,7 +1253,7 @@ build += {
   ${vars.base} {
     name: "sbt-io"
     uri:  ${vars.uris.sbt-io-uri}
-    extra.sbt-version: "1.0.2"
+    extra.sbt-version: "1.0.3"
     extra.commands: []  // default commands don't work with sbt 1.0
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
@@ -1260,7 +1261,7 @@ build += {
   ${vars.base} {
     name: "sbt-util"
     uri:  ${vars.uris.sbt-util-uri}
-    extra.sbt-version: "1.0.2"
+    extra.sbt-version: "1.0.3"
     extra.commands: []  // default commands don't work with sbt 1.0
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
@@ -1268,7 +1269,7 @@ build += {
   ${vars.base} {
     name: "sbt-librarymanagement"
     uri:  ${vars.uris.sbt-librarymanagement-uri}
-    extra.sbt-version: "1.0.2"
+    extra.sbt-version: "1.0.3"
     extra.commands: []  // default commands don't work with sbt 1.0
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
@@ -1276,7 +1277,7 @@ build += {
   ${vars.base} {
     name: "zinc"
     uri:  ${vars.uris.zinc-uri}
-    extra.sbt-version: "1.0.2"
+    extra.sbt-version: "1.0.3"
     extra.commands: []  // default commands don't work with sbt 1.0
     extra.exclude: ["zincBenchmarks"]
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
@@ -1287,7 +1288,7 @@ build += {
   ${vars.base} {
     name: "sbt"
     uri:  ${vars.uris.sbt-uri}
-    extra.sbt-version: "1.0.2"
+    extra.sbt-version: "1.0.3"
     extra.commands: []  // default commands don't work with sbt 1.0
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.exclude: [
