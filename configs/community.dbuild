@@ -288,6 +288,7 @@ build += {
     name: "akka-actor"
     uri:  ${vars.uris.akka-actor-uri}
     extra: ${vars.base.extra} {
+      sbt-version: "1.0.3"
       options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
       projects: ["akka-actor"]
       commands: ["set every apiURL := None"]  // https://github.com/scala/community-builds/issues/373
@@ -300,6 +301,7 @@ build += {
     name: "akka-more"
     uri:  ${vars.uris.akka-more-uri}
     extra: ${vars.base.extra} {
+      sbt-version: "1.0.3"
       options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
       projects: ["akka-scala-nightly"]
       commands: ["set every apiURL := None"]  // https://github.com/scala/community-builds/issues/373
@@ -1182,6 +1184,8 @@ build += {
     name: "cats-effect"
     uri:  ${vars.uris.cats-effect-uri}
     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js plz
+    extra.sbt-version: "1.0.3"
+    extra.commands: []  // default commands don't work with sbt 1.0
   }
 
   ${vars.base} {
