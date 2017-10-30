@@ -315,18 +315,19 @@ build += {
     }
   }
 
-  // frozen (October 2017) because sbt-api-mappings version bump caused resolver failure
   ${vars.base} {
     name: "akka-http"
     uri:  ${vars.uris.akka-http-uri}
     extra: ${vars.base.extra} {
+      sbt-version: "1.0.3"
       exclude: ["docs"]
       options: [
         "-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false"
         "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
       ]
       // Scaladoc generation failure reported upstream at https://github.com/akka/akka/issues/21543
-      commands: ${vars.default-commands} [
+      // default commands don't work with sbt 1.0
+      commands: [
         "set sources in doc in Compile in httpCore := List()"
         "set every bintrayReleaseOnPublish := false"
         // sbt-osgi doesn't like dbuild-mangled version numbers
