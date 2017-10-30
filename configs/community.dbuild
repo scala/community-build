@@ -745,6 +745,8 @@ build += {
     uri: ${vars.uris.blaze-uri}
   }
 
+  // forked (October 2017) because utest 0.6.0 (we track utest master) made
+  // a source-incompatible change but fansi is still on 0.5.3
   ${vars.base} {
     name: "fansi"
     uri:  ${vars.uris.fansi-uri}
