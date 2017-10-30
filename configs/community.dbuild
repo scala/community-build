@@ -702,15 +702,23 @@ build += {
     extra.projects: ["lift-json"]
   }
 
+  // frozen (November 2017) at June 2017 commit, for compatibility with
+  // github4s which depends on the older version.  we might also consider
+  // forking github4s and/or contributing the needed change upstream
   ${vars.base} {
     name: "scalamock"
     uri:  ${vars.uris.scalamock-uri}
     extra.commands: ${vars.default-commands} [
       // work around https://github.com/scala/scala-dev/issues/252 ;
       // see https://github.com/scala/community-builds/issues/434
-      "set unmanagedSourceDirectories in (`scalamock-jvm`, Compile) += baseDirectory.value / \"shared\" / \"src\" / \"main\" / \"scala-2.12\""
+      "set unmanagedSourceDirectories in (`scalamock-core-jvm`, Compile) += baseDirectory.value / \"shared\" / \"src\" / \"main\" / \"scala-2.12\""
     ]
-    extra.projects: ["scalamockJVM"]  // no Scala.js
+    extra.projects: [
+      // no Scala.js
+      "scalamock-coreJVM"
+      // dependency of github4s
+      "scalamock-scalatest-supportJVM"
+    ]
   }
 
   ${vars.base} {
@@ -1385,6 +1393,21 @@ build += {
       "load-test"
     ]
     // Failed tests: org.http4s.CookieSpec, org.http4s.EntityDecoderSpec
+    extra.test-tasks: "compile"
+  }
+
+  // dependency of github4s
+  ${vars.base} {
+    name: "base64"
+    uri:  ${vars.uris.base64-uri}
+    extra.projects: ["base64JVM"]  // no Scala.js plz
+  }
+
+  ${vars.base} {
+    name: "github4s"
+    uri:  ${vars.uris.github4s-uri}
+    extra.projects: ["github4sJVM", "catsEffectJVM", "scalaz"]  // but no "docs" or Scala.js stuff
+    // Failed tests: github4s.unit.ApiSpec, github4s.integration.IntegrationSpec
     extra.test-tasks: "compile"
   }
 
