@@ -307,7 +307,9 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
-  // forked August 2017 for version checking logic in build
+  // forked August 2017 for version checking logic in build;
+  // fork refreshed October 2017; we can unfork once
+  // https://github.com/akka/akka/pull/23875 is merged
   ${vars.base} {
     name: "akka-actor"
     uri:  ${vars.uris.akka-actor-uri}
