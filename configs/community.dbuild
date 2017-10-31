@@ -944,7 +944,7 @@ build += {
       // Missing dependency: com.github.zainab-ali#fs2-reactive-streams
       "async-http-client"
       // these depend on circe, which we don't have (yet?)
-      "circe", "examples", "examples-tomcat", "examples-jetty", "examples-blaze", "examples-war", "docs"
+      "examples", "examples-tomcat", "examples-jetty", "examples-blaze", "examples-war", "docs"
       // weird errors, maybe not appropriate to run anyway
       "load-test"
     ]
@@ -1318,7 +1318,14 @@ build += {
     // for now, we just have "core" and some other stuff that happened
     // to work.  adding "jawn" gave an error (which I didn't investigate),
     // and practically everything else depends on jawn directly or indirectly
-    extra.projects: ["core", "numbers"]
+    extra.projects: [
+      // easy
+      "core", "numbers"
+      // harder
+      "jawn"
+      // bunch more stuff that all depends on jawn
+      "parser", "generic", "literal", "numbers", "scodec", "testing", "tests", "streaming"
+    ]
   }
 
 ]}
