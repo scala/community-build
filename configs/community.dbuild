@@ -8,10 +8,8 @@
 #   project/Build.scala needs updating
 # * scala-refactoring: ???, investigation needed
 # * gigahorse: requires akka-http
-# * lightbend-emoji, sbt, zinc, sbt-*: built with sbt 1.0
-#   which can maybe be made to work, but postponing it
-#   waiting for Toni to clarify what's going on at
-#   https://github.com/scala/community-builds/pull/590#issuecomment-322339858
+# * lightbend-emoji, sbt, zinc, sbt-*, circe: built with sbt 1,
+#   which doesn't support Scala 2.13 yet
 #
 # we should attempt to add them back later in the 2.13 cycle (by
 # copying their entries from the 2.12 config)
