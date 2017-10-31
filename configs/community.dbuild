@@ -323,6 +323,13 @@ build += {
   }
 
   ${vars.base} {
+    name: "scalariform"
+    uri: ${vars.uris.scalariform-uri}
+    extra.sbt-version: "1.0.3"
+    extra.commands: []  // default commands don't work with sbt 1.0
+  }
+
+  ${vars.base} {
     name: "scala-async"
     uri:  ${vars.uris.scala-async-uri}
     // TODO: ToolBox based tests report missing JARs. Probably some poor assumption in the async tests.
