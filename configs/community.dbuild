@@ -1322,7 +1322,7 @@ build += {
       // harder
       "jawn"
       // bunch more stuff that all depends on jawn
-      "parser", "generic", "literal", "numbers", "scodec", "testing", "tests", "streaming"
+      "parser", "generic", "literal", "scodec", "testing", "tests", "streaming"
     ]
   }
 
