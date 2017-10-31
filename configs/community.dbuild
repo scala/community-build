@@ -308,13 +308,14 @@ build += {
   }
 
   // forked August 2017 for version checking logic in build;
-  // fork refreshed October 2017; we can unfork once
-  // https://github.com/akka/akka/pull/23875 is merged
+  // fork refreshed October 2017; needed upstream change
+  // https://github.com/akka/akka/pull/23875 was merged, but
+  // we can't unfork until we have an sbt 1.0.x release that
+  // works with Scala 2.13 (https://github.com/sbt/sbt/issues/3427)
   ${vars.base} {
     name: "akka-actor"
     uri:  ${vars.uris.akka-actor-uri}
     extra: ${vars.base.extra} {
-      sbt-version: "1.0.3"
       options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
       projects: ["akka-actor"]
       commands: ["set every apiURL := None"]  // https://github.com/scala/community-builds/issues/373
