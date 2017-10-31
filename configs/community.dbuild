@@ -943,8 +943,6 @@ build += {
       "bench"
       // Missing dependency: com.github.zainab-ali#fs2-reactive-streams
       "async-http-client"
-      // these depend on circe, which we don't have (yet?)
-      "examples", "examples-tomcat", "examples-jetty", "examples-blaze", "examples-war", "docs"
       // weird errors, maybe not appropriate to run anyway
       "load-test"
     ]
