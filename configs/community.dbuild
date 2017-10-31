@@ -1313,9 +1313,6 @@ build += {
     uri:  ${vars.uris.circe-uri}
     extra.sbt-version: "1.0.3"
     extra.commands: []  // default commands don't work with sbt 1.0
-    // for now, we just have "core" and some other stuff that happened
-    // to work.  adding "jawn" gave an error (which I didn't investigate),
-    // and practically everything else depends on jawn directly or indirectly
     extra.projects: [
       // easy
       "core", "numbers"
