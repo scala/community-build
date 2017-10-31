@@ -322,11 +322,13 @@ build += {
     }
   }
 
+  // freeze (October 2017) at August 2017 commit predating upgrade
+  // to sbt 1;
+  // we can't unfreeze until we have an sbt 1.0.x release that
+  // works with Scala 2.13 (https://github.com/sbt/sbt/issues/3427)
   ${vars.base} {
     name: "scalariform"
     uri: ${vars.uris.scalariform-uri}
-    extra.sbt-version: "1.0.3"
-    extra.commands: []  // default commands don't work with sbt 1.0
   }
 
   ${vars.base} {
