@@ -10,6 +10,7 @@
 # * gigahorse: requires akka-http
 # * lightbend-emoji, sbt, zinc, sbt-*, circe, cats-effect:
 #   built with sbt 1, which doesn't support Scala 2.13 yet
+# * fs2, monix: depend on cats-effect
 #
 # we should attempt to add them back later in the 2.13 cycle (by
 # copying their entries from the 2.12 config)
@@ -449,15 +450,6 @@ build += {
     extra.exclude: ["docs"]
   }
 
-  // forked (August 2017) to remove coursier
-  ${vars.base} {
-    name: "fs2"
-    uri:  ${vars.uris.fs2-uri}
-    extra.projects: ["coreJVM", "scodecJVM", "io"]  // no Scala.js, no benchmarks or docs
-    // because of new inferred-Any warnings in 2.12.4 (PR 5990)
-    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
-  }
-
   # frozen at September 2017 commit because cats-effect was failing;
   # see https://github.com/scala/community-builds/issues/600
   # November 2017: unfreeze attempt at https://github.com/scala/community-builds/pull/624
@@ -699,16 +691,6 @@ build += {
     name: "minitest"
     uri:  ${vars.uris.minitest-uri}
     extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
-  }
-
-  ${vars.base} {
-    name: "monix"
-    uri:  ${vars.uris.monix-uri}
-    // no Scala.js, no benchmarks.
-    // (but also, perhaps this excludes more stuff than necessary?)
-    extra.projects: ["coreJVM"]
-    // because of new inferred-Any warnings in 2.12.4 (PR 5990)
-    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
   }
 
   ${vars.base} {
