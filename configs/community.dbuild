@@ -460,6 +460,8 @@ build += {
 
   # frozen at September 2017 commit because cats-effect was failing;
   # see https://github.com/scala/community-builds/issues/600
+  # November 2017: unfreeze attempt at https://github.com/scala/community-builds/pull/624
+  # failed, but we should try again in a month or two, something like that
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
@@ -876,9 +878,9 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
-  // frozen at October 2017 commit before sbt 1 upgrade;
-  // we can't unfreeze until we have an sbt 1.0.x release that
-  // works with Scala 2.13 (https://github.com/sbt/sbt/issues/3427)
+  // frozen (November 2017) at an October 2017 commit, because more
+  // recent commits require a newer cats, too new for other libraries
+  // in the community build; see https://github.com/scala/community-builds/pull/624
   ${vars.base} {
     name: "cats-effect"
     uri:  ${vars.uris.cats-effect-uri}
