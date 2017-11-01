@@ -529,6 +529,8 @@ build += {
     extra.exclude: [
       // this isn't really necessary and would pull in a JMH dependency
       "util-benchmark"
+      // this is 2.11-only
+      "util-intellij"
     ]
     // recommended at https://github.com/twitter/util/issues/173:
     // "We use that when we don't think the tests will be reliable in a ci environment"
