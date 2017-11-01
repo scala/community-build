@@ -8,8 +8,8 @@
 #   project/Build.scala needs updating
 # * scala-refactoring: ???, investigation needed
 # * gigahorse: requires akka-http
-# * lightbend-emoji, sbt, zinc, sbt-*, circe: built with sbt 1,
-#   which doesn't support Scala 2.13 yet
+# * lightbend-emoji, sbt, zinc, sbt-*, circe, cats-effect:
+#   built with sbt 1, which doesn't support Scala 2.13 yet
 #
 # we should attempt to add them back later in the 2.13 cycle (by
 # copying their entries from the 2.12 config)
@@ -876,15 +876,6 @@ build += {
     uri:  ${vars.uris.case-app-uri}
     // this is enough for scalafix, I didn't even try adding the rest
     extra.projects: ["coreJVM"]
-  }
-
-  // frozen (November 2017) at an October 2017 commit, because more
-  // recent commits require a newer cats, too new for other libraries
-  // in the community build; see https://github.com/scala/community-builds/pull/624
-  ${vars.base} {
-    name: "cats-effect"
-    uri:  ${vars.uris.cats-effect-uri}
-    extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js plz
   }
 
   ${vars.base} {
