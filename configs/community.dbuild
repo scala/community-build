@@ -685,11 +685,6 @@ build += {
     extra.projects: ["lift-json"]
   }
 
-  // frozen (June 2017) at a June 2017 commit before breaking String
-  // vs. CharSequence changes went in and broke upickle.  see
-  // https://github.com/scala/community-builds/issues/565 .  we could
-  // unfreeze once there's a new jawn release for dependent projects
-  // to upgrade to
   ${vars.base} {
     name: "jawn"
     uri:  ${vars.uris.jawn-uri}
@@ -956,19 +951,6 @@ build += {
     name: "fansi"
     uri:  ${vars.uris.fansi-uri}
     extra.projects: ["fansiJVM"]  // no Scala.js
-  }
-
-  // as per https://github.com/lihaoyi/upickle-pprint/issues/209
-  // upickle is now obsolete (and the pprint part has its own repo now).
-  // leaving this here because it isn't causing, any trouble, and
-  // because we already have it forked/frozen. note that no other
-  // projects depend on it, so it could be dropped if any trouble
-  //  starts.  pprint is now separate.
-  ${vars.base} {
-    name: "upickle"
-    uri:  ${vars.uris.upickle-uri}
-    // no Scala.js; also only upickle no pprint
-    extra.projects: ["upickleJVM"]
   }
 
   ${vars.base} {
