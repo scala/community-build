@@ -701,6 +701,9 @@ build += {
     extra.projects: ["ast", "parser", "json4s", "spray"]
   }
 
+  // frozen (November 2017) at September 2017 commit before they upgraded
+  // to newer fs2 & cats version; we should be able to unfreeze at the
+  // same time we unfreeze cats (https://github.com/scala/community-builds/pull/624)
   ${vars.base} {
     name: "jawn-fs2"
     uri:  ${vars.uris.jawn-fs2-uri}
@@ -1183,6 +1186,9 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
+  // frozen (November 2017) at an October 2017 commit, because more
+  // recent commits require a newer cats, too new for other libraries
+  // in the community build; see https://github.com/scala/community-builds/pull/624
   ${vars.base} {
     name: "cats-effect"
     uri:  ${vars.uris.cats-effect-uri}
