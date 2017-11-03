@@ -1331,4 +1331,19 @@ build += {
     extra.projects: ["core", "numbers"]
   }
 
+  // dependency of scalachess
+  ${vars.base} {
+    name: "scalalib"
+    uri:  ${vars.uris.scalalib-uri}
+    extra.sbt-version: "1.0.3"
+    extra.commands: []  // default commands don't work with sbt 1.0
+  }
+
+  ${vars.base} {
+    name: "scalachess"
+    uri:  ${vars.uris.scalachess-uri}
+    extra.sbt-version: "1.0.3"
+    extra.commands: []  // default commands don't work with sbt 1.0
+  }
+
 ]}
