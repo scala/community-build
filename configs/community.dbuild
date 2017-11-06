@@ -1332,7 +1332,7 @@ build += {
   }
 
   ${vars.base} {
-    name: "jawn"
+    name: "jawn-0-11"
     uri:  ${vars.uris.jawn-0-11-uri}
     // omitted TODO: play
     // omitted: rojoma-v3, rojoma, benchmark, argonaut
