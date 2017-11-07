@@ -85,6 +85,9 @@ build += {
   extraction-version: ${vars.scala-version}
   cross-version: disabled
 
+  space.from: default
+  space.to: [ default, jawn_0_10, jawn_0_11 ]
+
   projects: [
   {
     name:  "scala"
