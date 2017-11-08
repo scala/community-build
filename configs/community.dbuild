@@ -1188,24 +1188,6 @@ build += {
     deps.ignore: ["com.typesafe.play#play-omnidoc"]
   }
 
-  // for sjson-new
-  {
-    name: "shaded-scalajson"
-    system: ivy
-    uri: "ivy:com.eed3si9n#shaded-scalajson_2.12;1.0.0-M4"
-  }
-
-  // November 2017, switched from tracking master to tracking this
-  // pull request: https://github.com/eed3si9n/sjson-new/pull/85
-  // which upgrades jawn from 0.10 to 0.11.  we want to be on 0.11
-  // because circe expects it (details on all this at
-  // https://github.com/scala/community-builds/pull/623)
-  ${vars.base} {
-    name: "sjson-new"
-    uri:  ${vars.uris.sjson-new-uri}
-    extra.exclude: ["benchmark"]
-  }
-
   ${vars.base} {
     name: "gigahorse"
     uri:  ${vars.uris.gigahorse-uri}
@@ -1261,6 +1243,24 @@ build += {
     // doesn't like the circularity. I think we could break it by having two jawn entries,
     // one for the core and one for the extras, but I haven't tried yet)
     extra.projects: ["ast", "parser", "json4s", "spray"]
+  }
+
+  // for sjson-new
+  {
+    name: "shaded-scalajson"
+    system: ivy
+    uri: "ivy:com.eed3si9n#shaded-scalajson_2.12;1.0.0-M4"
+  }
+
+  // November 2017, switched from tracking master to tracking this
+  // pull request: https://github.com/eed3si9n/sjson-new/pull/85
+  // which upgrades jawn from 0.10 to 0.11.  we want to be on 0.11
+  // because circe expects it (details on all this at
+  // https://github.com/scala/community-builds/pull/623)
+  ${vars.base} {
+    name: "sjson-new"
+    uri:  ${vars.uris.sjson-new-uri}
+    extra.exclude: ["benchmark"]
   }
 
   ${vars.base} {
