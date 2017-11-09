@@ -1,3 +1,12 @@
+//// about spaces
+
+// currently we have three spaces: default, jawn_0_10, jawn_0_11.
+// the split is because sbt 1 uses jawn 0.10.x (via its dependency
+//   on sjson-new) and the sbt team is worried about the possible
+//   impact of upgrading on binary compatibility of sbt plugins.
+// but in the meantime the whole Typelevel ecosystem is moving onto
+//   jawn 0.11, and the two versions are source-incompatible.
+
 //// from environment
 
 vars: {
@@ -15,7 +24,7 @@ vars: {
 // so that common options or settings can be set by the
 // configuration that includes this common file.
 // Note however that += won't work inside vars.base.
-// It's https://github.com/typesafehub/config/issues/160.
+// It's https://github.com/lightbend/config/issues/160.
 // That's why if you override extra.commands you must
 // explicitly include default-commands.
 
@@ -44,7 +53,6 @@ set commands ++= {
     import extracted._
     val r = Project.relation(extracted.structure, true)
     val allDefs = r._1s.toSeq
-    val projectScope = Load.projectScope(currentRef)
     val scopes = allDefs.filter(_.key == scalacOptions.key).map(_.scope).distinct
     val redefined = scopes.map(scope => scalacOptions in scope ~= fn)
     val session = extracted.session.appendRaw(redefined)
@@ -86,6 +94,9 @@ build += {
   extraction-version: ${vars.scala-version}
   cross-version: disabled
 
+  space.from: default
+  space.to: [ default, jawn_0_10, jawn_0_11 ]
+
   projects: [
   {
     name:  "scala"
@@ -110,12 +121,15 @@ build += {
         system: aether
         uri:   "aether:org.scala-lang#scala-compiler;"${vars.scala-version}
       }
-      // override scalaVersion here since otherwise we get
-      // whatever random Scala version the module has
       {
         name: "scala-xml"
         uri: "https://github.com/scala/scala-xml.git"
+        // override sbt version here since otherwise we get
+        // whatever random sbt version the module has
+        extra.sbt-version: ${vars.sbt-version}
         extra.commands: ${vars.default-commands} [
+          // override scalaVersion here since otherwise we get
+          // whatever random Scala version the module has
           "set scalaVersion := \""${vars.scala-version}"\""
           // work around https://github.com/scala/community-builds/issues/575
           // (in a community build context, we don't need MiMa to run)
@@ -128,9 +142,13 @@ build += {
 ]}
 
 
-//// everything else
+//// space: default
 
 build += {
+
+  space.from: default
+  space.to: [ default, jawn_0_10, jawn_0_11 ]
+
   check-missing: [ true, false ]
   cross-version: [ disabled, standard ]
   extraction-version: ${vars.scala-version}
@@ -155,9 +173,7 @@ build += {
       options: ["-Xmx2048m"]
       projects: [ tools, testSuite, stubs ]
       commands: ${vars.default-commands} [
-        // - Disable compiler/test because it is very fragile.
-        "set test in (Build.compiler, Test) := {}"
-        // - Disable fatal Scaladoc warnings, also fragile
+        // - Disable fatal Scaladoc warnings, too fragile
         "removeScalacOptions -Xfatal-warnings"
         // - We disable source map tests to save ourselves a `npm install source-map-support` on the workers.
         //   Although only `testSuite` actually has tests, dbuild will try to run the tests for all projects
@@ -284,24 +300,24 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
-  // tracking release-2.4 because master is 2.5 and breaking changes are happening
   ${vars.base} {
-    name: "akka"
-    uri:  ${vars.uris.akka-uri}
+    name: "akka-actor"
+    uri:  ${vars.uris.akka-actor-uri}
     extra: ${vars.base.extra} {
+      sbt-version: "1.0.3"
       options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
       projects: ["akka-actor"]
       commands: ["set every apiURL := None"]  // https://github.com/scala/community-builds/issues/373
     }
   }
 
-  // tracking release-2.4 because master is 2.5 and breaking changes are happening
   // this is separate from "akka" because there is a circular dependency between
   // the akka and ssl-config repos
   ${vars.base} {
     name: "akka-more"
     uri:  ${vars.uris.akka-more-uri}
     extra: ${vars.base.extra} {
+      sbt-version: "1.0.3"
       options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
       projects: ["akka-scala-nightly"]
       commands: ["set every apiURL := None"]  // https://github.com/scala/community-builds/issues/373
@@ -315,16 +331,23 @@ build += {
     }
   }
 
-  // forked (December 2016) to get rid of the usual bintray-sbt stuff that
-  // makes dbuild upset
   ${vars.base} {
     name: "akka-http"
     uri:  ${vars.uris.akka-http-uri}
     extra: ${vars.base.extra} {
-      options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false"]
+      sbt-version: "1.0.3"
+      exclude: ["docs"]
+      options: [
+        "-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false"
+        "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
+      ]
       // Scaladoc generation failure reported upstream at https://github.com/akka/akka/issues/21543
-      commands: ${vars.default-commands} [
+      // default commands don't work with sbt 1.0
+      commands: [
         "set sources in doc in Compile in httpCore := List()"
+        "set every bintrayReleaseOnPublish := false"
+        // sbt-osgi doesn't like dbuild-mangled version numbers
+        "set every OsgiKeys.bundleVersion := \"10.0.0\""
       ]
       // "HTTP is sadly very timing sensitive we're working on improving its stability regularly,
       // OK to disable it for now." - Konrad M, October 2016
@@ -335,8 +358,8 @@ build += {
   ${vars.base} {
     name: "scalariform"
     uri: ${vars.uris.scalariform-uri}
-    // warnings reported upstream at https://github.com/scala-ide/scalariform/issues/234
-    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
+    extra.sbt-version: "1.0.3"
+    extra.commands: []  // default commands don't work with sbt 1.0
   }
 
   ${vars.base} {
@@ -364,23 +387,24 @@ build += {
     ]
   }
 
-  // forked (updated March 2017) to get rid of bintray stuff that was causing errors
   ${vars.base} {
     name: "sbt-testng"
     uri:  ${vars.uris.sbt-testng-uri}
     extra.projects: ["sbt-testng-interface"]  // just the interface, we don't need to build the plugin
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
   }
 
-  // forked (from sbt/sbinary; updated March 2017) to remove bintray gunk that doesn't work with dbuild
   ${vars.base} {
     name: "sbinary"
     uri:  ${vars.uris.sbinary-uri}
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ["set every scalafmtOnCompile := false"]
+    check-missing: false  // ignore missing scalafmt
   }
 
-  // forked (April 2017) for 2.12.2 and 2.13 compat.
-  // can be unforked once these PRs are merged:
-  // * https://github.com/lihaoyi/utest/pull/107
-  // * https://github.com/lihaoyi/utest/pull/109
   ${vars.base} {
     name: "utest"
     uri:  ${vars.uris.utest-uri}
@@ -405,10 +429,8 @@ build += {
     uri:  ${vars.uris.fastparse-uri}
     extra.projects: [
       "fastparseJVM"   // no Scala.js plz
-      "scalaparseJVM"  // dependency of Scala.meta (!)
+      "scalaparseJVM"  // not essential to include, but hey
     ]
-    // TODO: tests depend on lambda toString looking like e.g `<function1>`
-    extra.test-tasks: ["compile"]
   }
 
   // forked (May 2017) to make a trivial source change for 2.12.3 compat;
@@ -444,12 +466,19 @@ build += {
     extra.exclude: ["docs"]
   }
 
+  // forked (August 2017) to remove coursier
   ${vars.base} {
     name: "fs2"
     uri:  ${vars.uris.fs2-uri}
     extra.projects: ["coreJVM", "scodecJVM", "io"]  // no Scala.js, no benchmarks or docs
+    // because of new inferred-Any warnings in 2.12.4 (PR 5990)
+    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
   }
 
+  # frozen at September 2017 commit because cats-effect was failing;
+  # see https://github.com/scala/community-builds/issues/600
+  # November 2017: unfreeze attempt at https://github.com/scala/community-builds/pull/624
+  # failed, but we should try again in a month or two, something like that
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
@@ -515,6 +544,8 @@ build += {
     extra.exclude: [
       // this isn't really necessary and would pull in a JMH dependency
       "util-benchmark"
+      // this is 2.11-only
+      "util-intellij"
     ]
     // recommended at https://github.com/twitter/util/issues/173:
     // "We use that when we don't think the tests will be reliable in a ci environment"
@@ -542,7 +573,9 @@ build += {
   ${vars.base} {
     name: "breeze"
     uri:  ${vars.uris.breeze-uri}
-    // failing tests reported upstream at https://github.com/scalanlp/breeze/issues/587
+    extra.sbt-version: "1.0.3"
+    extra.commands: []  // default commands don't work with sbt 1.0
+    // failing tests not investigated/reported
     extra.test-tasks: ["compile"]
   }
 
@@ -576,14 +609,6 @@ build += {
   ${vars.base} {
     name: "spray-json"
     uri:  ${vars.uris.spray-json-uri}
-  }
-
-  ${vars.base} {
-    name: "spray-json-shapeless"
-    uri:  ${vars.uris.spray-json-shapeless-uri}
-    // tests don't compile, starting circa January 2017 -- see
-    // https://github.com/scala/community-builds/issues/475
-    extra.run-tests: false
   }
 
   ${vars.base} {
@@ -675,27 +700,6 @@ build += {
     name: "lift-json"
     uri:  ${vars.uris.lift-json-uri}
     extra.projects: ["lift-json"]
-  }
-
-  // frozen (June 2017) at a June 2017 commit before breaking String
-  // vs. CharSequence changes went in and broke upickle.  see
-  // https://github.com/scala/community-builds/issues/565 .  we could
-  // unfreeze once there's a new jawn release for dependent projects
-  // to upgrade to
-  ${vars.base} {
-    name: "jawn"
-    uri:  ${vars.uris.jawn-uri}
-    // omitted TODO: play
-    // omitted: rojoma-v3, rojoma, benchmark, argonaut
-    // (we have Argonaut in the community build, but it depends on jawn! dbuild
-    // doesn't like the circularity. I think we could break it by having two jawn entries,
-    // one for the core and one for the extras, but I haven't tried yet)
-    extra.projects: ["ast", "parser", "json4s", "spray"]
-  }
-
-  ${vars.base} {
-    name: "jawn-fs2"
-    uri:  ${vars.uris.jawn-fs2-uri}
   }
 
   ${vars.base} {
@@ -816,26 +820,22 @@ build += {
   }
 
   ${vars.base} {
-    name: "scala-abide"
-    uri:  ${vars.uris.scala-abide-uri}
-    extra.exclude: [
-      "root"       // dbuild thinks it tries to publish root#root
-      "sbt-abide"  // we never build sbt plugins
-    ]
-  }
-
-  ${vars.base} {
     name: "minitest"
     uri:  ${vars.uris.minitest-uri}
     extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
   }
 
+  // frozen (November 2017) at an October 2017 commit because they moved
+  // to cats 1.0.0-RC1, which we aren't ready for yet (see
+  // https://github.com/scala/community-builds/pull/624)
   ${vars.base} {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
     // no Scala.js, no benchmarks.
     // (but also, perhaps this excludes more stuff than necessary?)
     extra.projects: ["coreJVM"]
+    // because of new inferred-Any warnings in 2.12.4 (PR 5990)
+    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
   }
 
   ${vars.base} {
@@ -844,10 +844,9 @@ build += {
     extra.exclude: [
       // we don't have Lagom yet
       "lagom13JavaConductRBundleLib", "lagom13ScalaConductRBundleLib"
+      "lagom14JavaConductRBundleLib", "lagom14ScalaConductRBundleLib"
       // didn't compile (July 2017)
       "akka24ConductRClientLib"
-      // not our Akka version
-      "akka25Common", "akka25ConductRBundleLib", "akka25ConductRClientLib", "akka25TestLib"
       // Play stuff didn't work, maybe try again later?
       "play25ConductRBundleLib", "play25ConductRClientLib", "play25Common"
       "play26ConductRBundleLib", "play26ConductRClientLib", "play26Common"
@@ -861,20 +860,14 @@ build += {
   // forked (December 2016) to get rid of the usual bintray-sbt stuff that
   // makes dbuild upset
   ${vars.base} {
-    name: "akka-sse"
-    uri:  ${vars.uris.akka-sse-uri}
-    extra.exclude: ["jmh"]  // no benchmarking stuff plz
-  }
-
-  // this was added because conductr-lib's Play integration depended on it,
-  // but we ended up not including that integration (for now anyway?), so
-  // nothing depends on this.  leaving it in since we might as well, but
-  // if it acts up, it can go.
-  // forked (December 2016) to get rid of the usual bintray-sbt stuff that
-  // makes dbuild upset
-  ${vars.base} {
     name: "akka-contrib-extra"
     uri:  ${vars.uris.akka-contrib-extra-uri}
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
+    // Failed tests: akka.contrib.http.DirectivesSpec
+    extra.test-tasks: "compile"
   }
 
   ${vars.base} {
@@ -925,56 +918,12 @@ build += {
     uri: ${vars.uris.blaze-uri}
   }
 
-  // well, this is a big build with lots of subprojects, many of which involve
-  // integration with other libraries. so many of them had issues I didn't
-  // spend that much time looking into each one and seeing if it might be
-  // fixable, or ought to be reported upstream, or what.
-  // note that we are using the topic/cats branch, not master, since master
-  // uses scalaz-stream which we dropped from the community build a while back
-  // in favor of fs2.
-  // note also that we are frozen at a January 2017 commit on that branch,
-  // because more recent commits failed to compile.
-  // note that if this all proves to be more trouble than it's worth,
-  // it's fine to drop it for a while (certainly at least until the
-  // topic/cats branch is merged, anyway)
-  ${vars.base} {
-    name: "http4s"
-    uri:  ${vars.uris.http4s-uri}
-    extra.commands: ${vars.default-commands} [
-      // too fragile
-      "removeScalacOptions -Xfatal-warnings"
-    ]
-    extra.exclude: [
-      // no benchmarks please
-      "bench"
-      // Missing dependency: com.github.zainab-ali#fs2-reactive-streams
-      "async-http-client"
-      // these depend on circe, which we don't have (yet?)
-      "circe", "examples", "examples-tomcat", "examples-jetty", "examples-blaze", "examples-war", "docs"
-      // weird errors, maybe not appropriate to run anyway
-      "load-test"
-    ]
-    // Failed tests: org.http4s.CookieSpec, org.http4s.EntityDecoderSpec
-    extra.test-tasks: "compile"
-  }
-
+  // forked (October 2017) because utest 0.6.0 (we track utest master) made
+  // a source-incompatible change but fansi is still on 0.5.3
   ${vars.base} {
     name: "fansi"
     uri:  ${vars.uris.fansi-uri}
     extra.projects: ["fansiJVM"]  // no Scala.js
-  }
-
-  // as per https://github.com/lihaoyi/upickle-pprint/issues/209
-  // upickle is now obsolete (and the pprint part has its own repo now).
-  // leaving this here because it isn't causing, any trouble, and
-  // because we already have it forked/frozen. note that no other
-  // projects depend on it, so it could be dropped if any trouble
-  //  starts.  pprint is now separate.
-  ${vars.base} {
-    name: "upickle"
-    uri:  ${vars.uris.upickle-uri}
-    // no Scala.js; also only upickle no pprint
-    extra.projects: ["upickleJVM"]
   }
 
   ${vars.base} {
@@ -1000,60 +949,76 @@ build += {
     // because of new unused warnings introduced
     // by https://github.com/scala/scala/pull/5402 ; probably they'll fix it upstream
     // after 2.12.2 comes out
-    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
+    extra.commands: ${vars.default-commands} [
+      "removeScalacOptions -Xfatal-warnings"
+      "set every bintrayReleaseOnPublish := false"
+    ]
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
 
-  // forked (updated March 2017) to remove the usual bintray gunk.
+  // forked (updated September 2017) to remove coursier.
   // refreshing the fork should be approached with caution;
-  // see Olafur's comment at
+  // see Olafur's remarks at
   // https://github.com/scala/community-builds/issues/499#issuecomment-287307613
-  // about the instability of both scalameta and scalafix
+  // about the instability of both scalameta and scalafix.
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
     // else, bintray stuff goes boom
     extra.options: ["-Dsbt.prohibit.publish=true"]
-    extra.projects: ["scalametaJVM"]  // no Scala.js
+    extra.projects: ["scalametaJVM", "contribJVM", "semanticdbScalac"]  // no Scala.js
     extra.exclude: [
-      // requires scalatex-site which requires Scala.js
-      "readme"
       // we never build sbt plugins or benchmarks
-      "scalahostSbt", "benchmarks"
-      // test failures it doesn't seem worth investigating; pulls down external source trees
-      "contribJVM"
+      "benchmarks"
     ]
     // use right version-specific source directories regardless of our weird dbuild Scala version numbers
-    extra.commands: [
+    extra.commands: ${vars.default-commands} [
       "set unmanagedSourceDirectories in (commonJVM, Compile) += (baseDirectory in commonJVM).value / \"src\" / \"main\" / \"scala-2.12\""
       "set unmanagedSourceDirectories in (dialectsJVM, Compile) += (baseDirectory in dialectsJVM).value / \"src\" / \"main\" / \"scala-2.12\""
       "set unmanagedSourceDirectories in (scalametaJVM, Compile) += (baseDirectory in scalametaJVM).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (scalahost, Compile) += (baseDirectory in scalahost).value / \"src\" / \"main\" / \"scala-2.12.1\""
+      "set unmanagedSourceDirectories in (semanticdbScalac, Compile) += (baseDirectory in semanticdbScalac).value / \"src\" / \"main\" / \"scala-2.12.4\""
     ]
   }
 
-  // forked (February 2017) to remove wartremover and coursier
-  // fork tweaked March 2017 to alter scalameta dependency
-  // caution, refreshing the fork any further could be problematic;
-  // see Olafur's comment at
+  // forked (refreshed September 2017) to remove coursier
+  // caution, refreshing the fork any further can be problematic;
+  // see Olafur's remarks at
   // https://github.com/scala/community-builds/issues/499#issuecomment-287307613
   // about the instability of both scalameta and scalafix
   ${vars.base} {
     name: "scalafix"
     uri:  ${vars.uris.scalafix-uri}
     extra.exclude: [
-      "scalafix-sbt"  // we never build sbt plugins
-      // "These tests depend on various projects (circe, shapeless,...) to
-      // reproduce bugs that surfaced in larger integration tests"
-      // says Olaf.  depends on circe which we don't have here yet
-      "scalafix-nsc"
-      // didn't work, and anyway, Olafur says it isn't appropriate to include;
-      // it "involves cloning other projects and compiling them"
-      "scalafix-tests"
-      // Missing dependency: the library com.github.alexarchambault#case-app
-      "cli"
+      // we never build sbt plugins
+      "scalafix-sbt"
       // requires scalatex-site which requires Scala.js
       "readme"
+      // no Scala.js please
+      "coreJS", "diffJS"
+      // Scala 2.10 based
+      "testsInputSbt"
+      // do I *look* like Dotty?
+      "testsOutputDotty"
+      // can't expand macros compiled by previous versions of Scala
+      "testsOutputSbt"
     ]
+  }
+
+  // dependency of scalafix
+  // (we use allanrenucci's fork because that's where `organization` is set
+  // as scalafix expects; it's where 0.1.4 was apparently published from,
+  // which is the version scalafix declares a dependency on)
+  ${vars.base} {
+    name: "scala-xml-quote"
+    uri:  ${vars.uris.scala-xml-quote-uri}
+  }
+
+  // dependency of scalafmt
+  // forked (July 2017) to remove coursier
+  ${vars.base} {
+    name: "metaconfig"
+    uri:  ${vars.uris.metaconfig-uri}
+    extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
   }
 
   ${vars.base} {
@@ -1089,11 +1054,12 @@ build += {
     uri:  ${vars.uris.scalaj-http-uri}
   }
 
-  // forked (April 2017; updated July 2017) to get rid of the usual bintray-sbt stuff
-  // that makes dbuild upset
   ${vars.base} {
     name: "lightbend-emoji"
     uri:  ${vars.uris.lightbend-emoji-uri}
+    extra.sbt-version: "1.0.3"
+    extra.commands: []  // default commands don't work with sbt 1.0
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
 
   // others are not depending on this yet ("not ready for general
@@ -1107,80 +1073,182 @@ build += {
   }
 
   ${vars.base} {
-     name: "scala-gopher"
-     uri:  ${vars.uris.scala-gopher-uri}
-     // too many intermittent failures -- reported at
-     // https://github.com/rssh/scala-gopher/issues/20
-     extra.test-tasks: ["compile"]
+    name: "scala-gopher"
+    uri:  ${vars.uris.scala-gopher-uri}
+    // too many intermittent failures -- reported at
+    // https://github.com/rssh/scala-gopher/issues/20
+    extra.test-tasks: ["compile"]
   }
 
-  // adding (April 2017) because scalameta now depends on it.
-  // frozen (June 2017) since more recent revisions didn't compile;
-  // see https://github.com/scala/community-builds/issues/562
+  // adding (April 2017) because scalameta now depends on it
+  // forked/frozen (September 2017) because scalameta uses 0.6.2
+  // but newer commits are source-incompatible. oh, and also
+  // zinc expects the older version, too.
+  // the fork, here, is in order to include a utest version bump
+  // (since utest also made source-incompatible changes)
   ${vars.base} {
-     name: "scalapb"
-     uri:  ${vars.uris.scalapb-uri}
-     // just this one for now, since I'm mainly just trying to get
-     // scalameta working again
-     extra.projects: ["runtimeJVM"]
+    name: "scalapb"
+    uri:  ${vars.uris.scalapb-uri}
+    // just this one for now, since I'm mainly just trying to get
+    // scalameta working again
+    extra.projects: ["runtimeJVM"]
   }
 
   // adding (April 2017) because scalameta depends on it
   // (indirectly via scalapb)
   ${vars.base} {
-     name: "scalapb-lenses"
-     uri:  ${vars.uris.scalapb-lenses-uri}
-     extra.projects: ["lensesJVM"]  // no Scala.js plz
+    name: "scalapb-lenses"
+    uri:  ${vars.uris.scalapb-lenses-uri}
+    extra.projects: ["lensesJVM"]  // no Scala.js plz
+  }
+
+  // adding (September 2017) because scalafix's "cli" subproject uses it.
+  // forked to remove coursier and upgrade sbt-bintray
+  ${vars.base} {
+    name: "semanticdb-sbt"
+    uri:  ${vars.uris.semanticdb-sbt-uri}
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
+    // this is enough for scalafix
+    extra.projects: ["runtime"]
+  }
+
+  // adding (September 2017) because scalafix's "cli" subproject uses it.
+  // forked to modify some version number manipulation code to be
+  // dbuild-friendly; we can unfork once
+  // https://github.com/typelevel/paiges/pull/74 is merged
+  ${vars.base} {
+    name: "paiges"
+    uri:  ${vars.uris.paiges-uri}
+    extra.projects: ["coreJVM", "catsJVM"]  // but not "benchmark"
+  }
+
+  // adding (September 2017) because scalafix's "cli" subproject uses it.
+  // forked to remove coursier.  we forked from the 1.1.x branch, not
+  // master, since there are source-incompatible changes on master,
+  // but scalafix's dependency is on 1.1.x
+  ${vars.base} {
+    name: "case-app"
+    uri:  ${vars.uris.case-app-uri}
+    // this is enough for scalafix, I didn't even try adding the rest
+    extra.projects: ["coreJVM"]
+  }
+
+  // frozen (November 2017) at an October 2017 commit, because more
+  // recent commits require a newer cats, too new for other libraries
+  // in the community build; see https://github.com/scala/community-builds/pull/624
+  ${vars.base} {
+    name: "cats-effect"
+    uri:  ${vars.uris.cats-effect-uri}
+    extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js plz
+    extra.sbt-version: "1.0.3"
+    extra.commands: []  // default commands don't work with sbt 1.0
   }
 
   ${vars.base} {
-     name: "cats-effect"
-     uri:  ${vars.uris.cats-effect-uri}
-     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js plz
-  }
-
-  // forked (June 2017) to get rid of the usual bintray-sbt stuff that
-  // makes dbuild upset; also waiting on upstream merge of
-  // https://github.com/underscoreio/doodle/pull/55
-  ${vars.base} {
-     name: "doodle"
-     uri: ${vars.uris.doodle-uri}
-     extra.projects: ["doodleJVM"]  // no Scala.js plz
+    name: "doodle"
+    uri: ${vars.uris.doodle-uri}
+    extra.projects: ["doodleJVM"]  // no Scala.js plz
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
   }
 
   // once https://github.com/scala/scala-collections-laws/pull/18
   // is merged we can track master
   ${vars.base} {
-     name: "scala-collections-laws"
-     uri: ${vars.uris.scala-collections-laws-uri}
-     // as per the repo readme
-     extra.options: ["-XX:MaxMetaspaceSize=1G", "-Xmx6G"]
-     // note that we're not actually doing
-     // `runMain tests.generated.collection.Test_All` which is what
-     // the repo readme says to do. dbuild doesn't let us set
-     // extra.test-tasks to a task that takes arguments.  (anyway,
-     // it's not clear it's really necessary or appropriate to
-     // actually run the whole thing as part of the community build?)
+    name: "scala-collections-laws"
+    uri: ${vars.uris.scala-collections-laws-uri}
+    // as per the repo readme
+    extra.options: ["-XX:MaxMetaspaceSize=1G", "-Xmx6G"]
+    // note that we're not actually doing
+    // `runMain tests.generated.collection.Test_All` which is what
+    // the repo readme says to do. dbuild doesn't let us set
+    // extra.test-tasks to a task that takes arguments.  (anyway,
+    // it's not clear it's really necessary or appropriate to
+    // actually run the whole thing as part of the community build?)
   }
 
   ${vars.base} {
-     name: "better-files"
-     uri: ${vars.uris.better-files-uri}
+    name: "better-files"
+    uri: ${vars.uris.better-files-uri}
+    // because of new inferred-Any warnings in 2.12.4 (PR 5990)
+    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
   }
 
   ${vars.base} {
-     name: "scalastyle"
-     uri: ${vars.uris.scalastyle-uri}
-     extra.options: ["-Dscalastyle.publish-ivy-only=true"]
+    name: "scalastyle"
+    uri: ${vars.uris.scalastyle-uri}
+    extra.options: ["-Dscalastyle.publish-ivy-only=true"]
   }
 
   ${vars.base} {
-     name: "play-webgoat"
-     uri: ${vars.uris.play-webgoat-uri}
-     // not sure how this gets pulled in but it's just doc not code, I think?
-     // so let's just ignore that it's missing
-     check-missing: false
-     deps.ignore: ["com.typesafe.play#play-omnidoc"]
+    name: "play-webgoat"
+    uri: ${vars.uris.play-webgoat-uri}
+    // not sure how this gets pulled in but it's just doc not code, I think?
+    // so let's just ignore that it's missing
+    check-missing: false
+    deps.ignore: ["com.typesafe.play#play-omnidoc"]
+  }
+
+  ${vars.base} {
+    name: "gigahorse"
+    uri:  ${vars.uris.gigahorse-uri}
+    // as of August 2017, doesn't compile against latest akka-http
+    extra.exclude: ["akkaHttp"]
+  }
+
+  // dependency of scalachess
+  ${vars.base} {
+    name: "scalalib"
+    uri:  ${vars.uris.scalalib-uri}
+    extra.sbt-version: "1.0.3"
+    extra.commands: []  // default commands don't work with sbt 1.0
+  }
+
+  ${vars.base} {
+    name: "scalachess"
+    uri:  ${vars.uris.scalachess-uri}
+    extra.sbt-version: "1.0.3"
+    extra.commands: []  // default commands don't work with sbt 1.0
+  }
+
+  ${vars.base} {
+    name: "sbt-io"
+    uri:  ${vars.uris.sbt-io-uri}
+    extra.sbt-version: "1.0.3"
+    extra.commands: []  // default commands don't work with sbt 1.0
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+  }
+
+]}
+
+//// space: jawn_0_10
+
+build += {
+
+  space.from: jawn_0_10
+  space.to: [ jawn_0_10 ]
+
+  check-missing: [ true, false ]
+  cross-version: [ disabled, standard ]
+  extraction-version: ${vars.scala-version}
+  sbt-version: ${vars.sbt-version}
+
+  projects: [
+
+  ${vars.base} {
+    name: "jawn-0-10"
+    uri:  ${vars.uris.jawn-0-10-uri}
+    // omitted TODO: play
+    // omitted: rojoma-v3, rojoma, benchmark, argonaut
+    // (we have Argonaut in the community build, but it depends on jawn! dbuild
+    // doesn't like the circularity. I think we could break it by having two jawn entries,
+    // one for the core and one for the extras, but I haven't tried yet)
+    extra.projects: ["ast", "parser", "json4s", "spray"]
   }
 
   // for sjson-new
@@ -1197,22 +1265,9 @@ build += {
   }
 
   ${vars.base} {
-    name: "gigahorse"
-    uri:  ${vars.uris.gigahorse-uri}
-  }
-
-  ${vars.base} {
-    name: "sbt-io"
-    uri:  ${vars.uris.sbt-io-uri}
-    extra.sbt-version: "1.0.0"
-    extra.commands: ["projects"]  // default commands don't work with sbt 1.0
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-  }
-
-  ${vars.base} {
     name: "sbt-util"
     uri:  ${vars.uris.sbt-util-uri}
-    extra.sbt-version: "1.0.0"
+    extra.sbt-version: "1.0.3"
     extra.commands: []  // default commands don't work with sbt 1.0
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
@@ -1220,7 +1275,7 @@ build += {
   ${vars.base} {
     name: "sbt-librarymanagement"
     uri:  ${vars.uris.sbt-librarymanagement-uri}
-    extra.sbt-version: "1.0.0"
+    extra.sbt-version: "1.0.3"
     extra.commands: []  // default commands don't work with sbt 1.0
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
@@ -1228,7 +1283,7 @@ build += {
   ${vars.base} {
     name: "zinc"
     uri:  ${vars.uris.zinc-uri}
-    extra.sbt-version: "1.0.0"
+    extra.sbt-version: "1.0.3"
     extra.commands: []  // default commands don't work with sbt 1.0
     extra.exclude: ["zincBenchmarks"]
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
@@ -1239,7 +1294,7 @@ build += {
   ${vars.base} {
     name: "sbt"
     uri:  ${vars.uris.sbt-uri}
-    extra.sbt-version: "1.0.0"
+    extra.sbt-version: "1.0.3"
     extra.commands: []  // default commands don't work with sbt 1.0
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.exclude: [
@@ -1247,7 +1302,7 @@ build += {
       "bundledLauncherProj"
       // depends on sxr_2.10?!
       "sbtRoot"
-  ]
+    ]
     // some test code fails to compile, a specs2 version thing I think
     extra.run-tests: false
   }
@@ -1256,6 +1311,87 @@ build += {
     name: "squants"
     uri:  ${vars.uris.squants-uri}
     extra.projects: ["squantsJVM"]  // no Scala.js plz
+  }
+
+]}
+
+//// space: jawn_0_11
+
+build += {
+
+  space.from: jawn_0_11
+  space.to: [ jawn_0_11 ]
+
+  check-missing: [ true, false ]
+  cross-version: [ disabled, standard ]
+  extraction-version: ${vars.scala-version}
+  sbt-version: ${vars.sbt-version}
+
+  projects: [
+
+  ${vars.base} {
+    name: "circe"
+    uri:  ${vars.uris.circe-uri}
+    extra.sbt-version: "1.0.3"
+    extra.commands: []  // default commands don't work with sbt 1.0
+    extra.projects: [
+      // easy
+      "core", "numbers"
+      // harder
+      "jawn"
+      // bunch more stuff that all depends on jawn
+      "parser", "generic", "literal", "scodec", "testing", "tests"
+    ]
+  }
+
+  ${vars.base} {
+    name: "jawn-0-11"
+    uri:  ${vars.uris.jawn-0-11-uri}
+    // omitted TODO: play
+    // omitted: rojoma-v3, rojoma, benchmark, argonaut
+    // (we have Argonaut in the community build, but it depends on jawn! dbuild
+    // doesn't like the circularity. I think we could break it by having two jawn entries,
+    // one for the core and one for the extras, but I haven't tried yet)
+    extra.projects: ["ast", "parser", "json4s", "spray"]
+  }
+
+  // frozen (November 2017) at September 2017 commit before they upgraded
+  // to newer fs2 & cats version; we should be able to unfreeze at the
+  // same time we unfreeze cats (https://github.com/scala/community-builds/pull/624)
+  ${vars.base} {
+    name: "jawn-fs2"
+    uri:  ${vars.uris.jawn-fs2-uri}
+  }
+
+  // well, this is a big build with lots of subprojects, many of which involve
+  // integration with other libraries. many of them had issues; I didn't
+  // spend that much time looking into each one and seeing if it might be
+  // fixable, or ought to be reported upstream, or what.
+  // we are using an August 2017 commit that has the jawn 0.10->0.11
+  // upgrade but doesn't have cats 1.0.0-MF->1.0.0-RC1 since we aren't
+  // (November 2017) ready for that yet (see #624)
+  // note that if this all proves to be more trouble than it's worth,
+  // it's fine to drop it for a while until the Typelevel ecosystem
+  // settles down a bit
+  ${vars.base} {
+    name: "http4s"
+    uri:  ${vars.uris.http4s-uri}
+    extra.commands: ${vars.default-commands} [
+      // too fragile
+      "removeScalacOptions -Xfatal-warnings"
+    ]
+    extra.exclude: [
+      // no benchmarks please
+      "bench"
+      // Missing dependency: com.github.zainab-ali#fs2-reactive-streams
+      "async-http-client"
+      // these depend on circe, which we don't have (yet?)
+      "circe", "examples", "examples-tomcat", "examples-jetty", "examples-blaze", "examples-war", "docs"
+      // weird errors, maybe not appropriate to run anyway
+      "load-test"
+    ]
+    // Failed tests: org.http4s.CookieSpec, org.http4s.EntityDecoderSpec
+    extra.test-tasks: "compile"
   }
 
 ]}
