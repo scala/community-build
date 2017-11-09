@@ -8,8 +8,8 @@
 #   project/Build.scala needs updating
 # * scala-refactoring: ???, investigation needed
 # * gigahorse: requires akka-http
-# * lightbend-emoji, sbt, zinc, sbt-*, circe, cats-effect:
-#   built with sbt 1, which doesn't support Scala 2.13 yet
+# * lightbend-emoji, sbt, zinc, sbt-*, circe, cats-effect,
+#   scalalib, scalachess: built with sbt 1, which doesn't support Scala 2.13 yet
 # * fs2, monix: depend on cats-effect
 #
 # we should attempt to add them back later in the 2.13 cycle (by
@@ -912,21 +912,6 @@ build += {
     name: "sjson-new"
     uri:  ${vars.uris.sjson-new-uri}
     extra.exclude: ["benchmark"]
-  }
-
-  // dependency of scalachess
-  ${vars.base} {
-    name: "scalalib"
-    uri:  ${vars.uris.scalalib-uri}
-    extra.sbt-version: "1.0.3"
-    extra.commands: []  // default commands don't work with sbt 1.0
-  }
-
-  ${vars.base} {
-    name: "scalachess"
-    uri:  ${vars.uris.scalachess-uri}
-    extra.sbt-version: "1.0.3"
-    extra.commands: []  // default commands don't work with sbt 1.0
   }
 
 ]}
