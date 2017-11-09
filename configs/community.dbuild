@@ -1,3 +1,12 @@
+//// about spaces
+
+// currently we have three spaces: default, jawn_0_10, jawn_0_11.
+// the split is because sbt 1 uses jawn 0.10.x (via its dependency
+//   on sjson-new) and the sbt team is worried about the possible
+//   impact of upgrading on binary compatibility of sbt plugins.
+// but in the meantime the whole Typelevel ecosystem is moving onto
+//   jawn 0.11, and the two versions are source-incompatible.
+
 //// from environment
 
 vars: {
@@ -85,6 +94,9 @@ build += {
   extraction-version: ${vars.scala-version}
   cross-version: disabled
 
+  space.from: default
+  space.to: [ default, jawn_0_10, jawn_0_11 ]
+
   projects: [
   {
     name:  "scala"
@@ -130,9 +142,13 @@ build += {
 ]}
 
 
-//// everything else
+//// space: default
 
 build += {
+
+  space.from: default
+  space.to: [ default, jawn_0_10, jawn_0_11 ]
+
   check-missing: [ true, false ]
   cross-version: [ disabled, standard ]
   extraction-version: ${vars.scala-version}
@@ -686,30 +702,6 @@ build += {
     extra.projects: ["lift-json"]
   }
 
-  // frozen (June 2017) at a June 2017 commit before breaking String
-  // vs. CharSequence changes went in and broke upickle.  see
-  // https://github.com/scala/community-builds/issues/565 .  we could
-  // unfreeze once there's a new jawn release for dependent projects
-  // to upgrade to
-  ${vars.base} {
-    name: "jawn"
-    uri:  ${vars.uris.jawn-uri}
-    // omitted TODO: play
-    // omitted: rojoma-v3, rojoma, benchmark, argonaut
-    // (we have Argonaut in the community build, but it depends on jawn! dbuild
-    // doesn't like the circularity. I think we could break it by having two jawn entries,
-    // one for the core and one for the extras, but I haven't tried yet)
-    extra.projects: ["ast", "parser", "json4s", "spray"]
-  }
-
-  // frozen (November 2017) at September 2017 commit before they upgraded
-  // to newer fs2 & cats version; we should be able to unfreeze at the
-  // same time we unfreeze cats (https://github.com/scala/community-builds/pull/624)
-  ${vars.base} {
-    name: "jawn-fs2"
-    uri:  ${vars.uris.jawn-fs2-uri}
-  }
-
   ${vars.base} {
     name: "scalamock"
     uri:  ${vars.uris.scalamock-uri}
@@ -926,58 +918,12 @@ build += {
     uri: ${vars.uris.blaze-uri}
   }
 
-  // well, this is a big build with lots of subprojects, many of which involve
-  // integration with other libraries. so many of them had issues I didn't
-  // spend that much time looking into each one and seeing if it might be
-  // fixable, or ought to be reported upstream, or what.
-  // note that we are using the topic/cats branch, not master, since master
-  // uses scalaz-stream which we dropped from the community build a while back
-  // in favor of fs2.
-  // note also that we are frozen at a January 2017 commit on that branch,
-  // because more recent commits failed to compile.
-  // note that if this all proves to be more trouble than it's worth,
-  // it's fine to drop it for a while (certainly at least until the
-  // topic/cats branch is merged, anyway)
-  ${vars.base} {
-    name: "http4s"
-    uri:  ${vars.uris.http4s-uri}
-    extra.commands: ${vars.default-commands} [
-      // too fragile
-      "removeScalacOptions -Xfatal-warnings"
-    ]
-    extra.exclude: [
-      // no benchmarks please
-      "bench"
-      // Missing dependency: com.github.zainab-ali#fs2-reactive-streams
-      "async-http-client"
-      // these depend on circe, which we don't have (yet?)
-      "circe", "examples", "examples-tomcat", "examples-jetty", "examples-blaze", "examples-war", "docs"
-      // weird errors, maybe not appropriate to run anyway
-      "load-test"
-    ]
-    // Failed tests: org.http4s.CookieSpec, org.http4s.EntityDecoderSpec
-    extra.test-tasks: "compile"
-  }
-
   // forked (October 2017) because utest 0.6.0 (we track utest master) made
   // a source-incompatible change but fansi is still on 0.5.3
   ${vars.base} {
     name: "fansi"
     uri:  ${vars.uris.fansi-uri}
     extra.projects: ["fansiJVM"]  // no Scala.js
-  }
-
-  // as per https://github.com/lihaoyi/upickle-pprint/issues/209
-  // upickle is now obsolete (and the pprint part has its own repo now).
-  // leaving this here because it isn't causing, any trouble, and
-  // because we already have it forked/frozen. note that no other
-  // projects depend on it, so it could be dropped if any trouble
-  //  starts.  pprint is now separate.
-  ${vars.base} {
-    name: "upickle"
-    uri:  ${vars.uris.upickle-uri}
-    // no Scala.js; also only upickle no pprint
-    extra.projects: ["upickleJVM"]
   }
 
   ${vars.base} {
@@ -1248,6 +1194,63 @@ build += {
     deps.ignore: ["com.typesafe.play#play-omnidoc"]
   }
 
+  ${vars.base} {
+    name: "gigahorse"
+    uri:  ${vars.uris.gigahorse-uri}
+    // as of August 2017, doesn't compile against latest akka-http
+    extra.exclude: ["akkaHttp"]
+  }
+
+  // dependency of scalachess
+  ${vars.base} {
+    name: "scalalib"
+    uri:  ${vars.uris.scalalib-uri}
+    extra.sbt-version: "1.0.3"
+    extra.commands: []  // default commands don't work with sbt 1.0
+  }
+
+  ${vars.base} {
+    name: "scalachess"
+    uri:  ${vars.uris.scalachess-uri}
+    extra.sbt-version: "1.0.3"
+    extra.commands: []  // default commands don't work with sbt 1.0
+  }
+
+  ${vars.base} {
+    name: "sbt-io"
+    uri:  ${vars.uris.sbt-io-uri}
+    extra.sbt-version: "1.0.3"
+    extra.commands: []  // default commands don't work with sbt 1.0
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+  }
+
+]}
+
+//// space: jawn_0_10
+
+build += {
+
+  space.from: jawn_0_10
+  space.to: [ jawn_0_10 ]
+
+  check-missing: [ true, false ]
+  cross-version: [ disabled, standard ]
+  extraction-version: ${vars.scala-version}
+  sbt-version: ${vars.sbt-version}
+
+  projects: [
+
+  ${vars.base} {
+    name: "jawn-0-10"
+    uri:  ${vars.uris.jawn-0-10-uri}
+    // omitted TODO: play
+    // omitted: rojoma-v3, rojoma, benchmark, argonaut
+    // (we have Argonaut in the community build, but it depends on jawn! dbuild
+    // doesn't like the circularity. I think we could break it by having two jawn entries,
+    // one for the core and one for the extras, but I haven't tried yet)
+    extra.projects: ["ast", "parser", "json4s", "spray"]
+  }
+
   // for sjson-new
   {
     name: "shaded-scalajson"
@@ -1259,21 +1262,6 @@ build += {
     name: "sjson-new"
     uri:  ${vars.uris.sjson-new-uri}
     extra.exclude: ["benchmark"]
-  }
-
-  ${vars.base} {
-    name: "gigahorse"
-    uri:  ${vars.uris.gigahorse-uri}
-    // as of August 2017, doesn't compile against latest akka-http
-    extra.exclude: ["akkaHttp"]
-  }
-
-  ${vars.base} {
-    name: "sbt-io"
-    uri:  ${vars.uris.sbt-io-uri}
-    extra.sbt-version: "1.0.3"
-    extra.commands: []  // default commands don't work with sbt 1.0
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
 
   ${vars.base} {
@@ -1314,36 +1302,90 @@ build += {
       "bundledLauncherProj"
       // depends on sxr_2.10?!
       "sbtRoot"
-  ]
+    ]
     // some test code fails to compile, a specs2 version thing I think
     extra.run-tests: false
   }
 
-  // forked (October 2017) to remove coursier
+]}
+
+//// space: jawn_0_11
+
+build += {
+
+  space.from: jawn_0_11
+  space.to: [ jawn_0_11 ]
+
+  check-missing: [ true, false ]
+  cross-version: [ disabled, standard ]
+  extraction-version: ${vars.scala-version}
+  sbt-version: ${vars.sbt-version}
+
+  projects: [
+
   ${vars.base} {
     name: "circe"
     uri:  ${vars.uris.circe-uri}
     extra.sbt-version: "1.0.3"
     extra.commands: []  // default commands don't work with sbt 1.0
-    // for now, we just have "core" and some other stuff that happened
-    // to work.  adding "jawn" gave an error (which I didn't investigate),
-    // and practically everything else depends on jawn directly or indirectly
-    extra.projects: ["core", "numbers"]
-  }
-
-  // dependency of scalachess
-  ${vars.base} {
-    name: "scalalib"
-    uri:  ${vars.uris.scalalib-uri}
-    extra.sbt-version: "1.0.3"
-    extra.commands: []  // default commands don't work with sbt 1.0
+    extra.projects: [
+      // easy
+      "core", "numbers"
+      // harder
+      "jawn"
+      // bunch more stuff that all depends on jawn
+      "parser", "generic", "literal", "scodec", "testing", "tests"
+    ]
   }
 
   ${vars.base} {
-    name: "scalachess"
-    uri:  ${vars.uris.scalachess-uri}
-    extra.sbt-version: "1.0.3"
-    extra.commands: []  // default commands don't work with sbt 1.0
+    name: "jawn-0-11"
+    uri:  ${vars.uris.jawn-0-11-uri}
+    // omitted TODO: play
+    // omitted: rojoma-v3, rojoma, benchmark, argonaut
+    // (we have Argonaut in the community build, but it depends on jawn! dbuild
+    // doesn't like the circularity. I think we could break it by having two jawn entries,
+    // one for the core and one for the extras, but I haven't tried yet)
+    extra.projects: ["ast", "parser", "json4s", "spray"]
+  }
+
+  // frozen (November 2017) at September 2017 commit before they upgraded
+  // to newer fs2 & cats version; we should be able to unfreeze at the
+  // same time we unfreeze cats (https://github.com/scala/community-builds/pull/624)
+  ${vars.base} {
+    name: "jawn-fs2"
+    uri:  ${vars.uris.jawn-fs2-uri}
+  }
+
+  // well, this is a big build with lots of subprojects, many of which involve
+  // integration with other libraries. many of them had issues; I didn't
+  // spend that much time looking into each one and seeing if it might be
+  // fixable, or ought to be reported upstream, or what.
+  // we are using an August 2017 commit that has the jawn 0.10->0.11
+  // upgrade but doesn't have cats 1.0.0-MF->1.0.0-RC1 since we aren't
+  // (November 2017) ready for that yet (see #624)
+  // note that if this all proves to be more trouble than it's worth,
+  // it's fine to drop it for a while until the Typelevel ecosystem
+  // settles down a bit
+  ${vars.base} {
+    name: "http4s"
+    uri:  ${vars.uris.http4s-uri}
+    extra.commands: ${vars.default-commands} [
+      // too fragile
+      "removeScalacOptions -Xfatal-warnings"
+    ]
+    extra.exclude: [
+      // no benchmarks please
+      "bench"
+      // Missing dependency: com.github.zainab-ali#fs2-reactive-streams
+      "async-http-client"
+      // these depend on circe, which we don't have (yet?)
+      "circe", "examples", "examples-tomcat", "examples-jetty", "examples-blaze", "examples-war", "docs"
+      // weird errors, maybe not appropriate to run anyway
+      "load-test"
+    ]
+    // Failed tests: org.http4s.CookieSpec, org.http4s.EntityDecoderSpec
+    extra.test-tasks: "compile"
   }
 
 ]}
