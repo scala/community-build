@@ -1,3 +1,12 @@
+//// about spaces
+
+// currently we have three spaces: default, jawn_0_10, jawn_0_11.
+// the split is because sbt 1 uses jawn 0.10.x (via its dependency
+//   on sjson-new) and the sbt team is worried about the possible
+//   impact of upgrading on binary compatibility of sbt plugins.
+// but in the meantime the whole Typelevel ecosystem is moving onto
+//   jawn 0.11, and the two versions are source-incompatible.
+
 //// from environment
 
 vars: {
