@@ -1252,11 +1252,6 @@ build += {
     uri: "ivy:com.eed3si9n#shaded-scalajson_2.12;1.0.0-M4"
   }
 
-  // November 2017, switched from tracking master to tracking this
-  // pull request: https://github.com/eed3si9n/sjson-new/pull/85
-  // which upgrades jawn from 0.10 to 0.11.  we want to be on 0.11
-  // because circe expects it (details on all this at
-  // https://github.com/scala/community-builds/pull/623)
   ${vars.base} {
     name: "sjson-new"
     uri:  ${vars.uris.sjson-new-uri}
