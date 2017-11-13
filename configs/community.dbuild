@@ -45,7 +45,7 @@ vars {
 //// compiler options manipulation
 
 // appendScalacOptions and removeScalacOptions
-// let us work around https://github.com/typesafehub/dbuild/issues/144
+// let us work around https://github.com/lightbend/dbuild/issues/144
 vars.default-commands += """
 set commands ++= {
   def alterScalacOptions(s: State, fn: Seq[String] => Seq[String]): State = {
