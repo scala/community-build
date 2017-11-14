@@ -1351,6 +1351,14 @@ build += {
     extra.test-tasks: "compile"
   }
 
+  // dependency of scalafmt & scalafix
+  // forked (July 2017) to remove coursier
+  ${vars.base} {
+    name: "metaconfig"
+    uri:  ${vars.uris.metaconfig-uri}
+    extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
+  }
+
 ]}
 
 //// space: scalameta_1
@@ -1408,14 +1416,6 @@ build += {
        "set unmanagedSourceDirectories in (scalametaJVM, Compile) += (baseDirectory in scalametaJVM).value / \"src\" / \"main\" / \"scala-2.12\""
        "set unmanagedSourceDirectories in (scalahost, Compile) += (baseDirectory in scalahost).value / \"src\" / \"main\" / \"scala-2.12.1\""
     ]
-  }
-
-  // dependency of scalafmt
-  // forked (July 2017) to remove coursier
-  ${vars.base} {
-    name: "metaconfig"
-    uri:  ${vars.uris.metaconfig-uri}
-    extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
   }
 
 ]}
