@@ -12,6 +12,7 @@
 # * lightbend-emoji, sbt, zinc, sbt-*, circe, cats-effect,
 #   scalalib, scalachess: built with sbt 1, which doesn't support Scala 2.13 yet
 # * fs2, monix: depend on cats-effect
+# * jawn-fs2, http4s: depend on fs2
 #
 # we should attempt to add them back later in the 2.13 cycle (by
 # copying their entries from the 2.12 config)
@@ -952,45 +953,6 @@ build += {
     // doesn't like the circularity. I think we could break it by having two jawn entries,
     // one for the core and one for the extras, but I haven't tried yet)
     extra.projects: ["ast", "parser", "json4s", "spray"]
-  }
-
-  // frozen (November 2017) at September 2017 commit before they upgraded
-  // to newer fs2 & cats version; we should be able to unfreeze at the
-  // same time we unfreeze cats (https://github.com/scala/community-builds/pull/624)
-  ${vars.base} {
-    name: "jawn-fs2"
-    uri:  ${vars.uris.jawn-fs2-uri}
-  }
-
-  // well, this is a big build with lots of subprojects, many of which involve
-  // integration with other libraries. many of them had issues; I didn't
-  // spend that much time looking into each one and seeing if it might be
-  // fixable, or ought to be reported upstream, or what.
-  // we are using an August 2017 commit that has the jawn 0.10->0.11
-  // upgrade but doesn't have cats 1.0.0-MF->1.0.0-RC1 since we aren't
-  // (November 2017) ready for that yet (see #624)
-  // note that if this all proves to be more trouble than it's worth,
-  // it's fine to drop it for a while until the Typelevel ecosystem
-  // settles down a bit
-  ${vars.base} {
-    name: "http4s"
-    uri:  ${vars.uris.http4s-uri}
-    extra.commands: ${vars.default-commands} [
-      // too fragile
-      "removeScalacOptions -Xfatal-warnings"
-    ]
-    extra.exclude: [
-      // no benchmarks please
-      "bench"
-      // Missing dependency: com.github.zainab-ali#fs2-reactive-streams
-      "async-http-client"
-      // these depend on circe, which we don't have (yet?)
-      "circe", "examples", "examples-tomcat", "examples-jetty", "examples-blaze", "examples-war", "docs"
-      // weird errors, maybe not appropriate to run anyway
-      "load-test"
-    ]
-    // Failed tests: org.http4s.CookieSpec, org.http4s.EntityDecoderSpec
-    extra.test-tasks: "compile"
   }
 
   // dependency of github4s
