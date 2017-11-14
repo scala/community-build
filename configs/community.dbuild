@@ -1382,6 +1382,8 @@ build += {
     // let's keep our ambitions modest for now (November 2017)
     // and just try to build core (and no Scala.js plz, of course)
     extra.projects: ["coreJVM"]
+    // why doesn't dbuild pick up the dependency?!
+    deps.inject: ["com.geirsson#metaconfig-core"]
   }
 
   // dependency of scalafmt
