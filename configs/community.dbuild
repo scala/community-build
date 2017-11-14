@@ -1367,6 +1367,57 @@ build += {
 
   projects: [
 
+  // forked (July 2017) to disable coursier, bintray stuff, IntelliJ stuff
+  ${vars.base} {
+    name: "scalafmt"
+    uri:  ${vars.uris.scalafmt-uri}
+    // let's keep our ambitions modest for now (November 2017)
+    // and just try to build core (and no Scala.js plz, of course)
+    extra.projects: ["coreJVM"]
+  }
+
+  // dependency of scalafmt
+  // forked (July 2017) for dbuild friendliness
+  ${vars.base} {
+    name: "meta-paradise"
+    uri: ${vars.uris.meta-paradise-uri}
+    // only goal right now (November 2017) is to get scalafmt in, so, let's just
+    // add the project we actually need and not worry about the rest
+    extra.projects: ["paradise"]
+    // use right version-specific source directory regardless of our weird dbuild Scala version number
+    extra.commands: [
+      "set unmanagedSourceDirectories in (paradise, Compile) += (baseDirectory in paradise).value / \"src\" / \"main\" / \"scala-2.12.2\""
+    ]
+  }
+
+  // dependency of scalafmt
+  ${vars.base} {
+    name: "scalameta-1"
+    uri:  ${vars.uris.scalameta-1-uri}
+    // else, bintray stuff goes boom
+    extra.options: ["-Dsbt.prohibit.publish=true"]
+    extra.projects: ["scalametaJVM"]  // no Scala.js. just the minimum scalafmt needs?
+    extra.exclude: [
+      // we never build sbt plugins or benchmarks
+      "benchmarks"
+    ]
+     // use right version-specific source directories regardless of our weird dbuild Scala version numbers
+     extra.commands: ${vars.default-commands} [
+       "set unmanagedSourceDirectories in (commonJVM, Compile) += (baseDirectory in commonJVM).value / \"src\" / \"main\" / \"scala-2.12\""
+       "set unmanagedSourceDirectories in (dialectsJVM, Compile) += (baseDirectory in dialectsJVM).value / \"src\" / \"main\" / \"scala-2.12\""
+       "set unmanagedSourceDirectories in (scalametaJVM, Compile) += (baseDirectory in scalametaJVM).value / \"src\" / \"main\" / \"scala-2.12\""
+       "set unmanagedSourceDirectories in (scalahost, Compile) += (baseDirectory in scalahost).value / \"src\" / \"main\" / \"scala-2.12.1\""
+    ]
+  }
+
+  // dependency of scalafmt
+  // forked (July 2017) to remove coursier
+  ${vars.base} {
+    name: "metaconfig"
+    uri:  ${vars.uris.metaconfig-uri}
+    extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
+  }
+
 ]}
 
 //// space: scalameta_2
@@ -1451,14 +1502,6 @@ build += {
   ${vars.base} {
     name: "scala-xml-quote"
     uri:  ${vars.uris.scala-xml-quote-uri}
-  }
-
-  // dependency of scalafmt
-  // forked (July 2017) to remove coursier
-  ${vars.base} {
-    name: "metaconfig"
-    uri:  ${vars.uris.metaconfig-uri}
-    extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
   }
 
 ]}
