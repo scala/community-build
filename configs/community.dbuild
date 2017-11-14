@@ -1409,8 +1409,10 @@ build += {
       // we never build sbt plugins or benchmarks
       "benchmarks"
     ]
-     // use right version-specific source directories regardless of our weird dbuild Scala version numbers
      extra.commands: ${vars.default-commands} [
+        // Disable fatal Scaladoc warnings, too fragile
+       "removeScalacOptions -Xfatal-warnings"
+       // use right version-specific source directories regardless of our weird dbuild Scala version numbers
        "set unmanagedSourceDirectories in (commonJVM, Compile) += (baseDirectory in commonJVM).value / \"src\" / \"main\" / \"scala-2.12\""
        "set unmanagedSourceDirectories in (dialectsJVM, Compile) += (baseDirectory in dialectsJVM).value / \"src\" / \"main\" / \"scala-2.12\""
        "set unmanagedSourceDirectories in (scalametaJVM, Compile) += (baseDirectory in scalametaJVM).value / \"src\" / \"main\" / \"scala-2.12\""
