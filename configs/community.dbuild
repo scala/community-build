@@ -1059,19 +1059,6 @@ build += {
   }
 
   // adding (September 2017) because scalafix's "cli" subproject uses it.
-  // forked to remove coursier and upgrade sbt-bintray
-  ${vars.base} {
-    name: "semanticdb-sbt"
-    uri:  ${vars.uris.semanticdb-sbt-uri}
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
-    ]
-    // this is enough for scalafix
-    extra.projects: ["runtime"]
-  }
-
-  // adding (September 2017) because scalafix's "cli" subproject uses it.
   // forked to modify some version number manipulation code to be
   // dbuild-friendly; we can unfork once
   // https://github.com/typelevel/paiges/pull/74 is merged
@@ -1373,14 +1360,6 @@ build += {
 
   projects: [
 
-  // dependency of scalafmt
-  // forked (July 2017) to remove coursier
-  ${vars.base} {
-    name: "metaconfig"
-    uri:  ${vars.uris.metaconfig-uri}
-    extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
-  }
-
 ]}
 
 //// space: scalameta_2
@@ -1421,6 +1400,19 @@ build += {
     ]
   }
 
+  // adding (September 2017) because scalafix's "cli" subproject uses it.
+  // forked to remove coursier and upgrade sbt-bintray
+  ${vars.base} {
+    name: "semanticdb-sbt"
+    uri:  ${vars.uris.semanticdb-sbt-uri}
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
+    // this is enough for scalafix
+    extra.projects: ["runtime"]
+  }
+
   // forked (refreshed September 2017) to remove coursier
   // caution, refreshing the fork any further can be problematic;
   // see Olafur's remarks at
@@ -1452,6 +1444,14 @@ build += {
   ${vars.base} {
     name: "scala-xml-quote"
     uri:  ${vars.uris.scala-xml-quote-uri}
+  }
+
+  // dependency of scalafmt
+  // forked (July 2017) to remove coursier
+  ${vars.base} {
+    name: "metaconfig"
+    uri:  ${vars.uris.metaconfig-uri}
+    extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
   }
 
 ]}
