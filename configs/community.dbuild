@@ -667,6 +667,7 @@ build += {
     uri:  ${vars.uris.scala-json-ast-uri}
     // no Scala.js please, and no benchmarks either
     extra.projects: ["scalaJsonJVM"]
+    check-missing: false  // ignore missing scalafmt
   }
 
   ${vars.base} {
