@@ -1331,13 +1331,11 @@ build += {
       "removeScalacOptions -Xfatal-warnings"
     ]
     extra.exclude: [
-      // no benchmarks please
-      "bench"
+      // outside our purview
+      "bench", "docs"
       // Missing dependency: com.github.zainab-ali#fs2-reactive-streams
       "async-http-client"
-      // these depend on circe, which we don't have (yet?)
-      "circe", "examples", "examples-tomcat", "examples-jetty", "examples-blaze", "examples-war", "docs"
-      // weird errors, maybe not appropriate to run anyway
+      // weird errors, probably not appropriate to run anyway
       "load-test"
     ]
     // Failed tests: org.http4s.CookieSpec, org.http4s.EntityDecoderSpec
