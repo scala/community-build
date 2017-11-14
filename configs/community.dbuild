@@ -219,6 +219,13 @@ build += {
     uri:  ${vars.uris.scala-swing-uri}
   }
 
+  ${vars.base} {
+    name: "collection-strawman"
+    uri:  ${vars.uris.collection-strawman-uri}
+    // no Scala.js, no benchmarks
+    extra.projects: ["collectionsJVM", "collections-contribJVM", "junit", "scalacheck"]
+  }
+
   // tracking master as of December 2016.  if master proves unstable,
   // we could try "release-0.8" (or a newer branch if there is one)
   ${vars.base} {
@@ -1413,13 +1420,6 @@ build += {
     extra.projects: ["github4sJVM", "catsEffectJVM", "scalaz"]  // but no "docs" or Scala.js stuff
     // Failed tests: github4s.unit.ApiSpec, github4s.integration.IntegrationSpec
     extra.test-tasks: "compile"
-  }
-
-  ${vars.base} {
-    name: "collection-strawman"
-    uri:  ${vars.uris.collection-strawman-uri}
-    // no Scala.js, no benchmarks
-    extra.projects: ["collectionsJVM", "collections-contribJVM", "junit", "scalacheck"]
   }
 
 ]}
