@@ -1001,30 +1001,6 @@ build += {
     ]
   }
 
-  // forked (refreshed September 2017) to remove coursier
-  // caution, refreshing the fork any further can be problematic;
-  // see Olafur's remarks at
-  // https://github.com/scala/community-builds/issues/499#issuecomment-287307613
-  // about the instability of both scalameta and scalafix
-  ${vars.base} {
-    name: "scalafix"
-    uri:  ${vars.uris.scalafix-uri}
-    extra.exclude: [
-      // we never build sbt plugins
-      "scalafix-sbt"
-      // requires scalatex-site which requires Scala.js
-      "readme"
-      // no Scala.js please
-      "coreJS", "diffJS"
-      // Scala 2.10 based
-      "testsInputSbt"
-      // do I *look* like Dotty?
-      "testsOutputDotty"
-      // can't expand macros compiled by previous versions of Scala
-      "testsOutputSbt"
-    ]
-  }
-
   // dependency of scalafix
   // (we use allanrenucci's fork because that's where `organization` is set
   // as scalafix expects; it's where 0.1.4 was apparently published from,
@@ -1040,28 +1016,6 @@ build += {
     name: "metaconfig"
     uri:  ${vars.uris.metaconfig-uri}
     extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
-  }
-
-  ${vars.base} {
-    name: "scalatex"
-    uri:  ${vars.uris.scalatex-uri}
-    extra.exclude: [
-      "scalatexSbtPlugin"  // we never build sbt plugins
-      "site", "readme", "scrollspy"  // these use Scala.js
-    ]
-  }
-
-  // for now we're just building ammonite-ops, not all of ammonite.
-  // ammonite-ops is the piece scalatex needed.  trying to build all
-  // projects here resulted in a circular ammonite/scalatex dependency.
-  // we might look into that some other time.
-  ${vars.base} {
-    name: "ammonite"
-    uri:  ${vars.uris.ammonite-uri}
-    extra.projects: ["ops"]
-    // not investigated:
-    // [ammonite] [info] test.ammonite.ops.ExampleTests.addUpScalaSize
-    extra.test-tasks: "compile"
   }
 
   ${vars.base} {
@@ -1247,6 +1201,34 @@ build += {
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
 
+  ${vars.base} {
+    name: "coursier"
+    uri:  ${vars.uris.coursier-uri}
+    extra.projects: ["jvm"]  // no Scala.js plz
+    extra.exclude: [
+      // I suppose we could try to add this, but it seems inessential:
+      // org.http4s#http4s-blaze-server is not provided (in space "default")
+      "http-server"
+      // no sbt plz
+      "sbt-coursier", "sbt-shading", "sbt-launcher", "sbt-pgp-coursier", "sbt-plugins"
+    ]
+    // dbuild doesn't retrieve submodules unless we make it
+    extra.commands: ["eval \"git submodule update --init\".!"]
+  }
+
+  // dependency of pureconfig
+  ${vars.base} {
+    name: "scalacheck-shapeless"
+    uri:  ${vars.uris.scalacheck-shapeless-uri}
+    extra.projects: ["coreJVM", "testJVM"]  // no Scala.js plz
+    // weird missing self-dependency in testJVM project: "the library
+    // com.github.alexarchambault#scalacheck-shapeless is not provided
+    // (in space "default") by any project in this configuration file."
+    check-missing: false
+    // Failed tests: org.scalacheck.PropTests
+    extra.test-tasks: ["compile"]
+  }
+
 ]}
 
 //// space: jawn_0_10
@@ -1328,6 +1310,66 @@ build += {
     ]
     // some test code fails to compile, a specs2 version thing I think
     extra.run-tests: false
+  }
+
+  // dependency of ammonite.  otherwise obsolete, as per
+  // https://github.com/lihaoyi/upickle-pprint/issues/209
+  // (the pprint part has its own repo now)
+  // requires jawn 0.10
+  ${vars.base} {
+    name: "upickle"
+    uri:  ${vars.uris.upickle-uri}
+    // no Scala.js; also only upickle no pprint
+    extra.projects: ["upickleJVM"]
+  }
+
+  // depends on ammonite-ops
+  ${vars.base} {
+    name: "scalatex"
+    uri:  ${vars.uris.scalatex-uri}
+    extra.exclude: [
+      "scalatexSbtPlugin"  // we never build sbt plugins
+      "site", "readme", "scrollspy"  // these use Scala.js
+    ]
+  }
+
+  ${vars.base} {
+    name: "ammonite"
+    uri:  ${vars.uris.ammonite-uri}
+    extra.projects: [
+      "ops"
+      // commented out pending resolution of
+      // https://github.com/lihaoyi/geny/issues/3
+      // "amm"
+    ]
+    // not investigated:
+    // [ammonite] [info] test.ammonite.ops.ExampleTests.addUpScalaSize
+    extra.test-tasks: "compile"
+  }
+
+  // (here in this space because of ammonite-ops dependency)
+  // forked (refreshed September 2017) to remove coursier
+  // caution, refreshing the fork any further can be problematic;
+  // see Olafur's remarks at
+  // https://github.com/scala/community-builds/issues/499#issuecomment-287307613
+  // about the instability of both scalameta and scalafix
+  ${vars.base} {
+    name: "scalafix"
+    uri:  ${vars.uris.scalafix-uri}
+    extra.exclude: [
+      // we never build sbt plugins
+      "scalafix-sbt"
+      // requires scalatex-site which requires Scala.js
+      "readme"
+      // no Scala.js please
+      "coreJS", "diffJS"
+      // Scala 2.10 based
+      "testsInputSbt"
+      // do I *look* like Dotty?
+      "testsOutputDotty"
+      // can't expand macros compiled by previous versions of Scala
+      "testsOutputSbt"
+    ]
   }
 
 ]}
@@ -1422,6 +1464,38 @@ build += {
     extra.projects: ["github4sJVM", "catsEffectJVM", "scalaz"]  // but no "docs" or Scala.js stuff
     // Failed tests: github4s.unit.ApiSpec, github4s.integration.IntegrationSpec
     extra.test-tasks: "compile"
+  }
+
+  ${vars.base} {
+    name: "circe-config"
+    uri:  ${vars.uris.circe-config-uri}
+    extra.sbt-version: "1.0.3"
+    extra.commands: [
+      // default commands don't work with sbt 1
+      // and we haven't ported removeScalacOptions to sbt 1 yet
+      "set scalacOptions -= \"-Xfatal-warnings\""
+    ]
+  }
+
+  # forked (November 2017) to remove a build.sbt thing that adds Ammonite,
+  # because it isn't a true dependency and we don't want the complication of
+  # Ammonite's own dependency tree (in particular, the jawn versions conflict)
+  ${vars.base} {
+    name: "pureconfig"
+    uri:  ${vars.uris.pureconfig-uri}
+    // I guess dbuild is getting confused by the extra _1.13
+    deps.inject: ["com.github.alexarchambault#scalacheck-shapeless_1.13"]
+    check-missing: false
+    extra.commands: ${vars.default-commands} [
+      // not sure why we get these errors unless we turn them off
+      "set every conflictWarning := ConflictWarning.disable"
+      // - Disable fatal Scaladoc warnings, too fragile
+      "removeScalacOptions -Xfatal-warnings"
+    ]
+    extra.exclude: [
+      // didn't compile -- maybe try again after we're on cats 1.0.0-RCx
+      "cats"
+    ]
   }
 
 ]}
