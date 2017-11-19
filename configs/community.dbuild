@@ -1336,12 +1336,7 @@ build += {
   ${vars.base} {
     name: "ammonite"
     uri:  ${vars.uris.ammonite-uri}
-    extra.projects: [
-      "ops"
-      // commented out pending resolution of
-      // https://github.com/lihaoyi/geny/issues/3
-      // "amm"
-    ]
+    extra.projects: ["ops", "amm"]
     // not investigated:
     // [ammonite] [info] test.ammonite.ops.ExampleTests.addUpScalaSize
     extra.test-tasks: "compile"
