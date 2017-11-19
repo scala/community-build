@@ -777,28 +777,6 @@ build += {
   }
 
   ${vars.base} {
-    name: "scalatex"
-    uri:  ${vars.uris.scalatex-uri}
-    extra.exclude: [
-      "scalatexSbtPlugin"  // we never build sbt plugins
-      "site", "readme", "scrollspy"  // these use Scala.js
-    ]
-  }
-
-  // for now we're just building ammonite-ops, not all of ammonite.
-  // ammonite-ops is the piece scalatex needed.  trying to build all
-  // projects here resulted in a circular ammonite/scalatex dependency.
-  // we might look into that some other time.
-  ${vars.base} {
-    name: "ammonite"
-    uri:  ${vars.uris.ammonite-uri}
-    extra.projects: ["ops"]
-    // not investigated:
-    // [ammonite] [info] test.ammonite.ops.ExampleTests.addUpScalaSize
-    extra.test-tasks: "compile"
-  }
-
-  ${vars.base} {
     name: "geny"
     uri:  ${vars.uris.geny-uri}
     extra.projects: ["genyJVM"]  // no Scala.js plz
@@ -847,9 +825,11 @@ build += {
   }
 
   // adding (September 2017) because scalafix's "cli" subproject uses it.
-  // forked to remove coursier.  we forked from the 1.1.x branch, not
-  // master, since there are source-incompatible changes on master,
-  // but scalafix's dependency is on 1.1.x
+  // forked (November 2017) to use latest coursier.  we forked
+  // from the 1.1.x branch, not master, since there are
+  // source-incompatible changes on master, but scalafix's dependency is
+  // on 1.1.x.  so I'm not bothering to contribute the coursier version
+  // change upstream, since master has already moved on
   ${vars.base} {
     name: "case-app"
     uri:  ${vars.uris.case-app-uri}
@@ -895,6 +875,19 @@ build += {
     extra.options: ["-Dscalastyle.publish-ivy-only=true"]
   }
 
+  // dependency of pureconfig
+  ${vars.base} {
+    name: "scalacheck-shapeless"
+    uri:  ${vars.uris.scalacheck-shapeless-uri}
+    extra.projects: ["coreJVM", "testJVM"]  // no Scala.js plz
+    // weird missing self-dependency in testJVM project: "the library
+    // com.github.alexarchambault#scalacheck-shapeless is not provided
+    // (in space "default") by any project in this configuration file."
+    check-missing: false
+    // Failed tests: org.scalacheck.PropTests
+    extra.test-tasks: ["compile"]
+  }
+
 ]}
 
 //// space: jawn_0_10
@@ -933,6 +926,17 @@ build += {
     name: "sjson-new"
     uri:  ${vars.uris.sjson-new-uri}
     extra.exclude: ["benchmark"]
+  }
+
+  // dependency of ammonite.  otherwise obsolete, as per
+  // https://github.com/lihaoyi/upickle-pprint/issues/209
+  // (the pprint part has its own repo now)
+  // requires jawn 0.10
+  ${vars.base} {
+    name: "upickle"
+    uri:  ${vars.uris.upickle-uri}
+    // no Scala.js; also only upickle no pprint
+    extra.projects: ["upickleJVM"]
   }
 
 ]}
