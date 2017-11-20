@@ -1011,8 +1011,6 @@ build += {
   }
 
   // dependency of scalafix
-  // forked (refreshed November 2017) to use newer, dbuild-friendly coursier version
-  // can be unforked once https://github.com/olafurpg/metaconfig/pull/30 is merged
   ${vars.base} {
     name: "metaconfig"
     uri:  ${vars.uris.metaconfig-uri}
