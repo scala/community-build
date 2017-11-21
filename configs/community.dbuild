@@ -1470,7 +1470,8 @@ build += {
 
   projects: [
 
-  // forked (refreshed November 2017) to disable bintray stuff, IntelliJ stuff
+  // forked (refreshed November 2017) to disable bintray stuff, IntelliJ stuff,
+  // and to remove a failing git-based test
   ${vars.base} {
     name: "scalafmt"
     uri:  ${vars.uris.scalafmt-uri}
