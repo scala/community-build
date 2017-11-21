@@ -1458,13 +1458,6 @@ build += {
     deps.inject: ["com.geirsson#metaconfig-core"]
   }
 
-  // dependency of both scalafix and scalafmt, so it needs to be in both spaces
-  ${vars.base} {
-    name: "metaconfig-scalameta-2"
-    uri:  ${vars.uris.metaconfig-uri}
-    extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
-  }
-
   // dependency of scalafmt
   // forked (July 2017) for dbuild friendliness
   ${vars.base} {
@@ -1554,9 +1547,9 @@ build += {
     extra.projects: ["runtime"]
   }
 
-  // dependency of both scalafix and scalafmt, so it needs to be in both spaces
+  // dependency of scalafix
   ${vars.base} {
-    name: "metaconfig-scalameta-1"
+    name: "metaconfig"
     uri:  ${vars.uris.metaconfig-uri}
     extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
   }
