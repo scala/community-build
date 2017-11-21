@@ -2,10 +2,15 @@
 
 set -e
 
-# otherwise these directories just keep growing.
-# see scala/scala-jenkins-infra#115
-rm -rf target-*/project-builds
-rm -rf target-*/extraction
+# redundant to delete both at start and end, but just in case
+# these were left lying around...
+rm -rf target-*/project-builds || true
+rm -rf target-*/extraction || true
 
 # the `projects` jenkins job param can be used to limit the projects to build
 ./run.sh $projects
+
+# ideally we would keep these around for doing postmortems
+# on failures, but we just don't have room on the behemoths
+rm -rf target-*/project-builds
+rm -rf target-*/extraction
