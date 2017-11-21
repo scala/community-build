@@ -1228,6 +1228,14 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
+  // dependency of scala-debugger. we track the develop branch, since
+  // master seems neglected/outdated
+  ${vars.base} {
+    name: "scallop"
+    uri:  ${vars.uris.scallop-uri}
+    extra.projects: ["jvm"]  // no Scala.js or Scala Native plz
+  }
+
 ]}
 
 //// space: jawn_0_10
@@ -1339,6 +1347,21 @@ build += {
     // not investigated:
     // [ammonite] [info] test.ammonite.ops.ExampleTests.addUpScalaSize
     extra.test-tasks: "compile"
+  }
+
+  // depends on ammonite
+  ${vars.base} {
+    name: "scala-debugger"
+    uri:  ${vars.uris.scala-debugger-uri}
+    extra.exclude: [
+      // no sbt plugins plz!
+      "sbtScalaDebuggerPlugin"
+      // Missing dependency: the library org.senkbeil#grus-layouts
+      "scalaDebuggerDocs"
+    ]
+    // java.util.concurrent.ExecutionException: java.lang.OutOfMemoryError: GC overhead limit exceeded
+    // perhaps only the -Xmx is really necessary, but let's try it with all of the repo's own .jvmopts:
+    extra.options: ["-Xms1g", "-Xmx4g", "-Xss2m", "-XX:MaxMetaspaceSize=256m"]
   }
 
   // (here in this space because of ammonite-ops dependency)
