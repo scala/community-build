@@ -1,11 +1,18 @@
 //// about spaces
 
-// currently we have three spaces: default, jawn_0_10, jawn_0_11.
-// the split is because sbt 1 uses jawn 0.10.x (via its dependency
+// currently we have five spaces.
+
+// the jawn split is because sbt 1 uses jawn 0.10.x (via its dependency
 //   on sjson-new) and the sbt team is worried about the possible
 //   impact of upgrading on binary compatibility of sbt plugins.
 // but in the meantime the whole Typelevel ecosystem is moving onto
 //   jawn 0.11, and the two versions are source-incompatible.
+
+// the scalameta split is because we want to have both scalafmt
+//   and scalafix, but the latter uses scalameta 2.x while the
+//   former is stuck in scalameta 1.x land.  (this is easy to
+//   keep segregated since scalafmt and scalafix tend to be
+//   build-level dependencies, not project-level dependencies.)
 
 //// from environment
 
@@ -95,7 +102,7 @@ build += {
   cross-version: disabled
 
   space.from: default
-  space.to: [ default, jawn_0_10, jawn_0_11 ]
+  space.to: [ default, jawn_0_10, jawn_0_11, scalameta_1, scalameta_2 ]
 
   projects: [
   {
@@ -147,7 +154,7 @@ build += {
 build += {
 
   space.from: default
-  space.to: [ default, jawn_0_10, jawn_0_11 ]
+  space.to: [ default, jawn_0_10, jawn_0_11, scalameta_1, scalameta_2 ]
 
   check-missing: [ true, false ]
   cross-version: [ disabled, standard ]
@@ -977,30 +984,6 @@ build += {
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
 
-  // forked (updated September 2017) to remove coursier.
-  // refreshing the fork should be approached with caution;
-  // see Olafur's remarks at
-  // https://github.com/scala/community-builds/issues/499#issuecomment-287307613
-  // about the instability of both scalameta and scalafix.
-  ${vars.base} {
-    name: "scalameta"
-    uri:  ${vars.uris.scalameta-uri}
-    // else, bintray stuff goes boom
-    extra.options: ["-Dsbt.prohibit.publish=true"]
-    extra.projects: ["scalametaJVM", "contribJVM", "semanticdbScalac"]  // no Scala.js
-    extra.exclude: [
-      // we never build sbt plugins or benchmarks
-      "benchmarks"
-    ]
-    // use right version-specific source directories regardless of our weird dbuild Scala version numbers
-    extra.commands: ${vars.default-commands} [
-      "set unmanagedSourceDirectories in (commonJVM, Compile) += (baseDirectory in commonJVM).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (dialectsJVM, Compile) += (baseDirectory in dialectsJVM).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (scalametaJVM, Compile) += (baseDirectory in scalametaJVM).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (semanticdbScalac, Compile) += (baseDirectory in semanticdbScalac).value / \"src\" / \"main\" / \"scala-2.12.4\""
-    ]
-  }
-
   // dependency of scalafix
   // (we use allanrenucci's fork because that's where `organization` is set
   // as scalafix expects; it's where 0.1.4 was apparently published from,
@@ -1008,13 +991,6 @@ build += {
   ${vars.base} {
     name: "scala-xml-quote"
     uri:  ${vars.uris.scala-xml-quote-uri}
-  }
-
-  // dependency of scalafix
-  ${vars.base} {
-    name: "metaconfig"
-    uri:  ${vars.uris.metaconfig-uri}
-    extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
   }
 
   ${vars.base} {
@@ -1074,19 +1050,6 @@ build += {
     name: "scalapb-lenses"
     uri:  ${vars.uris.scalapb-lenses-uri}
     extra.projects: ["lensesJVM"]  // no Scala.js plz
-  }
-
-  // adding (September 2017) because scalafix's "cli" subproject uses it.
-  // forked to remove coursier and upgrade sbt-bintray
-  ${vars.base} {
-    name: "semanticdb-sbt"
-    uri:  ${vars.uris.semanticdb-sbt-uri}
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
-    ]
-    // this is enough for scalafix
-    extra.projects: ["runtime"]
   }
 
   // adding (September 2017) because scalafix's "cli" subproject uses it.
@@ -1243,7 +1206,8 @@ build += {
 build += {
 
   space.from: jawn_0_10
-  space.to: [ jawn_0_10 ]
+  // to scalameta spaces to provide ammonite-ops
+  space.to: [ jawn_0_10, scalameta_1, scalameta_2 ]
 
   check-missing: [ true, false ]
   cross-version: [ disabled, standard ]
@@ -1362,31 +1326,6 @@ build += {
     // java.util.concurrent.ExecutionException: java.lang.OutOfMemoryError: GC overhead limit exceeded
     // perhaps only the -Xmx is really necessary, but let's try it with all of the repo's own .jvmopts:
     extra.options: ["-Xms1g", "-Xmx4g", "-Xss2m", "-XX:MaxMetaspaceSize=256m"]
-  }
-
-  // (here in this space because of ammonite-ops dependency)
-  // forked (refreshed September 2017) to remove coursier
-  // caution, refreshing the fork any further can be problematic;
-  // see Olafur's remarks at
-  // https://github.com/scala/community-builds/issues/499#issuecomment-287307613
-  // about the instability of both scalameta and scalafix
-  ${vars.base} {
-    name: "scalafix"
-    uri:  ${vars.uris.scalafix-uri}
-    extra.exclude: [
-      // we never build sbt plugins
-      "scalafix-sbt"
-      // requires scalatex-site which requires Scala.js
-      "readme"
-      // no Scala.js please
-      "coreJS", "diffJS"
-      // Scala 2.10 based
-      "testsInputSbt"
-      // do I *look* like Dotty?
-      "testsOutputDotty"
-      // can't expand macros compiled by previous versions of Scala
-      "testsOutputSbt"
-    ]
   }
 
 ]}
@@ -1512,6 +1451,160 @@ build += {
     extra.exclude: [
       // didn't compile -- maybe try again after we're on cats 1.0.0-RCx
       "cats"
+    ]
+  }
+
+]}
+
+//// space: scalameta_1
+
+build += {
+
+  space.from: scalameta_1
+  space.to: [ scalameta_1 ]
+
+  check-missing: [ true, false ]
+  cross-version: [ disabled, standard ]
+  extraction-version: ${vars.scala-version}
+  sbt-version: ${vars.sbt-version}
+
+  projects: [
+
+  // forked (refreshed November 2017) to disable bintray stuff, IntelliJ stuff,
+  // and to remove a failing git-based test
+  ${vars.base} {
+    name: "scalafmt"
+    uri:  ${vars.uris.scalafmt-uri}
+    extra.projects: ["coreJVM", "cli", "tests"]
+  }
+
+  // dependency of scalafmt. frozen at an old version because that's what
+  // scalafmt expects.  (over in the other scalameta space, scalafix expects
+  // a newer version.)
+  ${vars.base} {
+    name: "metaconfig-old"
+    uri:  ${vars.uris.metaconfig-old-uri}
+    extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
+  }
+
+  // dependency of scalafmt
+  // forked (July 2017) for dbuild friendliness
+  ${vars.base} {
+    name: "meta-paradise"
+    uri: ${vars.uris.meta-paradise-uri}
+    // only goal right now (November 2017) is to get scalafmt in, so, let's just
+    // add the project we actually need and not worry about the rest
+    extra.projects: ["paradise"]
+    // use right version-specific source directory regardless of our weird dbuild Scala version number
+    extra.commands: [
+      "set unmanagedSourceDirectories in (paradise, Compile) += (baseDirectory in paradise).value / \"src\" / \"main\" / \"scala-2.12.2\""
+    ]
+  }
+
+  // dependency of scalafmt
+  ${vars.base} {
+    name: "scalameta-1"
+    uri:  ${vars.uris.scalameta-1-uri}
+    // else, bintray stuff goes boom
+    extra.options: ["-Dsbt.prohibit.publish=true"]
+    extra.projects: ["scalametaJVM", "testkit"]  // no Scala.js. just the minimum scalafmt needs?
+    extra.exclude: [
+      // we never build sbt plugins or benchmarks
+      "benchmarks"
+    ]
+     extra.commands: ${vars.default-commands} [
+        // Disable fatal Scaladoc warnings, too fragile
+       "removeScalacOptions -Xfatal-warnings"
+       // use right version-specific source directories regardless of our weird dbuild Scala version numbers
+       "set unmanagedSourceDirectories in (commonJVM, Compile) += (baseDirectory in commonJVM).value / \"src\" / \"main\" / \"scala-2.12\""
+       "set unmanagedSourceDirectories in (dialectsJVM, Compile) += (baseDirectory in dialectsJVM).value / \"src\" / \"main\" / \"scala-2.12\""
+       "set unmanagedSourceDirectories in (scalametaJVM, Compile) += (baseDirectory in scalametaJVM).value / \"src\" / \"main\" / \"scala-2.12\""
+       "set unmanagedSourceDirectories in (scalahost, Compile) += (baseDirectory in scalahost).value / \"src\" / \"main\" / \"scala-2.12.1\""
+    ]
+  }
+
+]}
+
+//// space: scalameta_2
+
+build += {
+
+  space.from: scalameta_2
+  space.to: [ scalameta_2 ]
+
+  check-missing: [ true, false ]
+  cross-version: [ disabled, standard ]
+  extraction-version: ${vars.scala-version}
+  sbt-version: ${vars.sbt-version}
+
+  projects: [
+
+  // forked (updated September 2017) to remove coursier.
+  // refreshing the fork should be approached with caution;
+  // see Olafur's remarks at
+  // https://github.com/scala/community-builds/issues/499#issuecomment-287307613
+  // about the instability of both scalameta and scalafix.
+  ${vars.base} {
+    name: "scalameta-2"
+    uri:  ${vars.uris.scalameta-2-uri}
+    // else, bintray stuff goes boom
+    extra.options: ["-Dsbt.prohibit.publish=true"]
+    extra.projects: ["scalametaJVM", "contribJVM", "semanticdbScalac"]  // no Scala.js
+    extra.exclude: [
+      // we never build sbt plugins or benchmarks
+      "benchmarks"
+    ]
+    // use right version-specific source directories regardless of our weird dbuild Scala version numbers
+    extra.commands: ${vars.default-commands} [
+      "set unmanagedSourceDirectories in (commonJVM, Compile) += (baseDirectory in commonJVM).value / \"src\" / \"main\" / \"scala-2.12\""
+      "set unmanagedSourceDirectories in (dialectsJVM, Compile) += (baseDirectory in dialectsJVM).value / \"src\" / \"main\" / \"scala-2.12\""
+      "set unmanagedSourceDirectories in (scalametaJVM, Compile) += (baseDirectory in scalametaJVM).value / \"src\" / \"main\" / \"scala-2.12\""
+      "set unmanagedSourceDirectories in (semanticdbScalac, Compile) += (baseDirectory in semanticdbScalac).value / \"src\" / \"main\" / \"scala-2.12.4\""
+    ]
+  }
+
+  // adding (September 2017) because scalafix's "cli" subproject uses it.
+  // forked to remove coursier and upgrade sbt-bintray
+  ${vars.base} {
+    name: "semanticdb-sbt"
+    uri:  ${vars.uris.semanticdb-sbt-uri}
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
+    // this is enough for scalafix
+    extra.projects: ["runtime"]
+  }
+
+  // dependency of scalafix
+  ${vars.base} {
+    name: "metaconfig-new"
+    uri:  ${vars.uris.metaconfig-new-uri}
+    extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
+  }
+
+  // (here in this space because of ammonite-ops dependency)
+  // forked (refreshed September 2017) to remove coursier
+  // caution, refreshing the fork any further can be problematic;
+  // see Olafur's remarks at
+  // https://github.com/scala/community-builds/issues/499#issuecomment-287307613
+  // about the instability of both scalameta and scalafix
+  ${vars.base} {
+    name: "scalafix"
+    uri:  ${vars.uris.scalafix-uri}
+    extra.exclude: [
+      // we never build sbt plugins
+      "scalafix-sbt"
+      // requires scalatex-site which requires Scala.js
+      "readme"
+      // no Scala.js please
+      "coreJS", "diffJS"
+      // Scala 2.10 based
+      "testsInputSbt"
+      // do I *look* like Dotty?
+      "testsOutputDotty"
+      // can't expand macros compiled by previous versions of Scala
+      "testsOutputSbt"
     ]
   }
 
