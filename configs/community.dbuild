@@ -1198,8 +1198,8 @@ build += {
 build += {
 
   space.from: jawn_0_10
-  // to scalameta_1 because of scalafix->ammonite dependency
-  space.to: [ jawn_0_10, scalameta_1 ]
+  // to scalameta spaces to provide ammonite-ops
+  space.to: [ jawn_0_10, scalameta_1, scalameta_2 ]
 
   check-missing: [ true, false ]
   cross-version: [ disabled, standard ]
