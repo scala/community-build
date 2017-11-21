@@ -993,13 +993,6 @@ build += {
     uri:  ${vars.uris.scala-xml-quote-uri}
   }
 
-  // dependency of scalafix
-  ${vars.base} {
-    name: "metaconfig"
-    uri:  ${vars.uris.metaconfig-uri}
-    extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
-  }
-
   ${vars.base} {
     name: "geny"
     uri:  ${vars.uris.geny-uri}
@@ -1205,7 +1198,8 @@ build += {
 build += {
 
   space.from: jawn_0_10
-  space.to: [ jawn_0_10 ]
+  // to scalameta_1 because of scalafix->ammonite dependency
+  space.to: [ jawn_0_10, scalameta_1 ]
 
   check-missing: [ true, false ]
   cross-version: [ disabled, standard ]
@@ -1309,31 +1303,6 @@ build += {
     // not investigated:
     // [ammonite] [info] test.ammonite.ops.ExampleTests.addUpScalaSize
     extra.test-tasks: "compile"
-  }
-
-  // (here in this space because of ammonite-ops dependency)
-  // forked (refreshed September 2017) to remove coursier
-  // caution, refreshing the fork any further can be problematic;
-  // see Olafur's remarks at
-  // https://github.com/scala/community-builds/issues/499#issuecomment-287307613
-  // about the instability of both scalameta and scalafix
-  ${vars.base} {
-    name: "scalafix"
-    uri:  ${vars.uris.scalafix-uri}
-    extra.exclude: [
-      // we never build sbt plugins
-      "scalafix-sbt"
-      // requires scalatex-site which requires Scala.js
-      "readme"
-      // no Scala.js please
-      "coreJS", "diffJS"
-      // Scala 2.10 based
-      "testsInputSbt"
-      // do I *look* like Dotty?
-      "testsOutputDotty"
-      // can't expand macros compiled by previous versions of Scala
-      "testsOutputSbt"
-    ]
   }
 
 ]}
@@ -1576,6 +1545,38 @@ build += {
     ]
     // this is enough for scalafix
     extra.projects: ["runtime"]
+  }
+
+  // dependency of scalafix
+  ${vars.base} {
+    name: "metaconfig"
+    uri:  ${vars.uris.metaconfig-uri}
+    extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
+  }
+
+  // (here in this space because of ammonite-ops dependency)
+  // forked (refreshed September 2017) to remove coursier
+  // caution, refreshing the fork any further can be problematic;
+  // see Olafur's remarks at
+  // https://github.com/scala/community-builds/issues/499#issuecomment-287307613
+  // about the instability of both scalameta and scalafix
+  ${vars.base} {
+    name: "scalafix"
+    uri:  ${vars.uris.scalafix-uri}
+    extra.exclude: [
+      // we never build sbt plugins
+      "scalafix-sbt"
+      // requires scalatex-site which requires Scala.js
+      "readme"
+      // no Scala.js please
+      "coreJS", "diffJS"
+      // Scala 2.10 based
+      "testsInputSbt"
+      // do I *look* like Dotty?
+      "testsOutputDotty"
+      // can't expand macros compiled by previous versions of Scala
+      "testsOutputSbt"
+    ]
   }
 
 ]}
