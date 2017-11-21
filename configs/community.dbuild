@@ -1483,7 +1483,7 @@ build += {
     uri:  ${vars.uris.scalameta-1-uri}
     // else, bintray stuff goes boom
     extra.options: ["-Dsbt.prohibit.publish=true"]
-    extra.projects: ["scalametaJVM"]  // no Scala.js. just the minimum scalafmt needs?
+    extra.projects: ["scalametaJVM", "testkit"]  // no Scala.js. just the minimum scalafmt needs?
     extra.exclude: [
       // we never build sbt plugins or benchmarks
       "benchmarks"
