@@ -13,6 +13,8 @@
 #   scalalib, scalachess: built with sbt 1, which doesn't support Scala 2.13 yet
 # * fs2, monix: depend on cats-effect
 # * jawn-fs2, http4s: depend on fs2
+# * everything in the scalameta_1 and scalameta_2 spaces
+#   (scalameta is too fragile, for now, for 2.13)
 #
 # we should attempt to add them back later in the 2.13 cycle (by
 # copying their entries from the 2.12 config)
@@ -24,12 +26,19 @@
 
 //// about spaces
 
-// currently we have three spaces: default, jawn_0_10, jawn_0_11.
-// the split is because sbt 1 uses jawn 0.10.x (via its dependency
+// currently we have five spaces.
+
+// the jawn split is because sbt 1 uses jawn 0.10.x (via its dependency
 //   on sjson-new) and the sbt team is worried about the possible
 //   impact of upgrading on binary compatibility of sbt plugins.
 // but in the meantime the whole Typelevel ecosystem is moving onto
 //   jawn 0.11, and the two versions are source-incompatible.
+
+// the scalameta split is because we want to have both scalafmt
+//   and scalafix, but the latter uses scalameta 2.x while the
+//   former is stuck in scalameta 1.x land.  (this is easy to
+//   keep segregated since scalafmt and scalafix tend to be
+//   build-level dependencies, not project-level dependencies.)
 
 //// from environment
 
@@ -119,7 +128,7 @@ build += {
   cross-version: disabled
 
   space.from: default
-  space.to: [ default, jawn_0_10, jawn_0_11 ]
+  space.to: [ default, jawn_0_10, jawn_0_11, scalameta_1, scalameta_2 ]
 
   projects: [
   {
@@ -171,7 +180,7 @@ build += {
 build += {
 
   space.from: default
-  space.to: [ default, jawn_0_10, jawn_0_11 ]
+  space.to: [ default, jawn_0_10, jawn_0_11, scalameta_1, scalameta_2 ]
 
   check-missing: [ true, false ]
   cross-version: [ disabled, standard ]
@@ -888,6 +897,14 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
+  // dependency of scala-debugger. we track the develop branch, since
+  // master seems neglected/outdated
+  ${vars.base} {
+    name: "scallop"
+    uri:  ${vars.uris.scallop-uri}
+    extra.projects: ["jvm"]  // no Scala.js or Scala Native plz
+  }
+
 ]}
 
 //// space: jawn_0_10
@@ -895,7 +912,8 @@ build += {
 build += {
 
   space.from: jawn_0_10
-  space.to: [ jawn_0_10 ]
+  // to scalameta spaces to provide ammonite-ops
+  space.to: [ jawn_0_10, scalameta_1, scalameta_2 ]
 
   check-missing: [ true, false ]
   cross-version: [ disabled, standard ]
@@ -972,5 +990,37 @@ build += {
     uri:  ${vars.uris.base64-uri}
     extra.projects: ["base64JVM"]  // no Scala.js plz
   }
+
+]}
+
+//// space: scalameta_1
+
+build += {
+
+  space.from: scalameta_1
+  space.to: [ scalameta_1 ]
+
+  check-missing: [ true, false ]
+  cross-version: [ disabled, standard ]
+  extraction-version: ${vars.scala-version}
+  sbt-version: ${vars.sbt-version}
+
+  projects: [
+
+]}
+
+//// space: scalameta_2
+
+build += {
+
+  space.from: scalameta_2
+  space.to: [ scalameta_2 ]
+
+  check-missing: [ true, false ]
+  cross-version: [ disabled, standard ]
+  extraction-version: ${vars.scala-version}
+  sbt-version: ${vars.sbt-version}
+
+  projects: [
 
 ]}
