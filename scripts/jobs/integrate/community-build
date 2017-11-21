@@ -2,13 +2,18 @@
 
 set -e
 
-# otherwise these directories just keep growing.
-# see scala/scala-jenkins-infra#115
-rm -rf target-*/project-builds
-rm -rf target-*/extraction
+# redundant to delete both at start and end, but just in case
+# these were left lying around...
+rm -rf target-*/project-builds || true
+rm -rf target-*/extraction || true
 
 # TODO: in scala-jenkins-infra, make an actual parameter for
 # specifying projects to be built, instead of hijacking the
 # "scala_build_extra_opt" name for that purpose
 
 ./run.sh $scala_build_extra_opt
+
+# ideally we would keep these around for doing postmortems
+# on failures, but we just don't have room on the behemoths
+rm -rf target-*/project-builds
+rm -rf target-*/extraction
