@@ -1447,13 +1447,11 @@ build += {
 
   projects: [
 
-  // forked (July 2017) to disable coursier, bintray stuff, IntelliJ stuff
+  // forked (refreshed November 2017) to disable bintray stuff, IntelliJ stuff
   ${vars.base} {
     name: "scalafmt"
     uri:  ${vars.uris.scalafmt-uri}
-    // let's keep our ambitions modest for now (November 2017)
-    // and just try to build core (and no Scala.js plz, of course)
-    extra.projects: ["coreJVM"]
+    extra.projects: ["coreJVM", "cli", "tests"]
   }
 
   // dependency of scalafmt
