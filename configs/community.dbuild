@@ -1454,6 +1454,15 @@ build += {
     extra.projects: ["coreJVM", "cli", "tests"]
   }
 
+  // dependency of scalafmt. frozen at an old version because that's what
+  // scalafmt expects.  (over in the other scalameta space, scalafix expects
+  // a newer version.)
+  ${vars.base} {
+    name: "metaconfig-old"
+    uri:  ${vars.uris.metaconfig-old-uri}
+    extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
+  }
+
   // dependency of scalafmt
   // forked (July 2017) for dbuild friendliness
   ${vars.base} {
@@ -1545,8 +1554,8 @@ build += {
 
   // dependency of scalafix
   ${vars.base} {
-    name: "metaconfig"
-    uri:  ${vars.uris.metaconfig-uri}
+    name: "metaconfig-new"
+    uri:  ${vars.uris.metaconfig-new-uri}
     extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
   }
 
