@@ -101,8 +101,7 @@ build += {
   extraction-version: ${vars.scala-version}
   cross-version: disabled
 
-  space.from: default
-  space.to: [ default, jawn_0_10, jawn_0_11, scalameta_1, scalameta_2 ]
+  space: scala
 
   projects: [
   {
@@ -149,12 +148,11 @@ build += {
 ]}
 
 
-//// space: default
+//// space: scala
 
 build += {
 
-  space.from: default
-  space.to: [ default, jawn_0_10, jawn_0_11, scalameta_1, scalameta_2 ]
+  space: scala
 
   check-missing: [ true, false ]
   cross-version: [ disabled, standard ]
@@ -1207,9 +1205,7 @@ build += {
 
 build += {
 
-  space.from: jawn_0_10
-  // to scalameta spaces to provide ammonite-ops
-  space.to: [ jawn_0_10, scalameta_1, scalameta_2 ]
+  space: scala.jawn_0_10
 
   check-missing: [ true, false ]
   cross-version: [ disabled, standard ]
@@ -1336,8 +1332,7 @@ build += {
 
 build += {
 
-  space.from: jawn_0_11
-  space.to: [ jawn_0_11 ]
+  space: scala.jawn_0_11
 
   check-missing: [ true, false ]
   cross-version: [ disabled, standard ]
@@ -1462,8 +1457,7 @@ build += {
 
 build += {
 
-  space.from: scalameta_1
-  space.to: [ scalameta_1 ]
+  space: scala.jawn_0_10.scalameta_1
 
   check-missing: [ true, false ]
   cross-version: [ disabled, standard ]
@@ -1531,8 +1525,7 @@ build += {
 
 build += {
 
-  space.from: scalameta_2
-  space.to: [ scalameta_2 ]
+  space: scala.jawn_0_10.scalameta_2
 
   check-missing: [ true, false ]
   cross-version: [ disabled, standard ]
