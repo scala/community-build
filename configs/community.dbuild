@@ -173,19 +173,17 @@ build += {
   ${vars.base} {
     name: "scala-js"
     uri:  ${vars.uris.scala-js-uri}
-    extra: ${vars.base.extra} {
-      // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
-      options: ["-Xmx2048m"]
-      projects: [ tools, testSuite, stubs ]
-      commands: ${vars.default-commands} [
-        // - Disable fatal Scaladoc warnings, too fragile
-        "removeScalacOptions -Xfatal-warnings"
-        // - We disable source map tests to save ourselves a `npm install source-map-support` on the workers.
-        //   Although only `testSuite` actually has tests, dbuild will try to run the tests for all projects
-        //   that `testSuite` depends on (transitively), so we need to set it in a bunch of places.
-        "set Seq(library, testInterface, jUnitRuntime, testSuite).map(p => jsEnv in p := new org.scalajs.jsenv.nodejs.NodeJSEnv(org.scalajs.jsenv.nodejs.NodeJSEnv.Config().withExecutable(\""${vars.node}"\").withSourceMap(false)))"
-      ]
-    }
+    // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
+    extra.options: ["-Xmx2048m"]
+    extra.projects: [ tools, testSuite, stubs ]
+    extra.commands: ${vars.default-commands} [
+      // - Disable fatal Scaladoc warnings, too fragile
+      "removeScalacOptions -Xfatal-warnings"
+      // - We disable source map tests to save ourselves a `npm install source-map-support` on the workers.
+      //   Although only `testSuite` actually has tests, dbuild will try to run the tests for all projects
+      //   that `testSuite` depends on (transitively), so we need to set it in a bunch of places.
+      "set Seq(library, testInterface, jUnitRuntime, testSuite).map(p => jsEnv in p := new org.scalajs.jsenv.nodejs.NodeJSEnv(org.scalajs.jsenv.nodejs.NodeJSEnv.Config().withExecutable(\""${vars.node}"\").withSourceMap(false)))"
+    ]
   }
 
   // frozen (June 2017) at an April 2017 commit; newer commits
@@ -201,10 +199,8 @@ build += {
   ${vars.base} {
     name: "scalatest"
     uri:  ${vars.uris.scalatest-uri}
-    extra: ${vars.base.extra} {
-      projects: ["scalatest", "scalactic"]
-      test-tasks: ["compile"] // TODO run tests -- need to exclude browser-based tests somehow
-    }
+    extra.projects: ["scalatest", "scalactic"]
+    extra.test-tasks: ["compile"] // TODO run tests -- need to exclude browser-based tests somehow
   }
 
   ${vars.base} {
@@ -254,10 +250,8 @@ build += {
   ${vars.base} {
     name: "scoverage"
     uri:  ${vars.uris.scoverage-uri}
-    extra: ${vars.base.extra} {
-      exclude: ["scalac-scoverage-runtimeJS"] // no Scala.js please
-      test-tasks: "compile" // TODO: [info] java.io.FileNotFoundException: Could not locate [~/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.0.jar].
-    }
+    extra.exclude: ["scalac-scoverage-runtimeJS"] // no Scala.js please
+    extra.test-tasks: "compile" // TODO: [info] java.io.FileNotFoundException: Could not locate [~/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.0.jar].
   }
 
   ${vars.base} {
@@ -281,17 +275,13 @@ build += {
   ${vars.base} {
     name: "scodec-bits"
     uri:  ${vars.uris.scodec-bits-uri}
-    extra: ${vars.base.extra} {
-      projects: ["coreJVM"]
-    }
+    extra.projects: ["coreJVM"]
   }
 
   ${vars.base} {
     name: "scodec"
     uri:  ${vars.uris.scodec-uri}
-    extra: ${vars.base.extra} {
-      projects: ["coreJVM"]
-    }
+    extra.projects: ["coreJVM"]
   }
 
   ${vars.base} {
@@ -315,12 +305,10 @@ build += {
   ${vars.base} {
     name: "akka-actor"
     uri:  ${vars.uris.akka-actor-uri}
-    extra: ${vars.base.extra} {
-      sbt-version: "1.0.3"
-      options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
-      projects: ["akka-actor"]
-      commands: ["set every apiURL := None"]  // https://github.com/scala/community-builds/issues/373
-    }
+    extra.sbt-version: "1.0.3"
+    extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
+    extra.projects: ["akka-actor"]
+    extra.commands: ["set every apiURL := None"]  // https://github.com/scala/community-builds/issues/373
   }
 
   // this is separate from "akka" because there is a circular dependency between
@@ -328,19 +316,17 @@ build += {
   ${vars.base} {
     name: "akka-more"
     uri:  ${vars.uris.akka-more-uri}
-    extra: ${vars.base.extra} {
-      sbt-version: "1.0.3"
-      options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
-      projects: ["akka-scala-nightly"]
-      commands: ["set every apiURL := None"]  // https://github.com/scala/community-builds/issues/373
-      exclude: [
-        "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
-        "akka-actor"  // because we already built it in "akka"
-        "akka-bench-jmh"  // we'd have to add a resolver to get the JMH dependency - ST 8/17/15
-      ]
-      // TODO wip on this at https://github.com/scala/community-builds/pull/317
-      test-tasks: ["compile"]
-    }
+    extra.sbt-version: "1.0.3"
+    extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
+    extra.projects: ["akka-scala-nightly"]
+    extra.commands: ["set every apiURL := None"]  // https://github.com/scala/community-builds/issues/373
+    extra.exclude: [
+      "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
+      "akka-actor"  // because we already built it in "akka"
+      "akka-bench-jmh"  // we'd have to add a resolver to get the JMH dependency - ST 8/17/15
+    ]
+    // TODO wip on this at https://github.com/scala/community-builds/pull/317
+    extra.test-tasks: ["compile"]
   }
 
   // frozen (November 2017) pending resolution of
@@ -348,25 +334,23 @@ build += {
   ${vars.base} {
     name: "akka-http"
     uri:  ${vars.uris.akka-http-uri}
-    extra: ${vars.base.extra} {
-      sbt-version: "1.0.3"
-      exclude: ["docs"]
-      options: [
-        "-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false"
-        "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
-      ]
-      // Scaladoc generation failure reported upstream at https://github.com/akka/akka/issues/21543
-      // default commands don't work with sbt 1.0
-      commands: [
-        "set sources in doc in Compile in httpCore := List()"
-        "set every bintrayReleaseOnPublish := false"
-        // sbt-osgi doesn't like dbuild-mangled version numbers
-        "set every OsgiKeys.bundleVersion := \"10.0.0\""
-      ]
-      // "HTTP is sadly very timing sensitive we're working on improving its stability regularly,
-      // OK to disable it for now." - Konrad M, October 2016
-      test-tasks: ["compile"]
-    }
+    extra.sbt-version: "1.0.3"
+    extra.exclude: ["docs"]
+    extra.options: [
+      "-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false"
+      "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
+    ]
+    // Scaladoc generation failure reported upstream at https://github.com/akka/akka/issues/21543
+    // default commands don't work with sbt 1.0
+    extra.commands: [
+      "set sources in doc in Compile in httpCore := List()"
+      "set every bintrayReleaseOnPublish := false"
+      // sbt-osgi doesn't like dbuild-mangled version numbers
+      "set every OsgiKeys.bundleVersion := \"10.0.0\""
+    ]
+    // "HTTP is sadly very timing sensitive we're working on improving its stability regularly,
+    // OK to disable it for now." - Konrad M, October 2016
+    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
@@ -683,21 +667,19 @@ build += {
   ${vars.base} {
     name: "play-core"
     uri:  ${vars.uris.play-core-uri}
-    extra: ${vars.base.extra} {
-      // TODO: enable more projects? these are just a few that seemed especially high-value.
-      // we tried including "Play-Integration-Test" but hit a mysterious StackOverflowError
-      // in scala.tools.nsc.javac.JavaScanners; see https://github.com/scala/community-builds/issues/304
-      projects: ["Play", "Play-Test", "Play-WS", "Play-Cache", "Play-AHC-WS", "Filters-Helpers", "Play-Logback"]
-      exclude: ["SBT-Plugin"]
-      directory: "framework"
-      commands: ${vars.default-commands} [
-        // workaround for the problem with PlayVersion.scala file is being passed twice to Scala compiler
-        // and we get double definition error
-        "set sources in (PlayProject, Compile, compile) := (sources in (PlayProject, Compile, compile)).value.distinct"
-        // there was some Scaladoc error here I didn't bother to look into
-        "set sources in doc in Compile in PlayProject := List()"
-      ]
-    }
+    // TODO: enable more projects? these are just a few that seemed especially high-value.
+    // we tried including "Play-Integration-Test" but hit a mysterious StackOverflowError
+    // in scala.tools.nsc.javac.JavaScanners; see https://github.com/scala/community-builds/issues/304
+    extra.projects: ["Play", "Play-Test", "Play-WS", "Play-Cache", "Play-AHC-WS", "Filters-Helpers", "Play-Logback"]
+    extra.exclude: ["SBT-Plugin"]
+    extra.directory: "framework"
+    extra.commands: ${vars.default-commands} [
+      // workaround for the problem with PlayVersion.scala file is being passed twice to Scala compiler
+      // and we get double definition error
+      "set sources in (PlayProject, Compile, compile) := (sources in (PlayProject, Compile, compile)).value.distinct"
+      // there was some Scaladoc error here I didn't bother to look into
+      "set sources in doc in Compile in PlayProject := List()"
+    ]
   }
 
   // 3.5 is the current stable branch (as of Oct 2016)
