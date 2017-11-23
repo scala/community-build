@@ -9,12 +9,11 @@ rm -rf target-*/extraction || true
 # specifying projects to be built, instead of hijacking the
 # "scala_build_extra_opt" name for that purpose
 
-./run.sh $scala_build_extra_opt
-STATUS="$?"
+./run.sh $scala_build_extra_opt || STATUS="$?"
 
 # ideally we would keep these around for doing postmortems
 # on failures, but we just don't have room on the behemoths
 rm -rf target-*/project-builds
 rm -rf target-*/extraction
 
-exit "$STATUS"
+exit $STATUS
