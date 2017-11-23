@@ -182,8 +182,7 @@ fi
 
 # And finally, call dbuild
 echo "dbuild-${DBUILDVERSION}/bin/dbuild"  "$dbuild_args" "$DBUILDCONFIG" "${@}"
-"dbuild-${DBUILDVERSION}/bin/dbuild"  "$dbuild_args" "$DBUILDCONFIG" "${@}" 2>&1 | tee "dbuild-${DBUILDVERSION}/dbuild.out"
-STATUS="$?"
+("dbuild-${DBUILDVERSION}/bin/dbuild"  "$dbuild_args" "$DBUILDCONFIG" "${@}" 2>&1 | tee "dbuild-${DBUILDVERSION}/dbuild.out") || STATUS="$?"
 BUILD_ID="$(grep '^\[info\]  uuid = ' "dbuild-${DBUILDVERSION}/dbuild.out" | sed -e 's/\[info\]  uuid = //')"
 echo "The repeatable UUID of this build was: ${BUILD_ID}"
-exit "$STATUS"
+exit $STATUS
