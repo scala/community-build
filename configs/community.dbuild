@@ -1265,6 +1265,8 @@ build += {
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     // Failed tests: sbt.internal.inc.ZincComponentCompilerSpec
     extra.test-tasks: ["compile"]
+    extra.commands: ["set every scalafmtOnCompile := false"]
+    check-missing: false  // ignore missing scalafmt
   }
 
   ${vars.base} {
