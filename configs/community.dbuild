@@ -312,7 +312,6 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
-  // frozen (November 2017) pending https://github.com/akka/akka/pull/24059
   ${vars.base} {
     name: "akka-actor"
     uri:  ${vars.uris.akka-actor-uri}
@@ -326,7 +325,6 @@ build += {
 
   // this is separate from "akka" because there is a circular dependency between
   // the akka and ssl-config repos
-  // frozen (November 2017) pending https://github.com/akka/akka/pull/24059
   ${vars.base} {
     name: "akka-more"
     uri:  ${vars.uris.akka-more-uri}
