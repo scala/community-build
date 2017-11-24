@@ -1283,7 +1283,8 @@ build += {
       // depends on sxr_2.10?!
       "sbtRoot"
     ]
-    // some test code fails to compile, a specs2 version thing I think
+    // some test code fails to compile, a specs2 version thing I think.
+    // issue of record is https://github.com/sbt/sbt/issues/3765
     extra.run-tests: false
   }
 
