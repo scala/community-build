@@ -199,19 +199,17 @@ build += {
   ${vars.base} {
     name: "scala-js"
     uri:  ${vars.uris.scala-js-uri}
-    extra: ${vars.base.extra} {
-      // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
-      options: ["-Xmx2048m"]
-      projects: [ tools, testSuite, stubs ]
-      commands: ${vars.default-commands} [
-        // - Disable fatal Scaladoc warnings, too fragile
-        "removeScalacOptions -Xfatal-warnings"
-        // - We disable source map tests to save ourselves a `npm install source-map-support` on the workers.
-        //   Although only `testSuite` actually has tests, dbuild will try to run the tests for all projects
-        //   that `testSuite` depends on (transitively), so we need to set it in a bunch of places.
-        "set Seq(library, testInterface, jUnitRuntime, testSuite).map(p => jsEnv in p := new org.scalajs.jsenv.nodejs.NodeJSEnv(org.scalajs.jsenv.nodejs.NodeJSEnv.Config().withExecutable(\""${vars.node}"\").withSourceMap(false)))"
-      ]
-    }
+    // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
+    extra.options: ["-Xmx2048m"]
+    extra.projects: [ tools, testSuite, stubs ]
+    extra.commands: ${vars.default-commands} [
+      // - Disable fatal Scaladoc warnings, too fragile
+      "removeScalacOptions -Xfatal-warnings"
+      // - We disable source map tests to save ourselves a `npm install source-map-support` on the workers.
+      //   Although only `testSuite` actually has tests, dbuild will try to run the tests for all projects
+      //   that `testSuite` depends on (transitively), so we need to set it in a bunch of places.
+      "set Seq(library, testInterface, jUnitRuntime, testSuite).map(p => jsEnv in p := new org.scalajs.jsenv.nodejs.NodeJSEnv(org.scalajs.jsenv.nodejs.NodeJSEnv.Config().withExecutable(\""${vars.node}"\").withSourceMap(false)))"
+    ]
   }
 
   // frozen (June 2017) at an April 2017 commit; newer commits
@@ -220,17 +218,17 @@ build += {
     name: "scalacheck"
     uri:  ${vars.uris.scalacheck-uri}
     extra.projects: ["jvm"]  // no Scala.js please
-    // because of new unused warnings in 2.12.2
-    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
+    extra.commands: ${vars.default-commands} [
+      // because of new unused warnings in 2.12.2
+      "removeScalacOptions -Xfatal-warnings"
+    ]
   }
 
   ${vars.base} {
     name: "scalatest"
     uri:  ${vars.uris.scalatest-uri}
-    extra: ${vars.base.extra} {
-      projects: ["scalatest", "scalactic"]
-      test-tasks: ["compile"] // TODO run tests -- need to exclude browser-based tests somehow
-    }
+    extra.projects: ["scalatest", "scalactic"]
+    extra.test-tasks: ["compile"] // TODO run tests -- need to exclude browser-based tests somehow
   }
 
   ${vars.base} {
@@ -241,8 +239,10 @@ build += {
   ${vars.base} {
     name: "scala-partest"
     uri:  ${vars.uris.scala-partest-uri}
-    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ] # Deprecated optimizer settings
-
+    extra.commands: ${vars.default-commands} [
+      // Deprecated optimizer settings
+      "removeScalacOptions -Xfatal-warnings"
+    ]
   }
 
   ${vars.base} {
@@ -271,8 +271,10 @@ build += {
     name: "shapeless"
     uri:  ${vars.uris.shapeless-uri}
     extra.projects: ["coreJVM"]
-    // optimizer related. Lukas may want to revisit before 2.12 final
-    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
+    extra.commands: ${vars.default-commands} [
+      // optimizer related
+      "removeScalacOptions -Xfatal-warnings"
+    ]
     // TODO Failed tests: shapeless.CachedTest
     extra.test-tasks: ["compile"]
   }
@@ -280,18 +282,18 @@ build += {
   ${vars.base} {
     name: "scoverage"
     uri:  ${vars.uris.scoverage-uri}
-    extra: ${vars.base.extra} {
-      exclude: ["scalac-scoverage-runtimeJS"] // no Scala.js please
-      test-tasks: "compile" // TODO: [info] java.io.FileNotFoundException: Could not locate [~/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.0.jar].
-    }
+    extra.exclude: ["scalac-scoverage-runtimeJS"] // no Scala.js please
+    extra.test-tasks: "compile" // TODO: [info] java.io.FileNotFoundException: Could not locate [~/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.0.jar].
   }
 
   ${vars.base} {
     name: "scala-java8-compat"
     uri:  ${vars.uris.scala-java8-compat-uri}
-    // For some reason dbuild includes test sources in the javadocs, which trips up javadoc because
-    // we use "assert" as an identifier there. We disable doc building to avoid that.
-    extra.commands: ${vars.default-commands} [ "set publishArtifact in packageDoc := false" ]
+    extra.commands: ${vars.default-commands} [
+      // For some reason dbuild includes test sources in the javadocs, which trips up javadoc because
+      // we use "assert" as an identifier there. We disable doc building to avoid that.
+      "set publishArtifact in packageDoc := false"
+    ]
   }
 
   ${vars.base} {
@@ -307,17 +309,13 @@ build += {
   ${vars.base} {
     name: "scodec-bits"
     uri:  ${vars.uris.scodec-bits-uri}
-    extra: ${vars.base.extra} {
-      projects: ["coreJVM"]
-    }
+    extra.projects: ["coreJVM"]
   }
 
   ${vars.base} {
     name: "scodec"
     uri:  ${vars.uris.scodec-uri}
-    extra: ${vars.base.extra} {
-      projects: ["coreJVM"]
-    }
+    extra.projects: ["coreJVM"]
   }
 
   ${vars.base} {
@@ -346,11 +344,12 @@ build += {
   ${vars.base} {
     name: "akka-actor"
     uri:  ${vars.uris.akka-actor-uri}
-    extra: ${vars.base.extra} {
-      options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
-      projects: ["akka-actor"]
-      commands: ["set every apiURL := None"]  // https://github.com/scala/community-builds/issues/373
-    }
+    extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
+    extra.projects: ["akka-actor"]
+    extra.commands: ${vars.default-commands} [
+      // https://github.com/scala/community-builds/issues/373
+      "set every apiURL := None"
+    ]
   }
 
   // freeze (October 2017) at August 2017 commit predating upgrade
@@ -411,7 +410,7 @@ build += {
     uri:  ${vars.uris.sbinary-uri}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     // may be needed again once we're on current sbt-houserules again
-    // extra.commands: ["set every scalafmtOnCompile := false"]
+    // extra.commands: ${vars.default-commands} ["set every scalafmtOnCompile := false"]
     // check-missing: false  // ignore missing scalafmt
   }
 
@@ -469,8 +468,10 @@ build += {
     name: "scalaprops"
     uri:  ${vars.uris.scalaprops-uri}
     extra.projects: ["rootJVM"]  // no Scala.js please
-    // new warnings from https://github.com/scala/scala/pull/5402
-    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
+    extra.commands: ${vars.default-commands} [
+      // new warnings from https://github.com/scala/scala/pull/5402
+      "removeScalacOptions -Xfatal-warnings"
+    ]
   }
 
   ${vars.base} {
@@ -535,7 +536,7 @@ build += {
     // we don't compile sbt plugins
     extra.exclude: ["sbtplugin"]
     // use scala-2.12 source directory for 2.13 too
-    extra.commands: [
+    extra.commands: ${vars.default-commands} [
       "set unmanagedSourceDirectories in (core, Compile) += baseDirectory.value / \"core\" / \"src\" / \"main\" / \"scala-2.12\""
     ]
   }
@@ -575,7 +576,9 @@ build += {
   ${vars.base} {
     name: "pcplod"
     uri:  ${vars.uris.pcplod-uri}
-    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
+    extra.commands: ${vars.default-commands} [
+      "removeScalacOptions -Xfatal-warnings"
+    ]
   }
 
   ${vars.base} {
@@ -673,8 +676,10 @@ build += {
     // we're lying and telling it Java 8 is Java 7, but in this context
     // the lie isn't important
     extra.options: ["-Djava7.home="${JAVA_HOME}]
-    // too fragile
-    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
+    extra.commands: ${vars.default-commands} [
+      // too fragile
+      "removeScalacOptions -Xfatal-warnings"
+    ]
   }
 
   ${vars.base} {
@@ -689,8 +694,8 @@ build += {
     name: "scalatags"
     uri:  ${vars.uris.scalatags-uri}
     extra.projects: ["scalatagsJVM"]  // no Scala.js
-    // their build.sbt has 'scalaVersion.value startsWith "2.12."', so that doesn't get 2.13
-    extra.commands: [
+    extra.commands: ${vars.default-commands} [
+      // their build.sbt has 'scalaVersion.value startsWith "2.12."', so that doesn't get 2.13
       "set unmanagedSourceDirectories in (scalatagsJVM, Compile) += baseDirectory.value / \"scalatags\" / \"shared\" / \"src\" / \"main\" / \"scala-2.11\""
     ]
   }
@@ -734,8 +739,10 @@ build += {
       // no Scala.js
       "catsJS", "coreJS", "scalaz72JS", "testsJS"
     ]
-    // new warnings from https://github.com/scala/scala/pull/5402
-    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
+    extra.commands: ${vars.default-commands} [
+      // new warnings from https://github.com/scala/scala/pull/5402
+      "removeScalacOptions -Xfatal-warnings"
+    ]
   }
 
   ${vars.base} {
@@ -770,8 +777,10 @@ build += {
     name: "algebra"
     uri:  ${vars.uris.algebra-uri}
     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js, no benchmarks, no docs
-    // new warnings from https://github.com/scala/scala/pull/5402
-    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
+    extra.commands: ${vars.default-commands} [
+      // new warnings from https://github.com/scala/scala/pull/5402
+      "removeScalacOptions -Xfatal-warnings"
+    ]
   }
 
   // dependency of scalafix
@@ -797,10 +806,12 @@ build += {
   ${vars.base} {
     name: "scala-parallel-collections"
     uri:  ${vars.uris.scala-parallel-collections-uri}
-    // I have absolutely no idea why this would only be required in the
-    // community build context, but without it, we get
-    // java.lang.NoClassDefFoundError: org/hamcrest/SelfDescribing
-    extra.commands: ["set libraryDependencies in junit += \"org.hamcrest\" % \"hamcrest-core\" % \"1.3\" % \"test\""]
+    extra.commands: ${vars.default-commands} [
+      // I have absolutely no idea why this would only be required in the
+      // community build context, but without it, we get
+      // java.lang.NoClassDefFoundError: org/hamcrest/SelfDescribing
+      "set libraryDependencies in junit += \"org.hamcrest\" % \"hamcrest-core\" % \"1.3\" % \"test\""
+    ]
   }
 
   // others are not depending on this yet ("not ready for general
@@ -872,8 +883,10 @@ build += {
   ${vars.base} {
     name: "better-files"
     uri: ${vars.uris.better-files-uri}
-    // because of new inferred-Any warnings in 2.12.4 (PR 5990)
-    extra.commands: ${vars.default-commands} [ "removeScalacOptions -Xfatal-warnings" ]
+    extra.commands: ${vars.default-commands} [
+      // because of new inferred-Any warnings in 2.12.4 (PR 5990)
+      "removeScalacOptions -Xfatal-warnings"
+    ]
   }
 
   ${vars.base} {
