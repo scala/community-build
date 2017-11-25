@@ -185,4 +185,6 @@ echo "dbuild-${DBUILDVERSION}/bin/dbuild"  "$dbuild_args" "$DBUILDCONFIG" "${@}"
 ("dbuild-${DBUILDVERSION}/bin/dbuild"  "$dbuild_args" "$DBUILDCONFIG" "${@}" 2>&1 | tee "dbuild-${DBUILDVERSION}/dbuild.out") || STATUS="$?"
 BUILD_ID="$(grep '^\[info\]  uuid = ' "dbuild-${DBUILDVERSION}/dbuild.out" | sed -e 's/\[info\]  uuid = //')"
 echo "The repeatable UUID of this build was: ${BUILD_ID}"
+echo -n "Total lines of Scala code recompiled during this run: "
+grep -a -F '** COMMUNITY BUILD ' dbuild-${DBUILDVERSION}/dbuild.out | cut -d: -f2 | paste -sd+ - | bc
 exit $STATUS

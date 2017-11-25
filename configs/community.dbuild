@@ -106,6 +106,11 @@ set commands ++= {
 vars.default-commands += "appendScalacOptions "${vars.scalac-opts}
 vars.base.extra.commands = ${vars.default-commands}
 
+//// count lines of code
+
+vars.base.extra.settings = ["""libraryDependencies in ThisBuild += compilerPlugin("com.lightbend" %% "cloc-plugin" % "0")"""]
+vars.base.deps.inject: ["com.lightbend#cloc-plugin"]
+
 //// cache
 
 // we don't have enough disk space to keep stuff longer
@@ -130,6 +135,10 @@ build += {
   space: scala
 
   projects: [
+  {
+    name: "cloc-plugin"
+    uri:  "https://github.com/SethTisue/cloc-plugin.git"
+  }
   {
     name:  "scala"
     system: assemble
@@ -375,13 +384,15 @@ build += {
   ${vars.base} {
     name: "slick"
     uri:  ${vars.uris.slick-uri}
-    // without this dbuild doesn't pick up that one of the subprojects has this dependency.
-    // it doesn't even make sense; it seems to me that testNGSettings should not be adding
-    // a dependency of the plugin to the libraryDependencies of the test code.
-    // the line in question is:
-    //   https://github.com/sbt/sbt-testng-interface/blob/ca730f705f48af2139f39bc726b474afec072738/plugin/src/main/scala/de/johoop/testngplugin/TestNGPlugin.scala#L44
-    // I think it's a confusion of levels, but maybe I'm missing something. - ST 8/27/15
-    deps.inject: ["de.johoop#sbt-testng-interface"]
+    deps.inject: ${vars.base.deps.inject} [
+      // without this dbuild doesn't pick up that one of the subprojects has this dependency.
+      // it doesn't even make sense; it seems to me that testNGSettings should not be adding
+      // a dependency of the plugin to the libraryDependencies of the test code.
+      // the line in question is:
+      //   https://github.com/sbt/sbt-testng-interface/blob/ca730f705f48af2139f39bc726b474afec072738/plugin/src/main/scala/de/johoop/testngplugin/TestNGPlugin.scala#L44
+      // I think it's a confusion of levels, but maybe I'm missing something. - ST 8/27/15
+      "de.johoop#sbt-testng-interface"
+    ]
     extra.exclude: [
       // unless we exclude, it looks for an Ornate dependency here
       "root"
