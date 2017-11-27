@@ -185,21 +185,9 @@ echo "dbuild-${DBUILDVERSION}/bin/dbuild"  "$dbuild_args" "$DBUILDCONFIG" "${@}"
 ("dbuild-${DBUILDVERSION}/bin/dbuild"  "$dbuild_args" "$DBUILDCONFIG" "${@}" 2>&1 | tee "dbuild-${DBUILDVERSION}/dbuild.out") || STATUS="$?"
 BUILD_ID="$(grep '^\[info\]  uuid = ' "dbuild-${DBUILDVERSION}/dbuild.out" | sed -e 's/\[info\]  uuid = //')"
 echo "The repeatable UUID of this build was: ${BUILD_ID}"
-<<<<<<< Updated upstream
 
-# count lines of code
-set +o pipefail
-set +e
-LINECOUNT=`grep -a -F '** COMMUNITY BUILD ' dbuild-${DBUILDVERSION}/dbuild.out | cut -d: -f2 | paste -sd+ - | bc`
-if [ -z $LINECOUNT ] ; then
-    LINECOUNT=0
-fi
-echo "Total lines of Scala code recompiled during this run only:" $LINECOUNT
+# lines-of-code report
+cd cloc-report
+sbt "run ../dbuild-${DBUILDVERSION}/dbuild.out"
 
-||||||| merged common ancestors
-echo -n "Total lines of Scala code recompiled during this run: "
-grep -a -F '** COMMUNITY BUILD ' dbuild-${DBUILDVERSION}/dbuild.out | cut -d: -f2 | paste -sd+ - | bc
-=======
-./cloc-report.scala "dbuild-${DBUILDVERSION}/dbuild.out"
->>>>>>> Stashed changes
 exit $STATUS
