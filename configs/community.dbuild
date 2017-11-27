@@ -73,6 +73,7 @@ include file(".dbuild/resolvers.conf")
 vars {
   default-commands: []
   sbt-version: "0.13.16"
+  sbt-1-version: "1.0.4"
 }
 
 //// compiler options manipulation
@@ -353,6 +354,7 @@ build += {
   ${vars.base} {
     name: "akka-actor"
     uri:  ${vars.uris.akka-actor-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
     extra.projects: ["akka-actor"]
     extra.commands: ${vars.default-commands} [
