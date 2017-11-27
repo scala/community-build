@@ -47,6 +47,7 @@ include file(".dbuild/resolvers.conf")
 vars {
   default-commands: []
   sbt-version: "0.13.16"
+  sbt-1-version: "1.0.4"
 }
 
 //// compiler options manipulation
@@ -322,7 +323,7 @@ build += {
   ${vars.base} {
     name: "akka-actor"
     uri:  ${vars.uris.akka-actor-uri}
-    extra.sbt-version: "1.0.3"
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
     extra.projects: ["akka-actor"]
     extra.commands: ${vars.default-commands} [
@@ -336,7 +337,7 @@ build += {
   ${vars.base} {
     name: "akka-more"
     uri:  ${vars.uris.akka-more-uri}
-    extra.sbt-version: "1.0.3"
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
     extra.projects: ["akka-scala-nightly"]
     extra.commands: ${vars.default-commands} [
@@ -357,7 +358,7 @@ build += {
   ${vars.base} {
     name: "akka-http"
     uri:  ${vars.uris.akka-http-uri}
-    extra.sbt-version: "1.0.3"
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.exclude: ["docs"]
     extra.options: [
       "-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false"
@@ -378,7 +379,7 @@ build += {
   ${vars.base} {
     name: "scalariform"
     uri: ${vars.uris.scalariform-uri}
-    extra.sbt-version: "1.0.3"
+    extra.sbt-version: ${vars.sbt-1-version}
   }
 
   ${vars.base} {
@@ -604,7 +605,7 @@ build += {
   ${vars.base} {
     name: "breeze"
     uri:  ${vars.uris.breeze-uri}
-    extra.sbt-version: "1.0.3"
+    extra.sbt-version: ${vars.sbt-1-version}
     // failing tests not investigated/reported
     extra.test-tasks: ["compile"]
   }
@@ -1031,7 +1032,7 @@ build += {
   ${vars.base} {
     name: "lightbend-emoji"
     uri:  ${vars.uris.lightbend-emoji-uri}
-    extra.sbt-version: "1.0.3"
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
 
@@ -1105,7 +1106,7 @@ build += {
     name: "cats-effect"
     uri:  ${vars.uris.cats-effect-uri}
     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js plz
-    extra.sbt-version: "1.0.3"
+    extra.sbt-version: ${vars.sbt-1-version}
   }
 
   ${vars.base} {
@@ -1170,19 +1171,19 @@ build += {
   ${vars.base} {
     name: "scalalib"
     uri:  ${vars.uris.scalalib-uri}
-    extra.sbt-version: "1.0.3"
+    extra.sbt-version: ${vars.sbt-1-version}
   }
 
   ${vars.base} {
     name: "scalachess"
     uri:  ${vars.uris.scalachess-uri}
-    extra.sbt-version: "1.0.3"
+    extra.sbt-version: ${vars.sbt-1-version}
   }
 
   ${vars.base} {
     name: "sbt-io"
     uri:  ${vars.uris.sbt-io-uri}
-    extra.sbt-version: "1.0.3"
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
 
@@ -1266,21 +1267,21 @@ build += {
   ${vars.base} {
     name: "sbt-util"
     uri:  ${vars.uris.sbt-util-uri}
-    extra.sbt-version: "1.0.3"
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
 
   ${vars.base} {
     name: "sbt-librarymanagement"
     uri:  ${vars.uris.sbt-librarymanagement-uri}
-    extra.sbt-version: "1.0.3"
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
 
   ${vars.base} {
     name: "zinc"
     uri:  ${vars.uris.zinc-uri}
-    extra.sbt-version: "1.0.3"
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.exclude: ["zincBenchmarks"]
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     // Failed tests: sbt.internal.inc.ZincComponentCompilerSpec
@@ -1292,7 +1293,7 @@ build += {
   ${vars.base} {
     name: "sbt"
     uri:  ${vars.uris.sbt-uri}
-    extra.sbt-version: "1.0.3"
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.exclude: [
       // dbuild & sbt-bintray fight (Release.scala calls bintrayRepo.value.upload)
@@ -1368,7 +1369,7 @@ build += {
   ${vars.base} {
     name: "circe"
     uri:  ${vars.uris.circe-uri}
-    extra.sbt-version: "1.0.3"
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: [
       // easy
       "core", "numbers"
@@ -1445,7 +1446,7 @@ build += {
   ${vars.base} {
     name: "circe-config"
     uri:  ${vars.uris.circe-config-uri}
-    extra.sbt-version: "1.0.3"
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.commands: ${vars.default-commands} [
       // too fragile
       "removeScalacOptions -Xfatal-warnings"
