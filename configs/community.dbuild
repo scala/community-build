@@ -1290,6 +1290,11 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
+  // currently sbt and its modules are frozen and/or forked, since
+  // sbt has its own dbuild-based "community build" so we don't need
+  // to track the latest (and doing so would be fragile).  but,
+  // we should move to newer tags from time to time.  (and,
+  // see note below about running the tests.)
   ${vars.base} {
     name: "sbt"
     uri:  ${vars.uris.sbt-uri}
@@ -1301,8 +1306,10 @@ build += {
       // depends on sxr_2.10?!
       "sbtRoot"
     ]
-    // some test code fails to compile, a specs2 version thing I think.
-    // issue of record is https://github.com/sbt/sbt/issues/3765
+    // the next time we move to newer tags of sbt, we should try running
+    // the tests again, or at least compiling them.  they are disabled
+    // here because of https://github.com/sbt/sbt/issues/3765, which
+    // has since been fixed on sbt's 1.x branch
     extra.run-tests: false
   }
 
