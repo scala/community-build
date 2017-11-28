@@ -1,10 +1,12 @@
 object ClocReport extends App {
 
-  val Regex = """\[(.+)\] \*\* COMMUNITY BUILD LINE COUNT: (\d+)""".r
+  // there's sometimes an extra "[info]" in the line, so we have to be careful
+  val Regex = """\[([^\]]+)\] (\[info\] )?\*\* COMMUNITY BUILD LINE COUNT: (\d+)""".r
+
   val results = collection.mutable.Map.empty[String, Int].withDefaultValue(0)
   for (line <- io.Source.fromFile(args(0)).getLines)
     line match {
-      case Regex(project, count) =>
+      case Regex(project, _, count) =>
         results(project) = results(project) + count.toInt
       case _ =>
     }
