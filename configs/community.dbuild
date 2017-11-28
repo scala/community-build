@@ -779,25 +779,12 @@ build += {
   ${vars.base} {
     name: "catalysts"
     uri:  ${vars.uris.catalysts-uri}
-    extra.projects: ["rootJVM"]
     extra.commands: ${vars.default-commands} [
       // too fragile
       "removeScalacOptions -Xfatal-warnings"
     ]
-    extra.exclude: [
-      // not investigated:
-      // [catalysts] java.lang.AssertionError: assertion failed: <no phase>
-      // [catalysts]   at scala.reflect.internal.SymbolTable.phase_$eq(SymbolTable.scala:203)
-      "specs2"
-      // not investigated:
-      // [catalysts] speclite/src/main/scala/speclite/Prop.scala:34:
-      //    type JSExportDescendentClasses is not a member of package scala.scalajs.js.annotation
-      "specliteJVM", "checkliteJVM"
-      // depends on specliteJVM
-      "testsJVM"
-      // not pertinent
-      "docs"
-    ]
+    // other projects aren't pertinent or errored out (not investigated)
+    extra.projects: ["specbaseJVM", "lawkitJVM", "scalatestJVM", "macrosJVM", "platformJVM", "testkitJVM"]
   }
 
   ${vars.base} {
