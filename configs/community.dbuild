@@ -346,11 +346,6 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
-  // forked August 2017 for version checking logic in build;
-  // fork refreshed October 2017; needed upstream change
-  // https://github.com/akka/akka/pull/23875 was merged, but
-  // we can't unfork until we have an sbt 1.0.x release that
-  // works with Scala 2.13 (https://github.com/sbt/sbt/issues/3427)
   ${vars.base} {
     name: "akka-actor"
     uri:  ${vars.uris.akka-actor-uri}
