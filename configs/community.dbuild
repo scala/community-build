@@ -353,8 +353,6 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
-  // frozen (November 2017) pending resolution of
-  // https://github.com/akka/akka-http/issues/1542
   ${vars.base} {
     name: "akka-http"
     uri:  ${vars.uris.akka-http-uri}
