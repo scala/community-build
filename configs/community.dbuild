@@ -357,7 +357,7 @@ build += {
     name: "akka-http"
     uri:  ${vars.uris.akka-http-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.exclude: ["docs"]
+    extra.exclude: ["docs", "akka-http-bench-jmh"]
     extra.options: [
       "-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false"
       "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
