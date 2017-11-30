@@ -658,8 +658,12 @@ build += {
   ${vars.base} {
     name: "catalysts"
     uri:  ${vars.uris.catalysts-uri}
-    // TODO add more projects? hasn't been tried yet
-    extra.projects: ["platformJVM"]
+    extra.commands: ${vars.default-commands} [
+      // too fragile
+      "removeScalacOptions -Xfatal-warnings"
+    ]
+    // other projects aren't pertinent or errored out (not investigated)
+    extra.projects: ["specbaseJVM", "lawkitJVM", "scalatestJVM", "macrosJVM", "platformJVM", "testkitJVM"]
   }
 
   ${vars.base} {
