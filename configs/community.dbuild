@@ -772,8 +772,8 @@ build += {
   ${vars.base} {
     name: "monocle"
     uri:  ${vars.uris.monocle-uri}
-    // try to enable more subprojects besides just these few?
-    extra.projects: ["coreJVM", "macrosJVM", "lawJVM"]
+    // try to enable more subprojects?
+    extra.projects: ["coreJVM", "macrosJVM", "lawJVM", "genericJVM"]
   }
 
   ${vars.base} {
@@ -1229,6 +1229,16 @@ build += {
     name: "scallop"
     uri:  ${vars.uris.scallop-uri}
     extra.projects: ["jvm"]  // no Scala.js or Scala Native plz
+  }
+
+  // OlegYch's fork is the one that hangs out in
+  // scala/scala (Gitter) and #scala (IRC)
+  ${vars.base} {
+    name: "multibot"
+    uri:  ${vars.uris.multibot-uri}
+    // linter isn't essential to the build
+    deps.ignore: ["org.psywerx.hairyfotr#linter"]
+    check-missing: false
   }
 
 ]}
