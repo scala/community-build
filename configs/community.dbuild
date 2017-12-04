@@ -1176,6 +1176,8 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
   }
 
+  // frozen (December 2017) at November 2017 before a newer commit
+  // introduced a test failure (chess.ClockTest) that I should report
   ${vars.base} {
     name: "scalachess"
     uri:  ${vars.uris.scalachess-uri}
