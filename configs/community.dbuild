@@ -589,9 +589,6 @@ build += {
     extra.exclude: ["sbtplugin"]
   }
 
-  // frozen (March 2017) because org changed from org.spire-math to org.typelevel;
-  // we can unfreeze once they've published and once breeze has updated their
-  // dependency (https://github.com/scala/community-builds/issues/503)
   ${vars.base} {
     name: "spire"
     uri:  ${vars.uris.spire-uri}
@@ -606,6 +603,11 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
     // failing tests not investigated/reported
     extra.test-tasks: ["compile"]
+    // spire moved from org.spire to org.typelevel but breeze hasn't
+    // changed their dependency yet
+    deps.ignore: ["org.spire-math#spire"]
+    deps.inject: ["org.typelevel#spire"]
+    check-missing: false
   }
 
   ${vars.base} {
@@ -770,8 +772,8 @@ build += {
   ${vars.base} {
     name: "monocle"
     uri:  ${vars.uris.monocle-uri}
-    // try to enable more subprojects besides just these few?
-    extra.projects: ["coreJVM", "macrosJVM", "lawJVM"]
+    // try to enable more subprojects?
+    extra.projects: ["coreJVM", "macrosJVM", "lawJVM", "genericJVM"]
   }
 
   ${vars.base} {
@@ -1071,7 +1073,9 @@ build += {
   }
 
   // adding (April 2017) because scalameta depends on it
-  // (indirectly via scalapb)
+  // (indirectly via scalapb).  frozen (December 2017) at
+  // July 2017 commit before package name change, since we
+  // we have scalapb frozen too
   ${vars.base} {
     name: "scalapb-lenses"
     uri:  ${vars.uris.scalapb-lenses-uri}
@@ -1174,6 +1178,8 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
   }
 
+  // frozen (December 2017) at November 2017 before a newer commit
+  // introduced a test failure (chess.ClockTest) that I should report
   ${vars.base} {
     name: "scalachess"
     uri:  ${vars.uris.scalachess-uri}
@@ -1223,6 +1229,16 @@ build += {
     name: "scallop"
     uri:  ${vars.uris.scallop-uri}
     extra.projects: ["jvm"]  // no Scala.js or Scala Native plz
+  }
+
+  // OlegYch's fork is the one that hangs out in
+  // scala/scala (Gitter) and #scala (IRC)
+  ${vars.base} {
+    name: "multibot"
+    uri:  ${vars.uris.multibot-uri}
+    // linter isn't essential to the build
+    deps.ignore: ["org.psywerx.hairyfotr#linter"]
+    check-missing: false
   }
 
 ]}
