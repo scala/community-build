@@ -1071,7 +1071,9 @@ build += {
   }
 
   // adding (April 2017) because scalameta depends on it
-  // (indirectly via scalapb)
+  // (indirectly via scalapb).  frozen (December 2017) at
+  // July 2017 commit before package name change, since we
+  // we have scalapb frozen too
   ${vars.base} {
     name: "scalapb-lenses"
     uri:  ${vars.uris.scalapb-lenses-uri}
