@@ -188,6 +188,6 @@ echo "The repeatable UUID of this build was: ${BUILD_ID}"
 
 # lines-of-code report
 cd cloc-report
-sbt "run ../dbuild-${DBUILDVERSION}/dbuild.out"
+sbt -error "run ../dbuild-${DBUILDVERSION}/dbuild.out"
 
 exit $STATUS
