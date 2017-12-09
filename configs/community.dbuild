@@ -484,6 +484,7 @@ build += {
       // new warnings from https://github.com/scala/scala/pull/5402
       "removeScalacOptions -Xfatal-warnings"
     ]
+    check-missing: false  // ignore missing scalafmt
   }
 
   ${vars.base} {
@@ -651,8 +652,8 @@ build += {
   ${vars.base} {
     name: "monocle"
     uri:  ${vars.uris.monocle-uri}
-    // try to enable more subprojects besides just these few?
-    extra.projects: ["coreJVM", "macrosJVM", "lawJVM"]
+    // try to enable more subprojects?
+    extra.projects: ["coreJVM", "macrosJVM", "lawJVM", "genericJVM"]
   }
 
   ${vars.base} {
@@ -772,10 +773,9 @@ build += {
     extra.projects: ["http4sWebsocketJVM"]  // no Scala.js plz
   }
 
-  // frozen at v0.12.4 because that's the version http4s depends on,
-  // and anyway it's the most recent tag as of January 2017.
-  // a more recent commit (namely 9b2c7cc5) makes a source-incompatible
-  // change to a package name that http4s uses
+  // tracking 0.12.x, not master, because that's the version http4s depends
+  // on (as of December 2017, anyway; see discussion at
+  // https://github.com/http4s/blaze/issues/97)
   ${vars.base} {
     name: "blaze"
     uri: ${vars.uris.blaze-uri}
@@ -930,6 +930,16 @@ build += {
     name: "scallop"
     uri:  ${vars.uris.scallop-uri}
     extra.projects: ["jvm"]  // no Scala.js or Scala Native plz
+  }
+
+  // OlegYch's fork is the one that hangs out in
+  // scala/scala (Gitter) and #scala (IRC)
+  ${vars.base} {
+    name: "multibot"
+    uri:  ${vars.uris.multibot-uri}
+    // linter isn't essential to the build
+    deps.ignore: ["org.psywerx.hairyfotr#linter"]
+    check-missing: false
   }
 
 ]}
