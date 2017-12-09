@@ -486,6 +486,7 @@ build += {
       // new warnings from https://github.com/scala/scala/pull/5402
       "removeScalacOptions -Xfatal-warnings"
     ]
+    check-missing: false  // ignore missing scalafmt
   }
 
   ${vars.base} {
