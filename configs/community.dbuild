@@ -1257,10 +1257,7 @@ build += {
 
   // dependency of scaladex.
   // only attempt the subprojects scaladex needs.
-  // forked (December 2017) to change the "cats" dependency to "cats-core",
-  //   otherwise dbuild gets confused and we get an conflicting version suffix
-  //   error downstream.
-  // forked from the release/5.4.x branch since that's what scaladex uses.
+  // we track the release/5.4.x branch since that's what scaladex uses.
   ${vars.base} {
     name: "elastic4s"
     uri:  ${vars.uris.elastic4s-uri}
