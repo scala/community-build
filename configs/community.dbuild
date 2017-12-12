@@ -607,7 +607,9 @@ build += {
     // spire moved from org.spire to org.typelevel but breeze hasn't
     // changed their dependency yet
     deps.ignore: ["org.spire-math#spire"]
-    deps.inject: ["org.typelevel#spire"]
+    deps.inject: ${vars.base.deps.inject} [
+      "org.typelevel#spire"
+    ]
     check-missing: false
   }
 
