@@ -353,6 +353,9 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
+  // frozen (December 2017) at December 2017 commit before akka-actor and akka-stream
+  // dependencies were declared as "provided".  that means every downstream project
+  // needs updating. for now let's just freeze
   ${vars.base} {
     name: "akka-http"
     uri:  ${vars.uris.akka-http-uri}
@@ -1195,6 +1198,9 @@ build += {
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
 
+  // frozen (December 2017) because they're in the middle of a release,
+  // waiting for it to settle back down.  (specifically: they added
+  // a self-dependency on a version that isn't actually published yet)
   ${vars.base} {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
@@ -1241,6 +1247,50 @@ build += {
     // linter isn't essential to the build
     deps.ignore: ["org.psywerx.hairyfotr#linter"]
     check-missing: false
+  }
+
+  // dependency of scaladex
+  ${vars.base} {
+    name: "nscala-time"
+    uri:  ${vars.uris.nscala-time-uri}
+  }
+
+  // dependency of scaladex.
+  // only attempt the subprojects scaladex needs.
+  // forked (December 2017) to change the "cats" dependency to "cats-core",
+  //   otherwise dbuild gets confused and we get an conflicting version suffix
+  //   error downstream.
+  // forked from the release/5.4.x branch since that's what scaladex uses.
+  ${vars.base} {
+    name: "elastic4s"
+    uri:  ${vars.uris.elastic4s-uri}
+    extra.projects: ["elastic4s-core", "elastic4s-embedded"]
+    // some test code uses scala.util.parsing.json, which no longer
+    // exists in the latest scala-parser-combinators
+    extra.run-tests: false
+  }
+
+  // dependency of elastic4s
+  ${vars.base} {
+    name: "sksamuel-exts"
+    uri:  ${vars.uris.sksamuel-exts-uri}
+  }
+
+  // dependency of scaladex
+  ${vars.base} {
+    name: "akka-http-cors"
+    uri:  ${vars.uris.akka-http-cors-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.exclude: ["akka-http-cors-bench-jmh"]
+  }
+
+  // dependency of scaladex.
+  // only attempt the subproject scaladex needs.
+  ${vars.base} {
+    name: "akka-http-session"
+    uri:  ${vars.uris.akka-http-session-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: ["core"]
   }
 
 ]}
@@ -1340,6 +1390,27 @@ build += {
     uri:  ${vars.uris.upickle-uri}
     // no Scala.js; also only upickle no pprint
     extra.projects: ["upickleJVM"]
+  }
+
+  // dependency of scaladex. depends on upickle
+  ${vars.base} {
+    name: "autowire"
+    uri:  ${vars.uris.autowire-uri}
+    extra.projects: ["autowireJVM"]  // no Scala.js plz
+  }
+
+  ${vars.base} {
+    name: "scaladex"
+    uri:  ${vars.uris.scaladex-uri}
+    extra.exclude: [
+      // no Scala.js plz
+      "sharedJS", "client"
+      // "java.io.IOException: Cannot run program "sass": error=2, No such file or directory"
+      // not insurmountable -- we could add commands to install the gem in the current directory,
+      // and then customize `sassExecutable in Assets` if needed. but I feel it's not really worth
+      // the additional labor and (more importantly) the additional fragility
+      "server"
+    ]
   }
 
   // depends on ammonite-ops
