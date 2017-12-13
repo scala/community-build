@@ -942,6 +942,30 @@ build += {
     check-missing: false
   }
 
+  // dependency of scaladex
+  ${vars.base} {
+    name: "nscala-time"
+    uri:  ${vars.uris.nscala-time-uri}
+  }
+
+  // dependency of scaladex.
+  // only attempt the subprojects scaladex needs.
+  // we track the release/5.4.x branch since that's what scaladex uses.
+  ${vars.base} {
+    name: "elastic4s"
+    uri:  ${vars.uris.elastic4s-uri}
+    extra.projects: ["elastic4s-core", "elastic4s-embedded"]
+    // some test code uses scala.util.parsing.json, which no longer
+    // exists in the latest scala-parser-combinators
+    extra.run-tests: false
+  }
+
+  // dependency of elastic4s
+  ${vars.base} {
+    name: "sksamuel-exts"
+    uri:  ${vars.uris.sksamuel-exts-uri}
+  }
+
 ]}
 
 //// space: jawn_0_10
