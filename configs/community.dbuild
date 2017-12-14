@@ -211,8 +211,14 @@ build += {
   ${vars.base} {
     name: "scalatest"
     uri:  ${vars.uris.scalatest-uri}
-    extra.projects: ["scalatest", "scalactic"]
+    extra.exclude: [
+      // no Scala.js plz
+      "commonTestJS", "examplesJS", "scalacticJS", "scalacticMacroJS", "scalacticTestJS"
+      "scalatestAppJS", "scalatestJS", "scalatestTestJS"
+    ]
     extra.test-tasks: ["compile"] // TODO run tests -- need to exclude browser-based tests somehow
+    // scalatest-test project won't compile without extra heap
+    extra.options: ["-Xmx3072m"]
   }
 
   ${vars.base} {
