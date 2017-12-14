@@ -812,6 +812,11 @@ build += {
     // we're lying and telling it Java 8 is Java 7, but in this context
     // the lie isn't important
     extra.options: ["-Djava7.home="${JAVA_HOME}]
+    // December 2017: some code runs afoul of the new PartialFunction.apply
+    // deprecation we added for 2.12.5
+    extra.commands: ${vars.default-commands} [
+      "removeScalacOptions -Xfatal-warnings"
+    ]
   }
 
   ${vars.base} {
