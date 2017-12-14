@@ -1317,6 +1317,14 @@ build += {
     extra.exclude: ["plugin", "themePlugin", "genericTheme"]
   }
 
+  // there are a *ton* of subprojects.  it might be interesting to try to add
+  // as many as possible. for now, we've somewhat arbitrarily selected a few
+  ${vars.base} {
+    name: "lagom"
+    uri:  ${vars.uris.lagom-uri}
+    extra.projects: ["server", "testkit-scaladsl", "immutables"]
+  }
+
 ]}
 
 //// space: jawn_0_10
