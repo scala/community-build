@@ -234,13 +234,6 @@ build += {
     uri:  ${vars.uris.scala-swing-uri}
   }
 
-  ${vars.base} {
-    name: "collection-strawman"
-    uri:  ${vars.uris.collection-strawman-uri}
-    // no Scala.js, no benchmarks
-    extra.projects: ["collectionsJVM", "collections-contribJVM", "junit", "scalacheck"]
-  }
-
   // tracking master as of December 2016.  if master proves unstable,
   // we could try "release-0.8" (or a newer branch if there is one)
   ${vars.base} {
@@ -353,6 +346,9 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
+  // frozen (December 2017) at December 2017 commit before akka-actor and akka-stream
+  // dependencies were declared as "provided".  that means every downstream project
+  // needs updating. for now let's just freeze
   ${vars.base} {
     name: "akka-http"
     uri:  ${vars.uris.akka-http-uri}
@@ -486,6 +482,7 @@ build += {
       // new warnings from https://github.com/scala/scala/pull/5402
       "removeScalacOptions -Xfatal-warnings"
     ]
+    check-missing: false  // ignore missing scalafmt
   }
 
   ${vars.base} {
@@ -589,9 +586,6 @@ build += {
     extra.exclude: ["sbtplugin"]
   }
 
-  // frozen (March 2017) because org changed from org.spire-math to org.typelevel;
-  // we can unfreeze once they've published and once breeze has updated their
-  // dependency (https://github.com/scala/community-builds/issues/503)
   ${vars.base} {
     name: "spire"
     uri:  ${vars.uris.spire-uri}
@@ -606,6 +600,13 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
     // failing tests not investigated/reported
     extra.test-tasks: ["compile"]
+    // spire moved from org.spire to org.typelevel but breeze hasn't
+    // changed their dependency yet
+    deps.ignore: ["org.spire-math#spire"]
+    deps.inject: ${vars.base.deps.inject} [
+      "org.typelevel#spire"
+    ]
+    check-missing: false
   }
 
   ${vars.base} {
@@ -770,8 +771,8 @@ build += {
   ${vars.base} {
     name: "monocle"
     uri:  ${vars.uris.monocle-uri}
-    // try to enable more subprojects besides just these few?
-    extra.projects: ["coreJVM", "macrosJVM", "lawJVM"]
+    // try to enable more subprojects?
+    extra.projects: ["coreJVM", "macrosJVM", "lawJVM", "genericJVM"]
   }
 
   ${vars.base} {
@@ -811,6 +812,11 @@ build += {
     // we're lying and telling it Java 8 is Java 7, but in this context
     // the lie isn't important
     extra.options: ["-Djava7.home="${JAVA_HOME}]
+    // December 2017: some code runs afoul of the new PartialFunction.apply
+    // deprecation we added for 2.12.5
+    extra.commands: ${vars.default-commands} [
+      "removeScalacOptions -Xfatal-warnings"
+    ]
   }
 
   ${vars.base} {
@@ -962,10 +968,9 @@ build += {
     extra.projects: ["http4sWebsocketJVM"]  // no Scala.js plz
   }
 
-  // frozen at v0.12.4 because that's the version http4s depends on,
-  // and anyway it's the most recent tag as of January 2017.
-  // a more recent commit (namely 9b2c7cc5) makes a source-incompatible
-  // change to a package name that http4s uses
+  // tracking 0.12.x, not master, because that's the version http4s depends
+  // on (as of December 2017, anyway; see discussion at
+  // https://github.com/http4s/blaze/issues/97)
   ${vars.base} {
     name: "blaze"
     uri: ${vars.uris.blaze-uri}
@@ -1071,7 +1076,9 @@ build += {
   }
 
   // adding (April 2017) because scalameta depends on it
-  // (indirectly via scalapb)
+  // (indirectly via scalapb).  frozen (December 2017) at
+  // July 2017 commit before package name change, since we
+  // we have scalapb frozen too
   ${vars.base} {
     name: "scalapb-lenses"
     uri:  ${vars.uris.scalapb-lenses-uri}
@@ -1174,6 +1181,8 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
   }
 
+  // frozen (December 2017) at November 2017 before a newer commit
+  // introduced a test failure: https://github.com/ornicar/scalachess/issues/133
   ${vars.base} {
     name: "scalachess"
     uri:  ${vars.uris.scalachess-uri}
@@ -1185,6 +1194,13 @@ build += {
     uri:  ${vars.uris.sbt-io-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    // we have to disable this early (extra.commands isn't soon enough)
+    // or scalafmt will run `update` and `cloc-plugin` won't be found
+    extra.settings: ${vars.base.extra.settings} [
+      "scalafmtOnCompile in ThisBuild := false"
+      "scalafmtOnCompile in Sbt := false"
+    ]
+    check-missing: false  // ignore missing scalafmt
   }
 
   ${vars.base} {
@@ -1196,7 +1212,7 @@ build += {
       // org.http4s#http4s-blaze-server is not provided (in space "default")
       "http-server"
       // no sbt plz
-      "sbt-coursier", "sbt-shading", "sbt-launcher", "sbt-pgp-coursier", "sbt-plugins"
+      "sbt-coursier", "sbt-shading", "sbt-launcher", "sbt-pgp-coursier", "sbt-plugins", "sbt-shared"
     ]
     extra.commands: ${vars.default-commands} [
       // dbuild doesn't retrieve submodules unless we make it
@@ -1223,6 +1239,57 @@ build += {
     name: "scallop"
     uri:  ${vars.uris.scallop-uri}
     extra.projects: ["jvm"]  // no Scala.js or Scala Native plz
+  }
+
+  // OlegYch's fork is the one that hangs out in
+  // scala/scala (Gitter) and #scala (IRC)
+  ${vars.base} {
+    name: "multibot"
+    uri:  ${vars.uris.multibot-uri}
+    // linter isn't essential to the build
+    deps.ignore: ["org.psywerx.hairyfotr#linter"]
+    check-missing: false
+  }
+
+  // dependency of scaladex
+  ${vars.base} {
+    name: "nscala-time"
+    uri:  ${vars.uris.nscala-time-uri}
+  }
+
+  // dependency of scaladex.
+  // only attempt the subprojects scaladex needs.
+  // we track the release/5.4.x branch since that's what scaladex uses.
+  ${vars.base} {
+    name: "elastic4s"
+    uri:  ${vars.uris.elastic4s-uri}
+    extra.projects: ["elastic4s-core", "elastic4s-embedded"]
+    // some test code uses scala.util.parsing.json, which no longer
+    // exists in the latest scala-parser-combinators
+    extra.run-tests: false
+  }
+
+  // dependency of elastic4s
+  ${vars.base} {
+    name: "sksamuel-exts"
+    uri:  ${vars.uris.sksamuel-exts-uri}
+  }
+
+  // dependency of scaladex
+  ${vars.base} {
+    name: "akka-http-cors"
+    uri:  ${vars.uris.akka-http-cors-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.exclude: ["akka-http-cors-bench-jmh"]
+  }
+
+  // dependency of scaladex.
+  // only attempt the subproject scaladex needs.
+  ${vars.base} {
+    name: "akka-http-session"
+    uri:  ${vars.uris.akka-http-session-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: ["core"]
   }
 
 ]}
@@ -1269,6 +1336,7 @@ build += {
     uri:  ${vars.uris.sbt-util-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    check-missing: false  // ignore missing scalafmt
   }
 
   ${vars.base} {
@@ -1276,6 +1344,13 @@ build += {
     uri:  ${vars.uris.sbt-librarymanagement-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    // we have to disable this early (extra.commands isn't soon enough)
+    // or scalafmt will run `update` and `cloc-plugin` won't be found
+    extra.settings: ${vars.base.extra.settings} [
+      "scalafmtOnCompile in ThisBuild := false"
+      "scalafmtOnCompile in Sbt := false"
+    ]
+    check-missing: false  // ignore missing scalafmt
   }
 
   ${vars.base} {
@@ -1286,31 +1361,48 @@ build += {
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     // Failed tests: sbt.internal.inc.ZincComponentCompilerSpec
     extra.test-tasks: ["compile"]
-    extra.commands: ["set every scalafmtOnCompile := false"]
+    extra.commands: ${vars.default-commands} [
+      "set every scalafmtOnCompile := false"
+    ]
     check-missing: false  // ignore missing scalafmt
   }
 
   // currently sbt and its modules are frozen and/or forked, since
   // sbt has its own dbuild-based "community build" so we don't need
   // to track the latest (and doing so would be fragile).  but,
-  // we should move to newer tags from time to time.  (and,
-  // see note below about running the tests.)
+  // we should move to newer tags from time to time.
+  // in December 2017 we forked this repo off the v1.0.4 branch,
+  // to get a newer specs2 version; the change was already made upstream,
+  // so when we move everything forward to v1.1.x tags we can unfork.
   ${vars.base} {
     name: "sbt"
     uri:  ${vars.uris.sbt-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    // we have to disable this early (extra.commands isn't soon enough)
+    // or scalafmt will run `update` and `cloc-plugin` won't be found
+    extra.settings: ${vars.base.extra.settings} [
+      "scalafmtOnCompile in ThisBuild := false"
+      "scalafmtOnCompile in Sbt := false"
+    ]
     extra.exclude: [
       // dbuild & sbt-bintray fight (Release.scala calls bintrayRepo.value.upload)
       "bundledLauncherProj"
       // depends on sxr_2.10?!
       "sbtRoot"
     ]
-    // the next time we move to newer tags of sbt, we should try running
-    // the tests again, or at least compiling them.  they are disabled
-    // here because of https://github.com/sbt/sbt/issues/3765, which
-    // has since been fixed on sbt's 1.x branch
-    extra.run-tests: false
+    check-missing: false  // ignore missing scalafmt
+    // sad not to run any tests just because one test failed, but meh, I've sunk a lot
+    // of time into the current round of improvements, we can come back to this one,
+    // maybe at the time we move from 1.0.x -> 1.1.x
+    // [info] SettingQueryTest
+    // [error]   x t/libraryDependencies
+    // [error]    '{"type":"SettingQuerySuccess","value":[{"organization":"org.scala-lang","name":"scala-library","revision":"2.12.1","isChanging":false,"isTransitive":true,"isForce":false,"explicitArtifacts":[],"inclusions":[],"exclusions":[],"extraAttributes":{},"crossVersion":{"type":"Disabled"}}],"contentType":"scala.collection.Seq[sbt.librarymanagement.ModuleID]"}' != '{"type":"SettingQuerySuccess","value":[{"organization":"org.scala-lang","name":"scala-library","revision":"2.12.1","isChanging":false,"isTransitive":true,"isForce":false,"crossVersion":{"type":"Disabled"}}],"contentType":"scala.collection.Seq[sbt.librarymanagement.ModuleID]"}' (file:1)
+    // [error] Actual:   ...lue":{"...,"[explicitA]r[t]i[facts]":[],[inclus]
+    // [error] io...":[],"xc...":[],"...le[sbt.librarymanagement.ModuleID]"}
+    // [error] Expected: ...lue":{"...,"[crossVe]r[s]i[on":{]"[type]"[:"Disabl]
+    // [error] []e[]d"}}[sbt.librarymanagement.ModuleID]"}
+    extra.test-tasks: ["compile"]
   }
 
   // dependency of ammonite.  otherwise obsolete, as per
@@ -1322,6 +1414,27 @@ build += {
     uri:  ${vars.uris.upickle-uri}
     // no Scala.js; also only upickle no pprint
     extra.projects: ["upickleJVM"]
+  }
+
+  // dependency of scaladex. depends on upickle
+  ${vars.base} {
+    name: "autowire"
+    uri:  ${vars.uris.autowire-uri}
+    extra.projects: ["autowireJVM"]  // no Scala.js plz
+  }
+
+  ${vars.base} {
+    name: "scaladex"
+    uri:  ${vars.uris.scaladex-uri}
+    extra.exclude: [
+      // no Scala.js plz
+      "sharedJS", "client"
+      // "java.io.IOException: Cannot run program "sass": error=2, No such file or directory"
+      // not insurmountable -- we could add commands to install the gem in the current directory,
+      // and then customize `sassExecutable in Assets` if needed. but I feel it's not really worth
+      // the additional labor and (more importantly) the additional fragility
+      "server"
+    ]
   }
 
   // depends on ammonite-ops
