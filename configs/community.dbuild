@@ -1212,7 +1212,7 @@ build += {
       // org.http4s#http4s-blaze-server is not provided (in space "default")
       "http-server"
       // no sbt plz
-      "sbt-coursier", "sbt-shading", "sbt-launcher", "sbt-pgp-coursier", "sbt-plugins"
+      "sbt-coursier", "sbt-shading", "sbt-launcher", "sbt-pgp-coursier", "sbt-plugins", "sbt-shared"
     ]
     extra.commands: ${vars.default-commands} [
       // dbuild doesn't retrieve submodules unless we make it
