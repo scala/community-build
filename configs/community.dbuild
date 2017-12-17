@@ -73,7 +73,7 @@ include file(".dbuild/resolvers.conf")
 vars {
   default-commands: []
   sbt-version: "0.13.16"
-  sbt-1-version: "1.0.4"
+  sbt-1-version: "1.1.0-RC1"
 }
 
 //// compiler options manipulation
@@ -237,8 +237,14 @@ build += {
   ${vars.base} {
     name: "scalatest"
     uri:  ${vars.uris.scalatest-uri}
-    extra.projects: ["scalatest", "scalactic"]
+    extra.exclude: [
+      // no Scala.js plz
+      "commonTestJS", "examplesJS", "scalacticJS", "scalacticMacroJS", "scalacticTestJS"
+      "scalatestAppJS", "scalatestJS", "scalatestTestJS"
+    ]
     extra.test-tasks: ["compile"] // TODO run tests -- need to exclude browser-based tests somehow
+    // scalatest-test project won't compile without extra heap
+    extra.options: ["-Xmx3072m"]
   }
 
   ${vars.base} {
@@ -693,8 +699,9 @@ build += {
     // we're lying and telling it Java 8 is Java 7, but in this context
     // the lie isn't important
     extra.options: ["-Djava7.home="${JAVA_HOME}]
+    // December 2017: some code runs afoul of the new PartialFunction.apply
+    // deprecation we added for 2.12.5
     extra.commands: ${vars.default-commands} [
-      // too fragile
       "removeScalacOptions -Xfatal-warnings"
     ]
   }
