@@ -208,16 +208,30 @@ build += {
     ]
   }
 
+  // see also scalatest-tests
   ${vars.base} {
     name: "scalatest"
     uri:  ${vars.uris.scalatest-uri}
+    extra.projects: ["scalatest", "scalactic"]
+  }
+
+  // this is almost 1M lines of code, but it needn't be green (or be compiled at all)
+  // for dependent projects to proceed, so let's keep it separate.  forked (December 2017)
+  // because of trouble with scalacticMacro -- the latter has publishing disabled
+  ${vars.base} {
+    name: "scalatest-tests"
+    uri:  ${vars.uris.scalatest-uri}
     extra.exclude: [
+      // we already built these above
+      "scalatest", "scalactic", "scalacticMacro"
       // no Scala.js plz
       "commonTestJS", "examplesJS", "scalacticJS", "scalacticMacroJS", "scalacticTestJS"
       "scalatestAppJS", "scalatestJS", "scalatestTestJS"
+      // [scalatest-tests] [info] *** 5 SUITES ABORTED ***
+      // [scalatest-tests] [info] *** 29 TESTS FAILED ***
+      "examples"
     ]
-    extra.test-tasks: ["compile"] // TODO run tests -- need to exclude browser-based tests somehow
-    // scalatest-test project won't compile without extra heap
+    // needs extra heap to even compile
     extra.options: ["-Xmx3072m"]
   }
 
