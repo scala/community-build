@@ -1187,8 +1187,6 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
   }
 
-  // frozen (December 2017) at November 2017 before a newer commit
-  // introduced a test failure: https://github.com/ornicar/scalachess/issues/133
   ${vars.base} {
     name: "scalachess"
     uri:  ${vars.uris.scalachess-uri}
