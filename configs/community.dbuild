@@ -1310,6 +1310,13 @@ build += {
     extra.projects: ["core"]
   }
 
+  // forked (December 2017) to disable sbt-pgp stuff that was prompting for a passphrase
+  ${vars.base} {
+    name: "paradox"
+    uri:  ${vars.uris.paradox-uri}
+    extra.exclude: ["plugin", "themePlugin", "genericTheme"]
+  }
+
 ]}
 
 //// space: jawn_0_10
