@@ -1325,6 +1325,12 @@ build += {
     extra.projects: ["server", "testkit-scaladsl", "immutables"]
   }
 
+  // dependency of lagom
+  ${vars.base} {
+    name: "akka-persistence-cassandra"
+    uri:  ${vars.uris.akka-persistence-cassandra-uri}
+  }
+
 ]}
 
 //// space: jawn_0_10
