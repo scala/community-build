@@ -1324,8 +1324,11 @@ build += {
     uri:  ${vars.uris.lagom-uri}
     extra.projects: ["server", "testkit-scaladsl", "immutables"]
     // we got some test failures here. this is the only way I know to disable
-    // tests being run for a particular project only
-    extra.commands: ["set executeTests in `persistence-cassandra-scaladsl` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"]
+    // tests being run for particular projects only
+    extra.commands: ${vars.default-commands} [
+      "set executeTests in `server-scaladsl` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+      "set executeTests in `persistence-cassandra-scaladsl` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+    ]
   }
 
   // dependency of lagom
