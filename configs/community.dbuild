@@ -1322,7 +1322,8 @@ build += {
   ${vars.base} {
     name: "lagom"
     uri:  ${vars.uris.lagom-uri}
-    extra.projects: ["server", "testkit-scaladsl", "immutables"]
+    // these pull in a number of dependent projects
+    extra.projects: ["server", "testkit-scaladsl"]
     // we got some test failures here. this is the only way I know to disable
     // tests being run for particular projects only
     extra.commands: ${vars.default-commands} [
