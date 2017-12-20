@@ -1327,6 +1327,7 @@ build += {
     // tests being run for particular projects only
     extra.commands: ${vars.default-commands} [
       "set executeTests in `server-scaladsl` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+      "set executeTests in `testkit-scaladsl` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
       "set executeTests in `persistence-cassandra-scaladsl` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
     ]
   }
