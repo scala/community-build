@@ -282,7 +282,9 @@ build += {
     name: "scoverage"
     uri:  ${vars.uris.scoverage-uri}
     extra.exclude: ["scalac-scoverage-runtimeJS"] // no Scala.js please
-    extra.test-tasks: "compile" // TODO: [info] java.io.FileNotFoundException: Could not locate [~/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.0.jar].
+    // [info] java.io.FileNotFoundException: Could not locate [~/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.0.jar].
+    // January 2018: failure's continued existence confirmed
+    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
@@ -360,8 +362,6 @@ build += {
       "akka-actor"  // because we already built it in "akka"
       "akka-bench-jmh"  // we'd have to add a resolver to get the JMH dependency - ST 8/17/15
     ]
-    // TODO wip on this at https://github.com/scala/community-builds/pull/317
-    extra.test-tasks: ["compile"]
   }
 
   // frozen (December 2017) at December 2017 commit before akka-actor and akka-stream
@@ -383,9 +383,6 @@ build += {
       // sbt-osgi doesn't like dbuild-mangled version numbers
       "set every OsgiKeys.bundleVersion := \"10.0.0\""
     ]
-    // "HTTP is sadly very timing sensitive we're working on improving its stability regularly,
-    // OK to disable it for now." - Konrad M, October 2016
-    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
@@ -553,6 +550,8 @@ build += {
     name: "parboiled"
     uri:  ${vars.uris.parboiled-uri}
     extra.projects: ["parboiled-scala"]
+    // test failure is of long standing; not worth investigating, since the
+    // project is moribund
     extra.test-tasks: ["compile"]
   }
 
@@ -614,8 +613,6 @@ build += {
     name: "breeze"
     uri:  ${vars.uris.breeze-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    // failing tests not investigated/reported
-    extra.test-tasks: ["compile"]
     // spire moved from org.spire to org.typelevel but breeze hasn't
     // changed their dependency yet
     deps.ignore: ["org.spire-math#spire"]
@@ -651,9 +648,6 @@ build += {
   ${vars.base} {
     name: "ssl-config"
     uri:  ${vars.uris.ssl-config-uri}
-    // repeated hangs during testing; see
-    // https://github.com/scala/community-builds/issues/560
-    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
@@ -675,9 +669,6 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
     // don't build sbt plugin
     extra.exclude: ["mapper-generator"]
-    // recurring test failures reported upstream at
-    // https://github.com/scalikejdbc/scalikejdbc/issues/574
-    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
@@ -819,8 +810,6 @@ build += {
   ${vars.base} {
     name: "scala-ssh"
     uri:  ${vars.uris.scala-ssh-uri}
-    // Failed tests: com.decodified.scalassh.SshClientSpec
-    extra.test-tasks: "compile"
   }
 
   // frozen at a March 2017 commit, because some commit soon after
@@ -905,11 +894,6 @@ build += {
     extra.commands: ${vars.default-commands} [
       "removeScalacOptions -Xfatal-warnings"
     ]
-    // Failed tests: monix.execution.misc.AsyncSemaphoreSuite
-    // but according to Alexandru at https://github.com/monix/monix/issues/465
-    // the problem is already fixed on master.  So at the time we unfreeze
-    // we can start running the tests again.
-    extra.test-tasks: "compile"
   }
 
   ${vars.base} {
@@ -940,16 +924,11 @@ build += {
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
     ]
-    // Failed tests: akka.contrib.http.DirectivesSpec
-    extra.test-tasks: "compile"
   }
 
   ${vars.base} {
     name: "unfiltered"
     uri:  ${vars.uris.unfiltered-uri}
-    // Failed test: unfiltered.netty.SslServerSpec
-    //   (it worked locally but failed on Jenkins, who knows why?)
-    extra.test-tasks: "compile"
   }
 
   ${vars.base} {
@@ -1246,7 +1225,7 @@ build += {
     // com.github.alexarchambault#scalacheck-shapeless is not provided
     // (in space "default") by any project in this configuration file."
     check-missing: false
-    // Failed tests: org.scalacheck.PropTests
+    // (January 2018) "recursiveADT2" test fails
     extra.test-tasks: ["compile"]
   }
 
@@ -1405,8 +1384,6 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
     extra.exclude: ["zincBenchmarks"]
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    // Failed tests: sbt.internal.inc.ZincComponentCompilerSpec
-    extra.test-tasks: ["compile"]
     extra.commands: ${vars.default-commands} [
       "set every scalafmtOnCompile := false"
     ]
@@ -1438,17 +1415,6 @@ build += {
       "sbtRoot"
     ]
     check-missing: false  // ignore missing scalafmt
-    // sad not to run any tests just because one test failed, but meh, I've sunk a lot
-    // of time into the current round of improvements, we can come back to this one,
-    // maybe at the time we move from 1.0.x -> 1.1.x
-    // [info] SettingQueryTest
-    // [error]   x t/libraryDependencies
-    // [error]    '{"type":"SettingQuerySuccess","value":[{"organization":"org.scala-lang","name":"scala-library","revision":"2.12.1","isChanging":false,"isTransitive":true,"isForce":false,"explicitArtifacts":[],"inclusions":[],"exclusions":[],"extraAttributes":{},"crossVersion":{"type":"Disabled"}}],"contentType":"scala.collection.Seq[sbt.librarymanagement.ModuleID]"}' != '{"type":"SettingQuerySuccess","value":[{"organization":"org.scala-lang","name":"scala-library","revision":"2.12.1","isChanging":false,"isTransitive":true,"isForce":false,"crossVersion":{"type":"Disabled"}}],"contentType":"scala.collection.Seq[sbt.librarymanagement.ModuleID]"}' (file:1)
-    // [error] Actual:   ...lue":{"...,"[explicitA]r[t]i[facts]":[],[inclus]
-    // [error] io...":[],"xc...":[],"...le[sbt.librarymanagement.ModuleID]"}
-    // [error] Expected: ...lue":{"...,"[crossVe]r[s]i[on":{]"[type]"[:"Disabl]
-    // [error] []e[]d"}}[sbt.librarymanagement.ModuleID]"}
-    extra.test-tasks: ["compile"]
   }
 
   // dependency of ammonite.  otherwise obsolete, as per
@@ -1497,9 +1463,6 @@ build += {
     name: "ammonite"
     uri:  ${vars.uris.ammonite-uri}
     extra.projects: ["ops", "amm"]
-    // not investigated:
-    // [ammonite] [info] test.ammonite.ops.ExampleTests.addUpScalaSize
-    extra.test-tasks: "compile"
   }
 
   // depends on ammonite
@@ -1590,8 +1553,6 @@ build += {
       // weird errors, probably not appropriate to run anyway
       "load-test"
     ]
-    // Failed tests: org.http4s.CookieSpec, org.http4s.EntityDecoderSpec
-    extra.test-tasks: "compile"
   }
 
   // dependency of github4s
@@ -1605,8 +1566,6 @@ build += {
     name: "github4s"
     uri:  ${vars.uris.github4s-uri}
     extra.projects: ["github4sJVM", "catsEffectJVM", "scalaz"]  // but no "docs" or Scala.js stuff
-    // Failed tests: github4s.unit.ApiSpec, github4s.integration.IntegrationSpec
-    extra.test-tasks: "compile"
   }
 
   ${vars.base} {
