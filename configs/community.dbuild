@@ -4,7 +4,7 @@
 # * akka-more: because they are using deprecated/removed stuff;
 #   see https://github.com/akka/akka/issues/22581.
 # * akka-http, akka-sse, akka-contrib-extra, play-ws, play-core,
-#   conductr-lib: because they depend on akka-more
+#   conductr-lib, lagom: because they depend on akka-more
 # * scalameter: because scalaVersion handling in their
 #   project/Build.scala needs updating
 # * scala-refactoring: ???, investigation needed
@@ -234,16 +234,30 @@ build += {
     ]
   }
 
+  // see also scalatest-tests
   ${vars.base} {
     name: "scalatest"
     uri:  ${vars.uris.scalatest-uri}
+    extra.projects: ["scalatest", "scalactic"]
+  }
+
+  // this is almost 1M lines of code, but it needn't be green (or be compiled at all)
+  // for dependent projects to proceed, so let's keep it separate.  forked (December 2017)
+  // because of trouble with scalacticMacro -- the latter has publishing disabled
+  ${vars.base} {
+    name: "scalatest-tests"
+    uri:  ${vars.uris.scalatest-uri}
     extra.exclude: [
+      // we already built these above
+      "scalatest", "scalactic", "scalacticMacro"
       // no Scala.js plz
       "commonTestJS", "examplesJS", "scalacticJS", "scalacticMacroJS", "scalacticTestJS"
       "scalatestAppJS", "scalatestJS", "scalatestTestJS"
+      // [scalatest-tests] [info] *** 5 SUITES ABORTED ***
+      // [scalatest-tests] [info] *** 29 TESTS FAILED ***
+      "examples"
     ]
-    extra.test-tasks: ["compile"] // TODO run tests -- need to exclude browser-based tests somehow
-    // scalatest-test project won't compile without extra heap
+    // needs extra heap to even compile
     extra.options: ["-Xmx3072m"]
   }
 
@@ -603,6 +617,7 @@ build += {
   ${vars.base} {
     name: "scalikejdbc"
     uri:  ${vars.uris.scalikejdbc-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     // don't build sbt plugin
     extra.exclude: ["mapper-generator"]
     // recurring test failures reported upstream at
@@ -971,6 +986,13 @@ build += {
   ${vars.base} {
     name: "sksamuel-exts"
     uri:  ${vars.uris.sksamuel-exts-uri}
+  }
+
+  // forked (December 2017) to disable sbt-pgp stuff that was prompting for a passphrase
+  ${vars.base} {
+    name: "paradox"
+    uri:  ${vars.uris.paradox-uri}
+    extra.exclude: ["plugin", "themePlugin", "genericTheme"]
   }
 
 ]}
