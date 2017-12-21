@@ -8,6 +8,7 @@ set -o pipefail
 
 # redundant to delete both at start and end, but just in case
 # these were left lying around...
+echo "removing temporary files..."
 rm -rf target-*/project-builds || true
 rm -rf target-*/extraction || true
 
@@ -192,6 +193,7 @@ BUILD_ID="$(grep '^\[info\]  uuid = ' "dbuild-${DBUILDVERSION}/dbuild.out" | sed
 echo "The repeatable UUID of this build was: ${BUILD_ID}"
 
 # we may have run out of disk, so make space ASAP
+echo "removing temporary files..."
 rm -rf target-*/project-builds
 rm -rf target-*/extraction
 
