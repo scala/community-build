@@ -322,10 +322,6 @@ build += {
   ${vars.base} {
     name: "genjavadoc"
     uri:  ${vars.uris.genjavadoc-uri}
-    // TODO Failed tests: com.typesafe.genjavadoc.BasicSpec (looks like the test is too sensitive to ordering)
-    // TODO if we re-enable tests we'll probably also need to patch the version logic in BasicSpec.scala,
-    // something like https://github.com/SethTisue/genjavadoc/commit/509628e5437dfe9b90f4715a4a74274a4cc79adf
-    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
