@@ -1154,6 +1154,7 @@ build += {
   ${vars.base} {
     name: "better-files"
     uri: ${vars.uris.better-files-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.commands: ${vars.default-commands} [
       // because of new inferred-Any warnings in 2.12.4 (PR 5990)
       "removeScalacOptions -Xfatal-warnings"
