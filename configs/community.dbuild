@@ -73,7 +73,7 @@ include file(".dbuild/resolvers.conf")
 vars {
   default-commands: []
   sbt-version: "0.13.16"
-  sbt-1-version: "1.1.0-RC1"
+  sbt-1-version: "1.1.0-RC4"
 }
 
 //// compiler options manipulation
@@ -294,6 +294,7 @@ build += {
     uri:  ${vars.uris.scala-stm-uri}
     // scala.concurrent.stm.CommitBarrierSuite failing;
     // reported upstream at https://github.com/nbronson/scala-stm/issues/53
+    // (report updated December 2017)
     extra.test-tasks: ["compile"]
   }
 
@@ -305,8 +306,6 @@ build += {
       // optimizer related
       "removeScalacOptions -Xfatal-warnings"
     ]
-    // TODO Failed tests: shapeless.CachedTest
-    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
@@ -360,10 +359,6 @@ build += {
   ${vars.base} {
     name: "genjavadoc"
     uri:  ${vars.uris.genjavadoc-uri}
-    // TODO Failed tests: com.typesafe.genjavadoc.BasicSpec (looks like the test is too sensitive to ordering)
-    // TODO if we re-enable tests we'll probably also need to patch the version logic in BasicSpec.scala,
-    // something like https://github.com/SethTisue/genjavadoc/commit/509628e5437dfe9b90f4715a4a74274a4cc79adf
-    extra.test-tasks: ["compile"]
   }
 
   // forked August 2017 for version checking logic in build;
@@ -398,8 +393,6 @@ build += {
   ${vars.base} {
     name: "scala-async"
     uri:  ${vars.uris.scala-async-uri}
-    // TODO: ToolBox based tests report missing JARs. Probably some poor assumption in the async tests.
-    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
@@ -921,6 +914,7 @@ build += {
   ${vars.base} {
     name: "better-files"
     uri: ${vars.uris.better-files-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.commands: ${vars.default-commands} [
       // because of new inferred-Any warnings in 2.12.4 (PR 5990)
       "removeScalacOptions -Xfatal-warnings"
