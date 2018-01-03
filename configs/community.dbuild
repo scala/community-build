@@ -699,6 +699,7 @@ build += {
   ${vars.base} {
     name: "play-ws"
     uri:  ${vars.uris.play-ws-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.commands: ${vars.default-commands} [
       // new warnings from https://github.com/scala/scala/pull/5402
       "removeScalacOptions -Xfatal-warnings"
