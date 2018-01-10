@@ -72,8 +72,8 @@ include file(".dbuild/resolvers.conf")
 
 vars {
   default-commands: []
-  sbt-version: "0.13.16"
-  sbt-1-version: "1.1.0-RC4"
+  sbt-version: "0.13.17-RC1"
+  sbt-1-version: "1.1.0"
 }
 
 //// compiler options manipulation
@@ -567,10 +567,14 @@ build += {
     ]
   }
 
+  // forked (January 2018) to remove a couple of failing tests; ticket
+  // is https://github.com/etorreborre/specs2/issues/622. note we are
+  // using the 3.x branch, even though specs2 4.0 has been out for a while
+  // now, because we suspect that some other projects wouldn't work with 4.0
+  // yet (hasn't been tried though; we should try at some point)
   ${vars.base} {
     name: "specs2"
     uri:  ${vars.uris.specs2-uri}
-    extra.test-tasks: ["compile"] // TODO: ??? - hasn't been tried lately
     extra.exclude: [
       // eff-related compile errors, as of January 2017 anyway
       "guide"
