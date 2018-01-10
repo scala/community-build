@@ -1211,11 +1211,13 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
-  # frozen (December 2017) at December 2017 commit -- some failure to extract
-  # associated with sbt 1 upgrade -- TODO needs investigation
   ${vars.base} {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
+    // staying on 1.0.4 for now (January 2018) because on 1.1.0 we get:
+    // [error] Caused by: java.lang.IllegalArgumentException: requirement failed: A named attribute key must start with a lowercase letter: List of excluding files from the archive
+    // presumably this will get fixed upstream at some point?
+    extra.sbt-version: "1.0.4"
     extra.projects: ["jvm"]  // no Scala.js plz
     extra.exclude: [
       // I suppose we could try to add this, but it seems inessential:
