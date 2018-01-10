@@ -1229,7 +1229,7 @@ build += {
     ]
     extra.commands: ${vars.default-commands} [
       // dbuild doesn't retrieve submodules unless we make it
-      "eval \"git submodule update --init\".!"
+      "eval sys.process.Process(\"git submodule update --init\").!"
     ]
   }
 
