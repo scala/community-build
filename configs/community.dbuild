@@ -72,7 +72,7 @@ include file(".dbuild/resolvers.conf")
 
 vars {
   default-commands: []
-  sbt-version: "0.13.17-RC1"
+  sbt-version: "0.13.17-RC2"
   sbt-1-version: "1.1.0"
 }
 
@@ -203,6 +203,9 @@ build += {
     extra.exclude: ["scala-parser-combinatorsJS"]
   }
 
+  // using a fork (January 2018) until this PR is merged:
+  // https://github.com/scala-js/scala-js/pull/3258
+  // otherwise, we are tracking master.
   // if master proves difficult to track, the 0.6.x branch could be
   // used instead; see discussion at
   // https://github.com/scala/community-builds/issues/506
