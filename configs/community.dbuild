@@ -896,11 +896,13 @@ build += {
     ]
   }
 
+  // Conductr is now moribund, so this can be removed if it acts up.
   ${vars.base} {
     name: "conductr-lib"
     uri:  ${vars.uris.conductr-lib-uri}
     extra.exclude: [
-      // we don't have Lagom yet
+      // at the time we didn't have Lagom yet.
+      // Conductr is now moribund, so not worth messing with it.
       "lagom13JavaConductRBundleLib", "lagom13ScalaConductRBundleLib"
       "lagom14JavaConductRBundleLib", "lagom14ScalaConductRBundleLib"
       // didn't compile (July 2017)
