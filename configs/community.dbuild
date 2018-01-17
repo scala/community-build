@@ -509,21 +509,12 @@ build += {
     extra.exclude: ["docs"]
   }
 
-  // forked (August 2017) to remove coursier
   ${vars.base} {
     name: "fs2"
     uri:  ${vars.uris.fs2-uri}
     extra.projects: ["coreJVM", "scodecJVM", "io"]  // no Scala.js, no benchmarks or docs
-    extra.commands: ${vars.default-commands} [
-      // because of new inferred-Any warnings in 2.12.4 (PR 5990)
-      "removeScalacOptions -Xfatal-warnings"
-    ]
   }
 
-  # frozen at September 2017 commit because cats-effect was failing;
-  # see https://github.com/scala/community-builds/issues/600
-  # November 2017: unfreeze attempt at https://github.com/scala/community-builds/pull/624
-  # failed, but we should try again in a month or two, something like that
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
@@ -605,27 +596,6 @@ build += {
     uri:  ${vars.uris.mima-uri}
     // we don't compile sbt plugins
     extra.exclude: ["sbtplugin"]
-  }
-
-  ${vars.base} {
-    name: "spire"
-    uri:  ${vars.uris.spire-uri}
-    // hopefully avoid intermittent OutOfMemoryErrors during compilation
-    extra.options: ["-Xmx2560m"]
-    extra.projects: ["spireJVM"]  // no Scala.js please
-  }
-
-  ${vars.base} {
-    name: "breeze"
-    uri:  ${vars.uris.breeze-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
-    // spire moved from org.spire to org.typelevel but breeze hasn't
-    // changed their dependency yet
-    deps.ignore: ["org.spire-math#spire"]
-    deps.inject: ${vars.base.deps.inject} [
-      "org.typelevel#spire"
-    ]
-    check-missing: false
   }
 
   // forked (January 2018) to remove a couple of failing tests; ticket
@@ -893,27 +863,16 @@ build += {
     extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
   }
 
-  // frozen (November 2017) at an October 2017 commit because they moved
-  // to cats 1.0.0-RC1, which we aren't ready for yet (see
-  // https://github.com/scala/community-builds/pull/624)
   ${vars.base} {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     // no Scala.js, no benchmarks.
     // (but also, perhaps this excludes more stuff than necessary?)
     extra.projects: ["coreJVM"]
-    // because of new inferred-Any warnings in 2.12.4 (PR 5990)
     extra.commands: ${vars.default-commands} [
+      // currently (January 2018) runs afoul of PartialFunction.apply deprecation in 2.12.5
       "removeScalacOptions -Xfatal-warnings"
-      // Failed test: monix.execution.misc.AsyncSemaphoreSuite
-      // but according to Alexandru at https://github.com/monix/monix/issues/465
-      // the problem is already fixed on master.  So at the time we unfreeze
-      // we can start running these tests again.
-      "set executeTests in executionJVM in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-      // not investigated or reported -- let's deal with it when we unfreeze:
-      //   monix.eval.TaskSemaphoreSuite
-      //   - real async test of many tasks *** FAILED ***
-      "set executeTests in evalJVM in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
     ]
   }
 
@@ -1019,6 +978,8 @@ build += {
     extra.projects: ["pprintJVM"]  // no Scala.js
   }
 
+  // switched (January 2018) to a fork where the cats dependency is upgraded;
+  // we can unfork once https://github.com/typelevel/algebra/pull/207 lands
   ${vars.base} {
     name: "algebra"
     uri:  ${vars.uris.algebra-uri}
@@ -1115,10 +1076,6 @@ build += {
     extra.projects: ["lensesJVM"]  // no Scala.js plz
   }
 
-  // adding (September 2017) because scalafix's "cli" subproject uses it.
-  // forked to modify some version number manipulation code to be
-  // dbuild-friendly; we can unfork once
-  // https://github.com/typelevel/paiges/pull/74 is merged
   ${vars.base} {
     name: "paiges"
     uri:  ${vars.uris.paiges-uri}
@@ -1138,9 +1095,6 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
-  // frozen (November 2017) at an October 2017 commit, because more
-  // recent commits require a newer cats, too new for other libraries
-  // in the community build; see https://github.com/scala/community-builds/pull/624
   ${vars.base} {
     name: "cats-effect"
     uri:  ${vars.uris.cats-effect-uri}
@@ -1272,16 +1226,6 @@ build += {
     name: "scallop"
     uri:  ${vars.uris.scallop-uri}
     extra.projects: ["jvm"]  // no Scala.js or Scala Native plz
-  }
-
-  // OlegYch's fork is the one that hangs out in
-  // scala/scala (Gitter) and #scala (IRC)
-  ${vars.base} {
-    name: "multibot"
-    uri:  ${vars.uris.multibot-uri}
-    // linter isn't essential to the build
-    deps.ignore: ["org.psywerx.hairyfotr#linter"]
-    check-missing: false
   }
 
   // dependency of scaladex
@@ -1579,27 +1523,30 @@ build += {
     extra.projects: ["ast", "parser", "json4s", "spray"]
   }
 
-  // frozen (November 2017) at September 2017 commit before they upgraded
-  // to newer fs2 & cats version; we should be able to unfreeze at the
-  // same time we unfreeze cats (https://github.com/scala/community-builds/pull/624)
   ${vars.base} {
     name: "jawn-fs2"
     uri:  ${vars.uris.jawn-fs2-uri}
+    extra.commands: ${vars.default-commands} [
+      // too fragile
+      "removeScalacOptions -Xfatal-warnings"
+    ]
+  }
+
+  // dependency of http4s (it's their fork of parboiled2)
+  ${vars.base} {
+    name: "http4s-parboiled2"
+    uri:  ${vars.uris.http4s-parboiled2-uri}
+    extra.projects: ["parboiledJVM"]
   }
 
   // well, this is a big build with lots of subprojects, many of which involve
   // integration with other libraries. many of them had issues; I didn't
   // spend that much time looking into each one and seeing if it might be
   // fixable, or ought to be reported upstream, or what.
-  // we are using an August 2017 commit that has the jawn 0.10->0.11
-  // upgrade but doesn't have cats 1.0.0-MF->1.0.0-RC1 since we aren't
-  // (November 2017) ready for that yet (see #624)
-  // note that if this all proves to be more trouble than it's worth,
-  // it's fine to drop it for a while until the Typelevel ecosystem
-  // settles down a bit
   ${vars.base} {
     name: "http4s"
     uri:  ${vars.uris.http4s-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.commands: ${vars.default-commands} [
       // too fragile
       "removeScalacOptions -Xfatal-warnings"
@@ -1641,9 +1588,9 @@ build += {
     ]
   }
 
-  # forked (November 2017) to remove a build.sbt thing that adds Ammonite,
-  # because it isn't a true dependency and we don't want the complication of
-  # Ammonite's own dependency tree (in particular, the jawn versions conflict)
+  # forked (November 2017, refreshed January 2018) to remove a build.sbt thing that
+  # adds Ammonite, because it isn't a true dependency and we don't want the complication
+  # of Ammonite's own dependency tree (in particular, the jawn versions conflict)
   ${vars.base} {
     name: "pureconfig"
     uri:  ${vars.uris.pureconfig-uri}
@@ -1657,10 +1604,6 @@ build += {
       "set every conflictWarning := ConflictWarning.disable"
       // - Disable fatal Scaladoc warnings, too fragile
       "removeScalacOptions -Xfatal-warnings"
-    ]
-    extra.exclude: [
-      // didn't compile -- maybe try again after we're on cats 1.0.0-RCx
-      "cats"
     ]
   }
 
