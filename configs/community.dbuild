@@ -185,7 +185,8 @@ build += {
     uri:  ${vars.uris.scala-js-uri}
     // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
     extra.options: ["-Xmx2048m"]
-    extra.projects: [ tools, testSuite, stubs ]
+    // not really sure how this list was arrived at
+    extra.projects: [ io, logging, linker, testSuite, stubs ]
     extra.commands: ${vars.default-commands} [
       // - Disable fatal Scaladoc warnings, too fragile
       "removeScalacOptions -Xfatal-warnings"
