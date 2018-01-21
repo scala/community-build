@@ -1578,6 +1578,8 @@ build += {
     name: "github4s"
     uri:  ${vars.uris.github4s-uri}
     extra.projects: ["github4sJVM", "catsEffectJVM", "scalaz"]  // but no "docs" or Scala.js stuff
+    // waiting (January 2018) on https://github.com/47deg/github4s/issues/178
+    extra.test-tasks: "compile"
   }
 
   ${vars.base} {
