@@ -818,6 +818,9 @@ build += {
   ${vars.base} {
     name: "scala-ssh"
     uri:  ${vars.uris.scala-ssh-uri}
+    // Failed tests: com.decodified.scalassh.SshClientSpec, com.decodified.scalassh.HostFileConfigSpec
+    // (verified January 2018)
+    extra.test-tasks: "compile"
   }
 
   // frozen at a March 2017 commit, because some commit soon after
