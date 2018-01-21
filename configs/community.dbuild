@@ -381,6 +381,12 @@ build += {
       // sbt-osgi doesn't like dbuild-mangled version numbers
       "set every OsgiKeys.bundleVersion := \"10.0.0\""
     ]
+    // "HTTP is sadly very timing sensitive we're working on improving its stability regularly,
+    // OK to disable it for now." - Konrad M, October 2016
+    // reconfirmed January 2018 that some tests are failing. in one run, it was:
+    // * akka.http.impl.engine.client.NewConnectionPoolSpec
+    // * akka.http.impl.engine.client.HostConnectionPoolSpec
+    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
