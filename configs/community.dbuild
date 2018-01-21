@@ -203,9 +203,6 @@ build += {
     extra.exclude: ["scala-parser-combinatorsJS"]
   }
 
-  // using a fork (January 2018) until this PR is merged:
-  // https://github.com/scala-js/scala-js/pull/3258
-  // otherwise, we are tracking master.
   // if master proves difficult to track, the 0.6.x branch could be
   // used instead; see discussion at
   // https://github.com/scala/community-builds/issues/506
@@ -214,7 +211,8 @@ build += {
     uri:  ${vars.uris.scala-js-uri}
     // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
     extra.options: ["-Xmx2048m"]
-    extra.projects: [ tools, testSuite, stubs ]
+    // not really sure how this list was arrived at
+    extra.projects: [ io, logging, linker, testSuite, stubs ]
     extra.commands: ${vars.default-commands} [
       // - Disable fatal Scaladoc warnings, too fragile
       "removeScalacOptions -Xfatal-warnings"
@@ -315,7 +313,9 @@ build += {
     name: "scoverage"
     uri:  ${vars.uris.scoverage-uri}
     extra.exclude: ["scalac-scoverage-runtimeJS"] // no Scala.js please
-    extra.test-tasks: "compile" // TODO: [info] java.io.FileNotFoundException: Could not locate [~/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.0.jar].
+    // [info] java.io.FileNotFoundException: Could not locate [~/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.0.jar].
+    // January 2018: failure's continued existence confirmed
+    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
@@ -551,6 +551,7 @@ build += {
   ${vars.base} {
     name: "kind-projector"
     uri:  ${vars.uris.kind-projector-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
   }
 
   ${vars.base} {
@@ -620,9 +621,6 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
     // don't build sbt plugin
     extra.exclude: ["mapper-generator"]
-    // recurring test failures reported upstream at
-    // https://github.com/scalikejdbc/scalikejdbc/issues/574
-    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
@@ -699,8 +697,6 @@ build += {
   ${vars.base} {
     name: "scala-ssh"
     uri:  ${vars.uris.scala-ssh-uri}
-    // Failed tests: com.decodified.scalassh.SshClientSpec
-    extra.test-tasks: "compile"
   }
 
   // frozen at a March 2017 commit, because some commit soon after
@@ -752,15 +748,16 @@ build += {
     extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
   }
 
-  // frozen (November 2017) at an October 2017 commit because they moved
-  // to cats 1.0.0-RC1, which we aren't ready for yet (see
-  // https://github.com/scala/community-builds/pull/624)
   ${vars.base} {
     name: "unfiltered"
     uri:  ${vars.uris.unfiltered-uri}
-    // Failed test: unfiltered.netty.SslServerSpec
-    //   (it worked locally but failed on Jenkins, who knows why?)
-    extra.test-tasks: "compile"
+    extra.commands: ${vars.default-commands} [
+      // unfiltered.netty.SslServerSpec intermittently fails; reported upstream at
+      // https://github.com/unfiltered/unfiltered/issues/364
+      "set executeTests in netty in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+      // unfiltered.netty.request.ChunkAggregatedUploadSpec fails (January 2018); not investigated
+      "set executeTests in nettyUploads in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+    ]
   }
 
   ${vars.base} {
@@ -861,6 +858,7 @@ build += {
   ${vars.base} {
     name: "twotails"
     uri:  ${vars.uris.twotails-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
   }
 
   ${vars.base} {
@@ -944,7 +942,7 @@ build += {
     // com.github.alexarchambault#scalacheck-shapeless is not provided
     // (in space "default") by any project in this configuration file."
     check-missing: false
-    // Failed tests: org.scalacheck.PropTests
+    // (January 2018) "recursiveADT2" test fails
     extra.test-tasks: ["compile"]
   }
 
