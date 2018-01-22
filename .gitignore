@@ -5,3 +5,5 @@
 /clones-*/
 /dbuild-*/
 /target-*/
+/.config/
+/.npm/

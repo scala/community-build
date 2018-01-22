@@ -338,6 +338,9 @@ build += {
     ]
   }
 
+  // frozen (January 2018) at a July 2017 commit because newer commits add
+  // a -SNAPSHOT dependency (at the build level) that doesn't resolve;
+  // opened https://github.com/scodec/scodec-bits/issues/82 on it
   ${vars.base} {
     name: "scodec-bits"
     uri:  ${vars.uris.scodec-bits-uri}
@@ -898,6 +901,7 @@ build += {
   ${vars.base} {
     name: "doodle"
     uri: ${vars.uris.doodle-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["doodleJVM"]  // no Scala.js plz
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
