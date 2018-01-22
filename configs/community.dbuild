@@ -1143,6 +1143,7 @@ build += {
   ${vars.base} {
     name: "doodle"
     uri: ${vars.uris.doodle-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["doodleJVM"]  // no Scala.js plz
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
