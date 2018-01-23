@@ -9,9 +9,6 @@
 #   project/Build.scala needs updating
 # * scala-refactoring: ???, investigation needed
 # * gigahorse: requires akka-http
-# * lightbend-emoji, sbt, zinc, sbt-*, circe, cats-effect,
-#   scalalib, scalachess: built with sbt 1, which doesn't support Scala 2.13 yet
-# * fs2, monix: depend on cats-effect
 # * jawn-fs2, http4s: depend on fs2
 # * everything in the scalameta_1 and scalameta_2 spaces
 #   (scalameta is too fragile, for now, for 2.13)
@@ -365,11 +362,6 @@ build += {
     uri:  ${vars.uris.genjavadoc-uri}
   }
 
-  // forked August 2017 for version checking logic in build;
-  // fork refreshed October 2017; needed upstream change
-  // https://github.com/akka/akka/pull/23875 was merged, but
-  // we can't unfork until we have an sbt 1.0.x release that
-  // works with Scala 2.13 (https://github.com/sbt/sbt/issues/3427)
   ${vars.base} {
     name: "akka-actor"
     uri:  ${vars.uris.akka-actor-uri}
@@ -381,13 +373,10 @@ build += {
     ]
   }
 
-  // freeze (October 2017) at August 2017 commit predating upgrade
-  // to sbt 1;
-  // we can't unfreeze until we have an sbt 1.0.x release that
-  // works with Scala 2.13 (https://github.com/sbt/sbt/issues/3427)
   ${vars.base} {
     name: "scalariform"
     uri: ${vars.uris.scalariform-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.commands: ${vars.default-commands} [
       // - Disable fatal Scaladoc warnings, too fragile
       "removeScalacOptions -Xfatal-warnings"
@@ -508,6 +497,17 @@ build += {
     name: "kxbmap-configs"
     uri:  ${vars.uris.kxbmap-configs-uri}
     extra.exclude: ["docs"]
+  }
+
+  // forked (August 2017) to remove coursier
+  ${vars.base} {
+    name: "fs2"
+    uri:  ${vars.uris.fs2-uri}
+    extra.projects: ["coreJVM", "scodecJVM", "io"]  // no Scala.js, no benchmarks or docs
+    extra.commands: ${vars.default-commands} [
+      // because of new inferred-Any warnings in 2.12.4 (PR 5990)
+      "removeScalacOptions -Xfatal-warnings"
+    ]
   }
 
   # frozen at September 2017 commit because cats-effect was failing;
@@ -753,6 +753,26 @@ build += {
   }
 
   ${vars.base} {
+    name: "monix"
+    uri:  ${vars.uris.monix-uri}
+    // no Scala.js, no benchmarks.
+    // (but also, perhaps this excludes more stuff than necessary?)
+    extra.projects: ["coreJVM"]
+    // because of new inferred-Any warnings in 2.12.4 (PR 5990)
+    extra.commands: ${vars.default-commands} [
+      "removeScalacOptions -Xfatal-warnings"
+    ]
+    // Failed tests: monix.execution.misc.AsyncSemaphoreSuite
+    // but according to Alexandru at https://github.com/monix/monix/issues/465
+    // the problem is already fixed on master.  So at the time we unfreeze
+    // we can start running the tests again.
+    extra.test-tasks: "compile"
+  }
+
+  // frozen (November 2017) at an October 2017 commit because they moved
+  // to cats 1.0.0-RC1, which we aren't ready for yet (see
+  // https://github.com/scala/community-builds/pull/624)
+  ${vars.base} {
     name: "unfiltered"
     uri:  ${vars.uris.unfiltered-uri}
     extra.commands: ${vars.default-commands} [
@@ -844,6 +864,13 @@ build += {
   }
 
   ${vars.base} {
+    name: "lightbend-emoji"
+    uri:  ${vars.uris.lightbend-emoji-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+  }
+
+  ${vars.base} {
     name: "scala-parallel-collections"
     uri:  ${vars.uris.scala-parallel-collections-uri}
     extra.commands: ${vars.default-commands} [
@@ -896,6 +923,16 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
+  // frozen (November 2017) at an October 2017 commit, because more
+  // recent commits require a newer cats, too new for other libraries
+  // in the community build; see https://github.com/scala/community-builds/pull/624
+  ${vars.base} {
+    name: "cats-effect"
+    uri:  ${vars.uris.cats-effect-uri}
+    extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js plz
+    extra.sbt-version: ${vars.sbt-1-version}
+  }
+
   ${vars.base} {
     name: "doodle"
     uri: ${vars.uris.doodle-uri}
@@ -936,6 +973,63 @@ build += {
     name: "scalastyle"
     uri: ${vars.uris.scalastyle-uri}
     extra.options: ["-Dscalastyle.publish-ivy-only=true"]
+  }
+
+  ${vars.base} {
+    name: "gigahorse"
+    uri:  ${vars.uris.gigahorse-uri}
+    // as of August 2017, doesn't compile against latest akka-http
+    extra.exclude: ["akkaHttp"]
+    // https://github.com/eed3si9n/gigahorse/issues/29
+    extra.test-tasks: "compile"
+  }
+
+  // dependency of scalachess
+  ${vars.base} {
+    name: "scalalib"
+    uri:  ${vars.uris.scalalib-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+  }
+
+  ${vars.base} {
+    name: "scalachess"
+    uri:  ${vars.uris.scalachess-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+  }
+
+  ${vars.base} {
+    name: "sbt-io"
+    uri:  ${vars.uris.sbt-io-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.settings: ${vars.base.extra.settings} [
+      """
+     scalaCompilerBridgeSource := {
+       val old = scalaCompilerBridgeSource.value
+       scalaVersion.value match {
+         case x if x startsWith "2.13." => ("org.scala-sbt" % "compiler-bridge_2.13.0-M2" % "1.1.0-M1-bootstrap2" % Compile).sources()
+         case _ => old
+       }
+     }
+     """
+    ]
+  }
+
+  ${vars.base} {
+    name: "coursier"
+    uri:  ${vars.uris.coursier-uri}
+    extra.projects: ["jvm"]  // no Scala.js plz
+    extra.exclude: [
+      // I suppose we could try to add this, but it seems inessential:
+      // org.http4s#http4s-blaze-server is not provided (in space "default")
+      "http-server"
+      // no sbt plz
+      "sbt-coursier", "sbt-shading", "sbt-launcher", "sbt-pgp-coursier", "sbt-plugins"
+    ]
+    extra.commands: ${vars.default-commands} [
+      // dbuild doesn't retrieve submodules unless we make it
+      "eval \"git submodule update --init\".!"
+    ]
   }
 
   // dependency of pureconfig
@@ -1047,6 +1141,48 @@ build += {
     extra.exclude: ["benchmark"]
   }
 
+  ${vars.base} {
+    name: "sbt-util"
+    uri:  ${vars.uris.sbt-util-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+  }
+
+  ${vars.base} {
+    name: "sbt-librarymanagement"
+    uri:  ${vars.uris.sbt-librarymanagement-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+  }
+
+  ${vars.base} {
+    name: "zinc"
+    uri:  ${vars.uris.zinc-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.exclude: ["zincBenchmarks"]
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    // Failed tests: sbt.internal.inc.ZincComponentCompilerSpec
+    extra.test-tasks: ["compile"]
+    extra.commands: ["set every scalafmtOnCompile := false"]
+    check-missing: false  // ignore missing scalafmt
+  }
+
+  ${vars.base} {
+    name: "sbt"
+    uri:  ${vars.uris.sbt-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.exclude: [
+      // dbuild & sbt-bintray fight (Release.scala calls bintrayRepo.value.upload)
+      "bundledLauncherProj"
+      // depends on sxr_2.10?!
+      "sbtRoot"
+    ]
+    // some test code fails to compile, a specs2 version thing I think.
+    // issue of record is https://github.com/sbt/sbt/issues/3765
+    extra.run-tests: false
+  }
+
   // dependency of ammonite.  otherwise obsolete, as per
   // https://github.com/lihaoyi/upickle-pprint/issues/209
   // (the pprint part has its own repo now)
@@ -1074,6 +1210,20 @@ build += {
   projects: [
 
   ${vars.base} {
+    name: "circe"
+    uri:  ${vars.uris.circe-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: [
+      // easy
+      "core", "numbers"
+      // harder
+      "jawn"
+      // bunch more stuff that all depends on jawn
+      "parser", "generic", "literal", "scodec", "testing", "tests"
+    ]
+  }
+
+  ${vars.base} {
     name: "jawn-0-11"
     uri:  ${vars.uris.jawn-0-11-uri}
     // omitted TODO: play
@@ -1084,11 +1234,58 @@ build += {
     extra.projects: ["ast", "parser", "json4s", "spray"]
   }
 
+  // frozen (November 2017) at September 2017 commit before they upgraded
+  // to newer fs2 & cats version; we should be able to unfreeze at the
+  // same time we unfreeze cats (https://github.com/scala/community-builds/pull/624)
+  ${vars.base} {
+    name: "jawn-fs2"
+    uri:  ${vars.uris.jawn-fs2-uri}
+  }
+
+  // well, this is a big build with lots of subprojects, many of which involve
+  // integration with other libraries. many of them had issues; I didn't
+  // spend that much time looking into each one and seeing if it might be
+  // fixable, or ought to be reported upstream, or what.
+  // we are using an August 2017 commit that has the jawn 0.10->0.11
+  // upgrade but doesn't have cats 1.0.0-MF->1.0.0-RC1 since we aren't
+  // (November 2017) ready for that yet (see #624)
+  // note that if this all proves to be more trouble than it's worth,
+  // it's fine to drop it for a while until the Typelevel ecosystem
+  // settles down a bit
+  ${vars.base} {
+    name: "http4s"
+    uri:  ${vars.uris.http4s-uri}
+    extra.commands: ${vars.default-commands} [
+      // too fragile
+      "removeScalacOptions -Xfatal-warnings"
+    ]
+    extra.exclude: [
+      // outside our purview
+      "bench", "docs"
+      // Missing dependency: com.github.zainab-ali#fs2-reactive-streams
+      "async-http-client"
+      // weird errors, probably not appropriate to run anyway
+      "load-test"
+    ]
+    // Failed tests: org.http4s.CookieSpec, org.http4s.EntityDecoderSpec
+    extra.test-tasks: "compile"
+  }
+
   // dependency of github4s
   ${vars.base} {
     name: "base64"
     uri:  ${vars.uris.base64-uri}
     extra.projects: ["base64JVM"]  // no Scala.js plz
+  }
+
+  ${vars.base} {
+    name: "circe-config"
+    uri:  ${vars.uris.circe-config-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.commands: ${vars.default-commands} [
+      // too fragile
+      "removeScalacOptions -Xfatal-warnings"
+    ]
   }
 
 ]}
