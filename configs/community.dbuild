@@ -949,6 +949,9 @@ build += {
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
     ]
+    // reported test failure upstream:
+    // https://github.com/typesafehub/akka-contrib-extra/issues/74
+    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
