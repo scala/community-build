@@ -338,12 +338,10 @@ build += {
     ]
   }
 
-  // frozen (January 2018) at a July 2017 commit because newer commits add
-  // a -SNAPSHOT dependency (at the build level) that doesn't resolve;
-  // opened https://github.com/scodec/scodec-bits/issues/82 on it
   ${vars.base} {
     name: "scodec-bits"
     uri:  ${vars.uris.scodec-bits-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["coreJVM"]
   }
 
@@ -1000,6 +998,14 @@ build += {
     name: "paradox"
     uri:  ${vars.uris.paradox-uri}
     extra.exclude: ["plugin", "themePlugin", "genericTheme"]
+  }
+
+  // not (as of January 2018 anyway) an actively maintained project, so it's
+  // droppable if it acts up
+  ${vars.base} {
+    name: "scala-sculpt"
+    extra.sbt-version: ${vars.sbt-1-version}
+    uri:  ${vars.uris.scala-sculpt-uri}
   }
 
 ]}
