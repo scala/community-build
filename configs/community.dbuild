@@ -206,6 +206,9 @@ build += {
   // if master proves difficult to track, the 0.6.x branch could be
   // used instead; see discussion at
   // https://github.com/scala/community-builds/issues/506
+  // forked (January 2018) for 2.13 compat; we can unfork
+  // once https://github.com/scala-js/scala-js/pull/3270 has
+  // been merged (& merged forward onto master, too)
   ${vars.base} {
     name: "scala-js"
     uri:  ${vars.uris.scala-js-uri}
