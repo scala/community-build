@@ -511,10 +511,6 @@ build += {
     extra.exclude: ["docs"]
   }
 
-  # frozen at September 2017 commit because cats-effect was failing;
-  # see https://github.com/scala/community-builds/issues/600
-  # November 2017: unfreeze attempt at https://github.com/scala/community-builds/pull/624
-  # failed, but we should try again in a month or two, something like that
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
@@ -958,16 +954,6 @@ build += {
     name: "scallop"
     uri:  ${vars.uris.scallop-uri}
     extra.projects: ["jvm"]  // no Scala.js or Scala Native plz
-  }
-
-  // OlegYch's fork is the one that hangs out in
-  // scala/scala (Gitter) and #scala (IRC)
-  ${vars.base} {
-    name: "multibot"
-    uri:  ${vars.uris.multibot-uri}
-    // linter isn't essential to the build
-    deps.ignore: ["org.psywerx.hairyfotr#linter"]
-    check-missing: false
   }
 
   // dependency of scaladex
