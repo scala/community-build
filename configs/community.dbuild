@@ -385,10 +385,7 @@ build += {
   ${vars.base} {
     name: "scalariform"
     uri: ${vars.uris.scalariform-uri}
-    extra.commands: ${vars.default-commands} [
-      // - Disable fatal Scaladoc warnings, too fragile
-      "removeScalacOptions -Xfatal-warnings"
-    ]
+    extra.sbt-version: ${vars.sbt-1-version}
   }
 
   ${vars.base} {
