@@ -10,7 +10,9 @@
 # * scala-refactoring: ???, investigation needed
 # * gigahorse: requires akka-http
 # * lightbend-emoji, sbt, zinc, sbt-*, circe, cats-effect,
-#   scalalib, scalachess: built with sbt 1, which doesn't support Scala 2.13 yet
+#   scalalib, scalachess: removed because they are now built with sbt 1,
+#   which didn't support Scala 2.13 at the time. but now it does,
+#   so they can be readded as needed.
 # * fs2, monix: depend on cats-effect
 # * jawn-fs2, http4s: depend on fs2
 # * everything in the scalameta_1 and scalameta_2 spaces
@@ -365,14 +367,10 @@ build += {
     uri:  ${vars.uris.genjavadoc-uri}
   }
 
-  // forked August 2017 for version checking logic in build;
-  // fork refreshed October 2017; needed upstream change
-  // https://github.com/akka/akka/pull/23875 was merged, but
-  // we can't unfork until we have an sbt 1.0.x release that
-  // works with Scala 2.13 (https://github.com/sbt/sbt/issues/3427)
   ${vars.base} {
     name: "akka-actor"
     uri:  ${vars.uris.akka-actor-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
     extra.projects: ["akka-actor"]
     extra.commands: ${vars.default-commands} [
@@ -381,10 +379,6 @@ build += {
     ]
   }
 
-  // freeze (October 2017) at August 2017 commit predating upgrade
-  // to sbt 1;
-  // we can't unfreeze until we have an sbt 1.0.x release that
-  // works with Scala 2.13 (https://github.com/sbt/sbt/issues/3427)
   ${vars.base} {
     name: "scalariform"
     uri: ${vars.uris.scalariform-uri}
@@ -433,7 +427,9 @@ build += {
   // and sbt-houserules 0.3.4; details at
   // https://github.com/scala/community-builds/issues/603 . we should
   // be able to unfork once sbt 0.13.17 is out and a new sbt-houserules
-  // removes the offending workaround code
+  // removes the offending workaround code.  (update January 2018:
+  // we're on sbt 0.13.17-RC2 here now, but I'm not sure what the
+  // sbt-houserules status is)
   ${vars.base} {
     name: "sbinary"
     uri:  ${vars.uris.sbinary-uri}
