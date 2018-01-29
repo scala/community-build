@@ -177,6 +177,20 @@ build += {
     extra.exclude: ["scala-parser-combinatorsJS"]
   }
 
+  // since the community build is JVM-only, other projects only depend scala-js
+  // in order to get stubs.  building all of Scala.js and running its tests
+  // takes a while, so let's save ourselves some time and build the stubs
+  // separately
+  ${vars.base} {
+    name: "scala-js-stubs"
+    uri:  ${vars.uris.scala-js-uri}
+    extra.projects: ["stubs"]
+    extra.commands: ${vars.default-commands} [
+      // too fragile
+      "removeScalacOptions -Xfatal-warnings"
+    ]
+  }
+
   // if master proves difficult to track, the 0.6.x branch could be
   // used instead; see discussion at
   // https://github.com/scala/community-builds/issues/506
@@ -186,7 +200,9 @@ build += {
     // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
     extra.options: ["-Xmx2048m"]
     // not really sure how this list was arrived at
-    extra.projects: [ io, logging, linker, testSuite, stubs ]
+    extra.projects: [ "io", "logging", "linker", "testSuite" ]
+    // exclude it here because we build it separately in scala-js-stubs
+    extra.exclude: ["stubs"]
     extra.commands: ${vars.default-commands} [
       // - Disable fatal Scaladoc warnings, too fragile
       "removeScalacOptions -Xfatal-warnings"
