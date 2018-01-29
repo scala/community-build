@@ -180,10 +180,12 @@ build += {
   // since the community build is JVM-only, other projects only depend scala-js
   // in order to get stubs.  building all of Scala.js and running its tests
   // takes a while, so let's save ourselves some time and build the stubs
-  // separately
+  // separately.  not only that, but we use a frozen SHA, since the stubs
+  // hardly ever change, so we can save time by not rebuilding downstream projects
+  // everytime anything anywhere in the whole repo changes
   ${vars.base} {
     name: "scala-js-stubs"
-    uri:  ${vars.uris.scala-js-uri}
+    uri:  ${vars.uris.scala-js-stubs-uri}
     extra.projects: ["stubs"]
     extra.commands: ${vars.default-commands} [
       // too fragile
