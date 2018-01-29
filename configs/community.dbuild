@@ -21,6 +21,8 @@
 # * stopped compiling, not investigated: jackson-module-scala
 #   (also removed its dependency elastic4s)
 # * shapeless, scalaz (neither compiles, currently)
+# * scala-continuations (regressed: see
+#   https://github.com/scala/scala-continuations/issues/37)
 #
 # and then also a huge swath of dozens of projects had to be removed
 # because they depend directly or indirectly on either scalaz or
@@ -480,11 +482,6 @@ build += {
     uri:  ${vars.uris.json4s-uri}
     // TODO: exclude subprojects we don't want, rather than naming a few we want. probably adding more would work?
     extra.projects: ["json4s-native", "json4s-jackson", "json4s-ast"]
-  }
-
-  ${vars.base} {
-    name: "scala-continuations"
-    uri:  ${vars.uris.scala-continuations-uri}
   }
 
   ${vars.base} {
