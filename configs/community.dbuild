@@ -334,6 +334,8 @@ build += {
     uri:  ${vars.uris.genjavadoc-uri}
   }
 
+  // forked (January 2018) because of regression (?) in interaction
+  // between @tailrec and singleton types; see https://github.com/scala/scala-dev/issues/467
   ${vars.base} {
     name: "akka-actor"
     uri:  ${vars.uris.akka-actor-uri}
