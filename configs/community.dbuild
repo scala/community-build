@@ -383,6 +383,9 @@ build += {
     uri:  ${vars.uris.utest-uri}
     // no Scala.js plz
     extra.projects: ["utestJVM"]
+    // running tests on 2.13 disabled (January 2018); problem reported upstream
+    // at https://github.com/lihaoyi/utest/issues/149
+    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
