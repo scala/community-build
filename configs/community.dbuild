@@ -530,6 +530,7 @@ build += {
   ${vars.base} {
     name: "fs2"
     uri:  ${vars.uris.fs2-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["coreJVM", "scodecJVM", "io"]  // no Scala.js, no benchmarks or docs
   }
 
