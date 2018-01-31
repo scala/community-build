@@ -352,7 +352,7 @@ build += {
 
   ${vars.base} {
     name: "akka-actor"
-    uri:  ${vars.uris.akka-actor-uri}
+    uri:  ${vars.uris.akka-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
     extra.projects: ["akka-actor"]
@@ -366,7 +366,7 @@ build += {
   // the akka and ssl-config repos
   ${vars.base} {
     name: "akka-more"
-    uri:  ${vars.uris.akka-more-uri}
+    uri:  ${vars.uris.akka-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
     extra.projects: ["akka-scala-nightly"]
