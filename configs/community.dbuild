@@ -546,6 +546,8 @@ build += {
       // too fragile
       "removeScalacOptions -Xfatal-warnings"
     ]
+    // tests are memory-hungry
+    extra.options: ["-Xmx2048m"]
   }
 
   // uses wartremover which we can't handle, ticket on that is
