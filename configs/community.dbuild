@@ -537,6 +537,7 @@ build += {
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     // for some reason, adding the umbrella "catsJVM" project but excluding "bench"
     // and "docs" doesn't succeed in removing the depending on cats-bench.
     // using deps.ignore doesn't fix it either. not sure how else to fix it
