@@ -85,7 +85,7 @@ include file(".dbuild/resolvers.conf")
 
 vars {
   default-commands: []
-  sbt-version: "0.13.17-RC2"
+  sbt-version: "0.13.17"
   sbt-1-version: "1.1.0"
 }
 
@@ -216,8 +216,22 @@ build += {
     extra.exclude: ["scala-parser-combinatorsJS"]
   }
 
-  // forked (January 2018) waiting for this PR to be merged from 0.6.x onto master:
-  //   https://github.com/scala-js/scala-js/pull/3270
+  // since the community build is JVM-only, other projects only depend scala-js
+  // in order to get stubs.  building all of Scala.js and running its tests
+  // takes a while, so let's save ourselves some time and build the stubs
+  // separately.  not only that, but we use a frozen SHA, since the stubs
+  // hardly ever change, so we can save time by not rebuilding downstream projects
+  // everytime anything anywhere in the whole repo changes
+  ${vars.base} {
+    name: "scala-js-stubs"
+    uri:  ${vars.uris.scala-js-stubs-uri}
+    extra.projects: ["stubs"]
+    extra.commands: ${vars.default-commands} [
+      // too fragile
+      "removeScalacOptions -Xfatal-warnings"
+    ]
+  }
+
   // if master proves difficult to track, the 0.6.x branch could be
   // used instead; see discussion at
   // https://github.com/scala/community-builds/issues/506
@@ -227,7 +241,9 @@ build += {
     // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
     extra.options: ["-Xmx2048m"]
     // not really sure how this list was arrived at
-    extra.projects: [ io, logging, linker, testSuite, stubs ]
+    extra.projects: [ "io", "logging", "linker", "testSuite" ]
+    // exclude it here because we build it separately in scala-js-stubs
+    extra.exclude: ["stubs"]
     extra.commands: ${vars.default-commands} [
       // - Disable fatal Scaladoc warnings, too fragile
       "removeScalacOptions -Xfatal-warnings"
@@ -338,7 +354,7 @@ build += {
   // between @tailrec and singleton types; see https://github.com/scala/scala-dev/issues/467
   ${vars.base} {
     name: "akka-actor"
-    uri:  ${vars.uris.akka-actor-uri}
+    uri:  ${vars.uris.akka-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
     extra.projects: ["akka-actor"]
@@ -366,10 +382,8 @@ build += {
   // forked (October 2017) to work around unfriendliness between dbuild
   // and sbt-houserules 0.3.4; details at
   // https://github.com/scala/community-builds/issues/603 . we should
-  // be able to unfork once sbt 0.13.17 is out and a new sbt-houserules
-  // removes the offending workaround code.  (update January 2018:
-  // we're on sbt 0.13.17-RC2 here now, but I'm not sure what the
-  // sbt-houserules status is)
+  // be able to unfork now that sbt 0.13.17 is out, once a new sbt-houserules
+  // removes the offending workaround code
   ${vars.base} {
     name: "sbinary"
     uri:  ${vars.uris.sbinary-uri}
