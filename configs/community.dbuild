@@ -46,7 +46,7 @@ include file(".dbuild/resolvers.conf")
 
 vars {
   default-commands: []
-  sbt-version: "0.13.17-RC2"
+  sbt-version: "0.13.17"
   sbt-1-version: "1.1.0"
 }
 
@@ -452,7 +452,7 @@ build += {
   // forked (October 2017) to work around unfriendliness between dbuild
   // and sbt-houserules 0.3.4; details at
   // https://github.com/scala/community-builds/issues/603 . we should
-  // be able to unfork once sbt 0.13.17 is out and a new sbt-houserules
+  // be able to unfork now that sbt 0.13.17 is out, once a new sbt-houserules
   // removes the offending workaround code
   ${vars.base} {
     name: "sbinary"
