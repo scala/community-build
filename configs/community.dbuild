@@ -852,8 +852,9 @@ build += {
   }
 
   ${vars.base} {
-    name: "scala-json-ast"
-    uri:  ${vars.uris.scala-json-ast-uri}
+    name: "scalajson"
+    uri:  ${vars.uris.scalajson-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     // no Scala.js please, and no benchmarks either
     extra.projects: ["scalaJsonJVM"]
     check-missing: false  // ignore missing scalafmt
