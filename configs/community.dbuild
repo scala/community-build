@@ -504,6 +504,15 @@ build += {
   }
 
   ${vars.base} {
+    name: "scalajson"
+    uri:  ${vars.uris.scalajson-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    // no Scala.js please, and no benchmarks either
+    extra.projects: ["scalaJsonJVM"]
+    check-missing: false  // ignore missing scalafmt
+  }
+
+  ${vars.base} {
     name: "scalatags"
     uri:  ${vars.uris.scalatags-uri}
     extra.projects: ["scalatagsJVM"]  // no Scala.js
