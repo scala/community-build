@@ -1451,6 +1451,8 @@ build += {
     extra.projects: ["autowireJVM"]  // no Scala.js plz
   }
 
+  // frozen (February 2018) at an October 2017 commit; see
+  // https://github.com/scala/community-builds/issues/682
   ${vars.base} {
     name: "scaladex"
     uri:  ${vars.uris.scaladex-uri}
