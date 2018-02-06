@@ -20,7 +20,7 @@
 #   (and its dependency scalastyle)
 # * stopped compiling, not investigated: jackson-module-scala
 #   (also removed its dependency elastic4s)
-# * shapeless, scalaz (neither compiles, currently)
+# * shapeless (neither compiles, currently)
 # * scala-continuations (regressed: see
 #   https://github.com/scala/scala-continuations/issues/37)
 #
@@ -327,6 +327,16 @@ build += {
     ]
     // 2.13 regression? https://github.com/scala/scala-java8-compat/issues/97
     extra.run-tests: false
+  }
+
+  ${vars.base} {
+    name: "scalaz"
+    uri:  ${vars.uris.scalaz-uri}
+    extra.projects: ["rootJVM"]  // no Scala.js please
+    extra.exclude: [
+      // we're on ScalaCheck 1.13 not 1.12
+      "scalacheck-binding_1_12JVM"
+    ]
   }
 
   ${vars.base} {
