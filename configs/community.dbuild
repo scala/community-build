@@ -543,6 +543,14 @@ build += {
   }
 
   ${vars.base} {
+    name: "fs2-reactive-streams"
+    uri:  ${vars.uris.fs2-reactive-streams-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.exclude: ["docs"]
+    check-missing: false  // ignore missing scalafmt
+  }
+
+  ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
     extra.sbt-version: ${vars.sbt-1-version}
@@ -1590,8 +1598,6 @@ build += {
     extra.exclude: [
       // outside our purview
       "bench", "docs"
-      // Missing dependency: com.github.zainab-ali#fs2-reactive-streams
-      "async-http-client"
       // weird errors, probably not appropriate to run anyway
       "load-test"
     ]
@@ -1639,6 +1645,19 @@ build += {
       // - Disable fatal Scaladoc warnings, too fragile
       "removeScalacOptions -Xfatal-warnings"
     ]
+  }
+
+  // in this space because it depends on circe-core.
+  // forked (February 2018) to remove Scalafmt -- not sure why the
+  // usual workarounds didn't work in this repo.
+  // (see https://github.com/scala/community-builds/pull/618)
+  ${vars.base} {
+    name: "sttp"
+    uri:  ${vars.uris.sttp-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    // once sttp's master branch moves to a newer version of fs2-reactive-streams,
+    // we should be able to refresh our fork and then remove this exclusion
+    extra.exclude: ["tests"]
   }
 
 ]}
