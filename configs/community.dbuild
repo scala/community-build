@@ -175,6 +175,11 @@ build += {
     name: "scala-parser-combinators"
     uri:  ${vars.uris.scala-parser-combinators-uri}
     extra.exclude: ["scala-parser-combinatorsJS"]
+    extra.commands: ${vars.base.extra.commands} [
+      // work around https://github.com/scala/community-builds/issues/575
+      // (in a community build context, we don't need MiMa to run)
+      "set every ScalaModulePlugin.mimaPreviousVersion := None"
+    ]
   }
 
   // since the community build is JVM-only, other projects only depend scala-js
