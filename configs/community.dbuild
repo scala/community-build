@@ -105,7 +105,6 @@ options.cleanup: {
 build += {
   sbt-version: ${vars.sbt-version}
   extraction-version: ${vars.scala-version}
-  cross-version: disabled
 
   space: scala
 
@@ -117,6 +116,7 @@ build += {
   {
     name:  "scala"
     system: assemble
+    cross-version: binary
     extra.parts.projects: [
       {
         set-version: ${vars.scala-version}
@@ -140,6 +140,10 @@ build += {
       {
         name: "scala-xml"
         uri: "https://github.com/scala/scala-xml.git"
+        // this gives us "scala-xml_2.12" which is what we want, sbt 1 will get
+        // upset if there are two different kinds of scala-xml dependencies
+        // floating around (https://github.com/scala/community-builds/issues/679)
+        cross-version: standard
         // override sbt version here since otherwise we get
         // whatever random sbt version the module has
         extra.sbt-version: ${vars.sbt-version}
