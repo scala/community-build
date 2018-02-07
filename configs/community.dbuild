@@ -458,18 +458,17 @@ build += {
     ]
   }
 
-  // forked (October 2017) to work around unfriendliness between dbuild
-  // and sbt-houserules 0.3.4; details at
-  // https://github.com/scala/community-builds/issues/603 . we should
-  // be able to unfork now that sbt 0.13.17 is out, once a new sbt-houserules
-  // removes the offending workaround code
   ${vars.base} {
     name: "sbinary"
     uri:  ${vars.uris.sbinary-uri}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    // may be needed again once we're on current sbt-houserules again
-    // extra.commands: ${vars.default-commands} ["set every scalafmtOnCompile := false"]
-    // check-missing: false  // ignore missing scalafmt
+    // we have to disable this early (extra.commands isn't soon enough)
+    // or scalafmt will run `update` and `cloc-plugin` won't be found
+    extra.settings: ${vars.base.extra.settings} [
+      "scalafmtOnCompile in ThisBuild := false"
+      "scalafmtOnCompile in Sbt := false"
+    ]
+    check-missing: false  // ignore missing scalafmt
   }
 
   ${vars.base} {
