@@ -1655,9 +1655,6 @@ build += {
     name: "sttp"
     uri:  ${vars.uris.sttp-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    // once sttp's master branch moves to a newer version of fs2-reactive-streams,
-    // we should be able to refresh our fork and then remove this exclusion
-    extra.exclude: ["tests"]
   }
 
 ]}
