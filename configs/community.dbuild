@@ -86,7 +86,7 @@ include file(".dbuild/resolvers.conf")
 vars {
   default-commands: []
   sbt-version: "0.13.17"
-  sbt-1-version: "1.1.0"
+  sbt-1-version: "1.1.1"
 }
 
 //// compiler options manipulation
