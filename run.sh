@@ -16,7 +16,7 @@ export LANG="en_US.UTF-8"
 export HOME="$(pwd)"
 
 function latestNightly() {
-  url='https://scala-ci.typesafe.com/job/scala-2.12.x-integrate-bootstrap/lastSuccessfulBuild/artifact/jenkins.properties/*view*/'
+  url='https://scala-ci.typesafe.com/job/scala-2.12.x-integrate-bootstrap/lastStableBuild/artifact/jenkins.properties/*view*/'
   curl -f -s -L $url | grep ^version= | cut -d= -f2
 }
 
