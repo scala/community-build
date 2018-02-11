@@ -1230,6 +1230,13 @@ build += {
   }
 
   ${vars.base} {
+    name: "argonaut-shapeless"
+    uri:  ${vars.uris.argonaut-shapeless-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: ["coreJVM"]
+  }
+
+  ${vars.base} {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
     // staying on 1.0.4 for now (January 2018) because on 1.1.0 we get:
