@@ -703,6 +703,9 @@ build += {
   ${vars.base} {
     name: "play-doc"
     uri:  ${vars.uris.play-doc-uri}
+    // test failure on at least some systems; see
+    // https://github.com/playframework/play-doc/pull/36
+    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
