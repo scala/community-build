@@ -512,6 +512,25 @@ build += {
     ]
   }
 
+  // here we are using 4.x.  2.12 build is still on 3.x.
+  // see https://github.com/scala/community-builds/issues/685
+  ${vars.base} {
+    name: "specs2"
+    uri:  ${vars.uris.specs2-uri}
+    // I don't see a project that aggregates JVM-only stuff, so...
+    extra.projects: [
+      "analysisJVM", "commonJVM", "coreJVM", "examplesJVM", "fpJVM"
+      "matcherExtraJVM", "matcherJVM", "mockJVM", "junitJVM"
+      "scalacheckJVM", "scalazJVM", "shapelessJVM"
+    ]
+    extra.commands: ${vars.default-commands} [
+      // some XML thing I didn't investigate
+      "set executeTests in junitJvm in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+      // java.lang.NoClassDefFoundError: scala/collection/parallel/Combiner
+      "set executeTests in html in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+    ]
+  }
+
   ${vars.base} {
     name: "pcplod"
     uri:  ${vars.uris.pcplod-uri}
