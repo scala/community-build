@@ -1,16 +1,21 @@
 # surely-not-100%-complete/accurate list, but,
 # the following 2.12 projects are currently not included in 2.13
 #
-# * akka-more: because they are using deprecated/removed stuff;
-#   see https://github.com/akka/akka/issues/22581.
+# * specs2 (compile errors)
+# * better-files (compile error, problem with @tailrec + singleton types?)
+# * scalachess (depends on specs2)
 # * akka-http, akka-sse, akka-contrib-extra, play-ws, play-core,
-#   conductr-lib, lagom: because they depend on akka-more
+#   conductr-lib, lagom: because they depend on akka-more which
+#   depends on ssl-config which depends on specs2
 # * scalameter: because scalaVersion handling in their
 #   project/Build.scala needs updating
 # * scala-refactoring: ???, investigation needed
 # * gigahorse: requires akka-http
-# * lightbend-emoji, sbt, zinc, sbt-*, circe, cats-effect,
-#   scalalib, scalachess: built with sbt 1, which doesn't support Scala 2.13 yet
+# * cats-effect: depends on cats (which depends on discipline,
+#   which depends on specs2)
+# * sbt, zinc, sbt-*:
+#   built with sbt 1, which doesn't support Scala 2.13 yet
+#   (oh but it does now, so we can attempt to re-add these)
 # * fs2, monix: depend on cats-effect
 # * jawn-fs2, http4s: depend on fs2
 # * everything in the scalameta_1 and scalameta_2 spaces
@@ -20,7 +25,6 @@
 #   (and its dependency scalastyle)
 # * stopped compiling, not investigated: jackson-module-scala
 #   (also removed its dependency elastic4s)
-# * shapeless (neither compiles, currently)
 # * scala-continuations (regressed: see
 #   https://github.com/scala/scala-continuations/issues/37)
 #
@@ -318,6 +322,17 @@ build += {
   }
 
   ${vars.base} {
+    name: "shapeless"
+    uri:  ${vars.uris.shapeless-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: ["coreJVM"]
+    extra.commands: ${vars.default-commands} [
+      // optimizer related (at the time it was added, hasn't been re-checked in a long time)
+      "removeScalacOptions -Xfatal-warnings"
+    ]
+  }
+
+  ${vars.base} {
     name: "scoverage"
     uri:  ${vars.uris.scoverage-uri}
     extra.exclude: ["scalac-scoverage-runtimeJS"] // no Scala.js please
@@ -580,6 +595,13 @@ build += {
   }
 
   ${vars.base} {
+    name: "lightbend-emoji"
+    uri:  ${vars.uris.lightbend-emoji-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+  }
+
+  ${vars.base} {
     name: "scala-parallel-collections"
     uri:  ${vars.uris.scala-parallel-collections-uri}
     extra.commands: ${vars.default-commands} [
@@ -603,6 +625,13 @@ build += {
     // extra.test-tasks to a task that takes arguments.  (anyway,
     // it's not clear it's really necessary or appropriate to
     // actually run the whole thing as part of the community build?)
+  }
+
+  // dependency of scalachess
+  ${vars.base} {
+    name: "scalalib"
+    uri:  ${vars.uris.scalalib-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
   }
 
   // dependency of scaladex
