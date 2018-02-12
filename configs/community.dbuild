@@ -296,9 +296,10 @@ build += {
   ${vars.base} {
     name: "shapeless"
     uri:  ${vars.uris.shapeless-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["coreJVM"]
     extra.commands: ${vars.default-commands} [
-      // optimizer related
+      // optimizer related (at the time it was added, hasn't been re-checked in a long time)
       "removeScalacOptions -Xfatal-warnings"
     ]
   }
