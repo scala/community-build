@@ -1,23 +1,24 @@
 # surely-not-100%-complete/accurate list, but,
 # the following 2.12 projects are currently not included in 2.13
 #
-# * specs2 (compile errors)
-# * better-files (compile error, problem with @tailrec + singleton types?)
-# * scalachess (depends on specs2)
+# * better-files (compile error, problem with @tailrec + singleton types?
+#   didn't I see something similar in another project?)
+# * akka-more: doesn't compile, opened https://github.com/akka/akka/issues/24535
 # * akka-http, akka-sse, akka-contrib-extra, play-ws, play-core,
-#   conductr-lib, lagom: because they depend on akka-more which
-#   depends on ssl-config which depends on specs2
+#   conductr-lib, lagom: because they depend on akka-more
 # * scalameter: because scalaVersion handling in their
 #   project/Build.scala needs updating
 # * scala-refactoring: ???, investigation needed
 # * gigahorse: requires akka-http
-# * cats-effect: depends on cats (which depends on discipline,
-#   which depends on specs2)
+# * cats: doesn't compile; waiting on https://github.com/typelevel/cats/issues/1648
+#   downstream chain includes cats-effect -> {fs2,monix},
+#   fs2 -> {jawn-fs2, http4s}
+# * cats-effect: depends on cats
+# * scalachess (requires specs 3.x, we're on 4.x)
+#   opened https://github.com/ornicar/scalachess/issues/140
 # * sbt, zinc, sbt-*:
 #   built with sbt 1, which doesn't support Scala 2.13 yet
 #   (oh but it does now, so we can attempt to re-add these)
-# * fs2, monix: depend on cats-effect
-# * jawn-fs2, http4s: depend on fs2
 # * everything in the scalameta_1 and scalameta_2 spaces
 #   (scalameta is too fragile, for now, for 2.13)
 # * was failing, but even investigating can wait:
@@ -28,10 +29,12 @@
 # * scala-continuations (regressed: see
 #   https://github.com/scala/scala-continuations/issues/37)
 #
-# and then also a huge swath of dozens of projects had to be removed
-# because they depend directly or indirectly on either scalaz or
+# also a huge swath of dozens of projects were removed
+# because they depended directly or indirectly on either scalaz or
 # shapeless (see https://scala-ci.typesafe.com/view/scala-2.13.x/job/scala-2.13.x-integrate-community-build/905/consoleFull
 # for a view of what the dependencies were before this massive removal)
+# scalaz and shapeless are both back in the build now, but the mass
+# removal is still gradually being undone
 #
 # we should attempt to add everything back later in the 2.13 cycle (by
 # copying their entries from the 2.12 config)
@@ -502,6 +505,12 @@ build += {
   }
 
   ${vars.base} {
+    name: "discipline"
+    uri:  ${vars.uris.discipline-uri}
+    extra.projects: ["disciplineJVM"]  // no Scala.js please
+  }
+
+  ${vars.base} {
     name: "mima"
     uri:  ${vars.uris.mima-uri}
     // we don't compile sbt plugins
@@ -532,6 +541,14 @@ build += {
   }
 
   ${vars.base} {
+    name: "ssl-config"
+    uri:  ${vars.uris.ssl-config-uri}
+    // repeated hangs during testing; see
+    // https://github.com/scala/community-builds/issues/560
+    extra.test-tasks: ["compile"]
+  }
+
+  ${vars.base} {
     name: "pcplod"
     uri:  ${vars.uris.pcplod-uri}
     extra.commands: ${vars.default-commands} [
@@ -553,6 +570,17 @@ build += {
     uri:  ${vars.uris.json4s-uri}
     // TODO: exclude subprojects we don't want, rather than naming a few we want. probably adding more would work?
     extra.projects: ["json4s-native", "json4s-jackson", "json4s-ast"]
+  }
+
+  ${vars.base} {
+    name: "catalysts"
+    uri:  ${vars.uris.catalysts-uri}
+    extra.commands: ${vars.default-commands} [
+      // too fragile
+      "removeScalacOptions -Xfatal-warnings"
+    ]
+    // other projects aren't pertinent or errored out (not investigated)
+    extra.projects: ["specbaseJVM", "lawkitJVM", "scalatestJVM", "macrosJVM", "platformJVM", "testkitJVM"]
   }
 
   ${vars.base} {
