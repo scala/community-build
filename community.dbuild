@@ -41,7 +41,7 @@ build += {
         name: "scala-xml"
         uri: "https://github.com/"${vars.scala-xml-ref}
         extra.commands: [
-          "set scalaVersion := \"2.11.12\""
+          "set every scalaVersion := \"2.11.12\""
           // work around https://github.com/scala/community-builds/issues/575
           // (in a community build context, we don't need MiMa to run)
           "set every ScalaModulePlugin.mimaPreviousVersion := None"
@@ -52,7 +52,7 @@ build += {
         name: "scala-parser-combinators"
         uri: "https://github.com/"${vars.scala-parser-combinators-ref}
         extra.commands: [
-          "set scalaVersion := \"2.11.12\""
+          "set every scalaVersion := \"2.11.12\""
           // work around https://github.com/scala/community-builds/issues/575
           // (in a community build context, we don't need MiMa to run)
           "set every ScalaModulePlugin.mimaPreviousVersion := None"
