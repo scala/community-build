@@ -15,4 +15,10 @@ issues and incompatibilities.
 
 **Can I run it myself?** Sure, just clone the repo and run `./run.sh`.
 
+## News
+
+* January 16, 2018: [Community build grows to 141 projects, 2.8 million lines of code](http://scala-lang.org/2018/01/16/community-build-growth.html)
+
+## Read more
+
 [Further documentation is in the wiki](https://github.com/scala/community-builds/wiki).
