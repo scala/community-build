@@ -90,6 +90,11 @@ build += {
   ${vars.base} {
     name: "scala-swing"
     uri: "https://github.com/"${vars.scala-swing-ref}
+    extra.commands: ${vars.default-commands} [
+      // work around https://github.com/scala/community-builds/issues/575
+      // (in a community build context, we don't need MiMa to run)
+      "set every ScalaModulePlugin.mimaPreviousVersion := None"
+    ]
   }
 ]
 }
