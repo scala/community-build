@@ -595,6 +595,8 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
+  // frozen (February 2018) at a February 2018 commit before regression;
+  // reported upstream: https://github.com/sirthias/parboiled2/pull/185#issuecomment-366530639
   ${vars.base} {
     name: "parboiled2"
     uri:  ${vars.uris.parboiled2-uri}
