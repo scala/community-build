@@ -1501,6 +1501,7 @@ build += {
       // library com.sksamuel.avro4s#avro4s-json is not provided
       "akka-http-avro4s"
     ]
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
 
   // frozen (February 2018) at an October 2017 commit; see
