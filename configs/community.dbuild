@@ -962,16 +962,7 @@ build += {
   ${vars.base} {
     name: "unfiltered"
     uri:  ${vars.uris.unfiltered-uri}
-    extra.commands: ${vars.default-commands} [
-      // unfiltered.netty.SslServerSpec intermittently fails; reported upstream at
-      // https://github.com/unfiltered/unfiltered/issues/364
-      "set executeTests in netty in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-      // unfiltered.netty.request.ChunkAggregatedUploadSpec fails (January 2018); not investigated
-      "set executeTests in nettyUploads in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-      // intermittent hangs in this part of the test suite:
-      // https://github.com/unfiltered/unfiltered/issues/399
-      "set executeTests in oauth2 in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-    ]
+    extra.sbt-version: ${vars.sbt-1-version}
   }
 
   ${vars.base} {
