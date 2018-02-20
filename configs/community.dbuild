@@ -369,7 +369,7 @@ build += {
     name: "akka-actor"
     uri:  ${vars.uris.akka-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
+    extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"]
     extra.projects: ["akka-actor"]
     extra.commands: ${vars.default-commands} [
       // https://github.com/scala/community-builds/issues/373
@@ -383,7 +383,7 @@ build += {
     name: "akka-more"
     uri:  ${vars.uris.akka-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false"]
+    extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"]
     extra.projects: ["akka-scala-nightly"]
     extra.commands: ${vars.default-commands} [
       // https://github.com/scala/community-builds/issues/373
@@ -392,7 +392,7 @@ build += {
     extra.exclude: [
       "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
       "akka-actor"  // because we already built it in "akka"
-      "akka-bench-jmh"  // we'd have to add a resolver to get the JMH dependency - ST 8/17/15
+      "akka-bench-jmh"  // we'd have to add a resolver to get the JMH dependency, and we prefer not to run benchmarks here anyway
     ]
   }
 
