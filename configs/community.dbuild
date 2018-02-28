@@ -365,6 +365,9 @@ build += {
     uri:  ${vars.uris.genjavadoc-uri}
   }
 
+  // frozen (affecting both akka-actor and akka-more) February 2018 at a February
+  // 2018 commit before a test regressed; reported upstream at
+  // https://github.com/akka/akka/pull/24484#issuecomment-369072274
   ${vars.base} {
     name: "akka-actor"
     uri:  ${vars.uris.akka-uri}
