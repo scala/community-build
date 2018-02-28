@@ -942,6 +942,10 @@ build += {
       "play25ConductRBundleLib", "play25ConductRClientLib", "play25Common"
       "play26ConductRBundleLib", "play26ConductRClientLib", "play26Common"
     ]
+    // https://github.com/typesafehub/conductr-lib/issues/171
+    extra.commands: ${vars.default-commands} [
+      "set executeTests in akka25ConductRClientLib in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+    ]
   }
 
   // this was added because conductr-lib's Play integration depended on it,
