@@ -1184,6 +1184,8 @@ build += {
     extra.commands: ${vars.default-commands} [
       // because of new inferred-Any warnings in 2.12.4 (PR 5990)
       "removeScalacOptions -Xfatal-warnings"
+      // keep scalafmtSbtCheck from complaining about code dbuild injects
+      "set checkFormat := {}"
     ]
   }
 
