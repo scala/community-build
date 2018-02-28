@@ -679,7 +679,6 @@ build += {
     // actually run the whole thing as part of the community build?)
   }
 
-  // dependency of scalachess
   ${vars.base} {
     name: "scalalib"
     uri:  ${vars.uris.scalalib-uri}
