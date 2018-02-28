@@ -1241,6 +1241,10 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
+  // frozen (February 2018) because Ammonite depends on it, but
+  // source incompatible changes were recently made (scalaz.\/ vs Either stuff),
+  // so let's stay frozen until those changes are published and Ammonite
+  // upgrades (we can nudge Haoyi about it if necessary when the time comes)
   ${vars.base} {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
