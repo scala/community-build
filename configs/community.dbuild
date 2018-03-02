@@ -538,6 +538,7 @@ build += {
       "scalacheckJVM", "scalazJVM", "shapelessJVM"
     ]
     extra.commands: ${vars.default-commands} [
+      "removeScalacOptions -Xfatal-warnings"
       // some XML thing I didn't investigate
       "set executeTests in junitJvm in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
       // java.lang.NoClassDefFoundError: scala/collection/parallel/Combiner
@@ -657,6 +658,7 @@ build += {
     name: "scala-parallel-collections"
     uri:  ${vars.uris.scala-parallel-collections-uri}
     extra.commands: ${vars.default-commands} [
+      "removeScalacOptions -Xfatal-warnings"
       // I have absolutely no idea why this would only be required in the
       // community build context, but without it, we get
       // java.lang.NoClassDefFoundError: org/hamcrest/SelfDescribing
