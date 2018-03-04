@@ -706,6 +706,16 @@ build += {
     extra.exclude: ["plugin", "themePlugin", "genericTheme"]
   }
 
+  ${vars.base} {
+    name: "singleton-ops"
+    uri:  ${vars.uris.singleton-ops-uri}
+    extra.sbt-version: ${vars.sbt-version}
+    extra.projects: ["singleton_opsJVM"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
+  }
+
 ]}
 
 //// space: jawn_0_10
