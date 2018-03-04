@@ -1367,6 +1367,13 @@ build += {
     uri:  ${vars.uris.scala-sculpt-uri}
   }
 
+  ${vars.base} {
+    name: "singleton-ops"
+    uri:  ${vars.uris.singleton-ops-uri}
+    extra.sbt-version: ${vars.sbt-version}
+    extra.projects: ["singleton_opsJS"]
+  }
+
 ]}
 
 //// space: jawn_0_10
