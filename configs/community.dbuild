@@ -914,6 +914,8 @@ build += {
     extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
   }
 
+  // frozen (March 2018) at a March 2018 commit just before a move off of
+  // cats-effect 0.9; see https://github.com/scala/community-builds/issues/689
   ${vars.base} {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
@@ -1144,6 +1146,8 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
+  // frozen (March 2018) at v0.9 tag since that's what fs2 currently expects;
+  // see https://github.com/scala/community-builds/issues/689
   ${vars.base} {
     name: "cats-effect"
     uri:  ${vars.uris.cats-effect-uri}
