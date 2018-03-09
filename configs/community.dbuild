@@ -714,6 +714,9 @@ build += {
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
     ]
+    extra.options: [
+      "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
+    ]
   }
 
 ]}
