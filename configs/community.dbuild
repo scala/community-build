@@ -531,6 +531,12 @@ build += {
   ${vars.base} {
     name: "specs2"
     uri:  ${vars.uris.specs2-uri}
+    // Modules were resolved with conflicting cross-version suffixes in
+    //   {file:/Users/tisue/community.213/target-0.9.11/project-builds/specs2-73b8958825279a634cea44807fa445c0413c6733/}analysisJVM:
+    //   org.scala-lang.modules:scala-xml _2.13.0-M3, _2.13
+    extra.settings: ${vars.base.extra.settings} [
+      "conflictWarning in ThisBuild := ConflictWarning.disable"
+    ]
     // I don't see a project that aggregates JVM-only stuff, so...
     extra.projects: [
       "analysisJVM", "commonJVM", "coreJVM", "examplesJVM", "fpJVM"
