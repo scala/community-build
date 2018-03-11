@@ -623,6 +623,8 @@ build += {
   ${vars.base} {
     name: "log4s"
     uri:  ${vars.uris.log4s-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.exclude: ["coreJS", "testingJS"]
   }
 
   // forked (October 2017) because utest 0.6.0 (we track utest master) made
