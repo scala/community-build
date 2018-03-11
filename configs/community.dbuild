@@ -1000,6 +1000,8 @@ build += {
   ${vars.base} {
     name: "log4s"
     uri:  ${vars.uris.log4s-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.exclude: ["coreJS", "testingJS"]
   }
 
   ${vars.base} {
