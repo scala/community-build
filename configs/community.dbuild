@@ -292,6 +292,10 @@ build += {
     name: "scalatest"
     uri:  ${vars.uris.scalatest-uri}
     extra.projects: ["scalatest", "scalactic"]
+    // scala-xml issue: Modules were resolved with conflicting cross-version suffixes
+    extra.settings: ${vars.base.extra.settings} [
+      "conflictWarning in ThisBuild := ConflictWarning.disable"
+    ]
   }
 
   ${vars.base} {
@@ -555,6 +559,10 @@ build += {
   ${vars.base} {
     name: "ssl-config"
     uri:  ${vars.uris.ssl-config-uri}
+    // scala-xml issue: Modules were resolved with conflicting cross-version suffixes
+    extra.settings: ${vars.base.extra.settings} [
+      "conflictWarning in ThisBuild := ConflictWarning.disable"
+    ]
     // repeated hangs during testing; see
     // https://github.com/scala/community-builds/issues/560
     extra.test-tasks: ["compile"]
