@@ -13,8 +13,6 @@
 #   downstream chain includes cats-effect -> {fs2,monix},
 #   fs2 -> {jawn-fs2, http4s}
 # * cats-effect: depends on cats
-# * scalachess (requires specs 3.x, we're on 4.x)
-#   opened https://github.com/ornicar/scalachess/issues/140
 # * sbt, zinc, sbt-*:
 #   built with sbt 1, which doesn't support Scala 2.13 yet
 #   (oh but it does now, so we can attempt to re-add these)
@@ -350,6 +348,10 @@ build += {
     // [info] java.io.FileNotFoundException: Could not locate [~/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.0.jar].
     // January 2018: failure's continued existence confirmed
     extra.test-tasks: ["compile"]
+    // scala-xml issue: Modules were resolved with conflicting cross-version suffixes
+    extra.settings: ${vars.base.extra.settings} [
+      "conflictWarning in ThisBuild := ConflictWarning.disable"
+    ]
   }
 
   ${vars.base} {
@@ -360,8 +362,6 @@ build += {
       // we use "assert" as an identifier there. We disable doc building to avoid that.
       "set publishArtifact in packageDoc := false"
     ]
-    // 2.13 regression? https://github.com/scala/scala-java8-compat/issues/97
-    extra.run-tests: false
   }
 
   ${vars.base} {
@@ -388,11 +388,19 @@ build += {
       "coreJS"  // no Scala.js please
       "root"    // dbuild thinks it tries to publish root#root
     ]
+    // scala-xml issue: Modules were resolved with conflicting cross-version suffixes
+    extra.settings: ${vars.base.extra.settings} [
+      "conflictWarning in ThisBuild := ConflictWarning.disable"
+    ]
   }
 
   ${vars.base} {
     name: "genjavadoc"
     uri:  ${vars.uris.genjavadoc-uri}
+    // scala-xml issue: Modules were resolved with conflicting cross-version suffixes
+    extra.settings: ${vars.base.extra.settings} [
+      "conflictWarning in ThisBuild := ConflictWarning.disable"
+    ]
   }
 
   // using March 2018 special 2.13 branch
@@ -540,6 +548,10 @@ build += {
     name: "simulacrum"
     uri:  ${vars.uris.simulacrum-uri}
     extra.projects: ["coreJVM", "examplesJVM"] // no Scala.js please
+    // scala-xml issue: Modules were resolved with conflicting cross-version suffixes
+    extra.settings: ${vars.base.extra.settings} [
+      "conflictWarning in ThisBuild := ConflictWarning.disable"
+    ]
   }
 
   ${vars.base} {
@@ -568,6 +580,10 @@ build += {
     // use scala-2.12 source directory for 2.13 too
     extra.commands: ${vars.default-commands} [
       "set unmanagedSourceDirectories in (core, Compile) += baseDirectory.value / \"core\" / \"src\" / \"main\" / \"scala-2.12\""
+    ]
+    // scala-xml issue: Modules were resolved with conflicting cross-version suffixes
+    extra.settings: ${vars.base.extra.settings} [
+      "conflictWarning in ThisBuild := ConflictWarning.disable"
     ]
   }
 
@@ -615,6 +631,9 @@ build += {
     extra.commands: ${vars.default-commands} [
       "removeScalacOptions -Xfatal-warnings"
     ]
+    // not sure why the tests stopped even compiling.  pcplod's ScalaTest dependency
+    // comes in through the sbt-sensible plugin, maybe something was fragile there
+    extra.run-tests: false
   }
 
   ${vars.base} {
@@ -774,6 +793,12 @@ build += {
   ${vars.base} {
     name: "scalalib"
     uri:  ${vars.uris.scalalib-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+  }
+
+  ${vars.base} {
+    name: "scalachess"
+    uri:  ${vars.uris.scalachess-uri}
     extra.sbt-version: ${vars.sbt-1-version}
   }
 
