@@ -3,13 +3,12 @@
 #
 # * better-files (compile error, problem with @tailrec + singleton types?
 #   didn't I see something similar in another project?)
-# * akka-more: doesn't compile, opened https://github.com/akka/akka/issues/24535
-# * akka-http, akka-sse, akka-contrib-extra, play-ws, play-core,
-#   conductr-lib, lagom: because they depend on akka-more
+# * akka-sse, akka-contrib-extra, play-ws, play-core,
+#   conductr-lib, lagom, gigahorse: perhaps can be re-added now that we
+#   have akka-more again?
 # * scalameter: because scalaVersion handling in their
 #   project/Build.scala needs updating
 # * scala-refactoring: ???, investigation needed
-# * gigahorse: requires akka-http
 # * cats: doesn't compile; waiting on https://github.com/typelevel/cats/issues/1648
 #   downstream chain includes cats-effect -> {fs2,monix},
 #   fs2 -> {jawn-fs2, http4s}
@@ -396,8 +395,7 @@ build += {
     uri:  ${vars.uris.genjavadoc-uri}
   }
 
-  // forked (January 2018) because of regression (?) in interaction
-  // between @tailrec and singleton types; see https://github.com/scala/scala-dev/issues/467
+  // using March 2018 special 2.13 branch
   ${vars.base} {
     name: "akka-actor"
     uri:  ${vars.uris.akka-uri}
@@ -408,6 +406,49 @@ build += {
       // https://github.com/scala/community-builds/issues/373
       "set every apiURL := None"
     ]
+  }
+
+  // this is separate from "akka" because there is a circular dependency between
+  // the akka and ssl-config repos
+  ${vars.base} {
+    name: "akka-more"
+    uri:  ${vars.uris.akka-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"]
+    extra.projects: ["akka-scala-nightly"]
+    extra.commands: ${vars.default-commands} [
+      // https://github.com/scala/community-builds/issues/373
+      "set every apiURL := None"
+    ]
+    extra.exclude: [
+      "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
+      "akka-actor"  // because we already built it in "akka"
+      "akka-bench-jmh"  // we'd have to add a resolver to get the JMH dependency, and we prefer not to run benchmarks here anyway
+    ]
+  }
+
+  ${vars.base} {
+    name: "akka-http"
+    uri:  ${vars.uris.akka-http-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.exclude: ["docs", "akka-http-bench-jmh"]
+    extra.options: [
+      "-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false"
+      "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
+    ]
+    // Scaladoc generation failure reported upstream at https://github.com/akka/akka/issues/21543
+    extra.commands: ${vars.default-commands} [
+      "set sources in doc in Compile in httpCore := List()"
+      "set every bintrayReleaseOnPublish := false"
+      // sbt-osgi doesn't like dbuild-mangled version numbers
+      "set every OsgiKeys.bundleVersion := \"10.0.0\""
+    ]
+    // "HTTP is sadly very timing sensitive we're working on improving its stability regularly,
+    // OK to disable it for now." - Konrad M, October 2016
+    // reconfirmed January 2018 that some tests are failing. in one run, it was:
+    // * akka.http.impl.engine.client.NewConnectionPoolSpec
+    // * akka.http.impl.engine.client.HostConnectionPoolSpec
+    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
