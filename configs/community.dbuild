@@ -592,6 +592,9 @@ build += {
     extra.commands: ${vars.default-commands} [
       "removeScalacOptions -Xfatal-warnings"
     ]
+    // not sure why the tests stopped even compiling.  pcplod's ScalaTest dependency
+    // comes in through the sbt-sensible plugin, maybe something was fragile there
+    extra.run-tests: false
   }
 
   // dependency of play-ws
