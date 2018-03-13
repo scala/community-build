@@ -617,6 +617,39 @@ build += {
     ]
   }
 
+  ${vars.base} {
+    name: "twirl"
+    uri:  ${vars.uris.twirl-uri}
+    extra.exclude: [ "plugin", "apiJS" ]
+  }
+
+  ${vars.base} {
+    name: "play-doc"
+    uri:  ${vars.uris.play-doc-uri}
+    // test failure on at least some systems; see
+    // https://github.com/playframework/play-doc/pull/36
+    extra.test-tasks: ["compile"]
+  }
+
+  ${vars.base} {
+    name: "play-json"
+    uri:  ${vars.uris.play-json-uri}
+    extra.projects: ["play-jsonJVM"]  // no Scala.js plz
+  }
+
+  ${vars.base} {
+    name: "play-ws"
+    uri:  ${vars.uris.play-ws-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.commands: ${vars.default-commands} [
+      // new warnings from https://github.com/scala/scala/pull/5402
+      "removeScalacOptions -Xfatal-warnings"
+    ]
+    // NullPointerException in CachingSpec
+    // (https://github.com/scala/community-builds/issues/564)
+    extra.exclude: ["integration-tests"]
+  }
+
   // dependency of play-ws
   ${vars.base} {
     name: "cachecontrol"
