@@ -351,6 +351,10 @@ build += {
     // [info] java.io.FileNotFoundException: Could not locate [~/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.0.jar].
     // January 2018: failure's continued existence confirmed
     extra.test-tasks: ["compile"]
+    // scala-xml issue: Modules were resolved with conflicting cross-version suffixes
+    extra.settings: ${vars.base.extra.settings} [
+      "conflictWarning in ThisBuild := ConflictWarning.disable"
+    ]
   }
 
   ${vars.base} {
@@ -389,11 +393,19 @@ build += {
       "coreJS"  // no Scala.js please
       "root"    // dbuild thinks it tries to publish root#root
     ]
+    // scala-xml issue: Modules were resolved with conflicting cross-version suffixes
+    extra.settings: ${vars.base.extra.settings} [
+      "conflictWarning in ThisBuild := ConflictWarning.disable"
+    ]
   }
 
   ${vars.base} {
     name: "genjavadoc"
     uri:  ${vars.uris.genjavadoc-uri}
+    // scala-xml issue: Modules were resolved with conflicting cross-version suffixes
+    extra.settings: ${vars.base.extra.settings} [
+      "conflictWarning in ThisBuild := ConflictWarning.disable"
+    ]
   }
 
   // forked (January 2018) because of regression (?) in interaction
@@ -499,6 +511,10 @@ build += {
     name: "simulacrum"
     uri:  ${vars.uris.simulacrum-uri}
     extra.projects: ["coreJVM", "examplesJVM"] // no Scala.js please
+    // scala-xml issue: Modules were resolved with conflicting cross-version suffixes
+    extra.settings: ${vars.base.extra.settings} [
+      "conflictWarning in ThisBuild := ConflictWarning.disable"
+    ]
   }
 
   ${vars.base} {
@@ -527,6 +543,10 @@ build += {
     // use scala-2.12 source directory for 2.13 too
     extra.commands: ${vars.default-commands} [
       "set unmanagedSourceDirectories in (core, Compile) += baseDirectory.value / \"core\" / \"src\" / \"main\" / \"scala-2.12\""
+    ]
+    // scala-xml issue: Modules were resolved with conflicting cross-version suffixes
+    extra.settings: ${vars.base.extra.settings} [
+      "conflictWarning in ThisBuild := ConflictWarning.disable"
     ]
   }
 
