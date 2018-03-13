@@ -365,8 +365,6 @@ build += {
       // we use "assert" as an identifier there. We disable doc building to avoid that.
       "set publishArtifact in packageDoc := false"
     ]
-    // 2.13 regression? https://github.com/scala/scala-java8-compat/issues/97
-    extra.run-tests: false
   }
 
   ${vars.base} {
