@@ -14,8 +14,6 @@
 #   downstream chain includes cats-effect -> {fs2,monix},
 #   fs2 -> {jawn-fs2, http4s}
 # * cats-effect: depends on cats
-# * scalachess (requires specs 3.x, we're on 4.x)
-#   opened https://github.com/ornicar/scalachess/issues/140
 # * sbt, zinc, sbt-*:
 #   built with sbt 1, which doesn't support Scala 2.13 yet
 #   (oh but it does now, so we can attempt to re-add these)
@@ -721,6 +719,12 @@ build += {
   ${vars.base} {
     name: "scalalib"
     uri:  ${vars.uris.scalalib-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+  }
+
+  ${vars.base} {
+    name: "scalachess"
+    uri:  ${vars.uris.scalachess-uri}
     extra.sbt-version: ${vars.sbt-1-version}
   }
 
