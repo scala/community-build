@@ -21,7 +21,7 @@ function latestNightly() {
 }
 
 # Defaults
-scala_version_default="2.13.0-pre-90ffe62-SNAPSHOT"
+scala_version_default="2.13.0-pre-8185cc3-SNAPSHOT"  # https://github.com/scala/scala/pull/6319
 scala_version="$scala_version_default"
 root_dir=$(pwd)
 config_dir="configs"
