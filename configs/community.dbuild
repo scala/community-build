@@ -821,6 +821,7 @@ build += {
   ${vars.base} {
     name: "catalysts"
     uri:  ${vars.uris.catalysts-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.commands: ${vars.default-commands} [
       // too fragile
       "removeScalacOptions -Xfatal-warnings"
