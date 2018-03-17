@@ -132,15 +132,17 @@ vars.base.deps.inject: ["com.lightbend#cloc-plugin"]
 
 //// cache
 
-// we don't have enough disk space to keep stuff longer
+// new behemoths have much more disk space, so let's try keeping stuff
+// substantially longer (2 weeks instead of 4-5 days) and see what
+// the effect on disk space usage is, starting March 17 2018
 options.cleanup: {
   extraction: {
-    success: 96
-    failure: 120
+    success: 336
+    failure: 336
   }
   build: {
-    success: 96
-    failure: 120
+    success: 336
+    failure: 336
   }
 }
 
