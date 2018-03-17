@@ -837,13 +837,19 @@ build += {
     uri:  ${vars.uris.scala-continuations-uri}
   }
 
-  // using xuwei-k's fork which has changes needed for 2.12 compat,
-  // submitted upstream: https://github.com/veact/scala-ssh/pull/5
   ${vars.base} {
     name: "scala-ssh"
     uri:  ${vars.uris.scala-ssh-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    // we have to disable this early (extra.commands isn't soon enough)
+    // or scalafmt will run `update` and `cloc-plugin` won't be found
+    extra.settings: ${vars.base.extra.settings} [
+      "scalafmtOnCompile in ThisBuild := false"
+      "scalafmtOnCompile in Sbt := false"
+    ]
+    check-missing: false  // ignore missing scalafmt
     // Failed tests: com.decodified.scalassh.SshClientSpec, com.decodified.scalassh.HostFileConfigSpec
-    // (verified January 2018)
+    // (verified March 2018)
     extra.test-tasks: "compile"
   }
 
