@@ -1388,6 +1388,13 @@ build += {
     ]
   }
 
+  ${vars.base} {
+    name: "metrics-scala"
+    uri:  ${vars.uris.metrics-scala-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.exclude: ["metricsAkka24"]  // our Akka version is 25
+  }
+
 ]}
 
 //// space: jawn_0_10
