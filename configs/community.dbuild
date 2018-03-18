@@ -1412,6 +1412,8 @@ build += {
   ${vars.base} {
     name: "linter"
     uri:  ${vars.uris.linter-uri}
+    // test failures; see https://github.com/scala/community-builds/pull/696
+    extra.test-tasks: "compile"
   }
 
 ]}
