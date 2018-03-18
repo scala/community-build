@@ -848,8 +848,7 @@ build += {
       "scalafmtOnCompile in Sbt := false"
     ]
     check-missing: false  // ignore missing scalafmt
-    // Failed tests: com.decodified.scalassh.SshClientSpec, com.decodified.scalassh.HostFileConfigSpec
-    // (verified March 2018)
+    // Known test failures: https://github.com/sirthias/scala-ssh/issues/38
     extra.test-tasks: "compile"
   }
 
