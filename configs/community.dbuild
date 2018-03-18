@@ -767,7 +767,12 @@ build += {
     name: "metrics-scala"
     uri:  ${vars.uris.metrics-scala-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.exclude: ["metricsAkka24"]  // our Akka version is 25
+    extra.exclude: [
+      // our Akka version is 25
+      "metricsAkka24"
+      // TODO needs akka-testkit; reenable once akka-more is back in the build
+      "metricsAkka25"
+    ]
   }
 
 ]}
