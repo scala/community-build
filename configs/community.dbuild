@@ -1402,6 +1402,19 @@ build += {
     extra.exclude: ["metricsAkka24"]  // our Akka version is 25
   }
 
+  ${vars.base} {
+    name: "scapegoat"
+    uri:  ${vars.uris.scapegoat-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+  }
+
+  ${vars.base} {
+    name: "linter"
+    uri:  ${vars.uris.linter-uri}
+    // test failures; see https://github.com/scala/community-builds/pull/696
+    extra.test-tasks: "compile"
+  }
+
 ]}
 
 //// space: jawn_0_10
