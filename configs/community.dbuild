@@ -1415,6 +1415,24 @@ build += {
     extra.test-tasks: "compile"
   }
 
+  ${vars.base} {
+    name: "scala-newtype"
+    uri:  ${vars.uris.scala-newtype-uri}
+    extra.exclude: ["newtypeJS", "catsTestsJS"]  // no Scala.js plz
+  }
+
+  ${vars.base} {
+    name: "fast-string-interpolator"
+    uri:  ${vars.uris.fast-string-interpolator-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
+    // Missing dependency: com.dongxiguo#fastring
+    extra.exclude: ["benchmark"]
+  }
+
 ]}
 
 //// space: jawn_0_10
