@@ -1429,6 +1429,8 @@ build += {
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
     ]
+    // Missing dependency: com.dongxiguo#fastring
+    extra.exclude: ["benchmark"]
   }
 
 ]}
