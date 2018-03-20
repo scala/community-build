@@ -1425,6 +1425,10 @@ build += {
     name: "fast-string-interpolator"
     uri:  ${vars.uris.fast-string-interpolator-uri}
     extra.sbt-version: ${vars.sbt-1-version}
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
   }
 
 ]}
