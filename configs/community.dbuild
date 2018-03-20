@@ -1421,6 +1421,12 @@ build += {
     extra.exclude: ["newtypeJS", "catsTestsJS"]  // no Scala.js plz
   }
 
+  ${vars.base} {
+    name: "fast-string-interpolator"
+    uri:  ${vars.uris.fast-string-interpolator-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+  }
+
 ]}
 
 //// space: jawn_0_10
