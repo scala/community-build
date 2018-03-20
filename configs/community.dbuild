@@ -578,12 +578,10 @@ build += {
     extra.options: ["-Xmx2048m"]
   }
 
-  // uses wartremover which we can't handle, ticket on that is
-  // https://github.com/scala/community-builds/issues/364
-  // worked around for now by freezing at 2a75226 (September 2016)
   ${vars.base} {
     name: "simulacrum"
     uri:  ${vars.uris.simulacrum-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["coreJVM", "examplesJVM"] // no Scala.js please
   }
 
@@ -1282,19 +1280,6 @@ build += {
     ]
   }
 
-  // dependency of pureconfig
-  ${vars.base} {
-    name: "scalacheck-shapeless"
-    uri:  ${vars.uris.scalacheck-shapeless-uri}
-    extra.projects: ["coreJVM", "testJVM"]  // no Scala.js plz
-    // weird missing self-dependency in testJVM project: "the library
-    // com.github.alexarchambault#scalacheck-shapeless is not provided
-    // (in space "default") by any project in this configuration file."
-    check-missing: false
-    // (January 2018) "recursiveADT2" test fails
-    extra.test-tasks: ["compile"]
-  }
-
   // dependency of scala-debugger. we track the develop branch, since
   // master seems neglected/outdated
   ${vars.base} {
@@ -1431,6 +1416,40 @@ build += {
     ]
     // Missing dependency: com.dongxiguo#fastring
     extra.exclude: ["benchmark"]
+  }
+
+  ${vars.base} {
+    name: "scalacheck-shapeless"
+    uri:  ${vars.uris.scalacheck-shapeless-uri}
+    extra.projects: ["coreJVM", "testJVM"]  // no Scala.js plz
+    // weird missing self-dependency in testJVM project: "the library
+    // com.github.alexarchambault#scalacheck-shapeless is not provided
+    // (in space "default") by any project in this configuration file."
+    check-missing: false
+    // (January 2018) "recursiveADT2" test fails
+    extra.test-tasks: ["compile"]
+    // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
+    extra.options: ["-Xmx2048m"]
+  }
+
+  ${vars.base} {
+    name: "wartremover"
+    uri:  ${vars.uris.wartremover-uri}
+    extra.exclude: ["sbt-plugin"]
+  }
+
+  ${vars.base} {
+    name: "curryhoward"
+    uri:  ${vars.uris.curryhoward-uri}
+    // I guess dbuild is getting confused by the extra _1.13?
+    deps.ignore: ["com.github.alexarchambault#scalacheck-shapeless"]
+    deps.inject: ${vars.base.deps.inject} [
+      "com.github.alexarchambault#scalacheck-shapeless_1.13"
+    ]
+    check-missing: false
+    extra.settings: ${vars.base.extra.settings} [
+      "conflictWarning in ThisBuild := ConflictWarning.disable"
+    ]
   }
 
 ]}
