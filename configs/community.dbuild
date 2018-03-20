@@ -1415,6 +1415,12 @@ build += {
     extra.test-tasks: "compile"
   }
 
+  ${vars.base} {
+    name: "scala-newtype"
+    uri:  ${vars.uris.scala-newtype-uri}
+    extra.exclude: ["newtypeJS", "catsTestsJS"]  // no Scala.js plz
+  }
+
 ]}
 
 //// space: jawn_0_10
