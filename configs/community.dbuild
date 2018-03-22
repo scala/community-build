@@ -480,14 +480,9 @@ build += {
     ]
   }
 
-  // forked (May 2017) to make a trivial source change for 2.12.3 compat;
-  // see https://github.com/scalamacros/paradise/issues/98
   ${vars.base} {
     name: "macro-paradise"
     uri:  ${vars.uris.macro-paradise-uri}
-    // this subproject stopped compiling when Adriaan changed the REPL
-    // code around; see https://github.com/scala/community-builds/issues/568
-    extra.exclude: ["tests"]
   }
 
   ${vars.base} {
