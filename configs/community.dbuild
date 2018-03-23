@@ -331,6 +331,11 @@ build += {
   }
 
   ${vars.base} {
+    name: "scala-collection-compat"
+    uri:  ${vars.uris.scala-collection-compat-uri}
+  }
+
+  ${vars.base} {
     name: "scalaz"
     uri:  ${vars.uris.scalaz-uri}
     extra.projects: ["rootJVM"]  // no Scala.js please
