@@ -823,6 +823,8 @@ build += {
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM", "genericJVM"]
   }
 
+  // frozen (March 2018) at a March 2018 commit before an sbt-catalysts version
+  // bump -- the new version wouldn't resolve, not sure why
   ${vars.base} {
     name: "catalysts"
     uri:  ${vars.uris.catalysts-uri}
