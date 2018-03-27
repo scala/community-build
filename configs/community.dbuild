@@ -1779,6 +1779,15 @@ build += {
     ]
   }
 
+  // in this space because it depends on pureconfig
+  ${vars.base} {
+    name: "refined"
+    uri:  ${vars.uris.refined-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    // I don't see a project that aggregates just the JVM subprojects
+    extra.projects: ["catsJVM", "coreJVM", "evalJVM", "jsonpathJVM", "pureconfigJVM", "scalacheckJVM", "scalazJVM", "scodecJVM", "shapelessJVM"]
+  }
+
   // in this space because it depends on circe-core.
   // forked (February 2018) to remove Scalafmt -- not sure why the
   // usual workarounds didn't work in this repo.
