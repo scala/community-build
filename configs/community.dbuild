@@ -1786,8 +1786,15 @@ build += {
     name: "refined"
     uri:  ${vars.uris.refined-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    // I don't see a project that aggregates just the JVM subprojects
-    extra.projects: ["catsJVM", "coreJVM", "evalJVM", "jsonpathJVM", "pureconfigJVM", "scalacheckJVM", "scalazJVM", "scodecJVM", "shapelessJVM"]
+    // I don't see a project that aggregates just the JVM subprojects, so we name them one by one.
+    // scodecJVM isn't included because the dependency wasn't found, maybe a version mismatch?
+    // it's okay, we don't need to have absolutely every subproject
+    extra.projects: ["catsJVM", "coreJVM", "evalJVM", "jsonpathJVM", "pureconfigJVM", "scalacheckJVM", "scalazJVM", "shapelessJVM"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+      // - Disable fatal Scaladoc warnings, too fragile
+      "removeScalacOptions -Xfatal-warnings"
+    ]
   }
 
   // in this space because it depends on circe-core.
