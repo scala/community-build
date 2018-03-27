@@ -823,6 +823,8 @@ build += {
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM", "genericJVM"]
   }
 
+  // frozen (March 2018) at a March 2018 commit before an sbt-catalysts version
+  // bump -- the new version wouldn't resolve, not sure why
   ${vars.base} {
     name: "catalysts"
     uri:  ${vars.uris.catalysts-uri}
@@ -1774,6 +1776,22 @@ build += {
     extra.commands: ${vars.default-commands} [
       // not sure why we get these errors unless we turn them off
       "set every conflictWarning := ConflictWarning.disable"
+      // - Disable fatal Scaladoc warnings, too fragile
+      "removeScalacOptions -Xfatal-warnings"
+    ]
+  }
+
+  // in this space because it depends on pureconfig
+  ${vars.base} {
+    name: "refined"
+    uri:  ${vars.uris.refined-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    // I don't see a project that aggregates just the JVM subprojects, so we name them one by one.
+    // scodecJVM isn't included because the dependency wasn't found, maybe a version mismatch?
+    // it's okay, we don't need to have absolutely every subproject
+    extra.projects: ["catsJVM", "coreJVM", "evalJVM", "jsonpathJVM", "pureconfigJVM", "scalacheckJVM", "scalazJVM", "shapelessJVM"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
       // - Disable fatal Scaladoc warnings, too fragile
       "removeScalacOptions -Xfatal-warnings"
     ]
