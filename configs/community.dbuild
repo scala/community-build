@@ -267,6 +267,7 @@ build += {
       //   Although only `testSuite` actually has tests, dbuild will try to run the tests for all projects
       //   that `testSuite` depends on (transitively), so we need to set it in a bunch of places.
       "set Seq(library, testInterface, jUnitRuntime, testSuite).map(p => jsEnv in p := new org.scalajs.jsenv.nodejs.NodeJSEnv(org.scalajs.jsenv.nodejs.NodeJSEnv.Config().withExecutable(\""${vars.node}"\").withSourceMap(false)))"
+      "set MyScalaJSPlugin.wantSourceMaps in testSuite := false"
       // "org.scalajs.linker.LinkingException: There were linking errors"
       // but, this early (January 2018) in the 2.13 cycle, there really isn't any point
       // worrying about whether scala-js's tests pass, scala-js is only formally a dependency
@@ -365,6 +366,11 @@ build += {
       // we use "assert" as an identifier there. We disable doc building to avoid that.
       "set publishArtifact in packageDoc := false"
     ]
+  }
+
+  ${vars.base} {
+    name: "scala-collection-compat"
+    uri:  ${vars.uris.scala-collection-compat-uri}
   }
 
   ${vars.base} {
