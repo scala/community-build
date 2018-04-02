@@ -1791,6 +1791,7 @@ build += {
     // scodecJVM isn't included because the dependency wasn't found, maybe a version mismatch?
     // it's okay, we don't need to have absolutely every subproject
     extra.projects: ["catsJVM", "coreJVM", "evalJVM", "jsonpathJVM", "pureconfigJVM", "scalacheckJVM", "scalazJVM", "shapelessJVM"]
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
       // - Disable fatal Scaladoc warnings, too fragile
