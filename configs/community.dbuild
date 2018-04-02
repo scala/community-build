@@ -1570,6 +1570,10 @@ build += {
   // https://github.com/lihaoyi/upickle-pprint/issues/209
   // (the pprint part has its own repo now)
   // requires jawn 0.10
+  // April 2018 news: upickle has been revived, and is now
+  // a dependency of Haoyi's new uJson library, which we
+  // should probably add at some point. for now, doing nothing
+  // (see also ammonite)
   ${vars.base} {
     name: "upickle"
     uri:  ${vars.uris.upickle-uri}
@@ -1631,6 +1635,8 @@ build += {
     ]
   }
 
+  // frozen (April 2018) at a March 2018 commit before a problematic upickle
+  // upgrade; see also upickle
   ${vars.base} {
     name: "ammonite"
     uri:  ${vars.uris.ammonite-uri}
