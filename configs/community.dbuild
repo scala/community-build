@@ -928,8 +928,6 @@ build += {
     extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
   }
 
-  // frozen (March 2018) at a March 2018 commit just before a move off of
-  // cats-effect 0.9; see https://github.com/scala/community-builds/issues/689
   ${vars.base} {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
@@ -1162,8 +1160,13 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
-  // frozen (March 2018) at v0.9 tag since that's what fs2 currently expects;
-  // see https://github.com/scala/community-builds/issues/689
+  // frozen (April 2018) at v0.10 tag since that's what fs2 and monix
+  // currently expect.  these projects co-evolve the branches we use
+  // aren't always in sync, so the easiest solution seems to be to
+  // use the cats-effect tag that fs2 and monix currently declare
+  // their dependencies on, then freeze fs2 and/or monix if they
+  // move to a newer version, only unfreezing once both have moved
+  // forward
   ${vars.base} {
     name: "cats-effect"
     uri:  ${vars.uris.cats-effect-uri}
