@@ -1376,6 +1376,19 @@ build += {
     uri:  ${vars.uris.akka-persistence-cassandra-uri}
   }
 
+  // dependency of lagom
+  ${vars.base} {
+    name: "akka-persistence-jdbc"
+    uri:  ${vars.uris.akka-persistence-jdbc-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
+    // at least one test was hanging
+    extra.test-tasks: "compile"
+  }
+
   // not (as of January 2018 anyway) an actively maintained project, so it's
   // droppable if it acts up
   ${vars.base} {
