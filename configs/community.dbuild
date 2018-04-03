@@ -729,6 +729,8 @@ build += {
     extra.projects: ["play-jsonJVM"]  // no Scala.js plz
   }
 
+  // frozen (April 2018) at a February 2018 commit before a change
+  // broke play-core; see #704
   ${vars.base} {
     name: "play-ws"
     uri:  ${vars.uris.play-ws-uri}
@@ -928,8 +930,6 @@ build += {
     extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
   }
 
-  // frozen (March 2018) at a March 2018 commit just before a move off of
-  // cats-effect 0.9; see https://github.com/scala/community-builds/issues/689
   ${vars.base} {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
@@ -1162,8 +1162,13 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
-  // frozen (March 2018) at v0.9 tag since that's what fs2 currently expects;
-  // see https://github.com/scala/community-builds/issues/689
+  // frozen (April 2018) at v0.10 tag since that's what fs2 and monix
+  // currently expect.  these projects co-evolve the branches we use
+  // aren't always in sync, so the easiest solution seems to be to
+  // use the cats-effect tag that fs2 and monix currently declare
+  // their dependencies on, then freeze fs2 and/or monix if they
+  // move to a newer version, only unfreezing once both have moved
+  // forward
   ${vars.base} {
     name: "cats-effect"
     uri:  ${vars.uris.cats-effect-uri}
@@ -1567,6 +1572,10 @@ build += {
   // https://github.com/lihaoyi/upickle-pprint/issues/209
   // (the pprint part has its own repo now)
   // requires jawn 0.10
+  // April 2018 news: upickle has been revived, and is now
+  // a dependency of Haoyi's new uJson library, which we
+  // should probably add at some point. for now, doing nothing
+  // (see also ammonite)
   ${vars.base} {
     name: "upickle"
     uri:  ${vars.uris.upickle-uri}
@@ -1628,6 +1637,8 @@ build += {
     ]
   }
 
+  // frozen (April 2018) at a March 2018 commit before a problematic upickle
+  // upgrade; see also upickle
   ${vars.base} {
     name: "ammonite"
     uri:  ${vars.uris.ammonite-uri}
@@ -1791,6 +1802,7 @@ build += {
     // scodecJVM isn't included because the dependency wasn't found, maybe a version mismatch?
     // it's okay, we don't need to have absolutely every subproject
     extra.projects: ["catsJVM", "coreJVM", "evalJVM", "jsonpathJVM", "pureconfigJVM", "scalacheckJVM", "scalazJVM", "shapelessJVM"]
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
       // - Disable fatal Scaladoc warnings, too fragile
