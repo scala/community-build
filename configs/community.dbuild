@@ -824,6 +824,10 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
     // try to enable more subprojects?
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM", "genericJVM"]
+    extra.commands: ${vars.default-commands} [
+      // too fragile (immediate cause, April 2018: new deprecation in scalaz 7.2)
+      "removeScalacOptions -Xfatal-warnings"
+    ]
   }
 
   // frozen (March 2018) at a March 2018 commit before an sbt-catalysts version
