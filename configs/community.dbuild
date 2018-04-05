@@ -756,7 +756,11 @@ build += {
     // TODO: enable more projects? these are just a few that seemed especially high-value.
     // we tried including "Play-Integration-Test" but hit a mysterious StackOverflowError
     // in scala.tools.nsc.javac.JavaScanners; see https://github.com/scala/community-builds/issues/304
-    extra.projects: ["Play", "Play-Test", "Play-WS", "Play-Cache", "Play-AHC-WS", "Filters-Helpers", "Play-Logback"]
+    extra.projects: [
+      "Play", "Play-Test", "Play-WS", "Play-Cache", "Play-AHC-WS", "Filters-Helpers", "Play-Logback"
+      // dependency of Lagom
+      "Play-JDBC"
+    ]
     extra.exclude: ["SBT-Plugin"]
     extra.directory: "framework"
     extra.commands: ${vars.default-commands} [
