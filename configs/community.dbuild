@@ -628,6 +628,12 @@ build += {
     extra.projects: ["disciplineJVM"]  // no Scala.js please
   }
 
+  ${vars.base} {
+    name: "eff"
+    uri:  ${vars.uris.eff-uri}
+    extra.projects: ["coreJVM"]  // no Scala.js please
+  }
+
   // tracking "develop" branch.
   // try master instead if develop proves too fragile?
   ${vars.base} {
