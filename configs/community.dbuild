@@ -565,7 +565,10 @@ build += {
       "scalacheckJVM", "scalazJVM", "shapelessJVM"
     ]
     extra.commands: ${vars.default-commands} [
+      // too fragile
       "removeScalacOptions -Xfatal-warnings"
+      // no longer exists in 2.13
+      "removeScalacOptions -Ypartial-unification"
       // some XML thing I didn't investigate
       "set executeTests in junitJvm in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
       // java.lang.NoClassDefFoundError: scala/collection/parallel/Combiner
