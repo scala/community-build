@@ -462,6 +462,8 @@ build += {
       "root"
       // disable fragile tests (https://github.com/scala/community-builds/issues/12#issuecomment-149941055)
       "osgitests"
+      // I think these expect a Slick snapshot to have been `publishLocal`ed?
+      "sample-slick-multidb", "sample-hello-slick", "sample-slick-plainsql", "sample-slick-testkit-example"
     ]
   }
 
