@@ -1721,6 +1721,7 @@ build += {
     ]
   }
 
+  // frozen (April 2018) at v0.11.1, the version circe expects
   ${vars.base} {
     name: "jawn-0-11"
     uri:  ${vars.uris.jawn-0-11-uri}
