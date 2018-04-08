@@ -554,6 +554,8 @@ build += {
     extra.exclude: ["docs"]
   }
 
+  // JavaInputOutputStreamSpec/upstream.is.closed may intermittently fail,
+  // see https://github.com/functional-streams-for-scala/fs2/issues/1063
   ${vars.base} {
     name: "fs2"
     uri:  ${vars.uris.fs2-uri}
