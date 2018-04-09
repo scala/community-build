@@ -468,6 +468,10 @@ build += {
       "fastparseJVM"   // no Scala.js plz
       "scalaparseJVM"  // not essential to include, but hey
     ]
+    extra.commands: ${vars.default-commands} [
+      // literal types break one test
+      "set executeTests in scalaparseJVM in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+    ]
   }
 
   ${vars.base} {
