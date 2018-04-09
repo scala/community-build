@@ -777,6 +777,8 @@ build += {
     ]
   }
 
+  // forked (April 2018) because some classpath-handling code didn't
+  // work under dbuild
   ${vars.base} {
     name: "scapegoat"
     uri:  ${vars.uris.scapegoat-uri}
