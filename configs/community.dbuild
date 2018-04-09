@@ -323,17 +323,6 @@ build += {
     ]
   }
 
-  // tracking master as of December 2016.  if master proves unstable,
-  // we could try "release-0.8" (or a newer branch if there is one)
-  ${vars.base} {
-    name: "scala-stm"
-    uri:  ${vars.uris.scala-stm-uri}
-    // scala.concurrent.stm.CommitBarrierSuite failing;
-    // reported upstream at https://github.com/nbronson/scala-stm/issues/53
-    // (report updated December 2017)
-    extra.test-tasks: ["compile"]
-  }
-
   ${vars.base} {
     name: "shapeless"
     uri:  ${vars.uris.shapeless-uri}
@@ -366,11 +355,6 @@ build += {
       // we use "assert" as an identifier there. We disable doc building to avoid that.
       "set publishArtifact in packageDoc := false"
     ]
-  }
-
-  ${vars.base} {
-    name: "scala-collection-compat"
-    uri:  ${vars.uris.scala-collection-compat-uri}
   }
 
   ${vars.base} {
@@ -753,19 +737,6 @@ build += {
   }
 
   ${vars.base} {
-    name: "singleton-ops"
-    uri:  ${vars.uris.singleton-ops-uri}
-    extra.sbt-version: ${vars.sbt-version}
-    extra.projects: ["singleton_opsJVM"]
-    extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
-    ]
-    extra.options: [
-      "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
-    ]
-  }
-
-  ${vars.base} {
     name: "metrics-scala"
     uri:  ${vars.uris.metrics-scala-uri}
     extra.sbt-version: ${vars.sbt-1-version}
@@ -783,19 +754,6 @@ build += {
     name: "scapegoat"
     uri:  ${vars.uris.scapegoat-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-  }
-
-  ${vars.base} {
-    name: "linter"
-    uri:  ${vars.uris.linter-uri}
-    // test failures; see https://github.com/scala/community-builds/pull/696
-    extra.test-tasks: "compile"
-  }
-
-  ${vars.base} {
-    name: "scala-newtype"
-    uri:  ${vars.uris.scala-newtype-uri}
-    extra.exclude: ["newtypeJS", "catsTestsJS"]  // no Scala.js plz
   }
 
   ${vars.base} {
@@ -828,20 +786,6 @@ build += {
     name: "wartremover"
     uri:  ${vars.uris.wartremover-uri}
     extra.exclude: ["sbt-plugin"]
-  }
-
-  ${vars.base} {
-    name: "curryhoward"
-    uri:  ${vars.uris.curryhoward-uri}
-    // I guess dbuild is getting confused by the extra _1.13?
-    deps.ignore: ["com.github.alexarchambault#scalacheck-shapeless"]
-    deps.inject: ${vars.base.deps.inject} [
-      "com.github.alexarchambault#scalacheck-shapeless_1.13"
-    ]
-    check-missing: false
-    extra.settings: ${vars.base.extra.settings} [
-      "conflictWarning in ThisBuild := ConflictWarning.disable"
-    ]
   }
 
 ]}
