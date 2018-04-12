@@ -292,8 +292,6 @@ build += {
     ]
   }
 
-  // frozen (June 2017) at an April 2017 commit; newer commits
-  // broke the scalacheck subproject of specs2
   ${vars.base} {
     name: "scalacheck"
     uri:  ${vars.uris.scalacheck-uri}
@@ -301,6 +299,8 @@ build += {
     extra.commands: ${vars.default-commands} [
       // because of new unused warnings in 2.12.2
       "removeScalacOptions -Xfatal-warnings"
+      // Scaladoc generation fails because the wrong scala-xml version is used,
+      "set every publishArtifact in packageDoc := false"
     ]
   }
 
