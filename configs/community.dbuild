@@ -242,7 +242,7 @@ build += {
       // (in a community build context, we don't need MiMa to run)
       "set every ScalaModulePlugin.mimaPreviousVersion := None"
       // Scaladoc generation fails because the wrong scala-xml version is used
-      "set every publishArtifact in packageDoc := false"
+      "set publishArtifact in packageDoc in `scala-parser-combinatorsJVM` := false"
     ]
   }
 
@@ -292,6 +292,7 @@ build += {
     ]
   }
 
+  // using Lukas's 2.13-friendly fork
   ${vars.base} {
     name: "scalacheck"
     uri:  ${vars.uris.scalacheck-uri}
@@ -300,7 +301,7 @@ build += {
       // because of new unused warnings in 2.12.2
       "removeScalacOptions -Xfatal-warnings"
       // Scaladoc generation fails because the wrong scala-xml version is used,
-      "set every publishArtifact in packageDoc := false"
+      "set publishArtifact in packageDoc in jvm := false"
     ]
   }
 
@@ -312,6 +313,10 @@ build += {
     // scala-xml issue: Modules were resolved with conflicting cross-version suffixes
     extra.settings: ${vars.base.extra.settings} [
       "conflictWarning in ThisBuild := ConflictWarning.disable"
+    ]
+    extra.commands: ${vars.default-commands} [
+      // Scaladoc generation fails because the wrong scala-xml version is used
+      "set publishArtifact in packageDoc in scalacticMacro := false"
     ]
   }
 
@@ -327,7 +332,7 @@ build += {
       // Deprecated optimizer settings
       "removeScalacOptions -Xfatal-warnings"
       // Scaladoc generation fails because the wrong scala-xml version is used,
-      "set every publishArtifact in packageDoc := false"
+      "set publishArtifact in packageDoc := false"
     ]
   }
 
@@ -445,7 +450,7 @@ build += {
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
       // Scaladoc generation fails because the wrong scala-xml version is used,
-      "set every publishArtifact in packageDoc := false"
+      "set publishArtifact in packageDoc := false"
     ]
   }
 
@@ -511,17 +516,18 @@ build += {
     extra.projects: ["machinistJVM"]  // no Scala.js please
     extra.commands: ${vars.default-commands} [
       // Scaladoc generation fails because the wrong scala-xml version is used
-      "set every publishArtifact in packageDoc := false"
+      "set publishArtifact in packageDoc in machinistJVM := false"
     ]
   }
 
+  // using Seth's 2.13-friendly fork
   ${vars.base} {
     name: "kind-projector"
     uri:  ${vars.uris.kind-projector-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.commands: ${vars.default-commands} [
       // Scaladoc generation fails because the wrong scala-xml version is used
-      "set every publishArtifact in packageDoc := false"
+      "set publishArtifact in packageDoc := false"
     ]
   }
 
@@ -652,7 +658,7 @@ build += {
     uri:  ${vars.uris.scalaj-http-uri}
     extra.commands: ${vars.default-commands} [
       // Scaladoc generation fails because the wrong scala-xml version is used
-      "set every publishArtifact in packageDoc := false"
+      "set publishArtifact in packageDoc := false"
     ]
   }
 
