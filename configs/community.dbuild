@@ -1,6 +1,9 @@
 # surely-not-100%-complete/accurate list, but,
 # the following 2.12 projects are currently not included in 2.13
 #
+# * needs updating for 2.13 new collections:
+#   json4s, scala-collections-laws, scala-async, utest and friends
+#   (acyclic, geny, scalatags, fansi, fastparse)
 # * better-files (compile error, problem with @tailrec + singleton types?
 #   didn't I see something similar in another project?)
 # * akka-more: doesn't compile, opened https://github.com/akka/akka/issues/24535
@@ -158,6 +161,15 @@ build += {
   {
     name: "cloc-plugin"
     uri:  "https://github.com/SethTisue/cloc-plugin.git"
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.commands: ${vars.default-commands} [
+      // Scaladoc generation fails because the wrong scala-xml version is used,
+      // (resulting in an error about scala.collection.SeqLike being missing).
+      // not worth investigating, we don't need to testdoc generation on this project,
+      // and scala-xml will be out of the bootstrap before much longer anyway
+      "set publishArtifact in packageDoc := false"
+      // "set sources in doc in Compile := List()"
+    ]
   }
   {
     name:  "scala"
@@ -185,7 +197,7 @@ build += {
       }
       {
         name: "scala-xml"
-        uri: "https://github.com/scala/scala-xml.git"
+        uri: "https://github.com/scala/scala-xml.git#newCollectionsBootstrap"  # was master
         // this gives us "scala-xml_2.12" which is what we want, sbt 1 will get
         // upset if there are two different kinds of scala-xml dependencies
         // floating around (https://github.com/scala/community-builds/issues/679)
@@ -229,6 +241,8 @@ build += {
       // work around https://github.com/scala/community-builds/issues/575
       // (in a community build context, we don't need MiMa to run)
       "set every ScalaModulePlugin.mimaPreviousVersion := None"
+      // Scaladoc generation fails because the wrong scala-xml version is used
+      "set every publishArtifact in packageDoc := false"
     ]
   }
 
@@ -245,6 +259,8 @@ build += {
     extra.commands: ${vars.default-commands} [
       // too fragile
       "removeScalacOptions -Xfatal-warnings"
+      // Scaladoc generation fails because the wrong scala-xml version is used
+      "set publishArtifact in packageDoc in stubs := false"
     ]
   }
 
@@ -310,6 +326,8 @@ build += {
     extra.commands: ${vars.default-commands} [
       // Deprecated optimizer settings
       "removeScalacOptions -Xfatal-warnings"
+      // Scaladoc generation fails because the wrong scala-xml version is used,
+      "set every publishArtifact in packageDoc := false"
     ]
   }
 
@@ -353,6 +371,15 @@ build += {
     extra.commands: ${vars.default-commands} [
       // For some reason dbuild includes test sources in the javadocs, which trips up javadoc because
       // we use "assert" as an identifier there. We disable doc building to avoid that.
+      "set publishArtifact in packageDoc := false"
+    ]
+  }
+
+  ${vars.base} {
+    name: "scala-collection-compat"
+    uri:  ${vars.uris.scala-collection-compat-uri}
+    extra.commands: ${vars.default-commands} [
+      // Scaladoc generation fails because the wrong scala-xml version is used,
       "set publishArtifact in packageDoc := false"
     ]
   }
@@ -411,17 +438,14 @@ build += {
   }
 
   ${vars.base} {
-    name: "scala-async"
-    uri:  ${vars.uris.scala-async-uri}
-  }
-
-  ${vars.base} {
     name: "sbt-testng"
     uri:  ${vars.uris.sbt-testng-uri}
     extra.projects: ["sbt-testng-interface"]  // just the interface, we don't need to build the plugin
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
+      // Scaladoc generation fails because the wrong scala-xml version is used,
+      "set every publishArtifact in packageDoc := false"
     ]
   }
 
@@ -438,45 +462,24 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
-  // forked (January 2018) to explicitly eta-expand in a few places
-  ${vars.base} {
-    name: "utest"
-    uri:  ${vars.uris.utest-uri}
-    // no Scala.js plz
-    extra.projects: ["utestJVM"]
-    // running tests on 2.13 disabled (January 2018); problem reported upstream
-    // at https://github.com/lihaoyi/utest/issues/149
-    extra.test-tasks: ["compile"]
-  }
-
-  ${vars.base} {
-    name: "acyclic"
-    uri:  ${vars.uris.acyclic-uri}
-  }
-
   ${vars.base} {
     name: "sourcecode"
     uri:  ${vars.uris.sourcecode-uri}
     // no Scala.js plz
     extra.projects: ["sourcecodeJVM"]
-  }
-
-  ${vars.base} {
-    name: "fastparse"
-    uri:  ${vars.uris.fastparse-uri}
-    extra.projects: [
-      "fastparseJVM"   // no Scala.js plz
-      "scalaparseJVM"  // not essential to include, but hey
-    ]
     extra.commands: ${vars.default-commands} [
-      // literal types break one test
-      "set executeTests in scalaparseJVM in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+      // Scaladoc generation fails because the wrong scala-xml version is used
+      "set publishArtifact in packageDoc in jvm := false"
     ]
   }
 
   ${vars.base} {
     name: "macro-paradise"
     uri:  ${vars.uris.macro-paradise-uri}
+    extra.commands: ${vars.default-commands} [
+      // too fragile
+      "removeScalacOptions -Xfatal-warnings"
+    ]
   }
 
   ${vars.base} {
@@ -506,12 +509,20 @@ build += {
     name: "machinist"
     uri:  ${vars.uris.machinist-uri}
     extra.projects: ["machinistJVM"]  // no Scala.js please
+    extra.commands: ${vars.default-commands} [
+      // Scaladoc generation fails because the wrong scala-xml version is used
+      "set every publishArtifact in packageDoc := false"
+    ]
   }
 
   ${vars.base} {
     name: "kind-projector"
     uri:  ${vars.uris.kind-projector-uri}
     extra.sbt-version: ${vars.sbt-1-version}
+    extra.commands: ${vars.default-commands} [
+      // Scaladoc generation fails because the wrong scala-xml version is used
+      "set every publishArtifact in packageDoc := false"
+    ]
   }
 
   ${vars.base} {
@@ -593,16 +604,6 @@ build += {
     uri:  ${vars.uris.cachecontrol-uri}
   }
 
-  // 3.5 is the current stable branch (as of Oct 2016)
-  // there is also a brand-new development branch, 3.6, we should
-  // maybe switch to at some point
-  ${vars.base} {
-    name: "json4s"
-    uri:  ${vars.uris.json4s-uri}
-    // TODO: exclude subprojects we don't want, rather than naming a few we want. probably adding more would work?
-    extra.projects: ["json4s-native", "json4s-jackson", "json4s-ast"]
-  }
-
   ${vars.base} {
     name: "catalysts"
     uri:  ${vars.uris.catalysts-uri}
@@ -625,16 +626,6 @@ build += {
   }
 
   ${vars.base} {
-    name: "scalatags"
-    uri:  ${vars.uris.scalatags-uri}
-    extra.projects: ["scalatagsJVM"]  // no Scala.js
-    extra.commands: ${vars.default-commands} [
-      // their build.sbt has 'scalaVersion.value startsWith "2.12."', so that doesn't get 2.13
-      "set unmanagedSourceDirectories in (scalatagsJVM, Compile) += baseDirectory.value / \"scalatags\" / \"shared\" / \"src\" / \"main\" / \"scala-2.11\""
-    ]
-  }
-
-  ${vars.base} {
     name: "minitest"
     uri:  ${vars.uris.minitest-uri}
     extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
@@ -647,14 +638,6 @@ build += {
     extra.exclude: ["coreJS", "testingJS"]
   }
 
-  // forked (October 2017) because utest 0.6.0 (we track utest master) made
-  // a source-incompatible change but fansi is still on 0.5.3
-  ${vars.base} {
-    name: "fansi"
-    uri:  ${vars.uris.fansi-uri}
-    extra.projects: ["fansiJVM"]  // no Scala.js
-  }
-
   // dependency of scalafix
   // (we use allanrenucci's fork because that's where `organization` is set
   // as scalafix expects; it's where 0.1.4 was apparently published from,
@@ -665,14 +648,12 @@ build += {
   }
 
   ${vars.base} {
-    name: "geny"
-    uri:  ${vars.uris.geny-uri}
-    extra.projects: ["genyJVM"]  // no Scala.js plz
-  }
-
-  ${vars.base} {
     name: "scalaj-http"
     uri:  ${vars.uris.scalaj-http-uri}
+    extra.commands: ${vars.default-commands} [
+      // Scaladoc generation fails because the wrong scala-xml version is used
+      "set every publishArtifact in packageDoc := false"
+    ]
   }
 
   ${vars.base} {
@@ -692,21 +673,6 @@ build += {
       // java.lang.NoClassDefFoundError: org/hamcrest/SelfDescribing
       "set libraryDependencies in junit += \"org.hamcrest\" % \"hamcrest-core\" % \"1.3\" % \"test\""
     ]
-  }
-
-  // once https://github.com/scala/scala-collections-laws/pull/18
-  // is merged we can track master
-  ${vars.base} {
-    name: "scala-collections-laws"
-    uri: ${vars.uris.scala-collections-laws-uri}
-    // as per the repo readme
-    extra.options: ["-XX:MaxMetaspaceSize=1G", "-Xmx6G"]
-    // note that we're not actually doing
-    // `runMain tests.generated.collection.Test_All` which is what
-    // the repo readme says to do. dbuild doesn't let us set
-    // extra.test-tasks to a task that takes arguments.  (anyway,
-    // it's not clear it's really necessary or appropriate to
-    // actually run the whole thing as part of the community build?)
   }
 
   ${vars.base} {
