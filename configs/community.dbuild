@@ -298,6 +298,8 @@ build += {
     uri:  ${vars.uris.scalacheck-uri}
     extra.projects: ["jvm"]  // no Scala.js please
     extra.commands: ${vars.default-commands} [
+      // Lukas changed this in his fork, so we have to change it back
+      "set every organization := \"org.scalacheck\""
       // because of new unused warnings in 2.12.2
       "removeScalacOptions -Xfatal-warnings"
       // Scaladoc generation fails because the wrong scala-xml version is used,
