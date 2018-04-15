@@ -297,7 +297,6 @@ build += {
     name: "scalacheck"
     uri:  ${vars.uris.scalacheck-uri}
     extra.projects: ["jvm"]  // no Scala.js please
-    extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"]
     extra.commands: ${vars.default-commands} [
       // because of new unused warnings in 2.12.2
       "removeScalacOptions -Xfatal-warnings"
