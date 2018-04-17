@@ -1492,6 +1492,13 @@ build += {
     ]
   }
 
+  ${vars.base} {
+    name: "magnolia"
+    uri:  ${vars.uris.magnolia-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: ["coreJVM", "examplesJVM", "tests"]
+  }
+
 ]}
 
 //// space: jawn_0_10
