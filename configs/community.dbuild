@@ -658,6 +658,7 @@ build += {
   ${vars.base} {
     name: "mouse"
     uri:  ${vars.uris.mouse-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["crossJVM"]  // no Scala.js please
   }
 
