@@ -635,7 +635,12 @@ build += {
   ${vars.base} {
     name: "eff"
     uri:  ${vars.uris.eff-uri}
-    extra.projects: ["coreJVM"]  // no Scala.js please
+    extra.exclude: [
+      // we don't have doobie
+      "doobie"
+      // no Scala.js please
+      "coreJS", "monixJS"
+    ]
   }
 
   // tracking "develop" branch.
