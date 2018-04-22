@@ -47,7 +47,7 @@ include file(".dbuild/resolvers.conf")
 vars {
   default-commands: []
   sbt-version: "0.13.17"
-  sbt-1-version: "1.1.1"
+  sbt-1-version: "1.1.4"
 }
 
 //// compiler options manipulation
@@ -462,6 +462,8 @@ build += {
       "root"
       // disable fragile tests (https://github.com/scala/community-builds/issues/12#issuecomment-149941055)
       "osgitests"
+      // I think these expect a Slick snapshot to have been `publishLocal`ed?
+      "sample-slick-multidb", "sample-hello-slick", "sample-slick-plainsql", "sample-slick-testkit-example"
     ]
   }
 
@@ -552,6 +554,8 @@ build += {
     extra.exclude: ["docs"]
   }
 
+  // JavaInputOutputStreamSpec/upstream.is.closed may intermittently fail,
+  // see https://github.com/functional-streams-for-scala/fs2/issues/1063
   ${vars.base} {
     name: "fs2"
     uri:  ${vars.uris.fs2-uri}
@@ -735,6 +739,8 @@ build += {
     extra.projects: ["play-jsonJVM"]  // no Scala.js plz
   }
 
+  // frozen (April 2018) at a February 2018 commit before a change
+  // broke play-core; see #704
   ${vars.base} {
     name: "play-ws"
     uri:  ${vars.uris.play-ws-uri}
@@ -760,7 +766,11 @@ build += {
     // TODO: enable more projects? these are just a few that seemed especially high-value.
     // we tried including "Play-Integration-Test" but hit a mysterious StackOverflowError
     // in scala.tools.nsc.javac.JavaScanners; see https://github.com/scala/community-builds/issues/304
-    extra.projects: ["Play", "Play-Test", "Play-WS", "Play-Cache", "Play-AHC-WS", "Filters-Helpers", "Play-Logback"]
+    extra.projects: [
+      "Play", "Play-Test", "Play-WS", "Play-Cache", "Play-AHC-WS", "Filters-Helpers", "Play-Logback"
+      // dependency of Lagom
+      "Play-JDBC"
+    ]
     extra.exclude: ["SBT-Plugin"]
     extra.directory: "framework"
     extra.commands: ${vars.default-commands} [
@@ -828,6 +838,10 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
     // try to enable more subprojects?
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM", "genericJVM"]
+    extra.commands: ${vars.default-commands} [
+      // too fragile (immediate cause, April 2018: new deprecation in scalaz 7.2)
+      "removeScalacOptions -Xfatal-warnings"
+    ]
   }
 
   // frozen (March 2018) at a March 2018 commit before an sbt-catalysts version
@@ -934,8 +948,6 @@ build += {
     extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
   }
 
-  // frozen (March 2018) at a March 2018 commit just before a move off of
-  // cats-effect 0.9; see https://github.com/scala/community-builds/issues/689
   ${vars.base} {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
@@ -1168,8 +1180,13 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
-  // frozen (March 2018) at v0.9 tag since that's what fs2 currently expects;
-  // see https://github.com/scala/community-builds/issues/689
+  // frozen (April 2018) at v0.10 tag since that's what fs2 and monix
+  // currently expect.  these projects co-evolve the branches we use
+  // aren't always in sync, so the easiest solution seems to be to
+  // use the cats-effect tag that fs2 and monix currently declare
+  // their dependencies on, then freeze fs2 and/or monix if they
+  // move to a newer version, only unfreezing once both have moved
+  // forward
   ${vars.base} {
     name: "cats-effect"
     uri:  ${vars.uris.cats-effect-uri}
@@ -1373,6 +1390,19 @@ build += {
     uri:  ${vars.uris.akka-persistence-cassandra-uri}
   }
 
+  // dependency of lagom
+  ${vars.base} {
+    name: "akka-persistence-jdbc"
+    uri:  ${vars.uris.akka-persistence-jdbc-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
+    // at least one test was hanging
+    extra.test-tasks: "compile"
+  }
+
   // not (as of January 2018 anyway) an actively maintained project, so it's
   // droppable if it acts up
   ${vars.base} {
@@ -1401,6 +1431,8 @@ build += {
     extra.exclude: ["metricsAkka24"]  // our Akka version is 25
   }
 
+  // forked (April 2018) because some classpath-handling code didn't
+  // work under dbuild
   ${vars.base} {
     name: "scapegoat"
     uri:  ${vars.uris.scapegoat-uri}
@@ -1464,6 +1496,14 @@ build += {
     extra.settings: ${vars.base.extra.settings} [
       "conflictWarning in ThisBuild := ConflictWarning.disable"
     ]
+  }
+
+  // we can unfork once https://github.com/propensive/magnolia/pull/92 is merged
+  ${vars.base} {
+    name: "magnolia"
+    uri:  ${vars.uris.magnolia-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: ["coreJVM", "examplesJVM", "tests"]
   }
 
 ]}
@@ -1573,6 +1613,10 @@ build += {
   // https://github.com/lihaoyi/upickle-pprint/issues/209
   // (the pprint part has its own repo now)
   // requires jawn 0.10
+  // April 2018 news: upickle has been revived, and is now
+  // a dependency of Haoyi's new uJson library, which we
+  // should probably add at some point. for now, doing nothing
+  // (see also ammonite)
   ${vars.base} {
     name: "upickle"
     uri:  ${vars.uris.upickle-uri}
@@ -1634,6 +1678,8 @@ build += {
     ]
   }
 
+  // frozen (April 2018) at a March 2018 commit before a problematic upickle
+  // upgrade; see also upickle
   ${vars.base} {
     name: "ammonite"
     uri:  ${vars.uris.ammonite-uri}
@@ -1695,6 +1741,7 @@ build += {
     ]
   }
 
+  // frozen (April 2018) at v0.11.1, the version circe expects
   ${vars.base} {
     name: "jawn-0-11"
     uri:  ${vars.uris.jawn-0-11-uri}
@@ -1726,6 +1773,9 @@ build += {
   // integration with other libraries. many of them had issues; I didn't
   // spend that much time looking into each one and seeing if it might be
   // fixable, or ought to be reported upstream, or what.
+  // frozen (April 2018) at a March 2018 commit from just before they
+  // upgraded to cats 1.1 and started using 1.1-only API. we can unfreeze
+  // at the time we move the whole build from cats 1.0 to 1.1.
   ${vars.base} {
     name: "http4s"
     uri:  ${vars.uris.http4s-uri}
@@ -1797,6 +1847,7 @@ build += {
     // scodecJVM isn't included because the dependency wasn't found, maybe a version mismatch?
     // it's okay, we don't need to have absolutely every subproject
     extra.projects: ["catsJVM", "coreJVM", "evalJVM", "jsonpathJVM", "pureconfigJVM", "scalacheckJVM", "scalazJVM", "shapelessJVM"]
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
       // - Disable fatal Scaladoc warnings, too fragile
