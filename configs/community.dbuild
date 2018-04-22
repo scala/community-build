@@ -655,6 +655,13 @@ build += {
     extra.exclude: ["sbtplugin"]
   }
 
+  ${vars.base} {
+    name: "mouse"
+    uri:  ${vars.uris.mouse-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: ["crossJVM"]  // no Scala.js please
+  }
+
   // forked (January 2018) to remove a couple of failing tests; ticket
   // is https://github.com/etorreborre/specs2/issues/622. note we are
   // using the 3.x branch, even though specs2 4.0 has been out for a while
