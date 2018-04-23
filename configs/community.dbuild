@@ -1986,7 +1986,11 @@ build += {
     extra.projects: ["runtime"]
   }
 
-  // dependency of scalafix
+  // dependency of scalafix.  frozen (April 2018) at v0.6.0 since newer commits break
+  // scalafix. presumably this is a temporarily transitional state and we should attempt
+  // to unfreeze once things settle down. (the commit descriptions indicate this is part of
+  // an effort to move scalafmt onto newer versions of things -- it'd be great to have
+  // scalafmt and scalafix in the same space.)
   ${vars.base} {
     name: "metaconfig-new"
     uri:  ${vars.uris.metaconfig-new-uri}
