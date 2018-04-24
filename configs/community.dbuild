@@ -522,7 +522,6 @@ build += {
     ]
   }
 
-  // using Seth's 2.13-friendly fork
   ${vars.base} {
     name: "kind-projector"
     uri:  ${vars.uris.kind-projector-uri}
