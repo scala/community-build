@@ -636,6 +636,9 @@ build += {
     name: "eff"
     uri:  ${vars.uris.eff-uri}
     extra.exclude: [
+      // this is an aggregation project that we exclude because it adds a
+      // ScalaMeter dependency
+      "eff"
       // we don't have doobie
       "doobie"
       // no Scala.js please
