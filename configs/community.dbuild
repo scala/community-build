@@ -162,14 +162,6 @@ build += {
     name: "cloc-plugin"
     uri:  "https://github.com/SethTisue/cloc-plugin.git"
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.commands: ${vars.default-commands} [
-      // Scaladoc generation fails because the wrong scala-xml version is used,
-      // (resulting in an error about scala.collection.SeqLike being missing).
-      // not worth investigating, we don't need to testdoc generation on this project,
-      // and scala-xml will be out of the bootstrap before much longer anyway
-      "set publishArtifact in packageDoc := false"
-      // "set sources in doc in Compile := List()"
-    ]
   }
   {
     name:  "scala"
@@ -195,26 +187,6 @@ build += {
         system: aether
         uri:   "aether:org.scala-lang#scala-compiler;"${vars.scala-version}
       }
-      {
-        name: "scala-xml"
-        uri: "https://github.com/scala/scala-xml.git#newCollectionsBootstrap"  # was master
-        // this gives us "scala-xml_2.12" which is what we want, sbt 1 will get
-        // upset if there are two different kinds of scala-xml dependencies
-        // floating around (https://github.com/scala/community-builds/issues/679)
-        cross-version: standard
-        // override sbt version here since otherwise we get
-        // whatever random sbt version the module has
-        extra.sbt-version: ${vars.sbt-version}
-        extra.commands: ${vars.default-commands} [
-          // override scalaVersion here since otherwise we get
-          // whatever random Scala version the module has
-          "set scalaVersion := \""${vars.scala-version}"\""
-          // work around https://github.com/scala/community-builds/issues/575
-          // (in a community build context, we don't need MiMa to run)
-          "set every ScalaModulePlugin.mimaPreviousVersion := None"
-        ]
-        extra.projects: ["xmlJVM"]
-      }
     ]
   }
 ]}
@@ -232,6 +204,12 @@ build += {
   sbt-version: ${vars.sbt-version}
 
   projects: [
+
+  ${vars.base} {
+    name: "scala-xml"
+    uri:  ${vars.uris.scala-xml-uri}
+    extra.projects: ["xmlJVM"]
+  }
 
   ${vars.base} {
     name: "scala-parser-combinators"
