@@ -21,7 +21,7 @@ function latestNightly() {
 }
 
 # Defaults
-scala_version_default="2.12.6-bin-d7ae7a8"  # 2.12.6 release candidate as of Apr 26 2018
+scala_version_default="2.12.7-bin-ed50887"  # 27 Apr 2018, merge commit of the restarring on 2.12.6
 scala_version="$scala_version_default"
 root_dir=$(pwd)
 config_dir="configs"
