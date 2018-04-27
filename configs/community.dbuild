@@ -1205,6 +1205,11 @@ build += {
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
     ]
+    extra.commands: ${vars.default-commands} [
+      // added April 2018 because of the floating point Range deprecation in
+      // 2.12.6. we might try re-enabling at some point
+      "removeScalacOptions -Xfatal-warnings"
+    ]
   }
 
   // once https://github.com/scala/scala-collections-laws/pull/18
