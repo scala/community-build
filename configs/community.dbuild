@@ -515,7 +515,6 @@ build += {
     uri:  ${vars.uris.fastparse-uri}
     extra.projects: [
       "fastparseJVM"   // no Scala.js plz
-      "scalaparseJVM"  // not essential to include, but hey
     ]
   }
 
