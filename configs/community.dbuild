@@ -1114,6 +1114,8 @@ build += {
   ${vars.base} {
     name: "scalaj-http"
     uri:  ${vars.uris.scalaj-http-uri}
+    // https://github.com/scalaj/scalaj-http/issues/164
+    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
