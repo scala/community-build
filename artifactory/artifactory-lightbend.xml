@@ -900,7 +900,7 @@
         <remoteRepository>
             <key>typesafe-releases</key>
             <type>maven</type>
-            <includesPattern>org/scalariform/**</includesPattern>
+            <includesPattern>com/typesafe/netty/**,org/scalariform/**</includesPattern>
             <repoLayoutRef>maven-2-default</repoLayoutRef>
             <dockerApiVersion>V2</dockerApiVersion>
             <forceNugetAuthentication>false</forceNugetAuthentication>
