@@ -1738,6 +1738,8 @@ build += {
 
   projects: [
 
+  // frozen (April 2018) at an April 2018 commit just before an upgrade to jawn 0.12.
+  // at some point we should move everything off 0.11 and onto 0.12, but there's no rush.
   ${vars.base} {
     name: "circe"
     uri:  ${vars.uris.circe-uri}
