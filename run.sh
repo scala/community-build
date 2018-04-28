@@ -23,7 +23,7 @@ function latestNightly() {
 }
 
 # Defaults
-scala_version_default="2.13.0-pre-91a7d72"  # latest as of Apr 26 2018. new collections, no scala-xml
+scala_version_default="2.13.0-pre-4ed91190"  # latest as of Apr 28
 scala_version="$scala_version_default"
 root_dir=$(pwd)
 config_dir="configs"
