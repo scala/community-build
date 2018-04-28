@@ -637,6 +637,22 @@ build += {
     extra.projects: ["disciplineJVM"]  // no Scala.js please
   }
 
+  ${vars.base} {
+    name: "eff"
+    uri:  ${vars.uris.eff-uri}
+    extra.exclude: [
+      // this is an aggregation project that we exclude because it adds a
+      // ScalaMeter dependency
+      "eff"
+      // we don't have doobie
+      "doobie"
+      // we don't have catbird
+      "twitter"
+      // no Scala.js please
+      "coreJS", "monixJS"
+    ]
+  }
+
   // tracking "develop" branch.
   // try master instead if develop proves too fragile?
   ${vars.base} {
