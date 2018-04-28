@@ -717,6 +717,7 @@ build += {
   ${vars.base} {
     name: "spray-json"
     uri:  ${vars.uris.spray-json-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
   }
 
   ${vars.base} {
