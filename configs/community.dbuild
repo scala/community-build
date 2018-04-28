@@ -703,40 +703,8 @@ build += {
     extra.exclude: ["sbt-plugin"]
   }
 
-  ${vars.base} {
-<<<<<<< HEAD
-||||||| merged common ancestors
-    name: "curryhoward"
-    uri:  ${vars.uris.curryhoward-uri}
-    // I guess dbuild is getting confused by the extra _1.13?
-    deps.ignore: ["com.github.alexarchambault#scalacheck-shapeless"]
-    deps.inject: ${vars.base.deps.inject} [
-      "com.github.alexarchambault#scalacheck-shapeless_1.13"
-    ]
-    check-missing: false
-    extra.settings: ${vars.base.extra.settings} [
-      "conflictWarning in ThisBuild := ConflictWarning.disable"
-    ]
-  }
-
-  ${vars.base} {
-=======
-    name: "curryhoward"
-    uri:  ${vars.uris.curryhoward-uri}
-    // I guess dbuild is getting confused by the extra _1.13?
-    deps.ignore: ["com.github.alexarchambault#scalacheck-shapeless"]
-    deps.inject: ${vars.base.deps.inject} [
-      "com.github.alexarchambault#scalacheck-shapeless_1.13"
-    ]
-    check-missing: false
-    extra.settings: ${vars.base.extra.settings} [
-      "conflictWarning in ThisBuild := ConflictWarning.disable"
-    ]
-  }
-
   // we can unfork once https://github.com/propensive/magnolia/pull/92 is merged
   ${vars.base} {
->>>>>>> efa9448302407b81e042edcb02d9d93a2558bcb6
     name: "magnolia"
     uri:  ${vars.uris.magnolia-uri}
     extra.sbt-version: ${vars.sbt-1-version}
