@@ -1307,6 +1307,9 @@ build += {
       "scalafmtOnCompile in Sbt := false"
     ]
     check-missing: false  // ignore missing scalafmt
+    // DefaultWatchServiceSpec fails on MacOS only, see
+    // https://github.com/scala/community-builds/pull/714
+    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
