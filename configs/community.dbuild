@@ -1307,8 +1307,6 @@ build += {
       "scalafmtOnCompile in Sbt := false"
     ]
     check-missing: false  // ignore missing scalafmt
-    // https://github.com/sbt/io/issues/122 (January 2018)
-    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
