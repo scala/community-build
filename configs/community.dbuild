@@ -384,7 +384,7 @@ build += {
     ]
   }
 
-  // this is separate from "akka" because there is a circular dependency between
+  // this is separate from "akka-actor" because there is a circular dependency between
   // the akka and ssl-config repos
   ${vars.base} {
     name: "akka-more"
@@ -678,26 +678,39 @@ build += {
     extra.projects: ["crossJVM"]  // no Scala.js please
   }
 
-  // forked (January 2018) to remove a couple of failing tests; ticket
-  // is https://github.com/etorreborre/specs2/issues/622. note we are
-  // using the 3.x branch, even though specs2 4.0 has been out for a while
-  // now, because we suspect that some other projects wouldn't work with 4.0
-  // yet (hasn't been tried though; we should try at some point)
   ${vars.base} {
     name: "specs2"
     uri:  ${vars.uris.specs2-uri}
-    extra.exclude: [
-      // eff-related compile errors, as of January 2017 anyway
-      "guide"
-      // not community build relevant, and was causing error
-      // ("multiple projects have the same artifacts visible in the same space")
-      "pom"
+    // I don't see a project that aggregates JVM-only stuff, so...
+    extra.projects: [
+      "analysisJVM", "commonJVM", "coreJVM", "examplesJVM", "fpJVM"
+      "matcherExtraJVM", "matcherJVM", "mockJVM", "junitJVM"
+      "scalacheckJVM", "shapelessJVM"
     ]
     extra.commands: ${vars.default-commands} [
-      // too fragile? TODO: I got a non-exhaustive match warning that
-      // could conceivably indicate some real regression. or maybe it's
-      // just a version mismatch for some library? who knows
+      // makes a "configuration not public" error in specs2-scalaz go away.  I got the idea to
+      // try it by googling that phrase and finding https://github.com/sbt/sbt/pull/2345
+      "set every publishMavenStyle := false"
+      // too fragile
       "removeScalacOptions -Xfatal-warnings"
+    ]
+  }
+
+  // build this separately so when scalaz fails it doesn't take
+  // out every specs2-using project downstream
+  ${vars.base} {
+    name: "specs2-scalaz"
+    uri:  ${vars.uris.specs2-uri}
+    extra.projects: ["scalazJVM"]
+    extra.commands: ${vars.default-commands} [
+      // not sure if necessary, but we have it in the specs entry, so let's have it here too
+      "set every publishMavenStyle := false"
+      // too fragile
+      "removeScalacOptions -Xfatal-warnings"
+    ]
+    extra.exclude: [
+      // we already built these in "specs2"
+      "commonJVM", "coreJVM", "fpJVM", "matcherJVM"
     ]
   }
 
@@ -798,6 +811,8 @@ build += {
       "set sources in (PlayProject, Compile, compile) := (sources in (PlayProject, Compile, compile)).value.distinct"
       // there was some Scaladoc error here I didn't bother to look into
       "set sources in doc in Compile in PlayProject := List()"
+      // https://github.com/playframework/playframework/issues/8393
+      "set executeTests in PlayProject in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
     ]
   }
 
@@ -967,6 +982,8 @@ build += {
     extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
   }
 
+  // frozen (May 2018) at an April 2018 commit just before an upgrade to a
+  // cats-effect version that isn't source compatible with the one we have
   ${vars.base} {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
