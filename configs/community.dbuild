@@ -384,7 +384,7 @@ build += {
     ]
   }
 
-  // this is separate from "akka" because there is a circular dependency between
+  // this is separate from "akka-actor" because there is a circular dependency between
   // the akka and ssl-config repos
   ${vars.base} {
     name: "akka-more"
@@ -967,6 +967,8 @@ build += {
     extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
   }
 
+  // frozen (May 2018) at an April 2018 commit just before an upgrade to a
+  // cats-effect version that isn't source compatible with the one we have
   ${vars.base} {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
