@@ -268,11 +268,6 @@ build += {
   }
 
   ${vars.base} {
-    name: "scala-partest-interface"
-    uri:  ${vars.uris.scala-partest-interface-uri}
-  }
-
-  ${vars.base} {
     name: "scala-partest"
     uri:  ${vars.uris.scala-partest-uri}
     extra.commands: ${vars.default-commands} [
