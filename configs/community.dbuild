@@ -1548,6 +1548,27 @@ build += {
     extra.projects: ["coreJVM", "examplesJVM", "tests"]
   }
 
+  ${vars.base} {
+    name: "silencer"
+    uri:  ${vars.uris.silencer-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+  }
+
+  ${vars.base} {
+    name: "pascal"
+    uri:  ${vars.uris.pascal-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+  }
+
+  // doesn't publish any of the same artifacts as scalaz 7, so it doesn't need
+  // to be confined to its own space
+  ${vars.base} {
+    name: "scalaz8"
+    uri:  ${vars.uris.scalaz8-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: ["baseJVM", "effectJVM", "metaJVM"]
+  }
+
 ]}
 
 //// space: jawn_0_10
