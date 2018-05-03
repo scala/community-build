@@ -259,11 +259,6 @@ build += {
   }
 
   ${vars.base} {
-    name: "scala-partest-interface"
-    uri:  ${vars.uris.scala-partest-interface-uri}
-  }
-
-  ${vars.base} {
     name: "scala-partest"
     uri:  ${vars.uris.scala-partest-uri}
     extra.commands: ${vars.default-commands} [
@@ -498,24 +493,33 @@ build += {
     ]
   }
 
-  // here we are using 4.x.  2.12 build is still on 3.x.
-  // see https://github.com/scala/community-builds/issues/685
   ${vars.base} {
     name: "specs2"
     uri:  ${vars.uris.specs2-uri}
-    // Modules were resolved with conflicting cross-version suffixes in
-    //   {file:/Users/tisue/community.213/target-0.9.11/project-builds/specs2-73b8958825279a634cea44807fa445c0413c6733/}analysisJVM:
-    //   org.scala-lang.modules:scala-xml _2.13.0-M3, _2.13
-    extra.settings: ${vars.base.extra.settings} [
-      "conflictWarning in ThisBuild := ConflictWarning.disable"
-    ]
     // I don't see a project that aggregates JVM-only stuff, so...
     extra.projects: [
       "analysisJVM", "commonJVM", "coreJVM", "examplesJVM", "fpJVM"
       "matcherExtraJVM", "matcherJVM", "mockJVM", "junitJVM"
-      "scalacheckJVM", "scalazJVM", "shapelessJVM"
+      "scalacheckJVM", "shapelessJVM"
     ]
     extra.commands: ${vars.default-commands} [
+      // makes a "configuration not public" error in specs2-scalaz go away.  I got the idea to
+      // try it by googling that phrase and finding https://github.com/sbt/sbt/pull/2345
+      "set every publishMavenStyle := false"
+      // too fragile
+      "removeScalacOptions -Xfatal-warnings"
+    ]
+  }
+
+  // build this separately so when scalaz fails it doesn't take
+  // out every specs2-using project downstream
+  ${vars.base} {
+    name: "specs2-scalaz"
+    uri:  ${vars.uris.specs2-uri}
+    extra.projects: ["scalazJVM"]
+    extra.commands: ${vars.default-commands} [
+      // not sure if necessary, but we have it in the specs entry, so let's have it here too
+      "set every publishMavenStyle := false"
       // too fragile
       "removeScalacOptions -Xfatal-warnings"
       // no longer exists in 2.13
@@ -524,6 +528,10 @@ build += {
       "set executeTests in junitJvm in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
       // java.lang.NoClassDefFoundError: scala/collection/parallel/Combiner
       "set executeTests in html in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+    ]
+    extra.exclude: [
+      // we already built these in "specs2"
+      "commonJVM", "coreJVM", "fpJVM", "matcherJVM"
     ]
   }
 
