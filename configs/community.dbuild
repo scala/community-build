@@ -227,9 +227,6 @@ build += {
     ]
   }
 
-  // frozen (June 2017) at an April 2017 commit; newer commits
-  // broke the scalacheck subproject of specs2.  see
-  // https://github.com/scala/community-builds/issues/712
   ${vars.base} {
     name: "scalacheck"
     uri:  ${vars.uris.scalacheck-uri}
@@ -662,6 +659,8 @@ build += {
     // recommended at https://github.com/twitter/util/issues/173:
     // "We use that when we don't think the tests will be reliable in a ci environment"
     extra.options: ["-DSKIP_FLAKY=true"]
+    // awaiting fix for https://github.com/twitter/util/issues/214
+    extra.run-tests: false
   }
 
   ${vars.base} {
@@ -864,6 +863,8 @@ build += {
     extra.commands: ${vars.default-commands} [
       "set unmanagedSourceDirectories in (argonautJVM, Compile) += baseDirectory.value / \"argonaut\" / \"shared\" / \"src\" / \"main\" / \"scala-2.12\""
     ]
+    // waiting for a fix on https://github.com/argonaut-io/argonaut/issues/298
+    extra.run-tests: false
   }
 
   ${vars.base} {
