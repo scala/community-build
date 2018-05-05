@@ -591,6 +591,8 @@ build += {
   }
 
   // dependency of scaladex
+  // frozen (May 2018) at an April 2018 commit before Kenji put in a dependency on
+  // the org.scala-lang.modules scalacheck
   ${vars.base} {
     name: "nscala-time"
     uri:  ${vars.uris.nscala-time-uri}
