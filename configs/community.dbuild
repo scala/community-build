@@ -224,14 +224,12 @@ build += {
     ]
   }
 
-  // using Lukas's 2.13-friendly fork
+  // using Lukas & Seth's 2.13-friendly fork
   ${vars.base} {
     name: "scalacheck"
     uri:  ${vars.uris.scalacheck-uri}
     extra.projects: ["jvm"]  // no Scala.js please
     extra.commands: ${vars.default-commands} [
-      // Lukas changed this in his fork, so we have to change it back
-      "set every organization := \"org.scalacheck\""
       // because of new unused warnings in 2.12.2
       "removeScalacOptions -Xfatal-warnings"
     ]
