@@ -864,8 +864,6 @@ build += {
     extra.commands: ${vars.default-commands} [
       "set unmanagedSourceDirectories in (argonautJVM, Compile) += baseDirectory.value / \"argonaut\" / \"shared\" / \"src\" / \"main\" / \"scala-2.12\""
     ]
-    // waiting for a fix on https://github.com/argonaut-io/argonaut/issues/298
-    extra.run-tests: false
   }
 
   ${vars.base} {
