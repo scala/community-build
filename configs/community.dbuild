@@ -680,6 +680,8 @@ build += {
       // TODO needs akka-testkit; reenable once akka-more is back in the build
       "metricsAkka25"
     ]
+    // waiting for a fix on https://github.com/argonaut-io/argonaut/issues/298
+    extra.run-tests: false
   }
 
   // forked (April 2018) because some classpath-handling code didn't
