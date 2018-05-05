@@ -177,8 +177,6 @@ build += {
       // work around https://github.com/scala/community-builds/issues/575
       // (in a community build context, we don't need MiMa to run)
       "set every ScalaModulePlugin.mimaPreviousVersion := None"
-      // Scaladoc generation fails because the wrong scala-xml version is used
-      "set publishArtifact in packageDoc in `scala-parser-combinatorsJVM` := false"
     ]
   }
 
@@ -195,8 +193,6 @@ build += {
     extra.commands: ${vars.default-commands} [
       // too fragile
       "removeScalacOptions -Xfatal-warnings"
-      // Scaladoc generation fails because the wrong scala-xml version is used
-      "set publishArtifact in packageDoc in stubs := false"
     ]
   }
 
@@ -238,8 +234,6 @@ build += {
       "set every organization := \"org.scalacheck\""
       // because of new unused warnings in 2.12.2
       "removeScalacOptions -Xfatal-warnings"
-      // Scaladoc generation fails because the wrong scala-xml version is used,
-      "set publishArtifact in packageDoc in jvm := false"
     ]
   }
 
@@ -248,14 +242,6 @@ build += {
     name: "scalatest"
     uri:  ${vars.uris.scalatest-uri}
     extra.projects: ["scalatest", "scalactic"]
-    // scala-xml issue: Modules were resolved with conflicting cross-version suffixes
-    extra.settings: ${vars.base.extra.settings} [
-      "conflictWarning in ThisBuild := ConflictWarning.disable"
-    ]
-    extra.commands: ${vars.default-commands} [
-      // Scaladoc generation fails because the wrong scala-xml version is used
-      "set publishArtifact in packageDoc in scalacticMacro := false"
-    ]
   }
 
   ${vars.base} {
@@ -264,8 +250,6 @@ build += {
     extra.commands: ${vars.default-commands} [
       // Deprecated optimizer settings
       "removeScalacOptions -Xfatal-warnings"
-      // Scaladoc generation fails because the wrong scala-xml version is used,
-      "set publishArtifact in packageDoc := false"
     ]
   }
 
@@ -297,10 +281,6 @@ build += {
     // [info] java.io.FileNotFoundException: Could not locate [~/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.0.jar].
     // January 2018: failure's continued existence confirmed
     extra.test-tasks: ["compile"]
-    // scala-xml issue: Modules were resolved with conflicting cross-version suffixes
-    extra.settings: ${vars.base.extra.settings} [
-      "conflictWarning in ThisBuild := ConflictWarning.disable"
-    ]
   }
 
   ${vars.base} {
@@ -316,10 +296,6 @@ build += {
   ${vars.base} {
     name: "scala-collection-compat"
     uri:  ${vars.uris.scala-collection-compat-uri}
-    extra.commands: ${vars.default-commands} [
-      // Scaladoc generation fails because the wrong scala-xml version is used,
-      "set publishArtifact in packageDoc := false"
-    ]
     extra.projects: ["scala-collection-compat"]  // no Scala.js plz
   }
 
@@ -347,19 +323,11 @@ build += {
       "coreJS"  // no Scala.js please
       "root"    // dbuild thinks it tries to publish root#root
     ]
-    // scala-xml issue: Modules were resolved with conflicting cross-version suffixes
-    extra.settings: ${vars.base.extra.settings} [
-      "conflictWarning in ThisBuild := ConflictWarning.disable"
-    ]
   }
 
   ${vars.base} {
     name: "genjavadoc"
     uri:  ${vars.uris.genjavadoc-uri}
-    // scala-xml issue: Modules were resolved with conflicting cross-version suffixes
-    extra.settings: ${vars.base.extra.settings} [
-      "conflictWarning in ThisBuild := ConflictWarning.disable"
-    ]
   }
 
   // forked (January 2018) because of regression (?) in interaction
@@ -383,8 +351,6 @@ build += {
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
-      // Scaladoc generation fails because the wrong scala-xml version is used,
-      "set publishArtifact in packageDoc := false"
     ]
   }
 
@@ -447,30 +413,18 @@ build += {
     uri:  ${vars.uris.simulacrum-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["coreJVM", "examplesJVM"] // no Scala.js please
-    // scala-xml issue: Modules were resolved with conflicting cross-version suffixes
-    extra.settings: ${vars.base.extra.settings} [
-      "conflictWarning in ThisBuild := ConflictWarning.disable"
-    ]
   }
 
   ${vars.base} {
     name: "machinist"
     uri:  ${vars.uris.machinist-uri}
     extra.projects: ["machinistJVM"]  // no Scala.js please
-    extra.commands: ${vars.default-commands} [
-      // Scaladoc generation fails because the wrong scala-xml version is used
-      "set publishArtifact in packageDoc in machinistJVM := false"
-    ]
   }
 
   ${vars.base} {
     name: "kind-projector"
     uri:  ${vars.uris.kind-projector-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.commands: ${vars.default-commands} [
-      // Scaladoc generation fails because the wrong scala-xml version is used
-      "set publishArtifact in packageDoc := false"
-    ]
   }
 
   ${vars.base} {
@@ -487,10 +441,6 @@ build += {
     // use scala-2.12 source directory for 2.13 too
     extra.commands: ${vars.default-commands} [
       "set unmanagedSourceDirectories in (core, Compile) += baseDirectory.value / \"core\" / \"src\" / \"main\" / \"scala-2.12\""
-    ]
-    // scala-xml issue: Modules were resolved with conflicting cross-version suffixes
-    extra.settings: ${vars.base.extra.settings} [
-      "conflictWarning in ThisBuild := ConflictWarning.disable"
     ]
   }
 
@@ -539,10 +489,6 @@ build += {
   ${vars.base} {
     name: "ssl-config"
     uri:  ${vars.uris.ssl-config-uri}
-    // scala-xml issue: Modules were resolved with conflicting cross-version suffixes
-    extra.settings: ${vars.base.extra.settings} [
-      "conflictWarning in ThisBuild := ConflictWarning.disable"
-    ]
     // repeated hangs during testing; see
     // https://github.com/scala/community-builds/issues/560
     extra.test-tasks: ["compile"]
@@ -611,10 +557,6 @@ build += {
   ${vars.base} {
     name: "scalaj-http"
     uri:  ${vars.uris.scalaj-http-uri}
-    extra.commands: ${vars.default-commands} [
-      // Scaladoc generation fails because the wrong scala-xml version is used
-      "set publishArtifact in packageDoc := false"
-    ]
     // https://github.com/scalaj/scalaj-http/issues/164
     extra.test-tasks: ["compile"]
   }
@@ -635,8 +577,6 @@ build += {
       // community build context, but without it, we get
       // java.lang.NoClassDefFoundError: org/hamcrest/SelfDescribing
       "set libraryDependencies in junit += \"org.hamcrest\" % \"hamcrest-core\" % \"1.3\" % \"test\""
-      // Scaladoc generation fails because the wrong scala-xml version is used,
-      "set publishArtifact in packageDoc in core := false"
     ]
   }
 
