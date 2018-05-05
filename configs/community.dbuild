@@ -320,6 +320,7 @@ build += {
       // Scaladoc generation fails because the wrong scala-xml version is used,
       "set publishArtifact in packageDoc := false"
     ]
+    extra.projects: ["scala-collection-compat"]  // no Scala.js plz
   }
 
   ${vars.base} {
