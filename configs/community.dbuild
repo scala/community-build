@@ -327,6 +327,7 @@ build += {
   ${vars.base} {
     name: "scala-collection-compat"
     uri:  ${vars.uris.scala-collection-compat-uri}
+    extra.projects: ["scala-collection-compat"]  // no Scala.js plz
   }
 
   ${vars.base} {
