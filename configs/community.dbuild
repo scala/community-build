@@ -301,6 +301,11 @@ build += {
     name: "scalaz"
     uri:  ${vars.uris.scalaz-uri}
     extra.projects: ["rootJVM"]  // no Scala.js please
+    deps.inject: ["org.scalacheck#scalacheck"]
+    check-missing: false  // ignore missing org.scala-lang.modules#scalacheck
+    extra.commands: ${vars.default-commands} [
+      "set every build.scalaCheckGroupId := \"org.scalacheck\""
+    ]
     extra.exclude: [
       // for now anyway we're on ScalaCheck 1.13 not 1.14
       "scalacheck-binding_1_13JVM"
