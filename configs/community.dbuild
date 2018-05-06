@@ -174,6 +174,7 @@ build += {
     uri:  ${vars.uris.scalacheck-uri}
     extra.projects: ["jvm"]  // no Scala.js please
     extra.commands: ${vars.default-commands} [
+      "removeScalacOptions -Yno-adapted-args"
       // because of new unused warnings in 2.12.2
       "removeScalacOptions -Xfatal-warnings"
     ]
@@ -276,10 +277,12 @@ build += {
   ${vars.base} {
     name: "scalaz"
     uri:  ${vars.uris.scalaz-uri}
+    deps.inject: ["org.scalacheck#scalacheck"]
+    check-missing: false  // ignore missing org.scala-lang.modules#scalacheck
     extra.projects: ["rootJVM"]  // no Scala.js please
-    extra.exclude: [
-      // for now anyway we're on ScalaCheck 1.13 not 1.14
-      "scalacheck-binding_1_13JVM"
+    extra.exclude: ["scalacheck-binding_1_13JVM"]  // we're on 1.14
+    extra.commands: ${vars.default-commands} [
+      "set every build.scalaCheckGroupId := \"org.scalacheck\""
     ]
   }
 
@@ -588,6 +591,7 @@ build += {
     uri:  ${vars.uris.scalaprops-uri}
     extra.projects: ["rootJVM"]  // no Scala.js please
     extra.commands: ${vars.default-commands} [
+      "removeScalacOptions -Yno-adapted-args"
       // new warnings from https://github.com/scala/scala/pull/5402
       "removeScalacOptions -Xfatal-warnings"
     ]
@@ -720,6 +724,9 @@ build += {
     // repeated hangs during testing; see
     // https://github.com/scala/community-builds/issues/560
     extra.test-tasks: ["compile"]
+    extra.commands: ${vars.default-commands} [
+      "removeScalacOptions -Yno-adapted-args"
+    ]
   }
 
   ${vars.base} {
