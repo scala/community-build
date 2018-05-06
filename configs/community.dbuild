@@ -1269,8 +1269,6 @@ build += {
     // actually run the whole thing as part of the community build?)
   }
 
-  // frozen (May 2018) at an April 2018 commit before a test failure was
-  // introduced; see https://github.com/pathikrit/better-files/issues/236
   ${vars.base} {
     name: "better-files"
     uri: ${vars.uris.better-files-uri}
