@@ -574,6 +574,19 @@ build += {
   }
 
   ${vars.base} {
+    name: "geny"
+    uri:  ${vars.uris.geny-uri}
+    extra.projects: ["genyJVM"]  // no Scala.js plz
+  }
+
+  // see also ammonite.
+  ${vars.base} {
+    name: "ammonite-ops"
+    uri:  ${vars.uris.ammonite-uri}
+    extra.projects: ["ops"]
+  }
+
+  ${vars.base} {
     name: "scala-logging"
     uri:  ${vars.uris.scala-logging-uri}
   }
@@ -1134,12 +1147,6 @@ build += {
   ${vars.base} {
     name: "scala-xml-quote"
     uri:  ${vars.uris.scala-xml-quote-uri}
-  }
-
-  ${vars.base} {
-    name: "geny"
-    uri:  ${vars.uris.geny-uri}
-    extra.projects: ["genyJVM"]  // no Scala.js plz
   }
 
   ${vars.base} {
@@ -1744,13 +1751,14 @@ build += {
     ]
   }
 
+  // see also ammonite-ops.
   // frozen (April 2018) at a March 2018 commit before a problematic upickle
   // upgrade; see also upickle
   ${vars.base} {
     name: "ammonite"
     uri:  ${vars.uris.ammonite-uri}
-    extra.projects: ["ops", "amm"]
-    //
+    extra.projects: ["amm"]
+    extra.exclude: ["ops"]  // we already built it in ammonite-ops entry
     extra.commands: ${vars.default-commands} [
       // the macroParadiseWorks test tries to retrieve a macro paradise for the Scala nightly
       // but of course none exists
