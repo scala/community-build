@@ -733,8 +733,6 @@ build += {
   }
 
   // dependency of giter8
-  // forked (May 2018) to use dbuild-friendly sbt-bintray version.
-  // we can unfork if https://github.com/bmc/classutil/pull/26 gets merged
   ${vars.base} {
     name: "classutil"
     uri:  ${vars.uris.classutil-uri}
