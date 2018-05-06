@@ -1303,6 +1303,9 @@ build += {
     name: "scalalib"
     uri:  ${vars.uris.scalalib-uri}
     extra.sbt-version: ${vars.sbt-1-version}
+    extra.commands: ${vars.default-commands} [
+      "removeScalacOptions -Yno-adapted-args"
+    ]
   }
 
   ${vars.base} {
