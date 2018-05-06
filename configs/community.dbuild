@@ -114,6 +114,7 @@ build += {
   {
     name: "cloc-plugin"
     uri:  "https://github.com/SethTisue/cloc-plugin.git"
+    extra.sbt-version: ${vars.sbt-1-version}
   }
   {
     name:  "scala"

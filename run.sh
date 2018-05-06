@@ -15,11 +15,6 @@ rm -rf target-*/extraction || true
 export LANG="en_US.UTF-8"
 export HOME="$(pwd)"
 
-function latestNightly() {
-  url='https://scala-ci.typesafe.com/job/scala-2.12.x-integrate-bootstrap/lastStableBuild/artifact/jenkins.properties/*view*/'
-  curl -f -s -L $url | grep ^version= | cut -d= -f2
-}
-
 # Defaults
 scala_version_default="2.12.7-bin-689cd08"  # 1 May 2018
 scala_version="$scala_version_default"
@@ -61,8 +56,7 @@ Examples:
   version=2.12.1-bin-933bab2 ./run.sh project1
   version=2.12.1-bin-933bab2 ./run.sh project1,project2,project3
 
-If no Scala version is specified, we use the last green run from
-   https://scala-ci.typesafe.com/job/scala-2.12.x-integrate-community-build/
+If no Scala version is specified, we use whatever's hardcoded in run.sh.
 "
   echo >&2 "$@"
   exit $ex
