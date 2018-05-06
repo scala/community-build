@@ -1263,6 +1263,8 @@ build += {
     // actually run the whole thing as part of the community build?)
   }
 
+  // frozen (May 2018) at an April 2018 commit.  some source-incompatible
+  // change (1886bc0daa71c8519, probably) broke sttp
   ${vars.base} {
     name: "better-files"
     uri: ${vars.uris.better-files-uri}
