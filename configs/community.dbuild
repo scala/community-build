@@ -587,6 +587,10 @@ build += {
     name: "scalalib"
     uri:  ${vars.uris.scalalib-uri}
     extra.sbt-version: ${vars.sbt-1-version}
+    extra.commands: ${vars.default-commands} [
+      // fragile -- particular spur to add this (May 2018) was 2.13's new procedure syntax deprecation
+      "removeScalacOptions -Xfatal-warnings"
+    ]
   }
 
   ${vars.base} {
