@@ -178,6 +178,23 @@ build += {
   projects: [
 
   ${vars.base} {
+    name: "scalacheck"
+    uri:  ${vars.uris.scalacheck-uri}
+    extra.projects: ["jvm"]  // no Scala.js please
+    extra.commands: ${vars.default-commands} [
+      // because of new unused warnings in 2.12.2
+      "removeScalacOptions -Xfatal-warnings"
+    ]
+  }
+
+  // see also scalatest-tests
+  ${vars.base} {
+    name: "scalatest"
+    uri:  ${vars.uris.scalatest-uri}
+    extra.projects: ["scalatest", "scalactic"]
+  }
+
+  ${vars.base} {
     name: "scala-parser-combinators"
     uri:  ${vars.uris.scala-parser-combinators-uri}
     extra.exclude: ["scala-parser-combinatorsJS"]
@@ -204,6 +221,77 @@ build += {
     ]
   }
 
+  // forked (May 2017) to make a trivial source change for 2.12.3 compat;
+  // see https://github.com/scalamacros/paradise/issues/98
+  ${vars.base} {
+    name: "macro-paradise"
+    uri:  ${vars.uris.macro-paradise-uri}
+  }
+
+  ${vars.base} {
+    name: "macro-compat"
+    uri:  ${vars.uris.macro-compat-uri}
+    // no Scala.js plz
+    extra.projects: ["testJVM"]
+  }
+
+  ${vars.base} {
+    name: "shapeless"
+    uri:  ${vars.uris.shapeless-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: ["coreJVM"]
+    extra.commands: ${vars.default-commands} [
+      // optimizer related (at the time it was added, hasn't been re-checked in a long time)
+      "removeScalacOptions -Xfatal-warnings"
+    ]
+  }
+
+  ${vars.base} {
+    name: "scala-collection-compat"
+    uri:  ${vars.uris.scala-collection-compat-uri}
+    extra.projects: ["scala-collection-compat"]  // no Scala.js plz
+  }
+
+  ${vars.base} {
+    name: "genjavadoc"
+    uri:  ${vars.uris.genjavadoc-uri}
+  }
+
+  ${vars.base} {
+    name: "kind-projector"
+    uri:  ${vars.uris.kind-projector-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+  }
+
+  ${vars.base} {
+    name: "specs2"
+    uri:  ${vars.uris.specs2-uri}
+    // I don't see a project that aggregates JVM-only stuff, so...
+    extra.projects: [
+      "analysisJVM", "commonJVM", "coreJVM", "examplesJVM", "fpJVM"
+      "matcherExtraJVM", "matcherJVM", "mockJVM", "junitJVM"
+      "scalacheckJVM", "shapelessJVM"
+    ]
+    extra.commands: ${vars.default-commands} [
+      // makes a "configuration not public" error in specs2-scalaz go away.  I got the idea to
+      // try it by googling that phrase and finding https://github.com/sbt/sbt/pull/2345
+      "set every publishMavenStyle := false"
+      // too fragile
+      "removeScalacOptions -Xfatal-warnings"
+    ]
+  }
+
+  ${vars.base} {
+    name: "scalaz"
+    uri:  ${vars.uris.scalaz-uri}
+    extra.projects: ["rootJVM"]  // no Scala.js please
+    extra.exclude: [
+      // for now anyway we're on ScalaCheck 1.13 not 1.14
+      "scalacheck-binding_1_13JVM"
+    ]
+  }
+
+  // see also scala-js-stubs.
   // if master proves difficult to track, the 0.6.x branch could be
   // used instead; see discussion at
   // https://github.com/scala/community-builds/issues/506
@@ -227,21 +315,47 @@ build += {
     ]
   }
 
+  // build this separately so when scalaz fails it doesn't take
+  // out every specs2-using project downstream
   ${vars.base} {
-    name: "scalacheck"
-    uri:  ${vars.uris.scalacheck-uri}
-    extra.projects: ["jvm"]  // no Scala.js please
+    name: "specs2-scalaz"
+    uri:  ${vars.uris.specs2-uri}
+    extra.projects: ["scalazJVM"]
     extra.commands: ${vars.default-commands} [
-      // because of new unused warnings in 2.12.2
+      // not sure if necessary, but we have it in the specs entry, so let's have it here too
+      "set every publishMavenStyle := false"
+      // too fragile
       "removeScalacOptions -Xfatal-warnings"
+    ]
+    extra.exclude: [
+      // we already built these in "specs2"
+      "commonJVM", "coreJVM", "fpJVM", "matcherJVM"
     ]
   }
 
-  // see also scalatest-tests
   ${vars.base} {
-    name: "scalatest"
-    uri:  ${vars.uris.scalatest-uri}
-    extra.projects: ["scalatest", "scalactic"]
+    name: "scala-java8-compat"
+    uri:  ${vars.uris.scala-java8-compat-uri}
+    extra.commands: ${vars.default-commands} [
+      // For some reason dbuild includes test sources in the javadocs, which trips up javadoc because
+      // we use "assert" as an identifier there. We disable doc building to avoid that.
+      "set publishArtifact in packageDoc := false"
+    ]
+  }
+
+  // frozen (affecting both akka-actor and akka-more) February 2018 at a February
+  // 2018 commit before a test regressed; reported upstream at
+  // https://github.com/akka/akka/pull/24484#issuecomment-369072274
+  ${vars.base} {
+    name: "akka-actor"
+    uri:  ${vars.uris.akka-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"]
+    extra.projects: ["akka-actor"]
+    extra.commands: ${vars.default-commands} [
+      // https://github.com/scala/community-builds/issues/373
+      "set every apiURL := None"
+    ]
   }
 
   // this is almost 1M lines of code, but it needn't be green (or be compiled at all)
@@ -295,49 +409,12 @@ build += {
   }
 
   ${vars.base} {
-    name: "shapeless"
-    uri:  ${vars.uris.shapeless-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
-    extra.projects: ["coreJVM"]
-    extra.commands: ${vars.default-commands} [
-      // optimizer related (at the time it was added, hasn't been re-checked in a long time)
-      "removeScalacOptions -Xfatal-warnings"
-    ]
-  }
-
-  ${vars.base} {
     name: "scoverage"
     uri:  ${vars.uris.scoverage-uri}
     extra.exclude: ["scalac-scoverage-runtimeJS"] // no Scala.js please
     // [info] java.io.FileNotFoundException: Could not locate [~/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.0.jar].
     // January 2018: failure's continued existence confirmed
     extra.test-tasks: ["compile"]
-  }
-
-  ${vars.base} {
-    name: "scala-java8-compat"
-    uri:  ${vars.uris.scala-java8-compat-uri}
-    extra.commands: ${vars.default-commands} [
-      // For some reason dbuild includes test sources in the javadocs, which trips up javadoc because
-      // we use "assert" as an identifier there. We disable doc building to avoid that.
-      "set publishArtifact in packageDoc := false"
-    ]
-  }
-
-  ${vars.base} {
-    name: "scala-collection-compat"
-    uri:  ${vars.uris.scala-collection-compat-uri}
-    extra.projects: ["scala-collection-compat"]  // no Scala.js plz
-  }
-
-  ${vars.base} {
-    name: "scalaz"
-    uri:  ${vars.uris.scalaz-uri}
-    extra.projects: ["rootJVM"]  // no Scala.js please
-    extra.exclude: [
-      // for now anyway we're on ScalaCheck 1.13 not 1.14
-      "scalacheck-binding_1_13JVM"
-    ]
   }
 
   ${vars.base} {
@@ -359,26 +436,6 @@ build += {
     extra.exclude: [
       "coreJS"  // no Scala.js please
       "root"    // dbuild thinks it tries to publish root#root
-    ]
-  }
-
-  ${vars.base} {
-    name: "genjavadoc"
-    uri:  ${vars.uris.genjavadoc-uri}
-  }
-
-  // frozen (affecting both akka-actor and akka-more) February 2018 at a February
-  // 2018 commit before a test regressed; reported upstream at
-  // https://github.com/akka/akka/pull/24484#issuecomment-369072274
-  ${vars.base} {
-    name: "akka-actor"
-    uri:  ${vars.uris.akka-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
-    extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"]
-    extra.projects: ["akka-actor"]
-    extra.commands: ${vars.default-commands} [
-      // https://github.com/scala/community-builds/issues/373
-      "set every apiURL := None"
     ]
   }
 
@@ -485,13 +542,6 @@ build += {
   }
 
   ${vars.base} {
-    name: "utest"
-    uri:  ${vars.uris.utest-uri}
-    // no Scala.js plz
-    extra.projects: ["utestJVM"]
-  }
-
-  ${vars.base} {
     name: "acyclic"
     uri:  ${vars.uris.acyclic-uri}
   }
@@ -501,6 +551,13 @@ build += {
     uri:  ${vars.uris.sourcecode-uri}
     // no Scala.js plz
     extra.projects: ["sourcecodeJVM"]
+  }
+
+  ${vars.base} {
+    name: "utest"
+    uri:  ${vars.uris.utest-uri}
+    // no Scala.js plz
+    extra.projects: ["utestJVM"]
   }
 
   ${vars.base} {
@@ -514,20 +571,6 @@ build += {
       // too prone to unexplained failure
       "set executeTests in scalaparseJVM in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
     ]
-  }
-
-  // forked (May 2017) to make a trivial source change for 2.12.3 compat;
-  // see https://github.com/scalamacros/paradise/issues/98
-  ${vars.base} {
-    name: "macro-paradise"
-    uri:  ${vars.uris.macro-paradise-uri}
-  }
-
-  ${vars.base} {
-    name: "macro-compat"
-    uri:  ${vars.uris.macro-compat-uri}
-    // no Scala.js plz
-    extra.projects: ["testJVM"]
   }
 
   ${vars.base} {
@@ -619,12 +662,6 @@ build += {
   }
 
   ${vars.base} {
-    name: "kind-projector"
-    uri:  ${vars.uris.kind-projector-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
-  }
-
-  ${vars.base} {
     name: "discipline"
     uri:  ${vars.uris.discipline-uri}
     extra.projects: ["disciplineJVM"]  // no Scala.js please
@@ -676,42 +713,6 @@ build += {
     uri:  ${vars.uris.mouse-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["crossJVM"]  // no Scala.js please
-  }
-
-  ${vars.base} {
-    name: "specs2"
-    uri:  ${vars.uris.specs2-uri}
-    // I don't see a project that aggregates JVM-only stuff, so...
-    extra.projects: [
-      "analysisJVM", "commonJVM", "coreJVM", "examplesJVM", "fpJVM"
-      "matcherExtraJVM", "matcherJVM", "mockJVM", "junitJVM"
-      "scalacheckJVM", "shapelessJVM"
-    ]
-    extra.commands: ${vars.default-commands} [
-      // makes a "configuration not public" error in specs2-scalaz go away.  I got the idea to
-      // try it by googling that phrase and finding https://github.com/sbt/sbt/pull/2345
-      "set every publishMavenStyle := false"
-      // too fragile
-      "removeScalacOptions -Xfatal-warnings"
-    ]
-  }
-
-  // build this separately so when scalaz fails it doesn't take
-  // out every specs2-using project downstream
-  ${vars.base} {
-    name: "specs2-scalaz"
-    uri:  ${vars.uris.specs2-uri}
-    extra.projects: ["scalazJVM"]
-    extra.commands: ${vars.default-commands} [
-      // not sure if necessary, but we have it in the specs entry, so let's have it here too
-      "set every publishMavenStyle := false"
-      // too fragile
-      "removeScalacOptions -Xfatal-warnings"
-    ]
-    extra.exclude: [
-      // we already built these in "specs2"
-      "commonJVM", "coreJVM", "fpJVM", "matcherJVM"
-    ]
   }
 
   ${vars.base} {
