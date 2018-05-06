@@ -703,6 +703,57 @@ build += {
     extra.projects: ["baseJVM", "effectJVM", "metaJVM"]
   }
 
+  // dependency of giter8
+  // forked May 2018 because giter8 uses a version (2.1.2) that's source-incompatible.
+  // so we forked off the release-2.1.4 tag.
+  // our fork also has a commit to use a dbuild-friendly sbt-bintray version.
+  // (I submitted that change upstream, to master, but having it on master doesn't help us here.)
+  ${vars.base} {
+    name: "scalasti"
+    uri:  ${vars.uris.scalasti-uri}
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
+    // we really just want scalasti because it's a dependency of giter8, so
+    // this doesn't seem worth troubleshooting:
+    // [scalasti] [error] Failed tests:
+    // [scalasti] [error]       org.clapper.scalasti.StringTemplateSpec
+    extra.test-tasks: ["compile"]
+  }
+
+  // dependency of giter8
+  ${vars.base} {
+    name: "grizzled"
+    uri:  ${vars.uris.grizzled-uri}
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
+  }
+
+  // dependency of giter8
+  // forked (May 2018) to use dbuild-friendly sbt-bintray version.
+  // we can unfork if https://github.com/bmc/classutil/pull/26 gets merged
+  ${vars.base} {
+    name: "classutil"
+    uri:  ${vars.uris.classutil-uri}
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
+  }
+
+  ${vars.base} {
+    name: "giter8"
+    uri:  ${vars.uris.giter8-uri}
+    extra.exclude: ["plugin", "scaffold"]  // these are sbt plugins
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
+  }
+
 ]}
 
 //// space: jawn_0_10
