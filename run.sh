@@ -15,8 +15,6 @@ rm -rf target-*/extraction || true
 export LANG="en_US.UTF-8"
 export HOME="$(pwd)"
 
-# TODO this doesn't work now that we bootstrap and publish using
-# Travis-CI not Jenkins. so for now we hardcode scala_version_default below
 function latestNightly() {
   url='https://scala-ci.typesafe.com/job/scala-2.13.x-integrate-bootstrap/lastStableBuild/artifact/jenkins.properties/*view*/'
   curl -f -s -L $url | grep ^version= | cut -d= -f2
