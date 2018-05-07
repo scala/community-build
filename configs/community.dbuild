@@ -79,6 +79,8 @@ set commands ++= {
 }
 """
 vars.default-commands += "appendScalacOptions "${vars.scalac-opts}
+vars.default-commands += "removeScalacOptions -Yno-adapted-args"
+
 vars.base.extra.commands = ${vars.default-commands}
 
 //// count lines of code
@@ -174,7 +176,6 @@ build += {
     uri:  ${vars.uris.scalacheck-uri}
     extra.projects: ["jvm"]  // no Scala.js please
     extra.commands: ${vars.default-commands} [
-      "removeScalacOptions -Yno-adapted-args"
       // because of new unused warnings in 2.12.2
       "removeScalacOptions -Xfatal-warnings"
     ]
@@ -591,7 +592,6 @@ build += {
     uri:  ${vars.uris.scalaprops-uri}
     extra.projects: ["rootJVM"]  // no Scala.js please
     extra.commands: ${vars.default-commands} [
-      "removeScalacOptions -Yno-adapted-args"
       // new warnings from https://github.com/scala/scala/pull/5402
       "removeScalacOptions -Xfatal-warnings"
     ]
@@ -724,9 +724,6 @@ build += {
     // repeated hangs during testing; see
     // https://github.com/scala/community-builds/issues/560
     extra.test-tasks: ["compile"]
-    extra.commands: ${vars.default-commands} [
-      "removeScalacOptions -Yno-adapted-args"
-    ]
   }
 
   ${vars.base} {
@@ -1303,9 +1300,6 @@ build += {
     name: "scalalib"
     uri:  ${vars.uris.scalalib-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.commands: ${vars.default-commands} [
-      "removeScalacOptions -Yno-adapted-args"
-    ]
   }
 
   ${vars.base} {
