@@ -79,6 +79,7 @@ set commands ++= {
 }
 """
 vars.default-commands += "appendScalacOptions "${vars.scalac-opts}
+vars.default-commands += "removeScalacOptions -Xfatal-warnings"
 vars.base.extra.commands = ${vars.default-commands}
 
 //// count lines of code
@@ -182,10 +183,6 @@ build += {
     name: "scalacheck"
     uri:  ${vars.uris.scalacheck-uri}
     extra.projects: ["jvm"]  // no Scala.js please
-    extra.commands: ${vars.default-commands} [
-      // because of new unused warnings in 2.12.2
-      "removeScalacOptions -Xfatal-warnings"
-    ]
   }
 
   // see also scalatest-tests
@@ -216,10 +213,6 @@ build += {
     name: "scala-js-stubs"
     uri:  ${vars.uris.scala-js-stubs-uri}
     extra.projects: ["stubs"]
-    extra.commands: ${vars.default-commands} [
-      // too fragile
-      "removeScalacOptions -Xfatal-warnings"
-    ]
   }
 
   // forked (May 2017) to make a trivial source change for 2.12.3 compat;
@@ -241,10 +234,6 @@ build += {
     uri:  ${vars.uris.shapeless-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["coreJVM"]
-    extra.commands: ${vars.default-commands} [
-      // optimizer related (at the time it was added, hasn't been re-checked in a long time)
-      "removeScalacOptions -Xfatal-warnings"
-    ]
   }
 
   ${vars.base} {
@@ -277,8 +266,6 @@ build += {
       // makes a "configuration not public" error in specs2-scalaz go away.  I got the idea to
       // try it by googling that phrase and finding https://github.com/sbt/sbt/pull/2345
       "set every publishMavenStyle := false"
-      // too fragile
-      "removeScalacOptions -Xfatal-warnings"
     ]
   }
 
@@ -303,8 +290,6 @@ build += {
     // exclude it here because we build it separately in scala-js-stubs
     extra.exclude: ["stubs"]
     extra.commands: ${vars.default-commands} [
-      // - Disable fatal Scaladoc warnings, too fragile
-      "removeScalacOptions -Xfatal-warnings"
       // - We disable source map tests to save ourselves a `npm install source-map-support` on the workers.
       //   Although only `testSuite` actually has tests, dbuild will try to run the tests for all projects
       //   that `testSuite` depends on (transitively), so we need to set it in a bunch of places.
@@ -322,8 +307,6 @@ build += {
     extra.commands: ${vars.default-commands} [
       // not sure if necessary, but we have it in the specs entry, so let's have it here too
       "set every publishMavenStyle := false"
-      // too fragile
-      "removeScalacOptions -Xfatal-warnings"
     ]
     extra.exclude: [
       // we already built these in "specs2"
@@ -379,10 +362,6 @@ build += {
   ${vars.base} {
     name: "scala-partest"
     uri:  ${vars.uris.scala-partest-uri}
-    extra.commands: ${vars.default-commands} [
-      // Deprecated optimizer settings
-      "removeScalacOptions -Xfatal-warnings"
-    ]
   }
 
   ${vars.base} {
@@ -593,10 +572,6 @@ build += {
     name: "scalaprops"
     uri:  ${vars.uris.scalaprops-uri}
     extra.projects: ["rootJVM"]  // no Scala.js please
-    extra.commands: ${vars.default-commands} [
-      // new warnings from https://github.com/scala/scala/pull/5402
-      "removeScalacOptions -Xfatal-warnings"
-    ]
     check-missing: false  // ignore missing scalafmt
   }
 
@@ -632,10 +607,6 @@ build += {
     // using deps.ignore doesn't fix it either. not sure how else to fix it
     // other than just enumerating what we want:
     extra.projects: ["coreJVM", "freeJVM", "kernelJVM", "kernelLawsJVM", "lawsJVM", "macrosJVM", "testsJVM"]
-    extra.commands: ${vars.default-commands} [
-      // too fragile
-      "removeScalacOptions -Xfatal-warnings"
-    ]
     // tests are memory-hungry
     extra.options: ["-Xmx2048m"]
   }
@@ -737,9 +708,6 @@ build += {
   ${vars.base} {
     name: "pcplod"
     uri:  ${vars.uris.pcplod-uri}
-    extra.commands: ${vars.default-commands} [
-      "removeScalacOptions -Xfatal-warnings"
-    ]
   }
 
   ${vars.base} {
@@ -783,10 +751,6 @@ build += {
     name: "play-ws"
     uri:  ${vars.uris.play-ws-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.commands: ${vars.default-commands} [
-      // new warnings from https://github.com/scala/scala/pull/5402
-      "removeScalacOptions -Xfatal-warnings"
-    ]
     // NullPointerException in CachingSpec
     // (https://github.com/scala/community-builds/issues/564)
     extra.exclude: ["integration-tests"]
@@ -878,10 +842,6 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
     // try to enable more subprojects?
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM", "genericJVM"]
-    extra.commands: ${vars.default-commands} [
-      // too fragile (immediate cause, April 2018: new deprecation in scalaz 7.2)
-      "removeScalacOptions -Xfatal-warnings"
-    ]
   }
 
   // frozen (March 2018) at a March 2018 commit before an sbt-catalysts version
@@ -890,10 +850,6 @@ build += {
     name: "catalysts"
     uri:  ${vars.uris.catalysts-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.commands: ${vars.default-commands} [
-      // too fragile
-      "removeScalacOptions -Xfatal-warnings"
-    ]
     // other projects aren't pertinent or errored out (not investigated)
     extra.projects: ["specbaseJVM", "lawkitJVM", "scalatestJVM", "macrosJVM", "platformJVM", "testkitJVM"]
   }
@@ -930,11 +886,6 @@ build += {
     // we're lying and telling it Java 8 is Java 7, but in this context
     // the lie isn't important
     extra.options: ["-Djava7.home="${JAVA_HOME}]
-    // December 2017: some code runs afoul of the new PartialFunction.apply
-    // deprecation we added for 2.12.5
-    extra.commands: ${vars.default-commands} [
-      "removeScalacOptions -Xfatal-warnings"
-    ]
   }
 
   ${vars.base} {
@@ -971,9 +922,6 @@ build += {
   ${vars.base} {
     name: "scala-refactoring"
     uri:  ${vars.uris.scala-refactoring-uri}
-    extra.commands: ${vars.default-commands} [
-      "removeScalacOptions -Xfatal-warnings"  // too fragile
-    ]
   }
 
   ${vars.base} {
@@ -997,10 +945,6 @@ build += {
     // no Scala.js, no benchmarks.
     // (but also, perhaps this excludes more stuff than necessary?)
     extra.projects: ["coreJVM"]
-    extra.commands: ${vars.default-commands} [
-      // currently (January 2018) runs afoul of PartialFunction.apply deprecation in 2.12.5
-      "removeScalacOptions -Xfatal-warnings"
-    ]
   }
 
   // Conductr is now moribund, so this can be removed if it acts up.
@@ -1065,10 +1009,6 @@ build += {
       // no Scala.js
       "catsJS", "coreJS", "scalaz72JS", "testsJS"
     ]
-    extra.commands: ${vars.default-commands} [
-      // new warnings from https://github.com/scala/scala/pull/5402
-      "removeScalacOptions -Xfatal-warnings"
-    ]
   }
 
   ${vars.base} {
@@ -1112,10 +1052,6 @@ build += {
     name: "algebra"
     uri:  ${vars.uris.algebra-uri}
     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js, no benchmarks, no docs
-    extra.commands: ${vars.default-commands} [
-      // new warnings from https://github.com/scala/scala/pull/5402
-      "removeScalacOptions -Xfatal-warnings"
-    ]
   }
 
   ${vars.base} {
@@ -1126,7 +1062,6 @@ build += {
     // by https://github.com/scala/scala/pull/5402 ; probably they'll fix it upstream
     // after 2.12.2 comes out
     extra.commands: ${vars.default-commands} [
-      "removeScalacOptions -Xfatal-warnings"
       "set every bintrayReleaseOnPublish := false"
     ]
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
@@ -1240,9 +1175,6 @@ build += {
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
-      // added April 2018 because of the floating point Range deprecation in
-      // 2.12.6. we might try re-enabling at some point
-      "removeScalacOptions -Xfatal-warnings"
     ]
   }
 
@@ -1268,8 +1200,6 @@ build += {
     uri: ${vars.uris.better-files-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.commands: ${vars.default-commands} [
-      // because of new inferred-Any warnings in 2.12.4 (PR 5990)
-      "removeScalacOptions -Xfatal-warnings"
       // keep scalafmtSbtCheck from complaining about code dbuild injects
       "set checkFormat := {}"
     ]
@@ -1873,10 +1803,6 @@ build += {
   ${vars.base} {
     name: "jawn-fs2"
     uri:  ${vars.uris.jawn-fs2-uri}
-    extra.commands: ${vars.default-commands} [
-      // too fragile
-      "removeScalacOptions -Xfatal-warnings"
-    ]
   }
 
   // dependency of http4s (it's their fork of parboiled2)
@@ -1898,8 +1824,6 @@ build += {
     uri:  ${vars.uris.http4s-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.commands: ${vars.default-commands} [
-      // too fragile
-      "removeScalacOptions -Xfatal-warnings"
       // Failed tests: org.http4s.CookieSpec, org.http4s.EntityDecoderSpec
       "set executeTests in tests in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
     ]
@@ -1930,10 +1854,6 @@ build += {
     name: "circe-config"
     uri:  ${vars.uris.circe-config-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.commands: ${vars.default-commands} [
-      // too fragile
-      "removeScalacOptions -Xfatal-warnings"
-    ]
   }
 
   # forked (November 2017, refreshed January 2018) to remove a build.sbt thing that
@@ -1950,8 +1870,6 @@ build += {
     extra.commands: ${vars.default-commands} [
       // not sure why we get these errors unless we turn them off
       "set every conflictWarning := ConflictWarning.disable"
-      // - Disable fatal Scaladoc warnings, too fragile
-      "removeScalacOptions -Xfatal-warnings"
     ]
   }
 
@@ -1967,8 +1885,6 @@ build += {
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
-      // - Disable fatal Scaladoc warnings, too fragile
-      "removeScalacOptions -Xfatal-warnings"
     ]
   }
 
@@ -2040,8 +1956,6 @@ build += {
       "benchmarks"
     ]
     extra.commands: ${vars.default-commands} [
-      // Disable fatal Scaladoc warnings, too fragile
-      "removeScalacOptions -Xfatal-warnings"
       // use right version-specific source directories regardless of our weird dbuild Scala version numbers
       "set unmanagedSourceDirectories in (commonJVM, Compile) += (baseDirectory in commonJVM).value / \"src\" / \"main\" / \"scala-2.12\""
       "set unmanagedSourceDirectories in (dialectsJVM, Compile) += (baseDirectory in dialectsJVM).value / \"src\" / \"main\" / \"scala-2.12\""
