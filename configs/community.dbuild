@@ -1577,6 +1577,7 @@ build += {
   ${vars.base} {
     name: "multibot"
     uri:  ${vars.uris.multibot-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     // linter isn't essential to the build
     deps.ignore: ["org.psywerx.hairyfotr#linter"]
     check-missing: false
