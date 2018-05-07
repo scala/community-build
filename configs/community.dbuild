@@ -1544,6 +1544,41 @@ build += {
     ]
   }
 
+  ${vars.base} {
+    name: "spire"
+    uri:  ${vars.uris.spire-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    // hopefully avoid intermittent OutOfMemoryErrors during compilation
+    extra.options: ["-Xmx2560m"]
+    extra.projects: ["spireJVM"]  // no Scala.js please
+  }
+
+  ${vars.base} {
+    name: "breeze"
+    uri:  ${vars.uris.breeze-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    // spire moved from org.spire to org.typelevel but breeze hasn't
+    // changed their dependency yet
+    deps.ignore: ["org.spire-math#spire"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#spire"]
+    check-missing: false
+    // tests don't compile, could be a ScalaCheck 1.13 vs 1.14 thing?
+    // see https://github.com/scala/community-builds/pull/722
+    extra.run-tests: false
+  }
+
+  // OlegYch's fork hangs out in scala/scala (Gitter) and #scala (IRC)
+  ${vars.base} {
+    name: "multibot"
+    uri:  ${vars.uris.multibot-uri}
+    // linter isn't essential to the build
+    deps.ignore: ["org.psywerx.hairyfotr#linter"]
+    check-missing: false
+    // testScalaInterpreter fails with a java.lang.SecurityException;
+    // see https://github.com/scala/community-builds/pull/722
+    extra.test-tasks: ["compile"]
+  }
+
 ]}
 
 //// space: jawn_0_10
