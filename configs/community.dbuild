@@ -447,12 +447,10 @@ build += {
       "-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false"
       "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
     ]
-    // Scaladoc generation failure reported upstream at https://github.com/akka/akka/issues/21543
     extra.commands: ${vars.default-commands} [
-      "set sources in doc in Compile in httpCore := List()"
       "set every bintrayReleaseOnPublish := false"
-      // sbt-osgi doesn't like dbuild-mangled version numbers
-      "set every OsgiKeys.bundleVersion := \"10.0.0\""
+      // Scaladoc generation failure reported upstream at https://github.com/akka/akka/issues/21543
+      "set sources in doc in Compile in httpCore := List()"
     ]
     // "HTTP is sadly very timing sensitive we're working on improving its stability regularly,
     // OK to disable it for now." - Konrad M, October 2016
