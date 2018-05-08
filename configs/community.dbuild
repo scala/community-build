@@ -1575,9 +1575,6 @@ build += {
     // linter isn't essential to the build
     deps.ignore: ["org.psywerx.hairyfotr#linter"]
     check-missing: false
-    // testScalaInterpreter fails with a java.lang.SecurityException;
-    // see https://github.com/scala/community-builds/pull/722
-    extra.test-tasks: ["compile"]
   }
 
 ]}
