@@ -324,6 +324,10 @@ build += {
     ]
   }
 
+  // frozen (May 2018) at a May 2018 commit just because the project is volatile (very frequent
+  // commits) and when it needs to be rebuilt, the testing takes a long time (especially akka-more)
+  // and the downstream rebuilding takes a long time too.  we should move the SHA forward every
+  // few weeks or so
   ${vars.base} {
     name: "akka-actor"
     uri:  ${vars.uris.akka-uri}
