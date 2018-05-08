@@ -1565,12 +1565,16 @@ build += {
     deps.ignore: ["org.spire-math#spire"]
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#spire"]
     check-missing: false
+    // tests don't compile, could be a ScalaCheck 1.13 vs 1.14 thing?
+    // see https://github.com/scala/community-builds/pull/722
+    extra.run-tests: false
   }
 
   // OlegYch's fork hangs out in scala/scala (Gitter) and #scala (IRC)
   ${vars.base} {
     name: "multibot"
     uri:  ${vars.uris.multibot-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     // linter isn't essential to the build
     deps.ignore: ["org.psywerx.hairyfotr#linter"]
     check-missing: false
