@@ -711,7 +711,9 @@ build += {
   ${vars.base} {
     name: "scalikejdbc"
     uri:  ${vars.uris.scalikejdbc-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
+    // 1.1.5 gives SOE in typer when compiling build definition.
+    // I told the sbt folks about it on Slack.
+    extra.sbt-version: "1.1.4"
     // don't build sbt plugin
     extra.exclude: ["mapper-generator"]
   }
