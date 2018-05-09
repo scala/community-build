@@ -891,6 +891,7 @@ build += {
   ${vars.base} {
     name: "scalameter"
     uri:  ${vars.uris.scalameter-uri}
+    extra.sbt-version: ${vars.sbt-version}
     check-missing: false
     deps.ignore: [
       // doesn't support 2.12 (yet?)
@@ -1339,6 +1340,7 @@ build += {
   ${vars.base} {
     name: "paradox"
     uri:  ${vars.uris.paradox-uri}
+    extra.sbt-version: ${vars.sbt-version}
     extra.exclude: ["plugin", "themePlugin", "genericTheme"]
   }
 
