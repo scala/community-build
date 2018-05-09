@@ -708,12 +708,13 @@ build += {
     uri:  ${vars.uris.pcplod-uri}
   }
 
+  // currently to avoid a stack overflow on 1.1.5+2.12.6 they are overriding
+  // sbt's scala version to 2.12.4.  I have suggested they increase -Xss
+  // instead (https://github.com/scalikejdbc/scalikejdbc/pull/874).  if they
+  // take that suggestion, we may need to make the change here, too
   ${vars.base} {
     name: "scalikejdbc"
     uri:  ${vars.uris.scalikejdbc-uri}
-    // 1.1.5 gives SOE in typer when compiling build definition.
-    // I told the sbt folks about it on Slack.
-    extra.sbt-version: "1.1.4"
     // don't build sbt plugin
     extra.exclude: ["mapper-generator"]
   }
