@@ -958,8 +958,8 @@ build += {
       // Conductr is now moribund, so not worth messing with it.
       "lagom13JavaConductRBundleLib", "lagom13ScalaConductRBundleLib"
       "lagom14JavaConductRBundleLib", "lagom14ScalaConductRBundleLib"
-      // didn't compile (July 2017)
-      "akka24ConductRClientLib"
+      // didn't compile (July 2017 / May 2018)
+      "akka24ConductRClientLib", "akka24Common"
       // Play stuff didn't work, maybe try again later?
       "play25ConductRBundleLib", "play25ConductRClientLib", "play25Common"
       "play26ConductRBundleLib", "play26ConductRClientLib", "play26Common"
