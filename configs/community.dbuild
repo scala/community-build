@@ -52,35 +52,55 @@ vars {
 
 //// compiler options manipulation
 
-// appendScalacOptions and removeScalacOptions
+// appendScalacOptions, removeScalacOptions, removeMacroParadise
 // let us work around https://github.com/lightbend/dbuild/issues/144
 vars.default-commands += """
 set commands ++= {
-  def alterScalacOptions(s: State, fn: Seq[String] => Seq[String]): State = {
+  // TODO: maybe Eugene & Dale could help eliminate the copy-and-paste
+  // between alterSetting and alterTask...?
+  def alterSetting[T](s: State, setting: SettingKey[T])(fn: T => T): State = {
     val extracted = Project extract s
     import extracted._
     val r = Project.relation(extracted.structure, true)
     val allDefs = r._1s.toSeq
-    val scopes = allDefs.filter(_.key == scalacOptions.key).map(_.scope).distinct
-    val redefined = scopes.map(scope => scalacOptions in scope ~= fn)
+    val scopes = allDefs.filter(_.key == setting.key).map(_.scope).distinct
+    val redefined = scopes.map(scope => setting in scope ~= fn)
     val session = extracted.session.appendRaw(redefined)
     BuiltinCommands.reapply(session, structure, s)
   }
-  def appendScalacOptions(s: State, args: Seq[String]) = {
+  def alterTask[T](s: State, task: TaskKey[T])(fn: T => T): State = {
+    val extracted = Project extract s
+    import extracted._
+    val r = Project.relation(extracted.structure, true)
+    val allDefs = r._1s.toSeq
+    val scopes = allDefs.filter(_.key == task.key).map(_.scope).distinct
+    val redefined = scopes.map(scope => task in scope ~= fn)
+    val session = extracted.session.appendRaw(redefined)
+    BuiltinCommands.reapply(session, structure, s)
+  }
+  def appendScalacOptions(s: State, args: Seq[String]): State = {
     def appendDistinct[A](x: Seq[A], y: Seq[A]) =
       x.filterNot(y.contains) ++ y
-    alterScalacOptions(s, appendDistinct(_, args))
+    alterTask(s, scalacOptions)(appendDistinct(_, args))
   }
-  def removeScalacOptions(s: State, args: Seq[String]) =
-    alterScalacOptions(s, _.filterNot(args.contains))
+  def removeScalacOptions(s: State, args: Seq[String]): State =
+    alterTask(s, scalacOptions)(_.filterNot(args.contains))
+  def removeMacroParadise(s: State, args: Seq[String]): State = {
+    require(args.isEmpty)
+    alterSetting(s, libraryDependencies)(
+      _.filterNot(mod => mod.organization == "org.scalamacros" && mod.name == "paradise"))
+  }
   Seq(
     Command.args("appendScalacOptions", "<option>")(appendScalacOptions),
-    Command.args("removeScalacOptions", "<option>")(removeScalacOptions))
+    Command.args("removeScalacOptions", "<option>")(removeScalacOptions),
+    Command.args("removeMacroParadise", "<option>")(removeMacroParadise))
 }
 """
 vars.default-commands += "appendScalacOptions "${vars.scalac-opts}
 vars.default-commands += "removeScalacOptions -Yno-adapted-args"
 vars.default-commands += "removeScalacOptions -Xfatal-warnings"
+vars.default-commands += "appendScalacOptions -Ymacro-annotations"
+vars.default-commands += "removeMacroParadise"
 vars.base.extra.commands = ${vars.default-commands}
 
 //// count lines of code
@@ -205,13 +225,6 @@ build += {
     name: "scala-js-stubs"
     uri:  ${vars.uris.scala-js-stubs-uri}
     extra.projects: ["stubs"]
-  }
-
-  // forked (May 2017) to make a trivial source change for 2.12.3 compat;
-  // see https://github.com/scalamacros/paradise/issues/98
-  ${vars.base} {
-    name: "macro-paradise"
-    uri:  ${vars.uris.macro-paradise-uri}
   }
 
   ${vars.base} {
