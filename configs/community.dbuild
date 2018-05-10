@@ -324,10 +324,13 @@ build += {
     ]
   }
 
-  // frozen (May 2018) at a May 2018 commit just because the project is volatile (very frequent
-  // commits) and when it needs to be rebuilt, the testing takes a long time (especially akka-more)
-  // and the downstream rebuilding takes a long time too.  we should move the SHA forward every
-  // few weeks or so
+  // frozen (May 2018) at a commit not long after v2.5.11 in order
+  // to pull in https://github.com/akka/akka/pull/24632 since otherwise
+  // a test fails.  (and using v2.5.12 doesn't work because of
+  // https://github.com/playframework/playframework/issues/8404)
+  // note that this repo is volatile (very frequent  commits) and when it needs to be rebuilt,
+  // the testing takes a long time (especially akka-more) and the downstream rebuilding takes
+  // a long time too.  so in general we want to use a tag or SHA rather than track master
   ${vars.base} {
     name: "akka-actor"
     uri:  ${vars.uris.akka-uri}
