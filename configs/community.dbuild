@@ -334,10 +334,13 @@ build += {
     ]
   }
 
-  // frozen (May 2018) at a May 2018 commit just because the project is volatile (very frequent
-  // commits) and when it needs to be rebuilt, the testing takes a long time (especially akka-more)
-  // and the downstream rebuilding takes a long time too.  we should move the SHA forward every
-  // few weeks or so
+  // frozen (May 2018) at a commit not long after v2.5.11 in order
+  // to pull in https://github.com/akka/akka/pull/24632 since otherwise
+  // a test fails.  (and using v2.5.12 doesn't work because of
+  // https://github.com/playframework/playframework/issues/8404)
+  // note that this repo is volatile (very frequent  commits) and when it needs to be rebuilt,
+  // the testing takes a long time (especially akka-more) and the downstream rebuilding takes
+  // a long time too.  so in general we want to use a tag or SHA rather than track master
   ${vars.base} {
     name: "akka-actor"
     uri:  ${vars.uris.akka-uri}
@@ -718,12 +721,14 @@ build += {
     uri:  ${vars.uris.pcplod-uri}
   }
 
+  // currently to avoid a stack overflow on 1.1.5+2.12.6 they are overriding
+  // sbt's scala version to 2.12.4.  I have suggested they increase -Xss
+  // instead (https://github.com/scalikejdbc/scalikejdbc/pull/874).  if they
+  // take that suggestion, we may need to make the change here, too
   ${vars.base} {
     name: "scalikejdbc"
     uri:  ${vars.uris.scalikejdbc-uri}
-    // 1.1.5 gives SOE in typer when compiling build definition.
-    // I told the sbt folks about it on Slack.
-    extra.sbt-version: "1.1.4"
+    extra.sbt-version: ${vars.sbt-1-version}
     // don't build sbt plugin
     extra.exclude: ["mapper-generator"]
   }
@@ -962,13 +967,12 @@ build += {
     name: "conductr-lib"
     uri:  ${vars.uris.conductr-lib-uri}
     extra.exclude: [
+      // we're on Akka 2.5
+      "akka24ConductRClientLib", "akka24Common", "akka24ConductRBundleLib"
       // at the time we didn't have Lagom yet.
-      // Conductr is now moribund, so not worth messing with it.
       "lagom13JavaConductRBundleLib", "lagom13ScalaConductRBundleLib"
       "lagom14JavaConductRBundleLib", "lagom14ScalaConductRBundleLib"
-      // didn't compile (July 2017)
-      "akka24ConductRClientLib"
-      // Play stuff didn't work, maybe try again later?
+      // Play stuff didn't work last time we tried it
       "play25ConductRBundleLib", "play25ConductRClientLib", "play25Common"
       "play26ConductRBundleLib", "play26ConductRClientLib", "play26Common"
     ]
