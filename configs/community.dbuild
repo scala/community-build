@@ -1292,7 +1292,9 @@ build += {
   }
 
   // dependency of scala-debugger. we track the develop branch, since
-  // master seems neglected/outdated
+  // master seems neglected/outdated.
+  // note that scala-debugger has been pulled from the build (perhaps
+  // not permanently), so if this causes trouble, we might drop it too.
   ${vars.base} {
     name: "scallop"
     uri:  ${vars.uris.scallop-uri}
@@ -1779,21 +1781,6 @@ build += {
       // reported upstream: https://github.com/lihaoyi/Ammonite/issues/743
       "set executeTests in amm in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
     ]
-  }
-
-  // depends on ammonite
-  ${vars.base} {
-    name: "scala-debugger"
-    uri:  ${vars.uris.scala-debugger-uri}
-    extra.exclude: [
-      // no sbt plugins plz!
-      "sbtScalaDebuggerPlugin"
-      // Missing dependency: the library org.senkbeil#grus-layouts
-      "scalaDebuggerDocs"
-    ]
-    // java.util.concurrent.ExecutionException: java.lang.OutOfMemoryError: GC overhead limit exceeded
-    // perhaps only the -Xmx is really necessary, but let's try it with all of the repo's own .jvmopts:
-    extra.options: ["-Xms1g", "-Xmx4g", "-Xss2m", "-XX:MaxMetaspaceSize=256m"]
   }
 
 ]}
