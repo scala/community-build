@@ -374,11 +374,6 @@ build += {
   }
 
   ${vars.base} {
-    name: "scala-partest"
-    uri:  ${vars.uris.scala-partest-uri}
-  }
-
-  ${vars.base} {
     name: "scala-swing"
     uri:  ${vars.uris.scala-swing-uri}
     extra.commands: ${vars.default-commands} [
