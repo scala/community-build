@@ -579,6 +579,7 @@ build += {
   ${vars.base} {
     name: "kxbmap-configs"
     uri:  ${vars.uris.kxbmap-configs-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.exclude: ["docs"]
   }
 
