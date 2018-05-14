@@ -253,6 +253,8 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
   }
 
+  // forked May 2017 when a breaking change was made to the build;
+  // we can unfork once https://github.com/etorreborre/specs2/pull/657 is merged
   ${vars.base} {
     name: "specs2"
     uri:  ${vars.uris.specs2-uri}
