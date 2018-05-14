@@ -947,11 +947,14 @@ build += {
   }
 
   // frozen (May 2018) at an April 2018 commit just before an upgrade to a
-  // cats-effect version that isn't source compatible with the one we have
+  // cats-effect version that isn't source compatible with the one we have.
+  // also forked (May 2018) to add a commit that allows the build definition
+  // to load on Java 9, also submitted as https://github.com/monix/monix/pull/671
   ${vars.base} {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
     extra.sbt-version: ${vars.sbt-1-version}
+    extra.options: ["-Dmonix.requireJava8=false"]
     // no Scala.js, no benchmarks.
     // (but also, perhaps this excludes more stuff than necessary?)
     extra.projects: ["coreJVM"]
