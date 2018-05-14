@@ -261,6 +261,7 @@ build += {
   ${vars.base} {
     name: "specs2"
     uri:  ${vars.uris.specs2-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     // I don't see a project that aggregates JVM-only stuff, so...
     extra.projects: [
       "analysisJVM", "commonJVM", "coreJVM", "examplesJVM", "fpJVM"
@@ -313,6 +314,7 @@ build += {
   ${vars.base} {
     name: "specs2-scalaz"
     uri:  ${vars.uris.specs2-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["scalazJVM"]
     extra.commands: ${vars.default-commands} [
       // not sure if necessary, but we have it in the specs entry, so let's have it here too
@@ -950,11 +952,14 @@ build += {
   }
 
   // frozen (May 2018) at an April 2018 commit just before an upgrade to a
-  // cats-effect version that isn't source compatible with the one we have
+  // cats-effect version that isn't source compatible with the one we have.
+  // also forked (May 2018) to add a commit that allows the build definition
+  // to load on Java 9, also submitted as https://github.com/monix/monix/pull/671
   ${vars.base} {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
     extra.sbt-version: ${vars.sbt-1-version}
+    extra.options: ["-Dmonix.requireJava8=false"]
     // no Scala.js, no benchmarks.
     // (but also, perhaps this excludes more stuff than necessary?)
     extra.projects: ["coreJVM"]
@@ -1298,9 +1303,7 @@ build += {
   }
 
   // dependency of scala-debugger. we track the develop branch, since
-  // master seems neglected/outdated.
-  // note that scala-debugger has been pulled from the build (perhaps
-  // not permanently), so if this causes trouble, we might drop it too.
+  // master seems neglected/outdated
   ${vars.base} {
     name: "scallop"
     uri:  ${vars.uris.scallop-uri}
@@ -1787,6 +1790,21 @@ build += {
       // reported upstream: https://github.com/lihaoyi/Ammonite/issues/743
       "set executeTests in amm in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
     ]
+  }
+
+  // depends on ammonite
+  ${vars.base} {
+    name: "scala-debugger"
+    uri:  ${vars.uris.scala-debugger-uri}
+    extra.exclude: [
+      // no sbt plugins plz!
+      "sbtScalaDebuggerPlugin"
+      // Missing dependency: the library org.senkbeil#grus-layouts
+      "scalaDebuggerDocs"
+    ]
+    // java.util.concurrent.ExecutionException: java.lang.OutOfMemoryError: GC overhead limit exceeded
+    // perhaps only the -Xmx is really necessary, but let's try it with all of the repo's own .jvmopts:
+    extra.options: ["-Xms1g", "-Xmx4g", "-Xss2m", "-XX:MaxMetaspaceSize=256m"]
   }
 
 ]}
