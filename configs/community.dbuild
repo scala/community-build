@@ -256,6 +256,7 @@ build += {
   ${vars.base} {
     name: "specs2"
     uri:  ${vars.uris.specs2-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     // I don't see a project that aggregates JVM-only stuff, so...
     extra.projects: [
       "analysisJVM", "commonJVM", "coreJVM", "examplesJVM", "fpJVM"
