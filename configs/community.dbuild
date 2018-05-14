@@ -304,6 +304,7 @@ build += {
   ${vars.base} {
     name: "specs2-scalaz"
     uri:  ${vars.uris.specs2-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["scalazJVM"]
     extra.commands: ${vars.default-commands} [
       // not sure if necessary, but we have it in the specs entry, so let's have it here too
