@@ -1410,6 +1410,8 @@ build += {
     ]
   }
 
+  # frozen (May 2018) at Mar 2018 commit before regression, reported
+  # upstream at https://github.com/erikvanoosten/metrics-scala/issues/99
   ${vars.base} {
     name: "metrics-scala"
     uri:  ${vars.uris.metrics-scala-uri}
