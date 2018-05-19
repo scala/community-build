@@ -143,7 +143,9 @@ build += {
       }
       {
         name: "scala-xml"
-        uri: "https://github.com/scala/scala-xml.git"
+        // forked to override sbt-osgi version, when on Java 9, to a Java 9
+        // friendly version. see scala/sbt-scala-module#35
+        uri: "https://github.com/SethTisue/scala-xml.git#community-build-2.12"
         // this gives us "scala-xml_2.12" which is what we want, sbt 1 will get
         // upset if there are two different kinds of scala-xml dependencies
         // floating around (https://github.com/scala/community-builds/issues/679)
@@ -497,6 +499,11 @@ build += {
       "osgitests"
       // I think these expect a Slick snapshot to have been `publishLocal`ed?
       "sample-slick-multidb", "sample-hello-slick", "sample-slick-plainsql", "sample-slick-testkit-example"
+      // fails on Java 9 (without aborting, so the entire build hangs):
+      // https://github.com/slick/slick/issues/1908
+      "testkit"
+      // needs testkit
+      "reactive-streams-tests"
     ]
   }
 
