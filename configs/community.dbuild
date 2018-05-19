@@ -492,6 +492,8 @@ build += {
       // I think it's a confusion of levels, but maybe I'm missing something. - ST 8/27/15
       "de.johoop#sbt-testng-interface"
     ]
+    // as per https://github.com/slick/slick/issues/1908, we need this on Java 9
+    extra.options: ["--add-modules", "java.xml.bind", "-XX:+IgnoreUnrecognizedVMOptions"]
     extra.exclude: [
       // unless we exclude, it looks for an Ornate dependency here
       "root"
@@ -499,11 +501,6 @@ build += {
       "osgitests"
       // I think these expect a Slick snapshot to have been `publishLocal`ed?
       "sample-slick-multidb", "sample-hello-slick", "sample-slick-plainsql", "sample-slick-testkit-example"
-      // fails on Java 9 (without aborting, so the entire build hangs):
-      // https://github.com/slick/slick/issues/1908
-      "testkit"
-      // needs testkit
-      "reactive-streams-tests"
     ]
   }
 
