@@ -493,7 +493,7 @@ build += {
       "de.johoop#sbt-testng-interface"
     ]
     // as per https://github.com/slick/slick/issues/1908, we need this on Java 9
-    extra.options: ["--add-modules", "java.xml.bind", "-XX:+IgnoreUnrecognizedVMOptions"]
+    extra.options: ["--add-modules=java.xml.bind", "-XX:+IgnoreUnrecognizedVMOptions"]
     extra.exclude: [
       // unless we exclude, it looks for an Ornate dependency here
       "root"
