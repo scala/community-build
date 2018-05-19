@@ -214,6 +214,10 @@ build += {
   ${vars.base} {
     name: "scala-js-stubs"
     uri:  ${vars.uris.scala-js-stubs-uri}
+    extra.options: [
+      // on Java 9, the Scala.js build expects this property to be set
+      "-Dscala.ext.dirs=/Users/tisue/.sbt/0.13/java9-rt-ext-oracle_corporation_9_0_4"
+    ]
     extra.projects: ["stubs"]
   }
 
@@ -288,8 +292,12 @@ build += {
   ${vars.base} {
     name: "scala-js"
     uri:  ${vars.uris.scala-js-uri}
-    // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
-    extra.options: ["-Xmx2048m"]
+    extra.options: [
+      // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
+      "-Xmx2048m"
+      // on Java 9, the Scala.js build expects this property to be set
+      "-Dscala.ext.dirs=/Users/tisue/.sbt/0.13/java9-rt-ext-oracle_corporation_9_0_4"
+    ]
     // not really sure how this list was arrived at
     extra.projects: [ "io", "logging", "linker", "testSuite" ]
     // exclude it here because we build it separately in scala-js-stubs
@@ -810,6 +818,8 @@ build += {
     uri:  ${vars.uris.json4s-uri}
     // TODO: exclude subprojects we don't want, rather than naming a few we want. probably adding more would work?
     extra.projects: ["json4s-native", "json4s-jackson", "json4s-ast"]
+    // disable Java version check which would otherwise reject Java 9
+    extra.commands: ["set every javaVersionPrefix := None"]
   }
 
   ${vars.base} {
