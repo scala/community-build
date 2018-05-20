@@ -143,9 +143,7 @@ build += {
       }
       {
         name: "scala-xml"
-        // forked to override sbt-osgi version, when on Java 9, to a Java 9
-        // friendly version. see scala/sbt-scala-module#35
-        uri: "https://github.com/SethTisue/scala-xml.git#community-build-2.12"
+        uri: "https://github.com/scala/scala-xml.git"
         // this gives us "scala-xml_2.12" which is what we want, sbt 1 will get
         // upset if there are two different kinds of scala-xml dependencies
         // floating around (https://github.com/scala/community-builds/issues/679)
