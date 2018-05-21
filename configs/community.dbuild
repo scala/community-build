@@ -1,6 +1,13 @@
 //// about spaces
 
-// currently we have five spaces.
+// we have these spaces:
+// - scala
+// - scala.main
+//   - scala.main.jawn_0_10
+//     - scala.main.jawn_0_10.scalameta_1
+//     - scala.main.jawn_0_10.scalameta_2
+//   - scala.main.jawn_0_11
+// - scala.scalaz8
 
 // the jawn split is because sbt 1 uses jawn 0.10.x (via its dependency
 //   on sjson-new) and the sbt team is worried about the possible
@@ -13,6 +20,9 @@
 //   former is stuck in scalameta 1.x land.  (this is easy to
 //   keep segregated since scalafmt and scalafix tend to be
 //   build-level dependencies, not project-level dependencies.)
+
+// the scalaz 7/8 split is because both scalaz versions use (at least
+//   some of) the same artifact names
 
 //// from environment
 
@@ -166,7 +176,6 @@ build += {
   }
 ]}
 
-
 //// space: scala
 
 build += {
@@ -224,6 +233,10 @@ build += {
   ${vars.base} {
     name: "scala-js-stubs"
     uri:  ${vars.uris.scala-js-stubs-uri}
+    extra.options: [
+      // on Java 9, the Scala.js build expects this property to be set
+      "-Dscala.ext.dirs="${HOME}"/.sbt/0.13/java9-rt-ext-oracle_corporation_9_0_4"
+    ]
     extra.projects: ["stubs"]
   }
 
@@ -234,22 +247,13 @@ build += {
     extra.projects: ["testJVM"]
   }
 
+  // temporarily forked for JDK 9 friendliness, pending merge of
+  // https://github.com/milessabin/shapeless/pull/830
   ${vars.base} {
     name: "shapeless"
     uri:  ${vars.uris.shapeless-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["coreJVM"]
-  }
-
-  ${vars.base} {
-    name: "scala-collection-compat"
-    uri:  ${vars.uris.scala-collection-compat-uri}
-    extra.projects: ["scala-collection-compat"]  // no Scala.js plz
-  }
-
-  ${vars.base} {
-    name: "genjavadoc"
-    uri:  ${vars.uris.genjavadoc-uri}
   }
 
   ${vars.base} {
@@ -276,6 +280,38 @@ build += {
   }
 
   ${vars.base} {
+    name: "silencer"
+    uri:  ${vars.uris.silencer-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+  }
+
+]}
+
+//// space: scala.main
+
+build += {
+
+  space: scala.main
+
+  check-missing: [ true, false ]
+  cross-version: [ disabled, standard ]
+  extraction-version: ${vars.scala-version}
+  sbt-version: ${vars.sbt-version}
+
+  projects: [
+
+  ${vars.base} {
+    name: "scala-collection-compat"
+    uri:  ${vars.uris.scala-collection-compat-uri}
+    extra.projects: ["scala-collection-compat"]  // no Scala.js plz
+  }
+
+  ${vars.base} {
+    name: "genjavadoc"
+    uri:  ${vars.uris.genjavadoc-uri}
+  }
+
+  ${vars.base} {
     name: "scalaz"
     uri:  ${vars.uris.scalaz-uri}
     deps.inject: ["org.scalacheck#scalacheck"]
@@ -294,8 +330,12 @@ build += {
   ${vars.base} {
     name: "scala-js"
     uri:  ${vars.uris.scala-js-uri}
-    // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
-    extra.options: ["-Xmx2048m"]
+    extra.options: [
+      // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
+      "-Xmx2048m"
+      // on Java 9, the Scala.js build expects this property to be set
+      "-Dscala.ext.dirs="${HOME}"/.sbt/0.13/java9-rt-ext-oracle_corporation_9_0_4"
+    ]
     // not really sure how this list was arrived at
     extra.projects: [ "io", "logging", "linker", "testSuite" ]
     // exclude it here because we build it separately in scala-js-stubs
@@ -493,6 +533,8 @@ build += {
       // I think it's a confusion of levels, but maybe I'm missing something. - ST 8/27/15
       "de.johoop#sbt-testng-interface"
     ]
+    // as per https://github.com/slick/slick/issues/1908, we need this on Java 9
+    extra.options: ["--add-modules=java.xml.bind", "-XX:+IgnoreUnrecognizedVMOptions"]
     extra.exclude: [
       // unless we exclude, it looks for an Ornate dependency here
       "root"
@@ -809,6 +851,8 @@ build += {
     uri:  ${vars.uris.json4s-uri}
     // TODO: exclude subprojects we don't want, rather than naming a few we want. probably adding more would work?
     extra.projects: ["json4s-native", "json4s-jackson", "json4s-ast"]
+    // disable Java version check which would otherwise reject Java 9
+    extra.commands: ["set every javaVersionPrefix := None"]
   }
 
   ${vars.base} {
@@ -1415,6 +1459,8 @@ build += {
     ]
   }
 
+  # frozen (May 2018) at Mar 2018 commit before regression, reported
+  # upstream at https://github.com/erikvanoosten/metrics-scala/issues/99
   ${vars.base} {
     name: "metrics-scala"
     uri:  ${vars.uris.metrics-scala-uri}
@@ -1497,27 +1543,6 @@ build += {
     extra.projects: ["coreJVM", "examplesJVM", "tests"]
   }
 
-  ${vars.base} {
-    name: "silencer"
-    uri:  ${vars.uris.silencer-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
-  }
-
-  ${vars.base} {
-    name: "pascal"
-    uri:  ${vars.uris.pascal-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
-  }
-
-  // doesn't publish any of the same artifacts as scalaz 7, so it doesn't need
-  // to be confined to its own space
-  ${vars.base} {
-    name: "scalaz8"
-    uri:  ${vars.uris.scalaz8-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
-    extra.projects: ["baseJVM", "effectJVM", "metaJVM"]
-  }
-
   // dependency of giter8
   // forked May 2018 because giter8 uses a version (2.1.2) that's source-incompatible.
   // so we forked off the release-2.1.4 tag.
@@ -1576,6 +1601,8 @@ build += {
     extra.projects: ["spireJVM"]  // no Scala.js please
   }
 
+  // temporarily forked for JDK 9 friendliness, pending merge of
+  // https://github.com/scalanlp/breeze/pull/708
   ${vars.base} {
     name: "breeze"
     uri:  ${vars.uris.breeze-uri}
@@ -1606,7 +1633,7 @@ build += {
 
 build += {
 
-  space: scala.jawn_0_10
+  space: scala.main.jawn_0_10
 
   check-missing: [ true, false ]
   cross-version: [ disabled, standard ]
@@ -1813,7 +1840,7 @@ build += {
 
 build += {
 
-  space: scala.jawn_0_11
+  space: scala.main.jawn_0_11
 
   check-missing: [ true, false ]
   cross-version: [ disabled, standard ]
@@ -1954,7 +1981,7 @@ build += {
 
 build += {
 
-  space: scala.jawn_0_10.scalameta_1
+  space: scala.main.jawn_0_10.scalameta_1
 
   check-missing: [ true, false ]
   cross-version: [ disabled, standard ]
@@ -2020,7 +2047,7 @@ build += {
 
 build += {
 
-  space: scala.jawn_0_10.scalameta_2
+  space: scala.main.jawn_0_10.scalameta_2
 
   check-missing: [ true, false ]
   cross-version: [ disabled, standard ]
@@ -2100,6 +2127,38 @@ build += {
       // can't expand macros compiled by previous versions of Scala
       "testsOutputSbt"
     ]
+  }
+
+]}
+
+//// space: scalaz8
+
+build += {
+
+  space: scala.scalaz8
+
+  check-missing: [ true, false ]
+  cross-version: [ disabled, standard ]
+  extraction-version: ${vars.scala-version}
+  sbt-version: ${vars.sbt-version}
+
+  projects: [
+
+  // dependency of scalaz8
+  ${vars.base} {
+    name: "pascal"
+    uri:  ${vars.uris.pascal-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+  }
+
+  // needs its own space because:
+  // [error] Fatal: multiple projects have the same artifacts visible in the same space.
+  // [error]   org.scalaz#scalaz-effect  from scalaz and scalaz8, both visible in space "scala"
+  ${vars.base} {
+    name: "scalaz8"
+    uri:  ${vars.uris.scalaz8-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: ["baseJVM", "effectJVM", "metaJVM"]
   }
 
 ]}
