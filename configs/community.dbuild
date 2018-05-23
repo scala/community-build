@@ -797,8 +797,6 @@ build += {
     extra.projects: ["play-jsonJVM"]  // no Scala.js plz
   }
 
-  // frozen (April 2018) at a February 2018 commit before a change
-  // broke play-core; see #704
   ${vars.base} {
     name: "play-ws"
     uri:  ${vars.uris.play-ws-uri}
