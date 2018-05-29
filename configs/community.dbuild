@@ -169,7 +169,7 @@ build += {
           // (in a community build context, we don't need MiMa to run)
           "set every ScalaModulePlugin.mimaPreviousVersion := None"
         ]
-        extra.projects: ["xmlJVM"]
+        extra.projects: ["xml"]
       }
     ]
   }
