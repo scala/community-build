@@ -192,7 +192,7 @@ build += {
   ${vars.base} {
     name: "scala-xml"
     uri:  ${vars.uris.scala-xml-uri}
-    extra.projects: ["xml"]
+    extra.projects: ["xmlJVM"]
     extra.commands: ${vars.base.extra.commands} [
       // work around https://github.com/scala/community-builds/issues/575
       // (in a community build context, we don't need MiMa to run)
