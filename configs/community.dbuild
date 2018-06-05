@@ -1540,7 +1540,6 @@ build += {
     ]
   }
 
-  // we can unfork once https://github.com/propensive/magnolia/pull/92 is merged
   ${vars.base} {
     name: "magnolia"
     uri:  ${vars.uris.magnolia-uri}
