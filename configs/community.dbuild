@@ -847,6 +847,8 @@ build += {
       "set sources in doc in Compile in PlayProject := List()"
       // https://github.com/playframework/playframework/issues/8393
       "set executeTests in PlayProject in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+      // https://github.com/scala/community-builds/pull/728
+      "set executeTests in PlayAhcWsProject in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
     ]
   }
 
