@@ -817,7 +817,8 @@ build += {
     extra.exclude: ["integration-tests"]
   }
 
-  // dependency of play-ws
+  // dependency of play-ws. frozen (June 2018) at a March 2018 commit
+  // before an incompatible change was made (removing joda-time dependency)
   ${vars.base} {
     name: "cachecontrol"
     uri:  ${vars.uris.cachecontrol-uri}
