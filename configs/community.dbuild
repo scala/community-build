@@ -580,6 +580,8 @@ build += {
     uri:  ${vars.uris.utest-uri}
     // no Scala.js plz
     extra.projects: ["utestJVM"]
+    // waiting for fix on https://github.com/lihaoyi/utest/issues/168
+    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
