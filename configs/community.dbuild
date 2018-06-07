@@ -638,6 +638,8 @@ build += {
     extra.projects: ["coreJVM", "scodecJVM", "io"]  // no Scala.js, no benchmarks or docs
   }
 
+  // frozen (June 2018) at a February 2018 commit before a fs2 0.1 -> 1.0 upgrade.
+  // we should unfreeze once the whole build moves to fs2 1.0
   ${vars.base} {
     name: "fs2-reactive-streams"
     uri:  ${vars.uris.fs2-reactive-streams-uri}
@@ -1886,6 +1888,8 @@ build += {
     extra.projects: ["ast", "parser", "json4s", "spray"]
   }
 
+  // frozen (June 2018) at a March 2018 commit before a fs2 0.1 -> 1.0 upgrade.
+  // we should unfreeze once the whole build moves to fs2 1.0
   ${vars.base} {
     name: "jawn-fs2"
     uri:  ${vars.uris.jawn-fs2-uri}
