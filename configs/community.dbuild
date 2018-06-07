@@ -779,6 +779,14 @@ build += {
     extra.projects: ["scoptJVM"]  // no Scala.js plz
   }
 
+  // dependency of scopt
+  ${vars.base} {
+    name: "expecty"
+    uri:  ${vars.uris.expecty-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: ["expectyJVM"]
+  }
+
   ${vars.base} {
     name: "twirl"
     uri:  ${vars.uris.twirl-uri}
