@@ -655,7 +655,7 @@ build += {
     // other than just enumerating what we want:
     extra.projects: ["coreJVM", "freeJVM", "kernelJVM", "kernelLawsJVM", "lawsJVM", "macrosJVM", "testsJVM"]
     // tests are memory-hungry
-    extra.options: ["-Xmx2048m"]
+    extra.options: ["-Xmx2560m"]
   }
 
   ${vars.base} {
