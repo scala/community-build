@@ -1121,6 +1121,10 @@ build += {
     name: "pprint"
     uri:  ${vars.uris.pprint-uri}
     extra.projects: ["pprintJVM"]  // no Scala.js
+    // there is a post-2.12.6 failure because a test is sensitive
+    // Iterator#toString format.  we could re-enable once 2.12.7
+    // is release and the repo has upgraded
+    extra.test-tasks: ["compile"]
   }
 
   // switched (January 2018) to a fork where the cats dependency is upgraded;
