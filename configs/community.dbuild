@@ -4,8 +4,8 @@
 // - scala
 // - scala.main
 //   - scala.main.jawn_0_10
-//     - scala.main.jawn_0_10.scalameta_1
-//     - scala.main.jawn_0_10.scalameta_2
+//     - scala.main.jawn_0_10.metaconfig_new
+//     - scala.main.jawn_0_10.metaconfig_old
 //   - scala.main.jawn_0_11
 // - scala.scalaz8
 
@@ -15,11 +15,10 @@
 // but in the meantime the whole Typelevel ecosystem is moving onto
 //   jawn 0.11, and the two versions are source-incompatible.
 
-// the scalameta split is because we want to have both scalafmt
-//   and scalafix, but the latter uses scalameta 2.x while the
-//   former is stuck in scalameta 1.x land.  (this is easy to
-//   keep segregated since scalafmt and scalafix tend to be
-//   build-level dependencies, not project-level dependencies.)
+// the metaconfig split is because we want to have both scalafmt
+//   and scalafix, but they are on incompatible metaconfig versions.
+//   (this is easy to keep segregated since scalafmt and scalafix tend
+//   to be build-level dependencies, not project-level dependencies.)
 
 // the scalaz 7/8 split is because both scalaz versions use (at least
 //   some of) the same artifact names
@@ -1656,6 +1655,46 @@ build += {
     check-missing: false
   }
 
+  // forked (updated September 2017) to remove coursier.
+  // refreshing the fork should be approached with caution;
+  // see Olafur's remarks at
+  // https://github.com/scala/community-builds/issues/499#issuecomment-287307613
+  // about the instability of both scalameta and scalafix.
+  ${vars.base} {
+    name: "scalameta"
+    uri:  ${vars.uris.scalameta-uri}
+    // else, bintray stuff goes boom
+    extra.options: ["-Dsbt.prohibit.publish=true"]
+    extra.projects: ["scalametaJVM", "contribJVM", "semanticdbScalac"]  // no Scala.js
+    extra.exclude: [
+      // we never build sbt plugins or benchmarks
+      "benchmarks"
+    ]
+    // use right version-specific source directories regardless of our weird dbuild Scala version numbers
+    extra.commands: ${vars.default-commands} [
+      "set unmanagedSourceDirectories in (commonJVM, Compile) += (baseDirectory in commonJVM).value / \"src\" / \"main\" / \"scala-2.12\""
+      "set unmanagedSourceDirectories in (dialectsJVM, Compile) += (baseDirectory in dialectsJVM).value / \"src\" / \"main\" / \"scala-2.12\""
+      "set unmanagedSourceDirectories in (scalametaJVM, Compile) += (baseDirectory in scalametaJVM).value / \"src\" / \"main\" / \"scala-2.12\""
+      "set unmanagedSourceDirectories in (semanticdbScalac, Compile) += (baseDirectory in semanticdbScalac).value / \"src\" / \"main\" / \"scala-2.12.5\""
+    ]
+  }
+
+  ${vars.base} {
+    name: "jsoniter-scala"
+    uri:  ${vars.uris.jsoniter-scala-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.exclude: ["benchmark"]
+  }
+
+  ${vars.base} {
+    name: "scalatex"
+    uri:  ${vars.uris.scalatex-uri}
+    extra.exclude: [
+      "scalatexSbtPlugin"  // we never build sbt plugins
+      "site", "readme", "scrollspy"  // these use Scala.js
+    ]
+  }
+
 ]}
 
 //// space: jawn_0_10
@@ -1774,13 +1813,6 @@ build += {
     extra.projects: ["upickleJVM"]
   }
 
-  ${vars.base} {
-    name: "jsoniter-scala"
-    uri:  ${vars.uris.jsoniter-scala-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
-    extra.exclude: ["benchmark"]
-  }
-
   // dependency of scaladex. depends on upickle
   ${vars.base} {
     name: "autowire"
@@ -1822,16 +1854,6 @@ build += {
       // and then customize `sassExecutable in Assets` if needed. but I feel it's not really worth
       // the additional labor and (more importantly) the additional fragility
       "server"
-    ]
-  }
-
-  // depends on ammonite-ops
-  ${vars.base} {
-    name: "scalatex"
-    uri:  ${vars.uris.scalatex-uri}
-    extra.exclude: [
-      "scalatexSbtPlugin"  // we never build sbt plugins
-      "site", "readme", "scrollspy"  // these use Scala.js
     ]
   }
 
@@ -2016,11 +2038,11 @@ build += {
 
 ]}
 
-//// space: scalameta_1
+//// space: metaconfig_new
 
 build += {
 
-  space: scala.main.jawn_0_10.scalameta_1
+  space: scala.main.jawn_0_10.metaconfig_new
 
   check-missing: [ true, false ]
   cross-version: [ disabled, standard ]
@@ -2029,64 +2051,42 @@ build += {
 
   projects: [
 
-  // forked (refreshed November 2017) to disable bintray stuff, IntelliJ stuff,
-  // and to remove a failing git-based test
+  // forked (June 2018) to disable IntelliJ stuff
   ${vars.base} {
     name: "scalafmt"
     uri:  ${vars.uris.scalafmt-uri}
     extra.projects: ["coreJVM", "cli", "tests"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+      // one test failure, maybe xml-related, I should report it upstream
+      "set excludeFilter in (Test, unmanagedSources) in tests := HiddenFileFilter || \"FormatTests.scala\""
+    ]
   }
 
   // dependency of scalafmt. frozen at an old version because that's what
-  // scalafmt expects.  (over in the other scalameta space, scalafix expects
-  // a newer version.)
+  // scalafmt expects
   ${vars.base} {
-    name: "metaconfig-old"
-    uri:  ${vars.uris.metaconfig-old-uri}
+    name: "metaconfig-new"
+    uri:  ${vars.uris.metaconfig-new-uri}
     extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
-  }
-
-  // dependency of scalafmt
-  // forked (July 2017) for dbuild friendliness
-  ${vars.base} {
-    name: "meta-paradise"
-    uri: ${vars.uris.meta-paradise-uri}
-    // only goal right now (November 2017) is to get scalafmt in, so, let's just
-    // add the project we actually need and not worry about the rest
-    extra.projects: ["paradise"]
-    // use right version-specific source directory regardless of our weird dbuild Scala version number
-    extra.commands: ${vars.default-commands} [
-      "set unmanagedSourceDirectories in (paradise, Compile) += (baseDirectory in paradise).value / \"src\" / \"main\" / \"scala-2.12.2\""
+    // I guess dbuild is getting confused by the extra _1.13?
+    deps.ignore: ["com.github.alexarchambault#scalacheck-shapeless"]
+    deps.inject: ${vars.base.deps.inject} [
+      "com.github.alexarchambault#scalacheck-shapeless_1.13"
     ]
-  }
-
-  // dependency of scalafmt
-  ${vars.base} {
-    name: "scalameta-1"
-    uri:  ${vars.uris.scalameta-1-uri}
-    // else, bintray stuff goes boom
-    extra.options: ["-Dsbt.prohibit.publish=true"]
-    extra.projects: ["scalametaJVM", "testkit"]  // no Scala.js. just the minimum scalafmt needs?
-    extra.exclude: [
-      // we never build sbt plugins or benchmarks
-      "benchmarks"
-    ]
-    extra.commands: ${vars.default-commands} [
-      // use right version-specific source directories regardless of our weird dbuild Scala version numbers
-      "set unmanagedSourceDirectories in (commonJVM, Compile) += (baseDirectory in commonJVM).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (dialectsJVM, Compile) += (baseDirectory in dialectsJVM).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (scalametaJVM, Compile) += (baseDirectory in scalametaJVM).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (scalahost, Compile) += (baseDirectory in scalahost).value / \"src\" / \"main\" / \"scala-2.12.1\""
+    check-missing: false
+    extra.settings: ${vars.base.extra.settings} [
+      "conflictWarning in ThisBuild := ConflictWarning.disable"
     ]
   }
 
 ]}
 
-//// space: scalameta_2
+//// space: metaconfig-old
 
 build += {
 
-  space: scala.main.jawn_0_10.scalameta_2
+  space: scala.main.jawn_0_10.metaconfig_old
 
   check-missing: [ true, false ]
   cross-version: [ disabled, standard ]
@@ -2094,30 +2094,6 @@ build += {
   sbt-version: ${vars.sbt-version}
 
   projects: [
-
-  // forked (updated September 2017) to remove coursier.
-  // refreshing the fork should be approached with caution;
-  // see Olafur's remarks at
-  // https://github.com/scala/community-builds/issues/499#issuecomment-287307613
-  // about the instability of both scalameta and scalafix.
-  ${vars.base} {
-    name: "scalameta-2"
-    uri:  ${vars.uris.scalameta-2-uri}
-    // else, bintray stuff goes boom
-    extra.options: ["-Dsbt.prohibit.publish=true"]
-    extra.projects: ["scalametaJVM", "contribJVM", "semanticdbScalac"]  // no Scala.js
-    extra.exclude: [
-      // we never build sbt plugins or benchmarks
-      "benchmarks"
-    ]
-    // use right version-specific source directories regardless of our weird dbuild Scala version numbers
-    extra.commands: ${vars.default-commands} [
-      "set unmanagedSourceDirectories in (commonJVM, Compile) += (baseDirectory in commonJVM).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (dialectsJVM, Compile) += (baseDirectory in dialectsJVM).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (scalametaJVM, Compile) += (baseDirectory in scalametaJVM).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (semanticdbScalac, Compile) += (baseDirectory in semanticdbScalac).value / \"src\" / \"main\" / \"scala-2.12.5\""
-    ]
-  }
 
   // adding (September 2017) because scalafix's "cli" subproject uses it.
   // forked to remove coursier and upgrade sbt-bintray
@@ -2132,15 +2108,20 @@ build += {
     extra.projects: ["runtime"]
   }
 
-  // dependency of scalafix.  frozen (April 2018) at v0.6.0 since newer commits break
-  // scalafix. presumably this is a temporarily transitional state and we should attempt
-  // to unfreeze once things settle down. (the commit descriptions indicate this is part of
-  // an effort to move scalafmt onto newer versions of things -- it'd be great to have
-  // scalafmt and scalafix in the same space.)
+  // dependency of scalafix, frozen (June 2018) at v0.8.3 (the version scalafix uses)
   ${vars.base} {
-    name: "metaconfig-new"
-    uri:  ${vars.uris.metaconfig-new-uri}
+    name: "metaconfig-old"
+    uri:  ${vars.uris.metaconfig-old-uri}
     extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
+    // I guess dbuild is getting confused by the extra _1.13?
+    deps.ignore: ["com.github.alexarchambault#scalacheck-shapeless"]
+    deps.inject: ${vars.base.deps.inject} [
+      "com.github.alexarchambault#scalacheck-shapeless_1.13"
+    ]
+    check-missing: false
+    extra.settings: ${vars.base.extra.settings} [
+      "conflictWarning in ThisBuild := ConflictWarning.disable"
+    ]
   }
 
   // (here in this space because of ammonite-ops dependency)
@@ -2193,6 +2174,8 @@ build += {
   // needs its own space because:
   // [error] Fatal: multiple projects have the same artifacts visible in the same space.
   // [error]   org.scalaz#scalaz-effect  from scalaz and scalaz8, both visible in space "scala"
+  // frozen (June 2018) because of this error, not investigated:
+  // [scalaz8:error] scala.MatchError: d4636d92-SNAPSHOT (of class java.lang.String)
   ${vars.base} {
     name: "scalaz8"
     uri:  ${vars.uris.scalaz8-uri}
