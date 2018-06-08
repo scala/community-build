@@ -242,8 +242,6 @@ build += {
     extra.projects: ["testJVM"]
   }
 
-  // temporarily forked for JDK 9 friendliness, pending merge of
-  // https://github.com/milessabin/shapeless/pull/830
   ${vars.base} {
     name: "shapeless"
     uri:  ${vars.uris.shapeless-uri}
