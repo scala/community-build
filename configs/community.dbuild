@@ -247,8 +247,6 @@ build += {
     extra.projects: ["testJVM"]
   }
 
-  // temporarily forked for JDK 9 friendliness, pending merge of
-  // https://github.com/milessabin/shapeless/pull/830
   ${vars.base} {
     name: "shapeless"
     uri:  ${vars.uris.shapeless-uri}
@@ -376,11 +374,8 @@ build += {
     ]
   }
 
-  // frozen (May 2018) at a commit not long after v2.5.11 in order
-  // to pull in https://github.com/akka/akka/pull/24632 since otherwise
-  // a test fails.  (and using v2.5.12 doesn't work because of
-  // https://github.com/playframework/playframework/issues/8404)
-  // note that this repo is volatile (very frequent  commits) and when it needs to be rebuilt,
+  // frozen (June 2018) at v2.5.13 because
+  // this repo is volatile (very frequent commits) and when it needs to be rebuilt,
   // the testing takes a long time (especially akka-more) and the downstream rebuilding takes
   // a long time too.  so in general we want to use a tag or SHA rather than track master
   ${vars.base} {
@@ -585,6 +580,8 @@ build += {
     uri:  ${vars.uris.utest-uri}
     // no Scala.js plz
     extra.projects: ["utestJVM"]
+    // waiting for fix on https://github.com/lihaoyi/utest/issues/168
+    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
@@ -641,6 +638,8 @@ build += {
     extra.projects: ["coreJVM", "scodecJVM", "io"]  // no Scala.js, no benchmarks or docs
   }
 
+  // frozen (June 2018) at a February 2018 commit before a fs2 0.1 -> 1.0 upgrade.
+  // we should unfreeze once the whole build moves to fs2 1.0
   ${vars.base} {
     name: "fs2-reactive-streams"
     uri:  ${vars.uris.fs2-reactive-streams-uri}
@@ -659,7 +658,7 @@ build += {
     // other than just enumerating what we want:
     extra.projects: ["coreJVM", "freeJVM", "kernelJVM", "kernelLawsJVM", "lawsJVM", "macrosJVM", "testsJVM"]
     // tests are memory-hungry
-    extra.options: ["-Xmx2048m"]
+    extra.options: ["-Xmx2560m"]
   }
 
   ${vars.base} {
@@ -782,6 +781,14 @@ build += {
     extra.projects: ["scoptJVM"]  // no Scala.js plz
   }
 
+  // dependency of scopt
+  ${vars.base} {
+    name: "expecty"
+    uri:  ${vars.uris.expecty-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: ["expectyJVM"]
+  }
+
   ${vars.base} {
     name: "twirl"
     uri:  ${vars.uris.twirl-uri}
@@ -802,8 +809,10 @@ build += {
     extra.projects: ["play-jsonJVM"]  // no Scala.js plz
   }
 
-  // frozen (April 2018) at a February 2018 commit before a change
-  // broke play-core; see #704
+  // frozen (June 2018) at v2.0.0-M1 tag because that's what playframework
+  // currently uses, tracking master here caused playframework to fail to
+  // compile.  presumably it's a transient situation and we can unfreeze
+  // at some point
   ${vars.base} {
     name: "play-ws"
     uri:  ${vars.uris.play-ws-uri}
@@ -813,7 +822,8 @@ build += {
     extra.exclude: ["integration-tests"]
   }
 
-  // dependency of play-ws
+  // dependency of play-ws. frozen (June 2018) at a March 2018 commit
+  // before an incompatible change was made (removing joda-time dependency)
   ${vars.base} {
     name: "cachecontrol"
     uri:  ${vars.uris.cachecontrol-uri}
@@ -840,6 +850,8 @@ build += {
       "set sources in doc in Compile in PlayProject := List()"
       // https://github.com/playframework/playframework/issues/8393
       "set executeTests in PlayProject in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+      // https://github.com/scala/community-builds/pull/728
+      "set executeTests in PlayAhcWsProject in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
     ]
   }
 
@@ -1112,6 +1124,10 @@ build += {
     name: "pprint"
     uri:  ${vars.uris.pprint-uri}
     extra.projects: ["pprintJVM"]  // no Scala.js
+    // there is a post-2.12.6 failure because a test is sensitive
+    // Iterator#toString format.  we could re-enable once 2.12.7
+    // is release and the repo has upgraded
+    extra.test-tasks: ["compile"]
   }
 
   // switched (January 2018) to a fork where the cats dependency is upgraded;
@@ -1573,6 +1589,10 @@ build += {
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
+      // why we get wartremover failures in the community build that presumably
+      // don't happen in Brian's own CI, I have no idea. doesn't seem worth
+      // investigating
+      "set every wartremoverErrors := Seq()"
     ]
   }
 
@@ -1749,6 +1769,13 @@ build += {
     extra.projects: ["upickleJVM"]
   }
 
+  ${vars.base} {
+    name: "jsoniter-scala"
+    uri:  ${vars.uris.jsoniter-scala-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.exclude: ["benchmark"]
+  }
+
   // dependency of scaladex. depends on upickle
   ${vars.base} {
     name: "autowire"
@@ -1881,6 +1908,8 @@ build += {
     extra.projects: ["ast", "parser", "json4s", "spray"]
   }
 
+  // frozen (June 2018) at a March 2018 commit before a fs2 0.1 -> 1.0 upgrade.
+  // we should unfreeze once the whole build moves to fs2 1.0
   ${vars.base} {
     name: "jawn-fs2"
     uri:  ${vars.uris.jawn-fs2-uri}
