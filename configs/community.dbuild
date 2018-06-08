@@ -2183,6 +2183,8 @@ build += {
   // needs its own space because:
   // [error] Fatal: multiple projects have the same artifacts visible in the same space.
   // [error]   org.scalaz#scalaz-effect  from scalaz and scalaz8, both visible in space "scala"
+  // frozen (June 2018) because of this error, not investigated:
+  // [scalaz8:error] scala.MatchError: d4636d92-SNAPSHOT (of class java.lang.String)
   ${vars.base} {
     name: "scalaz8"
     uri:  ${vars.uris.scalaz8-uri}
