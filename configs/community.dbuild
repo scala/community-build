@@ -107,8 +107,7 @@ set commands ++= {
 }
 """
 vars.default-commands += "appendScalacOptions "${vars.scalac-opts}
-vars.default-commands += "removeScalacOptions -Yno-adapted-args"
-vars.default-commands += "removeScalacOptions -Xfatal-warnings"
+vars.default-commands += "removeScalacOptions -Xfatal-warnings -Yno-adapted-args -Ywarn-inaccessible -Ywarn-nullary-override -Ywarn-nullary-unit -Ywarn-infer-any -Ywarn-unused-import"
 vars.default-commands += "appendScalacOptions -Ymacro-annotations"
 vars.default-commands += "removeMacroParadise"
 vars.base.extra.commands = ${vars.default-commands}
@@ -203,7 +202,11 @@ build += {
   ${vars.base} {
     name: "scalacheck"
     uri:  ${vars.uris.scalacheck-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["jvm"]  // no Scala.js please
+    extra.commands: ${vars.base.extra.commands} [
+      "set jvm/Test/unmanagedSources/excludeFilter := HiddenFileFilter || \"SerializabilitySpecification.scala\""
+    ]
   }
 
   // see also scalatest-tests
