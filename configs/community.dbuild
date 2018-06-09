@@ -2046,6 +2046,9 @@ build += {
     name: "scalafmt"
     uri:  ${vars.uris.scalafmt-uri}
     extra.projects: ["coreJVM", "cli", "tests"]
+    extra.options: [
+      "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
+    ]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
       // one test failure, maybe xml-related, I should report it upstream
