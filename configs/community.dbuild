@@ -2051,8 +2051,11 @@ build += {
     ]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
-      // one test failure, maybe xml-related, I should report it upstream
-      "set excludeFilter in (Test, unmanagedSources) in tests := HiddenFileFilter || \"FormatTests.scala\""
+      // FormatTests: maybe xml-related, I should report it upstream
+      // GitOptsTest: Failed git command. Got: java.lang.IllegalStateException: Failed to
+      // run command git commit -m 'some-message'. Error: *** Please tell me
+      // who you are. Run git config --global user.email "you@example.com"
+      "set excludeFilter in (Test, unmanagedSources) in tests := HiddenFileFilter || \"FormatTests.scala\" || \"GitOpsTest.scala\""
     ]
   }
 
