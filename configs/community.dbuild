@@ -1412,11 +1412,13 @@ build += {
     extra.projects: ["core"]
   }
 
-  // forked (December 2017) to disable sbt-pgp stuff that was prompting for a passphrase
+  // we can unfork once https://github.com/lightbend/paradox/pull/204 is merged
   ${vars.base} {
     name: "paradox"
     uri:  ${vars.uris.paradox-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.exclude: ["plugin", "themePlugin", "genericTheme"]
+    check-missing: false  // ignore missing scripted-sbt
   }
 
   // there are a *ton* of subprojects.  it might be interesting to try to add
