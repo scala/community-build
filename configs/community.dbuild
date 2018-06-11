@@ -719,8 +719,6 @@ build += {
     // recommended at https://github.com/twitter/util/issues/173:
     // "We use that when we don't think the tests will be reliable in a ci environment"
     extra.options: ["-DSKIP_FLAKY=true"]
-    // awaiting fix for https://github.com/twitter/util/issues/214
-    extra.run-tests: false
   }
 
   ${vars.base} {
