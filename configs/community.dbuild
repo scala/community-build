@@ -1826,6 +1826,8 @@ build += {
       "akka-http-circe"
       // library com.sksamuel.avro4s#avro4s-json is not provided
       "akka-http-avro4s"
+      // library com.avsystem.commons#commons-core is not provided
+      "akka-http-avsystem-gencodec"
     ]
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
