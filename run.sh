@@ -13,6 +13,7 @@ rm -rf target-*/project-builds || true
 rm -rf target-*/extraction || true
 
 export LANG="en_US.UTF-8"
+export ORIGINAL_HOME=$HOME
 export HOME="$(pwd)"
 
 # Defaults
