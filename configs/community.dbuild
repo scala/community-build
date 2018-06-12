@@ -1328,6 +1328,9 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
   }
 
+  // normally we keep sbt modules frozen at the last release version,
+  // but for now anyway we're tracking 1.1.x of sbt-io since it has
+  // M4 changes
   ${vars.base} {
     name: "sbt-io"
     uri:  ${vars.uris.sbt-io-uri}
