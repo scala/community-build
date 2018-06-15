@@ -1412,7 +1412,6 @@ build += {
     extra.projects: ["core"]
   }
 
-  // we can unfork once https://github.com/lightbend/paradox/pull/204 is merged
   ${vars.base} {
     name: "paradox"
     uri:  ${vars.uris.paradox-uri}
