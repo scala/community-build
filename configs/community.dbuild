@@ -239,7 +239,7 @@ build += {
     uri:  ${vars.uris.scala-js-stubs-uri}
     extra.options: [
       // on Java 9, the Scala.js build expects this property to be set
-      "-Dscala.ext.dirs="${HOME}"/.sbt/0.13/java9-rt-ext-oracle_corporation_9_0_4"
+      "-Dscala.ext.dirs="${ORIGINAL_HOME}"/.sbt/0.13/java9-rt-ext-oracle_corporation_9_0_4"
     ]
     extra.projects: ["stubs"]
   }
@@ -336,7 +336,7 @@ build += {
       // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
       "-Xmx2048m"
       // on Java 9, the Scala.js build expects this property to be set
-      "-Dscala.ext.dirs="${HOME}"/.sbt/0.13/java9-rt-ext-oracle_corporation_9_0_4"
+      "-Dscala.ext.dirs="${ORIGINAL_HOME}"/.sbt/0.13/java9-rt-ext-oracle_corporation_9_0_4"
     ]
     // not really sure how this list was arrived at
     extra.projects: [ "io", "logging", "linker", "testSuite" ]
@@ -572,6 +572,7 @@ build += {
     uri:  ${vars.uris.acyclic-uri}
   }
 
+  // forked (June 2018) to upgrade sbt-osgi to a Java 9 friendly version
   ${vars.base} {
     name: "sourcecode"
     uri:  ${vars.uris.sourcecode-uri}
@@ -729,8 +730,6 @@ build += {
     // recommended at https://github.com/twitter/util/issues/173:
     // "We use that when we don't think the tests will be reliable in a ci environment"
     extra.options: ["-DSKIP_FLAKY=true"]
-    // awaiting fix for https://github.com/twitter/util/issues/214
-    extra.run-tests: false
   }
 
   ${vars.base} {
@@ -1426,11 +1425,12 @@ build += {
     extra.projects: ["core"]
   }
 
-  // forked (December 2017) to disable sbt-pgp stuff that was prompting for a passphrase
   ${vars.base} {
     name: "paradox"
     uri:  ${vars.uris.paradox-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.exclude: ["plugin", "themePlugin", "genericTheme"]
+    check-missing: false  // ignore missing scripted-sbt
   }
 
   // there are a *ton* of subprojects.  it might be interesting to try to add
@@ -1840,6 +1840,8 @@ build += {
       "akka-http-circe"
       // library com.sksamuel.avro4s#avro4s-json is not provided
       "akka-http-avro4s"
+      // library com.avsystem.commons#commons-core is not provided
+      "akka-http-avsystem-gencodec"
     ]
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
@@ -2059,10 +2061,16 @@ build += {
     name: "scalafmt"
     uri:  ${vars.uris.scalafmt-uri}
     extra.projects: ["coreJVM", "cli", "tests"]
+    extra.options: [
+      "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
+    ]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
-      // one test failure, maybe xml-related, I should report it upstream
-      "set excludeFilter in (Test, unmanagedSources) in tests := HiddenFileFilter || \"FormatTests.scala\""
+      // FormatTests: maybe xml-related, I should report it upstream
+      // GitOptsTest: Failed git command. Got: java.lang.IllegalStateException: Failed to
+      // run command git commit -m 'some-message'. Error: *** Please tell me
+      // who you are. Run git config --global user.email "you@example.com"
+      "set excludeFilter in (Test, unmanagedSources) in tests := HiddenFileFilter || \"FormatTests.scala\" || \"GitOpsTest.scala\""
     ]
   }
 
