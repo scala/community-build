@@ -251,6 +251,7 @@ build += {
     extra.projects: ["testJVM"]
   }
 
+  // forked (June 2018) to adapt to post-M4 changes
   ${vars.base} {
     name: "shapeless"
     uri:  ${vars.uris.shapeless-uri}
