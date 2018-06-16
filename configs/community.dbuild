@@ -351,7 +351,6 @@ build += {
       //   Although only `testSuite` actually has tests, dbuild will try to run the tests for all projects
       //   that `testSuite` depends on (transitively), so we need to set it in a bunch of places.
       "set Seq(library, testInterface, jUnitRuntime, testSuite).map(p => jsEnv in p := new org.scalajs.jsenv.nodejs.NodeJSEnv(org.scalajs.jsenv.nodejs.NodeJSEnv.Config().withExecutable(\""${vars.node}"\").withSourceMap(false)))"
-      "set MyScalaJSPlugin.wantSourceMaps in testSuite := false"
     ]
   }
 
