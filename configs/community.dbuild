@@ -341,7 +341,7 @@ build += {
       "-Dscala.ext.dirs="${ORIGINAL_HOME}"/.sbt/0.13/java9-rt-ext-oracle_corporation_9_0_4"
     ]
     // not really sure how this list was arrived at
-    extra.projects: [ "io", "logging", "linker", "testSuite" ]
+    extra.projects: [ "tools", "testSuite" ]
     // exclude it here because we build it separately in scala-js-stubs
     extra.exclude: ["stubs"]
     extra.commands: ${vars.default-commands} [
