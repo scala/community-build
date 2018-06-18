@@ -13,7 +13,14 @@ rm -rf target-*/project-builds || true
 rm -rf target-*/extraction || true
 
 export LANG="en_US.UTF-8"
-export ORIGINAL_HOME=$HOME
+if [[ `java -version 2>&1 | head -n 1` != *"1.8.0"* ]]; then
+    # on Java 9+, the Scala.js build expects this property to be set.
+    # note the kludgy specificity here, this will need further work
+    # to be more flexible with different JVMs
+  export SCALA_JS_OPTIONS=-Dscala.ext.dirs=$HOME/.sbt/0.13/java9-rt-ext-oracle_corporation_9_0_4
+else
+  export SCALA_JS_OPTIONS=-Ddummy.ignore=nope
+fi
 export HOME="$(pwd)"
 
 # Defaults

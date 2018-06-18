@@ -239,8 +239,9 @@ build += {
     name: "scala-js-stubs"
     uri:  ${vars.uris.scala-js-stubs-uri}
     extra.options: [
-      // on Java 9, the Scala.js build expects this property to be set
-      "-Dscala.ext.dirs="${ORIGINAL_HOME}"/.sbt/0.13/java9-rt-ext-oracle_corporation_9_0_4"
+      // Java 8 vs 9 stuff; see run.sh
+      // (is this even needed in scala-js-stubs? maybe only needed in scala-js itself?)
+      ${SCALA_JS_OPTIONS}
     ]
     extra.projects: ["stubs"]
   }
@@ -280,8 +281,6 @@ build += {
       // makes a "configuration not public" error in specs2-scalaz go away.  I got the idea to
       // try it by googling that phrase and finding https://github.com/sbt/sbt/pull/2345
       "set every publishMavenStyle := false"
-      // https://github.com/etorreborre/specs2/issues/673
-      "set excludeFilter in (Test, unmanagedSources) in examplesJvm := HiddenFileFilter || \"StackIsolatedSpec.scala\""
     ]
   }
 
@@ -339,8 +338,8 @@ build += {
     extra.options: [
       // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
       "-Xmx2048m"
-      // on Java 9, the Scala.js build expects this property to be set
-      "-Dscala.ext.dirs="${ORIGINAL_HOME}"/.sbt/0.13/java9-rt-ext-oracle_corporation_9_0_4"
+      // Java 8 vs 9 stuff; see run.sh
+      ${SCALA_JS_OPTIONS}
     ]
     // not really sure how this list was arrived at
     extra.projects: [ "tools", "testSuite" ]
