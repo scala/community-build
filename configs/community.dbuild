@@ -242,6 +242,8 @@ build += {
     extra.projects: ["testJVM"]
   }
 
+  // temporarily frozen (June 2018) at least green commit, while Miles
+  // works out the 2.13 cross-building situation
   ${vars.base} {
     name: "shapeless"
     uri:  ${vars.uris.shapeless-uri}
