@@ -469,7 +469,10 @@ build += {
     name: "akka-more"
     uri:  ${vars.uris.akka-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"]
+    extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"
+      // repo readme recommended
+      "-Xmx2g"
+    ]
     extra.projects: ["akka-scala-nightly"]
     extra.commands: ${vars.default-commands} [
       // https://github.com/scala/community-builds/issues/373
