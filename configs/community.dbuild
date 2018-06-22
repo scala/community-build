@@ -803,10 +803,9 @@ build += {
     extra.projects: ["play-jsonJVM"]  // no Scala.js plz
   }
 
-  // frozen (June 2018) at v2.0.0-M1 tag because that's what playframework
-  // currently uses, tracking master here caused playframework to fail to
-  // compile.  presumably it's a transient situation and we can unfreeze
-  // at some point
+  // frozen (June 2018) at v2.0.0-M2 tag because that's what playframework
+  // currently uses. playframework and play-ws tend to get a bit out of sync
+  // with each other so it's generally better to use a tag for play-ws.
   ${vars.base} {
     name: "play-ws"
     uri:  ${vars.uris.play-ws-uri}
