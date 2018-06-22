@@ -255,6 +255,7 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
   }
 
+  // see also specs2-more
   ${vars.base} {
     name: "specs2"
     uri:  ${vars.uris.specs2-uri}
@@ -263,7 +264,7 @@ build += {
     extra.projects: [
       "analysisJVM", "commonJVM", "coreJVM", "examplesJVM", "fpJVM"
       "matcherExtraJVM", "matcherJVM", "mockJVM", "junitJVM"
-      "scalacheckJVM", "shapelessJVM"
+      "scalacheckJVM"
     ]
     extra.commands: ${vars.default-commands} [
       // makes a "configuration not public" error in specs2-scalaz go away.  I got the idea to
@@ -337,20 +338,25 @@ build += {
     ]
   }
 
-  // build this separately so when scalaz fails it doesn't take
-  // out every specs2-using project downstream
+  // keep this stuff separate so the overall dependency tree is
+  // flatter and when dependencies fail they don't take out every
+  // specs2-using project downstream
   ${vars.base} {
-    name: "specs2-scalaz"
+    name: "specs2-more"
     uri:  ${vars.uris.specs2-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.projects: ["scalazJVM"]
+    extra.projects: [
+      "shapelessJVM", "catsJVM", "scalazJVM"
+    ]
+    // already built in "specs2"
+    extra.exclude: [
+      "analysisJVM", "commonJVM", "coreJVM", "examplesJVM", "fpJVM"
+      "matcherExtraJVM", "matcherJVM", "mockJVM", "junitJVM"
+      "scalacheckJVM"
+    ]
     extra.commands: ${vars.default-commands} [
       // not sure if necessary, but we have it in the specs entry, so let's have it here too
       "set every publishMavenStyle := false"
-    ]
-    extra.exclude: [
-      // we already built these in "specs2"
-      "commonJVM", "coreJVM", "fpJVM", "matcherJVM"
     ]
   }
 
