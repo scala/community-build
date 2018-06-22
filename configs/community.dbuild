@@ -1394,6 +1394,10 @@ build += {
   ${vars.base} {
     name: "sksamuel-exts"
     uri:  ${vars.uris.sksamuel-exts-uri}
+    extra.commands: ${vars.default-commands} [
+      // reported upstream at https://github.com/sksamuel/exts/commit/5f69f7254d9ad58a94dd304a0e1cdb560486d6c2#r29458859
+      "set excludeFilter in (Test, unmanagedSources) := HiddenFileFilter || \"FileWatcherTest.scala\""
+    ]
   }
 
   // dependency of scaladex
