@@ -1799,6 +1799,10 @@ build += {
       "sbtRoot"
     ]
     check-missing: false  // ignore missing scalafmt
+    extra.commands: ${vars.default-commands} [
+      // known-flaky test, https://github.com/sbt/sbt/issues/4148
+      "set excludeFilter in (Test, unmanagedSources) in mainProj := HiddenFileFilter || \"SessionSettingsSpec.scala\""
+    ]
   }
 
   // dependency of ammonite.  otherwise obsolete, as per
