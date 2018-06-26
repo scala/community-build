@@ -1802,7 +1802,9 @@ build += {
     ]
     check-missing: false  // ignore missing scalafmt
     extra.commands: ${vars.default-commands} [
-      // known-flaky test, https://github.com/sbt/sbt/issues/4148
+      // known-flaky test, https://github.com/sbt/sbt/issues/4148.
+      // once we move to a tag that includes https://github.com/sbt/sbt/pull/4213
+      // we could remove this exclusion and change test-commands to `; safeUnitTests; otherUnitTests`
       "set excludeFilter in (Test, unmanagedSources) in mainProj := HiddenFileFilter || \"SessionSettingsSpec.scala\""
     ]
   }
