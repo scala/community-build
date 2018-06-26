@@ -1279,8 +1279,6 @@ build += {
     // actually run the whole thing as part of the community build?)
   }
 
-  // frozen (May 2018) at an April 2018 commit.  some source-incompatible
-  // change (1886bc0daa71c8519, probably) broke sttp
   ${vars.base} {
     name: "better-files"
     uri: ${vars.uris.better-files-uri}
@@ -2035,14 +2033,16 @@ build += {
     ]
   }
 
-  // in this space because it depends on circe-core.
-  // forked (February 2018) to remove Scalafmt -- not sure why the
-  // usual workarounds didn't work in this repo.
-  // (see https://github.com/scala/community-builds/pull/618)
   ${vars.base} {
     name: "sttp"
     uri:  ${vars.uris.sttp-uri}
     extra.sbt-version: ${vars.sbt-1-version}
+    // aggregates all JVM projects
+    extra.projects: ["rootJVM"]
+    // I got some compile error here (June 2018), involving implicit
+    // ExecutionContexts, that seemed unlikely to be significant.
+    // we don't need to have every last subproject
+    extra.exclude: ["asyncHttpClientBackendFs2"]
   }
 
 ]}
