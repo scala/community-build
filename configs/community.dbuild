@@ -1694,6 +1694,12 @@ build += {
     ]
   }
 
+  ${vars.base} {
+    name: "better-monadic-for"
+    uri:  ${vars.uris.better-monadic-for-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+  }
+
 ]}
 
 //// space: jawn_0_10
