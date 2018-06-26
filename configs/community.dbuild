@@ -698,11 +698,10 @@ build += {
     extra.projects: ["disciplineJVM"]  // no Scala.js please
   }
 
-  // frozen (May 2018) without investigating failure. TODO for
-  // after Scala Days
   ${vars.base} {
     name: "eff"
     uri:  ${vars.uris.eff-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.exclude: [
       // this is an aggregation project that we exclude because it adds a
       // ScalaMeter dependency
