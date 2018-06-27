@@ -946,17 +946,9 @@ build += {
     extra.test-tasks: "compile"
   }
 
-  // frozen at a March 2017 commit, because some commit soon after
-  // it broke some version checking logic, resulting in
-  // com.fasterxml.jackson.databind.JsonMappingException when running
-  // tests, not only in this project but also downstream in
-  // twitter-util and scalaj-http.  reported the problem upstream at
-  // https://github.com/FasterXML/jackson-module-scala/issues/319
   ${vars.base} {
     name: "jackson-module-scala"
     uri:  ${vars.uris.jackson-module-scala-uri}
-    // we're lying and telling it Java 8 is Java 7, but in this context
-    // the lie isn't important
     extra.options: ["-Djava7.home="${JAVA_HOME}]
   }
 
@@ -1194,28 +1186,17 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
-  // adding (April 2017) because scalameta now depends on it
-  // forked/frozen (September 2017) because scalameta uses 0.6.2
-  // but newer commits are source-incompatible. oh, and also
-  // zinc expects the older version, too.
-  // the fork, here, is in order to include a utest version bump
-  // (since utest also made source-incompatible changes)
+  // dependency of scalameta
   ${vars.base} {
     name: "scalapb"
     uri:  ${vars.uris.scalapb-uri}
-    // just this one for now, since I'm mainly just trying to get
-    // scalameta working again
+    extra.sbt-version: ${vars.sbt-1-version}
+    // just what scalameta needs, for now
     extra.projects: ["runtimeJVM"]
-  }
-
-  // adding (April 2017) because scalameta depends on it
-  // (indirectly via scalapb).  frozen (December 2017) at
-  // July 2017 commit before package name change, since we
-  // we have scalapb frozen too
-  ${vars.base} {
-    name: "scalapb-lenses"
-    uri:  ${vars.uris.scalapb-lenses-uri}
-    extra.projects: ["lensesJVM"]  // no Scala.js plz
+    // there's a 2.12 -> 2.11 symlink that should make this unnecessary, don't know why we need this:
+    extra.commands: ${vars.default-commands} [
+      "set unmanagedSourceDirectories in (runtimeJVM, Compile) += (baseDirectory in runtimeJVM).value.getParentFile / \"shared\" / \"src\" / \"main\" / \"scala-2.11\""
+    ]
   }
 
   ${vars.base} {
@@ -1655,27 +1636,21 @@ build += {
     check-missing: false
   }
 
-  // forked (updated September 2017) to remove coursier.
-  // refreshing the fork should be approached with caution;
-  // see Olafur's remarks at
-  // https://github.com/scala/community-builds/issues/499#issuecomment-287307613
-  // about the instability of both scalameta and scalafix.
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
-    // else, bintray stuff goes boom
-    extra.options: ["-Dsbt.prohibit.publish=true"]
-    extra.projects: ["scalametaJVM", "contribJVM", "semanticdbScalac"]  // no Scala.js
-    extra.exclude: [
-      // we never build sbt plugins or benchmarks
-      "benchmarks"
+    extra.projects: [
+      // holy cow there are a lot of subprojects. it's not super clear what's important
+      // to include.  this is the main thing:
+      "semanticdbScalacPlugin"
+      // and I empirically found scalafix and/or scalafmt to need:
+      "testkit", "contribJVM"
     ]
     // use right version-specific source directories regardless of our weird dbuild Scala version numbers
     extra.commands: ${vars.default-commands} [
       "set unmanagedSourceDirectories in (commonJVM, Compile) += (baseDirectory in commonJVM).value / \"src\" / \"main\" / \"scala-2.12\""
       "set unmanagedSourceDirectories in (dialectsJVM, Compile) += (baseDirectory in dialectsJVM).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (scalametaJVM, Compile) += (baseDirectory in scalametaJVM).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (semanticdbScalac, Compile) += (baseDirectory in semanticdbScalac).value / \"src\" / \"main\" / \"scala-2.12.5\""
+      "set unmanagedSourceDirectories in (semanticdbScalacCore, Compile) += (baseDirectory in semanticdbScalacCore).value / \"src\" / \"main\" / \"scala-2.12.6\""
     ]
   }
 
@@ -2054,11 +2029,11 @@ build += {
 
 ]}
 
-//// space: metaconfig_new
+//// space: metaconfig_old
 
 build += {
 
-  space: scala.main.jawn_0_10.metaconfig_new
+  space: scala.main.jawn_0_10.metaconfig_old
 
   check-missing: [ true, false ]
   cross-version: [ disabled, standard ]
@@ -2066,6 +2041,23 @@ build += {
   sbt-version: ${vars.sbt-version}
 
   projects: [
+
+  // dependency of scalafmt. frozen at an old version because that's what
+  // scalafmt expects
+  ${vars.base} {
+    name: "metaconfig-old"
+    uri:  ${vars.uris.metaconfig-old-uri}
+    extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
+    // I guess dbuild is getting confused by the extra _1.13?
+    deps.ignore: ["com.github.alexarchambault#scalacheck-shapeless"]
+    deps.inject: ${vars.base.deps.inject} [
+      "com.github.alexarchambault#scalacheck-shapeless_1.13"
+    ]
+    check-missing: false
+    extra.settings: ${vars.base.extra.settings} [
+      "conflictWarning in ThisBuild := ConflictWarning.disable"
+    ]
+  }
 
   // forked (June 2018) to disable IntelliJ stuff
   ${vars.base} {
@@ -2085,8 +2077,22 @@ build += {
     ]
   }
 
-  // dependency of scalafmt. frozen at an old version because that's what
-  // scalafmt expects
+]}
+
+//// space: metaconfig-old
+
+build += {
+
+  space: scala.main.jawn_0_10.metaconfig_new
+
+  check-missing: [ true, false ]
+  cross-version: [ disabled, standard ]
+  extraction-version: ${vars.scala-version}
+  sbt-version: ${vars.sbt-version}
+
+  projects: [
+
+  // frozen at version scalafix expects
   ${vars.base} {
     name: "metaconfig-new"
     uri:  ${vars.uris.metaconfig-new-uri}
@@ -2102,73 +2108,12 @@ build += {
     ]
   }
 
-]}
-
-//// space: metaconfig-old
-
-build += {
-
-  space: scala.main.jawn_0_10.metaconfig_old
-
-  check-missing: [ true, false ]
-  cross-version: [ disabled, standard ]
-  extraction-version: ${vars.scala-version}
-  sbt-version: ${vars.sbt-version}
-
-  projects: [
-
-  // adding (September 2017) because scalafix's "cli" subproject uses it.
-  // forked to remove coursier and upgrade sbt-bintray
-  ${vars.base} {
-    name: "semanticdb-sbt"
-    uri:  ${vars.uris.semanticdb-sbt-uri}
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
-    ]
-    // this is enough for scalafix
-    extra.projects: ["runtime"]
-  }
-
-  // dependency of scalafix, frozen (June 2018) at v0.8.3 (the version scalafix uses)
-  ${vars.base} {
-    name: "metaconfig-old"
-    uri:  ${vars.uris.metaconfig-old-uri}
-    extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
-    // I guess dbuild is getting confused by the extra _1.13?
-    deps.ignore: ["com.github.alexarchambault#scalacheck-shapeless"]
-    deps.inject: ${vars.base.deps.inject} [
-      "com.github.alexarchambault#scalacheck-shapeless_1.13"
-    ]
-    check-missing: false
-    extra.settings: ${vars.base.extra.settings} [
-      "conflictWarning in ThisBuild := ConflictWarning.disable"
-    ]
-  }
-
-  // (here in this space because of ammonite-ops dependency)
-  // forked (refreshed September 2017) to remove coursier
-  // caution, refreshing the fork any further can be problematic;
-  // see Olafur's remarks at
-  // https://github.com/scala/community-builds/issues/499#issuecomment-287307613
-  // about the instability of both scalameta and scalafix
+  // here in this space because testkit depends on ammonite-ops
+  // forked awaiting merge of https://github.com/scalameta/scalameta/pull/1637
   ${vars.base} {
     name: "scalafix"
     uri:  ${vars.uris.scalafix-uri}
-    extra.exclude: [
-      // we never build sbt plugins
-      "scalafix-sbt"
-      // requires scalatex-site which requires Scala.js
-      "readme"
-      // no Scala.js please
-      "coreJS", "diffJS"
-      // Scala 2.10 based
-      "testsInputSbt"
-      // do I *look* like Dotty?
-      "testsOutputDotty"
-      // can't expand macros compiled by previous versions of Scala
-      "testsOutputSbt"
-    ]
+    extra.projects: ["cli", "coreJVM", "diffJVM", "reflect", "test-utils", "testkit", "testsInput", "testsOutput", "testsShared"]
   }
 
 ]}
