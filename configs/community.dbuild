@@ -1636,9 +1636,12 @@ build += {
     check-missing: false
   }
 
+  // temporarily forked awaiting merge of https://github.com/scalameta/scalameta/pull/1639
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
+    // allow building on JDK 9+
+    extra.options: ["-Dscalameta.allow-any-jdk"]
     extra.projects: [
       // holy cow there are a lot of subprojects. it's not super clear what's important
       // to include.  this is the main thing:
