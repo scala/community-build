@@ -4,8 +4,6 @@
 // - scala
 // - scala.main
 //   - scala.main.jawn_0_10
-//     - scala.main.jawn_0_10.metaconfig_new
-//     - scala.main.jawn_0_10.metaconfig_old
 //   - scala.main.jawn_0_11
 // - scala.scalaz8
 
@@ -14,11 +12,6 @@
 //   impact of upgrading on binary compatibility of sbt plugins.
 // but in the meantime the whole Typelevel ecosystem is moving onto
 //   jawn 0.11, and the two versions are source-incompatible.
-
-// the metaconfig split is because we want to have both scalafmt
-//   and scalafix, but they are on incompatible metaconfig versions.
-//   (this is easy to keep segregated since scalafmt and scalafix tend
-//   to be build-level dependencies, not project-level dependencies.)
 
 // the scalaz 7/8 split is because both scalaz versions use (at least
 //   some of) the same artifact names
@@ -1679,6 +1672,45 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
   }
 
+  ${vars.base} {
+    name: "metaconfig"
+    uri:  ${vars.uris.metaconfig-uri}
+    extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
+    // I guess dbuild is getting confused by the extra _1.13?
+    deps.ignore: ["com.github.alexarchambault#scalacheck-shapeless"]
+    deps.inject: ${vars.base.deps.inject} [
+      "com.github.alexarchambault#scalacheck-shapeless_1.13"
+    ]
+    check-missing: false
+    extra.settings: ${vars.base.extra.settings} [
+      "conflictWarning in ThisBuild := ConflictWarning.disable"
+    ]
+  }
+
+  // forked (June 2018) to disable IntelliJ stuff we would need an extra resolver for
+  ${vars.base} {
+    name: "scalafmt"
+    uri:  ${vars.uris.scalafmt-uri}
+    extra.projects: ["coreJVM", "cli", "tests"]
+    extra.options: [
+      "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
+    ]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+      // FormatTests: maybe xml-related, I should report it upstream
+      // GitOptsTest: Failed git command. Got: java.lang.IllegalStateException: Failed to
+      // run command git commit -m 'some-message'. Error: *** Please tell me
+      // who you are. Run git config --global user.email "you@example.com"
+      "set excludeFilter in (Test, unmanagedSources) in tests := HiddenFileFilter || \"FormatTests.scala\" || \"GitOpsTest.scala\""
+    ]
+  }
+
+  ${vars.base} {
+    name: "scalafix"
+    uri:  ${vars.uris.scalafix-uri}
+    extra.projects: ["cli", "coreJVM", "diffJVM", "reflect", "test-utils", "testkit", "testsInput", "testsOutput", "testsShared"]
+  }
+
 ]}
 
 //// space: jawn_0_10
@@ -2028,95 +2060,6 @@ build += {
     // ExecutionContexts, that seemed unlikely to be significant.
     // we don't need to have every last subproject
     extra.exclude: ["asyncHttpClientBackendFs2"]
-  }
-
-]}
-
-//// space: metaconfig_old
-
-build += {
-
-  space: scala.main.jawn_0_10.metaconfig_old
-
-  check-missing: [ true, false ]
-  cross-version: [ disabled, standard ]
-  extraction-version: ${vars.scala-version}
-  sbt-version: ${vars.sbt-version}
-
-  projects: [
-
-  // dependency of scalafmt. frozen at an old version because that's what
-  // scalafmt expects
-  ${vars.base} {
-    name: "metaconfig-old"
-    uri:  ${vars.uris.metaconfig-old-uri}
-    extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
-    // I guess dbuild is getting confused by the extra _1.13?
-    deps.ignore: ["com.github.alexarchambault#scalacheck-shapeless"]
-    deps.inject: ${vars.base.deps.inject} [
-      "com.github.alexarchambault#scalacheck-shapeless_1.13"
-    ]
-    check-missing: false
-    extra.settings: ${vars.base.extra.settings} [
-      "conflictWarning in ThisBuild := ConflictWarning.disable"
-    ]
-  }
-
-  // forked (June 2018) to disable IntelliJ stuff
-  ${vars.base} {
-    name: "scalafmt"
-    uri:  ${vars.uris.scalafmt-uri}
-    extra.projects: ["coreJVM", "cli", "tests"]
-    extra.options: [
-      "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
-    ]
-    extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
-      // FormatTests: maybe xml-related, I should report it upstream
-      // GitOptsTest: Failed git command. Got: java.lang.IllegalStateException: Failed to
-      // run command git commit -m 'some-message'. Error: *** Please tell me
-      // who you are. Run git config --global user.email "you@example.com"
-      "set excludeFilter in (Test, unmanagedSources) in tests := HiddenFileFilter || \"FormatTests.scala\" || \"GitOpsTest.scala\""
-    ]
-  }
-
-]}
-
-//// space: metaconfig-old
-
-build += {
-
-  space: scala.main.jawn_0_10.metaconfig_new
-
-  check-missing: [ true, false ]
-  cross-version: [ disabled, standard ]
-  extraction-version: ${vars.scala-version}
-  sbt-version: ${vars.sbt-version}
-
-  projects: [
-
-  // frozen at version scalafix expects
-  ${vars.base} {
-    name: "metaconfig-new"
-    uri:  ${vars.uris.metaconfig-new-uri}
-    extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
-    // I guess dbuild is getting confused by the extra _1.13?
-    deps.ignore: ["com.github.alexarchambault#scalacheck-shapeless"]
-    deps.inject: ${vars.base.deps.inject} [
-      "com.github.alexarchambault#scalacheck-shapeless_1.13"
-    ]
-    check-missing: false
-    extra.settings: ${vars.base.extra.settings} [
-      "conflictWarning in ThisBuild := ConflictWarning.disable"
-    ]
-  }
-
-  // here in this space because testkit depends on ammonite-ops
-  // forked awaiting merge of https://github.com/scalameta/scalameta/pull/1637
-  ${vars.base} {
-    name: "scalafix"
-    uri:  ${vars.uris.scalafix-uri}
-    extra.projects: ["cli", "coreJVM", "diffJVM", "reflect", "test-utils", "testkit", "testsInput", "testsOutput", "testsShared"]
   }
 
 ]}
