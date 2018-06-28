@@ -1640,7 +1640,6 @@ build += {
     check-missing: false
   }
 
-  // temporarily forked awaiting merge of https://github.com/scalameta/scalameta/pull/1639
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
