@@ -934,6 +934,9 @@ build += {
       "scalafmtOnCompile in ThisBuild := false"
       "scalafmtOnCompile in Sbt := false"
     ]
+    extra.commands: ${vars.default-commands} [
+      "set every scalafmtOnCompile := false"
+    ]
     check-missing: false  // ignore missing scalafmt
     // Known test failures: https://github.com/sirthias/scala-ssh/issues/38
     extra.test-tasks: "compile"
@@ -1756,6 +1759,9 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     check-missing: false  // ignore missing scalafmt
+    extra.commands: ${vars.default-commands} [
+      "set every scalafmtOnCompile := false"
+    ]
   }
 
   ${vars.base} {
