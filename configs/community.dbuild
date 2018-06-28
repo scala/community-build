@@ -655,10 +655,11 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
-  // we are currently using the v1.0.1 tag.
+  // we are currently frozen at the last green commit.
   // we used to track that 1.0 branch, but that branch was deleted.
-  // at some point we might like to try moving to a newer tag such as v1.1.0
-  // or beyond, or even track master.
+  // at some point we might like to try moving to a tag such as v1.1.0
+  // or beyond, or even track master.  (I tried the v1.0.1 tag but got
+  // some weird error during dependency extraction.)
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
