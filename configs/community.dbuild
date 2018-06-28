@@ -1697,6 +1697,8 @@ build += {
 
   projects: [
 
+  // forked (June 2018) from the v0.10.4 tag to backport JDK 9 friendliness change
+  // (https://github.com/non/jawn/pull/106) to 0.10 series
   ${vars.base} {
     name: "jawn-0-10"
     uri:  ${vars.uris.jawn-0-10-uri}
@@ -1918,7 +1920,8 @@ build += {
     ]
   }
 
-  // frozen (April 2018) at v0.11.1, the version circe expects
+  // forked (June 2018) from the v0.11.1 tag to backport JDK 9 friendliness change
+  // (https://github.com/non/jawn/pull/106) to 0.11 series
   ${vars.base} {
     name: "jawn-0-11"
     uri:  ${vars.uris.jawn-0-11-uri}
