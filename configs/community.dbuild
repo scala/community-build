@@ -274,7 +274,7 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
     // I don't see a project that aggregates JVM-only stuff, so...
     extra.projects: [
-      "analysisJVM", "commonJVM", "coreJVM", "examplesJVM", "fpJVM"
+      "analysisJVM", "commonJVM", "coreJVM", "fpJVM"
       "matcherExtraJVM", "matcherJVM", "mockJVM", "junitJVM"
       "scalacheckJVM"
     ]
@@ -284,6 +284,9 @@ build += {
       "set every publishMavenStyle := false"
       // flaky test, https://github.com/etorreborre/specs2/issues/673
       "set excludeFilter in (Test, unmanagedSources) in examplesJvm := HiddenFileFilter || \"StackIsolatedSpec.scala\""
+      // 2.13-only test failures, mentioned to Eric on a PR
+      "set excludeFilter in (Test, unmanagedSources) in coreJvm := HiddenFileFilter || \"NotNullStringsSpec.scala\""
+      "set excludeFilter in (Test, unmanagedSources) in mockJvm := HiddenFileFilter || \"MockitoSpec.scala\""
     ]
   }
 
@@ -364,11 +367,11 @@ build += {
     uri:  ${vars.uris.specs2-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: [
-      "shapelessJVM", "catsJVM", "scalazJVM"
+      "shapelessJVM", "catsJVM", "scalazJVM", "examplesJVM"
     ]
     // already built in "specs2"
     extra.exclude: [
-      "analysisJVM", "commonJVM", "coreJVM", "examplesJVM", "fpJVM"
+      "analysisJVM", "commonJVM", "coreJVM", "fpJVM"
       "matcherExtraJVM", "matcherJVM", "mockJVM", "junitJVM"
       "scalacheckJVM"
     ]
