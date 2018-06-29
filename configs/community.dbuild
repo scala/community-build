@@ -262,7 +262,7 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
     // I don't see a project that aggregates JVM-only stuff, so...
     extra.projects: [
-      "analysisJVM", "commonJVM", "coreJVM", "examplesJVM", "fpJVM"
+      "analysisJVM", "commonJVM", "coreJVM", "fpJVM"
       "matcherExtraJVM", "matcherJVM", "mockJVM", "junitJVM"
       "scalacheckJVM"
     ]
@@ -348,11 +348,11 @@ build += {
     uri:  ${vars.uris.specs2-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: [
-      "shapelessJVM", "catsJVM", "scalazJVM"
+      "shapelessJVM", "catsJVM", "scalazJVM", "examplesJVM"
     ]
     // already built in "specs2"
     extra.exclude: [
-      "analysisJVM", "commonJVM", "coreJVM", "examplesJVM", "fpJVM"
+      "analysisJVM", "commonJVM", "coreJVM", "fpJVM"
       "matcherExtraJVM", "matcherJVM", "mockJVM", "junitJVM"
       "scalacheckJVM"
     ]
