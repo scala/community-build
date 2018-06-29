@@ -27,7 +27,7 @@ fi
 export HOME="$(pwd)"
 
 # Defaults
-scala_version_default="2.13.0-pre-1e904d7"  # Jun 25
+scala_version_default="2.13.0-pre-53710db"  # Jun 29
 scala_version="$scala_version_default"
 root_dir=$(pwd)
 config_dir="configs"
