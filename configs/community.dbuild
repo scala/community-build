@@ -1696,6 +1696,10 @@ build += {
     extra.settings: ${vars.base.extra.settings} [
       "conflictWarning in ThisBuild := ConflictWarning.disable"
     ]
+    extra.commands: ${vars.default-commands} [
+      // https://github.com/olafurpg/metaconfig/issues/59
+      "set excludeFilter in (Test, unmanagedSources) in `metaconfig-coreJVM` := HiddenFileFilter || \"CliSuite.scala\""
+    ]
   }
 
   // forked (June 2018) to disable IntelliJ stuff we would need an extra resolver for
