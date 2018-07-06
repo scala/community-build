@@ -1509,7 +1509,7 @@ build += {
       "set every bintrayReleaseOnPublish := false"
     ]
     // Missing dependency: com.dongxiguo#fastring
-    extra.exclude: ["benchmark"]
+    extra.exclude: ["fsi-benchmark", "fsi-benchmark-core"]
   }
 
   ${vars.base} {
