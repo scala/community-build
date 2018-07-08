@@ -1671,7 +1671,7 @@ build += {
     name: "jsoniter-scala"
     uri:  ${vars.uris.jsoniter-scala-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.exclude: ["jsoniter-scala-benchmark"]
+    extra.exclude: ["benchmark"]
   }
 
   ${vars.base} {
