@@ -1526,7 +1526,7 @@ build += {
       "set every bintrayReleaseOnPublish := false"
     ]
     // Missing dependency: com.dongxiguo#fastring
-    extra.exclude: ["benchmark"]
+    extra.exclude: ["fsi-benchmark", "fsi-benchmark-core"]
   }
 
   ${vars.base} {
@@ -1658,6 +1658,9 @@ build += {
     check-missing: false
   }
 
+  // frozen at version that currently works for both scalafix and scalafmt.
+  // (tracking master of all three projects is too fragile).
+  // current tag chosen to include necessary geny fix
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
@@ -1678,6 +1681,9 @@ build += {
     ]
   }
 
+  // dependency of scaladex (via akka-http-json)
+  // frozen (July 2018) at a July 2018 commit just before a commit that changed
+  // the artifact naming (akka-http-json, downstream, still expects the old names)
   ${vars.base} {
     name: "jsoniter-scala"
     uri:  ${vars.uris.jsoniter-scala-uri}
@@ -1712,6 +1718,10 @@ build += {
     check-missing: false
     extra.settings: ${vars.base.extra.settings} [
       "conflictWarning in ThisBuild := ConflictWarning.disable"
+    ]
+    extra.commands: ${vars.default-commands} [
+      // https://github.com/olafurpg/metaconfig/issues/59
+      "set excludeFilter in (Test, unmanagedSources) in `metaconfig-coreJVM` := HiddenFileFilter || \"CliSuite.scala\""
     ]
   }
 
