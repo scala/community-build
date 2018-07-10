@@ -341,7 +341,7 @@ build += {
       ${SCALA_JS_OPTIONS}
     ]
     // not really sure how this list was arrived at
-    extra.projects: [ "tools", "testSuite" ]
+    extra.projects: ["io", "logging", "linker", "testSuite"]
     // exclude it here because we build it separately in scala-js-stubs
     extra.exclude: ["stubs"]
     extra.commands: ${vars.default-commands} [
