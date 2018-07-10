@@ -695,6 +695,7 @@ build += {
   ${vars.base} {
     name: "discipline"
     uri:  ${vars.uris.discipline-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["disciplineJVM"]  // no Scala.js please
   }
 
