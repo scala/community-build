@@ -16,10 +16,14 @@ export LANG="en_US.UTF-8"
 
 # on Java 9+, the Scala.js build expects this property to be set.
 # note the kludgy specificity here, this will need further work
-# to be more flexible with different JVMs
-if   [[ `java -version 2>&1 | head -n 1` == *"9.0."*  ]]; then
+# to be more flexible with different JVMs.  note that Oracle
+# and OpenJDK print different things, so e.g. we might see:
+#   openjdk version "9-Debian"
+#   java version "9.0.4"
+# and lord knows what else.
+if   [[ `java -version 2>&1 | head -n 1` == *\"9*  ]]; then
   export SCALA_JS_OPTIONS=-Dscala.ext.dirs=$HOME/.sbt/0.13/java9-rt-ext-oracle_corporation_9_0_4
-elif [[ `java -version 2>&1 | head -n 1` == *"10.0."* ]]; then
+elif [[ `java -version 2>&1 | head -n 1` == *\"10* ]]; then
   export SCALA_JS_OPTIONS=-Dscala.ext.dirs=$HOME/.sbt/0.13/java9-rt-ext-oracle_corporation_10_0_1
 else
   export SCALA_JS_OPTIONS=-Ddummy.ignore=nope
