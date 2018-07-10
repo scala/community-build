@@ -15,12 +15,20 @@ rm -rf target-*/extraction || true
 export LANG="en_US.UTF-8"
 
 # on Java 9+, the Scala.js build expects this property to be set.
-# note the kludgy specificity here, this will need further work
-# to be more flexible with different JVMs.  note that Oracle
-# and OpenJDK print different things, so e.g. we might see:
-#   openjdk version "9-Debian"
-#   java version "9.0.4"
-# and lord knows what else.
+# * note the kludgy specificity here, this will need further work
+#   to be more flexible with different JVMs.
+# * note that for `java -version`, Oracle and OpenJDK print different
+#   things, so e.g. we might see:
+#     openjdk version "9-Debian"
+#     java version "9.0.4"
+#   and lord knows what else, so matching on version strings must be done carefully
+# * note that in the OpenJDK case it would be more correct to
+#   use java9-rt-ext-oracle_corporation_9_debian, but it seems
+#   highly unlikely that the difference would matter.
+# * we have no actual guarantee that rt.jar is present in the given location.
+#   if you've ever run sbt yourself on your machine on the JDK version in question,
+#   sbt probably put the jar in the right place, maybe? if not, you can always
+#   manually put it there yourself. that's what I did on our Jenkins workers
 if   [[ `java -version 2>&1 | head -n 1` == *\"9*  ]]; then
   export SCALA_JS_OPTIONS=-Dscala.ext.dirs=$HOME/.sbt/0.13/java9-rt-ext-oracle_corporation_9_0_4
 elif [[ `java -version 2>&1 | head -n 1` == *\"10* ]]; then
