@@ -695,6 +695,7 @@ build += {
   ${vars.base} {
     name: "discipline"
     uri:  ${vars.uris.discipline-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["disciplineJVM"]  // no Scala.js please
   }
 
@@ -1648,7 +1649,7 @@ build += {
 
   // frozen at version that currently works for both scalafix and scalafmt.
   // (tracking master of all three projects is too fragile).
-  // current tag chosen to include necessary geny fix
+  // current tag chosen to include necessary geny fix, JDK 9 fix
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
