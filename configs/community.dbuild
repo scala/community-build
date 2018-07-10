@@ -958,6 +958,8 @@ build += {
   // need to a pull a newer version of mecha.  the easiest way to do
   // this is just to blow away the whole Jenkins workspace.  which
   // it's probably a good idea to do from time to time anyway.
+  // temporarily forked (July 2018) awaiting merge of
+  // https://github.com/scalameter/scalameter/pull/203
   ${vars.base} {
     name: "scalameter"
     uri:  ${vars.uris.scalameter-uri}
