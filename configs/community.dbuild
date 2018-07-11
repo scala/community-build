@@ -311,6 +311,23 @@ build += {
   }
 
   ${vars.base} {
+    name: "tut"
+    uri:  ${vars.uris.tut-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.exclude: [
+      "plugin"  // we never build sbt plugins
+      "docs"  // out of scope
+      "root"  // weird errors; irrelevant anyway
+    ]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
+    // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
+    deps.ignore: ["org.scala-sbt#scripted-sbt"]
+    check-missing: false
+  }
+
+  ${vars.base} {
     name: "genjavadoc"
     uri:  ${vars.uris.genjavadoc-uri}
   }
@@ -961,6 +978,11 @@ build += {
     extra.test-tasks: "compile"
   }
 
+  // frozen (July 2018) at a February 2017 commit, because there were
+  // scalameter test failures when we used master.  (whether going all the
+  // way back to February 2017 is actually necessary, I don't know; I
+  // just used the last green commit, which happens to be old because
+  // we had the project frozen already for a long time)
   ${vars.base} {
     name: "jackson-module-scala"
     uri:  ${vars.uris.jackson-module-scala-uri}
@@ -1144,19 +1166,6 @@ build += {
     name: "algebra"
     uri:  ${vars.uris.algebra-uri}
     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js, no benchmarks, no docs
-  }
-
-  ${vars.base} {
-    name: "tut"
-    uri:  ${vars.uris.tut-uri}
-    extra.exclude: ["plugin"]  // we never build sbt plugins
-    // because of new unused warnings introduced
-    // by https://github.com/scala/scala/pull/5402 ; probably they'll fix it upstream
-    // after 2.12.2 comes out
-    extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
-    ]
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
 
   // dependency of scalafix
@@ -1444,14 +1453,13 @@ build += {
       // tests in these subprojects are too slow and (more importantly) too fragile
       "set executeTests in `persistence-cassandra-scaladsl` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
       "set executeTests in `testkit-scaladsl` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-      // https://github.com/lagom/lagom/issues/1413
-      "set excludeFilter in (Test, unmanagedSources) in `persistence-cassandra-core` := HiddenFileFilter || \"ServiceLocatorSessionProviderSpec.scala\""
       // more flaky tests I haven't reported upstream
       "set excludeFilter in (Test, unmanagedSources) in `server-scaladsl` := HiddenFileFilter || \"LagomApplicationSpec.scala\""
     ]
   }
 
-  // dependency of lagom
+  // dependency of lagom. frozen (July 2018) at last green version,
+  // since newer commits break lagom; see https://github.com/lagom/lagom/issues/1413
   ${vars.base} {
     name: "akka-persistence-cassandra"
     uri:  ${vars.uris.akka-persistence-cassandra-uri}
