@@ -296,6 +296,23 @@ build += {
   }
 
   ${vars.base} {
+    name: "tut"
+    uri:  ${vars.uris.tut-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.exclude: [
+      "plugin"  // we never build sbt plugins
+      "docs"  // out of scope
+      "root"  // weird errors; irrelevant anyway
+    ]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
+    // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
+    deps.ignore: ["org.scala-sbt#scripted-sbt"]
+    check-missing: false
+  }
+
+  ${vars.base} {
     name: "genjavadoc"
     uri:  ${vars.uris.genjavadoc-uri}
   }
@@ -1134,19 +1151,6 @@ build += {
     name: "algebra"
     uri:  ${vars.uris.algebra-uri}
     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js, no benchmarks, no docs
-  }
-
-  ${vars.base} {
-    name: "tut"
-    uri:  ${vars.uris.tut-uri}
-    extra.exclude: ["plugin"]  // we never build sbt plugins
-    // because of new unused warnings introduced
-    // by https://github.com/scala/scala/pull/5402 ; probably they'll fix it upstream
-    // after 2.12.2 comes out
-    extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
-    ]
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
 
   // dependency of scalafix
