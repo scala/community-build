@@ -392,7 +392,6 @@ build += {
     ]
   }
 
-  // temporarily forked awaiting merge of https://github.com/scala/scala-java8-compat/pull/115
   ${vars.base} {
     name: "scala-java8-compat"
     uri:  ${vars.uris.scala-java8-compat-uri}
