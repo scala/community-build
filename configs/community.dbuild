@@ -647,13 +647,15 @@ build += {
     extra.exclude: ["docs"]
   }
 
-  // JavaInputOutputStreamSpec/upstream.is.closed may intermittently fail,
-  // see https://github.com/functional-streams-for-scala/fs2/issues/1063
   ${vars.base} {
     name: "fs2"
     uri:  ${vars.uris.fs2-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["coreJVM", "scodecJVM", "io"]  // no Scala.js, no benchmarks or docs
+    extra.commands: ${vars.default-commands} [
+      // too flaky: https://github.com/functional-streams-for-scala/fs2/issues/1063
+      "set excludeFilter in (Test, unmanagedSources) := HiddenFileFilter || \"JavaInputOutputStreamSpec.scala\""
+    ]
   }
 
   // frozen (June 2018) at a February 2018 commit before a fs2 0.1 -> 1.0 upgrade.
