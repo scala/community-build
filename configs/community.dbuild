@@ -307,6 +307,7 @@ build += {
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
     ]
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
     deps.ignore: ["org.scala-sbt#scripted-sbt"]
     check-missing: false
