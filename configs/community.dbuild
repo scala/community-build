@@ -274,6 +274,21 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
   }
 
+  // dependency of scribe
+  ${vars.base} {
+    name: "perfolation"
+    uri:  ${vars.uris.perfolation-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: ["coreJVM"]
+  }
+
+  ${vars.base} {
+    name: "scribe"
+    uri:  ${vars.uris.scribe-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: ["coreJVM", "macrosJVM", "testsJVM"]
+  }
+
 ]}
 
 //// space: scala.main
@@ -1982,6 +1997,23 @@ build += {
       "jawn"
       // bunch more stuff that all depends on jawn
       "parser", "generic", "literal", "scodec", "testing", "tests"
+      // dependency of scrooge-shapes
+      "genericExtras"
+    ]
+  }
+
+  ${vars.base} {
+    name: "enumeratum"
+    uri:  ${vars.uris.enumeratum-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: [
+      // for some reason dbuild doesn't seem to pick up on which subprojects
+      // depend on each other, so we have to list them individually (even
+      // though e.g. coreJVMTests depends on both coreJVM and macrosJVM)
+      "coreJVM", "macrosJVM", "coreJVMTests"
+      // as for other subprojects, for now let's just pull in what lsp4s
+      // needs. maybe add more later
+      "enumeratumCirceJVM"
     ]
   }
 
@@ -2099,6 +2131,44 @@ build += {
     // ExecutionContexts, that seemed unlikely to be significant.
     // we don't need to have every last subproject
     extra.exclude: ["asyncHttpClientBackendFs2"]
+  }
+
+  // dependency of scrooge-shapes.
+  // for now anyway, we're only attempting to build the core project,
+  // since that's what scrooge-shapes needs.
+  ${vars.base} {
+    name: "scrooge"
+    uri:  ${vars.uris.scrooge-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: ["scrooge-core"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+      "set every bintrayOmitLicense := true"  // otherwise it complains we don't have one
+    ]
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+  }
+
+  // dependency of circe-derivation
+  ${vars.base} {
+    name: "scrooge-shapes"
+    uri:  ${vars.uris.scrooge-shapes-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+  }
+
+  // dependency of lsp4s
+  ${vars.base} {
+    name: "circe-derivation"
+    uri:  ${vars.uris.circe-derivation-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    // there are some others, but really just trying to get lsp4s going at the moment
+    extra.projects: ["derivation", "annotations"]
+  }
+
+  // depends on circe, so is here in the jawn 0.11 space
+  ${vars.base} {
+    name: "lsp4s"
+    uri:  ${vars.uris.lsp4s-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
   }
 
 ]}
