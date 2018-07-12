@@ -392,10 +392,12 @@ build += {
     uri:  ${vars.uris.akka-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"]
-    extra.projects: ["akka-actor", "akka-actor-typed"]
+    extra.projects: ["akka-actor", "akka-actor-typed", "akka-testkit", "akka-actor-tests"]
     extra.commands: ${vars.default-commands} [
       // https://github.com/scala/community-builds/issues/373
       "set every apiURL := None"
+      // needed downstream in akka-stream and/or akka-more
+      "set skip in publish in actorTests := false"
     ]
   }
 
@@ -498,7 +500,8 @@ build += {
       "set every publishMavenStyle := false"
     ]
     extra.exclude: [
-      "akka-actor", "akka-actor-typed"  // because we already built them in "akka-actor"
+      // because we already built them in "akka-actor"
+      "akka-actor", "akka-actor-typed", "akka-testkit", "akka-actor-tests"
     ]
   }
 
@@ -519,10 +522,10 @@ build += {
     ]
     extra.exclude: [
       "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
-      "akka-actor", "akka-actor-typed"  // because we already built them in "akka-actor"
+      "akka-actor", "akka-actor-typed", "akka-actor-tests", "akka-testkit"  // because we already built them in "akka-actor"
       "akka-stream", "akka-stream-testkit", "akka-remote"  // because we already built them in "akka-stream"
       "akka-bench-jmh"  // we'd have to add a resolver to get the JMH dependency, and we prefer not to run benchmarks here anyway
-      "akka-testkit", "akka-protobuf", "akka-multi-node-testkit"  // already built these in akka-stream
+      "akka-protobuf", "akka-multi-node-testkit"  // already built these in akka-stream
     ]
   }
 
