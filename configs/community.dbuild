@@ -213,11 +213,6 @@ build += {
   ${vars.base} {
     name: "scala-js-stubs"
     uri:  ${vars.uris.scala-js-stubs-uri}
-    extra.options: [
-      // Java 8 vs 9 stuff; see run.sh
-      // (is this even needed in scala-js-stubs? maybe only needed in scala-js itself?)
-      ${SCALA_JS_OPTIONS}
-    ]
     extra.projects: ["stubs"]
   }
 
@@ -335,8 +330,6 @@ build += {
     extra.options: [
       // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
       "-Xmx2048m"
-      // Java 8 vs 9 stuff; see run.sh
-      ${SCALA_JS_OPTIONS}
     ]
     // not really sure how this list was arrived at
     extra.projects: [ "io", "logging", "linker", "testSuite" ]
