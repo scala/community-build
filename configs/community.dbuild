@@ -1305,11 +1305,8 @@ build += {
     uri:  ${vars.uris.gigahorse-uri}
     // as of August 2017, doesn't compile against latest akka-http
     extra.exclude: ["akkaHttp"]
-    extra.commands: ${vars.default-commands} [
-      // waiting to hear back on https://github.com/eed3si9n/gigahorse/issues/54
-      "set executeTests in commonTest in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-      "set executeTests in okhttp in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-    ]
+    // pending: https://github.com/eed3si9n/gigahorse/issues/54
+    extra.test-tasks: ["compile"]
   }
 
   // dependency of scalachess
