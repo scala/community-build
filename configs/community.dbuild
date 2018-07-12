@@ -484,7 +484,7 @@ build += {
       // repo readme recommended
       "-Xmx2g"
     ]
-    extra.projects: ["akka-stream", "streamTests"]
+    extra.projects: ["akka-stream", "akka-stream-tests"]
     extra.commands: ${vars.default-commands} [
       // https://github.com/scala/community-builds/issues/373
       "set every apiURL := None"
