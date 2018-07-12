@@ -494,6 +494,8 @@ build += {
       "set every apiURL := None"
       // UnfoldResourceSourceSpec kept failing. I should report upstream if it persists after next unfreeze
       "set executeTests in streamTests in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+      // makes a "configuration not public" error downstream (in akka-more) go away
+      "set every publishMavenStyle := false"
     ]
     extra.exclude: [
       "akka-actor", "akka-actor-typed"  // because we already built them in "akka-actor"
