@@ -485,6 +485,8 @@ build += {
     extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"
       // repo readme recommended
       "-Xmx2g"
+      // the usual thing some projects need on JDK 9
+      "--add-modules=java.xml.bind", "-XX:+IgnoreUnrecognizedVMOptions"
     ]
     extra.projects: ["akka-scala-nightly"]
     extra.commands: ${vars.default-commands} [
