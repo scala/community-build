@@ -476,6 +476,26 @@ build += {
     ]
   }
 
+  ${vars.base} {
+    name: "akka-stream"
+    uri:  ${vars.uris.akka-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"
+      // repo readme recommended
+      "-Xmx2g"
+    ]
+    extra.projects: ["akka-stream", "streamTests"]
+    extra.commands: ${vars.default-commands} [
+      // https://github.com/scala/community-builds/issues/373
+      "set every apiURL := None"
+      // UnfoldResourceSourceSpec kept failing. I should report upstream if it persists after next unfreeze
+      "set executeTests in streamTests in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+    ]
+    extra.exclude: [
+      "akka-actor"  // because we already built it in "akka"
+    ]
+  }
+
   // this is separate from "akka-actor" because there is a circular dependency between
   // the akka and ssl-config repos
   ${vars.base} {
@@ -490,12 +510,11 @@ build += {
     extra.commands: ${vars.default-commands} [
       // https://github.com/scala/community-builds/issues/373
       "set every apiURL := None"
-      // UnfoldResourceSourceSpec kept failing. I should report upstream if it persists after next unfreeze
-      "set executeTests in streamTests in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
     ]
     extra.exclude: [
       "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
       "akka-actor"  // because we already built it in "akka"
+      "akka-stream", "akka-stream-testkit", "akka-remote"  // because we already built them in "akka-stream"
       "akka-bench-jmh"  // we'd have to add a resolver to get the JMH dependency, and we prefer not to run benchmarks here anyway
     ]
   }
