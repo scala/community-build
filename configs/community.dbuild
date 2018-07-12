@@ -1304,6 +1304,7 @@ build += {
     extra.commands: ${vars.default-commands} [
       // waiting to hear back on https://github.com/eed3si9n/gigahorse/issues/54
       "set executeTests in commonTest in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+      "set executeTests in okhttp in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
     ]
   }
 
