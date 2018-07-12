@@ -495,7 +495,7 @@ build += {
       "set executeTests in streamTests in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
       // known to fail on JDK 9 only (works on 8, 10).  ideally we'd conditionally exclude by
       // JVM version but it doesn't seem worth fooling with
-      "set excludeFilter in (Test, unmanagedSources) in `akka-actor-tests` := HiddenFileFilter || \"IndexSpec.scala\""
+      "set excludeFilter in (Test, unmanagedSources) in actorTests := HiddenFileFilter || \"IndexSpec.scala\""
     ]
     extra.exclude: [
       "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
