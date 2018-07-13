@@ -380,7 +380,7 @@ build += {
     ]
   }
 
-  // frozen (June 2018) at v2.5.13 because
+  // frozen (July 2018) at v2.5.14 because
   // this repo is volatile (very frequent commits) and when it needs to be rebuilt,
   // the testing takes a long time (especially akka-more) and the downstream rebuilding takes
   // a long time too.  so in general we want to use a tag or SHA rather than track master
