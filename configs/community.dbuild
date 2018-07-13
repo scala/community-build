@@ -710,8 +710,10 @@ build += {
     // using deps.ignore doesn't fix it either. not sure how else to fix it
     // other than just enumerating what we want:
     extra.projects: ["coreJVM", "freeJVM", "kernelJVM", "kernelLawsJVM", "lawsJVM", "macrosJVM", "testsJVM"]
-    // tests are memory-hungry
-    extra.options: ["-Xmx2560m"]
+    // tests are memory-hungry. hard to tell if occasional OutOfMemoryErrors are because
+    // some random test input in a generative test hit a real bug, or whether memory needs
+    // just fluctuate :-/
+    extra.options: ["-Xmx3g"]
   }
 
   ${vars.base} {
