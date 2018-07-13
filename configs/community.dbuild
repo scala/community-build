@@ -213,11 +213,6 @@ build += {
   ${vars.base} {
     name: "scala-js-stubs"
     uri:  ${vars.uris.scala-js-stubs-uri}
-    extra.options: [
-      // Java 8 vs 9 stuff; see run.sh
-      // (is this even needed in scala-js-stubs? maybe only needed in scala-js itself?)
-      ${SCALA_JS_OPTIONS}
-    ]
     extra.projects: ["stubs"]
   }
 
@@ -339,8 +334,6 @@ build += {
     extra.options: [
       // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
       "-Xmx2048m"
-      // Java 8 vs 9 stuff; see run.sh
-      ${SCALA_JS_OPTIONS}
     ]
     // not really sure how this list was arrived at
     extra.projects: [ "io", "logging", "linker", "testSuite" ]
@@ -396,10 +389,17 @@ build += {
     uri:  ${vars.uris.akka-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"]
-    extra.projects: ["akka-actor"]
+    extra.projects: ["akka-actor", "akka-actor-typed", "akka-testkit", "akka-actor-tests"]
     extra.commands: ${vars.default-commands} [
       // https://github.com/scala/community-builds/issues/373
       "set every apiURL := None"
+      // needed downstream in akka-stream and/or akka-more
+      "set skip in publish in actorTests := false"
+      // makes "configuration not public" errors downstream go away
+      "set every publishMavenStyle := false"
+      // known to fail on JDK 9 only (works on 8, 10).  ideally we'd conditionally exclude by
+      // JVM version but it doesn't seem worth fooling with
+      "set excludeFilter in (Test, unmanagedSources) in actorTests := HiddenFileFilter || \"IndexSpec.scala\""
     ]
   }
 
@@ -480,6 +480,33 @@ build += {
     ]
   }
 
+  ${vars.base} {
+    name: "akka-stream"
+    uri:  ${vars.uris.akka-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"
+      // repo readme recommended
+      "-Xmx2g"
+    ]
+    extra.projects: [
+      "akka-stream", "akka-stream-tests"
+      // not part of akka-stream, but throwing it in so that akka-http doesn't need anything from akka-more
+      "akka-multi-node-testkit"
+    ]
+    extra.commands: ${vars.default-commands} [
+      // https://github.com/scala/community-builds/issues/373
+      "set every apiURL := None"
+      // UnfoldResourceSourceSpec kept failing. I should report upstream if it persists after next unfreeze
+      "set executeTests in streamTests in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+      // makes "configuration not public" errors downstream go away
+      "set every publishMavenStyle := false"
+    ]
+    extra.exclude: [
+      // because we already built them in "akka-actor"
+      "akka-actor", "akka-actor-typed", "akka-testkit", "akka-actor-tests"
+    ]
+  }
+
   // this is separate from "akka-actor" because there is a circular dependency between
   // the akka and ssl-config repos
   ${vars.base} {
@@ -499,14 +526,13 @@ build += {
       // UnfoldResourceSourceSpec kept failing. I should report upstream if it persists after next unfreeze.
       // also note we shouldn't only be disabling the one source file, not the whole project.
       "set executeTests in streamTests in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-      // known to fail on JDK 9 only (works on 8, 10).  ideally we'd conditionally exclude by
-      // JVM version but it doesn't seem worth fooling with
-      "set excludeFilter in (Test, unmanagedSources) in actorTests := HiddenFileFilter || \"IndexSpec.scala\""
     ]
     extra.exclude: [
       "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
-      "akka-actor"  // because we already built it in "akka"
+      "akka-actor", "akka-actor-typed", "akka-actor-tests", "akka-testkit"  // because we already built them in "akka-actor"
+      "akka-stream", "akka-stream-testkit", "akka-remote"  // because we already built them in "akka-stream"
       "akka-bench-jmh"  // we'd have to add a resolver to get the JMH dependency, and we prefer not to run benchmarks here anyway
+      "akka-protobuf", "akka-multi-node-testkit"  // already built these in akka-stream
     ]
   }
 
