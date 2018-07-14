@@ -1643,6 +1643,7 @@ build += {
   ${vars.base} {
     name: "giter8"
     uri:  ${vars.uris.giter8-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.exclude: ["plugin", "scaffold"]  // these are sbt plugins
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
