@@ -1712,8 +1712,6 @@ build += {
   }
 
   // dependency of scaladex (via akka-http-json)
-  // frozen (July 2018) at a July 2018 commit just before a commit that changed
-  // the artifact naming (akka-http-json, downstream, still expects the old names)
   ${vars.base} {
     name: "jsoniter-scala"
     uri:  ${vars.uris.jsoniter-scala-uri}
