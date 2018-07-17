@@ -1775,7 +1775,7 @@ build += {
     name: "scalafix"
     uri:  ${vars.uris.scalafix-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.projects: ["cli", "coreJVM", "diffJVM", "reflect", "test-utils", "testkit", "testsInput", "testsOutput", "testsShared"]
+    extra.exclude: ["website", "testsOutputDotty"]
   }
 
 ]}
