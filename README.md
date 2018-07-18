@@ -6,7 +6,7 @@ This repository contains configuration files that enable us to build and test
 a corpus of Scala open source projects together using Lightbend's
 [dbuild](https://github.com/lightbend/dbuild).
 
-**How big is it?** The 2.12 build is **2.8 million lines** of Scala code, total, from **141 projects** (as of January 2018).
+**How big is it?** The 2.12 build is **3 million lines** of Scala code, total, from **169 projects** (as of July 2018).
 
 **Why do this?** The main goal is to guard against regressions in new
 versions of Scala (language, standard library, and modules). It's also

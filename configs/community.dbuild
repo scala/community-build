@@ -585,8 +585,8 @@ build += {
       // I think it's a confusion of levels, but maybe I'm missing something. - ST 8/27/15
       "de.johoop#sbt-testng-interface"
     ]
-    // as per https://github.com/slick/slick/issues/1908, we need this on Java 9
-    extra.options: ["--add-modules=java.xml.bind", "-XX:+IgnoreUnrecognizedVMOptions"]
+    // as per https://github.com/slick/slick/issues/1908, we need this on Java 9+
+    extra.options: ["-J--add-modules=java.xml.bind", "-XX:+IgnoreUnrecognizedVMOptions"]
     extra.exclude: [
       // unless we exclude, it looks for an Ornate dependency here
       "root"
@@ -640,6 +640,10 @@ build += {
     extra.projects: ["utestJVM"]
     // waiting for fix on https://github.com/lihaoyi/utest/issues/168
     extra.test-tasks: ["compile"]
+    // we have to disable this for JDK 10 until https://github.com/scala/bug/issues/10717 is fixed
+    extra.commands: ${vars.default-commands} [
+      "removeScalacOptions -opt:l:method"
+    ]
   }
 
   ${vars.base} {
@@ -893,6 +897,8 @@ build += {
     uri:  ${vars.uris.cachecontrol-uri}
   }
 
+  // frozen (July 2018) at July 2018 commit just before the big
+  // "Akka Coordinated Shutdown" PR landed, which broke lagom downstream
   ${vars.base} {
     name: "play-core"
     uri:  ${vars.uris.play-core-uri}
@@ -1725,13 +1731,11 @@ build += {
   }
 
   // dependency of scaladex (via akka-http-json)
-  // frozen (July 2018) at a July 2018 commit just before a commit that changed
-  // the artifact naming (akka-http-json, downstream, still expects the old names)
   ${vars.base} {
     name: "jsoniter-scala"
     uri:  ${vars.uris.jsoniter-scala-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.exclude: ["benchmark"]
+    extra.exclude: ["jsoniter-scala-benchmark"]
   }
 
   ${vars.base} {
@@ -1789,7 +1793,8 @@ build += {
   ${vars.base} {
     name: "scalafix"
     uri:  ${vars.uris.scalafix-uri}
-    extra.projects: ["cli", "coreJVM", "diffJVM", "reflect", "test-utils", "testkit", "testsInput", "testsOutput", "testsShared"]
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.exclude: ["website", "testsOutputDotty"]
   }
 
 ]}
