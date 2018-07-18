@@ -1686,9 +1686,6 @@ build += {
     check-missing: false
   }
 
-  // frozen at version that currently works for both scalafix and scalafmt.
-  // (tracking master of all three projects is too fragile).
-  // current tag chosen to include necessary geny fix, JDK 9 fix
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
@@ -1699,7 +1696,7 @@ build += {
       // to include.  this is the main thing:
       "semanticdbScalacPlugin"
       // and I empirically found scalafix and/or scalafmt to need:
-      "testkit", "contribJVM"
+      "testkit", "contribJVM", "symtab"
     ]
     // use right version-specific source directories regardless of our weird dbuild Scala version numbers
     extra.commands: ${vars.default-commands} [
@@ -1773,7 +1770,11 @@ build += {
     name: "scalafix"
     uri:  ${vars.uris.scalafix-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.exclude: ["website", "testsOutputDotty"]
+    extra.exclude: [
+      "website", "testsOutputDotty"
+      // this seems to somehow pull in testsOutputDotty unless we exclude it, I don't understand why
+      "unit"
+    ]
   }
 
 ]}
