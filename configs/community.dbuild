@@ -380,7 +380,7 @@ build += {
     ]
   }
 
-  // frozen (June 2018) at v2.5.13 because
+  // frozen (July 2018) at v2.5.14 because
   // this repo is volatile (very frequent commits) and when it needs to be rebuilt,
   // the testing takes a long time (especially akka-more) and the downstream rebuilding takes
   // a long time too.  so in general we want to use a tag or SHA rather than track master
@@ -532,7 +532,7 @@ build += {
     extra.exclude: [
       "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
       "akka-actor", "akka-actor-typed", "akka-actor-tests", "akka-testkit"  // because we already built them in "akka-actor"
-      "akka-stream", "akka-stream-testkit", "akka-remote"  // because we already built them in "akka-stream"
+      "akka-stream", "akka-stream-testkit", "akka-remote", "akka-stream-tests"  // because we already built them in "akka-stream"
       "akka-bench-jmh"  // we'd have to add a resolver to get the JMH dependency, and we prefer not to run benchmarks here anyway
       "akka-protobuf", "akka-multi-node-testkit"  // already built these in akka-stream
     ]
@@ -720,8 +720,10 @@ build += {
     // using deps.ignore doesn't fix it either. not sure how else to fix it
     // other than just enumerating what we want:
     extra.projects: ["coreJVM", "freeJVM", "kernelJVM", "kernelLawsJVM", "lawsJVM", "macrosJVM", "testsJVM"]
-    // tests are memory-hungry
-    extra.options: ["-Xmx2560m"]
+    // tests are memory-hungry. hard to tell if occasional OutOfMemoryErrors are because
+    // some random test input in a generative test hit a real bug, or whether memory needs
+    // just fluctuate :-/
+    extra.options: ["-Xmx3g"]
   }
 
   ${vars.base} {
@@ -889,6 +891,8 @@ build += {
     uri:  ${vars.uris.cachecontrol-uri}
   }
 
+  // frozen (July 2018) at July 2018 commit just before the big
+  // "Akka Coordinated Shutdown" PR landed, which broke lagom downstream
   ${vars.base} {
     name: "play-core"
     uri:  ${vars.uris.play-core-uri}
@@ -1651,6 +1655,7 @@ build += {
   ${vars.base} {
     name: "giter8"
     uri:  ${vars.uris.giter8-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.exclude: ["plugin", "scaffold"]  // these are sbt plugins
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
@@ -1717,13 +1722,11 @@ build += {
   }
 
   // dependency of scaladex (via akka-http-json)
-  // frozen (July 2018) at a July 2018 commit just before a commit that changed
-  // the artifact naming (akka-http-json, downstream, still expects the old names)
   ${vars.base} {
     name: "jsoniter-scala"
     uri:  ${vars.uris.jsoniter-scala-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.exclude: ["benchmark"]
+    extra.exclude: ["jsoniter-scala-benchmark"]
   }
 
   ${vars.base} {
@@ -1781,7 +1784,8 @@ build += {
   ${vars.base} {
     name: "scalafix"
     uri:  ${vars.uris.scalafix-uri}
-    extra.projects: ["cli", "coreJVM", "diffJVM", "reflect", "test-utils", "testkit", "testsInput", "testsOutput", "testsShared"]
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.exclude: ["website", "testsOutputDotty"]
   }
 
 ]}
