@@ -573,8 +573,8 @@ build += {
       // I think it's a confusion of levels, but maybe I'm missing something. - ST 8/27/15
       "de.johoop#sbt-testng-interface"
     ]
-    // as per https://github.com/slick/slick/issues/1908, we need this on Java 9
-    extra.options: ["--add-modules=java.xml.bind", "-XX:+IgnoreUnrecognizedVMOptions"]
+    // as per https://github.com/slick/slick/issues/1908, we need this on Java 9+
+    extra.options: ["-J--add-modules=java.xml.bind", "-XX:+IgnoreUnrecognizedVMOptions"]
     extra.exclude: [
       // unless we exclude, it looks for an Ornate dependency here
       "root"
