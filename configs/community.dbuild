@@ -1013,12 +1013,6 @@ build += {
     extra.options: ["-Djava7.home="${JAVA_HOME}]
   }
 
-  // note: the build definition has a source dependency on
-  // mecha. since sbt does not refresh source dependencies, sometimes
-  // (it doesn't happen often) scalameter errors are simply because we
-  // need to a pull a newer version of mecha.  the easiest way to do
-  // this is just to blow away the whole Jenkins workspace.  which
-  // it's probably a good idea to do from time to time anyway.
   ${vars.base} {
     name: "scalameter"
     uri:  ${vars.uris.scalameter-uri}
