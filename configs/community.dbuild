@@ -397,9 +397,11 @@ build += {
       "set skip in publish in actorTests := false"
       // makes "configuration not public" errors downstream go away
       "set every publishMavenStyle := false"
-      // known to fail on JDK 9 only (works on 8, 10).  ideally we'd conditionally exclude by
-      // JVM version but it doesn't seem worth fooling with
-      "set excludeFilter in (Test, unmanagedSources) in actorTests := HiddenFileFilter || \"IndexSpec.scala\""
+      // IndexSpec is known to fail on JDK 9 only (works on 8, 10).  ideally we'd conditionally exclude by
+      // JVM version but it doesn't seem worth fooling with.
+      // and then CircuitBreakerSpec fails on JDK 10 only; I reported it in a comment on
+      // https://github.com/akka/akka/issues/23402
+      "set excludeFilter in (Test, unmanagedSources) in actorTests := HiddenFileFilter || \"IndexSpec.scala\" || \"CircuitBreakerSpec.scala\""
     ]
   }
 
