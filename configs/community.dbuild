@@ -700,20 +700,12 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
-  // we are currently frozen at the last green commit.
-  // we used to track that 1.0 branch, but that branch was deleted.
-  // at some point we might like to try moving to a tag such as v1.1.0
-  // or beyond, or even track master.  (I tried the v1.0.1 tag but got
-  // some weird error during dependency extraction.)
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    // for some reason, adding the umbrella "catsJVM" project but excluding "bench"
-    // and "docs" doesn't succeed in removing the depending on cats-bench.
-    // using deps.ignore doesn't fix it either. not sure how else to fix it
-    // other than just enumerating what we want:
-    extra.projects: ["coreJVM", "freeJVM", "kernelJVM", "kernelLawsJVM", "lawsJVM", "macrosJVM", "testsJVM"]
+    extra.projects: ["catsJVM"]
+    extra.exclude: ["bench", "docs"]
     // tests are memory-hungry. hard to tell if occasional OutOfMemoryErrors are because
     // some random test input in a generative test hit a real bug, or whether memory needs
     // just fluctuate :-/  I've been gradually increasing this trying to fix an OOM in
