@@ -686,7 +686,7 @@ build += {
     extra.projects: ["coreJVM", "scodecJVM", "io"]  // no Scala.js, no benchmarks or docs
     extra.commands: ${vars.default-commands} [
       // too flaky: https://github.com/functional-streams-for-scala/fs2/issues/1063
-      "set excludeFilter in (Test, unmanagedSources) := HiddenFileFilter || \"JavaInputOutputStreamSpec.scala\""
+      "set excludeFilter in (Test, unmanagedSources) in io := HiddenFileFilter || \"JavaInputOutputStreamSpec.scala\""
     ]
   }
 
