@@ -700,6 +700,13 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
+  // dependency of cats
+  ${vars.base} {
+    name: "export-hook"
+    uri:  ${vars.uris.export-hook-uri}
+    extra.projects: ["coreJVM"]  // no Scala.js plz
+  }
+
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
