@@ -718,6 +718,9 @@ build += {
     // just fluctuate :-/  I've been gradually increasing this trying to fix an OOM in
     // ApplicativeSuite.  the repo's own .jvmopts has 6g, so we're not at a crazy level yet here
     extra.options: ["-Xmx4g"]
+    // we've excluded "bench" but somehow its scalaz dependency is still getting picked up, so:
+    deps.ignore: ["org.scalaz#scalaz-core"]
+    check-missing: false
   }
 
   ${vars.base} {
