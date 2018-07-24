@@ -1691,6 +1691,7 @@ build += {
     check-missing: false
   }
 
+  // frozen (July 2018) at last green commit, to keep scalafix green
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
