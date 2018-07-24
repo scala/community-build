@@ -886,8 +886,6 @@ build += {
     uri:  ${vars.uris.cachecontrol-uri}
   }
 
-  // frozen (July 2018) at July 2018 commit just before the big
-  // "Akka Coordinated Shutdown" PR landed, which broke lagom downstream
   ${vars.base} {
     name: "play-core"
     uri:  ${vars.uris.play-core-uri}
