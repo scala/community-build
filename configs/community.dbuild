@@ -886,6 +886,8 @@ build += {
     uri:  ${vars.uris.cachecontrol-uri}
   }
 
+  // frozen (July 2018) until lagom catches up with CoordinateShutdownProvider
+  // changes on master
   ${vars.base} {
     name: "play-core"
     uri:  ${vars.uris.play-core-uri}
