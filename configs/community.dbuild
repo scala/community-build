@@ -729,7 +729,9 @@ build += {
     extra.projects: ["coreJVM"]  // no Scala.js plz
   }
 
-  // using Kai's branch awaiting merge of https://github.com/typelevel/cats/pull/2335
+  // forked awaiting merge of https://github.com/typelevel/cats/pull/2335
+  // (and also to remove scoverage, which I think Kai publishLocal'ed in order
+  // not to be blocked)
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
