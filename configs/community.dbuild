@@ -729,9 +729,7 @@ build += {
     extra.projects: ["coreJVM"]  // no Scala.js plz
   }
 
-  // for 2.13, we are tracking the 1.2.x branch since that's where 2.13.0-M4
-  // support was merged.  (the 2.12 build is on a little bit older commit, since
-  // the addition of Defer caused fs2 to stop compiling)
+  // using Kai's branch awaiting merge of https://github.com/typelevel/cats/pull/2335
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
