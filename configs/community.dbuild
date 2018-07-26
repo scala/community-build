@@ -402,6 +402,9 @@ build += {
       // and then CircuitBreakerSpec fails on JDK 10 only; I reported it in a comment on
       // https://github.com/akka/akka/issues/23402
       "set excludeFilter in (Test, unmanagedSources) in actorTests := HiddenFileFilter || \"IndexSpec.scala\" || \"CircuitBreakerSpec.scala\""
+      // idk why, but prevents dbuild-only sun.misc.Unsafe compile errors;
+      // see https://github.com/scala/community-builds/issues/757
+      "set scalacOptions in Compile in actor --= Seq(\"-release\", \"8\")"
     ]
   }
 
