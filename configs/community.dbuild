@@ -729,8 +729,9 @@ build += {
     extra.projects: ["coreJVM"]  // no Scala.js plz
   }
 
-  // frozen (July 2018) at July 2018 commit just before `Defer` addition
-  // caused compilation errors downstream in fs2
+  // for 2.13, we are tracking the 1.2.x branch since that's where 2.13.0-M4
+  // support was merged.  (the 2.12 build is on a little bit older commit, since
+  // the addition of Defer caused fs2 to stop compiling)
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
