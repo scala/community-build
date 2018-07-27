@@ -419,6 +419,9 @@ build += {
       // and then CircuitBreakerSpec fails on JDK 10 only; I reported it in a comment on
       // https://github.com/akka/akka/issues/23402
       "set excludeFilter in (Test, unmanagedSources) in actorTests := HiddenFileFilter || \"IndexSpec.scala\" || \"CircuitBreakerSpec.scala\""
+      // idk why, but prevents dbuild-only sun.misc.Unsafe compile errors;
+      // see https://github.com/scala/community-builds/issues/757
+      "set scalacOptions in Compile in actor --= Seq(\"-release\", \"8\")"
     ]
   }
 
@@ -1036,6 +1039,10 @@ build += {
     name: "jackson-module-scala"
     uri:  ${vars.uris.jackson-module-scala-uri}
     extra.options: ["-Djava7.home="${JAVA_HOME}]
+    extra.commands: ${vars.base.extra.commands} [
+      // the `-bootclasspath ...` thing their build does doesn't work on Java 9
+      "set javacOptions ~= (_.dropRight(2))"
+    ]
   }
 
   ${vars.base} {
@@ -1715,6 +1722,9 @@ build += {
   }
 
   // frozen (July 2018) at last green commit, to keep scalafix green
+  // and then forked (also July 2018) from that last green commit to
+  // include a change needed to extract on JDK 9, pending a JDK 9
+  // friendly sbt-jdi-tools release that scalameta can use
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
