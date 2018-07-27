@@ -1030,6 +1030,10 @@ build += {
     name: "jackson-module-scala"
     uri:  ${vars.uris.jackson-module-scala-uri}
     extra.options: ["-Djava7.home="${JAVA_HOME}]
+    extra.commands: ${vars.base.extra.commands} [
+      // the `-bootclasspath ...` thing their build does doesn't work on Java 9
+      "set javacOptions ~= (_.dropRight(2))"
+    ]
   }
 
   ${vars.base} {
