@@ -1706,6 +1706,9 @@ build += {
   }
 
   // frozen (July 2018) at last green commit, to keep scalafix green
+  // and then forked (also July 2018) from that last green commit to
+  // include a change needed to extract on JDK 9, pending a JDK 9
+  // friendly sbt-jdi-tools release that scalameta can use
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
