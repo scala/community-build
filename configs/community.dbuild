@@ -284,10 +284,12 @@ build += {
 
   projects: [
 
+  // frozen at v0.1.1 for now, using master broke downstream projects
   ${vars.base} {
     name: "scala-collection-compat"
     uri:  ${vars.uris.scala-collection-compat-uri}
-    extra.projects: ["compat212"]  // no Scala.js or Scalafix rules plz
+    // change to "compat12" when we unfreeze
+    extra.projects: ["scala-collection-compat"]  // no Scala.js or Scalafix rules plz
   }
 
   ${vars.base} {
