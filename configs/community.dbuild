@@ -382,7 +382,8 @@ build += {
     ]
   }
 
-  // frozen (July 2018) at v2.5.14 because
+  // frozen (July 2018) at a commit that includes https://github.com/akka/akka/pull/25406
+  // for JDK friendliness.  normally we freeze at a tag (such as v2.5.14), because
   // this repo is volatile (very frequent commits) and when it needs to be rebuilt,
   // the testing takes a long time (especially akka-more) and the downstream rebuilding takes
   // a long time too.  so in general we want to use a tag or SHA rather than track master
@@ -404,9 +405,6 @@ build += {
       // and then CircuitBreakerSpec fails on JDK 10 only; I reported it in a comment on
       // https://github.com/akka/akka/issues/23402
       "set excludeFilter in (Test, unmanagedSources) in actorTests := HiddenFileFilter || \"IndexSpec.scala\" || \"CircuitBreakerSpec.scala\""
-      // idk why, but prevents dbuild-only sun.misc.Unsafe compile errors;
-      // see https://github.com/scala/community-builds/issues/757
-      "set scalacOptions in Compile in actor --= Seq(\"-release\", \"8\")"
     ]
   }
 
