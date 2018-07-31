@@ -752,6 +752,10 @@ build += {
     // just fluctuate :-/  I've been gradually increasing this trying to fix an OOM in
     // ApplicativeSuite.  the repo's own .jvmopts has 6g, so we're not at a crazy level yet here
     extra.options: ["-Xmx4g"]
+    extra.commands: ${vars.default-commands} [
+      // 2.13: Kai is working on troubleshooting this
+      "set sources in doc in Compile in coreJVM := List()"
+    ]
   }
 
   ${vars.base} {
