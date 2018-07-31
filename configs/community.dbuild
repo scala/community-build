@@ -844,6 +844,8 @@ build += {
   // sbt's scala version to 2.12.4.  I have suggested they increase -Xss
   // instead (https://github.com/scalikejdbc/scalikejdbc/pull/874).  if they
   // take that suggestion, we may need to make the change here, too
+  // frozen (July 2018) at July 2018 commit just before sbt 1.2 upgrade,
+  // since we can't handle 1.2 yet
   ${vars.base} {
     name: "scalikejdbc"
     uri:  ${vars.uris.scalikejdbc-uri}
