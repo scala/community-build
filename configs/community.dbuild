@@ -1480,6 +1480,10 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
     extra.exclude: ["plugin", "themePlugin", "genericTheme"]
     check-missing: false  // ignore missing scripted-sbt
+    extra.commands: ${vars.default-commands} [
+      // flaky test, reported at https://github.com/lightbend/paradox/issues/229
+      "set excludeFilter in (Test, unmanagedSources) in tests := HiddenFileFilter || \"VarsDirectiveSpec.scala\""
+    ]
   }
 
   // there are a *ton* of subprojects.  it might be interesting to try to add
