@@ -755,6 +755,7 @@ build += {
     extra.commands: ${vars.default-commands} [
       // 2.13: Kai is working on troubleshooting this
       "set sources in doc in Compile in coreJVM := List()"
+      "set sources in doc in Compile in alleycatsCoreJVM := List()"
     ]
   }
 
