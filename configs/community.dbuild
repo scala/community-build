@@ -292,6 +292,68 @@ build += {
     extra.projects: ["scala-collection-compat"]  // no Scala.js or Scalafix rules plz
   }
 
+  // dependency of cats
+  ${vars.base} {
+    name: "export-hook"
+    uri:  ${vars.uris.export-hook-uri}
+    extra.projects: ["coreJVM"]  // no Scala.js plz
+  }
+
+  ${vars.base} {
+    name: "simulacrum"
+    uri:  ${vars.uris.simulacrum-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: ["coreJVM", "examplesJVM"] // no Scala.js please
+  }
+
+  ${vars.base} {
+    name: "discipline"
+    uri:  ${vars.uris.discipline-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: ["disciplineJVM"]  // no Scala.js please
+  }
+
+  // frozen (March 2018) at a March 2018 commit before an sbt-catalysts version
+  // bump -- the new version wouldn't resolve, not sure why
+  ${vars.base} {
+    name: "catalysts"
+    uri:  ${vars.uris.catalysts-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    // other projects aren't pertinent or errored out (not investigated)
+    extra.projects: ["specbaseJVM", "lawkitJVM", "scalatestJVM", "macrosJVM", "platformJVM", "testkitJVM"]
+  }
+
+  ${vars.base} {
+    name: "machinist"
+    uri:  ${vars.uris.machinist-uri}
+    extra.projects: ["machinistJVM"]  // no Scala.js please
+  }
+
+  ${vars.base} {
+    name: "wartremover"
+    uri:  ${vars.uris.wartremover-uri}
+    extra.exclude: ["sbt-plugin"]
+  }
+
+  // frozen (July 2018) at July 2018 commit just before `Defer` addition
+  // caused compilation errors downstream in fs2
+  ${vars.base} {
+    name: "cats"
+    uri:  ${vars.uris.cats-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    // for some reason, adding the umbrella "catsJVM" project but excluding "bench"
+    // (and "docs") doesn't succeed in removing the depending on cats-bench.
+    // using deps.ignore doesn't fix it either. not sure how else to fix it
+    // other than just enumerating what we want:
+    extra.projects: ["coreJVM", "freeJVM", "kernelJVM", "kernelLawsJVM", "lawsJVM", "macrosJVM", "testkitJVM", "testsJVM", "alleycatsCoreJVM", "alleycatsTestsJVM"]
+    extra.exclude: ["bench", "docs"]
+    // tests are memory-hungry. hard to tell if occasional OutOfMemoryErrors are because
+    // some random test input in a generative test hit a real bug, or whether memory needs
+    // just fluctuate :-/  I've been gradually increasing this trying to fix an OOM in
+    // ApplicativeSuite.  the repo's own .jvmopts has 6g, so we're not at a crazy level yet here
+    extra.options: ["-Xmx4g"]
+  }
+
   ${vars.base} {
     name: "tut"
     uri:  ${vars.uris.tut-uri}
@@ -716,39 +778,6 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
-  // dependency of cats
-  ${vars.base} {
-    name: "export-hook"
-    uri:  ${vars.uris.export-hook-uri}
-    extra.projects: ["coreJVM"]  // no Scala.js plz
-  }
-
-  // frozen (July 2018) at July 2018 commit just before `Defer` addition
-  // caused compilation errors downstream in fs2
-  ${vars.base} {
-    name: "cats"
-    uri:  ${vars.uris.cats-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
-    // for some reason, adding the umbrella "catsJVM" project but excluding "bench"
-    // (and "docs") doesn't succeed in removing the depending on cats-bench.
-    // using deps.ignore doesn't fix it either. not sure how else to fix it
-    // other than just enumerating what we want:
-    extra.projects: ["coreJVM", "freeJVM", "kernelJVM", "kernelLawsJVM", "lawsJVM", "macrosJVM", "testkitJVM", "testsJVM", "alleycatsCoreJVM", "alleycatsTestsJVM"]
-    extra.exclude: ["bench", "docs"]
-    // tests are memory-hungry. hard to tell if occasional OutOfMemoryErrors are because
-    // some random test input in a generative test hit a real bug, or whether memory needs
-    // just fluctuate :-/  I've been gradually increasing this trying to fix an OOM in
-    // ApplicativeSuite.  the repo's own .jvmopts has 6g, so we're not at a crazy level yet here
-    extra.options: ["-Xmx4g"]
-  }
-
-  ${vars.base} {
-    name: "simulacrum"
-    uri:  ${vars.uris.simulacrum-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
-    extra.projects: ["coreJVM", "examplesJVM"] // no Scala.js please
-  }
-
   ${vars.base} {
     name: "parboiled"
     uri:  ${vars.uris.parboiled-uri}
@@ -760,19 +789,6 @@ build += {
     name: "parboiled2"
     uri:  ${vars.uris.parboiled2-uri}
     extra.projects: ["parboiledJVM", "examples"]
-  }
-
-  ${vars.base} {
-    name: "machinist"
-    uri:  ${vars.uris.machinist-uri}
-    extra.projects: ["machinistJVM"]  // no Scala.js please
-  }
-
-  ${vars.base} {
-    name: "discipline"
-    uri:  ${vars.uris.discipline-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
-    extra.projects: ["disciplineJVM"]  // no Scala.js please
   }
 
   ${vars.base} {
@@ -991,16 +1007,6 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
     // try to enable more subprojects?
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM", "genericJVM"]
-  }
-
-  // frozen (March 2018) at a March 2018 commit before an sbt-catalysts version
-  // bump -- the new version wouldn't resolve, not sure why
-  ${vars.base} {
-    name: "catalysts"
-    uri:  ${vars.uris.catalysts-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
-    // other projects aren't pertinent or errored out (not investigated)
-    extra.projects: ["specbaseJVM", "lawkitJVM", "scalatestJVM", "macrosJVM", "platformJVM", "testkitJVM"]
   }
 
   ${vars.base} {
@@ -1600,12 +1606,6 @@ build += {
     extra.test-tasks: ["compile"]
     // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
     extra.options: ["-Xmx2048m"]
-  }
-
-  ${vars.base} {
-    name: "wartremover"
-    uri:  ${vars.uris.wartremover-uri}
-    extra.exclude: ["sbt-plugin"]
   }
 
   ${vars.base} {
