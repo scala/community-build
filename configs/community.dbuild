@@ -399,7 +399,8 @@ build += {
     ]
   }
 
-  // frozen (July 2018) at v2.5.14 because
+  // frozen (July 2018) at a post-v2.5.14 commit (chosen to be after a JDK 9 fix, but before
+  // a sbt 1.2 upgrade) because
   // this repo is volatile (very frequent commits) and when it needs to be rebuilt,
   // the testing takes a long time (especially akka-more) and the downstream rebuilding takes
   // a long time too.  so in general we want to use a tag or SHA rather than track master
@@ -1498,6 +1499,10 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
     extra.exclude: ["plugin", "themePlugin", "genericTheme"]
     check-missing: false  // ignore missing scripted-sbt
+    extra.commands: ${vars.default-commands} [
+      // flaky test, reported at https://github.com/lightbend/paradox/issues/229
+      "set excludeFilter in (Test, unmanagedSources) in tests := HiddenFileFilter || \"VarsDirectiveSpec.scala\""
+    ]
   }
 
   // there are a *ton* of subprojects.  it might be interesting to try to add
@@ -1734,7 +1739,10 @@ build += {
   // frozen (July 2018) at last green commit, to keep scalafix green
   // and then forked (also July 2018) from that last green commit to
   // include a change needed to extract on JDK 9, pending a JDK 9
-  // friendly sbt-jdi-tools release that scalameta can use
+  // friendly sbt-jdi-tools release that scalameta can use.
+  // the sbt-jdi-tools change is in https://github.com/scalameta/scalameta/pull/1732,
+  // so once that's merged, *and* once scalafix is compatible with scalameta master,
+  // then we'll be able to unfork
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
