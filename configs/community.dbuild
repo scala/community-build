@@ -1887,28 +1887,15 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
-  // separate from "sbt" because there is a circular dependency between
-  // the sbt and zinc repos (sbt depends on zinc, but zinc depends on this)
-  ${vars.base} {
-    name: "sbt-completion"
-    uri:  ${vars.uris.sbt-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    // we have to disable this early (extra.commands isn't soon enough)
-    // or scalafmt will run `update` and `cloc-plugin` won't be found
-    extra.settings: ${vars.base.extra.settings} [
-      "scalafmtOnCompile in ThisBuild := false"
-      "scalafmtOnCompile in Sbt := false"
-    ]
-    extra.projects: ["completeProj"]  // also pulls in collectionProj
-    check-missing: false  // ignore missing scalafmt
-  }
-
   ${vars.base} {
     name: "zinc"
     uri:  ${vars.uris.zinc-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.exclude: ["zincBenchmarks"]
+    extra.exclude: [
+      "zincBenchmarks"
+      // has circular dependency on sbt repo
+      "bloopScripted"
+    ]
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every scalafmtOnCompile := false"
@@ -1922,7 +1909,6 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
-  // see also "sbt-completion"
   // currently sbt and its modules are frozen and/or forked, since
   // sbt has its own dbuild-based "community build" so we don't need
   // to track the latest (and doing so would be fragile).  but,
@@ -1943,16 +1929,13 @@ build += {
       "bundledLauncherProj"
       // depends on sxr_2.10?!
       "sbtRoot"
-      // built in "sbt-completion"
-      "completeProj", "collectionProj"
+      // [sbt:error] java.lang.RuntimeException: You asked dbuild to test using the task "safeUnitTests". The task key exists, but it is undefined in project "vscodePlugin".
+      // (fixable I guess, but also seems maybe out-of-scope-ish anyway)
+      "vscodePlugin"
     ]
     check-missing: false  // ignore missing scalafmt
-    extra.commands: ${vars.default-commands} [
-      // known-flaky test, https://github.com/sbt/sbt/issues/4148.
-      // once we move to a tag that includes https://github.com/sbt/sbt/pull/4213
-      // we could remove this exclusion and change test-commands to `; safeUnitTests; otherUnitTests`
-      "set excludeFilter in (Test, unmanagedSources) in mainProj := HiddenFileFilter || \"SessionSettingsSpec.scala\""
-    ]
+    // flaky tests are segregated
+    extra.test-tasks: ["safeUnitTests"]
   }
 
   // dependency of ammonite.  otherwise obsolete, as per
