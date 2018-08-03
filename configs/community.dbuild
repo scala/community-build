@@ -800,12 +800,6 @@ build += {
   }
 
   ${vars.base} {
-    name: "wartremover"
-    uri:  ${vars.uris.wartremover-uri}
-    extra.exclude: ["sbt-plugin"]
-  }
-
-  ${vars.base} {
     name: "parboiled"
     uri:  ${vars.uris.parboiled-uri}
     extra.sbt-version: ${vars.sbt-1-version}
