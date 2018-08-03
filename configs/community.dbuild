@@ -284,7 +284,9 @@ build += {
 
   projects: [
 
-  // frozen at v0.1.1 for now, using master broke downstream projects
+  // frozen at v0.1.1 for now, using master broke downstream projects.
+  // (actually, forked off v0.1.1 to get JDK 9 fix which was merged upstream,
+  // but after v0.1.1 was tagged)
   ${vars.base} {
     name: "scala-collection-compat"
     uri:  ${vars.uris.scala-collection-compat-uri}
@@ -2176,6 +2178,7 @@ build += {
     ]
   }
 
+  // frozen (August 2018) at a July 2018 commit just before a sbt 1.2 upgrade
   ${vars.base} {
     name: "sttp"
     uri:  ${vars.uris.sttp-uri}
