@@ -738,6 +738,7 @@ build += {
     extra.projects: ["ops"]
   }
 
+  // frozen at commit just before sbt 1.2 upgrade
   ${vars.base} {
     name: "scala-logging"
     uri:  ${vars.uris.scala-logging-uri}
