@@ -587,7 +587,7 @@ build += {
       // repo readme recommended
       "-Xmx2g"
       // the usual thing some projects need on JDK 9
-      "--add-modules=java.xml.bind", "-XX:+IgnoreUnrecognizedVMOptions"
+      "--add-modules=java.xml.bind", "-J--add-modules=java.xml.bind", "-XX:+IgnoreUnrecognizedVMOptions"
     ]
     extra.projects: ["akka-scala-nightly"]
     extra.commands: ${vars.default-commands} [
