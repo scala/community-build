@@ -2166,6 +2166,7 @@ build += {
     ]
   }
 
+  // frozen (August 2018) at a July 2018 commit just before a sbt 1.2 upgrade
   ${vars.base} {
     name: "sttp"
     uri:  ${vars.uris.sttp-uri}
