@@ -1917,7 +1917,10 @@ build += {
     name: "sbt"
     uri:  ${vars.uris.sbt-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.options: [
+      "-Xmx2048m"
+      "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
+    ]
     // we have to disable this early (extra.commands isn't soon enough)
     // or scalafmt will run `update` and `cloc-plugin` won't be found
     extra.settings: ${vars.base.extra.settings} [
