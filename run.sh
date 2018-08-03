@@ -131,7 +131,7 @@ fi
 cat $project_refs_conf > .dbuild/project-refs.conf
 
 # Set dbuild version and config file
-DBUILDVERSION=0.9.12
+DBUILDVERSION=0.9.13
 echo "dbuild version: $DBUILDVERSION"
 
 DBUILDCONFIG=$dbuild_file
