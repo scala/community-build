@@ -357,6 +357,12 @@ build += {
   }
 
   ${vars.base} {
+    name: "kittens"
+    uri:  ${vars.uris.kittens-uri}
+    extra.projects: ["coreJVM"]  // sorry, Scala.js
+  }
+
+  ${vars.base} {
     name: "tut"
     uri:  ${vars.uris.tut-uri}
     extra.sbt-version: ${vars.sbt-1-version}
