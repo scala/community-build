@@ -1939,6 +1939,10 @@ build += {
     check-missing: false  // ignore missing scalafmt
     // flaky tests are segregated
     extra.test-tasks: ["safeUnitTests"]
+    extra.commands: ${vars.default-commands} [
+      // as per https://github.com/scala/community-builds/pull/758
+      "set excludeFilter in (Test, unmanagedSources) in mainProj := HiddenFileFilter || \"ParseKey.scala\""
+    ]
   }
 
   // dependency of ammonite.  otherwise obsolete, as per
