@@ -49,6 +49,7 @@ include file(".dbuild/resolvers.conf")
 vars {
   default-commands: []
   sbt-version: "0.13.17"
+  sbt-1-1-version: "1.1.6"
   sbt-1-version: "1.2.0"
 }
 
@@ -365,7 +366,7 @@ build += {
   ${vars.base} {
     name: "tut"
     uri:  ${vars.uris.tut-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
+    extra.sbt-version: ${vars.sbt-1-1-version}
     extra.exclude: [
       "plugin"  // we never build sbt plugins
       "docs"  // out of scope
@@ -1419,7 +1420,7 @@ build += {
   ${vars.base} {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
+    extra.sbt-version: ${vars.sbt-1-1-version}
     extra.projects: ["jvm"]  // no Scala.js plz
     extra.exclude: [
       // no sbt plz
@@ -1490,7 +1491,7 @@ build += {
   ${vars.base} {
     name: "paradox"
     uri:  ${vars.uris.paradox-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
+    extra.sbt-version: ${vars.sbt-1-1-version}
     extra.exclude: ["plugin", "themePlugin", "genericTheme"]
     check-missing: false  // ignore missing scripted-sbt
     extra.commands: ${vars.default-commands} [
@@ -1681,7 +1682,7 @@ build += {
   ${vars.base} {
     name: "giter8"
     uri:  ${vars.uris.giter8-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
+    extra.sbt-version: ${vars.sbt-1-1-version}
     extra.exclude: ["plugin", "scaffold"]  // these are sbt plugins
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
@@ -1895,7 +1896,7 @@ build += {
   ${vars.base} {
     name: "zinc"
     uri:  ${vars.uris.zinc-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
+    extra.sbt-version: ${vars.sbt-1-1-version}
     extra.exclude: [
       "zincBenchmarks"
       // has circular dependency on sbt repo
@@ -1921,7 +1922,7 @@ build += {
   ${vars.base} {
     name: "sbt"
     uri:  ${vars.uris.sbt-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
+    extra.sbt-version: ${vars.sbt-1-1-version}
     extra.options: [
       "-Xmx2048m"
       "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
