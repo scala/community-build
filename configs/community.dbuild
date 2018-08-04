@@ -876,6 +876,9 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
     // don't build sbt plugin
     extra.exclude: ["mapper-generator"]
+    // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
+    deps.ignore: ["org.scala-sbt#scripted-sbt"]
+    check-missing: false
   }
 
   ${vars.base} {
