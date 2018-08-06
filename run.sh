@@ -191,8 +191,8 @@ echo "removing temporary files..."
 rm -rf target-*/project-builds
 rm -rf target-*/extraction
 
-# lines-of-code report
-cd cloc-report
+# report summary information (line counts, green project counts, ...?)
+cd report
 sbt -error "run ../dbuild-${DBUILDVERSION}/dbuild.out"
 
 exit $STATUS
