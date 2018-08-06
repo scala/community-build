@@ -49,7 +49,8 @@ include file(".dbuild/resolvers.conf")
 vars {
   default-commands: []
   sbt-version: "0.13.17"
-  sbt-1-version: "1.1.6"
+  sbt-1-1-version: "1.1.6"
+  sbt-1-version: "1.2.0"
 }
 
 //// compiler options manipulation
@@ -284,7 +285,9 @@ build += {
 
   projects: [
 
-  // frozen at v0.1.1 for now, using master broke downstream projects
+  // frozen at v0.1.1 for now, using master broke downstream projects.
+  // (actually, forked off v0.1.1 to get JDK 9 fix which was merged upstream,
+  // but after v0.1.1 was tagged)
   ${vars.base} {
     name: "scala-collection-compat"
     uri:  ${vars.uris.scala-collection-compat-uri}
@@ -355,9 +358,15 @@ build += {
   }
 
   ${vars.base} {
+    name: "kittens"
+    uri:  ${vars.uris.kittens-uri}
+    extra.projects: ["coreJVM"]  // sorry, Scala.js
+  }
+
+  ${vars.base} {
     name: "tut"
     uri:  ${vars.uris.tut-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
+    extra.sbt-version: ${vars.sbt-1-1-version}
     extra.exclude: [
       "plugin"  // we never build sbt plugins
       "docs"  // out of scope
@@ -444,11 +453,10 @@ build += {
     ]
   }
 
-  // frozen (July 2018) at a post-v2.5.14 commit (chosen to be after a JDK 9 fix, but before
-  // a sbt 1.2 upgrade) because
+  // frozen (August 2018) at a post-v2.5.14 commit (chosen to include JDK 9 fixes, sbt 1.2 upgrade)
   // this repo is volatile (very frequent commits) and when it needs to be rebuilt,
   // the testing takes a long time (especially akka-more) and the downstream rebuilding takes
-  // a long time too.  so in general we want to use a tag or SHA rather than track master
+  // a long time too.  so in general we want to freeze at a tag or SHA rather than track master
   ${vars.base} {
     name: "akka-actor"
     uri:  ${vars.uris.akka-uri}
@@ -738,10 +746,10 @@ build += {
     extra.projects: ["ops"]
   }
 
-  // frozen at commit just before sbt 1.2 upgrade
   ${vars.base} {
     name: "scala-logging"
     uri:  ${vars.uris.scala-logging-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
   }
 
   ${vars.base} {
@@ -862,14 +870,15 @@ build += {
   // sbt's scala version to 2.12.4.  I have suggested they increase -Xss
   // instead (https://github.com/scalikejdbc/scalikejdbc/pull/874).  if they
   // take that suggestion, we may need to make the change here, too
-  // frozen (July 2018) at July 2018 commit just before sbt 1.2 upgrade,
-  // since we can't handle 1.2 yet
   ${vars.base} {
     name: "scalikejdbc"
     uri:  ${vars.uris.scalikejdbc-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     // don't build sbt plugin
     extra.exclude: ["mapper-generator"]
+    // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
+    deps.ignore: ["org.scala-sbt#scripted-sbt"]
+    check-missing: false
   }
 
   ${vars.base} {
@@ -1267,7 +1276,7 @@ build += {
   ${vars.base} {
     name: "scalapb"
     uri:  ${vars.uris.scalapb-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
+    extra.sbt-version: ${vars.sbt-1-1-version}
     // just what scalameta needs, for now
     extra.projects: ["runtimeJVM"]
     // there's a 2.12 -> 2.11 symlink that should make this unnecessary, don't know why we need this:
@@ -1414,7 +1423,7 @@ build += {
   ${vars.base} {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
+    extra.sbt-version: ${vars.sbt-1-1-version}
     extra.projects: ["jvm"]  // no Scala.js plz
     extra.exclude: [
       // no sbt plz
@@ -1485,7 +1494,7 @@ build += {
   ${vars.base} {
     name: "paradox"
     uri:  ${vars.uris.paradox-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
+    extra.sbt-version: ${vars.sbt-1-1-version}
     extra.exclude: ["plugin", "themePlugin", "genericTheme"]
     check-missing: false  // ignore missing scripted-sbt
     extra.commands: ${vars.default-commands} [
@@ -1676,7 +1685,7 @@ build += {
   ${vars.base} {
     name: "giter8"
     uri:  ${vars.uris.giter8-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
+    extra.sbt-version: ${vars.sbt-1-1-version}
     extra.exclude: ["plugin", "scaffold"]  // these are sbt plugins
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
@@ -1860,6 +1869,8 @@ build += {
     extra.exclude: ["benchmark"]
   }
 
+  // using a slightly post v1.2.0 commit in order to get
+  // https://github.com/sbt/util/pull/172 which fixes failing tests
   ${vars.base} {
     name: "sbt-util"
     uri:  ${vars.uris.sbt-util-uri}
@@ -1888,8 +1899,12 @@ build += {
   ${vars.base} {
     name: "zinc"
     uri:  ${vars.uris.zinc-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
-    extra.exclude: ["zincBenchmarks"]
+    extra.sbt-version: ${vars.sbt-1-1-version}
+    extra.exclude: [
+      "zincBenchmarks"
+      // has circular dependency on sbt repo
+      "bloopScripted"
+    ]
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every scalafmtOnCompile := false"
@@ -1910,8 +1925,11 @@ build += {
   ${vars.base} {
     name: "sbt"
     uri:  ${vars.uris.sbt-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.sbt-version: ${vars.sbt-1-1-version}
+    extra.options: [
+      "-Xmx2048m"
+      "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
+    ]
     // we have to disable this early (extra.commands isn't soon enough)
     // or scalafmt will run `update` and `cloc-plugin` won't be found
     extra.settings: ${vars.base.extra.settings} [
@@ -1923,13 +1941,16 @@ build += {
       "bundledLauncherProj"
       // depends on sxr_2.10?!
       "sbtRoot"
+      // [sbt:error] java.lang.RuntimeException: You asked dbuild to test using the task "safeUnitTests". The task key exists, but it is undefined in project "vscodePlugin".
+      // (fixable I guess, but also seems maybe out-of-scope-ish anyway)
+      "vscodePlugin"
     ]
     check-missing: false  // ignore missing scalafmt
+    // flaky tests are segregated
+    extra.test-tasks: ["safeUnitTests"]
     extra.commands: ${vars.default-commands} [
-      // known-flaky test, https://github.com/sbt/sbt/issues/4148.
-      // once we move to a tag that includes https://github.com/sbt/sbt/pull/4213
-      // we could remove this exclusion and change test-commands to `; safeUnitTests; otherUnitTests`
-      "set excludeFilter in (Test, unmanagedSources) in mainProj := HiddenFileFilter || \"SessionSettingsSpec.scala\""
+      // as per https://github.com/scala/community-builds/pull/758
+      "set excludeFilter in (Test, unmanagedSources) in mainProj := HiddenFileFilter || \"ParseKey.scala\""
     ]
   }
 
