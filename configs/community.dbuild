@@ -50,6 +50,7 @@ vars {
   default-commands: []
   sbt-version: "0.13.17"
   sbt-1-1-version: "1.1.6"
+  // 1.2.1 awaits https://github.com/lightbend/dbuild/issues/215
   sbt-1-version: "1.2.0"
 }
 
