@@ -31,8 +31,24 @@ object SuccessReport {
   //   (?!-) = negative lookahead -- next character is not "-"
   val Regex = """^\[info\] Project ((?:\w|-(?!-))+)-*: (.+) \(""".r.unanchored
 
-  // empty on 2.12.x branch; all projects should be green
-  val expectedToFail = Set[String]()
+  val expectedToFail = Set[String](
+    "acyclic", "akka-actor", "akka-contrib-extra", "akka-http", "akka-http-cors",
+    "akka-http-json", "akka-http-session", "akka-more", "akka-persistence-cassandra", "akka-persistence-jdbc",
+    "akka-stream", "ammonite", "ammonite-ops", "autowire", "base64", "better-files", "better-monadic-for",
+    "blaze", "breeze", "cachecontrol", "case-app", "cats-effect", "circe", "circe-config", "classutil",
+    "conductr-lib", "coursier", "curryhoward", "dispatch", "eff", "elastic4s", "expecty", "fansi", "fastparse",
+    "fs2", "fs2-reactive-streams", "geny", "giter8", "github4s", "grizzled", "http4s", "http4s-parboiled2",
+    "jackson-module-scala", "jawn-0-10", "jawn-0-11", "jawn-fs2", "lagom", "lift-json", "linter", "log4s",
+    "magnolia", "metaconfig", "metrics-scala", "minitest", "monix", "multibot", "nyaya", "paradox", "parboiled",
+    "parboiled2", "pcplod", "play-core", "play-doc", "play-json", "play-webgoat", "play-ws", "pprint",
+    "pureconfig", "refined", "sbinary", "sbt", "sbt-io", "sbt-librarymanagement", "sbt-util", "scala-async",
+    "scala-collections-laws", "scala-continuations", "scala-debugger", "scala-gopher", "scala-js",
+    "scala-refactoring", "scala-sculpt", "scala-ssh", "scala-stm", "scala-swing", "scala-xml-quote",
+    "scalacheck-shapeless", "scalachess", "scaladex", "scalafix", "scalafmt", "scalaj-http", "scalajson",
+    "scalameta", "scalameter", "scalamock", "scalapb", "scalasti", "scalastyle", "scalatags", "scalatest-tests",
+    "scalatex", "scalaz8", "scalikejdbc", "scapegoat", "scodec", "scopt", "sjson-new", "sksamuel-exts",
+    "slick", "specs2-more", "spire", "sttp", "tut", "twirl", "twitter-util", "upickle", "utest", "zinc",
+  )
 
   def apply(log: io.Source): Unit = {
     val lines = log.getLines.dropWhile(!_.contains("---==  Execution Report ==---"))
