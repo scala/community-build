@@ -31,8 +31,15 @@ object SuccessReport {
   //   (?!-) = negative lookahead -- next character is not "-"
   val Regex = """^\[info\] Project ((?:\w|-(?!-))+)-*: (.+) \(""".r.unanchored
 
-  // empty on 2.12.x branch; all projects should be green
-  val expectedToFail = Set[String]()
+  val expectedToFail: Set[String] =
+    System.getProperty("java.specification.version") match {
+      case "1.8" =>
+        Set()
+      case "9" =>
+        Set("akka-persistence-cassandra", "akka-persistence-jdbc", "blaze", "github4s", "http4s", "http4s-websocket", "kxbmap-configs", "lagom", "paradox", "play-core", "play-webgoat", "sbt", "scala-debugger", "scaladex", "scalafix", "slick", "twitter-util", "zinc")
+      case "10" =>
+        Set("akka-persistence-cassandra", "akka-persistence-jdbc", "blaze", "github4s", "http4s", "http4s-websocket", "kxbmap-configs", "lagom", "paradox", "play-core", "play-webgoat", "sbt", "scala-debugger", "scaladex", "scalafix", "slick", "twitter-util", "zinc")
+    }
 
   def apply(log: io.Source): Unit = {
     val lines = log.getLines.dropWhile(!_.contains("---==  Execution Report ==---"))
