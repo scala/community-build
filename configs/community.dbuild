@@ -356,7 +356,6 @@ build += {
   // 2.12: frozen (July 2018) at July 2018 commit just before `Defer` addition
   // caused compilation errors downstream in fs2
   // 2.13: tracking 1.2.x since that's where 2.13 support exists
-  // 2.13: forked pending merge of https://github.com/typelevel/cats/pull/2359
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
