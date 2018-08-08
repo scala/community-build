@@ -36,9 +36,35 @@ object SuccessReport {
       case "1.8" =>
         Set()
       case "9" =>
-        Set("akka-persistence-cassandra", "akka-persistence-jdbc", "blaze", "github4s", "http4s", "kxbmap-configs", "lagom", "paradox", "play-core", "play-webgoat", "sbt", "scala-debugger", "scaladex", "scalafix", "slick", "twitter-util", "zinc")
+        Set(
+          "akka-persistence-cassandra",
+          "blaze",
+          "github4s",
+          "kxbmap-configs",
+          "paradox",
+          "play-core",
+          "scala-debugger",
+          "slick",
+          "twitter-util",
+          "zinc",
+        )
       case "10" =>
-        Set("akka-persistence-cassandra", "akka-persistence-jdbc", "blaze", "github4s", "http4s", "http4s-websocket", "kxbmap-configs", "lagom", "paradox", "play-core", "play-webgoat", "sbt", "scala-debugger", "scaladex", "scalafix", "slick", "twitter-util", "zinc")
+        Set(
+          "akka-stream",
+          "breeze",
+          "curryhoward",
+          "jawn-0-10",
+          "jawn-0-11",
+          "jsoniter-scala",
+          "kxbmap-configs",
+          "log4s",
+          "paradox",
+          "scala-async",
+          "scala-partest",
+          "scalaz8",
+          "slick",
+          "twitter-util",
+        )
     }
 
   def apply(log: io.Source): Unit = {
@@ -61,10 +87,6 @@ object SuccessReport {
           }
         case "DID NOT RUN" =>
           didNotRun += 1
-          if (!expectedToFail(name)) {
-            println(s"unexpected DID NOT RUN: $name")
-            unexpected += 1
-          }
       }
     val total = success + failed + didNotRun
     println(s"SUCCESS $success FAILED $failed DID NOT RUN $didNotRun TOTAL $total")
