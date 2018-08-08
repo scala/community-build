@@ -36,7 +36,7 @@ object SuccessReport {
       case "1.8" =>
         Set()
       case "9" =>
-        Set("akka-persistence-cassandra", "akka-persistence-jdbc", "blaze", "github4s", "http4s", "http4s-websocket", "kxbmap-configs", "lagom", "paradox", "play-core", "play-webgoat", "sbt", "scala-debugger", "scaladex", "scalafix", "slick", "twitter-util", "zinc")
+        Set("akka-persistence-cassandra", "akka-persistence-jdbc", "blaze", "github4s", "http4s", "kxbmap-configs", "lagom", "paradox", "play-core", "play-webgoat", "sbt", "scala-debugger", "scaladex", "scalafix", "slick", "twitter-util", "zinc")
       case "10" =>
         Set("akka-persistence-cassandra", "akka-persistence-jdbc", "blaze", "github4s", "http4s", "http4s-websocket", "kxbmap-configs", "lagom", "paradox", "play-core", "play-webgoat", "sbt", "scala-debugger", "scaladex", "scalafix", "slick", "twitter-util", "zinc")
     }
