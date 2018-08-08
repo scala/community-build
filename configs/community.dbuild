@@ -2209,8 +2209,7 @@ build += {
   ${vars.base} {
     name: "sttp"
     uri:  ${vars.uris.sttp-uri}
-    // 1.2.1 doesn't work?! see https://github.com/softwaremill/sttp/issues/140
-    extra.sbt-version: "1.2.0"
+    extra.sbt-version: ${vars.sbt-1-version}
     // aggregates all JVM projects
     extra.projects: ["rootJVM"]
     // I got some compile error here (June 2018), involving implicit
