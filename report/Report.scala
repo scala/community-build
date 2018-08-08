@@ -23,13 +23,13 @@ object ClocReport {
 
 object SuccessReport {
 
-  // sample input:
-  //   [info] Project foo-bar-baz---------------: DID NOT RUN (frob grue zorch)
+  // sample inputs:
+  //   [info] Project foo-bar-baz---------------: DID NOT RUN (stuck on broken dependencies: frob, akka-grue, zorch)
   // regex features used:
   //   \w    = word character
   //   ?:    = not a capturing group
   //   (?!-) = negative lookahead -- next character is not "-"
-  val Regex = """^\[info\] Project ((?:\w|-(?!-))+)-*: (.+) \(""".r.unanchored
+  val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: (.+) \(stuck on broken dependencies: (.*)\)""".r
 
   val expectedToFail: Set[String] =
     System.getProperty("java.specification.version") match {
@@ -71,7 +71,8 @@ object SuccessReport {
     val lines = log.getLines.dropWhile(!_.contains("---==  Execution Report ==---"))
     var success, failed, didNotRun, unexpected = 0
     var unexpectedFailures = collection.mutable.Buffer[String]()
-    for (Regex(name, status) <- lines)
+    val blockerCounts = collection.mutable.Map[String, Int]()
+    for (Regex(name, status, blockers) <- lines)
       status match {
         case "SUCCESS" =>
           success += 1
@@ -87,10 +88,17 @@ object SuccessReport {
           }
         case "DID NOT RUN" =>
           didNotRun += 1
+          for (blocker <- blockers.split(',').map(_.trim))
+            blockerCounts(blocker) = 1 + blockerCounts.get(blocker).getOrElse(0)
       }
     val total = success + failed + didNotRun
     println(s"SUCCESS $success FAILED $failed DID NOT RUN $didNotRun TOTAL $total")
     println(s"UNEXPECTED $unexpected")
+    if (didNotRun > 0) {
+      println("BLOCKERS:")
+      for ((blocker, count) <- blockerCounts.toList.sortBy(_._2).reverse)
+        println(s"$count $blocker")
+    }
   }
 
 }
