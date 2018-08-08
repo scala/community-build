@@ -1523,8 +1523,10 @@ build += {
     ]
   }
 
-  // dependency of lagom. frozen (July 2018) at last green version,
+  // dependency of lagom. forked (August 2018) at last green version,
   // since newer commits break lagom; see https://github.com/lagom/lagom/issues/1413
+  // the fork is so we could cherry-pick https://github.com/akka/akka-persistence-cassandra/pull/377
+  // for JDK 9+ friendliness
   ${vars.base} {
     name: "akka-persistence-cassandra"
     uri:  ${vars.uris.akka-persistence-cassandra-uri}
