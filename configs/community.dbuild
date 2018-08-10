@@ -1825,6 +1825,13 @@ build += {
     ]
   }
 
+  // dependency of scalafix
+  ${vars.base} {
+    name: "coursier-small"
+    uri:  ${vars.uris.coursier-small-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+  }
+
   ${vars.base} {
     name: "scalafix"
     uri:  ${vars.uris.scalafix-uri}
