@@ -29,7 +29,7 @@ object SuccessReport {
   //   \w    = word character
   //   ?:    = not a capturing group
   //   (?!-) = negative lookahead -- next character is not "-"
-  val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: (.+) \(stuck on broken dependencies: (.*)\)""".r
+  val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: (.+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
   val expectedToFail = Set[String](
     "akka-actor",
@@ -98,7 +98,7 @@ object SuccessReport {
         case "DID NOT RUN" =>
           didNotRun += 1
           for (blocker <- blockers.split(',').map(_.trim))
-            blockerCounts(blocker) = 1 + blockerCounts.get(blocker).getOrElse(0)
+            blockerCounts(blocker) = 1 + blockerCounts.getOrElse(blocker, 0)
       }
     val total = success + failed + didNotRun
     println(s"SUCCESS $success FAILED $failed DID NOT RUN $didNotRun TOTAL $total")
