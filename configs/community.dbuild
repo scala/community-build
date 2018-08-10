@@ -1634,6 +1634,14 @@ build += {
     ]
   }
 
+  // dependency of magnolia
+  ${vars.base} {
+    name: "mercator"
+    uri:  ${vars.uris.mercator-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: ["coreJVM", "tests"]
+  }
+
   ${vars.base} {
     name: "magnolia"
     uri:  ${vars.uris.magnolia-uri}
