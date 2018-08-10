@@ -29,7 +29,7 @@ object SuccessReport {
   //   \w    = word character
   //   ?:    = not a capturing group
   //   (?!-) = negative lookahead -- next character is not "-"
-  val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: (.+) \(stuck on broken dependencies: (.*)\)""".r
+  val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: (.+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
   val expectedToFail: Set[String] =
     System.getProperty("java.specification.version") match {
