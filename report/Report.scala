@@ -50,7 +50,6 @@ object SuccessReport {
     "parboiled",
     "parboiled2",
     "pcplod",
-    "play-json",
     "scala-async",
     "scala-collections-laws",
     "scala-continuations",
