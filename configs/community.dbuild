@@ -1625,6 +1625,9 @@ build += {
     extra.exclude: ["fsi-benchmark", "fsi-benchmark-core"]
   }
 
+  // frozen (August 2018) because the addition of sbt-ci-release in a subsequent
+  // commit caused extraction to fail. not sure why, don't have time to investigate
+  // right now
   ${vars.base} {
     name: "scalacheck-shapeless"
     uri:  ${vars.uris.scalacheck-shapeless-uri}
