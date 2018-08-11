@@ -1201,9 +1201,6 @@ build += {
     extra.projects: ["http4sWebsocketJVM"]  // no Scala.js plz
   }
 
-  // tracking 0.12.x, not master, because that's the version http4s depends
-  // on (as of December 2017, anyway; see discussion at
-  // https://github.com/http4s/blaze/issues/97)
   ${vars.base} {
     name: "blaze"
     uri: ${vars.uris.blaze-uri}
