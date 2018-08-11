@@ -231,6 +231,8 @@ build += {
     extra.projects: ["testJVM"]
   }
 
+  // frozen (August 2018) at a July 2018 commit, because something after that broke
+  // case-app downstream; see https://github.com/milessabin/shapeless/issues/849
   ${vars.base} {
     name: "shapeless"
     uri:  ${vars.uris.shapeless-uri}
@@ -238,6 +240,12 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
+  // adding (September 2017) because scalafix's "cli" subproject uses it.
+  // forked (November 2017) to use latest coursier.  we forked
+  // from the 1.1.x branch, not master, since there are
+  // source-incompatible changes on master, but scalafix's dependency is
+  // on 1.1.x.  so I'm not bothering to contribute the coursier version
+  // change upstream, since master has already moved on
   ${vars.base} {
     name: "kind-projector"
     uri:  ${vars.uris.kind-projector-uri}
@@ -1417,13 +1425,14 @@ build += {
     uri:  ${vars.uris.argonaut-shapeless-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["coreJVM"]
-    // shapeless dropped its macrocompat dependency
-    deps.inject: ${vars.base.deps.inject} [
-      "org.typelevel#macro-compat"
-    ]
-    extra.commands: ${vars.default-commands} [
-      "set libraryDependencies in coreJVM += \"org.typelevel\" %% \"macro-compat\" % \"1.1.1\""
-    ]
+    // will be needed once we track shapeless master again
+    // // shapeless dropped its macrocompat dependency
+    // deps.inject: ${vars.base.deps.inject} [
+    //   "org.typelevel#macro-compat"
+    // ]
+    // extra.commands: ${vars.default-commands} [
+    //   "set libraryDependencies in coreJVM += \"org.typelevel\" %% \"macro-compat\" % \"1.1.1\""
+    // ]
   }
 
   // frozen (February 2018) because Ammonite depends on it, but
