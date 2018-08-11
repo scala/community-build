@@ -1830,6 +1830,8 @@ build += {
     ]
   }
 
+  // frozen (August 2018) at an August 2018 commit just before a problematic dependency
+  // on coursier-small was added; see https://github.com/scala/community-builds/pull/765
   ${vars.base} {
     name: "scalafix"
     uri:  ${vars.uris.scalafix-uri}
