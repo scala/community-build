@@ -250,6 +250,12 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
+  // adding (September 2017) because scalafix's "cli" subproject uses it.
+  // forked (November 2017) to use latest coursier.  we forked
+  // from the 1.1.x branch, not master, since there are
+  // source-incompatible changes on master, but scalafix's dependency is
+  // on 1.1.x.  so I'm not bothering to contribute the coursier version
+  // change upstream, since master has already moved on
   ${vars.base} {
     name: "kind-projector"
     uri:  ${vars.uris.kind-projector-uri}
@@ -257,6 +263,9 @@ build += {
   }
 
   // see also specs2-more
+  // frozen (August 2018) at an August 2018 tag just before code was added
+  // that depends on cats-effect 1.0, but we're only on 0.10.  we can unfreeze
+  // when we move the whole build onto cats-effect 1.0
   ${vars.base} {
     name: "specs2"
     uri:  ${vars.uris.specs2-uri}
@@ -1434,6 +1443,14 @@ build += {
     uri:  ${vars.uris.argonaut-shapeless-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["coreJVM"]
+    // will be needed once we track shapeless master again
+    // // shapeless dropped its macrocompat dependency
+    // deps.inject: ${vars.base.deps.inject} [
+    //   "org.typelevel#macro-compat"
+    // ]
+    // extra.commands: ${vars.default-commands} [
+    //   "set libraryDependencies in coreJVM += \"org.typelevel\" %% \"macro-compat\" % \"1.1.1\""
+    // ]
   }
 
   // frozen (February 2018) because Ammonite depends on it, but
@@ -1626,6 +1643,9 @@ build += {
     extra.exclude: ["fsi-benchmark", "fsi-benchmark-core"]
   }
 
+  // frozen (August 2018) because the addition of sbt-ci-release in a subsequent
+  // commit caused extraction to fail. not sure why, don't have time to investigate
+  // right now
   ${vars.base} {
     name: "scalacheck-shapeless"
     uri:  ${vars.uris.scalacheck-shapeless-uri}
@@ -1652,6 +1672,16 @@ build += {
     extra.settings: ${vars.base.extra.settings} [
       "conflictWarning in ThisBuild := ConflictWarning.disable"
     ]
+  }
+
+  // dependency of magnolia
+  // frozen (August 2018) at tag, since master isn't stable
+  // (e.g. https://github.com/propensive/mercator/issues/7)
+  ${vars.base} {
+    name: "mercator"
+    uri:  ${vars.uris.mercator-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: ["coreJVM", "tests"]
   }
 
   ${vars.base} {
@@ -1837,6 +1867,8 @@ build += {
     ]
   }
 
+  // frozen (August 2018) at an August 2018 commit just before a problematic dependency
+  // on coursier-small was added; see https://github.com/scala/community-builds/pull/765
   ${vars.base} {
     name: "scalafix"
     uri:  ${vars.uris.scalafix-uri}
