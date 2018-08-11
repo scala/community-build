@@ -250,12 +250,6 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
-  // adding (September 2017) because scalafix's "cli" subproject uses it.
-  // forked (November 2017) to use latest coursier.  we forked
-  // from the 1.1.x branch, not master, since there are
-  // source-incompatible changes on master, but scalafix's dependency is
-  // on 1.1.x.  so I'm not bothering to contribute the coursier version
-  // change upstream, since master has already moved on
   ${vars.base} {
     name: "kind-projector"
     uri:  ${vars.uris.kind-projector-uri}
