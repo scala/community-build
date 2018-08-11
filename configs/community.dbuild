@@ -245,6 +245,9 @@ build += {
   }
 
   // see also specs2-more
+  // frozen (August 2018) at an August 2018 tag just before code was added
+  // that depends on cats-effect 1.0, but we're only on 0.10.  we can unfreeze
+  // when we move the whole build onto cats-effect 1.0
   ${vars.base} {
     name: "specs2"
     uri:  ${vars.uris.specs2-uri}
