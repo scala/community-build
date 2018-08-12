@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<config xmlns="http://artifactory.jfrog.org/xsd/1.8.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jfrog.org/xsd/artifactory-v1_8_1.xsd">
+<config xmlns="http://artifactory.jfrog.org/xsd/2.1.4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jfrog.org/xsd/artifactory-v2_1_4.xsd">
     <offlineMode>false</offlineMode>
     <helpLinksEnabled>true</helpLinksEnabled>
     <fileUploadMaxSizeMb>100</fileUploadMaxSizeMb>
+    <revision>2</revision>
     <dateFormat>dd-MM-yy HH:mm:ss z</dateFormat>
     <addons>
         <showAddonsInfo>true</showAddonsInfo>
@@ -31,6 +32,10 @@
             <enabled>false</enabled>
             <loginAttempts>5</loginAttempts>
         </userLockPolicy>
+        <accessClientSettings>
+            <adminToken>AM.21Rvb.AES128.3gkwUUsJAbiEDLrWfGznK87bibTTowa5h65oo8hWCK5TEM8XHrkEUXiPP7gF4mMUJcVVrztNhkma6KD3ZRA4RCawdhqBD16uX5m3uiukbxS5ZMPjsMHwpktmjq6qCcGoBnghoUKRzDKwbQ2j4gtjC7sRTpzq4CD8BigECAEUgs52eLvAHpfFDz9c2er6Y4gd6ZKCqugTr5edwgRDSFoxawd6nya65NccLTbo9CKHkkVAr9e9Dwdn6hS9V2ZNqp9npZmCPfDLPEZVAMAPeoAbfd3Rg8dPADzjpCPL65RW2878a1nENKBFpRN4f4v1Y7U6QYQkTMK6F3Ek6sz1Xp4vHN1RngeTaZi3Z2fJSF14VwevhqtWt1ZskBo5QQhUxaLamjjcpGy6xdhunLsCm1zYYwZeYwvdK1gf7TSjYfYPRnpeGddRRvqHaSSCDtGcXbPvPZPj5XkLpk1j42bj9HG6VXK9sM3Qx2XsuR7D9xbBsQrPTkGvy9NPyKqQY1vYskat9TfkfwBbo5styWKfDviD5d9E72YFQ8GuYJNLHEXJvTjWeuY3T4AApBmqh4pKGreytUJomH39NqkeHR6YcNm6biUB7oVWwAfwMoMEH6mBjwCg74FNFBsMChgnAevFgKTASYnvjBDLD4iVewpDBbhrYzzev3j7vBFpwb6CK65Gjy83asuoeXciGmpMY7huf6X3h2fJUL65wNvJReKqAbAQSTa9BrqpsWAtToyN1no7MLYPEqd787E7ofb6HHNSVLGTPoN2ukYjEtdpCLQt8GxJz6uyAZLv2biisWWHYwmSUttjpFBj2TRm8Wunm5GaVNRUsYSWiWdbUYcdtjc624vWTr5HcyT9gHHjKeC8G8N6tSmBJwtnFYrWQEXywC1S7ubjmPVA3xpL4PqSwM7dLqpwFAH6UtxxXdUDq5QaAyNzLGZJxP1JXa1ZzMMvaJWWdnxwBmk24nW1hCUxGkjWw22NRUshfgkFQPC9obGn9HYzee8sqN9vj5TxyHtNTenJFD9cbP358NFEsQFUd9p8Kpq1Y5HLeZTdV</adminToken>
+            <userTokenMaxExpiresInMinutes>60</userTokenMaxExpiresInMinutes>
+        </accessClientSettings>
     </security>
     <backups>
         <backup>
@@ -81,13 +86,13 @@
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
             <xray>
                 <enabled>false</enabled>
-                <blockUnscannedArtifacts>false</blockUnscannedArtifacts>
             </xray>
             <snapshotVersionBehavior>unique</snapshotVersionBehavior>
             <localRepoChecksumPolicyType>client-checksums</localRepoChecksumPolicyType>
             <calculateYumMetadata>false</calculateYumMetadata>
             <yumRootDepth>0</yumRootDepth>
             <debianTrivialLayout>false</debianTrivialLayout>
+            <enableFileListsIndexing>true</enableFileListsIndexing>
         </localRepository>
         <localRepository>
             <key>ext-snapshot-local</key>
@@ -107,13 +112,13 @@
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
             <xray>
                 <enabled>false</enabled>
-                <blockUnscannedArtifacts>false</blockUnscannedArtifacts>
             </xray>
             <snapshotVersionBehavior>unique</snapshotVersionBehavior>
             <localRepoChecksumPolicyType>client-checksums</localRepoChecksumPolicyType>
             <calculateYumMetadata>false</calculateYumMetadata>
             <yumRootDepth>0</yumRootDepth>
             <debianTrivialLayout>false</debianTrivialLayout>
+            <enableFileListsIndexing>true</enableFileListsIndexing>
         </localRepository>
         <localRepository>
             <key>libs-release-local</key>
@@ -133,13 +138,13 @@
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
             <xray>
                 <enabled>false</enabled>
-                <blockUnscannedArtifacts>false</blockUnscannedArtifacts>
             </xray>
             <snapshotVersionBehavior>unique</snapshotVersionBehavior>
             <localRepoChecksumPolicyType>client-checksums</localRepoChecksumPolicyType>
             <calculateYumMetadata>false</calculateYumMetadata>
             <yumRootDepth>0</yumRootDepth>
             <debianTrivialLayout>false</debianTrivialLayout>
+            <enableFileListsIndexing>true</enableFileListsIndexing>
         </localRepository>
         <localRepository>
             <key>libs-snapshot-local</key>
@@ -159,13 +164,13 @@
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
             <xray>
                 <enabled>false</enabled>
-                <blockUnscannedArtifacts>false</blockUnscannedArtifacts>
             </xray>
             <snapshotVersionBehavior>unique</snapshotVersionBehavior>
             <localRepoChecksumPolicyType>client-checksums</localRepoChecksumPolicyType>
             <calculateYumMetadata>false</calculateYumMetadata>
             <yumRootDepth>0</yumRootDepth>
             <debianTrivialLayout>false</debianTrivialLayout>
+            <enableFileListsIndexing>true</enableFileListsIndexing>
         </localRepository>
         <localRepository>
             <key>plugins-release-local</key>
@@ -185,13 +190,13 @@
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
             <xray>
                 <enabled>false</enabled>
-                <blockUnscannedArtifacts>false</blockUnscannedArtifacts>
             </xray>
             <snapshotVersionBehavior>unique</snapshotVersionBehavior>
             <localRepoChecksumPolicyType>client-checksums</localRepoChecksumPolicyType>
             <calculateYumMetadata>false</calculateYumMetadata>
             <yumRootDepth>0</yumRootDepth>
             <debianTrivialLayout>false</debianTrivialLayout>
+            <enableFileListsIndexing>true</enableFileListsIndexing>
         </localRepository>
         <localRepository>
             <key>plugins-snapshot-local</key>
@@ -211,13 +216,13 @@
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
             <xray>
                 <enabled>false</enabled>
-                <blockUnscannedArtifacts>false</blockUnscannedArtifacts>
             </xray>
             <snapshotVersionBehavior>unique</snapshotVersionBehavior>
             <localRepoChecksumPolicyType>client-checksums</localRepoChecksumPolicyType>
             <calculateYumMetadata>false</calculateYumMetadata>
             <yumRootDepth>0</yumRootDepth>
             <debianTrivialLayout>false</debianTrivialLayout>
+            <enableFileListsIndexing>true</enableFileListsIndexing>
         </localRepository>
     </localRepositories>
     <remoteRepositories>
@@ -266,6 +271,7 @@
             </contentSynchronisation>
             <blockMismatchingMimeTypes>true</blockMismatchingMimeTypes>
             <mismatchingMimeTypesOverrideList></mismatchingMimeTypesOverrideList>
+            <bypassHeadRequests>false</bypassHeadRequests>
             <allowAnyHostAuth>false</allowAnyHostAuth>
             <socketTimeoutMillis>15000</socketTimeoutMillis>
             <enableCookieManagement>false</enableCookieManagement>
@@ -317,6 +323,7 @@
             </contentSynchronisation>
             <blockMismatchingMimeTypes>true</blockMismatchingMimeTypes>
             <mismatchingMimeTypesOverrideList></mismatchingMimeTypesOverrideList>
+            <bypassHeadRequests>false</bypassHeadRequests>
             <allowAnyHostAuth>false</allowAnyHostAuth>
             <socketTimeoutMillis>15000</socketTimeoutMillis>
             <enableCookieManagement>false</enableCookieManagement>
@@ -368,6 +375,7 @@
             </contentSynchronisation>
             <blockMismatchingMimeTypes>true</blockMismatchingMimeTypes>
             <mismatchingMimeTypesOverrideList></mismatchingMimeTypesOverrideList>
+            <bypassHeadRequests>false</bypassHeadRequests>
             <allowAnyHostAuth>false</allowAnyHostAuth>
             <socketTimeoutMillis>15000</socketTimeoutMillis>
             <enableCookieManagement>false</enableCookieManagement>
@@ -419,6 +427,7 @@
             </contentSynchronisation>
             <blockMismatchingMimeTypes>true</blockMismatchingMimeTypes>
             <mismatchingMimeTypesOverrideList></mismatchingMimeTypesOverrideList>
+            <bypassHeadRequests>false</bypassHeadRequests>
             <allowAnyHostAuth>false</allowAnyHostAuth>
             <socketTimeoutMillis>15000</socketTimeoutMillis>
             <enableCookieManagement>false</enableCookieManagement>
@@ -470,6 +479,7 @@
             </contentSynchronisation>
             <blockMismatchingMimeTypes>true</blockMismatchingMimeTypes>
             <mismatchingMimeTypesOverrideList></mismatchingMimeTypesOverrideList>
+            <bypassHeadRequests>false</bypassHeadRequests>
             <allowAnyHostAuth>false</allowAnyHostAuth>
             <socketTimeoutMillis>15000</socketTimeoutMillis>
             <enableCookieManagement>false</enableCookieManagement>
@@ -521,6 +531,7 @@
             </contentSynchronisation>
             <blockMismatchingMimeTypes>true</blockMismatchingMimeTypes>
             <mismatchingMimeTypesOverrideList></mismatchingMimeTypesOverrideList>
+            <bypassHeadRequests>false</bypassHeadRequests>
             <allowAnyHostAuth>false</allowAnyHostAuth>
             <socketTimeoutMillis>15000</socketTimeoutMillis>
             <enableCookieManagement>false</enableCookieManagement>
@@ -572,6 +583,7 @@
             </contentSynchronisation>
             <blockMismatchingMimeTypes>true</blockMismatchingMimeTypes>
             <mismatchingMimeTypesOverrideList></mismatchingMimeTypesOverrideList>
+            <bypassHeadRequests>false</bypassHeadRequests>
             <allowAnyHostAuth>false</allowAnyHostAuth>
             <socketTimeoutMillis>15000</socketTimeoutMillis>
             <enableCookieManagement>false</enableCookieManagement>
@@ -595,7 +607,6 @@
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
             <xray>
                 <enabled>false</enabled>
-                <blockUnscannedArtifacts>false</blockUnscannedArtifacts>
             </xray>
             <url>https://repo1.maven.org/maven2</url>
             <offline>false</offline>
@@ -628,6 +639,7 @@
             </contentSynchronisation>
             <blockMismatchingMimeTypes>true</blockMismatchingMimeTypes>
             <mismatchingMimeTypesOverrideList></mismatchingMimeTypesOverrideList>
+            <bypassHeadRequests>false</bypassHeadRequests>
             <allowAnyHostAuth>false</allowAnyHostAuth>
             <socketTimeoutMillis>15000</socketTimeoutMillis>
             <enableCookieManagement>false</enableCookieManagement>
@@ -679,6 +691,7 @@
             </contentSynchronisation>
             <blockMismatchingMimeTypes>true</blockMismatchingMimeTypes>
             <mismatchingMimeTypesOverrideList></mismatchingMimeTypesOverrideList>
+            <bypassHeadRequests>false</bypassHeadRequests>
             <allowAnyHostAuth>false</allowAnyHostAuth>
             <socketTimeoutMillis>15000</socketTimeoutMillis>
             <enableCookieManagement>false</enableCookieManagement>
@@ -702,7 +715,6 @@
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
             <xray>
                 <enabled>false</enabled>
-                <blockUnscannedArtifacts>false</blockUnscannedArtifacts>
             </xray>
             <url>https://repo.scala-sbt.org/scalasbt/sbt-plugin-releases</url>
             <offline>false</offline>
@@ -734,6 +746,7 @@
             </contentSynchronisation>
             <blockMismatchingMimeTypes>true</blockMismatchingMimeTypes>
             <mismatchingMimeTypesOverrideList></mismatchingMimeTypesOverrideList>
+            <bypassHeadRequests>false</bypassHeadRequests>
             <allowAnyHostAuth>false</allowAnyHostAuth>
             <socketTimeoutMillis>15000</socketTimeoutMillis>
             <enableCookieManagement>false</enableCookieManagement>
@@ -785,6 +798,7 @@
             </contentSynchronisation>
             <blockMismatchingMimeTypes>true</blockMismatchingMimeTypes>
             <mismatchingMimeTypesOverrideList></mismatchingMimeTypesOverrideList>
+            <bypassHeadRequests>false</bypassHeadRequests>
             <allowAnyHostAuth>false</allowAnyHostAuth>
             <socketTimeoutMillis>15000</socketTimeoutMillis>
             <enableCookieManagement>false</enableCookieManagement>
@@ -808,7 +822,6 @@
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
             <xray>
                 <enabled>false</enabled>
-                <blockUnscannedArtifacts>false</blockUnscannedArtifacts>
             </xray>
             <url>https://scala-ci.typesafe.com/artifactory/scala-pr-validation-snapshots</url>
             <offline>false</offline>
@@ -840,6 +853,7 @@
             </contentSynchronisation>
             <blockMismatchingMimeTypes>true</blockMismatchingMimeTypes>
             <mismatchingMimeTypesOverrideList></mismatchingMimeTypesOverrideList>
+            <bypassHeadRequests>false</bypassHeadRequests>
             <allowAnyHostAuth>false</allowAnyHostAuth>
             <socketTimeoutMillis>15000</socketTimeoutMillis>
             <enableCookieManagement>false</enableCookieManagement>
@@ -891,6 +905,7 @@
             </contentSynchronisation>
             <blockMismatchingMimeTypes>true</blockMismatchingMimeTypes>
             <mismatchingMimeTypesOverrideList></mismatchingMimeTypesOverrideList>
+            <bypassHeadRequests>false</bypassHeadRequests>
             <allowAnyHostAuth>false</allowAnyHostAuth>
             <socketTimeoutMillis>15000</socketTimeoutMillis>
             <enableCookieManagement>false</enableCookieManagement>
@@ -942,6 +957,7 @@
             </contentSynchronisation>
             <blockMismatchingMimeTypes>true</blockMismatchingMimeTypes>
             <mismatchingMimeTypesOverrideList></mismatchingMimeTypesOverrideList>
+            <bypassHeadRequests>false</bypassHeadRequests>
             <allowAnyHostAuth>false</allowAnyHostAuth>
             <socketTimeoutMillis>15000</socketTimeoutMillis>
             <enableCookieManagement>false</enableCookieManagement>
@@ -974,6 +990,9 @@
                 <repositoryRef>scala-pr-validation-snapshots</repositoryRef>
             </repositories>
             <pomRepositoryReferencesCleanupPolicy>discard_active_reference</pomRepositoryReferencesCleanupPolicy>
+            <virtualCacheConfig>
+                <virtualRetrievalCachePeriodSecs>600</virtualRetrievalCachePeriodSecs>
+            </virtualCacheConfig>
         </virtualRepository>
     </virtualRepositories>
     <distributionRepositories/>
@@ -1063,6 +1082,27 @@
             <folderIntegrationRevisionRegExp>.*</folderIntegrationRevisionRegExp>
             <fileIntegrationRevisionRegExp>.*</fileIntegrationRevisionRegExp>
         </repoLayout>
+        <repoLayout>
+            <name>conan-default</name>
+            <artifactPathPattern>[module]/[baseRev]@[org]/[channel&lt;[^/]+&gt;][remainder&lt;(?:.*)&gt;]</artifactPathPattern>
+            <distinctiveDescriptorPathPattern>false</distinctiveDescriptorPathPattern>
+            <folderIntegrationRevisionRegExp>.*</folderIntegrationRevisionRegExp>
+            <fileIntegrationRevisionRegExp>.*</fileIntegrationRevisionRegExp>
+        </repoLayout>
+        <repoLayout>
+            <name>puppet-default</name>
+            <artifactPathPattern>[orgPath]/[module]/[orgPath]-[module]-[baseRev].tar.gz</artifactPathPattern>
+            <distinctiveDescriptorPathPattern>false</distinctiveDescriptorPathPattern>
+            <folderIntegrationRevisionRegExp>.*</folderIntegrationRevisionRegExp>
+            <fileIntegrationRevisionRegExp>.*</fileIntegrationRevisionRegExp>
+        </repoLayout>
+        <repoLayout>
+            <name>go-default</name>
+            <artifactPathPattern>[orgPath]/[module]/@v/v[refs].zip</artifactPathPattern>
+            <distinctiveDescriptorPathPattern>false</distinctiveDescriptorPathPattern>
+            <folderIntegrationRevisionRegExp>.*</folderIntegrationRevisionRegExp>
+            <fileIntegrationRevisionRegExp>.*</fileIntegrationRevisionRegExp>
+        </repoLayout>
     </repoLayouts>
     <remoteReplications/>
     <localReplications/>
@@ -1077,6 +1117,7 @@
     </virtualCacheCleanupConfig>
     <folderDownloadConfig>
         <enabled>false</enabled>
+        <enabledForAnonymous>false</enabledForAnonymous>
         <maxDownloadSizeMb>1024</maxDownloadSizeMb>
         <maxFiles>5000</maxFiles>
         <maxConcurrentRequests>10</maxConcurrentRequests>
