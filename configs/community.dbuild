@@ -1204,6 +1204,8 @@ build += {
   // tracking 0.12.x, not master, because that's the version http4s depends
   // on (as of December 2017, anyway; see discussion at
   // https://github.com/http4s/blaze/issues/97)
+  // forked (off 0.12.x) to cherry-pick JDK 9 changes;
+  // see https://github.com/scala/community-builds/pull/766
   ${vars.base} {
     name: "blaze"
     uri: ${vars.uris.blaze-uri}
