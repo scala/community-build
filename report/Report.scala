@@ -38,7 +38,6 @@ object SuccessReport {
       case "9" =>
         Set(
           "akka-persistence-cassandra",
-          "blaze",
           "github4s",
           "kxbmap-configs",
           "paradox",
