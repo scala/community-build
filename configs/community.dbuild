@@ -1929,7 +1929,7 @@ build += {
   ${vars.base} {
     name: "zinc"
     uri:  ${vars.uris.zinc-uri}
-    extra.sbt-version: ${vars.sbt-1-1-version}
+    extra.sbt-version: "1.2.0"  // yup, 1.2.1 is built with 1.2.0
     extra.exclude: [
       "zincBenchmarks"
       // has circular dependency on sbt repo
@@ -1955,7 +1955,7 @@ build += {
   ${vars.base} {
     name: "sbt"
     uri:  ${vars.uris.sbt-uri}
-    extra.sbt-version: ${vars.sbt-1-1-version}
+    extra.sbt-version: "1.2.0"  // yup, 1.2.1 is built with 1.2.0
     extra.options: [
       "-Xmx2048m"
       "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
