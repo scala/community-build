@@ -1219,6 +1219,8 @@ build += {
   // tracking 0.12.x, not master, because that's the version http4s depends
   // on (as of December 2017, anyway; see discussion at
   // https://github.com/http4s/blaze/issues/97)
+  // forked (off 0.12.x) to cherry-pick JDK 9 changes;
+  // see https://github.com/scala/community-builds/pull/766
   ${vars.base} {
     name: "blaze"
     uri: ${vars.uris.blaze-uri}
@@ -1637,12 +1639,10 @@ build += {
     extra.exclude: ["fsi-benchmark", "fsi-benchmark-core"]
   }
 
-  // frozen (August 2018) because the addition of sbt-ci-release in a subsequent
-  // commit caused extraction to fail. not sure why, don't have time to investigate
-  // right now
   ${vars.base} {
     name: "scalacheck-shapeless"
     uri:  ${vars.uris.scalacheck-shapeless-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["coreJVM", "testJVM"]  // no Scala.js plz
     // weird missing self-dependency in testJVM project: "the library
     // com.github.alexarchambault#scalacheck-shapeless is not provided
@@ -1947,7 +1947,7 @@ build += {
   ${vars.base} {
     name: "zinc"
     uri:  ${vars.uris.zinc-uri}
-    extra.sbt-version: ${vars.sbt-1-1-version}
+    extra.sbt-version: "1.2.0"  // yup, 1.2.1 is built with 1.2.0
     extra.exclude: [
       "zincBenchmarks"
       // has circular dependency on sbt repo
@@ -1973,7 +1973,7 @@ build += {
   ${vars.base} {
     name: "sbt"
     uri:  ${vars.uris.sbt-uri}
-    extra.sbt-version: ${vars.sbt-1-1-version}
+    extra.sbt-version: "1.2.0"  // yup, 1.2.1 is built with 1.2.0
     extra.options: [
       "-Xmx2048m"
       "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
