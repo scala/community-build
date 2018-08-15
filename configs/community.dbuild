@@ -1651,8 +1651,6 @@ build += {
   }
 
   // dependency of magnolia
-  // frozen (August 2018) at tag, since master isn't stable
-  // (e.g. https://github.com/propensive/mercator/issues/7)
   ${vars.base} {
     name: "mercator"
     uri:  ${vars.uris.mercator-uri}
