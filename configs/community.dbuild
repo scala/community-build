@@ -818,7 +818,7 @@ build += {
       // we don't have catbird
       "twitter"
       // no Scala.js please
-      "coreJS", "monixJS"
+      "coreJS", "monixJS", "catsEffectJS"
     ]
   }
 
