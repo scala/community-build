@@ -1860,6 +1860,16 @@ build += {
     extra.projects: ["portable-scala-reflectJVM"]  // no Scala.js plz
   }
 
+  // forked pending merge of https://github.com/scalacenter/classpath-shrinker/pull/5
+  ${vars.base} {
+    name: "classpath-shrinker"
+    uri:  ${vars.uris.classpath-shrinker-uri}
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
+    extra.exclude: ["root", "default-sbt-project"]  // not needed, and runs into bintray publishing trouble
+  }
+
   // I know, it's a little weird to include my personal Project Euler
   // solutions, but it's actually a pretty broad-ranging assortment of
   // small, self-contained tests of the collections API. they've
