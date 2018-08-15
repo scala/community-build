@@ -1119,6 +1119,8 @@ build += {
     extra.projects: ["testModuleJVM"]  // no Scala.js, no benchmarks
   }
 
+  // 2.13: using Yoshida-san's fork, awaiting merge of
+  // https://github.com/monix/minitest/pull/24
   ${vars.base} {
     name: "minitest"
     uri:  ${vars.uris.minitest-uri}
