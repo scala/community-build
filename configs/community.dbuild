@@ -1853,6 +1853,13 @@ build += {
     ]
   }
 
+  ${vars.base} {
+    name: "portable-scala-reflect"
+    uri:  ${vars.uris.portable-scala-reflect-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: ["portable-scala-reflectJVM"]  // no Scala.js plz
+  }
+
 ]}
 
 //// space: jawn_0_10
