@@ -600,8 +600,6 @@ build += {
     extra.commands: ${vars.default-commands} [
       // https://github.com/scala/community-builds/issues/373
       "set every apiURL := None"
-      // UnfoldResourceSourceSpec kept failing. I should report upstream if it persists after next unfreeze
-      "set executeTests in streamTests in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
       // makes "configuration not public" errors downstream go away
       "set every publishMavenStyle := false"
     ]
@@ -627,9 +625,6 @@ build += {
     extra.commands: ${vars.default-commands} [
       // https://github.com/scala/community-builds/issues/373
       "set every apiURL := None"
-      // UnfoldResourceSourceSpec kept failing. I should report upstream if it persists after next unfreeze.
-      // also note we shouldn't only be disabling the one source file, not the whole project.
-      "set executeTests in streamTests in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
     ]
     extra.exclude: [
       "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
@@ -1372,6 +1367,8 @@ build += {
     // actually run the whole thing as part of the community build?)
   }
 
+  // frozen (August 2018) pending resolution of
+  // https://github.com/pathikrit/better-files/issues/254
   ${vars.base} {
     name: "better-files"
     uri: ${vars.uris.better-files-uri}
@@ -1674,8 +1671,6 @@ build += {
   }
 
   // dependency of magnolia
-  // frozen (August 2018) at tag, since master isn't stable
-  // (e.g. https://github.com/propensive/mercator/issues/7)
   ${vars.base} {
     name: "mercator"
     uri:  ${vars.uris.mercator-uri}
