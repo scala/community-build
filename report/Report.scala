@@ -45,7 +45,6 @@ object SuccessReport {
     "linter",
     "log4s",
     "magnolia",
-    "minitest",
     "paradox",
     "parboiled",
     "parboiled2",
