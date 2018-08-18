@@ -1901,9 +1901,9 @@ build += {
     ]
     // hungry hungry heapos
     extra.options: ["-Xmx4g"]
+    // some things don't work on 2.13 yet
     extra.commands: ${vars.default-commands} [
-      // this can be removed once https://github.com/scala/scala/pull/6828 is merged
-      "set excludeFilter in (Test, unmanagedSources) := HiddenFileFilter || \"75.scala\" || \"95.scala\""
+      "set excludeFilter in (Test, unmanagedSources) := HiddenFileFilter || \"104.scala\"|| \"25.scala\"|| \"52.scala\"|| \"2.scala\" || \"60.scala\""
     ]
   }
 
