@@ -1876,6 +1876,37 @@ build += {
     ]
   }
 
+  ${vars.base} {
+    name: "portable-scala-reflect"
+    uri:  ${vars.uris.portable-scala-reflect-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: ["portable-scala-reflectJVM"]  // no Scala.js plz
+  }
+
+  // I know, it's a little weird to include my personal Project Euler
+  // solutions, but it's actually a pretty broad-ranging assortment of
+  // small, self-contained tests of the collections API. they've
+  // caught many Scala bugs over the years.  and since I often use
+  // them for testing, it's convenient to have them here so I don't
+  // have to worry about whether I have a usable ScalaTest build I can
+  // use to test with an arbitrary Scala - Seth
+  ${vars.base} {
+    name: "euler"
+    uri:  ${vars.uris.euler-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    // some solutions are heap-hungry. avoiding parallel execution prevents
+    // intermittent OOM issue
+    extra.commands: ${vars.default-commands} [
+      "set parallelExecution in Test := false"
+    ]
+    // hungry hungry heapos
+    extra.options: ["-Xmx4g"]
+    extra.commands: ${vars.default-commands} [
+      // this can be removed once https://github.com/scala/scala/pull/6828 is merged
+      "set excludeFilter in (Test, unmanagedSources) := HiddenFileFilter || \"75.scala\" || \"95.scala\""
+    ]
+  }
+
 ]}
 
 //// space: jawn_0_10
