@@ -40,7 +40,6 @@ object SuccessReport {
     "http4s-parboiled2",
     "jackson-module-scala",
     "jawn-0-10",
-    "jawn-0-11",
     "lift-json",
     "linter",
     "log4s",
