@@ -65,7 +65,6 @@ object SuccessReport {
     "scalikejdbc",
     "scapegoat",
     "scodec",
-    "sksamuel-exts",
     "slick",
     "specs2-more",
     "spire",
