@@ -2140,19 +2140,17 @@ build += {
 
   projects: [
 
-  // frozen (April 2018) at an April 2018 commit just before an upgrade to jawn 0.12.
-  // at some point we should move everything off 0.11 and onto 0.12, but there's no rush.
   ${vars.base} {
     name: "circe"
     uri:  ${vars.uris.circe-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: [
       // easy
-      "core", "numbers"
+      "coreJVM", "numbersJVM"
       // harder
       "jawn"
       // bunch more stuff that all depends on jawn
-      "parser", "generic", "literal", "scodec", "testing", "tests"
+      "parserJVM", "genericJVM", "literalJVM", "scodecJVM", "testingJVM", "testsJVM"
     ]
   }
 
