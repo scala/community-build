@@ -1415,12 +1415,6 @@ build += {
     uri:  ${vars.uris.argonaut-shapeless-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["coreJVM"]
-    deps.inject: ${vars.base.deps.inject} [
-      "org.typelevel#macro-compat"
-    ]
-    extra.commands: ${vars.default-commands} [
-      "set libraryDependencies in coreJVM += \"org.typelevel\" %% \"macro-compat\" % \"1.1.1\""
-    ]
   }
 
   // frozen (February 2018) because Ammonite depends on it, but
