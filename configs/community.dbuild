@@ -769,8 +769,6 @@ build += {
     extra.projects: ["coreJVM", "io"]  // no Scala.js, no benchmarks or docs
   }
 
-  // frozen (June 2018) at a February 2018 commit before a fs2 0.1 -> 1.0 upgrade.
-  // we should unfreeze once the whole build moves to fs2 1.0
   ${vars.base} {
     name: "fs2-reactive-streams"
     uri:  ${vars.uris.fs2-reactive-streams-uri}
@@ -1098,10 +1096,6 @@ build += {
     extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
   }
 
-  // frozen (May 2018) at an April 2018 commit just before an upgrade to a
-  // cats-effect version that isn't source compatible with the one we have.
-  // also forked (May 2018) to add a commit that allows the build definition
-  // to load on Java 9, also submitted as https://github.com/monix/monix/pull/671
   ${vars.base} {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
