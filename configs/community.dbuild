@@ -339,8 +339,6 @@ build += {
     extra.exclude: ["sbt-plugin"]
   }
 
-  // frozen (July 2018) at July 2018 commit just before `Defer` addition
-  // caused compilation errors downstream in fs2
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
@@ -1302,8 +1300,8 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
-  // frozen (April 2018) at v0.10 tag since that's what fs2 and monix
-  // currently expect.  these projects co-evolve the branches we use
+  // frozen (August 2018) at 1.0.0-RC3 tag since that's what fs2 (and monix?)
+  // currently expect.  these projects co-evolve, and the branches we use
   // aren't always in sync, so the easiest solution seems to be to
   // use the cats-effect tag that fs2 and monix currently declare
   // their dependencies on, then freeze fs2 and/or monix if they
