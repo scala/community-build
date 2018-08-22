@@ -1355,6 +1355,7 @@ build += {
   ${vars.base} {
     name: "scala-collections-laws"
     uri: ${vars.uris.scala-collections-laws-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     // as per the repo readme
     extra.options: ["-XX:MaxMetaspaceSize=1G", "-Xmx6G"]
     // note that we're not actually doing
