@@ -273,9 +273,7 @@ build += {
       // makes a "configuration not public" error in specs2-scalaz go away.  I got the idea to
       // try it by googling that phrase and finding https://github.com/sbt/sbt/pull/2345
       "set every publishMavenStyle := false"
-      // flaky test, https://github.com/etorreborre/specs2/issues/673
-      "set excludeFilter in (Test, unmanagedSources) in examplesJvm := HiddenFileFilter || \"StackIsolatedSpec.scala\""
-      // 2.13-only test failures, mentioned to Eric on a PR
+      // 2.13-only test failures, mentioned to Eric on a PR. check on it again sometime before 2.13.0 time
       "set excludeFilter in (Test, unmanagedSources) in coreJvm := HiddenFileFilter || \"NotNullStringsSpec.scala\""
       "set excludeFilter in (Test, unmanagedSources) in mockJvm := HiddenFileFilter || \"MockitoSpec.scala\""
     ]
@@ -470,6 +468,8 @@ build += {
     extra.commands: ${vars.default-commands} [
       // not sure if necessary, but we have it in the specs entry, so let's have it here too
       "set every publishMavenStyle := false"
+      // flaky test, https://github.com/etorreborre/specs2/issues/673
+      "set excludeFilter in (Test, unmanagedSources) in examplesJvm := HiddenFileFilter || \"StackIsolatedSpec.scala\""
     ]
   }
 
@@ -1318,7 +1318,8 @@ build += {
   // from the 1.1.x branch, not master, since there are
   // source-incompatible changes on master, but scalafix's dependency is
   // on 1.1.x.  so I'm not bothering to contribute the coursier version
-  // change upstream, since master has already moved on
+  // change upstream, since master has already moved on.
+  // fork refreshed August 2018, because https://github.com/milessabin/shapeless/issues/849
   ${vars.base} {
     name: "case-app"
     uri:  ${vars.uris.case-app-uri}
@@ -1366,8 +1367,6 @@ build += {
     // actually run the whole thing as part of the community build?)
   }
 
-  // frozen (August 2018) pending resolution of
-  // https://github.com/pathikrit/better-files/issues/254
   ${vars.base} {
     name: "better-files"
     uri: ${vars.uris.better-files-uri}
@@ -1440,14 +1439,6 @@ build += {
     uri:  ${vars.uris.argonaut-shapeless-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["coreJVM"]
-    // will be needed once we track shapeless master again
-    // // shapeless dropped its macrocompat dependency
-    // deps.inject: ${vars.base.deps.inject} [
-    //   "org.typelevel#macro-compat"
-    // ]
-    // extra.commands: ${vars.default-commands} [
-    //   "set libraryDependencies in coreJVM += \"org.typelevel\" %% \"macro-compat\" % \"1.1.1\""
-    // ]
   }
 
   // frozen (February 2018) because Ammonite depends on it, but
