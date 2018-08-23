@@ -354,8 +354,8 @@ build += {
     // tests are memory-hungry. hard to tell if occasional OutOfMemoryErrors are because
     // some random test input in a generative test hit a real bug, or whether memory needs
     // just fluctuate :-/  I've been gradually increasing this trying to fix an OOM in
-    // ApplicativeSuite.  the repo's own .jvmopts has 6g, so we're not at a crazy level yet here
-    extra.options: ["-Xmx4g"]
+    // ApplicativeSuite.  the repo's own .jvmopts has 6g
+    extra.options: ["-Xmx6g"]
   }
 
   ${vars.base} {
