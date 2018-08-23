@@ -867,10 +867,14 @@ build += {
     extra.projects: ["crossJVM"]  // no Scala.js please
   }
 
+  // frozen (August 2018) just before a commit upgrading to sbt 1 and adding
+  // a custom resolver for the sbt-s3 plugin.  I've added the resolver in the
+  // Artifactory config file in this repo, but it also needs to be added to
+  // scala-ci.typesafe.com/artifactory and I can't do that right now, lacking
+  // the admin password
   ${vars.base} {
     name: "ssl-config"
     uri:  ${vars.uris.ssl-config-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
     // repeated hangs during testing; see
     // https://github.com/scala/community-builds/issues/560
     extra.test-tasks: ["compile"]
