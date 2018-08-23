@@ -36,6 +36,7 @@ object SuccessReport {
     "cachecontrol",
     "case-app",
     "cats-effect",
+    "circe",
     "grizzled",
     "http4s-parboiled2",
     "jackson-module-scala",
