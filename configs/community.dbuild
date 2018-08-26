@@ -456,10 +456,12 @@ build += {
     ]
   }
 
-  // frozen (August 2018) at a post-v2.5.14 commit (chosen to include JDK 9 fixes, sbt 1.2 upgrade)
-  // this repo is volatile (very frequent commits) and when it needs to be rebuilt,
-  // the testing takes a long time (especially akka-more) and the downstream rebuilding takes
-  // a long time too.  so in general we want to freeze at a tag or SHA rather than track master
+  // frozen (August 2018) at v2.5.15.  this repo is volatile (very
+  // frequent commits) and when it needs to be rebuilt, the testing
+  // takes a long time (especially akka-more) and the downstream
+  // rebuilding takes a long time too.  so in general we want to
+  // freeze at a tag (preferably) or SHA (if we must) rather than
+  // track master
   ${vars.base} {
     name: "akka-actor"
     uri:  ${vars.uris.akka-uri}
