@@ -262,8 +262,6 @@ build += {
       // makes a "configuration not public" error in specs2-scalaz go away.  I got the idea to
       // try it by googling that phrase and finding https://github.com/sbt/sbt/pull/2345
       "set every publishMavenStyle := false"
-      // flaky test, https://github.com/etorreborre/specs2/issues/673
-      "set excludeFilter in (Test, unmanagedSources) in examplesJvm := HiddenFileFilter || \"StackIsolatedSpec.scala\""
     ]
   }
 
@@ -356,8 +354,8 @@ build += {
     // tests are memory-hungry. hard to tell if occasional OutOfMemoryErrors are because
     // some random test input in a generative test hit a real bug, or whether memory needs
     // just fluctuate :-/  I've been gradually increasing this trying to fix an OOM in
-    // ApplicativeSuite.  the repo's own .jvmopts has 6g, so we're not at a crazy level yet here
-    extra.options: ["-Xmx4g"]
+    // ApplicativeSuite.  the repo's own .jvmopts has 6g
+    extra.options: ["-Xmx6g"]
   }
 
   ${vars.base} {
@@ -443,6 +441,8 @@ build += {
     extra.commands: ${vars.default-commands} [
       // not sure if necessary, but we have it in the specs entry, so let's have it here too
       "set every publishMavenStyle := false"
+      // flaky test, https://github.com/etorreborre/specs2/issues/673
+      "set excludeFilter in (Test, unmanagedSources) in examplesJvm := HiddenFileFilter || \"StackIsolatedSpec.scala\""
     ]
   }
 
@@ -456,10 +456,12 @@ build += {
     ]
   }
 
-  // frozen (August 2018) at a post-v2.5.14 commit (chosen to include JDK 9 fixes, sbt 1.2 upgrade)
-  // this repo is volatile (very frequent commits) and when it needs to be rebuilt,
-  // the testing takes a long time (especially akka-more) and the downstream rebuilding takes
-  // a long time too.  so in general we want to freeze at a tag or SHA rather than track master
+  // frozen (August 2018) at v2.5.15.  this repo is volatile (very
+  // frequent commits) and when it needs to be rebuilt, the testing
+  // takes a long time (especially akka-more) and the downstream
+  // rebuilding takes a long time too.  so in general we want to
+  // freeze at a tag (preferably) or SHA (if we must) rather than
+  // track master
   ${vars.base} {
     name: "akka-actor"
     uri:  ${vars.uris.akka-uri}
@@ -577,8 +579,6 @@ build += {
     extra.commands: ${vars.default-commands} [
       // https://github.com/scala/community-builds/issues/373
       "set every apiURL := None"
-      // UnfoldResourceSourceSpec kept failing. I should report upstream if it persists after next unfreeze
-      "set executeTests in streamTests in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
       // makes "configuration not public" errors downstream go away
       "set every publishMavenStyle := false"
     ]
@@ -604,9 +604,6 @@ build += {
     extra.commands: ${vars.default-commands} [
       // https://github.com/scala/community-builds/issues/373
       "set every apiURL := None"
-      // UnfoldResourceSourceSpec kept failing. I should report upstream if it persists after next unfreeze.
-      // also note we shouldn't only be disabling the one source file, not the whole project.
-      "set executeTests in streamTests in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
     ]
     extra.exclude: [
       "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
@@ -816,7 +813,7 @@ build += {
       // we don't have catbird
       "twitter"
       // no Scala.js please
-      "coreJS", "monixJS"
+      "coreJS", "monixJS", "catsEffectJS"
     ]
   }
 
@@ -850,6 +847,11 @@ build += {
     extra.projects: ["crossJVM"]  // no Scala.js please
   }
 
+  // frozen (August 2018) just before a commit upgrading to sbt 1 and adding
+  // a custom resolver for the sbt-s3 plugin.  I've added the resolver in the
+  // Artifactory config file in this repo, but it also needs to be added to
+  // scala-ci.typesafe.com/artifactory and I can't do that right now, lacking
+  // the admin password
   ${vars.base} {
     name: "ssl-config"
     uri:  ${vars.uris.ssl-config-uri}
@@ -1202,6 +1204,8 @@ build += {
   // tracking 0.12.x, not master, because that's the version http4s depends
   // on (as of December 2017, anyway; see discussion at
   // https://github.com/http4s/blaze/issues/97)
+  // forked (off 0.12.x) to cherry-pick JDK 9 changes;
+  // see https://github.com/scala/community-builds/pull/766
   ${vars.base} {
     name: "blaze"
     uri: ${vars.uris.blaze-uri}
@@ -1300,7 +1304,8 @@ build += {
   // from the 1.1.x branch, not master, since there are
   // source-incompatible changes on master, but scalafix's dependency is
   // on 1.1.x.  so I'm not bothering to contribute the coursier version
-  // change upstream, since master has already moved on
+  // change upstream, since master has already moved on.
+  // fork refreshed August 2018, because https://github.com/milessabin/shapeless/issues/849
   ${vars.base} {
     name: "case-app"
     uri:  ${vars.uris.case-app-uri}
@@ -1333,8 +1338,6 @@ build += {
     ]
   }
 
-  // once https://github.com/scala/scala-collections-laws/pull/18
-  // is merged we can track master
   ${vars.base} {
     name: "scala-collections-laws"
     uri: ${vars.uris.scala-collections-laws-uri}
@@ -1608,6 +1611,7 @@ build += {
   ${vars.base} {
     name: "scalacheck-shapeless"
     uri:  ${vars.uris.scalacheck-shapeless-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["coreJVM", "testJVM"]  // no Scala.js plz
     // weird missing self-dependency in testJVM project: "the library
     // com.github.alexarchambault#scalacheck-shapeless is not provided
@@ -1634,8 +1638,6 @@ build += {
   }
 
   // dependency of magnolia
-  // frozen (August 2018) at tag, since master isn't stable
-  // (e.g. https://github.com/propensive/mercator/issues/7)
   ${vars.base} {
     name: "mercator"
     uri:  ${vars.uris.mercator-uri}
@@ -1846,6 +1848,37 @@ build += {
     ]
   }
 
+  ${vars.base} {
+    name: "portable-scala-reflect"
+    uri:  ${vars.uris.portable-scala-reflect-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: ["portable-scala-reflectJVM"]  // no Scala.js plz
+  }
+
+  // I know, it's a little weird to include my personal Project Euler
+  // solutions, but it's actually a pretty broad-ranging assortment of
+  // small, self-contained tests of the collections API. they've
+  // caught many Scala bugs over the years.  and since I often use
+  // them for testing, it's convenient to have them here so I don't
+  // have to worry about whether I have a usable ScalaTest build I can
+  // use to test with an arbitrary Scala - Seth
+  ${vars.base} {
+    name: "euler"
+    uri:  ${vars.uris.euler-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    // some solutions are heap-hungry. avoiding parallel execution prevents
+    // intermittent OOM issue
+    extra.commands: ${vars.default-commands} [
+      "set parallelExecution in Test := false"
+    ]
+    // hungry hungry heapos
+    extra.options: ["-Xmx4g"]
+    extra.commands: ${vars.default-commands} [
+      // this can be removed once https://github.com/scala/scala/pull/6828 is merged
+      "set excludeFilter in (Test, unmanagedSources) := HiddenFileFilter || \"75.scala\" || \"95.scala\""
+    ]
+  }
+
 ]}
 
 //// space: jawn_0_10
@@ -1917,7 +1950,7 @@ build += {
   ${vars.base} {
     name: "zinc"
     uri:  ${vars.uris.zinc-uri}
-    extra.sbt-version: ${vars.sbt-1-1-version}
+    extra.sbt-version: "1.2.0"  // yup, 1.2.1 is built with 1.2.0
     extra.exclude: [
       "zincBenchmarks"
       // has circular dependency on sbt repo
@@ -1943,7 +1976,7 @@ build += {
   ${vars.base} {
     name: "sbt"
     uri:  ${vars.uris.sbt-uri}
-    extra.sbt-version: ${vars.sbt-1-1-version}
+    extra.sbt-version: "1.2.0"  // yup, 1.2.1 is built with 1.2.0
     extra.options: [
       "-Xmx2048m"
       "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
