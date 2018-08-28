@@ -1839,13 +1839,7 @@ build += {
     name: "scalafix"
     uri:  ${vars.uris.scalafix-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.exclude: [
-      "website", "testsOutputDotty"
-      // this seems to somehow pull in testsOutputDotty unless we exclude it, I don't understand why.
-      // but by excluding it, we aren't running any scalafix tests at all; see
-      // https://github.com/scala/community-builds/pull/752
-      "unit"
-    ]
+    extra.exclude: ["website", "docs"]
   }
 
   ${vars.base} {
