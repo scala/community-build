@@ -1968,6 +1968,8 @@ build += {
       "set executeTests in zinc in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
     ]
     check-missing: false  // ignore missing scalafmt
+    // as per Jorge's remark at https://github.com/sbt/zinc/issues/485#issuecomment-417554389
+    extra.test-tasks: ["publishBridges", "test"]
   }
 
   // currently sbt and its modules are frozen and/or forked, since
