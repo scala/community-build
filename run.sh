@@ -13,33 +13,10 @@ rm -rf target-*/project-builds || true
 rm -rf target-*/extraction || true
 
 export LANG="en_US.UTF-8"
-
-# on Java 9+, the Scala.js build expects this property to be set.
-# * note the kludgy specificity here, this will need further work
-#   to be more flexible with different JVMs.
-# * note that for `java -version`, Oracle and OpenJDK print different
-#   things, so e.g. we might see:
-#     openjdk version "9-Debian"
-#     java version "9.0.4"
-#   and lord knows what else, so matching on version strings must be done carefully
-# * note that in the OpenJDK case it would be more correct to
-#   use java9-rt-ext-oracle_corporation_9_debian, but it seems
-#   highly unlikely that the difference would matter.
-# * we have no actual guarantee that rt.jar is present in the given location.
-#   if you've ever run sbt yourself on your machine on the JDK version in question,
-#   sbt probably put the jar in the right place, maybe? if not, you can always
-#   manually put it there yourself. that's what I did on our Jenkins workers
-if   [[ `java -version 2>&1 | head -n 1` == *\"9*  ]]; then
-  export SCALA_JS_OPTIONS=-Dscala.ext.dirs=$HOME/.sbt/0.13/java9-rt-ext-oracle_corporation_9_0_4
-elif [[ `java -version 2>&1 | head -n 1` == *\"10* ]]; then
-  export SCALA_JS_OPTIONS=-Dscala.ext.dirs=$HOME/.sbt/0.13/java9-rt-ext-oracle_corporation_10_0_1
-else
-  export SCALA_JS_OPTIONS=-Ddummy.ignore=nope
-fi
 export HOME="$(pwd)"
 
 # Defaults
-scala_version_default="2.12.7-bin-cbfcdb6"  # July 4
+scala_version_default="2.12.7-bin-38282c7"  # Aug 30
 scala_version="$scala_version_default"
 root_dir=$(pwd)
 config_dir="configs"
@@ -154,7 +131,7 @@ fi
 cat $project_refs_conf > .dbuild/project-refs.conf
 
 # Set dbuild version and config file
-DBUILDVERSION=0.9.12
+DBUILDVERSION=0.9.14
 echo "dbuild version: $DBUILDVERSION"
 
 DBUILDCONFIG=$dbuild_file
@@ -214,8 +191,8 @@ echo "removing temporary files..."
 rm -rf target-*/project-builds
 rm -rf target-*/extraction
 
-# lines-of-code report
-cd cloc-report
+# report summary information (line counts, green project counts, ...?)
+cd report
 sbt -error "run ../dbuild-${DBUILDVERSION}/dbuild.out"
 
 exit $STATUS
