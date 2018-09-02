@@ -1853,6 +1853,13 @@ build += {
     uri:  ${vars.uris.scalafix-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.exclude: ["docs"]
+    extra.commands: ${vars.default-commands} [
+      // java.lang.IllegalStateException: unable to auto-detect semanticdb-scalac compiler plugin
+      //   at scalafix.tests.cli.ScalafixImplSuite.$anonfun$semanticdbPluginPath$1(ScalafixImplSuite.scala:37)
+      //   at scala.Option.getOrElse(Option.scala:121)
+      //   at scalafix.tests.cli.ScalafixImplSuite.semanticdbPluginPath(ScalafixImplSuite.scala:36)
+      "set excludeFilter in (Test, unmanagedSources) in unit := HiddenFileFilter || \"ScalafixImplSuite.scala\""
+    ]
   }
 
   ${vars.base} {
