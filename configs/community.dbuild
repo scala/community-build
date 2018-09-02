@@ -1865,6 +1865,7 @@ build += {
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
     ]
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.exclude: ["root", "default-sbt-project"]  // not needed, and runs into bintray publishing trouble
   }
 
