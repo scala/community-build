@@ -2147,7 +2147,7 @@ build += {
       // bunch more stuff that all depends on jawn
       "parserJVM", "genericJVM", "literalJVM", "scodecJVM", "testingJVM", "testsJVM"
       // dependency of scrooge-shapes
-      "genericExtras"
+      "genericExtrasJVM"
     ]
   }
 
