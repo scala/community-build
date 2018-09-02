@@ -2306,6 +2306,8 @@ build += {
       "set every bintrayOmitLicense := true"  // otherwise it complains we don't have one
     ]
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
+    deps.ignore: ["org.scala-sbt#scripted-sbt"]
   }
 
   // dependency of circe-derivation
