@@ -2328,13 +2328,6 @@ build += {
     extra.projects: ["derivation", "annotations"]
   }
 
-  // depends on circe, so is here in the jawn 0.11 space
-  ${vars.base} {
-    name: "lsp4s"
-    uri:  ${vars.uris.lsp4s-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
-  }
-
 ]}
 
 //// space: scalaz8
