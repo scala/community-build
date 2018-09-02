@@ -1760,6 +1760,7 @@ build += {
     check-missing: false
   }
 
+  // frozen at v4.0.0-M11 since that's what scalafix currently (Sep 2 2018) expects
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
