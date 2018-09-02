@@ -2309,6 +2309,7 @@ build += {
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
     deps.ignore: ["org.scala-sbt#scripted-sbt"]
+    check-missing: false
   }
 
   // dependency of circe-derivation
