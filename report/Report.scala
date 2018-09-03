@@ -43,7 +43,6 @@ object SuccessReport {
           "paradox",
           "play-core",
           "scala-debugger",
-          "slick",
           "twitter-util",
           "zinc",
         )

@@ -838,6 +838,7 @@ build += {
 
   // tracking "develop" branch.
   // try master instead if develop proves too fragile?
+  // temporarily forked pending merge of https://github.com/twitter/util/pull/225
   ${vars.base} {
     name: "twitter-util"
     uri:  ${vars.uris.twitter-util-uri}
@@ -1430,7 +1431,6 @@ build += {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
     extra.sbt-version: ${vars.sbt-1-1-version}
-    extra.projects: ["jvm"]  // no Scala.js plz
     extra.exclude: [
       // no sbt plz
       "sbt-coursier", "sbt-shading", "sbt-pgp-coursier", "sbt-shared"
@@ -1844,6 +1844,10 @@ build += {
       //   at scala.Option.getOrElse(Option.scala:121)
       //   at scalafix.tests.cli.ScalafixImplSuite.semanticdbPluginPath(ScalafixImplSuite.scala:36)
       "set excludeFilter in (Test, unmanagedSources) in unit := HiddenFileFilter || \"ScalafixImplSuite.scala\""
+    ]
+    extra.options: [
+      // the usual thing some projects need on JDK 9
+      "--add-modules=java.xml.bind", "-XX:+IgnoreUnrecognizedVMOptions"
     ]
   }
 
