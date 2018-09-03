@@ -1856,6 +1856,10 @@ build += {
       //   at scalafix.tests.cli.ScalafixImplSuite.semanticdbPluginPath(ScalafixImplSuite.scala:36)
       "set excludeFilter in (Test, unmanagedSources) in unit := HiddenFileFilter || \"ScalafixImplSuite.scala\""
     ]
+    extra.options: [
+      // the usual thing some projects need on JDK 9
+      "--add-modules=java.xml.bind", "-XX:+IgnoreUnrecognizedVMOptions"
+    ]
   }
 
   ${vars.base} {
