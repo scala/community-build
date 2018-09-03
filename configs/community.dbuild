@@ -2087,6 +2087,22 @@ build += {
     ]
   }
 
+  ${vars.base} {
+    name: "scala-debugger"
+    uri:  ${vars.uris.scala-debugger-uri}
+    extra.exclude: [
+      // no sbt plugins plz!
+      "sbtScalaDebuggerPlugin"
+      // Missing dependency: the library org.senkbeil#grus-layouts
+      "scalaDebuggerDocs"
+      // depends on ammonite, which we no longer have
+      "scalaDebuggerTool"
+    ]
+    // java.util.concurrent.ExecutionException: java.lang.OutOfMemoryError: GC overhead limit exceeded
+    // perhaps only the -Xmx is really necessary, but let's try it with all of the repo's own .jvmopts:
+    extra.options: ["-Xms1g", "-Xmx4g", "-Xss2m", "-XX:MaxMetaspaceSize=256m"]
+  }
+
 ]}
 
 //// space: jawn_0_11
