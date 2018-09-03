@@ -816,6 +816,9 @@ build += {
       "doobie"
       // we don't have catbird
       "twitter"
+      // at present this doesn't compile, probably a version mismatch that will sort
+      // itself out in the fullness of time, but for now:
+      "monixJVM"
       // no Scala.js please
       "coreJS", "monixJS", "catsEffectJS"
     ]
