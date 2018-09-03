@@ -1827,6 +1827,8 @@ build += {
   }
 
   // dependency of scalafix
+  // should be easy to remove if it ever acts up; see Olaf's remarks at
+  // https://github.com/scala/community-builds/pull/765
   ${vars.base} {
     name: "coursier-small"
     uri:  ${vars.uris.coursier-small-uri}
