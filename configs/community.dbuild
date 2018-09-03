@@ -354,8 +354,6 @@ build += {
     extra.exclude: ["sbt-plugin"]
   }
 
-  // frozen (July 2018) at July 2018 commit just before `Defer` addition
-  // caused compilation errors downstream in fs2
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
@@ -782,15 +780,9 @@ build += {
     name: "fs2"
     uri:  ${vars.uris.fs2-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.projects: ["coreJVM", "scodecJVM", "io"]  // no Scala.js, no benchmarks or docs
-    extra.commands: ${vars.default-commands} [
-      // too flaky: https://github.com/functional-streams-for-scala/fs2/issues/1063
-      "set excludeFilter in (Test, unmanagedSources) in io := HiddenFileFilter || \"JavaInputOutputStreamSpec.scala\""
-    ]
+    extra.projects: ["coreJVM", "io"]  // no Scala.js, no benchmarks or docs
   }
 
-  // frozen (June 2018) at a February 2018 commit before a fs2 0.1 -> 1.0 upgrade.
-  // we should unfreeze once the whole build moves to fs2 1.0
   ${vars.base} {
     name: "fs2-reactive-streams"
     uri:  ${vars.uris.fs2-reactive-streams-uri}
@@ -824,6 +816,9 @@ build += {
       "doobie"
       // we don't have catbird
       "twitter"
+      // at present this doesn't compile, probably a version mismatch that will sort
+      // itself out in the fullness of time, but for now:
+      "monixJVM"
       // no Scala.js please
       "coreJS", "monixJS", "catsEffectJS"
     ]
@@ -1128,10 +1123,6 @@ build += {
     extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
   }
 
-  // frozen (May 2018) at an April 2018 commit just before an upgrade to a
-  // cats-effect version that isn't source compatible with the one we have.
-  // also forked (May 2018) to add a commit that allows the build definition
-  // to load on Java 9, also submitted as https://github.com/monix/monix/pull/671
   ${vars.base} {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
@@ -1330,8 +1321,8 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
-  // frozen (April 2018) at v0.10 tag since that's what fs2 and monix
-  // currently expect.  these projects co-evolve the branches we use
+  // frozen (August 2018) at 1.0.0-RC3 tag since that's what fs2 (and monix?)
+  // currently expect.  these projects co-evolve, and the branches we use
   // aren't always in sync, so the easiest solution seems to be to
   // use the cats-effect tag that fs2 and monix currently declare
   // their dependencies on, then freeze fs2 and/or monix if they
@@ -2132,13 +2123,13 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: [
       // easy
-      "core", "numbers"
+      "coreJVM", "numbersJVM"
       // harder
       "jawn"
       // bunch more stuff that all depends on jawn
-      "parser", "generic", "literal", "scodec", "testing", "tests"
+      "parserJVM", "genericJVM", "literalJVM", "scodecJVM", "testingJVM", "testsJVM"
       // dependency of scrooge-shapes
-      "genericExtras"
+      "genericExtrasJVM"
     ]
   }
 
@@ -2170,8 +2161,6 @@ build += {
     extra.projects: ["ast", "parser", "json4s", "spray"]
   }
 
-  // frozen (June 2018) at a March 2018 commit before a fs2 0.1 -> 1.0 upgrade.
-  // we should unfreeze once the whole build moves to fs2 1.0
   ${vars.base} {
     name: "jawn-fs2"
     uri:  ${vars.uris.jawn-fs2-uri}
