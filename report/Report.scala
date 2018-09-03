@@ -34,7 +34,10 @@ object SuccessReport {
   val expectedToFail: Set[String] =
     System.getProperty("java.specification.version") match {
       case "1.8" =>
-        Set()
+        Set(
+          "fs2-reactive-streams",
+          "sttp",
+        )
       case "9" =>
         Set(
           "akka-persistence-cassandra",
