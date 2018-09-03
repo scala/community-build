@@ -2095,9 +2095,6 @@ build += {
     ]
   }
 
-  // see also ammonite-ops.
-  // frozen (April 2018) at a March 2018 commit before a problematic upickle
-  // upgrade; see also upickle
   ${vars.base} {
     name: "ammonite"
     uri:  ${vars.uris.ammonite-uri}
