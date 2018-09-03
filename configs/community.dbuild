@@ -1442,7 +1442,6 @@ build += {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
     extra.sbt-version: ${vars.sbt-1-1-version}
-    extra.projects: ["jvm"]  // no Scala.js plz
     extra.exclude: [
       // no sbt plz
       "sbt-coursier", "sbt-shading", "sbt-pgp-coursier", "sbt-shared"
