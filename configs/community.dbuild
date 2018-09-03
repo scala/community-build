@@ -1975,11 +1975,13 @@ build += {
       "set every scalafmtOnCompile := false"
       // many failed tests with "sbt.internal.inc.InvalidComponent: The Scala compiler and library could not be retrieved"
       "set executeTests in zinc in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-      // as per Jorge's remark at https://github.com/sbt/zinc/issues/485#issuecomment-417554389
-      "publishBridges"
+      // as per bin/run-ci.sh
+      "crossTestBridges"
+      "publishBridgesAndSet "${vars.scala-version}
     ]
+    // also as per bin/run-ci.sh
+    extra.test-tasks: ["zincRoot/test", "zincRoot/scripted"]
     check-missing: false  // ignore missing scalafmt
-    extra.test-tasks: ["test", "zincScripted/Test/run"]
   }
 
   // currently sbt and its modules are frozen and/or forked, since
