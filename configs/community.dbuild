@@ -1980,6 +1980,7 @@ build += {
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every scalafmtOnCompile := false"
+      "removeScalacOptions -Yinline-warnings"
       // many failed tests with "sbt.internal.inc.InvalidComponent: The Scala compiler and library could not be retrieved"
       "set executeTests in zinc in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
       // as per bin/run-ci.sh
