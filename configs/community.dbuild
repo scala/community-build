@@ -682,6 +682,10 @@ build += {
       // I think these expect a Slick snapshot to have been `publishLocal`ed?
       "sample-slick-multidb", "sample-hello-slick", "sample-slick-plainsql", "sample-slick-testkit-example"
     ]
+    extra.commands: ${vars.default-commands} [
+      // fails on JDK9+; see https://github.com/slick/slick/issues/1908
+      "set excludeFilter in (Test, unmanagedSources) in slickTestkitProject := HiddenFileFilter || \"ProfileTest.scala\""
+    ]
   }
 
   ${vars.base} {
@@ -750,13 +754,6 @@ build += {
     name: "geny"
     uri:  ${vars.uris.geny-uri}
     extra.projects: ["genyJVM"]  // no Scala.js plz
-  }
-
-  // see also ammonite.
-  ${vars.base} {
-    name: "ammonite-ops"
-    uri:  ${vars.uris.ammonite-uri}
-    extra.projects: ["ops"]
   }
 
   ${vars.base} {
@@ -1429,10 +1426,6 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
-  // frozen (February 2018) because Ammonite depends on it, but
-  // source incompatible changes were recently made (scalaz.\/ vs Either stuff),
-  // so let's stay frozen until those changes are published and Ammonite
-  // upgrades (we can nudge Haoyi about it if necessary when the time comes)
   ${vars.base} {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
@@ -1440,9 +1433,9 @@ build += {
     extra.projects: ["jvm"]  // no Scala.js plz
     extra.exclude: [
       // no sbt plz
-      "sbt-coursier", "sbt-shading", "sbt-pgp-coursier", "sbt-plugins", "sbt-shared"
-      // no Scala Native
-      "extra", "cli"
+      "sbt-coursier", "sbt-shading", "sbt-pgp-coursier", "sbt-shared"
+      // no Scala.js or Scala Native
+      "js", "cacheJS", "coreJS", "scalazJS", "testsJS", "extra", "cli"
     ]
     extra.commands: ${vars.default-commands} [
       // dbuild doesn't retrieve submodules unless we make it
@@ -1752,13 +1745,7 @@ build += {
     check-missing: false
   }
 
-  // frozen (July 2018) at last green commit, to keep scalafix green
-  // and then forked (also July 2018) from that last green commit to
-  // include a change needed to extract on JDK 9, pending a JDK 9
-  // friendly sbt-jdi-tools release that scalameta can use.
-  // the sbt-jdi-tools change is in https://github.com/scalameta/scalameta/pull/1732,
-  // so once that's merged, *and* once scalafix is compatible with scalameta master,
-  // then we'll be able to unfork
+  // frozen at v4.0.0-M11 since that's what scalafix currently (Sep 2 2018) expects
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
@@ -1769,7 +1756,7 @@ build += {
       // to include.  this is the main thing:
       "semanticdbScalacPlugin"
       // and I empirically found scalafix and/or scalafmt to need:
-      "testkit", "contribJVM", "symtab"
+      "testkit", "contribJVM", "symtab", "metapJVM"
     ]
     // use right version-specific source directories regardless of our weird dbuild Scala version numbers
     extra.commands: ${vars.default-commands} [
@@ -1839,18 +1826,24 @@ build += {
     ]
   }
 
-  // frozen (August 2018) at an August 2018 commit just before a problematic dependency
-  // on coursier-small was added; see https://github.com/scala/community-builds/pull/765
+  // dependency of scalafix
+  ${vars.base} {
+    name: "coursier-small"
+    uri:  ${vars.uris.coursier-small-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+  }
+
   ${vars.base} {
     name: "scalafix"
     uri:  ${vars.uris.scalafix-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.exclude: [
-      "website", "testsOutputDotty"
-      // this seems to somehow pull in testsOutputDotty unless we exclude it, I don't understand why.
-      // but by excluding it, we aren't running any scalafix tests at all; see
-      // https://github.com/scala/community-builds/pull/752
-      "unit"
+    extra.exclude: ["docs"]
+    extra.commands: ${vars.default-commands} [
+      // java.lang.IllegalStateException: unable to auto-detect semanticdb-scalac compiler plugin
+      //   at scalafix.tests.cli.ScalafixImplSuite.$anonfun$semanticdbPluginPath$1(ScalafixImplSuite.scala:37)
+      //   at scala.Option.getOrElse(Option.scala:121)
+      //   at scalafix.tests.cli.ScalafixImplSuite.semanticdbPluginPath(ScalafixImplSuite.scala:36)
+      "set excludeFilter in (Test, unmanagedSources) in unit := HiddenFileFilter || \"ScalafixImplSuite.scala\""
     ]
   }
 
@@ -2022,14 +2015,13 @@ build += {
     ]
   }
 
-  // dependency of ammonite.  otherwise obsolete, as per
-  // https://github.com/lihaoyi/upickle-pprint/issues/209
+  // dependency of autowire. (and Ammonite, but we pulled Ammonite.)
+  // otherwise obsolete, as per https://github.com/lihaoyi/upickle-pprint/issues/209
   // (the pprint part has its own repo now)
   // requires jawn 0.10
   // April 2018 news: upickle has been revived, and is now
   // a dependency of Haoyi's new uJson library, which we
   // should probably add at some point. for now, doing nothing
-  // (see also ammonite)
   ${vars.base} {
     name: "upickle"
     uri:  ${vars.uris.upickle-uri}
@@ -2083,27 +2075,6 @@ build += {
     ]
   }
 
-  // see also ammonite-ops.
-  // frozen (April 2018) at a March 2018 commit before a problematic upickle
-  // upgrade; see also upickle
-  ${vars.base} {
-    name: "ammonite"
-    uri:  ${vars.uris.ammonite-uri}
-    extra.projects: ["amm"]
-    extra.exclude: ["ops"]  // we already built it in ammonite-ops entry
-    extra.commands: ${vars.default-commands} [
-      // the macroParadiseWorks test tries to retrieve a macro paradise for the Scala nightly
-      // but of course none exists
-      "set executeTests in ammRepl in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-      // lots of failed tests (January 2018) with "Need to specify a
-      // subcommand to call when running MultiMainDoc.sc" no idea what it's
-      // about, I'm guessing a version mismatch of some dependency.
-      // reported upstream: https://github.com/lihaoyi/Ammonite/issues/743
-      "set executeTests in amm in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-    ]
-  }
-
-  // depends on ammonite
   ${vars.base} {
     name: "scala-debugger"
     uri:  ${vars.uris.scala-debugger-uri}
@@ -2112,6 +2083,8 @@ build += {
       "sbtScalaDebuggerPlugin"
       // Missing dependency: the library org.senkbeil#grus-layouts
       "scalaDebuggerDocs"
+      // depends on ammonite, which we no longer have
+      "scalaDebuggerTool"
     ]
     // java.util.concurrent.ExecutionException: java.lang.OutOfMemoryError: GC overhead limit exceeded
     // perhaps only the -Xmx is really necessary, but let's try it with all of the repo's own .jvmopts:
@@ -2238,7 +2211,8 @@ build += {
 
   # forked (November 2017, refreshed January 2018) to remove a build.sbt thing that
   # adds Ammonite, because it isn't a true dependency and we don't want the complication
-  # of Ammonite's own dependency tree (in particular, the jawn versions conflict)
+  # of Ammonite's own dependency tree (in particular, the jawn versions conflict).
+  # plus in September 2018 we pulled Ammonite from the community build entirely
   ${vars.base} {
     name: "pureconfig"
     uri:  ${vars.uris.pureconfig-uri}
