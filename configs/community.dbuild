@@ -837,6 +837,12 @@ build += {
       // the `-bootclasspath ...` thing their build does doesn't work on Java 9
       "set javacOptions ~= (_.dropRight(2))"
     ]
+    // without this, in downstream projects we get:
+    // com.fasterxml.jackson.databind.JsonMappingException:
+    //   Scala module 2.8.8-dbuildx1c5888e4b2a136333f7edb02dbe6dc5abbfa7de1 requires Jackson Databind version >= 2.8.0 and < 2.9.0
+    // we could submit an upstream PR adjusting the regex that's resulting in this
+    // error, but it's easier to just:
+    set-version: "2.8.7"
   }
 
   // tracking "develop" branch.
@@ -854,12 +860,6 @@ build += {
     // recommended at https://github.com/twitter/util/issues/173:
     // "We use that when we don't think the tests will be reliable in a ci environment"
     extra.options: ["-DSKIP_FLAKY=true"]
-    extra.commands: ${vars.default-commands} [
-      // com.fasterxml.jackson.databind.JsonMappingException: Scala module 2.8.8-dbuildx8317b4707a1b405bd2499c47fe2d10fc613a6c8f requires Jackson Databind version >= 2.8.0 and < 2.9.0
-      // (we could contribute a change upstream to make the version check less sensitive, but it's easier
-      // to just exclude this one test)
-      "set excludeFilter in (Test, unmanagedSources) in utilTunable := HiddenFileFilter || \"JsonTunableMapperTest.scala\""
-    ]
   }
 
   ${vars.base} {
@@ -2054,9 +2054,6 @@ build += {
       "set every bintrayReleaseOnPublish := false"
     ]
     extra.exclude: [
-      // com.fasterxml.jackson.databind.JsonMappingException:
-      //   Scala module 2.8.8-dbuildx1c5888e4b2a136333f7edb02dbe6dc5abbfa7de1 requires Jackson Databind version >= 2.8.0 and < 2.9.0
-      "akka-http-jackson"
       // we're in jawn 0.10 space because scaladex is, but circe is over in jawn 0.11 space.
       // (if it becomes important, we could have entries in both spaces.)
       "akka-http-circe"
