@@ -824,14 +824,17 @@ build += {
     ]
   }
 
-  // frozen (July 2018) at a February 2017 commit, because there were
-  // scalameter test failures when we used master.  (whether going all the
-  // way back to February 2017 is actually necessary, I don't know; I
-  // just used the last green commit, which happens to be old because
-  // we had the project frozen already for a long time)
+  // downstream projects expecting a different jackson version than the
+  // one we have here are prone to errors such as:
+  // com.fasterxml.jackson.databind.JsonMappingException:
+  //   Scala module 2.8.8-dbuildx1c5888e4b2a136333f7edb02dbe6dc5abbfa7de1 requires Jackson Databind version >= 2.8.0 and < 2.9.0
+  // for details on how this can happen, see comments on
+  // https://github.com/scala/community-builds/pull/785
   ${vars.base} {
     name: "jackson-module-scala"
     uri:  ${vars.uris.jackson-module-scala-uri}
+    // surely they'll drop this crufty thing from their build eventually,
+    // but for the time being we need to fill in something:
     extra.options: ["-Djava7.home="${JAVA_HOME}]
     extra.commands: ${vars.base.extra.commands} [
       // the `-bootclasspath ...` thing their build does doesn't work on Java 9
@@ -854,12 +857,6 @@ build += {
     // recommended at https://github.com/twitter/util/issues/173:
     // "We use that when we don't think the tests will be reliable in a ci environment"
     extra.options: ["-DSKIP_FLAKY=true"]
-    extra.commands: ${vars.default-commands} [
-      // com.fasterxml.jackson.databind.JsonMappingException: Scala module 2.8.8-dbuildx8317b4707a1b405bd2499c47fe2d10fc613a6c8f requires Jackson Databind version >= 2.8.0 and < 2.9.0
-      // (we could contribute a change upstream to make the version check less sensitive, but it's easier
-      // to just exclude this one test)
-      "set excludeFilter in (Test, unmanagedSources) in utilTunable := HiddenFileFilter || \"JsonTunableMapperTest.scala\""
-    ]
   }
 
   ${vars.base} {
@@ -1072,22 +1069,6 @@ build += {
     check-missing: false  // ignore missing scalafmt
     // Known test failures: https://github.com/sirthias/scala-ssh/issues/38
     extra.test-tasks: "compile"
-  }
-
-  ${vars.base} {
-    name: "scalameter"
-    uri:  ${vars.uris.scalameter-uri}
-    check-missing: false
-    deps.ignore: [
-      // doesn't support 2.12 (yet?)
-      "org.mongodb#casbah"
-      // this one is unmaintained and doesn't support Scala 2.12...
-      "com.decodified#scala-ssh"
-    ]
-    deps.inject: ${vars.base.deps.inject} [
-      // ...but this one does
-      "com.veact#scala-ssh"
-    ]
   }
 
   ${vars.base} {
@@ -2050,13 +2031,7 @@ build += {
     name: "akka-http-json"
     uri:  ${vars.uris.akka-http-json-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
-    ]
     extra.exclude: [
-      // com.fasterxml.jackson.databind.JsonMappingException:
-      //   Scala module 2.8.8-dbuildx1c5888e4b2a136333f7edb02dbe6dc5abbfa7de1 requires Jackson Databind version >= 2.8.0 and < 2.9.0
-      "akka-http-jackson"
       // we're in jawn 0.10 space because scaladex is, but circe is over in jawn 0.11 space.
       // (if it becomes important, we could have entries in both spaces.)
       "akka-http-circe"
@@ -2066,6 +2041,18 @@ build += {
       "akka-http-avsystem-gencodec"
     ]
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    // apparently some dependency dropped its scala-reflect dependency?
+    // and we have the newer version of that dependency here in the
+    // community build, while the akka-http-jackson subproject's
+    // declared dependency is on the old version?
+    // that's my best guess of why we need this here, anyway
+    deps.inject: ${vars.base.deps.inject} [
+      "org.scala-lang#scala-reflect"
+    ]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+      "set libraryDependencies in `akka-http-jackson` += \"org.scala-lang\" %% \"scala-reflect\" % \""${vars.scala-version}"\""
+    ]
   }
 
   // frozen (February 2018) at an October 2017 commit; see
