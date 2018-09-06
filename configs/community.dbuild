@@ -2178,9 +2178,6 @@ build += {
   // integration with other libraries. many of them had issues; I didn't
   // spend that much time looking into each one and seeing if it might be
   // fixable, or ought to be reported upstream, or what.
-  // frozen (April 2018) at a March 2018 commit from just before they
-  // upgraded to cats 1.1 and started using 1.1-only API. we can unfreeze
-  // at the time we move the whole build from cats 1.0 to 1.1.
   ${vars.base} {
     name: "http4s"
     uri:  ${vars.uris.http4s-uri}
