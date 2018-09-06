@@ -2178,6 +2178,12 @@ build += {
   // integration with other libraries. many of them had issues; I didn't
   // spend that much time looking into each one and seeing if it might be
   // fixable, or ought to be reported upstream, or what.
+  // forked (September 2018) from an arbitrary current commit to remove the
+  // use of `onLoad` in their build.sbt, since it causes this during extraction:
+  //   [http4s:error] com.fasterxml.jackson.databind.JsonMappingException: Required property 'version' is missing.
+  //   [http4s:error] {}
+  //   [http4s:error]  ^
+  // as we've seen a few times before on other projects
   ${vars.base} {
     name: "http4s"
     uri:  ${vars.uris.http4s-uri}
