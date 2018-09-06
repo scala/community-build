@@ -1845,7 +1845,7 @@ build += {
     extra.exclude: ["docs"]
     extra.commands: ${vars.default-commands} [
       // Olaf's workaround at https://github.com/sbt/zinc/issues/520#issuecomment-410677766
-      // results in any incorrect value of `/usr/lib/jvm` on our Jenkins. but we don't need
+      // results in an incorrect value of `/usr/lib/jvm` on our Jenkins. but we don't need
       // to work around sbt/zinc#520 in this context, so just disable the workaround:
       "set every javaHome := None"
       // java.lang.IllegalStateException: unable to auto-detect semanticdb-scalac compiler plugin
