@@ -2047,9 +2047,6 @@ build += {
     name: "akka-http-json"
     uri:  ${vars.uris.akka-http-json-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
-    ]
     extra.exclude: [
       // we're in jawn 0.10 space because scaladex is, but circe is over in jawn 0.11 space.
       // (if it becomes important, we could have entries in both spaces.)
@@ -2060,6 +2057,18 @@ build += {
       "akka-http-avsystem-gencodec"
     ]
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    // apparently some dependency dropped its scala-reflect dependency?
+    // and we have the newer version of that dependency here in the
+    // community build, while the akka-http-jackson subproject's
+    // declared dependency is on the old version?
+    // that's my best guess of why we need this here, anyway
+    deps.inject: ${vars.base.deps.inject} [
+      "org.scala-lang#scala-reflect"
+    ]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+      "set libraryDependencies in `akka-http-jackson` += \"org.scala-lang\" %% \"scala-reflect\" % \""${vars.scala-version}"\""
+    ]
   }
 
   // frozen (February 2018) at an October 2017 commit; see
