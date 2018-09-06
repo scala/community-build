@@ -824,25 +824,22 @@ build += {
     ]
   }
 
-  // frozen (July 2018) at a February 2017 commit, because there were
-  // scalameter test failures when we used master.  (whether going all the
-  // way back to February 2017 is actually necessary, I don't know; I
-  // just used the last green commit, which happens to be old because
-  // we had the project frozen already for a long time)
+  // downstream projects expecting a different jackson version than the
+  // one we have here are prone to errors such as:
+  // com.fasterxml.jackson.databind.JsonMappingException:
+  //   Scala module 2.8.8-dbuildx1c5888e4b2a136333f7edb02dbe6dc5abbfa7de1 requires Jackson Databind version >= 2.8.0 and < 2.9.0
+  // for details on how this can happen, see comments on
+  // https://github.com/scala/community-builds/pull/785
   ${vars.base} {
     name: "jackson-module-scala"
     uri:  ${vars.uris.jackson-module-scala-uri}
+    // surely they'll drop this crufty thing from their build eventually,
+    // but for the time being we need to fill in something:
     extra.options: ["-Djava7.home="${JAVA_HOME}]
     extra.commands: ${vars.base.extra.commands} [
       // the `-bootclasspath ...` thing their build does doesn't work on Java 9
       "set javacOptions ~= (_.dropRight(2))"
     ]
-    // without this, in downstream projects we get:
-    // com.fasterxml.jackson.databind.JsonMappingException:
-    //   Scala module 2.8.8-dbuildx1c5888e4b2a136333f7edb02dbe6dc5abbfa7de1 requires Jackson Databind version >= 2.8.0 and < 2.9.0
-    // we could submit an upstream PR adjusting the regex that's resulting in this
-    // error, but it's easier to just:
-    set-version: "2.8.7"
   }
 
   // tracking "develop" branch.
