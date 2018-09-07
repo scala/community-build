@@ -279,6 +279,9 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
+  // frozen (September 2018) at an August 2018 before newer commits
+  // caused the test suite to start hanging; reported upstream at
+  // https://github.com/outr/scribe/issues/96
   ${vars.base} {
     name: "scribe"
     uri:  ${vars.uris.scribe-uri}
