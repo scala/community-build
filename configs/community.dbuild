@@ -297,7 +297,7 @@ build += {
     name: "scribe"
     uri:  ${vars.uris.scribe-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.projects: ["coreJVM", "macrosJVM", "testsJVM"]
+    extra.projects: ["coreJVM", "macrosJVM"]
   }
 
 ]}
