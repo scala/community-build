@@ -368,9 +368,6 @@ build += {
     extra.exclude: ["sbt-plugin"]
   }
 
-  // 2.12: frozen (July 2018) at July 2018 commit just before `Defer` addition
-  // caused compilation errors downstream in fs2
-  // 2.13: tracking 1.2.x since that's where 2.13 support exists
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
@@ -804,15 +801,9 @@ build += {
     name: "fs2"
     uri:  ${vars.uris.fs2-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.projects: ["coreJVM", "scodecJVM", "io"]  // no Scala.js, no benchmarks or docs
-    extra.commands: ${vars.default-commands} [
-      // too flaky: https://github.com/functional-streams-for-scala/fs2/issues/1063
-      "set excludeFilter in (Test, unmanagedSources) in io := HiddenFileFilter || \"JavaInputOutputStreamSpec.scala\""
-    ]
+    extra.projects: ["coreJVM", "io"]  // no Scala.js, no benchmarks or docs
   }
 
-  // frozen (June 2018) at a February 2018 commit before a fs2 0.1 -> 1.0 upgrade.
-  // we should unfreeze once the whole build moves to fs2 1.0
   ${vars.base} {
     name: "fs2-reactive-streams"
     uri:  ${vars.uris.fs2-reactive-streams-uri}
@@ -846,16 +837,19 @@ build += {
       "doobie"
       // we don't have catbird
       "twitter"
+      // at present this doesn't compile, probably a version mismatch that will sort
+      // itself out in the fullness of time, but for now:
+      "monixJVM"
       // no Scala.js please
       "coreJS", "monixJS", "catsEffectJS"
     ]
   }
 
-  // 2.13 is tracking master since that's where 2.13 support is
-  // (the 2.12 build is frozen at an older commit)
   ${vars.base} {
     name: "jackson-module-scala"
     uri:  ${vars.uris.jackson-module-scala-uri}
+    // surely they'll drop this crufty thing from their build eventually,
+    // but for the time being we need to fill in something:
     extra.options: ["-Djava7.home="${JAVA_HOME}]
     extra.commands: ${vars.base.extra.commands} [
       // the `-bootclasspath ...` thing their build does doesn't work on Java 9
@@ -878,12 +872,6 @@ build += {
     // recommended at https://github.com/twitter/util/issues/173:
     // "We use that when we don't think the tests will be reliable in a ci environment"
     extra.options: ["-DSKIP_FLAKY=true"]
-    extra.commands: ${vars.default-commands} [
-      // com.fasterxml.jackson.databind.JsonMappingException: Scala module 2.8.8-dbuildx8317b4707a1b405bd2499c47fe2d10fc613a6c8f requires Jackson Databind version >= 2.8.0 and < 2.9.0
-      // (we could contribute a change upstream to make the version check less sensitive, but it's easier
-      // to just exclude this one test)
-      "set excludeFilter in (Test, unmanagedSources) in utilTunable := HiddenFileFilter || \"JsonTunableMapperTest.scala\""
-    ]
   }
 
   ${vars.base} {
@@ -1099,22 +1087,6 @@ build += {
   }
 
   ${vars.base} {
-    name: "scalameter"
-    uri:  ${vars.uris.scalameter-uri}
-    check-missing: false
-    deps.ignore: [
-      // doesn't support 2.12 (yet?)
-      "org.mongodb#casbah"
-      // this one is unmaintained and doesn't support Scala 2.12...
-      "com.decodified#scala-ssh"
-    ]
-    deps.inject: ${vars.base.deps.inject} [
-      // ...but this one does
-      "com.veact#scala-ssh"
-    ]
-  }
-
-  ${vars.base} {
     name: "scalajson"
     uri:  ${vars.uris.scalajson-uri}
     extra.sbt-version: ${vars.sbt-1-version}
@@ -1149,10 +1121,6 @@ build += {
     extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
   }
 
-  // frozen (May 2018) at an April 2018 commit just before an upgrade to a
-  // cats-effect version that isn't source compatible with the one we have.
-  // also forked (May 2018) to add a commit that allows the build definition
-  // to load on Java 9, also submitted as https://github.com/monix/monix/pull/671
   ${vars.base} {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
@@ -1351,8 +1319,8 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
-  // frozen (April 2018) at v0.10 tag since that's what fs2 and monix
-  // currently expect.  these projects co-evolve the branches we use
+  // frozen (August 2018) at 1.0.0-RC3 tag since that's what fs2 (and monix?)
+  // currently expect.  these projects co-evolve, and the branches we use
   // aren't always in sync, so the easiest solution seems to be to
   // use the cats-effect tag that fs2 and monix currently declare
   // their dependencies on, then freeze fs2 and/or monix if they
@@ -1864,6 +1832,8 @@ build += {
   }
 
   // dependency of scalafix
+  // should be easy to remove if it ever acts up; see Olaf's remarks at
+  // https://github.com/scala/community-builds/pull/765
   ${vars.base} {
     name: "coursier-small"
     uri:  ${vars.uris.coursier-small-uri}
@@ -2079,13 +2049,7 @@ build += {
     name: "akka-http-json"
     uri:  ${vars.uris.akka-http-json-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
-    ]
     extra.exclude: [
-      // com.fasterxml.jackson.databind.JsonMappingException:
-      //   Scala module 2.8.8-dbuildx1c5888e4b2a136333f7edb02dbe6dc5abbfa7de1 requires Jackson Databind version >= 2.8.0 and < 2.9.0
-      "akka-http-jackson"
       // we're in jawn 0.10 space because scaladex is, but circe is over in jawn 0.11 space.
       // (if it becomes important, we could have entries in both spaces.)
       "akka-http-circe"
@@ -2095,6 +2059,18 @@ build += {
       "akka-http-avsystem-gencodec"
     ]
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    // apparently some dependency dropped its scala-reflect dependency?
+    // and we have the newer version of that dependency here in the
+    // community build, while the akka-http-jackson subproject's
+    // declared dependency is on the old version?
+    // that's my best guess of why we need this here, anyway
+    deps.inject: ${vars.base.deps.inject} [
+      "org.scala-lang#scala-reflect"
+    ]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+      "set libraryDependencies in `akka-http-jackson` += \"org.scala-lang\" %% \"scala-reflect\" % \""${vars.scala-version}"\""
+    ]
   }
 
   // frozen (February 2018) at an October 2017 commit; see
@@ -2188,8 +2164,6 @@ build += {
     extra.projects: ["ast", "parser", "json4s", "spray"]
   }
 
-  // frozen (June 2018) at a March 2018 commit before a fs2 0.1 -> 1.0 upgrade.
-  // we should unfreeze once the whole build moves to fs2 1.0
   ${vars.base} {
     name: "jawn-fs2"
     uri:  ${vars.uris.jawn-fs2-uri}
@@ -2207,9 +2181,12 @@ build += {
   // integration with other libraries. many of them had issues; I didn't
   // spend that much time looking into each one and seeing if it might be
   // fixable, or ought to be reported upstream, or what.
-  // frozen (April 2018) at a March 2018 commit from just before they
-  // upgraded to cats 1.1 and started using 1.1-only API. we can unfreeze
-  // at the time we move the whole build from cats 1.0 to 1.1.
+  // forked (September 2018) from an arbitrary current commit to remove the
+  // use of `onLoad` in their build.sbt, since it causes this during extraction:
+  //   [http4s:error] com.fasterxml.jackson.databind.JsonMappingException: Required property 'version' is missing.
+  //   [http4s:error] {}
+  //   [http4s:error]  ^
+  // as we've seen a few times before on other projects
   ${vars.base} {
     name: "http4s"
     uri:  ${vars.uris.http4s-uri}
@@ -2286,10 +2263,9 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
     // aggregates all JVM projects
     extra.projects: ["rootJVM"]
-    // I got some compile error here (June 2018), involving implicit
-    // ExecutionContexts, that seemed unlikely to be significant.
-    // we don't need to have every last subproject
-    extra.exclude: ["asyncHttpClientBackendFs2"]
+    // I got some compile error here (September 2018) that seemed unlikely to be
+    // significant. it's fine, we don't need to have every last subproject
+    extra.exclude: ["monix", "okhttpBackendMonix"]
   }
 
   // dependency of scrooge-shapes.
