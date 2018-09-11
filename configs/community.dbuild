@@ -2187,8 +2187,6 @@ build += {
   //   [http4s:error] {}
   //   [http4s:error]  ^
   // as we've seen a few times before on other projects.
-  // our fork also includes this, which 2.13 needs:
-  // https://github.com/http4s/http4s/pull/2066
   ${vars.base} {
     name: "http4s"
     uri:  ${vars.uris.http4s-uri}
