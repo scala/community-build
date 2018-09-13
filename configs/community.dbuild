@@ -844,7 +844,6 @@ build += {
 
   // tracking "develop" branch.
   // try master instead if develop proves too fragile?
-  // temporarily forked pending merge of https://github.com/twitter/util/pull/225
   ${vars.base} {
     name: "twitter-util"
     uri:  ${vars.uris.twitter-util-uri}
