@@ -1819,6 +1819,9 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
   }
 
+  // frozen (September 2018) at a September 2018 commit just before a scalameta
+  // version bump.  we *could* try to move them forward together, and we will
+  // at some point, but for now, choosing stability.
   ${vars.base} {
     name: "scalafix"
     uri:  ${vars.uris.scalafix-uri}
