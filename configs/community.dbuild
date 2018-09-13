@@ -1189,6 +1189,9 @@ build += {
     extra.projects: ["http4sWebsocketJVM"]  // no Scala.js plz
   }
 
+  // frozen at v0.14.0-M4 tag since that's the version http4s expects,
+  // and source-incompatible changes have been made since then
+  // (see https://github.com/scala/community-builds/pull/788)
   ${vars.base} {
     name: "blaze"
     uri: ${vars.uris.blaze-uri}
