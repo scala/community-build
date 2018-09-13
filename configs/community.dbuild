@@ -2140,12 +2140,11 @@ build += {
   ${vars.base} {
     name: "jawn-0-11"
     uri:  ${vars.uris.jawn-0-11-uri}
-    // omitted TODO: play
     // omitted: rojoma-v3, rojoma, benchmark, argonaut
     // (we have Argonaut in the community build, but it depends on jawn! dbuild
     // doesn't like the circularity. I think we could break it by having two jawn entries,
     // one for the core and one for the extras, but I haven't tried yet)
-    extra.projects: ["ast", "parser", "json4s", "spray"]
+    extra.projects: ["ast", "parser", "json4s", "spray", "play"]
   }
 
   ${vars.base} {
