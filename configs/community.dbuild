@@ -844,7 +844,6 @@ build += {
 
   // tracking "develop" branch.
   // try master instead if develop proves too fragile?
-  // temporarily forked pending merge of https://github.com/twitter/util/pull/225
   ${vars.base} {
     name: "twitter-util"
     uri:  ${vars.uris.twitter-util-uri}
@@ -1819,6 +1818,9 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
   }
 
+  // frozen (September 2018) at a September 2018 commit just before a scalameta
+  // version bump.  we *could* try to move them forward together, and we will
+  // at some point, but for now, choosing stability.
   ${vars.base} {
     name: "scalafix"
     uri:  ${vars.uris.scalafix-uri}
@@ -2140,12 +2142,11 @@ build += {
   ${vars.base} {
     name: "jawn-0-11"
     uri:  ${vars.uris.jawn-0-11-uri}
-    // omitted TODO: play
     // omitted: rojoma-v3, rojoma, benchmark, argonaut
     // (we have Argonaut in the community build, but it depends on jawn! dbuild
     // doesn't like the circularity. I think we could break it by having two jawn entries,
     // one for the core and one for the extras, but I haven't tried yet)
-    extra.projects: ["ast", "parser", "json4s", "spray"]
+    extra.projects: ["ast", "parser", "json4s", "spray", "play"]
   }
 
   ${vars.base} {
