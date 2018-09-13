@@ -2249,7 +2249,7 @@ build += {
     extra.projects: ["rootJVM"]
     // I got some compile error here (September 2018) that seemed unlikely to be
     // significant. it's fine, we don't need to have every last subproject
-    extra.exclude: ["monix", "okhttpBackendMonix"]
+    extra.exclude: ["monix", "okhttpBackendMonix", "asyncHttpClientBackendMonix"]
   }
 
   // dependency of scrooge-shapes.

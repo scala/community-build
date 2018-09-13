@@ -35,8 +35,7 @@ object SuccessReport {
     System.getProperty("java.specification.version") match {
       case "1.8" =>
         Set(
-          "fs2-reactive-streams",
-          "sttp",
+          "http4s",
         )
       case "9" =>
         Set(
