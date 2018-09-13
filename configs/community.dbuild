@@ -1905,6 +1905,10 @@ build += {
     // doesn't like the circularity. I think we could break it by having two jawn entries,
     // one for the core and one for the extras, but I haven't tried yet)
     extra.projects: ["ast", "parser", "json4s", "spray"]
+    // we have to disable this for JDK 10 until https://github.com/scala/bug/issues/10717 is fixed
+    extra.commands: ${vars.default-commands} [
+      "removeScalacOptions -opt:l:method"
+    ]
   }
 
   // for sjson-new
@@ -2146,6 +2150,10 @@ build += {
     // doesn't like the circularity. I think we could break it by having two jawn entries,
     // one for the core and one for the extras, but I haven't tried yet)
     extra.projects: ["ast", "parser", "json4s", "spray"]
+    // we have to disable this for JDK 10 until https://github.com/scala/bug/issues/10717 is fixed
+    extra.commands: ${vars.default-commands} [
+      "removeScalacOptions -opt:l:method"
+    ]
   }
 
   ${vars.base} {
