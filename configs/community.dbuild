@@ -727,6 +727,7 @@ build += {
   ${vars.base} {
     name: "utest"
     uri:  ${vars.uris.utest-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     // no Scala.js plz
     extra.projects: ["utestJVM"]
     // waiting for fix on https://github.com/lihaoyi/utest/issues/168
