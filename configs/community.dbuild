@@ -859,7 +859,6 @@ build += {
 
   // tracking "develop" branch.
   // try master instead if develop proves too fragile?
-  // temporarily forked pending merge of https://github.com/twitter/util/pull/225
   ${vars.base} {
     name: "twitter-util"
     uri:  ${vars.uris.twitter-util-uri}
@@ -1505,7 +1504,7 @@ build += {
   ${vars.base} {
     name: "paradox"
     uri:  ${vars.uris.paradox-uri}
-    extra.sbt-version: ${vars.sbt-1-1-version}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.exclude: ["plugin", "themePlugin", "genericTheme"]
     check-missing: false  // ignore missing scripted-sbt
     extra.commands: ${vars.default-commands} [
@@ -1840,6 +1839,9 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
   }
 
+  // frozen (September 2018) at a September 2018 commit just before a scalameta
+  // version bump.  we *could* try to move them forward together, and we will
+  // at some point, but for now, choosing stability.
   ${vars.base} {
     name: "scalafix"
     uri:  ${vars.uris.scalafix-uri}
@@ -2156,12 +2158,11 @@ build += {
   ${vars.base} {
     name: "jawn-0-11"
     uri:  ${vars.uris.jawn-0-11-uri}
-    // omitted TODO: play
     // omitted: rojoma-v3, rojoma, benchmark, argonaut
     // (we have Argonaut in the community build, but it depends on jawn! dbuild
     // doesn't like the circularity. I think we could break it by having two jawn entries,
     // one for the core and one for the extras, but I haven't tried yet)
-    extra.projects: ["ast", "parser", "json4s", "spray"]
+    extra.projects: ["ast", "parser", "json4s", "spray", "play"]
   }
 
   ${vars.base} {
@@ -2265,7 +2266,7 @@ build += {
     extra.projects: ["rootJVM"]
     // I got some compile error here (September 2018) that seemed unlikely to be
     // significant. it's fine, we don't need to have every last subproject
-    extra.exclude: ["monix", "okhttpBackendMonix"]
+    extra.exclude: ["monix", "okhttpBackendMonix", "asyncHttpClientBackendMonix"]
   }
 
   // dependency of scrooge-shapes.
