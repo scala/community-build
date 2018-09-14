@@ -2125,6 +2125,13 @@ build += {
     name: "boopickle"
     uri:  ${vars.uris.boopickle-uri}
     extra.projects: ["boopickleJVM", "shapelessJVM"]  // no Scala.js, no "perftests"
+    // we have to disable this early (extra.commands isn't soon enough)
+    // or scalafmt will run `update` and `cloc-plugin` won't be found
+    extra.settings: ${vars.base.extra.settings} [
+      "scalafmtOnCompile in ThisBuild := false"
+      "scalafmtOnCompile in Sbt := false"
+    ]
+    check-missing: false  // ignore missing scalafmt
   }
 
   ${vars.base} {
