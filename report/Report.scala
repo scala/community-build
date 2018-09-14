@@ -35,7 +35,6 @@ object SuccessReport {
     System.getProperty("java.specification.version") match {
       case "1.8" =>
         Set(
-          "http4s",
         )
       case "9" =>
         Set(
