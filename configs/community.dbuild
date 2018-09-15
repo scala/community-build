@@ -50,7 +50,7 @@ vars {
   default-commands: []
   sbt-version: "0.13.17"
   sbt-1-1-version: "1.1.6"
-  sbt-1-version: "1.2.1"
+  sbt-1-version: "1.2.3"
 }
 
 //// compiler options manipulation
@@ -223,16 +223,10 @@ build += {
     ]
   }
 
-  // since the community build is JVM-only, other projects only depend scala-js
-  // in order to get stubs.  building all of Scala.js and running its tests
-  // takes a while, so let's save ourselves some time and build the stubs
-  // separately.  not only that, but we use a frozen SHA, since the stubs
-  // hardly ever change, so we can save time by not rebuilding downstream projects
-  // everytime anything anywhere in the whole repo changes
   ${vars.base} {
     name: "scala-js-stubs"
     uri:  ${vars.uris.scala-js-stubs-uri}
-    extra.projects: ["stubs"]
+    extra.sbt-version: ${vars.sbt-1-version}
   }
 
   ${vars.base} {
@@ -438,7 +432,6 @@ build += {
     ]
   }
 
-  // see also scala-js-stubs.
   // if master proves difficult to track, the 0.6.x branch could be
   // used instead; see discussion at
   // https://github.com/scala/community-builds/issues/506
@@ -451,8 +444,6 @@ build += {
     ]
     // not really sure how this list was arrived at
     extra.projects: ["io", "logging", "linker", "testSuite"]
-    // exclude it here because we build it separately in scala-js-stubs
-    extra.exclude: ["stubs"]
     extra.commands: ${vars.default-commands} [
       // - We disable source map tests to save ourselves a `npm install source-map-support` on the workers.
       //   Although only `testSuite` actually has tests, dbuild will try to run the tests for all projects
