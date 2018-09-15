@@ -32,11 +32,15 @@ object SuccessReport {
   val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: (.+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
   val expectedToFail = Set[String](
+    "acyclic",
     "akka-actor",
+    "base64",
+    "boopickle",
     "cachecontrol",
     "case-app",
     "cats-effect",
     "circe-config",
+    "geny",
     "grizzled",
     "http4s-parboiled2",
     "jackson-module-scala",
@@ -45,9 +49,11 @@ object SuccessReport {
     "linter",
     "log4s",
     "magnolia",
+    "minitest",
     "paradox",
     "parboiled2",
     "pcplod",
+    "pprint",
     "scala-async",
     "scala-continuations",
     "scala-js",
@@ -69,7 +75,6 @@ object SuccessReport {
     "spire",
     "tut",
     "twirl",
-    "utest",
   )
 
   def apply(log: io.Source): Unit = {
