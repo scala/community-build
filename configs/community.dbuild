@@ -2238,7 +2238,7 @@ build += {
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
       // reported upstream: https://github.com/fthomas/refined/issues/569
-      "set excludeFilter in (Test, unmanagedSources) in scalazJVM := HiddenFileFilter || \"InferJavapSpec.scala\""
+      "set excludeFilter in (Test, unmanagedSources) in scalazJVM := HiddenFileFilter || \"InferJavapSpec.scala\" || \"RefineJavapSpec.scala\""
     ]
   }
 
