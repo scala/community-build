@@ -50,19 +50,12 @@ object SuccessReport {
       case "10" =>
         Set(
           "akka-stream",
-          "breeze",
-          "curryhoward",
-          "jawn-0-10",
-          "jawn-0-11",
-          "jsoniter-scala",
+          "github4s",
           "kxbmap-configs",
-          "log4s",
           "paradox",
-          "scala-async",
-          "scala-partest",
-          "scalaz8",
-          "slick",
+          "scala-debugger",
           "twitter-util",
+          "zinc",
         )
     }
 
