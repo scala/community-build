@@ -399,10 +399,6 @@ build += {
     uri:  ${vars.uris.scalaz-uri}
     extra.projects: ["rootJVM"]  // no Scala.js please
     extra.exclude: ["scalacheck-binding_1_13JVM"]  // we're on 1.14
-    // we have to disable this for JDK 10 until https://github.com/scala/bug/issues/10717 is fixed
-    extra.commands: ${vars.default-commands} [
-      "removeScalacOptions -opt:l:method"
-    ]
   }
 
   // if master proves difficult to track, the 0.6.x branch could be
@@ -723,10 +719,6 @@ build += {
     extra.projects: ["utestJVM"]
     // waiting for fix on https://github.com/lihaoyi/utest/issues/168
     extra.test-tasks: ["compile"]
-    // we have to disable this for JDK 10 until https://github.com/scala/bug/issues/10717 is fixed
-    extra.commands: ${vars.default-commands} [
-      "removeScalacOptions -opt:l:method"
-    ]
   }
 
   ${vars.base} {
