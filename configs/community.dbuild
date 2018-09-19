@@ -665,6 +665,8 @@ build += {
     extra.settings: ${vars.base.extra.settings} [
       // for JDK9+. one-deeper nesting level makes it apply to build definition
       ["libraryDependencies += \"javax.xml.bind\" % \"jaxb-api\" % \"2.3.0\""]
+      // Slick needs this at both levels (!)
+      "libraryDependencies += \"javax.xml.bind\" % \"jaxb-api\" % \"2.3.0\""
     ]
     extra.exclude: [
       // unless we exclude, it looks for an Ornate dependency here
