@@ -463,7 +463,7 @@ build += {
   // freeze at a tag (preferably) or SHA (if we must) rather than
   // track master
   ${vars.base} {
-    name: "akka-actor"
+    name: "akka"
     uri:  ${vars.uris.akka-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"]
@@ -538,6 +538,7 @@ build += {
     extra.exclude: ["scalac-scoverage-runtimeJS"] // no Scala.js please
     // [info] java.io.FileNotFoundException: Could not locate [~/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.0.jar].
     // January 2018: failure's continued existence confirmed
+    // see https://github.com/scala/community-builds/pull/387
     extra.test-tasks: ["compile"]
   }
 
@@ -583,13 +584,14 @@ build += {
       "set every publishMavenStyle := false"
     ]
     extra.exclude: [
-      // because we already built them in "akka-actor"
+      // because we already built them in "akka"
       "akka-actor", "akka-actor-typed", "akka-testkit", "akka-actor-tests"
     ]
   }
 
-  // this is separate from "akka-actor" because there is a circular dependency between
-  // the akka and ssl-config repos
+  // this is separate from "akka" because there is a circular dependency between
+  // the akka and ssl-config repos. and also just so failures in obscure subprojects
+  // don't take out too much of the build
   ${vars.base} {
     name: "akka-more"
     uri:  ${vars.uris.akka-uri}
@@ -597,17 +599,19 @@ build += {
     extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"
       // repo readme recommended
       "-Xmx2g"
-      // the usual thing some projects need on JDK 9
-      "--add-modules=java.xml.bind", "-XX:+IgnoreUnrecognizedVMOptions"
     ]
     extra.projects: ["akka-scala-nightly"]
+    extra.settings: ${vars.base.extra.settings} [
+      // for JDK9+. one-deeper nesting level makes it apply to build definition
+      ["libraryDependencies += \"javax.xml.bind\" % \"jaxb-api\" % \"2.3.0\""]
+    ]
     extra.commands: ${vars.default-commands} [
       // https://github.com/scala/community-builds/issues/373
       "set every apiURL := None"
     ]
     extra.exclude: [
       "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
-      "akka-actor", "akka-actor-typed", "akka-actor-tests", "akka-testkit"  // because we already built them in "akka-actor"
+      "akka-actor", "akka-actor-typed", "akka-actor-tests", "akka-testkit"  // because we already built them in "akka"
       "akka-stream", "akka-stream-testkit", "akka-remote", "akka-stream-tests"  // because we already built them in "akka-stream"
       "akka-bench-jmh"  // we'd have to add a resolver to get the JMH dependency, and we prefer not to run benchmarks here anyway
       "akka-protobuf", "akka-multi-node-testkit"  // already built these in akka-stream
@@ -647,6 +651,7 @@ build += {
     uri:  ${vars.uris.scala-async-uri}
   }
 
+  // forked (September 2018) for JDK 9+ friendliness
   ${vars.base} {
     name: "slick"
     uri:  ${vars.uris.slick-uri}
@@ -659,8 +664,6 @@ build += {
       // I think it's a confusion of levels, but maybe I'm missing something. - ST 8/27/15
       "de.johoop#sbt-testng-interface"
     ]
-    // as per https://github.com/slick/slick/issues/1908, we need this on Java 9+
-    extra.options: ["--add-modules=java.xml.bind", "-J--add-modules=java.xml.bind", "-XX:+IgnoreUnrecognizedVMOptions"]
     extra.exclude: [
       // unless we exclude, it looks for an Ornate dependency here
       "root"
@@ -1832,9 +1835,9 @@ build += {
       //   at scalafix.tests.cli.ScalafixImplSuite.semanticdbPluginPath(ScalafixImplSuite.scala:36)
       "set excludeFilter in (Test, unmanagedSources) in unit := HiddenFileFilter || \"ScalafixImplSuite.scala\""
     ]
-    extra.options: [
-      // the usual thing some projects need on JDK 9
-      "--add-modules=java.xml.bind", "-XX:+IgnoreUnrecognizedVMOptions"
+    extra.settings: ${vars.base.extra.settings} [
+      // for JDK9+. one-deeper nesting level makes it apply to build definition
+      ["libraryDependencies += \"javax.xml.bind\" % \"jaxb-api\" % \"2.3.0\""]
     ]
   }
 
