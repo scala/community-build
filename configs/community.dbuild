@@ -427,8 +427,6 @@ build += {
     extra.exclude: ["scalacheck-binding_1_13JVM"]  // we're on 1.14
     extra.commands: ${vars.default-commands} [
       "set every build.scalaCheckGroupId := \"org.scalacheck\""
-      // we have to disable this for JDK 10 until https://github.com/scala/bug/issues/10717 is fixed
-      "removeScalacOptions -opt:l:method"
     ]
   }
 
@@ -493,7 +491,7 @@ build += {
   // freeze at a tag (preferably) or SHA (if we must) rather than
   // track master
   ${vars.base} {
-    name: "akka-actor"
+    name: "akka"
     uri:  ${vars.uris.akka-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"]
@@ -563,6 +561,7 @@ build += {
     extra.exclude: ["scalac-scoverage-runtimeJS"] // no Scala.js please
     // [info] java.io.FileNotFoundException: Could not locate [~/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.0.jar].
     // January 2018: failure's continued existence confirmed
+    // see https://github.com/scala/community-builds/pull/387
     extra.test-tasks: ["compile"]
   }
 
@@ -608,13 +607,14 @@ build += {
       "set every publishMavenStyle := false"
     ]
     extra.exclude: [
-      // because we already built them in "akka-actor"
+      // because we already built them in "akka"
       "akka-actor", "akka-actor-typed", "akka-testkit", "akka-actor-tests"
     ]
   }
 
-  // this is separate from "akka-actor" because there is a circular dependency between
-  // the akka and ssl-config repos
+  // this is separate from "akka" because there is a circular dependency between
+  // the akka and ssl-config repos. and also just so failures in obscure subprojects
+  // don't take out too much of the build
   ${vars.base} {
     name: "akka-more"
     uri:  ${vars.uris.akka-uri}
@@ -632,7 +632,7 @@ build += {
     ]
     extra.exclude: [
       "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
-      "akka-actor", "akka-actor-typed", "akka-actor-tests", "akka-testkit"  // because we already built them in "akka-actor"
+      "akka-actor", "akka-actor-typed", "akka-actor-tests", "akka-testkit"  // because we already built them in "akka"
       "akka-stream", "akka-stream-testkit", "akka-remote", "akka-stream-tests"  // because we already built them in "akka-stream"
       "akka-bench-jmh"  // we'd have to add a resolver to get the JMH dependency, and we prefer not to run benchmarks here anyway
       "akka-protobuf", "akka-multi-node-testkit"  // already built these in akka-stream
@@ -744,10 +744,6 @@ build += {
     extra.projects: ["utestJVM"]
     // waiting for fix on https://github.com/lihaoyi/utest/issues/168
     extra.test-tasks: ["compile"]
-    // we have to disable this for JDK 10 until https://github.com/scala/bug/issues/10717 is fixed
-    extra.commands: ${vars.default-commands} [
-      "removeScalacOptions -opt:l:method"
-    ]
   }
 
   ${vars.base} {
@@ -1075,6 +1071,22 @@ build += {
     check-missing: false  // ignore missing scalafmt
     // Known test failures: https://github.com/sirthias/scala-ssh/issues/38
     extra.test-tasks: "compile"
+  }
+
+  ${vars.base} {
+    name: "scalameter"
+    uri:  ${vars.uris.scalameter-uri}
+    check-missing: false
+    deps.ignore: [
+      // doesn't support 2.12 (yet?)
+      "org.mongodb#casbah"
+      // this one is unmaintained and doesn't support Scala 2.12...
+      "com.decodified#scala-ssh"
+    ]
+    deps.inject: ${vars.base.deps.inject} [
+      // ...but this one does
+      "com.veact#scala-ssh"
+    ]
   }
 
   ${vars.base} {
