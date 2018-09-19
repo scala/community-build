@@ -599,10 +599,12 @@ build += {
     extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"
       // repo readme recommended
       "-Xmx2g"
-      // the usual thing some projects need on JDK 9
-      "--add-modules=java.xml.bind", "-XX:+IgnoreUnrecognizedVMOptions"
     ]
     extra.projects: ["akka-scala-nightly"]
+    extra.settings: ${vars.base.extra.settings} [
+      // for JDK9+. one-deeper nesting level makes it apply to build definition
+      ["libraryDependencies += \"javax.xml.bind\" % \"jaxb-api\" % \"2.3.0\""]
+    ]
     extra.commands: ${vars.default-commands} [
       // https://github.com/scala/community-builds/issues/373
       "set every apiURL := None"
@@ -649,6 +651,7 @@ build += {
     uri:  ${vars.uris.scala-async-uri}
   }
 
+  // forked (September 2018) for JDK 9+ friendliness
   ${vars.base} {
     name: "slick"
     uri:  ${vars.uris.slick-uri}
@@ -661,8 +664,6 @@ build += {
       // I think it's a confusion of levels, but maybe I'm missing something. - ST 8/27/15
       "de.johoop#sbt-testng-interface"
     ]
-    // as per https://github.com/slick/slick/issues/1908, we need this on Java 9+
-    extra.options: ["--add-modules=java.xml.bind", "-J--add-modules=java.xml.bind", "-XX:+IgnoreUnrecognizedVMOptions"]
     extra.exclude: [
       // unless we exclude, it looks for an Ornate dependency here
       "root"
@@ -1834,9 +1835,9 @@ build += {
       //   at scalafix.tests.cli.ScalafixImplSuite.semanticdbPluginPath(ScalafixImplSuite.scala:36)
       "set excludeFilter in (Test, unmanagedSources) in unit := HiddenFileFilter || \"ScalafixImplSuite.scala\""
     ]
-    extra.options: [
-      // the usual thing some projects need on JDK 9
-      "--add-modules=java.xml.bind", "-XX:+IgnoreUnrecognizedVMOptions"
+    extra.settings: ${vars.base.extra.settings} [
+      // for JDK9+. one-deeper nesting level makes it apply to build definition
+      ["libraryDependencies += \"javax.xml.bind\" % \"jaxb-api\" % \"2.3.0\""]
     ]
   }
 
