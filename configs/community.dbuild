@@ -1952,6 +1952,12 @@ build += {
       "zincBenchmarks"
       // has circular dependency on sbt repo
       "bloopScripted"
+      // Scala 2.10 stuff
+      "compilerBridgeTest210", "zincApiInfo210", "zincClassfile210", "compilerBridge210", "zincClasspath210", "compilerInterface210"
+      // Scala 2.11 stuff
+      "compilerBridgeTest211", "zincApiInfo211", "compilerBridge211", "zincClasspath211", "zincClassfile211", "compilerInterface211"
+      // Scala 2.13 stuff
+      "compilerBridge213", "compilerInterface213"
     ]
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
