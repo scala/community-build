@@ -36,17 +36,7 @@ object SuccessReport {
       case "1.8" =>
         Set(
         )
-      case "9" =>
-        Set(
-          "akka-persistence-cassandra",
-          "github4s",
-          "kxbmap-configs",
-          "play-core",
-          "scala-debugger",
-          "twitter-util",
-          "zinc",
-        )
-      case "10" =>
+      case "10" | "11" =>
         Set(
           "akka-stream",
           "github4s",
