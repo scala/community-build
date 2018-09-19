@@ -651,6 +651,7 @@ build += {
     uri:  ${vars.uris.scala-async-uri}
   }
 
+  // forked (September 2018) for JDK 9+ friendliness
   ${vars.base} {
     name: "slick"
     uri:  ${vars.uris.slick-uri}
@@ -662,12 +663,6 @@ build += {
       //   https://github.com/sbt/sbt-testng-interface/blob/ca730f705f48af2139f39bc726b474afec072738/plugin/src/main/scala/de/johoop/testngplugin/TestNGPlugin.scala#L44
       // I think it's a confusion of levels, but maybe I'm missing something. - ST 8/27/15
       "de.johoop#sbt-testng-interface"
-    ]
-    extra.settings: ${vars.base.extra.settings} [
-      // for JDK9+. one-deeper nesting level makes it apply to build definition
-      ["libraryDependencies += \"javax.xml.bind\" % \"jaxb-api\" % \"2.3.0\""]
-      // Slick needs this at both levels (!)
-      "libraryDependencies += \"javax.xml.bind\" % \"jaxb-api\" % \"2.3.0\""
     ]
     extra.exclude: [
       // unless we exclude, it looks for an Ornate dependency here
