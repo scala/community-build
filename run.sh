@@ -14,6 +14,8 @@ set -o pipefail
 export LANG="en_US.UTF-8"
 export HOME="$(pwd)"
 
+# newer dbuild versions require newer JDK; see
+# https://github.com/scala/community-builds/pull/792
 DBUILDVERSION=0.9.9
 echo "dbuild version: $DBUILDVERSION"
 
