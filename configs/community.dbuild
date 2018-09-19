@@ -1952,6 +1952,8 @@ build += {
       "zincBenchmarks"
       // has circular dependency on sbt repo
       "bloopScripted"
+      // template projects, including them would conflict with the Scala 2.12 versions
+      "zincApiInfoTemplate", "zincClassfileTemplate", "compilerBridgeTestTemplate", "zincClasspathTemplate", "compilerBridgeTemplate"
       // Scala 2.10 stuff
       "compilerBridgeTest210", "zincApiInfo210", "zincClassfile210", "compilerBridge210", "zincClasspath210", "compilerInterface210"
       // Scala 2.11 stuff
