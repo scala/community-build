@@ -1398,9 +1398,6 @@ build += {
       "scalafmtOnCompile in Sbt := false"
     ]
     check-missing: false  // ignore missing scalafmt
-    // DefaultWatchServiceSpec fails on MacOS only, see
-    // https://github.com/scala/community-builds/pull/714
-    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
@@ -1922,8 +1919,6 @@ build += {
     extra.exclude: ["benchmark"]
   }
 
-  // using a slightly post v1.2.0 commit in order to get
-  // https://github.com/sbt/util/pull/172 which fixes failing tests
   ${vars.base} {
     name: "sbt-util"
     uri:  ${vars.uris.sbt-util-uri}
@@ -1952,7 +1947,7 @@ build += {
   ${vars.base} {
     name: "zinc"
     uri:  ${vars.uris.zinc-uri}
-    extra.sbt-version: "1.2.0"  // yup, 1.2.1 is built with 1.2.0
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.exclude: [
       "zincBenchmarks"
       // has circular dependency on sbt repo
@@ -1978,7 +1973,7 @@ build += {
   ${vars.base} {
     name: "sbt"
     uri:  ${vars.uris.sbt-uri}
-    extra.sbt-version: "1.2.0"  // yup, 1.2.1 is built with 1.2.0
+    extra.sbt-version: "1.2.1"  // yup, 1.2.3 is built with 1.2.1
     extra.options: [
       "-Xmx2048m"
       "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
