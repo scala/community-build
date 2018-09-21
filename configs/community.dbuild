@@ -1385,8 +1385,8 @@ build += {
   }
 
   ${vars.base} {
-    name: "gigahorse"
     uri:  ${vars.uris.gigahorse-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     // as of August 2017, doesn't compile against latest akka-http
     extra.exclude: ["akkaHttp"]
     // pending: https://github.com/eed3si9n/gigahorse/issues/54
