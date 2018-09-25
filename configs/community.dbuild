@@ -1290,7 +1290,7 @@ build += {
   ${vars.base} {
     name: "scalapb"
     uri:  ${vars.uris.scalapb-uri}
-    extra.sbt-version: ${vars.sbt-1-1-version}
+    extra.sbt-version: ${vars.sbt-1-version}
     // just what scalameta needs, for now
     extra.projects: ["runtimeJVM"]
     // there's a 2.12 -> 2.11 symlink that should make this unnecessary, don't know why we need this:
