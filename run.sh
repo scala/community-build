@@ -16,7 +16,7 @@ export LANG="en_US.UTF-8"
 export HOME="$(pwd)"
 
 # Defaults
-scala_version_default="2.13.0-pre-bcc5c7c"  # Sep 20
+scala_version_default="2.13.0-pre-8008069"  # Sep 26, includes sbt 0.13->1 upgrade
 scala_version="$scala_version_default"
 root_dir=$(pwd)
 config_dir="configs"
