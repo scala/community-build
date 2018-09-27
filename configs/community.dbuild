@@ -1274,7 +1274,7 @@ build += {
   ${vars.base} {
     name: "scalapb"
     uri:  ${vars.uris.scalapb-uri}
-    extra.sbt-version: ${vars.sbt-1-1-version}
+    extra.sbt-version: ${vars.sbt-1-version}
     // just what scalameta needs, for now
     extra.projects: ["runtimeJVM"]
     // there's a 2.12 -> 2.11 symlink that should make this unnecessary, don't know why we need this:
@@ -1370,6 +1370,7 @@ build += {
   ${vars.base} {
     name: "gigahorse"
     uri:  ${vars.uris.gigahorse-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     // as of August 2017, doesn't compile against latest akka-http
     extra.exclude: ["akkaHttp"]
     // pending: https://github.com/eed3si9n/gigahorse/issues/54
