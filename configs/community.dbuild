@@ -146,7 +146,7 @@ build += {
       }
       {
         name: "scala-xml"
-        uri: "https://github.com/scala/scala-xml.git#33538b13fa8d8408ce14d6ffb5dee33270bafc39"
+        uri: "https://github.com/scala/scala-xml.git"
         // this gives us "scala-xml_2.12" which is what we want, sbt 1 will get
         // upset if there are two different kinds of scala-xml dependencies
         // floating around (https://github.com/scala/community-builds/issues/679)
