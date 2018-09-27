@@ -25,11 +25,12 @@ object SuccessReport {
 
   // sample inputs:
   //   [info] Project foo-bar-baz---------------: DID NOT RUN (stuck on broken dependencies: frob, akka-grue, zorch)
+  //   [info] Project utest---------------------: FAILED (MatchError: d48a6cde+20180920-1730 (of class java.lang.St...)
   // regex features used:
   //   \w    = word character
   //   ?:    = not a capturing group
   //   (?!-) = negative lookahead -- next character is not "-"
-  val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: (.+) \((?:stuck on broken dependencies: )?(.*)\)""".r
+  val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
   val expectedToFail = Set[String](
     "acyclic",
