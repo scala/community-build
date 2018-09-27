@@ -727,6 +727,7 @@ build += {
   ${vars.base} {
     name: "acyclic"
     uri:  ${vars.uris.acyclic-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
   }
 
   // forked (June 2018) to upgrade sbt-osgi to a Java 9 friendly version
