@@ -1417,7 +1417,7 @@ build += {
   ${vars.base} {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
-    extra.sbt-version: ${vars.sbt-1-1-version}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.exclude: [
       // no sbt plz
       "sbt-coursier", "sbt-shading", "sbt-pgp-coursier", "sbt-shared"
