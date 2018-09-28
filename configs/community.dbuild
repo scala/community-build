@@ -1431,10 +1431,6 @@ build += {
       // out of scope
       "web"
     ]
-    extra.commands: ${vars.default-commands} [
-      // dbuild doesn't retrieve submodules unless we make it
-      "eval sys.process.Process(\"git submodule update --init\").!"
-    ]
   }
 
   // dependency of scala-debugger. we track the develop branch, since
