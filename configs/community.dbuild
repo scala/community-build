@@ -1282,9 +1282,6 @@ build += {
     // just what scalameta needs, for now
     extra.projects: ["runtimeJVM"]
     // there's a 2.12 -> 2.11 symlink that should make this unnecessary, don't know why we need this:
-    extra.commands: ${vars.default-commands} [
-      "set unmanagedSourceDirectories in (runtimeJVM, Compile) += (baseDirectory in runtimeJVM).value.getParentFile / \"shared\" / \"src\" / \"main\" / \"scala-2.11\""
-    ]
   }
 
   ${vars.base} {
