@@ -1424,6 +1424,8 @@ build += {
       "sbt-coursier", "sbt-shading", "sbt-pgp-coursier", "sbt-shared"
       // no Scala.js or Scala Native
       "js", "cacheJS", "coreJS", "scalazJS", "testsJS", "extra", "cli"
+      // out of scope
+      "web"
     ]
     extra.commands: ${vars.default-commands} [
       // dbuild doesn't retrieve submodules unless we make it
