@@ -33,7 +33,6 @@ object SuccessReport {
   val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
   val expectedToFail = Set[String](
-    "acyclic",
     "akka-actor",
     "base64",
     "boopickle",
