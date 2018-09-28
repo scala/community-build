@@ -761,6 +761,7 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
+  // forked (September 2018) for JDK 11 friendliness
   ${vars.base} {
     name: "kxbmap-configs"
     uri:  ${vars.uris.kxbmap-configs-uri}
