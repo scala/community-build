@@ -883,6 +883,7 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
   }
 
+  // forked (September 2018) for JDK 11 friendliness
   ${vars.base} {
     name: "pcplod"
     uri:  ${vars.uris.pcplod-uri}
