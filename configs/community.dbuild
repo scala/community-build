@@ -1418,7 +1418,8 @@ build += {
   }
 
   // temporarily forked (September 2018) awaiting merge of
-  // https://github.com/coursier/coursier/pull/916
+  // https://github.com/coursier/coursier/pull/916 and
+  // https://github.com/coursier/coursier/pull/917
   ${vars.base} {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
