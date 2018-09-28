@@ -1415,6 +1415,8 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
+  // temporarily forked (September 2018) awaiting merge of
+  // https://github.com/coursier/coursier/pull/916
   ${vars.base} {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
