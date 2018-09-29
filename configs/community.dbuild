@@ -1422,12 +1422,10 @@ build += {
     uri:  ${vars.uris.coursier-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.exclude: [
-      // no sbt plz
-      "sbt-coursier", "sbt-shading", "sbt-pgp-coursier", "sbt-shared"
       // no Scala.js or Scala Native
-      "js", "cacheJS", "coreJS", "scalazJS", "testsJS", "extra", "cli"
-      // out of scope
-      "web"
+      "js", "cacheJS", "coreJS", "scalazJS", "testsJS"
+      // out of scope?
+      "extra", "cli", "web", "readme"
     ]
   }
 
