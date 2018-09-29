@@ -888,6 +888,11 @@ build += {
   ${vars.base} {
     name: "pcplod"
     uri:  ${vars.uris.pcplod-uri}
+    // in our fork we removed the sbt-sensible plugin, setting this
+    // was one of the things the plugin did. tests fail otherwise
+    extra.commands: ${vars.default-commands} [
+      "set every fork in Test := true"
+    ]
   }
 
   // currently to avoid a stack overflow on 1.1.5+2.12.6 they are overriding
