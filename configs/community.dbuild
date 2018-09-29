@@ -1824,6 +1824,10 @@ build += {
     name: "coursier-small"
     uri:  ${vars.uris.coursier-small-uri}
     extra.sbt-version: ${vars.sbt-1-version}
+    // reported upstream: https://github.com/olafurpg/coursier-small/issues/8
+    extra.commands: ${vars.default-commands} [
+      "set excludeFilter in (Test, unmanagedSources) in small := HiddenFileFilter || \"CoursierSmallSuite.scala\""
+    ]
   }
 
   // frozen (September 2018) at a September 2018 commit just before a scalameta
