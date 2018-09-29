@@ -940,7 +940,7 @@ build += {
     extra.projects: ["play-jsonJVM"]  // no Scala.js plz
   }
 
-  // frozen (June 2018) at v2.0.0-M2 tag because that's what playframework
+  // frozen (September 2018) at v2.0.0-M4 tag because that's what playframework
   // currently uses. playframework and play-ws tend to get a bit out of sync
   // with each other so it's generally better to use a tag for play-ws.
   ${vars.base} {
