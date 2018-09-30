@@ -1843,7 +1843,8 @@ build += {
       //   at scalafix.tests.cli.ScalafixImplSuite.$anonfun$semanticdbPluginPath$1(ScalafixImplSuite.scala:37)
       //   at scala.Option.getOrElse(Option.scala:121)
       //   at scalafix.tests.cli.ScalafixImplSuite.semanticdbPluginPath(ScalafixImplSuite.scala:36)
-      "set excludeFilter in (Test, unmanagedSources) in unit := HiddenFileFilter || \"ScalafixImplSuite.scala\""
+      // and the ToolClasspathSuite one is https://github.com/scalacenter/scalafix/issues/896
+      "set excludeFilter in (Test, unmanagedSources) in unit := HiddenFileFilter || \"ScalafixImplSuite.scala\" || \"ToolClasspathSuite.scala\""
     ]
     extra.settings: ${vars.base.extra.settings} [
       // for JDK9+. one-deeper nesting level makes it apply to build definition
