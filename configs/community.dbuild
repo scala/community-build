@@ -292,6 +292,10 @@ build += {
     uri:  ${vars.uris.scribe-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["coreJVM", "macrosJVM"]
+    // intermittently failing test I haven't gotten around to reporting upstream
+    extra.commands: ${vars.default-commands} [
+      "set excludeFilter in (Test, unmanagedSources) in coreJVM := HiddenFileFilter || \"FileLoggingSpec.scala\""
+    ]
   }
 
 ]}
@@ -780,6 +784,7 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
+  // forked (September 2018) for JDK 11 friendliness
   ${vars.base} {
     name: "kxbmap-configs"
     uri:  ${vars.uris.kxbmap-configs-uri}
@@ -896,9 +901,15 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
   }
 
+  // forked (September 2018) for JDK 11 friendliness
   ${vars.base} {
     name: "pcplod"
     uri:  ${vars.uris.pcplod-uri}
+    // in our fork we removed the sbt-sensible plugin, setting this
+    // was one of the things the plugin did. tests fail otherwise
+    extra.commands: ${vars.default-commands} [
+      "set every fork in Test := true"
+    ]
   }
 
   // currently to avoid a stack overflow on 1.1.5+2.12.6 they are overriding
@@ -951,7 +962,7 @@ build += {
     extra.projects: ["play-jsonJVM"]  // no Scala.js plz
   }
 
-  // frozen (June 2018) at v2.0.0-M2 tag because that's what playframework
+  // frozen (September 2018) at v2.0.0-M4 tag because that's what playframework
   // currently uses. playframework and play-ws tend to get a bit out of sync
   // with each other so it's generally better to use a tag for play-ws.
   ${vars.base} {
@@ -1295,9 +1306,6 @@ build += {
     // just what scalameta needs, for now
     extra.projects: ["runtimeJVM"]
     // there's a 2.12 -> 2.11 symlink that should make this unnecessary, don't know why we need this:
-    extra.commands: ${vars.default-commands} [
-      "set unmanagedSourceDirectories in (runtimeJVM, Compile) += (baseDirectory in runtimeJVM).value.getParentFile / \"shared\" / \"src\" / \"main\" / \"scala-2.11\""
-    ]
   }
 
   ${vars.base} {
@@ -1438,16 +1446,12 @@ build += {
   ${vars.base} {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
-    extra.sbt-version: ${vars.sbt-1-1-version}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.exclude: [
-      // no sbt plz
-      "sbt-coursier", "sbt-shading", "sbt-pgp-coursier", "sbt-shared"
       // no Scala.js or Scala Native
-      "js", "cacheJS", "coreJS", "scalazJS", "testsJS", "extra", "cli"
-    ]
-    extra.commands: ${vars.default-commands} [
-      // dbuild doesn't retrieve submodules unless we make it
-      "eval sys.process.Process(\"git submodule update --init\").!"
+      "js", "cacheJS", "coreJS", "scalazJS", "testsJS"
+      // out of scope?
+      "extra", "cli", "web", "readme"
     ]
   }
 
@@ -1457,7 +1461,7 @@ build += {
     name: "scallop"
     uri:  ${vars.uris.scallop-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.projects: ["jvm"]  // no Scala.js or Scala Native plz
+    extra.projects: ["scallopJVM"]  // no Scala.js or Scala Native plz
   }
 
   // dependency of scaladex
@@ -1841,6 +1845,10 @@ build += {
     name: "coursier-small"
     uri:  ${vars.uris.coursier-small-uri}
     extra.sbt-version: ${vars.sbt-1-version}
+    // reported upstream: https://github.com/olafurpg/coursier-small/issues/8
+    extra.commands: ${vars.default-commands} [
+      "set excludeFilter in (Test, unmanagedSources) in small := HiddenFileFilter || \"CoursierSmallSuite.scala\""
+    ]
   }
 
   // frozen (September 2018) at a September 2018 commit just before a scalameta
@@ -1856,7 +1864,8 @@ build += {
       //   at scalafix.tests.cli.ScalafixImplSuite.$anonfun$semanticdbPluginPath$1(ScalafixImplSuite.scala:37)
       //   at scala.Option.getOrElse(Option.scala:121)
       //   at scalafix.tests.cli.ScalafixImplSuite.semanticdbPluginPath(ScalafixImplSuite.scala:36)
-      "set excludeFilter in (Test, unmanagedSources) in unit := HiddenFileFilter || \"ScalafixImplSuite.scala\""
+      // and the ToolClasspathSuite one is https://github.com/scalacenter/scalafix/issues/896
+      "set excludeFilter in (Test, unmanagedSources) in unit := HiddenFileFilter || \"ScalafixImplSuite.scala\" || \"ToolClasspathSuite.scala\""
     ]
     extra.settings: ${vars.base.extra.settings} [
       // for JDK9+. one-deeper nesting level makes it apply to build definition
