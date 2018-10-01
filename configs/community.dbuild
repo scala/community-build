@@ -1426,6 +1426,8 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
     // no Scala.js or Scala Native plz
     extra.projects: ["jvm"]
+    // depends on Scala Native
+    extra.exclude: ["extra"]
   }
 
   // dependency of scala-debugger. we track the develop branch, since
