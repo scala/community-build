@@ -249,10 +249,8 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
   }
 
-  // see also specs2-more
-  // frozen (August 2018) at an August 2018 tag just before code was added
-  // that depends on cats-effect 1.0, but we're only on 0.10.  we can unfreeze
-  // when we move the whole build onto cats-effect 1.0
+  // temporarily forked (October 2018) for JDK 11 compat,
+  // awaiting merge of https://github.com/etorreborre/specs2/pull/710
   ${vars.base} {
     name: "specs2"
     uri:  ${vars.uris.specs2-uri}
@@ -799,6 +797,8 @@ build += {
     extra.projects: ["coreJVM", "io"]  // no Scala.js, no benchmarks or docs
   }
 
+  // once we move the whole build to fs2 1.0.0-RC1 or later, we can drop
+  // this repo, since it was merged into the main fs2 repo as a subproject
   ${vars.base} {
     name: "fs2-reactive-streams"
     uri:  ${vars.uris.fs2-reactive-streams-uri}
@@ -1447,12 +1447,10 @@ build += {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.exclude: [
-      // no Scala.js or Scala Native
-      "js", "cacheJS", "coreJS", "scalazJS", "testsJS"
-      // out of scope?
-      "extra", "cli", "web", "readme"
-    ]
+    // no Scala.js or Scala Native plz
+    extra.projects: ["jvm"]
+    // depends on Scala Native
+    extra.exclude: ["extra"]
   }
 
   // dependency of scala-debugger. we track the develop branch, since
@@ -2280,6 +2278,8 @@ build += {
     ]
   }
 
+  // frozen (October 2018) at September 2018 commit before upgrade to
+  // fs2 v1.0.0-RC1 which we can't handle yet
   ${vars.base} {
     name: "sttp"
     uri:  ${vars.uris.sttp-uri}
