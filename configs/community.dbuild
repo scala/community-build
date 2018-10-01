@@ -1426,12 +1426,8 @@ build += {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.exclude: [
-      // no Scala.js or Scala Native
-      "js", "cacheJS", "coreJS", "scalazJS", "testsJS"
-      // out of scope?
-      "extra", "cli", "web", "readme"
-    ]
+    // no Scala.js or Scala Native plz
+    extra.projects: ["jvm"]
   }
 
   // dependency of scala-debugger. we track the develop branch, since
