@@ -774,6 +774,8 @@ build += {
     extra.projects: ["coreJVM", "io"]  // no Scala.js, no benchmarks or docs
   }
 
+  // once we move the whole build to fs2 1.0.0-RC1 or later, we can drop
+  // this repo, since it was merged into the main fs2 repo as a subproject
   ${vars.base} {
     name: "fs2-reactive-streams"
     uri:  ${vars.uris.fs2-reactive-streams-uri}
@@ -2260,6 +2262,8 @@ build += {
     ]
   }
 
+  // frozen (October 2018) at September 2018 commit before upgrade to
+  // fs2 v1.0.0-RC1 which we can't handle yet
   ${vars.base} {
     name: "sttp"
     uri:  ${vars.uris.sttp-uri}
