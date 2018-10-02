@@ -33,13 +33,14 @@ object SuccessReport {
   val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
   val expectedToFail = Set[String](
-    "akka-actor",
+    "akka",
     "base64",
     "boopickle",
     "cachecontrol",
     "case-app",
     "cats-effect",
     "circe-config",
+    "fastparse",
     "geny",
     "grizzled",
     "http4s-parboiled2",
@@ -63,6 +64,7 @@ object SuccessReport {
     "scalajson",
     "scalamock",
     "scalastyle",
+    "scalatags",
     "scalatest-tests",
     "scalaz8",
     "scalikejdbc",
@@ -70,7 +72,7 @@ object SuccessReport {
     "scodec",
     "scribe",
     "slick",
-    "specs2-more",
+    "specs2",
     "spire",
     "tut",
     "twirl",
