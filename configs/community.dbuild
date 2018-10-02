@@ -2136,6 +2136,7 @@ build += {
   ${vars.base} {
     name: "boopickle"
     uri:  ${vars.uris.boopickle-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["boopickleJVM", "shapelessJVM"]  // no Scala.js, no "perftests"
   }
 
