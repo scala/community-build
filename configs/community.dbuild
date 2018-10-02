@@ -241,6 +241,7 @@ build += {
   // temporarily forked (October 2018) for JDK 11 compat,
   // awaiting merge of https://github.com/etorreborre/specs2/pull/710
   // and the fork also includes cats/cats-effect version bumps and code changes
+  // awaiting merge of https://github.com/etorreborre/specs2/pull/711
   ${vars.base} {
     name: "specs2"
     uri:  ${vars.uris.specs2-uri}
