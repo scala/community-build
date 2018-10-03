@@ -35,14 +35,31 @@ object SuccessReport {
   val expectedToFail: Set[String] =
     System.getProperty("java.specification.version") match {
       case "1.8" =>
+        Set()
+      case _ =>
         Set(
-        )
-      case "10" | "11" =>
-        Set(
+          "akka",
           "akka-stream",
+          "blaze",
+          "breeze",
+          "case-app",
+          "eff",
+          "expecty",
+          "fastparse",
+          "fs2",
           "github4s",
           "kxbmap-configs",
+          "play-doc",
+          "pprint",
           "scala-debugger",
+          "scala-partest",
+          "scala-refactoring",
+          "scala-sculpt",
+          "scalachess",
+          "scalamock",
+          "scalatags",
+          "slick",
+          "ssl-config",
           "twitter-util",
           "zinc",
         )
