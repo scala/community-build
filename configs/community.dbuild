@@ -1424,6 +1424,8 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
+  // temporarily using a branch, awaiting merge of
+  // https://github.com/coursier/coursier/pull/927
   ${vars.base} {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
