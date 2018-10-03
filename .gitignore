@@ -4,3 +4,4 @@
 .m2/
 /dbuild-*/
 /target-*/
+/dbuild-*.tgz
