@@ -251,6 +251,8 @@ build += {
 
   // temporarily forked (October 2018) for JDK 11 compat,
   // awaiting merge of https://github.com/etorreborre/specs2/pull/710
+  // and the fork also includes cats/cats-effect version bumps and code changes
+  // awaiting merge of https://github.com/etorreborre/specs2/pull/711
   ${vars.base} {
     name: "specs2"
     uri:  ${vars.uris.specs2-uri}
@@ -1443,6 +1445,8 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
+  // temporarily using a branch, awaiting merge of
+  // https://github.com/coursier/coursier/pull/927
   ${vars.base} {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
@@ -2152,6 +2156,7 @@ build += {
   ${vars.base} {
     name: "boopickle"
     uri:  ${vars.uris.boopickle-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["boopickleJVM", "shapelessJVM"]  // no Scala.js, no "perftests"
   }
 
