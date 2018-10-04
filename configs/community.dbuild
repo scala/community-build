@@ -1445,16 +1445,14 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
-  // temporarily using a branch, awaiting merge of
-  // https://github.com/coursier/coursier/pull/927
   ${vars.base} {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     // no Scala.js or Scala Native plz
     extra.projects: ["jvm"]
-    // depends on Scala Native
-    extra.exclude: ["extra"]
+    // these depend on Scala Native
+    extra.exclude: ["extra", "cli"]
   }
 
   // dependency of scala-debugger. we track the develop branch, since
