@@ -966,6 +966,9 @@ build += {
     uri:  ${vars.uris.cachecontrol-uri}
   }
 
+  // frozen (October 2081) because a recent commit upgrades to a newer ssl-config
+  // but we have ssl-config frozen. it's fixable, we just need to move both repos
+  // forward together. see ssl-config entry
   ${vars.base} {
     name: "play-core"
     uri:  ${vars.uris.play-core-uri}
