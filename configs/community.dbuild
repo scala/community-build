@@ -1523,6 +1523,8 @@ build += {
 
   // there are a *ton* of subprojects.  it might be interesting to try to add
   // as many as possible. for now, we've somewhat arbitrarily selected a few
+  // frozen (October 2018) at commit before ssl-config upgrade. we should unfreeze
+  // along with ssl-config and play-core
   ${vars.base} {
     name: "lagom"
     uri:  ${vars.uris.lagom-uri}
