@@ -51,7 +51,6 @@ object SuccessReport {
           "pprint",
           "scala-debugger",
           "scala-refactoring",
-          "scalachess",
           "scalamock",
           "scalatags",
           "slick",
