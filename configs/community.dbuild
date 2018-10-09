@@ -49,8 +49,7 @@ include file(".dbuild/resolvers.conf")
 vars {
   default-commands: []
   sbt-version: "0.13.17"
-  sbt-1-1-version: "1.1.6"
-  sbt-1-version: "1.2.3"
+  sbt-1-version: "1.2.4"
 }
 
 //// compiler options manipulation
@@ -249,10 +248,6 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
   }
 
-  // temporarily forked (October 2018) for JDK 11 compat,
-  // awaiting merge of https://github.com/etorreborre/specs2/pull/710
-  // and the fork also includes cats/cats-effect version bumps and code changes
-  // awaiting merge of https://github.com/etorreborre/specs2/pull/711
   ${vars.base} {
     name: "specs2"
     uri:  ${vars.uris.specs2-uri}
@@ -983,6 +978,9 @@ build += {
     uri:  ${vars.uris.cachecontrol-uri}
   }
 
+  // frozen (October 2081) because a recent commit upgrades to a newer ssl-config
+  // but we have ssl-config frozen. it's fixable, we just need to move both repos
+  // forward together. see ssl-config entry
   ${vars.base} {
     name: "play-core"
     uri:  ${vars.uris.play-core-uri}
@@ -1445,6 +1443,8 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
+  // frozen (October 2018) at an October 2018 commit just before source-incompatible
+  // changes which broke coursier-small and classpath-shrinker downstream
   ${vars.base} {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
@@ -1545,6 +1545,8 @@ build += {
 
   // there are a *ton* of subprojects.  it might be interesting to try to add
   // as many as possible. for now, we've somewhat arbitrarily selected a few
+  // frozen (October 2018) at commit before ssl-config upgrade. we should unfreeze
+  // along with ssl-config and play-core
   ${vars.base} {
     name: "lagom"
     uri:  ${vars.uris.lagom-uri}
@@ -1714,7 +1716,8 @@ build += {
   ${vars.base} {
     name: "giter8"
     uri:  ${vars.uris.giter8-uri}
-    extra.sbt-version: ${vars.sbt-1-1-version}
+    // yes, using 1.2.x fails (as of October 2018 anyway)
+    extra.sbt-version: "1.1.6"
     extra.exclude: ["plugin", "scaffold"]  // these are sbt plugins
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
@@ -2276,8 +2279,6 @@ build += {
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
-      // reported upstream: https://github.com/fthomas/refined/issues/569
-      "set excludeFilter in (Test, unmanagedSources) in scalazJVM := HiddenFileFilter || \"InferJavapSpec.scala\" || \"RefineJavapSpec.scala\""
     ]
   }
 
