@@ -1422,6 +1422,8 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
+  // frozen (October 2018) at an October 2018 commit just before source-incompatible
+  // changes which broke coursier-small and classpath-shrinker downstream
   ${vars.base} {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
