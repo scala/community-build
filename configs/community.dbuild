@@ -724,6 +724,8 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
+  // forked (October 2018) for JDK 11 compat, awaiting merge of
+  // https://github.com/lihaoyi/fastparse/pull/196
   ${vars.base} {
     name: "fastparse"
     uri:  ${vars.uris.fastparse-uri}
