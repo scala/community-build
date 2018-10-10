@@ -54,7 +54,7 @@ object SuccessReport {
           "scalamock",
           "scalatags",
           "slick",
-          "ssl-config",
+          "ssl-config", // https://github.com/lightbend/ssl-config/issues/98
           "twitter-util",
           "zinc",
         )
