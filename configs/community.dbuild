@@ -1094,6 +1094,8 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
+  // forked (October 2018) awaiting merge of
+  // https://github.com/lihaoyi/scalatags/pull/184
   ${vars.base} {
     name: "scalatags"
     uri:  ${vars.uris.scalatags-uri}
