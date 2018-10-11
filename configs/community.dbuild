@@ -747,6 +747,8 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
+  // forked (October 2018) for JDK 11 compat, awaiting merge of
+  // https://github.com/lihaoyi/fastparse/pull/196
   ${vars.base} {
     name: "fastparse"
     uri:  ${vars.uris.fastparse-uri}
@@ -932,6 +934,7 @@ build += {
   }
 
   // dependency of scopt
+  // forked (October 2018) for JDK 11, awaiting merge of https://github.com/eed3si9n/expecty/pull/6
   ${vars.base} {
     name: "expecty"
     uri:  ${vars.uris.expecty-uri}
@@ -1111,6 +1114,8 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
+  // forked (October 2018) awaiting merge of
+  // https://github.com/lihaoyi/scalatags/pull/184
   ${vars.base} {
     name: "scalatags"
     uri:  ${vars.uris.scalatags-uri}
