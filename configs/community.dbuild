@@ -909,6 +909,8 @@ build += {
     check-missing: false
   }
 
+  // forked (October 2018) for JDK 11 friendliness, awaiting merge of
+  // https://github.com/scopt/scopt/pull/207
   ${vars.base} {
     name: "scopt"
     uri:  ${vars.uris.scopt-uri}
