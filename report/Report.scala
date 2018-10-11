@@ -43,8 +43,6 @@ object SuccessReport {
           "blaze",
           "breeze",
           "case-app",
-          "expecty",
-          "fastparse",
           "fs2",
           "github4s",
           "kxbmap-configs",
@@ -52,7 +50,6 @@ object SuccessReport {
           "scala-debugger",
           "scala-refactoring",
           "scalamock",
-          "scalatags",
           "slick",
           "ssl-config", // https://github.com/lightbend/ssl-config/issues/98
           "twitter-util",
