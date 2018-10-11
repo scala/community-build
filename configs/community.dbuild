@@ -968,8 +968,8 @@ build += {
   // but we have ssl-config frozen. it's fixable, we just need to move both repos
   // forward together. see ssl-config entry
   ${vars.base} {
-    name: "play-core"
-    uri:  ${vars.uris.play-core-uri}
+    name: "playframework"
+    uri:  ${vars.uris.playframework-uri}
     // TODO: enable more projects? these are just a few that seemed especially high-value.
     // we tried including "Play-Integration-Test" but hit a mysterious StackOverflowError
     // in scala.tools.nsc.javac.JavaScanners; see https://github.com/scala/community-builds/issues/304
@@ -1533,7 +1533,7 @@ build += {
   // there are a *ton* of subprojects.  it might be interesting to try to add
   // as many as possible. for now, we've somewhat arbitrarily selected a few
   // frozen (October 2018) at commit before ssl-config upgrade. we should unfreeze
-  // along with ssl-config and play-core
+  // along with ssl-config and playframework
   ${vars.base} {
     name: "lagom"
     uri:  ${vars.uris.lagom-uri}
