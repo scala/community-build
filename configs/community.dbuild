@@ -295,7 +295,7 @@ build += {
   projects: [
 
   // frozen at v0.1.1 for now, using master broke downstream projects.
-  // (actually, forked off v0.1.1 to get JDK 9 fix which was merged upstream,
+  // (actually, forked off v0.1.1 to get JDK 11 fix which was merged upstream,
   // but after v0.1.1 was tagged)
   ${vars.base} {
     name: "scala-collection-compat"
@@ -601,7 +601,7 @@ build += {
     ]
     extra.projects: ["akka-scala-nightly"]
     extra.settings: ${vars.base.extra.settings} [
-      // for JDK9+. one-deeper nesting level makes it apply to build definition
+      // for JDK 11. one-deeper nesting level makes it apply to build definition
       ["libraryDependencies += \"javax.xml.bind\" % \"jaxb-api\" % \"2.3.0\""]
     ]
     extra.commands: ${vars.default-commands} [
@@ -650,7 +650,7 @@ build += {
     uri:  ${vars.uris.scala-async-uri}
   }
 
-  // forked (September 2018) for JDK 9+ friendliness
+  // forked (September 2018) for JDK 11 friendliness
   ${vars.base} {
     name: "slick"
     uri:  ${vars.uris.slick-uri}
@@ -672,7 +672,7 @@ build += {
       "sample-slick-multidb", "sample-hello-slick", "sample-slick-plainsql", "sample-slick-testkit-example"
     ]
     extra.commands: ${vars.default-commands} [
-      // fails on JDK9+; see https://github.com/slick/slick/issues/1908
+      // fails on JDK 11; see https://github.com/slick/slick/issues/1908
       "set excludeFilter in (Test, unmanagedSources) in slickTestkitProject := HiddenFileFilter || \"ProfileTest.scala\""
     ]
   }
@@ -1511,7 +1511,7 @@ build += {
   // dependency of lagom. forked (August 2018) at last green version,
   // since newer commits break lagom; see https://github.com/lagom/lagom/issues/1413
   // the fork is so we could cherry-pick https://github.com/akka/akka-persistence-cassandra/pull/377
-  // for JDK 9+ friendliness
+  // for JDK 11 friendliness
   ${vars.base} {
     name: "akka-persistence-cassandra"
     uri:  ${vars.uris.akka-persistence-cassandra-uri}
@@ -1721,7 +1721,7 @@ build += {
     extra.projects: ["spireJVM"]  // no Scala.js please
   }
 
-  // temporarily forked for JDK 9 friendliness, pending merge of
+  // temporarily forked for JDK 11 friendliness, pending merge of
   // https://github.com/scalanlp/breeze/pull/708
   ${vars.base} {
     name: "breeze"
@@ -1747,11 +1747,13 @@ build += {
     check-missing: false
   }
 
-  // frozen at v4.0.0-M11 since that's what scalafix currently (Sep 2 2018) expects
+  // forked off v4.0.0-M11 since that's what scalafix currently (Sep 2 2018) expects
+  // our fork includes Jason's 2.12.7 changes (which have probably since been merged
+  // upstream) and some JDK 11 friendliness changes
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
-    // allow building on JDK 9+
+    // allow building on JDK 11
     extra.options: ["-Dscalameta.allow-any-jdk"]
     extra.projects: [
       // holy cow there are a lot of subprojects. it's not super clear what's important
@@ -1858,7 +1860,7 @@ build += {
       "set excludeFilter in (Test, unmanagedSources) in unit := HiddenFileFilter || \"ScalafixImplSuite.scala\" || \"ToolClasspathSuite.scala\""
     ]
     extra.settings: ${vars.base.extra.settings} [
-      // for JDK9+. one-deeper nesting level makes it apply to build definition
+      // for JDK 11. one-deeper nesting level makes it apply to build definition
       ["libraryDependencies += \"javax.xml.bind\" % \"jaxb-api\" % \"2.3.0\""]
     ]
   }
@@ -1920,7 +1922,7 @@ build += {
 
   projects: [
 
-  // forked (June 2018) from the v0.10.4 tag to backport JDK 9 friendliness change
+  // forked (June 2018) from the v0.10.4 tag to backport JDK 11 friendliness change
   // (https://github.com/non/jawn/pull/106) to 0.10 series
   ${vars.base} {
     name: "jawn-0-10"
@@ -2168,7 +2170,7 @@ build += {
     ]
   }
 
-  // forked (June 2018) from the v0.11.1 tag to backport JDK 9 friendliness change
+  // forked (June 2018) from the v0.11.1 tag to backport JDK 11 friendliness change
   // (https://github.com/non/jawn/pull/106) to 0.11 series
   ${vars.base} {
     name: "jawn-0-11"
