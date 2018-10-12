@@ -548,6 +548,12 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
+  // frozen (October 2018) at a September 2018 commit before the build definition's
+  // scodec-build dependency was bumped, resulting in:
+  //   org.scodec#scodec-build;1.11.0: not found
+  // not sure if we'd need to add a resolver or what, to make this work?
+  // for now, let's just freeze, and figure we can sort it the next time something
+  // prompts an unfreeze
   ${vars.base} {
     name: "scodec"
     uri:  ${vars.uris.scodec-uri}
