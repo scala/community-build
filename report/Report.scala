@@ -51,7 +51,6 @@ object SuccessReport {
           "scala-debugger",
           "scala-refactoring",
           "scalamock",
-          "scalatex",  // needs scala/bug#11125 workaround
           "slick",
           "ssl-config", // https://github.com/lightbend/ssl-config/issues/98
           "twitter-util",

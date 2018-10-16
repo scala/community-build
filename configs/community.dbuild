@@ -1786,9 +1786,12 @@ build += {
     extra.exclude: ["jsoniter-scala-benchmark"]
   }
 
+  // forked (October 2018) for JDK 11 pending merge of:
+  //   https://github.com/lihaoyi/Scalatex/pull/67
   ${vars.base} {
     name: "scalatex"
     uri:  ${vars.uris.scalatex-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.exclude: [
       "scalatexSbtPlugin"  // we never build sbt plugins
       "site", "readme", "scrollspy"  // these use Scala.js
