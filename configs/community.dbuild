@@ -196,7 +196,7 @@ build += {
   ${vars.base} {
     name: "scala-parser-combinators"
     uri:  ${vars.uris.scala-parser-combinators-uri}
-    extra.exclude: ["scala-parser-combinatorsJS"]
+    extra.exclude: ["scala-parser-combinatorsJS", "scala-parser-combinatorsNative"]
     extra.commands: ${vars.base.extra.commands} [
       // work around https://github.com/scala/community-builds/issues/575
       // (in a community build context, we don't need MiMa to run)
