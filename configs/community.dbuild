@@ -455,12 +455,11 @@ build += {
     ]
   }
 
-  // frozen (September 2018) at v2.5.16.  this repo is volatile (very
+  // frozen (October 2018) at v2.5.17.  this repo is volatile (very
   // frequent commits) and when it needs to be rebuilt, the testing
   // takes a long time (especially akka-more) and the downstream
   // rebuilding takes a long time too.  so in general we want to
-  // freeze at a tag (preferably) or SHA (if we must) rather than
-  // track master
+  // freeze at a tag (preferably) or SHA (if we must)
   ${vars.base} {
     name: "akka"
     uri:  ${vars.uris.akka-uri}
@@ -474,11 +473,9 @@ build += {
       "set skip in publish in actorTests := false"
       // makes "configuration not public" errors downstream go away
       "set every publishMavenStyle := false"
-      // IndexSpec is known to fail on JDK 9 only (works on 8, 10).  ideally we'd conditionally exclude by
-      // JVM version but it doesn't seem worth fooling with.
-      // and then CircuitBreakerSpec fails on JDK 10 only; I reported it in a comment on
-      // https://github.com/akka/akka/issues/23402
-      "set excludeFilter in (Test, unmanagedSources) in actorTests := HiddenFileFilter || \"IndexSpec.scala\" || \"CircuitBreakerSpec.scala\""
+      // TCPConnectionSpec & UdpConnectedIntegrationSpec have an open ticket at:
+      //   https://github.com/akka/akka/issues/25733
+      "set excludeFilter in (Test, unmanagedSources) in actorTests := HiddenFileFilter || \"TcpConnectionSpec.scala\" || \"UdpConnectedIntegrationSpec.scala\""
       // idk why, but prevents dbuild-only sun.misc.Unsafe compile errors;
       // see https://github.com/scala/community-builds/issues/757
       "set scalacOptions in Compile in actor --= Seq(\"-release\", \"8\")"
