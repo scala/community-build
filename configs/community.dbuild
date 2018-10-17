@@ -193,6 +193,7 @@ build += {
     ]
   }
 
+  // forked (October 2018) for JDK 11 friendliness
   ${vars.base} {
     name: "scalacheck"
     uri:  ${vars.uris.scalacheck-uri}
