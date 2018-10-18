@@ -218,13 +218,6 @@ build += {
   }
 
   ${vars.base} {
-    name: "macro-compat"
-    uri:  ${vars.uris.macro-compat-uri}
-    // no Scala.js plz
-    extra.projects: ["testJVM"]
-  }
-
-  ${vars.base} {
     name: "shapeless"
     uri:  ${vars.uris.shapeless-uri}
     extra.sbt-version: ${vars.sbt-1-version}
@@ -339,6 +332,13 @@ build += {
     name: "machinist"
     uri:  ${vars.uris.machinist-uri}
     extra.projects: ["machinistJVM"]  // no Scala.js please
+  }
+
+  ${vars.base} {
+    name: "macro-compat"
+    uri:  ${vars.uris.macro-compat-uri}
+    // no Scala.js plz
+    extra.projects: ["testJVM"]
   }
 
   ${vars.base} {
