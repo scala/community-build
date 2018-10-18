@@ -484,12 +484,11 @@ build += {
     ]
   }
 
-  // frozen (September 2018) at v2.5.16.  this repo is volatile (very
+  // frozen (October 2018) at v2.5.17.  this repo is volatile (very
   // frequent commits) and when it needs to be rebuilt, the testing
   // takes a long time (especially akka-more) and the downstream
   // rebuilding takes a long time too.  so in general we want to
-  // freeze at a tag (preferably) or SHA (if we must) rather than
-  // track master
+  // freeze at a tag (preferably) or SHA (if we must)
   ${vars.base} {
     name: "akka"
     uri:  ${vars.uris.akka-uri}
@@ -503,11 +502,9 @@ build += {
       "set skip in publish in actorTests := false"
       // makes "configuration not public" errors downstream go away
       "set every publishMavenStyle := false"
-      // IndexSpec is known to fail on JDK 9 only (works on 8, 10).  ideally we'd conditionally exclude by
-      // JVM version but it doesn't seem worth fooling with.
-      // and then CircuitBreakerSpec fails on JDK 10 only; I reported it in a comment on
-      // https://github.com/akka/akka/issues/23402
-      "set excludeFilter in (Test, unmanagedSources) in actorTests := HiddenFileFilter || \"IndexSpec.scala\" || \"CircuitBreakerSpec.scala\""
+      // TCPConnectionSpec & UdpConnectedIntegrationSpec have an open ticket at:
+      //   https://github.com/akka/akka/issues/25733
+      "set excludeFilter in (Test, unmanagedSources) in actorTests := HiddenFileFilter || \"TcpConnectionSpec.scala\" || \"UdpConnectedIntegrationSpec.scala\""
       // idk why, but prevents dbuild-only sun.misc.Unsafe compile errors;
       // see https://github.com/scala/community-builds/issues/757
       "set scalacOptions in Compile in actor --= Seq(\"-release\", \"8\")"
@@ -572,16 +569,15 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
-  // frozen (October 2018) at a September 2018 commit before the build definition's
-  // scodec-build dependency was bumped, resulting in:
-  //   org.scodec#scodec-build;1.11.0: not found
-  // not sure if we'd need to add a resolver or what, to make this work?
-  // for now, let's just freeze, and figure we can sort it the next time something
-  // prompts an unfreeze
   ${vars.base} {
     name: "scodec"
     uri:  ${vars.uris.scodec-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["coreJVM"]
+    extra.commands: ${vars.base.extra.commands} [
+      // because scodec-build brings in sbt-gpg which errors on `publish`
+      "set every gpgWarnOnFailure := true"
+    ]
   }
 
   ${vars.base} {
