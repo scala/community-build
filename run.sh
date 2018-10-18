@@ -16,7 +16,7 @@ export LANG="en_US.UTF-8"
 export HOME="$(pwd)"
 
 # Defaults
-scala_version_default="2.12.7-bin-25d596e"  # Sep 14
+scala_version_default="2.12.8-bin-6914d3b"  # Oct 13
 scala_version="$scala_version_default"
 root_dir=$(pwd)
 config_dir="configs"
@@ -131,7 +131,7 @@ fi
 cat $project_refs_conf > .dbuild/project-refs.conf
 
 # Set dbuild version and config file
-DBUILDVERSION=0.9.14
+DBUILDVERSION=0.9.16
 echo "dbuild version: $DBUILDVERSION"
 
 DBUILDCONFIG=$dbuild_file

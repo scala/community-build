@@ -18,7 +18,7 @@ endPattern=".*---== End Repeatable dbuild Configuration ===---"
 versions=$(curl https://scala-ci.typesafe.com/job/scala-2.12.x-integrate-community-build/$buildNumber/consoleText \
            | awk "/$startPattern/{y=1;next}/$endPattern/"{y=0}y \
            | jq -re '.build.projects[] | "\(.name)-uri: \"\(.uri)\""' \
-           | grep -v scala-uri \
+           | grep -v ^scala-uri \
            | sort \
            | column -t \
            | sed 's/\( *\) /\1/g' \
