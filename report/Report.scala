@@ -76,7 +76,6 @@ object SuccessReport {
     "scribe",
     "slick",
     "spire",
-    "ssl-config",
     "tut",
     "twirl",
   )
