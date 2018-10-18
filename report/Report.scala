@@ -25,44 +25,32 @@ object SuccessReport {
 
   // sample inputs:
   //   [info] Project foo-bar-baz---------------: DID NOT RUN (stuck on broken dependencies: frob, akka-grue, zorch)
+  //   [info] Project utest---------------------: FAILED (MatchError: d48a6cde+20180920-1730 (of class java.lang.St...)
   // regex features used:
   //   \w    = word character
   //   ?:    = not a capturing group
   //   (?!-) = negative lookahead -- next character is not "-"
-  val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: (.+) \((?:stuck on broken dependencies: )?(.*)\)""".r
+  val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
   val expectedToFail: Set[String] =
     System.getProperty("java.specification.version") match {
       case "1.8" =>
         Set()
-      case "9" =>
+      case _ =>
         Set(
-          "akka-persistence-cassandra",
-          "github4s",
-          "kxbmap-configs",
-          "paradox",
-          "play-core",
-          "scala-debugger",
-          "slick",
-          "twitter-util",
-          "zinc",
-        )
-      case "10" =>
-        Set(
-          "akka-stream",
-          "breeze",
-          "curryhoward",
-          "jawn-0-10",
-          "jawn-0-11",
-          "jsoniter-scala",
-          "kxbmap-configs",
-          "log4s",
-          "paradox",
-          "scala-async",
-          "scala-partest",
-          "scalaz8",
-          "slick",
-          "twitter-util",
+          "blaze",  // test failure (org.http4s.blaze.pipeline.stages.SSLStageSpec)
+          "breeze",  // "object istack is not a member of package com.sun"
+          "case-app",  // needs scala/bug#11125 workaround
+          "coursier",  // needs scala/bug#11125 workaround
+          "fs2",  // new overloads on JDK 11 need disambiguation
+          "kxbmap-configs",  // "sjsonnew.DeserializationException: Field not found: $type"
+          "metaconfig",  // needs scala/bug#11125 workaround
+          "scala-refactoring",  // needs scala/bug#11125 workaround?
+          "scalamock",  // needs scala/bug#11125 workaround
+          "scalatex",  // scripted-plugin not found?
+          "slick",  // "object bind is not a member of package javax.xml"
+          "ssl-config", // https://github.com/lightbend/ssl-config/issues/98
+          "twitter-util",  // "javadoc: error - invalid flag: -d"
         )
     }
 

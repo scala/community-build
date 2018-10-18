@@ -49,8 +49,7 @@ include file(".dbuild/resolvers.conf")
 vars {
   default-commands: []
   sbt-version: "0.13.17"
-  sbt-1-1-version: "1.1.6"
-  sbt-1-version: "1.2.1"
+  sbt-1-version: "1.2.6"
 }
 
 //// compiler options manipulation
@@ -197,7 +196,7 @@ build += {
   ${vars.base} {
     name: "scala-parser-combinators"
     uri:  ${vars.uris.scala-parser-combinators-uri}
-    extra.exclude: ["scala-parser-combinatorsJS"]
+    extra.exclude: ["scala-parser-combinatorsJS", "scala-parser-combinatorsNative"]
     extra.commands: ${vars.base.extra.commands} [
       // work around https://github.com/scala/community-builds/issues/575
       // (in a community build context, we don't need MiMa to run)
@@ -205,16 +204,10 @@ build += {
     ]
   }
 
-  // since the community build is JVM-only, other projects only depend scala-js
-  // in order to get stubs.  building all of Scala.js and running its tests
-  // takes a while, so let's save ourselves some time and build the stubs
-  // separately.  not only that, but we use a frozen SHA, since the stubs
-  // hardly ever change, so we can save time by not rebuilding downstream projects
-  // everytime anything anywhere in the whole repo changes
   ${vars.base} {
     name: "scala-js-stubs"
     uri:  ${vars.uris.scala-js-stubs-uri}
-    extra.projects: ["stubs"]
+    extra.sbt-version: ${vars.sbt-1-version}
   }
 
   // forked (May 2017) to make a trivial source change for 2.12.3 compat;
@@ -222,13 +215,6 @@ build += {
   ${vars.base} {
     name: "macro-paradise"
     uri:  ${vars.uris.macro-paradise-uri}
-  }
-
-  ${vars.base} {
-    name: "macro-compat"
-    uri:  ${vars.uris.macro-compat-uri}
-    // no Scala.js plz
-    extra.projects: ["testJVM"]
   }
 
   ${vars.base} {
@@ -244,10 +230,6 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
   }
 
-  // see also specs2-more
-  // frozen (August 2018) at an August 2018 tag just before code was added
-  // that depends on cats-effect 1.0, but we're only on 0.10.  we can unfreeze
-  // when we move the whole build onto cats-effect 1.0
   ${vars.base} {
     name: "specs2"
     uri:  ${vars.uris.specs2-uri}
@@ -283,7 +265,11 @@ build += {
     name: "scribe"
     uri:  ${vars.uris.scribe-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.projects: ["coreJVM", "macrosJVM", "testsJVM"]
+    extra.projects: ["coreJVM", "macrosJVM"]
+    // intermittently failing test I haven't gotten around to reporting upstream
+    extra.commands: ${vars.default-commands} [
+      "set excludeFilter in (Test, unmanagedSources) in coreJVM := HiddenFileFilter || \"FileLoggingSpec.scala\""
+    ]
   }
 
 ]}
@@ -302,7 +288,7 @@ build += {
   projects: [
 
   // frozen at v0.1.1 for now, using master broke downstream projects.
-  // (actually, forked off v0.1.1 to get JDK 9 fix which was merged upstream,
+  // (actually, forked off v0.1.1 to get JDK 11 fix which was merged upstream,
   // but after v0.1.1 was tagged)
   ${vars.base} {
     name: "scala-collection-compat"
@@ -349,13 +335,18 @@ build += {
   }
 
   ${vars.base} {
+    name: "macro-compat"
+    uri:  ${vars.uris.macro-compat-uri}
+    // no Scala.js plz
+    extra.projects: ["testJVM"]
+  }
+
+  ${vars.base} {
     name: "wartremover"
     uri:  ${vars.uris.wartremover-uri}
     extra.exclude: ["sbt-plugin"]
   }
 
-  // frozen (July 2018) at July 2018 commit just before `Defer` addition
-  // caused compilation errors downstream in fs2
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
@@ -407,13 +398,8 @@ build += {
     uri:  ${vars.uris.scalaz-uri}
     extra.projects: ["rootJVM"]  // no Scala.js please
     extra.exclude: ["scalacheck-binding_1_13JVM"]  // we're on 1.14
-    // we have to disable this for JDK 10 until https://github.com/scala/bug/issues/10717 is fixed
-    extra.commands: ${vars.default-commands} [
-      "removeScalacOptions -opt:l:method"
-    ]
   }
 
-  // see also scala-js-stubs.
   // if master proves difficult to track, the 0.6.x branch could be
   // used instead; see discussion at
   // https://github.com/scala/community-builds/issues/506
@@ -426,8 +412,6 @@ build += {
     ]
     // not really sure how this list was arrived at
     extra.projects: [ "io", "logging", "linker", "testSuite" ]
-    // exclude it here because we build it separately in scala-js-stubs
-    extra.exclude: ["stubs"]
     extra.commands: ${vars.default-commands} [
       // - We disable source map tests to save ourselves a `npm install source-map-support` on the workers.
       //   Although only `testSuite` actually has tests, dbuild will try to run the tests for all projects
@@ -471,14 +455,13 @@ build += {
     ]
   }
 
-  // frozen (September 2018) at v2.5.16.  this repo is volatile (very
+  // frozen (October 2018) at v2.5.17.  this repo is volatile (very
   // frequent commits) and when it needs to be rebuilt, the testing
   // takes a long time (especially akka-more) and the downstream
   // rebuilding takes a long time too.  so in general we want to
-  // freeze at a tag (preferably) or SHA (if we must) rather than
-  // track master
+  // freeze at a tag (preferably) or SHA (if we must)
   ${vars.base} {
-    name: "akka-actor"
+    name: "akka"
     uri:  ${vars.uris.akka-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"]
@@ -490,11 +473,9 @@ build += {
       "set skip in publish in actorTests := false"
       // makes "configuration not public" errors downstream go away
       "set every publishMavenStyle := false"
-      // IndexSpec is known to fail on JDK 9 only (works on 8, 10).  ideally we'd conditionally exclude by
-      // JVM version but it doesn't seem worth fooling with.
-      // and then CircuitBreakerSpec fails on JDK 10 only; I reported it in a comment on
-      // https://github.com/akka/akka/issues/23402
-      "set excludeFilter in (Test, unmanagedSources) in actorTests := HiddenFileFilter || \"IndexSpec.scala\" || \"CircuitBreakerSpec.scala\""
+      // TCPConnectionSpec & UdpConnectedIntegrationSpec have an open ticket at:
+      //   https://github.com/akka/akka/issues/25733
+      "set excludeFilter in (Test, unmanagedSources) in actorTests := HiddenFileFilter || \"TcpConnectionSpec.scala\" || \"UdpConnectedIntegrationSpec.scala\""
       // idk why, but prevents dbuild-only sun.misc.Unsafe compile errors;
       // see https://github.com/scala/community-builds/issues/757
       "set scalacOptions in Compile in actor --= Seq(\"-release\", \"8\")"
@@ -553,6 +534,7 @@ build += {
     extra.exclude: ["scalac-scoverage-runtimeJS"] // no Scala.js please
     // [info] java.io.FileNotFoundException: Could not locate [~/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.0.jar].
     // January 2018: failure's continued existence confirmed
+    // see https://github.com/scala/community-builds/pull/387
     extra.test-tasks: ["compile"]
   }
 
@@ -566,7 +548,12 @@ build += {
   ${vars.base} {
     name: "scodec"
     uri:  ${vars.uris.scodec-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["coreJVM"]
+    extra.commands: ${vars.base.extra.commands} [
+      // because scodec-build brings in sbt-gpg which errors on `publish`
+      "set every gpgWarnOnFailure := true"
+    ]
   }
 
   ${vars.base} {
@@ -598,13 +585,14 @@ build += {
       "set every publishMavenStyle := false"
     ]
     extra.exclude: [
-      // because we already built them in "akka-actor"
+      // because we already built them in "akka"
       "akka-actor", "akka-actor-typed", "akka-testkit", "akka-actor-tests"
     ]
   }
 
-  // this is separate from "akka-actor" because there is a circular dependency between
-  // the akka and ssl-config repos
+  // this is separate from "akka" because there is a circular dependency between
+  // the akka and ssl-config repos. and also just so failures in obscure subprojects
+  // don't take out too much of the build
   ${vars.base} {
     name: "akka-more"
     uri:  ${vars.uris.akka-uri}
@@ -612,17 +600,19 @@ build += {
     extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"
       // repo readme recommended
       "-Xmx2g"
-      // the usual thing some projects need on JDK 9
-      "--add-modules=java.xml.bind", "-XX:+IgnoreUnrecognizedVMOptions"
     ]
     extra.projects: ["akka-scala-nightly"]
+    extra.settings: ${vars.base.extra.settings} [
+      // for JDK 11. one-deeper nesting level makes it apply to build definition
+      ["libraryDependencies += \"javax.xml.bind\" % \"jaxb-api\" % \"2.3.0\""]
+    ]
     extra.commands: ${vars.default-commands} [
       // https://github.com/scala/community-builds/issues/373
       "set every apiURL := None"
     ]
     extra.exclude: [
       "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
-      "akka-actor", "akka-actor-typed", "akka-actor-tests", "akka-testkit"  // because we already built them in "akka-actor"
+      "akka-actor", "akka-actor-typed", "akka-actor-tests", "akka-testkit"  // because we already built them in "akka"
       "akka-stream", "akka-stream-testkit", "akka-remote", "akka-stream-tests"  // because we already built them in "akka-stream"
       "akka-bench-jmh"  // we'd have to add a resolver to get the JMH dependency, and we prefer not to run benchmarks here anyway
       "akka-protobuf", "akka-multi-node-testkit"  // already built these in akka-stream
@@ -662,6 +652,7 @@ build += {
     uri:  ${vars.uris.scala-async-uri}
   }
 
+  // forked (September 2018) for JDK 11 friendliness
   ${vars.base} {
     name: "slick"
     uri:  ${vars.uris.slick-uri}
@@ -674,8 +665,6 @@ build += {
       // I think it's a confusion of levels, but maybe I'm missing something. - ST 8/27/15
       "de.johoop#sbt-testng-interface"
     ]
-    // as per https://github.com/slick/slick/issues/1908, we need this on Java 9+
-    extra.options: ["--add-modules=java.xml.bind", "-J--add-modules=java.xml.bind", "-XX:+IgnoreUnrecognizedVMOptions"]
     extra.exclude: [
       // unless we exclude, it looks for an Ornate dependency here
       "root"
@@ -683,6 +672,10 @@ build += {
       "osgitests"
       // I think these expect a Slick snapshot to have been `publishLocal`ed?
       "sample-slick-multidb", "sample-hello-slick", "sample-slick-plainsql", "sample-slick-testkit-example"
+    ]
+    extra.commands: ${vars.default-commands} [
+      // fails on JDK 11; see https://github.com/slick/slick/issues/1908
+      "set excludeFilter in (Test, unmanagedSources) in slickTestkitProject := HiddenFileFilter || \"ProfileTest.scala\""
     ]
   }
 
@@ -712,6 +705,7 @@ build += {
   ${vars.base} {
     name: "acyclic"
     uri:  ${vars.uris.acyclic-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
   }
 
   // forked (June 2018) to upgrade sbt-osgi to a Java 9 friendly version
@@ -725,16 +719,15 @@ build += {
   ${vars.base} {
     name: "utest"
     uri:  ${vars.uris.utest-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     // no Scala.js plz
     extra.projects: ["utestJVM"]
     // waiting for fix on https://github.com/lihaoyi/utest/issues/168
     extra.test-tasks: ["compile"]
-    // we have to disable this for JDK 10 until https://github.com/scala/bug/issues/10717 is fixed
-    extra.commands: ${vars.default-commands} [
-      "removeScalacOptions -opt:l:method"
-    ]
   }
 
+  // forked (October 2018) for JDK 11 compat, awaiting merge of
+  // https://github.com/lihaoyi/fastparse/pull/196
   ${vars.base} {
     name: "fastparse"
     uri:  ${vars.uris.fastparse-uri}
@@ -754,13 +747,6 @@ build += {
     extra.projects: ["genyJVM"]  // no Scala.js plz
   }
 
-  // see also ammonite.
-  ${vars.base} {
-    name: "ammonite-ops"
-    uri:  ${vars.uris.ammonite-uri}
-    extra.projects: ["ops"]
-  }
-
   ${vars.base} {
     name: "scala-logging"
     uri:  ${vars.uris.scala-logging-uri}
@@ -774,6 +760,7 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
+  // forked (September 2018) for JDK 11 friendliness
   ${vars.base} {
     name: "kxbmap-configs"
     uri:  ${vars.uris.kxbmap-configs-uri}
@@ -785,15 +772,11 @@ build += {
     name: "fs2"
     uri:  ${vars.uris.fs2-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.projects: ["coreJVM", "scodecJVM", "io"]  // no Scala.js, no benchmarks or docs
-    extra.commands: ${vars.default-commands} [
-      // too flaky: https://github.com/functional-streams-for-scala/fs2/issues/1063
-      "set excludeFilter in (Test, unmanagedSources) in io := HiddenFileFilter || \"JavaInputOutputStreamSpec.scala\""
-    ]
+    extra.projects: ["coreJVM", "io"]  // no Scala.js, no benchmarks or docs
   }
 
-  // frozen (June 2018) at a February 2018 commit before a fs2 0.1 -> 1.0 upgrade.
-  // we should unfreeze once the whole build moves to fs2 1.0
+  // once we move the whole build to fs2 1.0.0-RC1 or later, we can drop
+  // this repo, since it was merged into the main fs2 repo as a subproject
   ${vars.base} {
     name: "fs2-reactive-streams"
     uri:  ${vars.uris.fs2-reactive-streams-uri}
@@ -827,19 +810,25 @@ build += {
       "doobie"
       // we don't have catbird
       "twitter"
+      // at present this doesn't compile, probably a version mismatch that will sort
+      // itself out in the fullness of time, but for now:
+      "monixJVM"
       // no Scala.js please
       "coreJS", "monixJS", "catsEffectJS"
     ]
   }
 
-  // frozen (July 2018) at a February 2017 commit, because there were
-  // scalameter test failures when we used master.  (whether going all the
-  // way back to February 2017 is actually necessary, I don't know; I
-  // just used the last green commit, which happens to be old because
-  // we had the project frozen already for a long time)
+  // downstream projects expecting a different jackson version than the
+  // one we have here are prone to errors such as:
+  // com.fasterxml.jackson.databind.JsonMappingException:
+  //   Scala module 2.8.8-dbuildx1c5888e4b2a136333f7edb02dbe6dc5abbfa7de1 requires Jackson Databind version >= 2.8.0 and < 2.9.0
+  // for details on how this can happen, see comments on
+  // https://github.com/scala/community-builds/pull/785
   ${vars.base} {
     name: "jackson-module-scala"
     uri:  ${vars.uris.jackson-module-scala-uri}
+    // surely they'll drop this crufty thing from their build eventually,
+    // but for the time being we need to fill in something:
     extra.options: ["-Djava7.home="${JAVA_HOME}]
     extra.commands: ${vars.base.extra.commands} [
       // the `-bootclasspath ...` thing their build does doesn't work on Java 9
@@ -861,12 +850,6 @@ build += {
     // recommended at https://github.com/twitter/util/issues/173:
     // "We use that when we don't think the tests will be reliable in a ci environment"
     extra.options: ["-DSKIP_FLAKY=true"]
-    extra.commands: ${vars.default-commands} [
-      // com.fasterxml.jackson.databind.JsonMappingException: Scala module 2.8.8-dbuildx8317b4707a1b405bd2499c47fe2d10fc613a6c8f requires Jackson Databind version >= 2.8.0 and < 2.9.0
-      // (we could contribute a change upstream to make the version check less sensitive, but it's easier
-      // to just exclude this one test)
-      "set excludeFilter in (Test, unmanagedSources) in utilTunable := HiddenFileFilter || \"JsonTunableMapperTest.scala\""
-    ]
   }
 
   ${vars.base} {
@@ -902,9 +885,15 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
   }
 
+  // forked (September 2018) for JDK 11 friendliness
   ${vars.base} {
     name: "pcplod"
     uri:  ${vars.uris.pcplod-uri}
+    // in our fork we removed the sbt-sensible plugin, setting this
+    // was one of the things the plugin did. tests fail otherwise
+    extra.commands: ${vars.default-commands} [
+      "set every fork in Test := true"
+    ]
   }
 
   // currently to avoid a stack overflow on 1.1.5+2.12.6 they are overriding
@@ -922,6 +911,8 @@ build += {
     check-missing: false
   }
 
+  // forked (October 2018) for JDK 11 friendliness, awaiting merge of
+  // https://github.com/scopt/scopt/pull/207
   ${vars.base} {
     name: "scopt"
     uri:  ${vars.uris.scopt-uri}
@@ -957,7 +948,7 @@ build += {
     extra.projects: ["play-jsonJVM"]  // no Scala.js plz
   }
 
-  // frozen (June 2018) at v2.0.0-M2 tag because that's what playframework
+  // frozen (September 2018) at v2.0.0-M4 tag because that's what playframework
   // currently uses. playframework and play-ws tend to get a bit out of sync
   // with each other so it's generally better to use a tag for play-ws.
   ${vars.base} {
@@ -976,9 +967,12 @@ build += {
     uri:  ${vars.uris.cachecontrol-uri}
   }
 
+  // frozen (October 2081) because a recent commit upgrades to a newer ssl-config
+  // but we have ssl-config frozen. it's fixable, we just need to move both repos
+  // forward together. see ssl-config entry
   ${vars.base} {
-    name: "play-core"
-    uri:  ${vars.uris.play-core-uri}
+    name: "playframework"
+    uri:  ${vars.uris.playframework-uri}
     // TODO: enable more projects? these are just a few that seemed especially high-value.
     // we tried including "Play-Integration-Test" but hit a mysterious StackOverflowError
     // in scala.tools.nsc.javac.JavaScanners; see https://github.com/scala/community-builds/issues/304
@@ -993,6 +987,9 @@ build += {
       // workaround for the problem with PlayVersion.scala file is being passed twice to Scala compiler
       // and we get double definition error
       "set sources in (PlayProject, Compile, compile) := (sources in (PlayProject, Compile, compile)).value.distinct"
+      // mysterious failure, reported here: https://github.com/scala/community-builds/issues/800
+      // for now, we just exclude the test
+      "set excludeFilter in (Test, unmanagedSources) in PlayGuiceProject := HiddenFileFilter || \"HttpErrorHandlerSpec.scala\""
       // there was some Scaladoc error here I didn't bother to look into
       "set sources in doc in Compile in PlayProject := List()"
     ]
@@ -1106,6 +1103,8 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
+  // forked (October 2018) awaiting merge of
+  // https://github.com/lihaoyi/scalatags/pull/184
   ${vars.base} {
     name: "scalatags"
     uri:  ${vars.uris.scalatags-uri}
@@ -1130,10 +1129,6 @@ build += {
     extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
   }
 
-  // frozen (May 2018) at an April 2018 commit just before an upgrade to a
-  // cats-effect version that isn't source compatible with the one we have.
-  // also forked (May 2018) to add a commit that allows the build definition
-  // to load on Java 9, also submitted as https://github.com/monix/monix/pull/671
   ${vars.base} {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
@@ -1220,14 +1215,13 @@ build += {
     extra.projects: ["http4sWebsocketJVM"]  // no Scala.js plz
   }
 
-  // tracking 0.12.x, not master, because that's the version http4s depends
-  // on (as of December 2017, anyway; see discussion at
-  // https://github.com/http4s/blaze/issues/97)
-  // forked (off 0.12.x) to cherry-pick JDK 9 changes;
-  // see https://github.com/scala/community-builds/pull/766
+  // frozen at v0.14.0-M4 tag since that's the version http4s expects,
+  // and source-incompatible changes have been made since then
+  // (see https://github.com/scala/community-builds/pull/788)
   ${vars.base} {
     name: "blaze"
     uri: ${vars.uris.blaze-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
   }
 
   // forked (October 2017) because utest 0.6.0 (we track utest master) made
@@ -1238,13 +1232,14 @@ build += {
     extra.projects: ["fansiJVM"]  // no Scala.js
   }
 
+  // using Yoshida-san's fork, pending merge of https://github.com/lihaoyi/PPrint/pull/21
   ${vars.base} {
     name: "pprint"
     uri:  ${vars.uris.pprint-uri}
     extra.projects: ["pprintJVM"]  // no Scala.js
     // there is a post-2.12.6 failure because a test is sensitive
     // Iterator#toString format.  we could re-enable once 2.12.7
-    // is release and the repo has upgraded
+    // is released and the repo has upgraded
     extra.test-tasks: ["compile"]
   }
 
@@ -1302,13 +1297,10 @@ build += {
   ${vars.base} {
     name: "scalapb"
     uri:  ${vars.uris.scalapb-uri}
-    extra.sbt-version: ${vars.sbt-1-1-version}
+    extra.sbt-version: ${vars.sbt-1-version}
     // just what scalameta needs, for now
     extra.projects: ["runtimeJVM"]
     // there's a 2.12 -> 2.11 symlink that should make this unnecessary, don't know why we need this:
-    extra.commands: ${vars.default-commands} [
-      "set unmanagedSourceDirectories in (runtimeJVM, Compile) += (baseDirectory in runtimeJVM).value.getParentFile / \"shared\" / \"src\" / \"main\" / \"scala-2.11\""
-    ]
   }
 
   ${vars.base} {
@@ -1332,8 +1324,8 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
-  // frozen (April 2018) at v0.10 tag since that's what fs2 and monix
-  // currently expect.  these projects co-evolve the branches we use
+  // frozen (August 2018) at 1.0.0-RC3 tag since that's what fs2 (and monix?)
+  // currently expect.  these projects co-evolve, and the branches we use
   // aren't always in sync, so the easiest solution seems to be to
   // use the cats-effect tag that fs2 and monix currently declare
   // their dependencies on, then freeze fs2 and/or monix if they
@@ -1398,6 +1390,7 @@ build += {
   ${vars.base} {
     name: "gigahorse"
     uri:  ${vars.uris.gigahorse-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     // as of August 2017, doesn't compile against latest akka-http
     extra.exclude: ["akkaHttp"]
     // pending: https://github.com/eed3si9n/gigahorse/issues/54
@@ -1441,25 +1434,16 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
-  // frozen (February 2018) because Ammonite depends on it, but
-  // source incompatible changes were recently made (scalaz.\/ vs Either stuff),
-  // so let's stay frozen until those changes are published and Ammonite
-  // upgrades (we can nudge Haoyi about it if necessary when the time comes)
+  // frozen (October 2018) at an October 2018 commit just before source-incompatible
+  // changes which broke coursier-small and classpath-shrinker downstream
   ${vars.base} {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
-    extra.sbt-version: ${vars.sbt-1-1-version}
-    extra.projects: ["jvm"]  // no Scala.js plz
-    extra.exclude: [
-      // no sbt plz
-      "sbt-coursier", "sbt-shading", "sbt-pgp-coursier", "sbt-plugins", "sbt-shared"
-      // no Scala Native
-      "extra", "cli"
-    ]
-    extra.commands: ${vars.default-commands} [
-      // dbuild doesn't retrieve submodules unless we make it
-      "eval sys.process.Process(\"git submodule update --init\").!"
-    ]
+    extra.sbt-version: ${vars.sbt-1-version}
+    // no Scala.js or Scala Native plz
+    extra.projects: ["jvm"]
+    // these depend on Scala Native
+    extra.exclude: ["extra", "cli"]
   }
 
   // dependency of scala-debugger. we track the develop branch, since
@@ -1468,7 +1452,7 @@ build += {
     name: "scallop"
     uri:  ${vars.uris.scallop-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.projects: ["jvm"]  // no Scala.js or Scala Native plz
+    extra.projects: ["scallopJVM"]  // no Scala.js or Scala Native plz
   }
 
   // dependency of scaladex
@@ -1519,7 +1503,7 @@ build += {
   ${vars.base} {
     name: "paradox"
     uri:  ${vars.uris.paradox-uri}
-    extra.sbt-version: ${vars.sbt-1-1-version}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.exclude: ["plugin", "themePlugin", "genericTheme"]
     check-missing: false  // ignore missing scripted-sbt
     extra.commands: ${vars.default-commands} [
@@ -1531,7 +1515,7 @@ build += {
   // dependency of lagom. forked (August 2018) at last green version,
   // since newer commits break lagom; see https://github.com/lagom/lagom/issues/1413
   // the fork is so we could cherry-pick https://github.com/akka/akka-persistence-cassandra/pull/377
-  // for JDK 9+ friendliness
+  // for JDK 11 friendliness
   ${vars.base} {
     name: "akka-persistence-cassandra"
     uri:  ${vars.uris.akka-persistence-cassandra-uri}
@@ -1552,6 +1536,8 @@ build += {
 
   // there are a *ton* of subprojects.  it might be interesting to try to add
   // as many as possible. for now, we've somewhat arbitrarily selected a few
+  // frozen (October 2018) at commit before ssl-config upgrade. we should unfreeze
+  // along with ssl-config and playframework
   ${vars.base} {
     name: "lagom"
     uri:  ${vars.uris.lagom-uri}
@@ -1721,7 +1707,8 @@ build += {
   ${vars.base} {
     name: "giter8"
     uri:  ${vars.uris.giter8-uri}
-    extra.sbt-version: ${vars.sbt-1-1-version}
+    // yes, using 1.2.x fails (as of October 2018 anyway)
+    extra.sbt-version: "1.1.6"
     extra.exclude: ["plugin", "scaffold"]  // these are sbt plugins
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
@@ -1738,7 +1725,7 @@ build += {
     extra.projects: ["spireJVM"]  // no Scala.js please
   }
 
-  // temporarily forked for JDK 9 friendliness, pending merge of
+  // temporarily forked for JDK 11 friendliness, pending merge of
   // https://github.com/scalanlp/breeze/pull/708
   ${vars.base} {
     name: "breeze"
@@ -1764,24 +1751,20 @@ build += {
     check-missing: false
   }
 
-  // frozen (July 2018) at last green commit, to keep scalafix green
-  // and then forked (also July 2018) from that last green commit to
-  // include a change needed to extract on JDK 9, pending a JDK 9
-  // friendly sbt-jdi-tools release that scalameta can use.
-  // the sbt-jdi-tools change is in https://github.com/scalameta/scalameta/pull/1732,
-  // so once that's merged, *and* once scalafix is compatible with scalameta master,
-  // then we'll be able to unfork
+  // forked off v4.0.0-M11 since that's what scalafix currently (Sep 2 2018) expects
+  // our fork includes Jason's 2.12.7 changes (which have probably since been merged
+  // upstream) and some JDK 11 friendliness changes
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
-    // allow building on JDK 9+
+    // allow building on JDK 11
     extra.options: ["-Dscalameta.allow-any-jdk"]
     extra.projects: [
       // holy cow there are a lot of subprojects. it's not super clear what's important
       // to include.  this is the main thing:
       "semanticdbScalacPlugin"
       // and I empirically found scalafix and/or scalafmt to need:
-      "testkit", "contribJVM", "symtab"
+      "testkit", "contribJVM", "symtab", "metapJVM"
     ]
     // use right version-specific source directories regardless of our weird dbuild Scala version numbers
     extra.commands: ${vars.default-commands} [
@@ -1799,9 +1782,12 @@ build += {
     extra.exclude: ["jsoniter-scala-benchmark"]
   }
 
+  // forked (October 2018) for JDK 11 pending merge of:
+  //   https://github.com/lihaoyi/Scalatex/pull/67
   ${vars.base} {
     name: "scalatex"
     uri:  ${vars.uris.scalatex-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.exclude: [
       "scalatexSbtPlugin"  // we never build sbt plugins
       "site", "readme", "scrollspy"  // these use Scala.js
@@ -1851,18 +1837,38 @@ build += {
     ]
   }
 
-  // frozen (August 2018) at an August 2018 commit just before a problematic dependency
-  // on coursier-small was added; see https://github.com/scala/community-builds/pull/765
+  // dependency of scalafix
+  // should be easy to remove if it ever acts up; see Olaf's remarks at
+  // https://github.com/scala/community-builds/pull/765
+  ${vars.base} {
+    name: "coursier-small"
+    uri:  ${vars.uris.coursier-small-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    // reported upstream: https://github.com/olafurpg/coursier-small/issues/8
+    extra.commands: ${vars.default-commands} [
+      "set excludeFilter in (Test, unmanagedSources) in small := HiddenFileFilter || \"CoursierSmallSuite.scala\""
+    ]
+  }
+
+  // frozen (September 2018) at a September 2018 commit just before a scalameta
+  // version bump.  we *could* try to move them forward together, and we will
+  // at some point, but for now, choosing stability.
   ${vars.base} {
     name: "scalafix"
     uri:  ${vars.uris.scalafix-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.exclude: [
-      "website", "testsOutputDotty"
-      // this seems to somehow pull in testsOutputDotty unless we exclude it, I don't understand why.
-      // but by excluding it, we aren't running any scalafix tests at all; see
-      // https://github.com/scala/community-builds/pull/752
-      "unit"
+    extra.exclude: ["docs"]
+    extra.commands: ${vars.default-commands} [
+      // java.lang.IllegalStateException: unable to auto-detect semanticdb-scalac compiler plugin
+      //   at scalafix.tests.cli.ScalafixImplSuite.$anonfun$semanticdbPluginPath$1(ScalafixImplSuite.scala:37)
+      //   at scala.Option.getOrElse(Option.scala:121)
+      //   at scalafix.tests.cli.ScalafixImplSuite.semanticdbPluginPath(ScalafixImplSuite.scala:36)
+      // and the ToolClasspathSuite one is https://github.com/scalacenter/scalafix/issues/896
+      "set excludeFilter in (Test, unmanagedSources) in unit := HiddenFileFilter || \"ScalafixImplSuite.scala\" || \"ToolClasspathSuite.scala\""
+    ]
+    extra.settings: ${vars.base.extra.settings} [
+      // for JDK 11. one-deeper nesting level makes it apply to build definition
+      ["libraryDependencies += \"javax.xml.bind\" % \"jaxb-api\" % \"2.3.0\""]
     ]
   }
 
@@ -1923,7 +1929,7 @@ build += {
 
   projects: [
 
-  // forked (June 2018) from the v0.10.4 tag to backport JDK 9 friendliness change
+  // forked (June 2018) from the v0.10.4 tag to backport JDK 11 friendliness change
   // (https://github.com/non/jawn/pull/106) to 0.10 series
   ${vars.base} {
     name: "jawn-0-10"
@@ -2034,14 +2040,13 @@ build += {
     ]
   }
 
-  // dependency of ammonite.  otherwise obsolete, as per
-  // https://github.com/lihaoyi/upickle-pprint/issues/209
+  // dependency of autowire. (and Ammonite, but we pulled Ammonite.)
+  // otherwise obsolete, as per https://github.com/lihaoyi/upickle-pprint/issues/209
   // (the pprint part has its own repo now)
   // requires jawn 0.10
   // April 2018 news: upickle has been revived, and is now
   // a dependency of Haoyi's new uJson library, which we
   // should probably add at some point. for now, doing nothing
-  // (see also ammonite)
   ${vars.base} {
     name: "upickle"
     uri:  ${vars.uris.upickle-uri}
@@ -2061,13 +2066,7 @@ build += {
     name: "akka-http-json"
     uri:  ${vars.uris.akka-http-json-uri}
     extra.sbt-version: ${vars.sbt-1-version}
-    extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
-    ]
     extra.exclude: [
-      // com.fasterxml.jackson.databind.JsonMappingException:
-      //   Scala module 2.8.8-dbuildx1c5888e4b2a136333f7edb02dbe6dc5abbfa7de1 requires Jackson Databind version >= 2.8.0 and < 2.9.0
-      "akka-http-jackson"
       // we're in jawn 0.10 space because scaladex is, but circe is over in jawn 0.11 space.
       // (if it becomes important, we could have entries in both spaces.)
       "akka-http-circe"
@@ -2077,6 +2076,18 @@ build += {
       "akka-http-avsystem-gencodec"
     ]
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    // apparently some dependency dropped its scala-reflect dependency?
+    // and we have the newer version of that dependency here in the
+    // community build, while the akka-http-jackson subproject's
+    // declared dependency is on the old version?
+    // that's my best guess of why we need this here, anyway
+    deps.inject: ${vars.base.deps.inject} [
+      "org.scala-lang#scala-reflect"
+    ]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+      "set libraryDependencies in `akka-http-jackson` += \"org.scala-lang\" %% \"scala-reflect\" % \""${vars.scala-version}"\""
+    ]
   }
 
   // frozen (February 2018) at an October 2017 commit; see
@@ -2095,27 +2106,6 @@ build += {
     ]
   }
 
-  // see also ammonite-ops.
-  // frozen (April 2018) at a March 2018 commit before a problematic upickle
-  // upgrade; see also upickle
-  ${vars.base} {
-    name: "ammonite"
-    uri:  ${vars.uris.ammonite-uri}
-    extra.projects: ["amm"]
-    extra.exclude: ["ops"]  // we already built it in ammonite-ops entry
-    extra.commands: ${vars.default-commands} [
-      // the macroParadiseWorks test tries to retrieve a macro paradise for the Scala nightly
-      // but of course none exists
-      "set executeTests in ammRepl in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-      // lots of failed tests (January 2018) with "Need to specify a
-      // subcommand to call when running MultiMainDoc.sc" no idea what it's
-      // about, I'm guessing a version mismatch of some dependency.
-      // reported upstream: https://github.com/lihaoyi/Ammonite/issues/743
-      "set executeTests in amm in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-    ]
-  }
-
-  // depends on ammonite
   ${vars.base} {
     name: "scala-debugger"
     uri:  ${vars.uris.scala-debugger-uri}
@@ -2124,6 +2114,8 @@ build += {
       "sbtScalaDebuggerPlugin"
       // Missing dependency: the library org.senkbeil#grus-layouts
       "scalaDebuggerDocs"
+      // depends on ammonite, which we no longer have
+      "scalaDebuggerTool"
     ]
     // java.util.concurrent.ExecutionException: java.lang.OutOfMemoryError: GC overhead limit exceeded
     // perhaps only the -Xmx is really necessary, but let's try it with all of the repo's own .jvmopts:
@@ -2153,14 +2145,21 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: [
       // easy
-      "core", "numbers"
+      "coreJVM", "numbersJVM"
       // harder
       "jawn"
       // bunch more stuff that all depends on jawn
-      "parser", "generic", "literal", "scodec", "testing", "tests"
+      "parserJVM", "genericJVM", "literalJVM", "scodecJVM", "testingJVM", "testsJVM"
       // dependency of scrooge-shapes
-      "genericExtras"
+      "genericExtrasJVM"
     ]
+  }
+
+  ${vars.base} {
+    name: "boopickle"
+    uri:  ${vars.uris.boopickle-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: ["boopickleJVM", "shapelessJVM"]  // no Scala.js, no "perftests"
   }
 
   ${vars.base} {
@@ -2178,21 +2177,18 @@ build += {
     ]
   }
 
-  // forked (June 2018) from the v0.11.1 tag to backport JDK 9 friendliness change
+  // forked (June 2018) from the v0.11.1 tag to backport JDK 11 friendliness change
   // (https://github.com/non/jawn/pull/106) to 0.11 series
   ${vars.base} {
     name: "jawn-0-11"
     uri:  ${vars.uris.jawn-0-11-uri}
-    // omitted TODO: play
     // omitted: rojoma-v3, rojoma, benchmark, argonaut
     // (we have Argonaut in the community build, but it depends on jawn! dbuild
     // doesn't like the circularity. I think we could break it by having two jawn entries,
     // one for the core and one for the extras, but I haven't tried yet)
-    extra.projects: ["ast", "parser", "json4s", "spray"]
+    extra.projects: ["ast", "parser", "json4s", "spray", "play"]
   }
 
-  // frozen (June 2018) at a March 2018 commit before a fs2 0.1 -> 1.0 upgrade.
-  // we should unfreeze once the whole build moves to fs2 1.0
   ${vars.base} {
     name: "jawn-fs2"
     uri:  ${vars.uris.jawn-fs2-uri}
@@ -2206,26 +2202,30 @@ build += {
     extra.projects: ["parboiledJVM"]
   }
 
-  // well, this is a big build with lots of subprojects, many of which involve
-  // integration with other libraries. many of them had issues; I didn't
-  // spend that much time looking into each one and seeing if it might be
-  // fixable, or ought to be reported upstream, or what.
-  // frozen (April 2018) at a March 2018 commit from just before they
-  // upgraded to cats 1.1 and started using 1.1-only API. we can unfreeze
-  // at the time we move the whole build from cats 1.0 to 1.1.
+  // this is a big build with a ton of subprojects.  we needn't be shy
+  // about disabling fragile ones, ones with obscure dependencies we don't have, etc.
+  // forked (September 2018) from an arbitrary current commit to remove the
+  // use of `onLoad` in their build.sbt, since it causes this during extraction:
+  //   [http4s:error] com.fasterxml.jackson.databind.JsonMappingException: Required property 'version' is missing.
+  //   [http4s:error] {}
+  //   [http4s:error]  ^
+  // as we've seen a few times before on other projects.
   ${vars.base} {
     name: "http4s"
     uri:  ${vars.uris.http4s-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.commands: ${vars.default-commands} [
-      // Failed tests: org.http4s.CookieSpec, org.http4s.EntityDecoderSpec
-      "set executeTests in tests in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+      // flaky tests? hasn't been rechecked since 2017 sometime I don't think
+      "set excludeFilter in (Test, unmanagedSources) in Test := HiddenFileFilter || \"CookieSpec.scala\" || \"EntityDecoderSpec.scala\""
     ]
     extra.exclude: [
       // outside our purview
       "bench", "docs"
       // weird errors, probably not appropriate to run anyway
       "load-test"
+      // requires com.eed3si9n#treehugger, which would be nice to add actually, but I'm
+      // not going to tackle it right now, maybe some other time
+      "mimedb-generator"
     ]
   }
 
@@ -2252,7 +2252,8 @@ build += {
 
   # forked (November 2017, refreshed January 2018) to remove a build.sbt thing that
   # adds Ammonite, because it isn't a true dependency and we don't want the complication
-  # of Ammonite's own dependency tree (in particular, the jawn versions conflict)
+  # of Ammonite's own dependency tree (in particular, the jawn versions conflict).
+  # plus in September 2018 we pulled Ammonite from the community build entirely
   ${vars.base} {
     name: "pureconfig"
     uri:  ${vars.uris.pureconfig-uri}
@@ -2282,16 +2283,17 @@ build += {
     ]
   }
 
+  // frozen (October 2018) at September 2018 commit before upgrade to
+  // fs2 v1.0.0-RC1 which we can't handle yet
   ${vars.base} {
     name: "sttp"
     uri:  ${vars.uris.sttp-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     // aggregates all JVM projects
     extra.projects: ["rootJVM"]
-    // I got some compile error here (June 2018), involving implicit
-    // ExecutionContexts, that seemed unlikely to be significant.
-    // we don't need to have every last subproject
-    extra.exclude: ["asyncHttpClientBackendFs2"]
+    // I got some compile error here (September 2018) that seemed unlikely to be
+    // significant. it's fine, we don't need to have every last subproject
+    extra.exclude: ["monix", "okhttpBackendMonix", "asyncHttpClientBackendMonix"]
   }
 
   // dependency of scrooge-shapes.
