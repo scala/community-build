@@ -44,6 +44,7 @@ object SuccessReport {
           "fs2",  // https://github.com/scala/community-builds/issues/804
           "github4s",  // "java.lang.NoClassDefFoundError: java/sql/Timestamp"
           "kxbmap-configs",  // "sjsonnew.DeserializationException: Field not found: $type"
+          "scala-debugger",  // "object FieldInfo is not a member of package sun.reflect"
           "scala-refactoring",  // needs scala/bug#11125 workaround?
           "slick",  // "object bind is not a member of package javax.xml"
           "ssl-config", // https://github.com/lightbend/ssl-config/issues/98
