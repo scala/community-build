@@ -40,14 +40,10 @@ object SuccessReport {
         Set(
           "blaze",  // test failure (org.http4s.blaze.pipeline.stages.SSLStageSpec)
           "breeze",  // "object istack is not a member of package com.sun"
-          "case-app",  // needs scala/bug#11125 workaround
           "coursier",  // needs scala/bug#11125 workaround
-          "fs2",  // new overloads on JDK 11 need disambiguation
+          "fs2",  // https://github.com/scala/community-builds/issues/804
           "kxbmap-configs",  // "sjsonnew.DeserializationException: Field not found: $type"
-          "metaconfig",  // needs scala/bug#11125 workaround
           "scala-refactoring",  // needs scala/bug#11125 workaround?
-          "scalamock",  // needs scala/bug#11125 workaround
-          "scalatex",  // scripted-plugin not found?
           "slick",  // "object bind is not a member of package javax.xml"
           "ssl-config", // https://github.com/lightbend/ssl-config/issues/98
           "twitter-util",  // "javadoc: error - invalid flag: -d"
