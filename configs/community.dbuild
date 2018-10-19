@@ -856,6 +856,8 @@ build += {
 
   // tracking "develop" branch.
   // try master instead if develop proves too fragile?
+  // currently (October 2018) fails on JDK 11 because of https://github.com/sbt/sbt/issues/4350,
+  // haven't attempted a workaround yet
   ${vars.base} {
     name: "twitter-util"
     uri:  ${vars.uris.twitter-util-uri}
@@ -1034,6 +1036,7 @@ build += {
   // frozen (November 2017) at June 2017 commit, for compatibility with
   // github4s which depends on the older version.  we might also consider
   // forking github4s and/or contributing the needed change upstream
+  // forked (October 2018) to apply JDK 11 patch
   ${vars.base} {
     name: "scalamock"
     uri:  ${vars.uris.scalamock-uri}
@@ -1818,6 +1821,9 @@ build += {
       "scalatexSbtPlugin"  // we never build sbt plugins
       "site", "readme", "scrollspy"  // these use Scala.js
     ]
+    // ignore missing scripted-sbt. don't know why
+    deps.ignore: ["org.scala-sbt#scripted-sbt"]
+    check-missing: false
   }
 
   ${vars.base} {
@@ -1826,6 +1832,7 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
   }
 
+  // forked (October 2018) pending merge of https://github.com/olafurpg/metaconfig/pull/61
   ${vars.base} {
     name: "metaconfig"
     uri:  ${vars.uris.metaconfig-uri}
