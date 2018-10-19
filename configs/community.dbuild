@@ -1792,6 +1792,9 @@ build += {
       "scalatexSbtPlugin"  // we never build sbt plugins
       "site", "readme", "scrollspy"  // these use Scala.js
     ]
+    // ignore missing scripted-sbt. don't know why
+    deps.ignore: ["org.scala-sbt#scripted-sbt"]
+    check-missing: false
   }
 
   ${vars.base} {
