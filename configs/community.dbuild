@@ -774,21 +774,26 @@ build += {
     extra.exclude: ["docs"]
   }
 
+  // frozen at v1.0.0 tag for now, perhaps excessively cautiously; we might
+  // consider tracking a branch instead
+  ${vars.base} {
+    name: "cats-effect"
+    uri:  ${vars.uris.cats-effect-uri}
+    extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js plz
+    extra.sbt-version: ${vars.sbt-1-version}
+  }
+
+  // frozen at v1.0.0 tag for now, perhaps excessively cautiously; we might
+  // consider tracking a branch instead
   ${vars.base} {
     name: "fs2"
     uri:  ${vars.uris.fs2-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["coreJVM", "io"]  // no Scala.js, no benchmarks or docs
-  }
-
-  // once we move the whole build to fs2 1.0.0-RC1 or later, we can drop
-  // this repo, since it was merged into the main fs2 repo as a subproject
-  ${vars.base} {
-    name: "fs2-reactive-streams"
-    uri:  ${vars.uris.fs2-reactive-streams-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
-    extra.exclude: ["docs"]
-    check-missing: false  // ignore missing scalafmt
+    extra.commands: ${vars.base.extra.commands} [
+      // otherwise sbt-gpg errors on `publish`
+      "set every gpgWarnOnFailure := true"
+    ]
   }
 
   ${vars.base} {
@@ -1225,9 +1230,7 @@ build += {
     extra.projects: ["http4sWebsocketJVM"]  // no Scala.js plz
   }
 
-  // frozen at v0.14.0-M4 tag since that's the version http4s expects,
-  // and source-incompatible changes have been made since then
-  // (see https://github.com/scala/community-builds/pull/788)
+  // frozen (October 2018) at v0.14.0-M8 tag since that's the version http4s wants
   ${vars.base} {
     name: "blaze"
     uri: ${vars.uris.blaze-uri}
@@ -1332,20 +1335,6 @@ build += {
     uri:  ${vars.uris.case-app-uri}
     // this is enough for scalafix, I didn't even try adding the rest
     extra.projects: ["coreJVM"]
-  }
-
-  // frozen (August 2018) at 1.0.0-RC3 tag since that's what fs2 (and monix?)
-  // currently expect.  these projects co-evolve, and the branches we use
-  // aren't always in sync, so the easiest solution seems to be to
-  // use the cats-effect tag that fs2 and monix currently declare
-  // their dependencies on, then freeze fs2 and/or monix if they
-  // move to a newer version, only unfreezing once both have moved
-  // forward
-  ${vars.base} {
-    name: "cats-effect"
-    uri:  ${vars.uris.cats-effect-uri}
-    extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js plz
-    extra.sbt-version: ${vars.sbt-1-version}
   }
 
   ${vars.base} {
@@ -2223,25 +2212,17 @@ build += {
 
   // this is a big build with a ton of subprojects.  we needn't be shy
   // about disabling fragile ones, ones with obscure dependencies we don't have, etc.
-  // forked (September 2018) from an arbitrary current commit to remove the
-  // use of `onLoad` in their build.sbt, since it causes this during extraction:
-  //   [http4s:error] com.fasterxml.jackson.databind.JsonMappingException: Required property 'version' is missing.
-  //   [http4s:error] {}
-  //   [http4s:error]  ^
-  // as we've seen a few times before on other projects.
   ${vars.base} {
     name: "http4s"
     uri:  ${vars.uris.http4s-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.commands: ${vars.default-commands} [
-      // flaky tests? hasn't been rechecked since 2017 sometime I don't think
-      "set excludeFilter in (Test, unmanagedSources) in Test := HiddenFileFilter || \"CookieSpec.scala\" || \"EntityDecoderSpec.scala\""
+      // didn't compile (October 2018), it didn't seem worth investigating, probably a specs2 change
+      "set excludeFilter in (Test, unmanagedSources) in tests := HiddenFileFilter || \"UriSpec.scala\""
     ]
     extra.exclude: [
       // outside our purview
       "bench", "docs"
-      // weird errors, probably not appropriate to run anyway
-      "load-test"
       // requires com.eed3si9n#treehugger, which would be nice to add actually, but I'm
       // not going to tackle it right now, maybe some other time
       "mimedb-generator"
@@ -2302,17 +2283,20 @@ build += {
     ]
   }
 
-  // frozen (October 2018) at September 2018 commit before upgrade to
-  // fs2 v1.0.0-RC1 which we can't handle yet
   ${vars.base} {
     name: "sttp"
     uri:  ${vars.uris.sttp-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     // aggregates all JVM projects
     extra.projects: ["rootJVM"]
-    // I got some compile error here (September 2018) that seemed unlikely to be
-    // significant. it's fine, we don't need to have every last subproject
-    extra.exclude: ["monix", "okhttpBackendMonix", "asyncHttpClientBackendMonix"]
+    extra.exclude: [
+      // I got some compile error here (September 2018) that seemed unlikely to be
+      // significant. it's fine, we don't need to have every last subproject
+      "monix", "okhttpBackendMonix", "asyncHttpClientBackendMonix"
+      // doesn't appear to have caught up with fs2-reactive-streams no longer being in a separate repo
+      // (October 2018)
+      "asyncHttpClientBackendFs2"
+    ]
   }
 
   // dependency of scrooge-shapes.
