@@ -42,6 +42,7 @@ object SuccessReport {
           "breeze",  // "object istack is not a member of package com.sun"
           "coursier",  // needs scala/bug#11125 workaround
           "fs2",  // https://github.com/scala/community-builds/issues/804
+          "github4s",  // "java.lang.NoClassDefFoundError: java/sql/Timestamp"
           "kxbmap-configs",  // "sjsonnew.DeserializationException: Field not found: $type"
           "scala-refactoring",  // needs scala/bug#11125 workaround?
           "slick",  // "object bind is not a member of package javax.xml"
