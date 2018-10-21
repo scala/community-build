@@ -1123,7 +1123,7 @@ build += {
   ${vars.base} {
     name: "nyaya"
     uri:  ${vars.uris.nyaya-uri}
-    extra.projects: ["testJVM"]  // no Scala.js, no benchmarks
+    extra.projects: ["testModuleJVM"]  // no Scala.js, no benchmarks
   }
 
   ${vars.base} {
