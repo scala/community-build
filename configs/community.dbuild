@@ -2181,6 +2181,10 @@ build += {
       // needs. maybe add more later
       "enumeratumCirceJVM"
     ]
+    extra.commands: ${vars.default-commands} [
+      // not sure why we get these errors unless we turn them off
+      "set every conflictWarning := ConflictWarning.disable"
+    ]
   }
 
   // forked (June 2018) from the v0.11.1 tag to backport JDK 11 friendliness change
