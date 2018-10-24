@@ -1815,6 +1815,7 @@ build += {
   ${vars.base} {
     name: "scalafmt"
     uri:  ${vars.uris.scalafmt-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["coreJVM", "cli", "tests"]
     extra.options: [
       "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
