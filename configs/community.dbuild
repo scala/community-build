@@ -894,6 +894,7 @@ build += {
   ${vars.base} {
     name: "ssl-config"
     uri:  ${vars.uris.ssl-config-uri}
+    extra.projects: ["sslConfigCore"]
     // repeated hangs during testing; see
     // https://github.com/scala/community-builds/issues/560
     extra.test-tasks: ["compile"]
@@ -1811,8 +1812,6 @@ build += {
     extra.exclude: ["jsoniter-scala-benchmark"]
   }
 
-  // forked (October 2018) for JDK 11 pending merge of:
-  //   https://github.com/lihaoyi/Scalatex/pull/67
   ${vars.base} {
     name: "scalatex"
     uri:  ${vars.uris.scalatex-uri}
@@ -1852,16 +1851,17 @@ build += {
     ]
   }
 
-  // forked (June 2018) to disable IntelliJ stuff we would need an extra resolver for
+  // forked (June 2018, refreshed October 2018) to disable IntelliJ stuff
+  // we would need an extra resolver for (and is maybe out of scope anyway)
   ${vars.base} {
     name: "scalafmt"
     uri:  ${vars.uris.scalafmt-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["coreJVM", "cli", "tests"]
     extra.options: [
       "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
     ]
     extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
       // FormatTests: maybe xml-related, I should report it upstream
       // GitOptsTest: Failed git command. Got: java.lang.IllegalStateException: Failed to
       // run command git commit -m 'some-message'. Error: *** Please tell me
@@ -2202,6 +2202,10 @@ build += {
       // as for other subprojects, for now let's just pull in what lsp4s
       // needs. maybe add more later
       "enumeratumCirceJVM"
+    ]
+    extra.commands: ${vars.default-commands} [
+      // not sure why we get these errors unless we turn them off
+      "set every conflictWarning := ConflictWarning.disable"
     ]
   }
 
