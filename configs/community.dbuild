@@ -868,17 +868,13 @@ build += {
     extra.projects: ["crossJVM"]  // no Scala.js please
   }
 
-  // frozen (August 2018) just before a commit upgrading to sbt 1 and adding
-  // a custom resolver for the sbt-s3 plugin.  I've added the resolver in the
-  // Artifactory config file in this repo, but it also needs to be added to
-  // scala-ci.typesafe.com/artifactory and I can't do that right now, lacking
-  // the admin password
   ${vars.base} {
     name: "ssl-config"
     uri:  ${vars.uris.ssl-config-uri}
     extra.projects: ["sslConfigCore"]
     // repeated hangs during testing; see
     // https://github.com/scala/community-builds/issues/560
+    // (last confirmed: January 2018)
     extra.test-tasks: ["compile"]
   }
 
@@ -940,9 +936,6 @@ build += {
   ${vars.base} {
     name: "play-doc"
     uri:  ${vars.uris.play-doc-uri}
-    // test failure on at least some systems; see
-    // https://github.com/playframework/play-doc/pull/36
-    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
@@ -951,7 +944,7 @@ build += {
     extra.projects: ["play-jsonJVM"]  // no Scala.js plz
   }
 
-  // frozen (September 2018) at v2.0.0-M4 tag because that's what playframework
+  // frozen (October 2018) at v2.0.0-M6 tag because that's what playframework
   // currently uses. playframework and play-ws tend to get a bit out of sync
   // with each other so it's generally better to use a tag for play-ws.
   ${vars.base} {
@@ -970,9 +963,6 @@ build += {
     uri:  ${vars.uris.cachecontrol-uri}
   }
 
-  // frozen (October 2081) because a recent commit upgrades to a newer ssl-config
-  // but we have ssl-config frozen. it's fixable, we just need to move both repos
-  // forward together. see ssl-config entry
   ${vars.base} {
     name: "playframework"
     uri:  ${vars.uris.playframework-uri}
@@ -990,9 +980,6 @@ build += {
       // workaround for the problem with PlayVersion.scala file is being passed twice to Scala compiler
       // and we get double definition error
       "set sources in (PlayProject, Compile, compile) := (sources in (PlayProject, Compile, compile)).value.distinct"
-      // mysterious failure, reported here: https://github.com/scala/community-builds/issues/800
-      // for now, we just exclude the test
-      "set excludeFilter in (Test, unmanagedSources) in PlayGuiceProject := HiddenFileFilter || \"HttpErrorHandlerSpec.scala\""
       // there was some Scaladoc error here I didn't bother to look into
       "set sources in doc in Compile in PlayProject := List()"
     ]
@@ -1540,8 +1527,6 @@ build += {
 
   // there are a *ton* of subprojects.  it might be interesting to try to add
   // as many as possible. for now, we've somewhat arbitrarily selected a few
-  // frozen (October 2018) at commit before ssl-config upgrade. we should unfreeze
-  // along with ssl-config and playframework
   ${vars.base} {
     name: "lagom"
     uri:  ${vars.uris.lagom-uri}
