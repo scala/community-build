@@ -1811,7 +1811,8 @@ build += {
     ]
   }
 
-  // forked (June 2018) to disable IntelliJ stuff we would need an extra resolver for
+  // forked (June 2018, refreshed October 2018) to disable IntelliJ stuff
+  // we would need an extra resolver for (and is maybe out of scope anyway)
   ${vars.base} {
     name: "scalafmt"
     uri:  ${vars.uris.scalafmt-uri}
@@ -1821,7 +1822,6 @@ build += {
       "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
     ]
     extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
       // FormatTests: maybe xml-related, I should report it upstream
       // GitOptsTest: Failed git command. Got: java.lang.IllegalStateException: Failed to
       // run command git commit -m 'some-message'. Error: *** Please tell me
