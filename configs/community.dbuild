@@ -871,6 +871,7 @@ build += {
   ${vars.base} {
     name: "ssl-config"
     uri:  ${vars.uris.ssl-config-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["sslConfigCore"]
     // repeated hangs during testing; see
     // https://github.com/scala/community-builds/issues/560
