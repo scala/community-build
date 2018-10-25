@@ -331,6 +331,58 @@
             <propagateQueryParams>false</propagateQueryParams>
         </remoteRepository>
         <remoteRepository>
+            <key>bintray-emersonloureiro-sbt-plugins</key>
+            <type>sbt</type>
+            <includesPattern>com.emersonloureiro/**</includesPattern>
+            <repoLayoutRef>sbt-default</repoLayoutRef>
+            <dockerApiVersion>V2</dockerApiVersion>
+            <forceNugetAuthentication>false</forceNugetAuthentication>
+            <blackedOut>false</blackedOut>
+            <handleReleases>true</handleReleases>
+            <handleSnapshots>true</handleSnapshots>
+            <maxUniqueSnapshots>0</maxUniqueSnapshots>
+            <maxUniqueTags>0</maxUniqueTags>
+            <suppressPomConsistencyChecks>true</suppressPomConsistencyChecks>
+            <propertySets/>
+            <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
+            <url>https://dl.bintray.com/emersonloureiro/sbt-plugins</url>
+            <offline>false</offline>
+            <hardFail>false</hardFail>
+            <storeArtifactsLocally>true</storeArtifactsLocally>
+            <fetchJarsEagerly>true</fetchJarsEagerly>
+            <fetchSourcesEagerly>true</fetchSourcesEagerly>
+            <retrievalCachePeriodSecs>86400</retrievalCachePeriodSecs>
+            <assumedOfflinePeriodSecs>300</assumedOfflinePeriodSecs>
+            <missedRetrievalCachePeriodSecs>86400</missedRetrievalCachePeriodSecs>
+            <remoteRepoChecksumPolicyType>generate-if-absent</remoteRepoChecksumPolicyType>
+            <unusedArtifactsCleanupPeriodHours>0</unusedArtifactsCleanupPeriodHours>
+            <shareConfiguration>false</shareConfiguration>
+            <synchronizeProperties>false</synchronizeProperties>
+            <listRemoteFolderItems>true</listRemoteFolderItems>
+            <rejectInvalidJars>false</rejectInvalidJars>
+            <p2OriginalUrl>https://dl.bintray.com/emersonloureiro/sbt-plugins</p2OriginalUrl>
+            <contentSynchronisation>
+                <enabled>false</enabled>
+                <statistics>
+                    <enabled>false</enabled>
+                </statistics>
+                <properties>
+                    <enabled>false</enabled>
+                </properties>
+                <source>
+                    <originAbsenceDetection>false</originAbsenceDetection>
+                </source>
+            </contentSynchronisation>
+            <blockMismatchingMimeTypes>true</blockMismatchingMimeTypes>
+            <mismatchingMimeTypesOverrideList></mismatchingMimeTypesOverrideList>
+            <bypassHeadRequests>false</bypassHeadRequests>
+            <allowAnyHostAuth>false</allowAnyHostAuth>
+            <socketTimeoutMillis>15000</socketTimeoutMillis>
+            <enableCookieManagement>false</enableCookieManagement>
+            <enableTokenAuthentication>false</enableTokenAuthentication>
+            <propagateQueryParams>false</propagateQueryParams>
+        </remoteRepository>
+        <remoteRepository>
             <key>bintray-scalameta</key>
             <type>maven</type>
             <includesPattern>**/*</includesPattern>
@@ -1032,6 +1084,7 @@
                 <repositoryRef>era7-sbt</repositoryRef>
                 <repositoryRef>jcenter</repositoryRef>
                 <repositoryRef>bintray-eed3si9n-sbt-plugins</repositoryRef>
+                <repositoryRef>bintray-emersonloureiro-sbt-plugins</repositoryRef>
                 <repositoryRef>bintray-scalameta</repositoryRef>
                 <repositoryRef>bintray-tpolecat</repositoryRef>
                 <repositoryRef>typesafe-releases</repositoryRef>
