@@ -1714,6 +1714,7 @@ build += {
   ${vars.base} {
     name: "grizzled"
     uri:  ${vars.uris.grizzled-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
@@ -1728,6 +1729,7 @@ build += {
   ${vars.base} {
     name: "classutil"
     uri:  ${vars.uris.classutil-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
