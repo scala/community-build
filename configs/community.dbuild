@@ -619,6 +619,12 @@ build += {
     ]
   }
 
+  // frozen (October 2018) at an October 2018 commit just before
+  // 7dd3646f41e5abd7 "Make akka-stream-testkit dependency provided for akka-http-testkit"
+  // which broke downstream projects by removing expected classes from the classpath.
+  // it's fine to leave it frozen for a while until a need arises to move it forward again.
+  // (the problem could also be dealt here in the config, probably, by fiddling with the
+  // deps ourselves, but there's no real need to mess with at the moment)
   ${vars.base} {
     name: "akka-http"
     uri:  ${vars.uris.akka-http-uri}
@@ -1676,6 +1682,7 @@ build += {
   ${vars.base} {
     name: "grizzled"
     uri:  ${vars.uris.grizzled-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
@@ -1690,6 +1697,7 @@ build += {
   ${vars.base} {
     name: "classutil"
     uri:  ${vars.uris.classutil-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
