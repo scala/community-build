@@ -2226,6 +2226,9 @@ build += {
       // requires com.eed3si9n#treehugger, which would be nice to add actually, but I'm
       // not going to tackle it right now, maybe some other time
       "mimedb-generator"
+      // doesn't appear to have caught up with fs2-reactive-streams no longer being in a separate repo
+      // (October 2018)
+      "async-http-client"
     ]
   }
 
