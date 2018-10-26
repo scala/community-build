@@ -1707,6 +1707,8 @@ build += {
   }
 
   // dependency of giter8
+  // temporarily forked (October 2018) for JDK 11 fix, pending merge of
+  // https://github.com/bmc/classutil/pull/32
   ${vars.base} {
     name: "classutil"
     uri:  ${vars.uris.classutil-uri}
