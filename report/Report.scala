@@ -55,6 +55,7 @@ object SuccessReport {
     "paradox",
     "pcplod",
     "perfolation",
+    "play-doc",
     "pprint",
     "scala-async",
     "scala-continuations",
@@ -77,7 +78,6 @@ object SuccessReport {
     "slick",
     "spire",
     "tut",
-    "twirl",
   )
 
   def apply(log: io.Source): Unit = {
