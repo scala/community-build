@@ -879,8 +879,6 @@ build += {
     extra.projects: ["crossJVM"]  // no Scala.js please
   }
 
-  // using dwijnand's JDK 11 friendly branch, pending merge of
-  // https://github.com/lightbend/ssl-config/pull/138
   ${vars.base} {
     name: "ssl-config"
     uri:  ${vars.uris.ssl-config-uri}
