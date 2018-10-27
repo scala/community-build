@@ -38,17 +38,16 @@ object SuccessReport {
         Set()
       case _ =>
         Set(
-          "blaze",  // test failure (org.http4s.blaze.pipeline.stages.SSLStageSpec)
+          "akka-stream",  // "Class jdk.internal.HotSpotIntrinsicCandidate not found - continuing with a stub."
           "breeze",  // "object istack is not a member of package com.sun"
           "coursier",  // needs scala/bug#11125 workaround
-          "fs2",  // https://github.com/scala/community-builds/issues/804
           "github4s",  // "java.lang.NoClassDefFoundError: java/sql/Timestamp"
           "kxbmap-configs",  // "sjsonnew.DeserializationException: Field not found: $type"
+          "nyaya",  // FastTypeTag issue, needs sbt 1 upgrade
           "sbt-util",  // needs scala/bug#11125 workaround
           "scala-debugger",  // "object FieldInfo is not a member of package sun.reflect"
           "scala-refactoring",  // needs scala/bug#11125 workaround?
           "slick",  // "object bind is not a member of package javax.xml"
-          "ssl-config", // https://github.com/lightbend/ssl-config/issues/98
           "twitter-util",  // "javadoc: error - invalid flag: -d"
         )
     }
