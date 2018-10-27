@@ -346,6 +346,7 @@ build += {
   ${vars.base} {
     name: "machinist"
     uri:  ${vars.uris.machinist-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["machinistJVM"]  // no Scala.js please
   }
 
@@ -897,6 +898,8 @@ build += {
     extra.projects: ["crossJVM"]  // no Scala.js please
   }
 
+  // temporarily forked (October 2018) for JDK 11 friendliness, pending merge of
+  // https://github.com/lightbend/ssl-config/pull/138
   ${vars.base} {
     name: "ssl-config"
     uri:  ${vars.uris.ssl-config-uri}
