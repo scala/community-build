@@ -47,7 +47,7 @@ object SuccessReport {
           "sbt-util",  // needs scala/bug#11125 workaround
           "scala-debugger",  // "object FieldInfo is not a member of package sun.reflect"
           "scala-refactoring",  // needs scala/bug#11125 workaround?
-          "slick",  // "object bind is not a member of package javax.xml"
+          "slick",  // https://github.com/slick/slick/pull/1959
           "twitter-util",  // "javadoc: error - invalid flag: -d"
         )
     }
