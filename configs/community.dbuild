@@ -1619,6 +1619,7 @@ build += {
     extra.options: ["-Xmx2048m"]
   }
 
+  // forked pending merge of https://github.com/Chymyst/curryhoward/pull/32
   ${vars.base} {
     name: "curryhoward"
     uri:  ${vars.uris.curryhoward-uri}
