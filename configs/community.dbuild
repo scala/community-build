@@ -961,6 +961,8 @@ build += {
   // frozen (October 2018) at v2.0.0-M6 tag because that's what playframework
   // currently uses. playframework and play-ws tend to get a bit out of sync
   // with each other so it's generally better to use a tag for play-ws.
+  // temporarily forked (October 2018) to remove uses of DebugConfiguration which was
+  // removed from ssl-config
   ${vars.base} {
     name: "play-ws"
     uri:  ${vars.uris.play-ws-uri}
