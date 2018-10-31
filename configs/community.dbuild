@@ -979,6 +979,8 @@ build += {
     uri:  ${vars.uris.cachecontrol-uri}
   }
 
+  // temporarily forked (October 2018) to remove uses of DebugConfiguration which was
+  // removed from ssl-config
   ${vars.base} {
     name: "playframework"
     uri:  ${vars.uris.playframework-uri}
