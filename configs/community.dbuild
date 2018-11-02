@@ -2271,7 +2271,10 @@ build += {
     // I don't see a project that aggregates just the JVM subprojects, so we name them one by one.
     // scodecJVM isn't included because the dependency wasn't found, maybe a version mismatch?
     // it's okay, we don't need to have absolutely every subproject
-    extra.projects: ["catsJVM", "coreJVM", "evalJVM", "jsonpathJVM", "pureconfigJVM", "scalacheckJVM", "scalazJVM", "shapelessJVM"]
+    // pureconfigJVM, same, though the problem didn't start until November 2018.  maybe
+    // unfreezing pureconfig (or updating our fork) would fix it, but I'd rather not mess
+    // it with right now.
+    extra.projects: ["catsJVM", "coreJVM", "evalJVM", "jsonpathJVM", "scalacheckJVM", "scalazJVM", "shapelessJVM"]
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
