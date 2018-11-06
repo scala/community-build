@@ -363,6 +363,7 @@ build += {
     extra.exclude: ["sbt-plugin"]
   }
 
+  // 2.13: use Kai's fork until https://github.com/typelevel/cats/pull/2589 lands
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
