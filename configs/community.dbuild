@@ -1547,6 +1547,8 @@ build += {
       "set executeTests in `testkit-scaladsl` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
       // more flaky tests I haven't reported upstream
       "set excludeFilter in (Test, unmanagedSources) in `server-scaladsl` := HiddenFileFilter || \"LagomApplicationSpec.scala\""
+      // we don't have Kafka
+      "kafka-client"
     ]
   }
 
