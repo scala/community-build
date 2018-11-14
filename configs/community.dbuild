@@ -964,7 +964,8 @@ build += {
   // currently uses. playframework and play-ws tend to get a bit out of sync
   // with each other so it's generally better to use a tag for play-ws.
   // temporarily forked (October 2018) to remove uses of DebugConfiguration which was
-  // removed from ssl-config
+  // removed from ssl-config; https://github.com/lightbend/ssl-config/issues/142
+  // is about restoring it
   ${vars.base} {
     name: "play-ws"
     uri:  ${vars.uris.play-ws-uri}
@@ -982,7 +983,8 @@ build += {
   }
 
   // temporarily forked (October 2018) to remove uses of DebugConfiguration which was
-  // removed from ssl-config
+  // removed from ssl-config; https://github.com/lightbend/ssl-config/issues/142
+  // is about restoring it
   ${vars.base} {
     name: "playframework"
     uri:  ${vars.uris.playframework-uri}
