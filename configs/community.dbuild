@@ -1256,8 +1256,9 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
   }
 
-  // forked (October 2017) because utest 0.6.0 (we track utest master) made
-  // a source-incompatible change but fansi is still on 0.5.3
+  // forked (October 2017, November 2018) because utest 0.6.0 (we track utest master) made
+  // a source-incompatible change but fansi is still on 0.5.3, and also for 2.13 compat.
+  // in both cases, awaiting merge of https://github.com/lihaoyi/fansi/pull/18
   ${vars.base} {
     name: "fansi"
     uri:  ${vars.uris.fansi-uri}
@@ -1567,6 +1568,8 @@ build += {
     uri:  ${vars.uris.lagom-uri}
     // these pull in a number of dependent projects
     extra.projects: ["server", "testkit-scaladsl"]
+    // we don't have Kafka
+    extra.exclude: ["kafka-client"]
     extra.options: [
       // hopefully avoid intermittent OutOfMemoryErrors with default heap
       "-Xmx2g"
@@ -1577,8 +1580,6 @@ build += {
       "set executeTests in `testkit-scaladsl` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
       // more flaky tests I haven't reported upstream
       "set excludeFilter in (Test, unmanagedSources) in `server-scaladsl` := HiddenFileFilter || \"LagomApplicationSpec.scala\""
-      // we don't have Kafka
-      "kafka-client"
     ]
   }
 
@@ -2251,7 +2252,7 @@ build += {
       // (October 2018)
       "async-http-client"
       // rather not have to always be sure their Scalafix version matches ours
-      "scalafix"
+      "scalafix", "scalafix-tests"
     ]
   }
 
