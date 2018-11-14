@@ -1233,8 +1233,9 @@ build += {
     extra.sbt-version: ${vars.sbt-1-version}
   }
 
-  // forked (October 2017) because utest 0.6.0 (we track utest master) made
-  // a source-incompatible change but fansi is still on 0.5.3
+  // forked (October 2017, November 2018) because utest 0.6.0 (we track utest master) made
+  // a source-incompatible change but fansi is still on 0.5.3, and also for 2.13 compat.
+  // in both cases, awaiting merge of https://github.com/lihaoyi/fansi/pull/18
   ${vars.base} {
     name: "fansi"
     uri:  ${vars.uris.fansi-uri}
