@@ -1135,8 +1135,6 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
-  // forked (October 2018) awaiting merge of
-  // https://github.com/lihaoyi/scalatags/pull/184
   ${vars.base} {
     name: "scalatags"
     uri:  ${vars.uris.scalatags-uri}
@@ -1654,7 +1652,6 @@ build += {
     extra.options: ["-Xmx2048m"]
   }
 
-  // forked pending merge of https://github.com/Chymyst/curryhoward/pull/32
   ${vars.base} {
     name: "curryhoward"
     uri:  ${vars.uris.curryhoward-uri}
