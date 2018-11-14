@@ -212,8 +212,6 @@ build += {
     extra.projects: ["scalatest", "scalactic"]
   }
 
-  // frozen prior to merge of https://github.com/scala/scala-parser-combinators/pull/164,
-  // pending investigation of regression
   ${vars.base} {
     name: "scala-parser-combinators"
     uri:  ${vars.uris.scala-parser-combinators-uri}
