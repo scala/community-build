@@ -765,10 +765,6 @@ build += {
     extra.projects: ["utestJVM"]
     // waiting for fix on https://github.com/lihaoyi/utest/issues/168
     extra.test-tasks: ["compile"]
-    extra.commands: ${vars.default-commands} [
-      // pending merge of https://github.com/lihaoyi/utest/pull/188
-      "appendScalacOptions -language:postfixOps"
-    ]
   }
 
   // forked (October 2018) for JDK 11 compat, awaiting merge of
