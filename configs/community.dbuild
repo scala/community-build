@@ -1342,6 +1342,7 @@ build += {
     ]
   }
 
+  // frozen (November 2018) at August 2018 commit before 2.13 new-collections changes landed
   ${vars.base} {
     name: "scala-collections-laws"
     uri: ${vars.uris.scala-collections-laws-uri}
