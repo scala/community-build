@@ -492,11 +492,13 @@ build += {
     ]
   }
 
-  // frozen (October 2018) at v2.5.17.  this repo is volatile (very
+  // frozen (November 2018) at v2.5.18.  this repo is volatile (very
   // frequent commits) and when it needs to be rebuilt, the testing
   // takes a long time (especially akka-more) and the downstream
   // rebuilding takes a long time too.  so in general we want to
   // freeze at a tag (preferably) or SHA (if we must)
+  // 2.13: we're forked, and the fork is behind what we use in 2.12,
+  // but we should probably just leave it alone until the Akka team publishes for 2.13.0-M5
   ${vars.base} {
     name: "akka"
     uri:  ${vars.uris.akka-uri}
@@ -510,8 +512,8 @@ build += {
       "set skip in publish in actorTests := false"
       // makes "configuration not public" errors downstream go away
       "set every publishMavenStyle := false"
-      // TCPConnectionSpec & UdpConnectedIntegrationSpec have an open ticket at:
-      //   https://github.com/akka/akka/issues/25733
+      // "JDK 11: Async channel closing semantics changed":
+      // https://github.com/akka/akka/issues/25913
       "set excludeFilter in (Test, unmanagedSources) in actorTests := HiddenFileFilter || \"TcpConnectionSpec.scala\" || \"UdpConnectedIntegrationSpec.scala\""
       // idk why, but prevents dbuild-only sun.misc.Unsafe compile errors;
       // see https://github.com/scala/community-builds/issues/757
@@ -1462,7 +1464,9 @@ build += {
   }
 
   // frozen (October 2018) at an October 2018 commit just before source-incompatible
-  // changes which broke coursier-small and classpath-shrinker downstream
+  // changes which broke coursier-small and classpath-shrinker downstream.
+  // note that https://github.com/coursier/coursier/pull/937 (October 2018) adds build-on-JDK-11
+  // support, so we'll need to unfreeze at some point in order to get that
   ${vars.base} {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
