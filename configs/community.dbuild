@@ -1538,6 +1538,8 @@ build += {
     uri:  ${vars.uris.lagom-uri}
     // these pull in a number of dependent projects
     extra.projects: ["server", "testkit-scaladsl"]
+    // testkit-scaladsl wants this
+    deps.ignore: ["com.typesafe.akka#akka-stream-kafka"]
     extra.exclude: [
       // we don't have Kafka
       "kafka-client", "kafka-server", "kafka-broker",
