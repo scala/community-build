@@ -474,8 +474,8 @@ build += {
       "set skip in publish in actorTests := false"
       // makes "configuration not public" errors downstream go away
       "set every publishMavenStyle := false"
-      // TCPConnectionSpec & UdpConnectedIntegrationSpec have an open ticket at:
-      //   https://github.com/akka/akka/issues/25733
+      // "JDK 11: Async channel closing semantics changed":
+      // https://github.com/akka/akka/issues/25913
       "set excludeFilter in (Test, unmanagedSources) in actorTests := HiddenFileFilter || \"TcpConnectionSpec.scala\" || \"UdpConnectedIntegrationSpec.scala\""
       // idk why, but prevents dbuild-only sun.misc.Unsafe compile errors;
       // see https://github.com/scala/community-builds/issues/757
