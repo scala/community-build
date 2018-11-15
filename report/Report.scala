@@ -34,11 +34,13 @@ object SuccessReport {
 
   val expectedToFail = Set[String](
     "akka",
+    "algebra",  // needs cats-kernel-laws (we could re-enable that but disable the failing tests)
     "base64",
     "boopickle",
     "cachecontrol",
     "case-app",
     "cats-effect",
+    "circe",  // needs cats-kernel-laws (see algebra)
     "circe-config",
     "fastparse",
     "geny",
@@ -47,11 +49,14 @@ object SuccessReport {
     "jackson-module-scala",
     "jawn-0-10",
     "jsoniter-scala",
+    "kittens",  // needs cats-kernel-laws (see algebra)
     "lift-json",
     "linter",
     "log4s",
     "magnolia",
+    "mima",  // ran afoul of some scala.tools.nsc change, it looks like
     "nyaya",
+    "paiges",  // needs cats-kernel-laws (see algebra)
     "paradox",
     "parboiled2",
     "pcplod",
@@ -79,6 +84,7 @@ object SuccessReport {
     "slick",
     "spire",
     "tut",
+    "twotails",  // "null" in scala.tools.nsc.classpath.FileBasedCache.getOrCreate
   )
 
   def apply(log: io.Source): Unit = {
