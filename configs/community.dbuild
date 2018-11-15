@@ -1430,7 +1430,9 @@ build += {
   }
 
   // frozen (October 2018) at an October 2018 commit just before source-incompatible
-  // changes which broke coursier-small and classpath-shrinker downstream
+  // changes which broke coursier-small and classpath-shrinker downstream.
+  // note that https://github.com/coursier/coursier/pull/937 (October 2018) adds build-on-JDK-11
+  // support, so we'll need to unfreeze at some point in order to get that
   ${vars.base} {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
