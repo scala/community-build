@@ -38,7 +38,6 @@ object SuccessReport {
     "boopickle",
     "cachecontrol",
     "case-app",
-    "cats",
     "cats-effect",
     "circe-config",
     "fastparse",
