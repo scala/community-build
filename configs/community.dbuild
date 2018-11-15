@@ -1539,7 +1539,7 @@ build += {
     // these pull in a number of dependent projects
     extra.projects: ["server", "testkit-scaladsl"]
     // we don't have Kafka
-    extra.exclude: ["kafka-client"]
+    extra.exclude: ["kafka-client", "kafka-server"]
     extra.options: [
       // hopefully avoid intermittent OutOfMemoryErrors with default heap
       "-Xmx2g"
