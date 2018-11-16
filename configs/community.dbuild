@@ -1538,14 +1538,6 @@ build += {
     uri:  ${vars.uris.lagom-uri}
     // these pull in a number of dependent projects
     extra.projects: ["server", "testkit-scaladsl"]
-    // testkit-scaladsl wants these
-    deps.ignore: ["com.typesafe.akka#akka-stream-kafka", "org.apache.kafka#kafka"]
-    check-missing: false
-    extra.exclude: [
-      // we don't have Kafka
-      "kafka-client", "kafka-server", "kafka-broker",
-      "kafka-client-scaladsl", "kafka-broker-scaladsl"
-    ]
     extra.options: [
       // hopefully avoid intermittent OutOfMemoryErrors with default heap
       "-Xmx2g"
