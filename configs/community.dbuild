@@ -1913,6 +1913,13 @@ build += {
     ]
   }
 
+  ${vars.base} {
+    name: "airframe"
+    uri:  ${vars.uris.airframe-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: ["projectJVM"]  // no Scala.js plz
+  }
+
 ]}
 
 //// space: jawn_0_10
