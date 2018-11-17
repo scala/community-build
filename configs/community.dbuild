@@ -580,6 +580,10 @@ build += {
     uri:  ${vars.uris.scodec-bits-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["coreJVM"]
+    extra.commands: ${vars.base.extra.commands} [
+      // because scodec-build brings in sbt-gpg which errors on `publish`
+      "set every gpgWarnOnFailure := true"
+    ]
   }
 
   ${vars.base} {
