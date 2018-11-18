@@ -1913,6 +1913,18 @@ build += {
     ]
   }
 
+  ${vars.base} {
+    name: "airframe"
+    uri:  ${vars.uris.airframe-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: ["projectJVM"]  // no Scala.js plz
+    extra.exclude: [
+      "jsonBenchmark"  // out of scope
+      "jdbc"  // requires PostgreSQL for testing
+      "fluentd"  // requires org.xerial#fluentd-standalone which we don't have
+    ]
+  }
+
 ]}
 
 //// space: jawn_0_10
