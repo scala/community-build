@@ -1926,6 +1926,12 @@ build += {
     ]
   }
 
+  ${vars.base} {
+    name: "kafka"
+    uri:  ${vars.uris.kafka-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+  }
+
 ]}
 
 //// space: jawn_0_10
