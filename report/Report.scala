@@ -60,7 +60,6 @@ object SuccessReport {
     "paradox",
     "parboiled2",
     "pcplod",
-    "perfolation",
     "play-doc",
     "pprint",
     "scala-async",
