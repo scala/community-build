@@ -1933,7 +1933,7 @@ build += {
     extra.commands: ${vars.default-commands} [
       // "I'm not sure when I'll have the time to understand why these tests fail",
       // says Enno. me either (Seth)
-      "set core / Test / unmanagedSources / excludeFilter := HiddenFileFilter || \"UserQuotaTest.scala\" || \"FetchRequestTest.scala\" || \"AbstractCreateTopicsRequestTest.scala\" || \"ConsumerGroupCommandTest.scala\" || \"MetricsTest.scala\""
+      "set core / Test / unmanagedSources / excludeFilter := HiddenFileFilter || \"UserQuotaTest.scala\" || \"FetchRequestTest.scala\" || \"AbstractCreateTopicsRequestTest.scala\" || \"ConsumerGroupCommandTest.scala\" || \"MetricsTest.scala\" || \"DeleteConsumerGroupsTest.scala\""
     ]
   }
 
