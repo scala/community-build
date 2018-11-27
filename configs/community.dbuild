@@ -373,13 +373,14 @@ build += {
     // other than just enumerating what we want:
     extra.projects: [
       "coreJVM", "freeJVM", "kernelJVM",
-      "lawsJVM", "macrosJVM", "testkitJVM", "testsJVM", "alleycatsCoreJVM"
+      "lawsJVM", "macrosJVM", "testkitJVM", "testsJVM",
+      "kernelLawsJVM", "alleycatsCoreJVM"
     ]
     extra.exclude: [
       // failing as of Nov 14 2018, not investigated.
       // for now we're mainly interested in letting downstream projects build,
       // less interested in making every test pass, but perhaps we can come back to this before RC1
-      "kernelLawsJVM", "alleycatsTestsJVM"
+      "alleycatsTestsJVM"
       // out of scope
       "bench", "docs"
     ]
