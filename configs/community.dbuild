@@ -1750,7 +1750,10 @@ build += {
 
   // forked off v4.0.0-M11 since that's what scalafix currently (Sep 2 2018) expects
   // our fork includes Jason's 2.12.7 changes (which have probably since been merged
-  // upstream) and some JDK 11 friendliness changes
+  // upstream) and some JDK 11 friendliness changes.
+  // since then, a November 2018 PR (https://github.com/scalameta/scalameta/pull/1810)
+  // added JDK 11 friendliness, so likely we can unfork the next time it's time to
+  // upgrade the scalameta+scalafix+scalafmt combo
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
