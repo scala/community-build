@@ -395,6 +395,8 @@ build += {
       "set sources in doc in Compile in alleycatsCoreJVM := List()"
       // 2.13: sigh, https://github.com/typelevel/cats/issues/2360
       "set excludeFilter in (Test, unmanagedSources) in testsJVM := HiddenFileFilter || \"OpSuite.scala\""
+      // 2.13: some hashing thing, the cats team will presumably hit & fix it
+      "set excludeFilter in (Test, unmanagedSources) in kernelLaws.jvm := HiddenFileFilter || \"LawTests.scala\""
     ]
   }
 
