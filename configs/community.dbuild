@@ -1848,7 +1848,8 @@ build += {
   ${vars.base} {
     name: "metaconfig"
     uri:  ${vars.uris.metaconfig-uri}
-    extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: ["hoconJVM", "typesafe"]  // no Scala.js plz
     // I guess dbuild is getting confused by the extra _1.13?
     deps.ignore: ["com.github.alexarchambault#scalacheck-shapeless"]
     deps.inject: ${vars.base.deps.inject} [
