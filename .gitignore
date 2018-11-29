@@ -8,3 +8,4 @@
 /.config/
 /.npm/
 /dbuild-*.tgz
+/.gnupg/
