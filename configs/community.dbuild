@@ -322,6 +322,10 @@ build += {
     uri:  ${vars.uris.simulacrum-uri}
     extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["coreJVM", "examplesJVM"] // no Scala.js please
+    extra.commands: ${vars.base.extra.commands} [
+      // otherwise sbt-gpg errors on `publish`
+      "set every gpgWarnOnFailure := true"
+    ]
   }
 
   ${vars.base} {
