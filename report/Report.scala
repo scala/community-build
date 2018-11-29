@@ -38,9 +38,10 @@ object SuccessReport {
     "boopickle",
     "cachecontrol",
     "case-app",
-    "cats-effect",
     "circe-config",
+    "enumeratum",
     "fastparse",
+    "fs2",
     "geny",
     "grizzled",
     "http4s-parboiled2",
@@ -52,6 +53,7 @@ object SuccessReport {
     "log4s",
     "magnolia",
     "mima",  // ran afoul of some scala.tools.nsc change, it looks like
+    "monix",
     "nyaya",
     "paradox",
     "parboiled2",
@@ -77,6 +79,7 @@ object SuccessReport {
     "scodec",
     "scribe",
     "slick",
+    "specs2-more",
     "spire",
     "tut",
     "twotails",  // "null" in scala.tools.nsc.classpath.FileBasedCache.getOrCreate
