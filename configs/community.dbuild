@@ -1580,11 +1580,6 @@ build += {
     uri:  ${vars.uris.lagom-uri}
     // these pull in a number of dependent projects
     extra.projects: ["server", "testkit-scaladsl"]
-    extra.exclude: [
-      // we don't have Kafka
-      "kafka-client", "kafka-server", "kafka-broker",
-      "kafka-client-scaladsl", "kafka-broker-scaladsl"
-    ]
     extra.options: [
       // hopefully avoid intermittent OutOfMemoryErrors with default heap
       "-Xmx2g"
@@ -1797,7 +1792,10 @@ build += {
 
   // forked off v4.0.0-M11 since that's what scalafix currently (Sep 2 2018) expects
   // our fork includes Jason's 2.12.7 changes (which have probably since been merged
-  // upstream) and some JDK 11 friendliness changes
+  // upstream) and some JDK 11 friendliness changes.
+  // since then, a November 2018 PR (https://github.com/scalameta/scalameta/pull/1810)
+  // added JDK 11 friendliness, so likely we can unfork the next time it's time to
+  // upgrade the scalameta+scalafix+scalafmt combo
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
@@ -1956,6 +1954,19 @@ build += {
     // hungry hungry heapos
     extra.options: ["-Xmx4g"]
     // some things don't work on 2.13 yet
+  }
+
+  ${vars.base} {
+    name: "airframe"
+    uri:  ${vars.uris.airframe-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
+    extra.projects: ["projectJVM"]  // no Scala.js plz
+    extra.exclude: [
+      "jsonBenchmark"  // out of scope
+      "jdbc"  // requires PostgreSQL for testing
+      "fluentd"  // requires org.xerial#fluentd-standalone which we don't have
+      "finagle"  // we don't have finatra or finagle
+    ]
   }
 
 ]}
