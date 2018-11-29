@@ -58,7 +58,6 @@ object SuccessReport {
     "paradox",
     "parboiled2",
     "pcplod",
-    "play-doc",
     "pprint",
     "scala-async",
     "scala-continuations",
