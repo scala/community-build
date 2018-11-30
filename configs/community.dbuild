@@ -988,6 +988,10 @@ build += {
     uri:  ${vars.uris.playframework-uri}
     extra.exclude: ["SBT-Plugin"]
     extra.directory: "framework"
+    extra.commands: ${vars.default-commands} [
+      // https://github.com/scala/community-builds/pull/819#issuecomment-443068694
+      "set excludeFilter in (Test, unmanagedSources) in PlayIntegrationTestProject := HiddenFileFilter || \"FormFieldOrderSpec.scala\""
+    ]
   }
 
   // 3.5 is the current stable branch (as of Oct 2016)
