@@ -1167,6 +1167,7 @@ build += {
   ${vars.base} {
     name: "nyaya"
     uri:  ${vars.uris.nyaya-uri}
+    extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["testModuleJVM"]  // no Scala.js, no benchmarks
   }
 
