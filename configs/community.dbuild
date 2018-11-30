@@ -986,23 +986,8 @@ build += {
   ${vars.base} {
     name: "playframework"
     uri:  ${vars.uris.playframework-uri}
-    // TODO: enable more projects? these are just a few that seemed especially high-value.
-    // we tried including "Play-Integration-Test" but hit a mysterious StackOverflowError
-    // in scala.tools.nsc.javac.JavaScanners; see https://github.com/scala/community-builds/issues/304
-    extra.projects: [
-      "Play", "Play-Test", "Play-WS", "Play-Cache", "Play-AHC-WS", "Filters-Helpers", "Play-Logback"
-      // dependency of Lagom
-      "Play-JDBC"
-    ]
     extra.exclude: ["SBT-Plugin"]
     extra.directory: "framework"
-    extra.commands: ${vars.default-commands} [
-      // workaround for the problem with PlayVersion.scala file is being passed twice to Scala compiler
-      // and we get double definition error
-      "set sources in (PlayProject, Compile, compile) := (sources in (PlayProject, Compile, compile)).value.distinct"
-      // there was some Scaladoc error here I didn't bother to look into
-      "set sources in doc in Compile in PlayProject := List()"
-    ]
   }
 
   // 3.5 is the current stable branch (as of Oct 2016)
