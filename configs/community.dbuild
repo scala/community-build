@@ -842,13 +842,7 @@ build += {
     extra.commands: ${vars.base.extra.commands} [
       // otherwise sbt-gpg errors on `publish`
       "set every gpgWarnOnFailure := true"
-      // see below
-      "set coreJVM/Test/libraryDependencies ~= (_.filterNot(_.name == \"scala-parallel-collections\"))"
     ]
-    // see https://github.com/functional-streams-for-scala/fs2/pull/1346 ,
-    // they removed the code but forgot to remove the dependency
-    deps.ignore: ["org.scala-lang.modules#scala-parallel-collections"]
-    check-missing: false
   }
 
   ${vars.base} {
