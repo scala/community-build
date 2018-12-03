@@ -786,8 +786,6 @@ build += {
     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js plz
   }
 
-  // frozen at v1.0.0 tag for now, perhaps excessively cautiously; we might
-  // consider tracking a branch instead
   ${vars.base} {
     name: "fs2"
     uri:  ${vars.uris.fs2-uri}
