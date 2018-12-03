@@ -194,7 +194,6 @@ build += {
   ${vars.base} {
     name: "scalacheck"
     uri:  ${vars.uris.scalacheck-uri}
-    extra.sbt-version: ${vars.sbt-1-version}
     extra.projects: ["jvm"]  // no Scala.js please
     extra.commands: ${vars.base.extra.commands} [
       "set jvm/Test/unmanagedSources/excludeFilter := HiddenFileFilter || \"SerializabilitySpecification.scala\""
