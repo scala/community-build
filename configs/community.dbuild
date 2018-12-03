@@ -182,6 +182,7 @@ build += {
   ${vars.base} {
     name: "scala-xml"
     uri:  ${vars.uris.scala-xml-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["xml"]
     extra.commands: ${vars.base.extra.commands} [
       // work around https://github.com/scala/community-builds/issues/575
