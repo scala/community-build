@@ -731,6 +731,12 @@ build += {
   }
 
   ${vars.base} {
+    name: "portable-scala-reflect"
+    uri:  ${vars.uris.portable-scala-reflect-uri}
+    extra.projects: ["portable-scala-reflectJVM"]  // no Scala.js plz
+  }
+
+  ${vars.base} {
     name: "utest"
     uri:  ${vars.uris.utest-uri}
     // no Scala.js plz
@@ -1852,12 +1858,6 @@ build += {
       // for JDK 11. one-deeper nesting level makes it apply to build definition
       ["libraryDependencies += \"javax.xml.bind\" % \"jaxb-api\" % \"2.3.0\""]
     ]
-  }
-
-  ${vars.base} {
-    name: "portable-scala-reflect"
-    uri:  ${vars.uris.portable-scala-reflect-uri}
-    extra.projects: ["portable-scala-reflectJVM"]  // no Scala.js plz
   }
 
   // forked pending merge of https://github.com/scalacenter/classpath-shrinker/pull/5
