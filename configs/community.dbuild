@@ -1249,12 +1249,9 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
-  // switched (January 2018) to a fork where the cats dependency is upgraded;
-  // we can unfork once https://github.com/typelevel/algebra/pull/207 lands
   ${vars.base} {
     name: "algebra"
     uri:  ${vars.uris.algebra-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js, no benchmarks, no docs
   }
 
