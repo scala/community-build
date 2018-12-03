@@ -904,7 +904,6 @@ build += {
   ${vars.base} {
     name: "mima"
     uri:  ${vars.uris.mima-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     // we don't compile sbt plugins
     extra.exclude: ["sbtplugin"]
   }
