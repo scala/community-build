@@ -783,10 +783,10 @@ build += {
 
   // forked (October 2018) for JDK 11 compat, awaiting merge of
   // https://github.com/lihaoyi/fastparse/pull/196
+  // 2.13: using thesamet's 2.13 branch instead, https://github.com/lihaoyi/fastparse/pull/200
   ${vars.base} {
     name: "fastparse"
     uri:  ${vars.uris.fastparse-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: [
       "fastparseJVM"   // no Scala.js plz
       "scalaparseJVM"  // dependency of scalatex
