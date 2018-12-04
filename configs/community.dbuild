@@ -281,11 +281,15 @@ build += {
 
   projects: [
 
+  // frozen at v0.1.1 for now, using master broke downstream projects.
+  // (actually, forked off v0.1.1 to get JDK 11 fix which was merged upstream,
+  // but after v0.1.1 was tagged)
   ${vars.base} {
     name: "scala-collection-compat"
     uri:  ${vars.uris.scala-collection-compat-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.projects: ["compat212"]  // no Scala.js or Scalafix rules plz
+    // change to "compat12" when we unfreeze
+    extra.projects: ["scala-collection-compat"]  // no Scala.js or Scalafix rules plz
   }
 
   // dependency of cats
@@ -1667,6 +1671,9 @@ build += {
   }
 
   // dependency of giter8
+  // frozen (December 2018) because it needs latest scala-collection-compat
+  // but using that breaks other projects (e.g. play-json); we'll have to wait and then move
+  // it all forward together
   ${vars.base} {
     name: "grizzled"
     uri:  ${vars.uris.grizzled-uri}
