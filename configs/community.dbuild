@@ -304,6 +304,10 @@ build += {
     name: "simulacrum"
     uri:  ${vars.uris.simulacrum-uri}
     extra.projects: ["coreJVM", "examplesJVM"] // no Scala.js please
+    extra.commands: ${vars.base.extra.commands} [
+      // otherwise sbt-gpg errors on `publish`
+      "set every gpgWarnOnFailure := true"
+    ]
   }
 
   ${vars.base} {
@@ -541,6 +545,10 @@ build += {
     name: "scodec-bits"
     uri:  ${vars.uris.scodec-bits-uri}
     extra.projects: ["coreJVM"]
+    extra.commands: ${vars.base.extra.commands} [
+      // because scodec-build brings in sbt-gpg which errors on `publish`
+      "set every gpgWarnOnFailure := true"
+    ]
   }
 
   ${vars.base} {
@@ -782,8 +790,6 @@ build += {
     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js plz
   }
 
-  // frozen at v1.0.0 tag for now, perhaps excessively cautiously; we might
-  // consider tracking a branch instead
   ${vars.base} {
     name: "fs2"
     uri:  ${vars.uris.fs2-uri}
@@ -849,6 +855,8 @@ build += {
   // try master instead if develop proves too fragile?
   // currently (October 2018) fails on JDK 11 because of https://github.com/sbt/sbt/issues/4350,
   // haven't attempted a workaround yet
+  // frozen (December 2018) at a November 2018 commit before a test failure started
+  // (haven't gotten around to investigating or reporting)
   ${vars.base} {
     name: "twitter-util"
     uri:  ${vars.uris.twitter-util-uri}
@@ -866,9 +874,11 @@ build += {
   ${vars.base} {
     name: "mima"
     uri:  ${vars.uris.mima-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     // we don't compile sbt plugins
     extra.exclude: ["sbtplugin"]
+    // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
+    deps.ignore: ["org.scala-sbt#scripted-sbt"]
+    check-missing: false
   }
 
   ${vars.base} {
@@ -1226,9 +1236,6 @@ build += {
     uri: ${vars.uris.blaze-uri}
   }
 
-  // forked (October 2017, November 2018) because utest 0.6.0 (we track utest master) made
-  // a source-incompatible change but fansi is still on 0.5.3, and also for 2.13 compat.
-  // in both cases, awaiting merge of https://github.com/lihaoyi/fansi/pull/18
   ${vars.base} {
     name: "fansi"
     uri:  ${vars.uris.fansi-uri}
@@ -1248,12 +1255,9 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
-  // switched (January 2018) to a fork where the cats dependency is upgraded;
-  // we can unfork once https://github.com/typelevel/algebra/pull/207 lands
   ${vars.base} {
     name: "algebra"
     uri:  ${vars.uris.algebra-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js, no benchmarks, no docs
   }
 
@@ -1520,7 +1524,9 @@ build += {
   }
 
   // there are a *ton* of subprojects.  it might be interesting to try to add
-  // as many as possible. for now, we've somewhat arbitrarily selected a few
+  // as many as possible. for now, we've somewhat arbitrarily selected a few.
+  // frozen (November 2018), trying to get the latest latest working was getting annoying,
+  // we can revisit it in a few weeks or months
   ${vars.base} {
     name: "lagom"
     uri:  ${vars.uris.lagom-uri}
@@ -1635,6 +1641,9 @@ build += {
     extra.projects: ["coreJVM", "tests"]
   }
 
+  // frozen (December 2018) at a September 2018 commit because the latest
+  // commit doesn't compile; reported upstream at
+  // https://github.com/propensive/magnolia/issues/144#issuecomment-443950744
   ${vars.base} {
     name: "magnolia"
     uri:  ${vars.uris.magnolia-uri}
@@ -1662,6 +1671,9 @@ build += {
   }
 
   // dependency of giter8
+  // frozen (December 2018) because it needs latest scala-collection-compat
+  // but using that breaks other projects (e.g. play-json); we'll have to wait and then move
+  // it all forward together
   ${vars.base} {
     name: "grizzled"
     uri:  ${vars.uris.grizzled-uri}
@@ -1783,8 +1795,7 @@ build += {
   ${vars.base} {
     name: "metaconfig"
     uri:  ${vars.uris.metaconfig-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.projects: ["metaconfig-hoconJVM", "metaconfig-typesafe-config"]  // no Scala.js plz
+    extra.projects: ["hoconJVM", "typesafe"]  // no Scala.js plz
     // I guess dbuild is getting confused by the extra _1.13?
     deps.ignore: ["com.github.alexarchambault#scalacheck-shapeless"]
     deps.inject: ${vars.base.deps.inject} [
@@ -1796,7 +1807,7 @@ build += {
     ]
     extra.commands: ${vars.default-commands} [
       // https://github.com/olafurpg/metaconfig/issues/59
-      "set excludeFilter in (Test, unmanagedSources) in `metaconfig-coreJVM` := HiddenFileFilter || \"CliSuite.scala\""
+      "set excludeFilter in (Test, unmanagedSources) in coreJVM := HiddenFileFilter || \"CliSuite.scala\""
     ]
   }
 
@@ -2214,8 +2225,6 @@ build += {
       // doesn't appear to have caught up with fs2-reactive-streams no longer being in a separate repo
       // (October 2018)
       "async-http-client"
-      // rather not have to always be sure their Scalafix version matches ours
-      "scalafix", "scalafix-tests"
     ]
   }
 
