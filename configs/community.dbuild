@@ -545,6 +545,10 @@ build += {
     name: "scodec-bits"
     uri:  ${vars.uris.scodec-bits-uri}
     extra.projects: ["coreJVM"]
+    extra.commands: ${vars.base.extra.commands} [
+      // because scodec-build brings in sbt-gpg which errors on `publish`
+      "set every gpgWarnOnFailure := true"
+    ]
   }
 
   ${vars.base} {
@@ -851,6 +855,8 @@ build += {
   // try master instead if develop proves too fragile?
   // currently (October 2018) fails on JDK 11 because of https://github.com/sbt/sbt/issues/4350,
   // haven't attempted a workaround yet
+  // frozen (December 2018) at a November 2018 commit before a test failure started
+  // (haven't gotten around to investigating or reporting)
   ${vars.base} {
     name: "twitter-util"
     uri:  ${vars.uris.twitter-util-uri}
@@ -870,6 +876,9 @@ build += {
     uri:  ${vars.uris.mima-uri}
     // we don't compile sbt plugins
     extra.exclude: ["sbtplugin"]
+    // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
+    deps.ignore: ["org.scala-sbt#scripted-sbt"]
+    check-missing: false
   }
 
   ${vars.base} {
@@ -1632,6 +1641,9 @@ build += {
     extra.projects: ["coreJVM", "tests"]
   }
 
+  // frozen (December 2018) at a September 2018 commit because the latest
+  // commit doesn't compile; reported upstream at
+  // https://github.com/propensive/magnolia/issues/144#issuecomment-443950744
   ${vars.base} {
     name: "magnolia"
     uri:  ${vars.uris.magnolia-uri}
@@ -1792,7 +1804,7 @@ build += {
     ]
     extra.commands: ${vars.default-commands} [
       // https://github.com/olafurpg/metaconfig/issues/59
-      "set excludeFilter in (Test, unmanagedSources) in `metaconfig-coreJVM` := HiddenFileFilter || \"CliSuite.scala\""
+      "set excludeFilter in (Test, unmanagedSources) in hoconJVM := HiddenFileFilter || \"CliSuite.scala\""
     ]
   }
 
