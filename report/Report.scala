@@ -71,7 +71,6 @@ object SuccessReport {
     "scalamock",
     "scalapb",
     "scalastyle",
-    "scalatags",
     "scalatest-tests",
     "scalaz8",
     "scalikejdbc",
