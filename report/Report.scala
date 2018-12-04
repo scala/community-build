@@ -42,7 +42,6 @@ object SuccessReport {
     "circe-config",
     "enumeratum",
     "fs2",
-    "geny",
     "grizzled",
     "http4s-parboiled2",
     "jackson-module-scala",
