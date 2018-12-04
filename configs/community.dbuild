@@ -1804,7 +1804,7 @@ build += {
     ]
     extra.commands: ${vars.default-commands} [
       // https://github.com/olafurpg/metaconfig/issues/59
-      "set excludeFilter in (Test, unmanagedSources) in hoconJVM := HiddenFileFilter || \"CliSuite.scala\""
+      "set excludeFilter in (Test, unmanagedSources) in coreJVM := HiddenFileFilter || \"CliSuite.scala\""
     ]
   }
 
