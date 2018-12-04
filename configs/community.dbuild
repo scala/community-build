@@ -1570,7 +1570,9 @@ build += {
   }
 
   // there are a *ton* of subprojects.  it might be interesting to try to add
-  // as many as possible. for now, we've somewhat arbitrarily selected a few
+  // as many as possible. for now, we've somewhat arbitrarily selected a few.
+  // frozen (November 2018), trying to get the latest latest working was getting annoying,
+  // we can revisit it in a few weeks or months
   ${vars.base} {
     name: "lagom"
     uri:  ${vars.uris.lagom-uri}
