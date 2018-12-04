@@ -15,7 +15,13 @@ export LANG="en_US.UTF-8"
 export HOME="$(pwd)"
 
 # Defaults
+<<<<<<< HEAD
 scala_version_default="2.13.0-pre-c15d170"  # Nov 21
+||||||| merged common ancestors
+scala_version_default="2.12.8-bin-38cd84d"  # Nov 28
+=======
+scala_version_default="2.12.9-bin-7abb8db"  # Dec 4
+>>>>>>> origin/2.12.x
 scala_version="$scala_version_default"
 root_dir=$(pwd)
 config_dir="configs"
