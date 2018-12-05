@@ -301,6 +301,12 @@ build += {
   }
 
   ${vars.base} {
+    name: "scala-java-time"
+    uri:  ${vars.uris.scala-java-time-uri}
+    extra.projects: ["scalajavatimeJVM", "scalajavatimeTZDBJVM", "scalajavatimeTestsJVM"]  // no Scala.js plz
+  }
+
+  ${vars.base} {
     name: "simulacrum"
     uri:  ${vars.uris.simulacrum-uri}
     extra.projects: ["coreJVM", "examplesJVM"] // no Scala.js please
@@ -2282,6 +2288,13 @@ build += {
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
     ]
+  }
+
+  // core doesn't depend on refined, but refinedJVM does
+  ${vars.base} {
+    name: "decline"
+    uri:  ${vars.uris.decline-uri}
+    extra.projects: ["declineJVM", "refinedJVM"]  // no Scala.js, no doc
   }
 
   ${vars.base} {
