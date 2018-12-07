@@ -2319,7 +2319,7 @@ build += {
     ]
   }
 
-  // core doesn't depend on refined, but refinedJVM does
+  // core doesn't depend on refined, but refinedJVM does.
   ${vars.base} {
     name: "decline"
     uri:  ${vars.uris.decline-uri}
