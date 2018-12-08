@@ -1191,33 +1191,13 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
-  // Conductr is now moribund, so this can be removed if it acts up.
-  ${vars.base} {
-    name: "conductr-lib"
-    uri:  ${vars.uris.conductr-lib-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.exclude: [
-      // we're on Akka 2.5
-      "akka24ConductRClientLib", "akka24Common", "akka24ConductRBundleLib"
-      // at the time we didn't have Lagom yet.
-      "lagom13JavaConductRBundleLib", "lagom13ScalaConductRBundleLib"
-      "lagom14JavaConductRBundleLib", "lagom14ScalaConductRBundleLib"
-      // Play stuff didn't work last time we tried it
-      "play25ConductRBundleLib", "play25ConductRClientLib", "play25Common"
-      "play26ConductRBundleLib", "play26ConductRClientLib", "play26Common"
-    ]
-    // https://github.com/typesafehub/conductr-lib/issues/171
-    extra.commands: ${vars.default-commands} [
-      "set executeTests in akka25ConductRClientLib in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-    ]
-  }
-
   // this was added because conductr-lib's Play integration depended on it,
   // but we ended up not including that integration (for now anyway?), so
   // nothing depends on this.  leaving it in since we might as well, but
   // if it acts up, it can go.
   // forked (December 2016) to get rid of the usual bintray-sbt stuff that
-  // makes dbuild upset
+  // makes dbuild upset. note that as of December 2018 we no longer build
+  // conductr-lib, so that's another reason this can go if it ever acts up.
   ${vars.base} {
     name: "akka-contrib-extra"
     uri:  ${vars.uris.akka-contrib-extra-uri}
