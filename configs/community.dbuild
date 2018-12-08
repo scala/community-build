@@ -1478,7 +1478,7 @@ build += {
     extra.projects: ["core"]
     // not really sure why akka-testkit doesn't get picked up, maybe a "provided" dependency issue?
     extra.commands: ${vars.default-commands} [
-      "set libraryDependencies in `akka-http-cors` += \"com.typesafe.akka\" %% \"akka-testkit\" % \"0.0.0\" % Test"
+      "set libraryDependencies in core += \"com.typesafe.akka\" %% \"akka-testkit\" % \"0.0.0\" % Test"
     ]
     deps.inject: ${vars.base.deps.inject} [
       "com.typesafe.akka#akka-testkit"
