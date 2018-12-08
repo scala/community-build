@@ -1455,19 +1455,34 @@ build += {
     ]
   }
 
-  // dependency of scaladex
+  // dependency of sttp
   ${vars.base} {
     name: "akka-http-cors"
     uri:  ${vars.uris.akka-http-cors-uri}
     extra.exclude: ["akka-http-cors-bench-jmh"]
+    // not really sure why akka-testkit doesn't get picked up, maybe a "provided" dependency issue?
+    extra.commands: ${vars.default-commands} [
+      "set libraryDependencies in `akka-http-cors` += \"com.typesafe.akka\" %% \"akka-testkit\" % \"0.0.0\" % Test"
+    ]
+    deps.inject: ${vars.base.deps.inject} [
+      "com.typesafe.akka#akka-testkit"
+    ]
   }
 
-  // dependency of scaladex.
-  // only attempt the subproject scaladex needs.
+  // was originally added as a dependency of scaladex, and we
+  // only attempted the subproject scaladex needs.  the dependency
+  // isn't there anymore, so we could drop this if it acts up.
   ${vars.base} {
     name: "akka-http-session"
     uri:  ${vars.uris.akka-http-session-uri}
     extra.projects: ["core"]
+    // not really sure why akka-testkit doesn't get picked up, maybe a "provided" dependency issue?
+    extra.commands: ${vars.default-commands} [
+      "set libraryDependencies in `akka-http-cors` += \"com.typesafe.akka\" %% \"akka-testkit\" % \"0.0.0\" % Test"
+    ]
+    deps.inject: ${vars.base.deps.inject} [
+      "com.typesafe.akka#akka-testkit"
+    ]
   }
 
   ${vars.base} {
