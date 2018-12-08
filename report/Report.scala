@@ -41,7 +41,6 @@ object SuccessReport {
           "akka-http-cors", // not investigated yet
           "akka-http-session", // not investigated yet
           "breeze",  // "object istack is not a member of package com.sun"
-          "conductr-lib", // not investigated yet
           "coursier",  // needs unfreeze to pull in https://github.com/coursier/coursier/pull/937
           "kxbmap-configs",  // "sjsonnew.DeserializationException: Field not found: $type"
           "playframework", // not investigated yet
