@@ -38,7 +38,6 @@ object SuccessReport {
         Set()
       case _ =>
         Set(
-          "akka-stream",  // "Class jdk.internal.HotSpotIntrinsicCandidate not found - continuing with a stub."
           "breeze",  // "object istack is not a member of package com.sun"
           "coursier",  // needs unfreeze to pull in https://github.com/coursier/coursier/pull/937
           "kxbmap-configs",  // "sjsonnew.DeserializationException: Field not found: $type"
