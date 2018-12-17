@@ -731,7 +731,6 @@ build += {
   ${vars.base} {
     name: "sourcecode"
     uri:  ${vars.uris.sourcecode-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     // no Scala.js plz
     extra.projects: ["sourcecodeJVM"]
   }
@@ -751,14 +750,6 @@ build += {
     name: "fastparse"
     uri:  ${vars.uris.fastparse-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.projects: [
-      "fastparseJVM"   // no Scala.js plz
-      "scalaparseJVM"  // dependency of scalatex
-    ]
-    extra.commands: ${vars.default-commands} [
-      // too prone to unexplained failure
-      "set executeTests in scalaparseJVM in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-    ]
   }
 
   ${vars.base} {
@@ -1040,7 +1031,6 @@ build += {
   ${vars.base} {
     name: "scalamock"
     uri:  ${vars.uris.scalamock-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.commands: ${vars.default-commands} [
       // work around https://github.com/scala/scala-dev/issues/252 ;
       // see https://github.com/scala/community-builds/issues/434
@@ -1048,9 +1038,8 @@ build += {
     ]
     extra.projects: [
       // no Scala.js
-      "scalamock-coreJVM"
-      // dependency of github4s
-      "scalamock-scalatest-supportJVM"
+      "scalamockJVM"
+      "examplesJVM"
     ]
   }
 
