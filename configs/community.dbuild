@@ -1356,11 +1356,6 @@ build += {
   ${vars.base} {
     name: "doodle"
     uri: ${vars.uris.doodle-uri}
-    extra.projects: ["doodleJVM"]  // no Scala.js plz
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
-    ]
   }
 
   ${vars.base} {
