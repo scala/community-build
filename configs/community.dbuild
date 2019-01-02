@@ -984,6 +984,8 @@ build += {
   // temporarily forked (October 2018) to remove uses of DebugConfiguration which was
   // removed from ssl-config; https://github.com/lightbend/ssl-config/issues/142
   // is about restoring it
+  // (Jan 2019) then made the build not fail hard on Java 11:
+  // https://github.com/scalacommunitybuild/playframework/pull/1
   ${vars.base} {
     name: "playframework"
     uri:  ${vars.uris.playframework-uri}
