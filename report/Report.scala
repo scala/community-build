@@ -39,13 +39,12 @@ object SuccessReport {
     "boopickle",
     "cachecontrol",
     "case-app",
-    "circe-config",
     "enumeratum",
-    "fs2",
     "grizzled",
     "http4s-parboiled2",
     "jackson-module-scala",
     "jawn-0-10",
+    "jawn-fs2",  // not investigated
     "lift-json",
     "linter",
     "log4s",
@@ -59,6 +58,7 @@ object SuccessReport {
     "pprint",
     "scala-async",
     "scala-continuations",
+    "scala-java-time",  // not investigated
     "scala-java8-compat",
     "scala-js",
     "scala-refactoring",
