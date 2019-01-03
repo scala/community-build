@@ -2178,8 +2178,6 @@ build += {
     ]
   }
 
-  // forked (June 2018) from the v0.11.1 tag to backport JDK 11 friendliness change
-  // (https://github.com/non/jawn/pull/106) to 0.11 series
   ${vars.base} {
     name: "jawn-0-11"
     uri:  ${vars.uris.jawn-0-11-uri}
