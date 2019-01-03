@@ -1862,7 +1862,9 @@ build += {
     ]
   }
 
-  // forked pending merge of https://github.com/scalacenter/classpath-shrinker/pull/5
+  // forked because https://github.com/scalacenter/classpath-shrinker/pull/5 was
+  // closed without being merged. the project seems abandoned, so we can probably
+  // just remove it here if it ever acts up
   ${vars.base} {
     name: "classpath-shrinker"
     uri:  ${vars.uris.classpath-shrinker-uri}
