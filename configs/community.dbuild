@@ -365,6 +365,8 @@ build += {
     extra.exclude: ["sbt-plugin"]
   }
 
+  // frozen at v1.5.0 tag because dependencies have historically been fragile.
+  // (perhaps this is overly cautious now, in 2019? not sure)
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
