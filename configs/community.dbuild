@@ -1154,6 +1154,7 @@ build += {
     extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
   }
 
+  // frozen (January 2019) at 3.0.0-RC1 since that what doodle expects
   ${vars.base} {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
