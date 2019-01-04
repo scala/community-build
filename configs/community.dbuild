@@ -202,7 +202,7 @@ build += {
   }
 
   // see also scalatest-tests
-  // forked (June 2018) for post-M4 changes
+  // forked (January 2019) for post-M5 changes
   ${vars.base} {
     name: "scalatest"
     uri:  ${vars.uris.scalatest-uri}
