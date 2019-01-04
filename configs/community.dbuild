@@ -790,7 +790,7 @@ build += {
     extra.exclude: ["docs"]
   }
 
-  // frozen at v1.0.0 tag for now, perhaps excessively cautiously; we might
+  // frozen at v1.1.0 tag for now, perhaps excessively cautiously; we might
   // consider tracking a branch instead
   ${vars.base} {
     name: "cats-effect"
