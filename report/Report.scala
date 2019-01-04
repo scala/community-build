@@ -42,7 +42,6 @@ object SuccessReport {
     "enumeratum",
     "grizzled",
     "http4s-parboiled2",
-    "jackson-module-scala",
     "jawn-0-10",
     "jawn-fs2",  // not investigated
     "lift-json",
@@ -67,12 +66,12 @@ object SuccessReport {
     "scala-swing",
     "scala-xml-quote",
     "scalajson",
+    "scalameter",
     "scalamock",
     "scalapb",
     "scalastyle",
     "scalatest-tests",
     "scalaz8",
-    "scalikejdbc",
     "scapegoat",
     "scodec",
     "scribe",
@@ -80,6 +79,7 @@ object SuccessReport {
     "specs2-more",
     "spire",
     "tut",
+    "twitter-util",
     "twotails",  // "null" in scala.tools.nsc.classpath.FileBasedCache.getOrCreate
   )
 
