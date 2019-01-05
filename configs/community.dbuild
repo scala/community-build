@@ -1324,9 +1324,11 @@ build += {
   ${vars.base} {
     name: "doodle"
     uri: ${vars.uris.doodle-uri}
-    extra.projects: ["rootJVM"]  // no Scala.js plz
-    // compilation failure, reported upstream: https://github.com/creativescala/doodle/issues/71#issuecomment-451684396
-    extra.exclude: ["turtleJVM"]
+    extra.projects: [
+      "animateJVM", "coreJVM", "java2d", "exploreJVM", "imageJVM"  // no Scala.js plz
+      // "turtleJVM" temporarily omitted pending resolution of
+      // https://github.com/creativescala/doodle/issues/71#issuecomment-451700589
+    ]
   }
 
   // tracking old-2.12 branch because master has moved on to 2.13 collections
