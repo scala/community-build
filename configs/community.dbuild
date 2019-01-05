@@ -826,7 +826,7 @@ build += {
     extra.exclude: ["docs"]
   }
 
-  // frozen at v1.0.0 tag for now, perhaps excessively cautiously; we might
+  // frozen at v1.1.0 tag for now, perhaps excessively cautiously; we might
   // consider tracking a branch instead
   ${vars.base} {
     name: "cats-effect"
@@ -1366,6 +1366,7 @@ build += {
   ${vars.base} {
     name: "doodle"
     uri: ${vars.uris.doodle-uri}
+    extra.projects: ["rootJVM"]  // no Scala.js plz
   }
 
   ${vars.base} {
@@ -1902,7 +1903,9 @@ build += {
     ]
   }
 
-  // forked pending merge of https://github.com/scalacenter/classpath-shrinker/pull/5
+  // forked because https://github.com/scalacenter/classpath-shrinker/pull/5 was
+  // closed without being merged. the project seems abandoned, so we can probably
+  // just remove it here if it ever acts up
   ${vars.base} {
     name: "classpath-shrinker"
     uri:  ${vars.uris.classpath-shrinker-uri}
@@ -2211,8 +2214,6 @@ build += {
     ]
   }
 
-  // forked (June 2018) from the v0.11.1 tag to backport JDK 11 friendliness change
-  // (https://github.com/non/jawn/pull/106) to 0.11 series
   ${vars.base} {
     name: "jawn-0-11"
     uri:  ${vars.uris.jawn-0-11-uri}
