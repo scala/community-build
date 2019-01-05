@@ -1324,7 +1324,7 @@ build += {
   ${vars.base} {
     name: "doodle"
     uri: ${vars.uris.doodle-uri}
-    extra.projects: ["rootJvm"]  // no Scala.js plz
+    extra.projects: ["rootJVM"]  // no Scala.js plz
   }
 
   // tracking old-2.12 branch because master has moved on to 2.13 collections
