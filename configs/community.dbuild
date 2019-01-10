@@ -1001,6 +1001,7 @@ build += {
     extra.exclude: [
       "SBT-Plugin"  // out of scope
       "Play-Integration-Test"  // TODO/WIP, see https://github.com/scala/community-builds/pull/819
+      "Play-Microbenchmark" // out of scope (and besides, requires Play-Integration-Test)
     ]
     extra.directory: "framework"
     extra.commands: ${vars.default-commands} [
