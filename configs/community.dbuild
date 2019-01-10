@@ -49,7 +49,7 @@ include file(".dbuild/resolvers.conf")
 vars {
   default-commands: []
   sbt-0-13-version: "0.13.18"
-  sbt-version: "1.2.7"
+  sbt-version: "1.2.8"
 }
 
 //// compiler options manipulation
@@ -352,6 +352,8 @@ build += {
     extra.exclude: ["sbt-plugin"]
   }
 
+  // frozen at v1.5.0 tag because dependencies have historically been fragile.
+  // (perhaps this is overly cautious now, in 2019? not sure)
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
@@ -631,12 +633,6 @@ build += {
     ]
   }
 
-  // frozen (October 2018) at an October 2018 commit just before
-  // 7dd3646f41e5abd7 "Make akka-stream-testkit dependency provided for akka-http-testkit"
-  // which broke downstream projects by removing expected classes from the classpath.
-  // it's fine to leave it frozen for a while until a need arises to move it forward again.
-  // (the problem could also be dealt here in the config, probably, by fiddling with the
-  // deps ourselves, but there's no real need to mess with at the moment)
   ${vars.base} {
     name: "akka-http"
     uri:  ${vars.uris.akka-http-uri}
@@ -736,6 +732,12 @@ build += {
   }
 
   ${vars.base} {
+    name: "portable-scala-reflect"
+    uri:  ${vars.uris.portable-scala-reflect-uri}
+    extra.projects: ["portable-scala-reflectJVM"]  // no Scala.js plz
+  }
+
+  ${vars.base} {
     name: "utest"
     uri:  ${vars.uris.utest-uri}
     // no Scala.js plz
@@ -779,7 +781,7 @@ build += {
     extra.exclude: ["docs"]
   }
 
-  // frozen at v1.0.0 tag for now, perhaps excessively cautiously; we might
+  // frozen at v1.1.0 tag for now, perhaps excessively cautiously; we might
   // consider tracking a branch instead
   ${vars.base} {
     name: "cats-effect"
@@ -981,6 +983,8 @@ build += {
   // temporarily forked (October 2018) to remove uses of DebugConfiguration which was
   // removed from ssl-config; https://github.com/lightbend/ssl-config/issues/142
   // is about restoring it
+  // (Jan 2019) then made the build not fail hard on Java 11:
+  // https://github.com/scalacommunitybuild/playframework/pull/1
   ${vars.base} {
     name: "playframework"
     uri:  ${vars.uris.playframework-uri}
@@ -1148,33 +1152,13 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
-  // Conductr is now moribund, so this can be removed if it acts up.
-  ${vars.base} {
-    name: "conductr-lib"
-    uri:  ${vars.uris.conductr-lib-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.exclude: [
-      // we're on Akka 2.5
-      "akka24ConductRClientLib", "akka24Common", "akka24ConductRBundleLib"
-      // at the time we didn't have Lagom yet.
-      "lagom13JavaConductRBundleLib", "lagom13ScalaConductRBundleLib"
-      "lagom14JavaConductRBundleLib", "lagom14ScalaConductRBundleLib"
-      // Play stuff didn't work last time we tried it
-      "play25ConductRBundleLib", "play25ConductRClientLib", "play25Common"
-      "play26ConductRBundleLib", "play26ConductRClientLib", "play26Common"
-    ]
-    // https://github.com/typesafehub/conductr-lib/issues/171
-    extra.commands: ${vars.default-commands} [
-      "set executeTests in akka25ConductRClientLib in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-    ]
-  }
-
   // this was added because conductr-lib's Play integration depended on it,
   // but we ended up not including that integration (for now anyway?), so
   // nothing depends on this.  leaving it in since we might as well, but
   // if it acts up, it can go.
   // forked (December 2016) to get rid of the usual bintray-sbt stuff that
-  // makes dbuild upset
+  // makes dbuild upset. note that as of December 2018 we no longer build
+  // conductr-lib, so that's another reason this can go if it ever acts up.
   ${vars.base} {
     name: "akka-contrib-extra"
     uri:  ${vars.uris.akka-contrib-extra-uri}
@@ -1329,10 +1313,10 @@ build += {
   ${vars.base} {
     name: "doodle"
     uri: ${vars.uris.doodle-uri}
-    extra.projects: ["doodleJVM"]  // no Scala.js plz
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
+    extra.projects: [
+      "animateJVM", "coreJVM", "java2d", "exploreJVM", "imageJVM"  // no Scala.js plz
+      // "turtleJVM" temporarily omitted pending resolution of
+      // https://github.com/creativescala/doodle/issues/71#issuecomment-451700589
     ]
   }
 
@@ -1470,19 +1454,34 @@ build += {
     ]
   }
 
-  // dependency of scaladex
+  // dependency of sttp
   ${vars.base} {
     name: "akka-http-cors"
     uri:  ${vars.uris.akka-http-cors-uri}
     extra.exclude: ["akka-http-cors-bench-jmh"]
+    // not really sure why akka-testkit doesn't get picked up, maybe a "provided" dependency issue?
+    extra.commands: ${vars.default-commands} [
+      "set libraryDependencies in `akka-http-cors` += \"com.typesafe.akka\" %% \"akka-testkit\" % \"0.0.0\" % Test"
+    ]
+    deps.inject: ${vars.base.deps.inject} [
+      "com.typesafe.akka#akka-testkit"
+    ]
   }
 
-  // dependency of scaladex.
-  // only attempt the subproject scaladex needs.
+  // was originally added as a dependency of scaladex, and we
+  // only attempted the subproject scaladex needs.  the dependency
+  // isn't there anymore, so we could drop this if it acts up.
   ${vars.base} {
     name: "akka-http-session"
     uri:  ${vars.uris.akka-http-session-uri}
     extra.projects: ["core"]
+    // not really sure why akka-testkit doesn't get picked up, maybe a "provided" dependency issue?
+    extra.commands: ${vars.default-commands} [
+      "set libraryDependencies in core += \"com.typesafe.akka\" %% \"akka-testkit\" % \"0.0.0\" % Test"
+    ]
+    deps.inject: ${vars.base.deps.inject} [
+      "com.typesafe.akka#akka-testkit"
+    ]
   }
 
   ${vars.base} {
@@ -1857,13 +1856,9 @@ build += {
     ]
   }
 
-  ${vars.base} {
-    name: "portable-scala-reflect"
-    uri:  ${vars.uris.portable-scala-reflect-uri}
-    extra.projects: ["portable-scala-reflectJVM"]  // no Scala.js plz
-  }
-
-  // forked pending merge of https://github.com/scalacenter/classpath-shrinker/pull/5
+  // forked because https://github.com/scalacenter/classpath-shrinker/pull/5 was
+  // closed without being merged. the project seems abandoned, so we can probably
+  // just remove it here if it ever acts up
   ${vars.base} {
     name: "classpath-shrinker"
     uri:  ${vars.uris.classpath-shrinker-uri}
@@ -2177,8 +2172,6 @@ build += {
     ]
   }
 
-  // forked (June 2018) from the v0.11.1 tag to backport JDK 11 friendliness change
-  // (https://github.com/non/jawn/pull/106) to 0.11 series
   ${vars.base} {
     name: "jawn-0-11"
     uri:  ${vars.uris.jawn-0-11-uri}
@@ -2279,7 +2272,7 @@ build += {
     ]
   }
 
-  // core doesn't depend on refined, but refinedJVM does
+  // core doesn't depend on refined, but refinedJVM does.
   ${vars.base} {
     name: "decline"
     uri:  ${vars.uris.decline-uri}
