@@ -989,6 +989,13 @@ build += {
     uri:  ${vars.uris.cachecontrol-uri}
   }
 
+  // dependency of playframework
+  ${vars.base} {
+    name: "play-file-watch"
+    uri:  ${vars.uris.play-file-watch-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
+  }
+
   // temporarily forked (October 2018) to remove uses of DebugConfiguration which was
   // removed from ssl-config; https://github.com/lightbend/ssl-config/issues/142
   // is about restoring it
