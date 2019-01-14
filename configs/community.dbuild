@@ -1916,6 +1916,13 @@ build += {
     ]
   }
 
+  // Kafka doesn't have its own sbt build, but Enno made one on his branch
+  // (and he's handling things like test exclusions there)
+  ${vars.base} {
+    name: "kafka"
+    uri:  ${vars.uris.kafka-uri}
+  }
+
 ]}
 
 //// space: jawn_0_10
