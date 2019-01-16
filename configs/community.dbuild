@@ -1163,7 +1163,7 @@ build += {
   ${vars.base} {
     name: "minitest"
     uri:  ${vars.uris.minitest-uri}
-    extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
+    extra.projects: ["minitestJVM", "lawsJVM", "lawsLegacyJVM"]  // no Scala.js
   }
 
   ${vars.base} {
@@ -1934,6 +1934,35 @@ build += {
     uri:  ${vars.uris.kafka-uri}
   }
 
+  // dependency of scalaz8, scalaz-zio
+  ${vars.base} {
+    name: "pascal"
+    uri:  ${vars.uris.pascal-uri}
+  }
+
+  ${vars.base} {
+    name: "scalaz-zio"
+    uri:  ${vars.uris.scalaz-zio-uri}
+    // omit benchmarks, microsite, Scala.js
+    extra.projects: ["coreJVM", "interopSharedJVM", "interopCatsJVM", "interopFutureJVM", "interopMonixJVM", "interopScalaz7xJVM"]
+    // dbuild messes with the jcstress dependency that comes from sbt-jcstress. not really sure
+    // what's going on, but we can work around it:
+    extra.commands: ${vars.default-commands} [
+      "set libraryDependencies in coreJVM ~= (_.filterNot(_.toString.contains(\"jcstress\")))"
+      "set libraryDependencies in coreJVM += \"org.openjdk.jcstress\" % \"jcstress-core\" % \"0.4\" % Test"
+      "set libraryDependencies in interopSharedJVM ~= (_.filterNot(_.toString.contains(\"jcstress\")))"
+      "set libraryDependencies in interopSharedJVM += \"org.openjdk.jcstress\" % \"jcstress-core\" % \"0.4\" % Test"
+      "set libraryDependencies in interopCatsJVM ~= (_.filterNot(_.toString.contains(\"jcstress\")))"
+      "set libraryDependencies in interopCatsJVM += \"org.openjdk.jcstress\" % \"jcstress-core\" % \"0.4\" % Test"
+      "set libraryDependencies in interopScalaz7xJVM ~= (_.filterNot(_.toString.contains(\"jcstress\")))"
+      "set libraryDependencies in interopScalaz7xJVM += \"org.openjdk.jcstress\" % \"jcstress-core\" % \"0.4\" % Test"
+      "set libraryDependencies in interopMonixJVM ~= (_.filterNot(_.toString.contains(\"jcstress\")))"
+      "set libraryDependencies in interopMonixJVM += \"org.openjdk.jcstress\" % \"jcstress-core\" % \"0.4\" % Test"
+      "set libraryDependencies in interopFutureJVM ~= (_.filterNot(_.toString.contains(\"jcstress\")))"
+      "set libraryDependencies in interopFutureJVM += \"org.openjdk.jcstress\" % \"jcstress-core\" % \"0.4\" % Test"
+    ]
+  }
+
 ]}
 
 //// space: jawn_0_10
@@ -2361,12 +2390,6 @@ build += {
   sbt-version: ${vars.sbt-version}
 
   projects: [
-
-  // dependency of scalaz8
-  ${vars.base} {
-    name: "pascal"
-    uri:  ${vars.uris.pascal-uri}
-  }
 
   // needs its own space because:
   // [error] Fatal: multiple projects have the same artifacts visible in the same space.
