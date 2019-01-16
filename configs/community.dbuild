@@ -1083,6 +1083,18 @@ build += {
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM", "genericJVM"]
   }
 
+  // forked to remove sbt-jmh from extras subproject.
+  // we can unfork if https://github.com/scalaz/testz/pull/31 is merged
+  ${vars.base} {
+    name: "testz"
+    uri:  ${vars.uris.testz-uri}
+    // omit Scala.js, benchmarks, docs
+    extra.projects: [
+      "coreJVM", "resourceJVM", "runnerJVM", "scalatestJVM", "specs2JVM", "stdlibJVM", "utilJVM",
+      "tests", "scalaz"
+    ]
+  }
+
   ${vars.base} {
     name: "scala-continuations"
     uri:  ${vars.uris.scala-continuations-uri}
