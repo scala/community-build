@@ -1118,6 +1118,18 @@ build += {
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM", "genericJVM"]
   }
 
+  // forked to remove sbt-jmh from extras subproject.
+  // we can unfork if https://github.com/scalaz/testz/pull/31 is merged
+  ${vars.base} {
+    name: "testz"
+    uri:  ${vars.uris.testz-uri}
+    // omit Scala.js, benchmarks, docs
+    extra.projects: [
+      "coreJVM", "resourceJVM", "runnerJVM", "scalatestJVM", "specs2JVM", "stdlibJVM", "utilJVM",
+      "tests", "scalaz"
+    ]
+  }
+
   ${vars.base} {
     name: "scala-continuations"
     uri:  ${vars.uris.scala-continuations-uri}
@@ -1367,7 +1379,11 @@ build += {
   ${vars.base} {
     name: "doodle"
     uri: ${vars.uris.doodle-uri}
-    extra.projects: ["rootJVM"]  // no Scala.js plz
+    extra.projects: [
+      "animateJVM", "coreJVM", "java2d", "exploreJVM", "imageJVM"  // no Scala.js plz
+      // "turtleJVM" temporarily omitted pending resolution of
+      // https://github.com/creativescala/doodle/issues/71#issuecomment-451700589
+    ]
   }
 
   ${vars.base} {
@@ -1948,6 +1964,13 @@ build += {
       "fluentd"  // requires org.xerial#fluentd-standalone which we don't have
       "finagle"  // we don't have finatra or finagle
     ]
+  }
+
+  // Kafka doesn't have its own sbt build, but Enno made one on his branch
+  // (and he's handling things like test exclusions there)
+  ${vars.base} {
+    name: "kafka"
+    uri:  ${vars.uris.kafka-uri}
   }
 
 ]}
