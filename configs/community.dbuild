@@ -2513,4 +2513,9 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
+  ${vars.base} {
+    name: "scala-pet-store"
+    uri:  ${vars.uris.scala-pet-store-uri}
+  }
+
 ]}
