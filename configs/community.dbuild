@@ -763,6 +763,8 @@ build += {
     ]
   }
 
+  // frozen (January 2019) at December 2018 commit before the build was changed
+  // from sbt to mill
   ${vars.base} {
     name: "geny"
     uri:  ${vars.uris.geny-uri}
