@@ -801,7 +801,7 @@ build += {
   ${vars.base} {
     name: "fs2"
     uri:  ${vars.uris.fs2-uri}
-    extra.projects: ["coreJVM", "io"]  // no Scala.js, no benchmarks or docs
+    extra.projects: ["coreJVM", "io", "reactiveStreams"]  // no Scala.js, no benchmarks or docs
     extra.commands: ${vars.base.extra.commands} [
       // otherwise sbt-gpg errors on `publish`
       "set every gpgWarnOnFailure := true"
@@ -2313,9 +2313,6 @@ build += {
       // I got some compile error here (September 2018) that seemed unlikely to be
       // significant. it's fine, we don't need to have every last subproject
       "monix", "okhttpBackendMonix", "asyncHttpClientBackendMonix"
-      // doesn't appear to have caught up with fs2-reactive-streams no longer being in a separate repo
-      // (October 2018)
-      "asyncHttpClientBackendFs2"
     ]
   }
 
