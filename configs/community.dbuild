@@ -1936,6 +1936,11 @@ build += {
     uri:  ${vars.uris.kafka-uri}
   }
 
+  ${vars.base} {
+    name: "mdoc"
+    uri:  ${vars.uris.mdoc-uri}
+  }
+
 ]}
 
 //// space: jawn_0_10
