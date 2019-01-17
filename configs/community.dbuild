@@ -1173,7 +1173,6 @@ build += {
     uri:  ${vars.uris.monix-uri}
     extra.options: ["-Dmonix.requireJava8=false"]
     // no Scala.js, no benchmarks.
-    // (but also, perhaps this excludes more stuff than necessary?)
     extra.projects: ["coreJVM"]
   }
 
