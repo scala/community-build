@@ -801,7 +801,7 @@ build += {
   ${vars.base} {
     name: "fs2"
     uri:  ${vars.uris.fs2-uri}
-    extra.projects: ["coreJVM", "io"]  // no Scala.js, no benchmarks or docs
+    extra.projects: ["coreJVM", "io", "reactiveStreams"]  // no Scala.js, no benchmarks or docs
     extra.commands: ${vars.base.extra.commands} [
       // otherwise sbt-gpg errors on `publish`
       "set every gpgWarnOnFailure := true"
