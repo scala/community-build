@@ -469,6 +469,8 @@ build += {
   // takes a long time (especially akka-more) and the downstream
   // rebuilding takes a long time too.  so in general we want to
   // freeze at a tag (preferably) or SHA (if we must)
+  // also forked (January 2019), based off v2.5.19, for JDK 11 friendliness,
+  // see https://github.com/scala/community-builds/pull/832
   ${vars.base} {
     name: "akka"
     uri:  ${vars.uris.akka-uri}
