@@ -723,11 +723,9 @@ build += {
     uri:  ${vars.uris.acyclic-uri}
   }
 
-  // forked (June 2018) to upgrade sbt-osgi to a Java 9 friendly version
   ${vars.base} {
     name: "sourcecode"
     uri:  ${vars.uris.sourcecode-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     // no Scala.js plz
     extra.projects: ["sourcecodeJVM"]
   }
