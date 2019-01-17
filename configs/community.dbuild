@@ -1939,6 +1939,10 @@ build += {
   ${vars.base} {
     name: "mdoc"
     uri:  ${vars.uris.mdoc-uri}
+    // [mdoc] [info] These subprojects will be built: default-sbt-project, unit, testsInput, docs, js, lsp, mdoc, runtime, jsdocs, plugin
+    // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
+    deps.ignore: ["org.scala-sbt#scripted-sbt"]
+    check-missing: false
   }
 
 ]}
