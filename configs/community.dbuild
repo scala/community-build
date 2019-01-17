@@ -760,11 +760,9 @@ build += {
     uri:  ${vars.uris.acyclic-uri}
   }
 
-  // forked (June 2018) to upgrade sbt-osgi to a Java 9 friendly version
   ${vars.base} {
     name: "sourcecode"
     uri:  ${vars.uris.sourcecode-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     // no Scala.js plz
     extra.projects: ["sourcecodeJVM"]
   }
@@ -1210,7 +1208,6 @@ build += {
     uri:  ${vars.uris.monix-uri}
     extra.options: ["-Dmonix.requireJava8=false"]
     // no Scala.js, no benchmarks.
-    // (but also, perhaps this excludes more stuff than necessary?)
     extra.projects: ["coreJVM"]
   }
 
@@ -2332,10 +2329,6 @@ build += {
     // unfreezing pureconfig (or updating our fork) would fix it, but I'd rather not mess
     // it with right now.
     extra.projects: ["catsJVM", "coreJVM", "evalJVM", "jsonpathJVM", "scalacheckJVM", "scalazJVM", "shapelessJVM"]
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
-    ]
   }
 
   // core doesn't depend on refined, but refinedJVM does.
