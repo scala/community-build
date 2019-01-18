@@ -723,11 +723,9 @@ build += {
     uri:  ${vars.uris.acyclic-uri}
   }
 
-  // forked (June 2018) to upgrade sbt-osgi to a Java 9 friendly version
   ${vars.base} {
     name: "sourcecode"
     uri:  ${vars.uris.sourcecode-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     // no Scala.js plz
     extra.projects: ["sourcecodeJVM"]
   }
@@ -803,7 +801,7 @@ build += {
   ${vars.base} {
     name: "fs2"
     uri:  ${vars.uris.fs2-uri}
-    extra.projects: ["coreJVM", "io"]  // no Scala.js, no benchmarks or docs
+    extra.projects: ["coreJVM", "io", "reactiveStreams"]  // no Scala.js, no benchmarks or docs
     extra.commands: ${vars.base.extra.commands} [
       // otherwise sbt-gpg errors on `publish`
       "set every gpgWarnOnFailure := true"
@@ -1178,7 +1176,6 @@ build += {
     uri:  ${vars.uris.monix-uri}
     extra.options: ["-Dmonix.requireJava8=false"]
     // no Scala.js, no benchmarks.
-    // (but also, perhaps this excludes more stuff than necessary?)
     extra.projects: ["coreJVM"]
   }
 
@@ -2303,10 +2300,6 @@ build += {
     // unfreezing pureconfig (or updating our fork) would fix it, but I'd rather not mess
     // it with right now.
     extra.projects: ["catsJVM", "coreJVM", "evalJVM", "jsonpathJVM", "scalacheckJVM", "scalazJVM", "shapelessJVM"]
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
-    ]
   }
 
   // core doesn't depend on refined, but refinedJVM does.
@@ -2325,9 +2318,6 @@ build += {
       // I got some compile error here (September 2018) that seemed unlikely to be
       // significant. it's fine, we don't need to have every last subproject
       "monix", "okhttpBackendMonix", "asyncHttpClientBackendMonix"
-      // doesn't appear to have caught up with fs2-reactive-streams no longer being in a separate repo
-      // (October 2018)
-      "asyncHttpClientBackendFs2"
     ]
   }
 
