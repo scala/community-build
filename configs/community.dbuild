@@ -1961,6 +1961,12 @@ build += {
       "set libraryDependencies in interopFutureJVM ~= (_.filterNot(_.toString.contains(\"jcstress\")))"
       "set libraryDependencies in interopFutureJVM += \"org.openjdk.jcstress\" % \"jcstress-core\" % \"0.4\" % Test"
     ]
+    // I guess dbuild is getting confused by the extra _1.13? seen in other projects as well
+    deps.ignore: ["com.github.alexarchambault#scalacheck-shapeless"]
+    deps.inject: ${vars.base.deps.inject} [
+      "com.github.alexarchambault#scalacheck-shapeless_1.13"
+    ]
+    check-missing: false
   }
 
 ]}
