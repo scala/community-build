@@ -259,10 +259,12 @@ build += {
   ${vars.base} {
     name: "scribe"
     uri:  ${vars.uris.scribe-uri}
-    extra.projects: ["coreJVM", "macrosJVM"]
-    // intermittently failing test I haven't gotten around to reporting upstream
+    extra.projects: ["coreJVM", "macrosJVM", "slf4j"]
     extra.commands: ${vars.default-commands} [
+      // intermittently failing test I haven't gotten around to reporting upstream
       "set excludeFilter in (Test, unmanagedSources) in coreJVM := HiddenFileFilter || \"FileLoggingSpec.scala\""
+      // failure here looks like a time zone mistake
+      "set excludeFilter in (Test, unmanagedSources) in slf4j := HiddenFileFilter || \"SLF4JSpec.scala\""
     ]
   }
 
@@ -1941,6 +1943,7 @@ build += {
     // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
     deps.ignore: ["org.scala-sbt#scripted-sbt"]
     check-missing: false
+    extra.exclude: ["js", "jsdocs"]  // no Scala.js plz
   }
 
 ]}
