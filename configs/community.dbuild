@@ -1039,6 +1039,11 @@ build += {
     extra.projects: ["lift-json"]
   }
 
+  ${vars.base} {
+    name: "sconfig"
+    uri:  ${vars.uris.sconfig-uri}
+  }
+
   // frozen (November 2017) at June 2017 commit, for compatibility with
   // github4s which depends on the older version.  we might also consider
   // forking github4s and/or contributing the needed change upstream
