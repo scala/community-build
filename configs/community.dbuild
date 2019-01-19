@@ -1165,7 +1165,7 @@ build += {
   ${vars.base} {
     name: "minitest"
     uri:  ${vars.uris.minitest-uri}
-    extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
+    extra.projects: ["minitestJVM", "lawsJVM", "lawsLegacyJVM"]  // no Scala.js
   }
 
   ${vars.base} {
