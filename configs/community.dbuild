@@ -2098,7 +2098,6 @@ build += {
       // library com.avsystem.commons#commons-core is not provided
       "akka-http-avsystem-gencodec"
     ]
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     // apparently some dependency dropped its scala-reflect dependency?
     // and we have the newer version of that dependency here in the
     // community build, while the akka-http-jackson subproject's
@@ -2108,7 +2107,6 @@ build += {
       "org.scala-lang#scala-reflect"
     ]
     extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
       "set libraryDependencies in `akka-http-jackson` += \"org.scala-lang\" %% \"scala-reflect\" % \""${vars.scala-version}"\""
     ]
   }
