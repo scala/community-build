@@ -186,6 +186,8 @@ build += {
   }
 
   // see also scalatest-tests
+  // forked for: build tweak, JDK 11 friendliness, comment out a test
+  // fork refreshed (from 3.0.x branch) January 2019
   ${vars.base} {
     name: "scalatest"
     uri:  ${vars.uris.scalatest-uri}
