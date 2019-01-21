@@ -1952,7 +1952,7 @@ build += {
     check-missing: false
     extra.exclude: [
       "lsp"  // Olaf says: "please exclude [...] it's an undocumented and untested module"
-      "js", "jsdocs"  // no Scala.js plz
+      "js", "jsdocs", "docs"  // no Scala.js plz
     ]
   }
 
