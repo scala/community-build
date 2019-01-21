@@ -186,6 +186,8 @@ build += {
   }
 
   // see also scalatest-tests
+  // forked for: build tweak, JDK 11 friendliness, comment out a test
+  // fork refreshed (from 3.0.x branch) January 2019
   ${vars.base} {
     name: "scalatest"
     uri:  ${vars.uris.scalatest-uri}
@@ -466,11 +468,13 @@ build += {
     ]
   }
 
-  // frozen (November 2018) at v2.5.18.  this repo is volatile (very
+  // frozen (January 2019) at v2.5.19.  this repo is volatile (very
   // frequent commits) and when it needs to be rebuilt, the testing
   // takes a long time (especially akka-more) and the downstream
   // rebuilding takes a long time too.  so in general we want to
   // freeze at a tag (preferably) or SHA (if we must)
+  // also forked (January 2019), based off v2.5.19, for JDK 11 friendliness,
+  // see https://github.com/scala/community-builds/pull/832
   ${vars.base} {
     name: "akka"
     uri:  ${vars.uris.akka-uri}
@@ -1039,6 +1043,11 @@ build += {
     extra.projects: ["lift-json"]
   }
 
+  ${vars.base} {
+    name: "sconfig"
+    uri:  ${vars.uris.sconfig-uri}
+  }
+
   // frozen (November 2017) at June 2017 commit, for compatibility with
   // github4s which depends on the older version.  we might also consider
   // forking github4s and/or contributing the needed change upstream
@@ -1165,7 +1174,7 @@ build += {
   ${vars.base} {
     name: "minitest"
     uri:  ${vars.uris.minitest-uri}
-    extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
+    extra.projects: ["minitestJVM", "lawsJVM", "lawsLegacyJVM"]  // no Scala.js
   }
 
   ${vars.base} {
@@ -1389,8 +1398,6 @@ build += {
     uri:  ${vars.uris.gigahorse-uri}
     // as of August 2017, doesn't compile against latest akka-http
     extra.exclude: ["akkaHttp"]
-    // pending: https://github.com/eed3si9n/gigahorse/issues/54
-    extra.test-tasks: ["compile"]
   }
 
   // dependency of scalachess
@@ -2111,7 +2118,6 @@ build += {
       // library com.avsystem.commons#commons-core is not provided
       "akka-http-avsystem-gencodec"
     ]
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     // apparently some dependency dropped its scala-reflect dependency?
     // and we have the newer version of that dependency here in the
     // community build, while the akka-http-jackson subproject's
@@ -2121,7 +2127,6 @@ build += {
       "org.scala-lang#scala-reflect"
     ]
     extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
       "set libraryDependencies in `akka-http-jackson` += \"org.scala-lang\" %% \"scala-reflect\" % \""${vars.scala-version}"\""
     ]
   }
