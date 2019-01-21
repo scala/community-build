@@ -1946,14 +1946,13 @@ build += {
   ${vars.base} {
     name: "mdoc"
     uri:  ${vars.uris.mdoc-uri}
-    // [mdoc] [info] These subprojects will be built: default-sbt-project, unit, testsInput, docs, js, lsp, mdoc, runtime, jsdocs, plugin
-    // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
-    deps.ignore: ["org.scala-sbt#scripted-sbt"]
-    check-missing: false
     extra.exclude: [
       "lsp"  // Olaf says: "please exclude [...] it's an undocumented and untested module"
       "js", "jsdocs", "docs", "unit"  // no Scala.js plz
     ]
+    // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
+    deps.ignore: ["org.scala-sbt#scripted-sbt"]
+    check-missing: false
   }
 
 ]}
