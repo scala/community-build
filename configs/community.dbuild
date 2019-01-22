@@ -202,7 +202,9 @@ build += {
   }
 
   // see also scalatest-tests
-  // forked (January 2019) for post-M5 changes
+  // 2.13: forked (January 2019) for post-M5 changes
+  // 2.12: forked for: build tweak, JDK 11 friendliness, comment out a test
+  // fork refreshed (from 3.0.x branch) January 2019
   ${vars.base} {
     name: "scalatest"
     uri:  ${vars.uris.scalatest-uri}
@@ -272,10 +274,12 @@ build += {
   ${vars.base} {
     name: "scribe"
     uri:  ${vars.uris.scribe-uri}
-    extra.projects: ["coreJVM", "macrosJVM"]
-    // intermittently failing test I haven't gotten around to reporting upstream
+    extra.projects: ["coreJVM", "macrosJVM", "slf4j"]
     extra.commands: ${vars.default-commands} [
+      // intermittently failing test I haven't gotten around to reporting upstream
       "set excludeFilter in (Test, unmanagedSources) in coreJVM := HiddenFileFilter || \"FileLoggingSpec.scala\""
+      // failure here looks like a time zone mistake
+      "set excludeFilter in (Test, unmanagedSources) in slf4j := HiddenFileFilter || \"SLF4JSpec.scala\""
     ]
   }
 
@@ -505,11 +509,6 @@ build += {
     ]
   }
 
-  // frozen (November 2018) at v2.5.18.  this repo is volatile (very
-  // frequent commits) and when it needs to be rebuilt, the testing
-  // takes a long time (especially akka-more) and the downstream
-  // rebuilding takes a long time too.  so in general we want to
-  // freeze at a tag (preferably) or SHA (if we must)
   // 2.13: we're forked, and the fork is behind what we use in 2.12,
   // but we should probably just leave it alone until the Akka team publishes for 2.13.0-M5
   ${vars.base} {
@@ -836,13 +835,15 @@ build += {
   ${vars.base} {
     name: "fs2"
     uri:  ${vars.uris.fs2-uri}
-    extra.projects: ["coreJVM", "io"]  // no Scala.js, no benchmarks or docs
+    extra.projects: ["coreJVM", "io", "reactiveStreams"]  // no Scala.js, no benchmarks or docs
     extra.commands: ${vars.base.extra.commands} [
       // otherwise sbt-gpg errors on `publish`
       "set every gpgWarnOnFailure := true"
     ]
   }
 
+  // forked (January 2019) because of recent changes to ScalaTest on 3.0.x branch
+  // that are source-incompatible when seen from Java (parboiled uses ScalaTest from Java)
   ${vars.base} {
     name: "parboiled"
     uri:  ${vars.uris.parboiled-uri}
@@ -1072,6 +1073,11 @@ build += {
     extra.projects: ["lift-json"]
   }
 
+  ${vars.base} {
+    name: "sconfig"
+    uri:  ${vars.uris.sconfig-uri}
+  }
+
   // frozen (November 2017) at June 2017 commit, for compatibility with
   // github4s which depends on the older version.  we might also consider
   // forking github4s and/or contributing the needed change upstream
@@ -1200,7 +1206,7 @@ build += {
   ${vars.base} {
     name: "minitest"
     uri:  ${vars.uris.minitest-uri}
-    extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
+    extra.projects: ["minitestJVM", "lawsJVM", "lawsLegacyJVM"]  // no Scala.js
   }
 
   ${vars.base} {
@@ -1423,8 +1429,6 @@ build += {
     uri:  ${vars.uris.gigahorse-uri}
     // as of August 2017, doesn't compile against latest akka-http
     extra.exclude: ["akkaHttp"]
-    // pending: https://github.com/eed3si9n/gigahorse/issues/54
-    extra.test-tasks: ["compile"]
   }
 
   // dependency of scalachess
@@ -1970,6 +1974,18 @@ build += {
     uri:  ${vars.uris.kafka-uri}
   }
 
+  ${vars.base} {
+    name: "mdoc"
+    uri:  ${vars.uris.mdoc-uri}
+    extra.exclude: [
+      "lsp"  // Olaf says: "please exclude [...] it's an undocumented and untested module"
+      "js", "jsdocs", "docs", "unit"  // no Scala.js plz
+    ]
+    // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
+    deps.ignore: ["org.scala-sbt#scripted-sbt"]
+    check-missing: false
+  }
+
 ]}
 
 //// space: jawn_0_10
@@ -2132,7 +2148,6 @@ build += {
       // library com.avsystem.commons#commons-core is not provided
       "akka-http-avsystem-gencodec"
     ]
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     // apparently some dependency dropped its scala-reflect dependency?
     // and we have the newer version of that dependency here in the
     // community build, while the akka-http-jackson subproject's
@@ -2142,7 +2157,6 @@ build += {
       "org.scala-lang#scala-reflect"
     ]
     extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
       "set libraryDependencies in `akka-http-jackson` += \"org.scala-lang\" %% \"scala-reflect\" % \""${vars.scala-version}"\""
     ]
   }
@@ -2347,9 +2361,6 @@ build += {
       // I got some compile error here (September 2018) that seemed unlikely to be
       // significant. it's fine, we don't need to have every last subproject
       "monix", "okhttpBackendMonix", "asyncHttpClientBackendMonix"
-      // doesn't appear to have caught up with fs2-reactive-streams no longer being in a separate repo
-      // (October 2018)
-      "asyncHttpClientBackendFs2"
     ]
   }
 
