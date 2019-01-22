@@ -641,6 +641,8 @@ build += {
     ]
   }
 
+  // forked (January 2019) because of recent changes to ScalaTest on 3.0.x branch
+  // that are source-incompatible when seen from Java source
   ${vars.base} {
     name: "akka-http"
     uri:  ${vars.uris.akka-http-uri}
