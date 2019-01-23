@@ -186,6 +186,8 @@ build += {
   }
 
   // see also scalatest-tests
+  // forked for: build tweak, JDK 11 friendliness, comment out a test
+  // fork refreshed (from 3.0.x branch) January 2019
   ${vars.base} {
     name: "scalatest"
     uri:  ${vars.uris.scalatest-uri}
@@ -259,10 +261,12 @@ build += {
   ${vars.base} {
     name: "scribe"
     uri:  ${vars.uris.scribe-uri}
-    extra.projects: ["coreJVM", "macrosJVM"]
-    // intermittently failing test I haven't gotten around to reporting upstream
+    extra.projects: ["coreJVM", "macrosJVM", "slf4j"]
     extra.commands: ${vars.default-commands} [
+      // intermittently failing test I haven't gotten around to reporting upstream
       "set excludeFilter in (Test, unmanagedSources) in coreJVM := HiddenFileFilter || \"FileLoggingSpec.scala\""
+      // failure here looks like a time zone mistake
+      "set excludeFilter in (Test, unmanagedSources) in slf4j := HiddenFileFilter || \"SLF4JSpec.scala\""
     ]
   }
 
@@ -464,11 +468,15 @@ build += {
     ]
   }
 
-  // frozen (November 2018) at v2.5.18.  this repo is volatile (very
+  // frozen (January 2019) at v2.5.19.  this repo is volatile (very
   // frequent commits) and when it needs to be rebuilt, the testing
   // takes a long time (especially akka-more) and the downstream
   // rebuilding takes a long time too.  so in general we want to
   // freeze at a tag (preferably) or SHA (if we must)
+  // also forked (January 2019), based off v2.5.19, for JDK 11 friendliness,
+  // see https://github.com/scala/community-builds/pull/832 ; and also
+  // because of January 2019 changes to ScalaTest on 3.0.x branch that are
+  // source-incompatible when seen from Java (Akka uses ScalaTest from Java)
   ${vars.base} {
     name: "akka"
     uri:  ${vars.uris.akka-uri}
@@ -633,6 +641,8 @@ build += {
     ]
   }
 
+  // forked (January 2019) because of recent changes to ScalaTest on 3.0.x branch
+  // that are source-incompatible when seen from Java source
   ${vars.base} {
     name: "akka-http"
     uri:  ${vars.uris.akka-http-uri}
@@ -723,7 +733,6 @@ build += {
     uri:  ${vars.uris.acyclic-uri}
   }
 
-  // forked (June 2018) to upgrade sbt-osgi to a Java 9 friendly version
   ${vars.base} {
     name: "sourcecode"
     uri:  ${vars.uris.sourcecode-uri}
@@ -754,6 +763,8 @@ build += {
     extra.sbt-version: ${vars.sbt-0-13-version}
   }
 
+  // frozen (January 2019) at December 2018 commit before the build was changed
+  // from sbt to mill
   ${vars.base} {
     name: "geny"
     uri:  ${vars.uris.geny-uri}
@@ -792,13 +803,15 @@ build += {
   ${vars.base} {
     name: "fs2"
     uri:  ${vars.uris.fs2-uri}
-    extra.projects: ["coreJVM", "io"]  // no Scala.js, no benchmarks or docs
+    extra.projects: ["coreJVM", "io", "reactiveStreams"]  // no Scala.js, no benchmarks or docs
     extra.commands: ${vars.base.extra.commands} [
       // otherwise sbt-gpg errors on `publish`
       "set every gpgWarnOnFailure := true"
     ]
   }
 
+  // forked (January 2019) because of recent changes to ScalaTest on 3.0.x branch
+  // that are source-incompatible when seen from Java (parboiled uses ScalaTest from Java)
   ${vars.base} {
     name: "parboiled"
     uri:  ${vars.uris.parboiled-uri}
@@ -1028,6 +1041,11 @@ build += {
     extra.projects: ["lift-json"]
   }
 
+  ${vars.base} {
+    name: "sconfig"
+    uri:  ${vars.uris.sconfig-uri}
+  }
+
   // frozen (November 2017) at June 2017 commit, for compatibility with
   // github4s which depends on the older version.  we might also consider
   // forking github4s and/or contributing the needed change upstream
@@ -1068,6 +1086,18 @@ build += {
     uri:  ${vars.uris.monocle-uri}
     // try to enable more subprojects?
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM", "genericJVM"]
+  }
+
+  // forked to remove sbt-jmh from extras subproject.
+  // we can unfork if https://github.com/scalaz/testz/pull/31 is merged
+  ${vars.base} {
+    name: "testz"
+    uri:  ${vars.uris.testz-uri}
+    // omit Scala.js, benchmarks, docs
+    extra.projects: [
+      "coreJVM", "resourceJVM", "runnerJVM", "scalatestJVM", "specs2JVM", "stdlibJVM", "utilJVM",
+      "tests", "scalaz"
+    ]
   }
 
   ${vars.base} {
@@ -1140,7 +1170,7 @@ build += {
   ${vars.base} {
     name: "minitest"
     uri:  ${vars.uris.minitest-uri}
-    extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
+    extra.projects: ["minitestJVM", "lawsJVM", "lawsLegacyJVM"]  // no Scala.js
   }
 
   ${vars.base} {
@@ -1148,7 +1178,6 @@ build += {
     uri:  ${vars.uris.monix-uri}
     extra.options: ["-Dmonix.requireJava8=false"]
     // no Scala.js, no benchmarks.
-    // (but also, perhaps this excludes more stuff than necessary?)
     extra.projects: ["coreJVM"]
   }
 
@@ -1365,8 +1394,6 @@ build += {
     uri:  ${vars.uris.gigahorse-uri}
     // as of August 2017, doesn't compile against latest akka-http
     extra.exclude: ["akkaHttp"]
-    // pending: https://github.com/eed3si9n/gigahorse/issues/54
-    extra.test-tasks: ["compile"]
   }
 
   // dependency of scalachess
@@ -1905,6 +1932,25 @@ build += {
     ]
   }
 
+  // Kafka doesn't have its own sbt build, but Enno made one on his branch
+  // (and he's handling things like test exclusions there)
+  ${vars.base} {
+    name: "kafka"
+    uri:  ${vars.uris.kafka-uri}
+  }
+
+  ${vars.base} {
+    name: "mdoc"
+    uri:  ${vars.uris.mdoc-uri}
+    extra.exclude: [
+      "lsp"  // Olaf says: "please exclude [...] it's an undocumented and untested module"
+      "js", "jsdocs", "docs", "unit"  // no Scala.js plz
+    ]
+    // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
+    deps.ignore: ["org.scala-sbt#scripted-sbt"]
+    check-missing: false
+  }
+
 ]}
 
 //// space: jawn_0_10
@@ -2067,7 +2113,6 @@ build += {
       // library com.avsystem.commons#commons-core is not provided
       "akka-http-avsystem-gencodec"
     ]
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     // apparently some dependency dropped its scala-reflect dependency?
     // and we have the newer version of that dependency here in the
     // community build, while the akka-http-jackson subproject's
@@ -2077,7 +2122,6 @@ build += {
       "org.scala-lang#scala-reflect"
     ]
     extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
       "set libraryDependencies in `akka-http-jackson` += \"org.scala-lang\" %% \"scala-reflect\" % \""${vars.scala-version}"\""
     ]
   }
@@ -2266,10 +2310,6 @@ build += {
     // unfreezing pureconfig (or updating our fork) would fix it, but I'd rather not mess
     // it with right now.
     extra.projects: ["catsJVM", "coreJVM", "evalJVM", "jsonpathJVM", "scalacheckJVM", "scalazJVM", "shapelessJVM"]
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
-    ]
   }
 
   // core doesn't depend on refined, but refinedJVM does.
@@ -2288,9 +2328,6 @@ build += {
       // I got some compile error here (September 2018) that seemed unlikely to be
       // significant. it's fine, we don't need to have every last subproject
       "monix", "okhttpBackendMonix", "asyncHttpClientBackendMonix"
-      // doesn't appear to have caught up with fs2-reactive-streams no longer being in a separate repo
-      // (October 2018)
-      "asyncHttpClientBackendFs2"
     ]
   }
 
