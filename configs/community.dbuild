@@ -285,6 +285,61 @@ build += {
 
 ]}
 
+//// space: scala.compiler_bridge_0_13
+
+build += {
+
+  space: scala.compiler_bridge_0_13
+
+  check-missing: [ true, false ]
+  cross-version: [ disabled, standard ]
+  extraction-version: ${vars.scala-version}
+  sbt-version: ${vars.sbt-version}
+
+  projects: [
+
+  ${vars.base} {
+    name: "compiler-bridge-0-13"
+    uri:  ${vars.uris.sbt-0-13-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
+    extra.projects: ["interfaceProj", "compileInterfaceProj"]
+    extra.commands: ${vars.default-commands} [
+      // "set every bintrayReleaseOnPublish := false"
+      "set every bintrayOmitLicense := true"  // otherwise it complains we don't have one
+    ]
+    // specs2 too old
+    extra.run-tests: false
+  }
+
+]}
+
+//// space: scala.compiler_bridge_1_0
+
+build += {
+
+  space: scala.compiler_bridge_1_0
+
+  check-missing: [ true, false ]
+  cross-version: [ disabled, standard ]
+  extraction-version: ${vars.scala-version}
+  sbt-version: ${vars.sbt-version}
+
+  projects: [
+
+  ${vars.base} {
+    name: "compiler-bridge-1-0"
+    uri:  ${vars.uris.zinc-uri}
+    extra.projects: ["compilerBridge", "compilerBridgeTest", "compilerInterface"]
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    check-missing: false  // ignore missing scalafmt
+    extra.commands: ${vars.default-commands} [
+      "set every scalafmtOnCompile := false"
+    ]
+  }
+
+]}
+
+
 //// space: scala.main
 
 build += {
