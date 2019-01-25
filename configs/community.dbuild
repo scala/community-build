@@ -1318,15 +1318,12 @@ build += {
     extra.projects: ["fansiJVM"]  // no Scala.js
   }
 
-  // using Yoshida-san's fork, pending merge of https://github.com/lihaoyi/PPrint/pull/21
   ${vars.base} {
     name: "pprint"
     uri:  ${vars.uris.pprint-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["pprintJVM"]  // no Scala.js
-    // there is a post-2.12.6 failure because a test is sensitive
-    // Iterator#toString format.  we could re-enable once 2.12.7
-    // is released and the repo has upgraded
+    // we could re-enable tests if https://github.com/lihaoyi/PPrint/pull/23
+    // is updated for 2.12.8 and merged
     extra.test-tasks: ["compile"]
   }
 
