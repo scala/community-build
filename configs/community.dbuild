@@ -2015,8 +2015,11 @@ build += {
   ${vars.base} {
     name: "scalaz-zio"
     uri:  ${vars.uris.scalaz-zio-uri}
-    // omit benchmarks, microsite, Scala.js
-    extra.projects: ["coreJVM", "interopSharedJVM", "interopCatsJVM", "interopFutureJVM", "interopMonixJVM", "interopScalaz7xJVM"]
+    // omit benchmarks, microsite, Scala.js;
+    // also omit interopCatsJVM; tried it but got "conflicting cross-version suffixes"
+    // error I didn't understand (see
+    // https://github.com/scala/community-builds/pull/831#issuecomment-455666134)
+    extra.projects: ["coreJVM", "interopSharedJVM", "interopFutureJVM", "interopMonixJVM", "interopScalaz7xJVM"]
     // dbuild messes with the jcstress dependency that comes from sbt-jcstress. not really sure
     // what's going on, but we can work around it:
     extra.commands: ${vars.default-commands} [
