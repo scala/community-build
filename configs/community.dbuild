@@ -298,6 +298,8 @@ build += {
 
   projects: [
 
+  // forked (January 2019) for JDK 11 friendliness. we can unfork if
+  // this is merged: https://github.com/sbt/sbt/pull/4518
   ${vars.base} {
     name: "compiler-bridge-0-13"
     uri:  ${vars.uris.sbt-0-13-uri}
@@ -305,7 +307,6 @@ build += {
     extra.projects: ["interfaceProj", "compileInterfaceProj"]
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
-      // "set every bintrayReleaseOnPublish := false"
       "set every bintrayOmitLicense := true"  // otherwise it complains we don't have one
     ]
     // specs2 too old
@@ -1345,15 +1346,12 @@ build += {
     extra.projects: ["fansiJVM"]  // no Scala.js
   }
 
-  // using Yoshida-san's fork, pending merge of https://github.com/lihaoyi/PPrint/pull/21
   ${vars.base} {
     name: "pprint"
     uri:  ${vars.uris.pprint-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["pprintJVM"]  // no Scala.js
-    // there is a post-2.12.6 failure because a test is sensitive
-    // Iterator#toString format.  we could re-enable once 2.12.7
-    // is released and the repo has upgraded
+    // we could re-enable tests if https://github.com/lihaoyi/PPrint/pull/23
+    // is updated for 2.12.8 and merged
     extra.test-tasks: ["compile"]
   }
 
