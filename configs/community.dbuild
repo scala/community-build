@@ -186,6 +186,8 @@ build += {
   }
 
   // see also scalatest-tests
+  // forked for: build tweak, JDK 11 friendliness, comment out a test
+  // fork refreshed (from 3.0.x branch) January 2019
   ${vars.base} {
     name: "scalatest"
     uri:  ${vars.uris.scalatest-uri}
@@ -259,14 +261,73 @@ build += {
   ${vars.base} {
     name: "scribe"
     uri:  ${vars.uris.scribe-uri}
-    extra.projects: ["coreJVM", "macrosJVM"]
-    // intermittently failing test I haven't gotten around to reporting upstream
+    extra.projects: ["coreJVM", "macrosJVM", "slf4j"]
     extra.commands: ${vars.default-commands} [
+      // intermittently failing test I haven't gotten around to reporting upstream
       "set excludeFilter in (Test, unmanagedSources) in coreJVM := HiddenFileFilter || \"FileLoggingSpec.scala\""
+      // failure here looks like a time zone mistake
+      "set excludeFilter in (Test, unmanagedSources) in slf4j := HiddenFileFilter || \"SLF4JSpec.scala\""
     ]
   }
 
 ]}
+
+//// space: scala.compiler_bridge_0_13
+
+build += {
+
+  space: scala.compiler_bridge_0_13
+
+  check-missing: [ true, false ]
+  cross-version: [ disabled, standard ]
+  extraction-version: ${vars.scala-version}
+  sbt-version: ${vars.sbt-version}
+
+  projects: [
+
+  // forked (January 2019) for JDK 11 friendliness. we can unfork if
+  // this is merged: https://github.com/sbt/sbt/pull/4518
+  ${vars.base} {
+    name: "compiler-bridge-0-13"
+    uri:  ${vars.uris.sbt-0-13-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
+    extra.projects: ["interfaceProj", "compileInterfaceProj"]
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayOmitLicense := true"  // otherwise it complains we don't have one
+    ]
+    // specs2 too old
+    extra.run-tests: false
+  }
+
+]}
+
+//// space: scala.compiler_bridge_1_0
+
+build += {
+
+  space: scala.compiler_bridge_1_0
+
+  check-missing: [ true, false ]
+  cross-version: [ disabled, standard ]
+  extraction-version: ${vars.scala-version}
+  sbt-version: ${vars.sbt-version}
+
+  projects: [
+
+  ${vars.base} {
+    name: "compiler-bridge-1-0"
+    uri:  ${vars.uris.zinc-uri}
+    extra.projects: ["compilerBridge", "compilerBridgeTest", "compilerInterface"]
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    check-missing: false  // ignore missing scalafmt
+    extra.commands: ${vars.default-commands} [
+      "set every scalafmtOnCompile := false"
+    ]
+  }
+
+]}
+
 
 //// space: scala.main
 
@@ -470,7 +531,9 @@ build += {
   // rebuilding takes a long time too.  so in general we want to
   // freeze at a tag (preferably) or SHA (if we must)
   // also forked (January 2019), based off v2.5.19, for JDK 11 friendliness,
-  // see https://github.com/scala/community-builds/pull/832
+  // see https://github.com/scala/community-builds/pull/832 ; and also
+  // because of January 2019 changes to ScalaTest on 3.0.x branch that are
+  // source-incompatible when seen from Java (Akka uses ScalaTest from Java)
   ${vars.base} {
     name: "akka"
     uri:  ${vars.uris.akka-uri}
@@ -635,6 +698,8 @@ build += {
     ]
   }
 
+  // forked (January 2019) because of recent changes to ScalaTest on 3.0.x branch
+  // that are source-incompatible when seen from Java source
   ${vars.base} {
     name: "akka-http"
     uri:  ${vars.uris.akka-http-uri}
@@ -810,6 +875,8 @@ build += {
     ]
   }
 
+  // forked (January 2019) because of recent changes to ScalaTest on 3.0.x branch
+  // that are source-incompatible when seen from Java (parboiled uses ScalaTest from Java)
   ${vars.base} {
     name: "parboiled"
     uri:  ${vars.uris.parboiled-uri}
@@ -1037,6 +1104,11 @@ build += {
     uri:  ${vars.uris.lift-json-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["lift-json"]
+  }
+
+  ${vars.base} {
+    name: "sconfig"
+    uri:  ${vars.uris.sconfig-uri}
   }
 
   // frozen (November 2017) at June 2017 commit, for compatibility with
@@ -1389,8 +1461,6 @@ build += {
     uri:  ${vars.uris.gigahorse-uri}
     // as of August 2017, doesn't compile against latest akka-http
     extra.exclude: ["akkaHttp"]
-    // pending: https://github.com/eed3si9n/gigahorse/issues/54
-    extra.test-tasks: ["compile"]
   }
 
   // dependency of scalachess
@@ -1971,6 +2041,18 @@ build += {
     check-missing: false
   }
 
+  ${vars.base} {
+    name: "mdoc"
+    uri:  ${vars.uris.mdoc-uri}
+    extra.exclude: [
+      "lsp"  // Olaf says: "please exclude [...] it's an undocumented and untested module"
+      "js", "jsdocs", "docs", "unit"  // no Scala.js plz
+    ]
+    // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
+    deps.ignore: ["org.scala-sbt#scripted-sbt"]
+    check-missing: false
+  }
+
 ]}
 
 //// space: jawn_0_10
@@ -2133,7 +2215,6 @@ build += {
       // library com.avsystem.commons#commons-core is not provided
       "akka-http-avsystem-gencodec"
     ]
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     // apparently some dependency dropped its scala-reflect dependency?
     // and we have the newer version of that dependency here in the
     // community build, while the akka-http-jackson subproject's
@@ -2143,7 +2224,6 @@ build += {
       "org.scala-lang#scala-reflect"
     ]
     extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
       "set libraryDependencies in `akka-http-jackson` += \"org.scala-lang\" %% \"scala-reflect\" % \""${vars.scala-version}"\""
     ]
   }
