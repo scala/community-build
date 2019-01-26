@@ -54,7 +54,7 @@ vars {
 
 //// compiler options manipulation
 
-// appendScalacOptions, removeScalacOptions, removeMacroParadise
+// appendScalacOptions, removeScalacOptions, removeDependency
 // let us work around https://github.com/lightbend/dbuild/issues/144
 vars.default-commands += """
 set commands ++= {
@@ -87,21 +87,21 @@ set commands ++= {
   }
   def removeScalacOptions(s: State, args: Seq[String]): State =
     alterTask(s, scalacOptions)(_.filterNot(args.contains))
-  def removeMacroParadise(s: State, args: Seq[String]): State = {
-    require(args.isEmpty)
+  def removeDependency(s: State, args: Seq[String]): State = {
+    require(args.size == 2)
     alterSetting(s, libraryDependencies)(
-      _.filterNot(mod => mod.organization == "org.scalamacros" && mod.name == "paradise"))
+      _.filterNot(mod => mod.organization == args(0) && mod.name == args(1)))
   }
   Seq(
     Command.args("appendScalacOptions", "<option>")(appendScalacOptions),
     Command.args("removeScalacOptions", "<option>")(removeScalacOptions),
-    Command.args("removeMacroParadise", "<option>")(removeMacroParadise))
+    Command.args("removeDependency", "<org> <artifact>")(removeDependency))
 }
 """
 vars.default-commands += "appendScalacOptions "${vars.scalac-opts}
 vars.default-commands += "removeScalacOptions -Xfatal-warnings -Yno-adapted-args -Ywarn-inaccessible -Ywarn-nullary-override -Ywarn-nullary-unit -Ywarn-infer-any -Ywarn-unused-import -Ypartial-unification -Ywarn-adapted-args"
 vars.default-commands += "appendScalacOptions -Ymacro-annotations"
-vars.default-commands += "removeMacroParadise"
+vars.default-commands += "removeDependency org.scalamacros paradise"
 vars.base.extra.commands = ${vars.default-commands}
 
 //// count lines of code
@@ -387,7 +387,12 @@ build += {
     extra.commands: ${vars.base.extra.commands} [
       // otherwise sbt-gpg errors on `publish`
       "set every gpgWarnOnFailure := true"
+      // we have wartremover, but it's better to avoid the dependency if we can, to help
+      // the dependency structure flatter overall
+      "removeDependency org.wartremover wartremover"
+      "removeScalacOptions -P:wartremover:traverser:org.wartremover.warts.ExplicitImplicitTypes -P:wartremover:traverser:org.wartremover.warts.ImplicitConversion"
     ]
+    deps.ignore: ["org.wartremover#wartremover"]
   }
 
   ${vars.base} {
