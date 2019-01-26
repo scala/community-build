@@ -45,7 +45,7 @@ fi
 # use -n since running locally you don't want notifications sent,
 # and on our Jenkins setup it doesn't actually work (for now anyway)
 
-echo "dbuild-${DBUILDVERSION}/bin/dbuild" -n "$DBUILDCONFIG" "${@}"
+echo "dbuild-${DBUILDVERSION}/bin/dbuild" -Dhttps.protocols=TLSv1.2 -n "$DBUILDCONFIG" "${@}"
 ("dbuild-${DBUILDVERSION}/bin/dbuild" -n "$DBUILDCONFIG" "${@}" 2>&1 | tee "dbuild-${DBUILDVERSION}/dbuild.out") || STATUS=$?
 BUILD_ID="$(grep '^\[info\]  uuid = ' "dbuild-${DBUILDVERSION}/dbuild.out" | sed -e 's/\[info\]  uuid = //')"
 echo "The repeatable UUID of this build was: ${BUILD_ID}"
