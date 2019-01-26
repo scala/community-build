@@ -55,7 +55,6 @@ object SuccessReport {
     "parboiled2",
     "pcplod",
     "pprint",
-    "scala-async",
     "scala-continuations",
     "scala-java-time",  // not investigated
     "scala-java8-compat",
