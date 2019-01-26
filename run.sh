@@ -42,6 +42,10 @@ else
     export NODE=node
 fi
 
+# override dbuild.properties on JDK 6, since JDK 6 doesn't support
+# TLS > 1.0 (unless you pay Oracle), so we need to use http not https
+cp dbuild-jdk6.properties dbuild-${DBUILDVERSION}/bin/dbuild.properties
+
 # use -n since running locally you don't want notifications sent,
 # and on our Jenkins setup it doesn't actually work (for now anyway)
 
