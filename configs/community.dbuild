@@ -5,16 +5,12 @@
 // - scala.main
 //   - scala.main.jawn_0_10
 //   - scala.main.jawn_0_11
-// - scala.scalaz8
 
 // the jawn split is because sbt 1 uses jawn 0.10.x (via its dependency
 //   on sjson-new) and the sbt team is worried about the possible
 //   impact of upgrading on binary compatibility of sbt plugins.
 // but in the meantime the whole Typelevel ecosystem is moving onto
 //   jawn 0.11, and the two versions are source-incompatible.
-
-// the scalaz 7/8 split is because both scalaz versions use (at least
-//   some of) the same artifact names
 
 //// from environment
 
@@ -2026,10 +2022,16 @@ build += {
     uri:  ${vars.uris.kafka-uri}
   }
 
-  // dependency of scalaz8, scalaz-zio
+  // dependency of both scalaz8 and scalaz-zio
   ${vars.base} {
     name: "pascal"
     uri:  ${vars.uris.pascal-uri}
+  }
+
+  ${vars.base} {
+    name: "scalaz8"
+    uri:  ${vars.uris.scalaz8-uri}
+    extra.projects: ["baseJVM", "metaJVM", "lawsJVM", "tests"]
   }
 
   ${vars.base} {
@@ -2037,7 +2039,7 @@ build += {
     uri:  ${vars.uris.scalaz-zio-uri}
     // omit benchmarks, microsite, Scala.js;
     // also omit interopCatsJVM; tried it but got "conflicting cross-version suffixes"
-    // error I didn't understand (see
+    // error I didn't understand (see:
     // https://github.com/scala/community-builds/pull/831#issuecomment-455666134)
     extra.projects: ["coreJVM", "interopSharedJVM", "interopFutureJVM", "interopMonixJVM", "interopScalaz7xJVM"]
     // dbuild messes with the jcstress dependency that comes from sbt-jcstress. not really sure
@@ -2485,32 +2487,6 @@ build += {
     uri:  ${vars.uris.circe-derivation-uri}
     // there are some others, but really just trying to get lsp4s going at the moment
     extra.projects: ["derivation", "annotations"]
-  }
-
-]}
-
-//// space: scalaz8
-
-build += {
-
-  space: scala.scalaz8
-
-  check-missing: [ true, false ]
-  cross-version: [ disabled, standard ]
-  extraction-version: ${vars.scala-version}
-  sbt-version: ${vars.sbt-version}
-
-  projects: [
-
-  // needs its own space because:
-  // [error] Fatal: multiple projects have the same artifacts visible in the same space.
-  // [error]   org.scalaz#scalaz-effect  from scalaz and scalaz8, both visible in space "scala"
-  // frozen (June 2018) because of this error, not investigated:
-  // [scalaz8:error] scala.MatchError: d4636d92-SNAPSHOT (of class java.lang.String)
-  ${vars.base} {
-    name: "scalaz8"
-    uri:  ${vars.uris.scalaz8-uri}
-    extra.projects: ["baseJVM", "effectJVM", "metaJVM"]
   }
 
 ]}
