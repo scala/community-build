@@ -2022,16 +2022,9 @@ build += {
     uri:  ${vars.uris.kafka-uri}
   }
 
-  // dependency of both scalaz8 and scalaz-zio
   ${vars.base} {
     name: "pascal"
     uri:  ${vars.uris.pascal-uri}
-  }
-
-  ${vars.base} {
-    name: "scalaz8"
-    uri:  ${vars.uris.scalaz8-uri}
-    extra.projects: ["baseJVM", "metaJVM", "lawsJVM", "tests"]
   }
 
   ${vars.base} {
