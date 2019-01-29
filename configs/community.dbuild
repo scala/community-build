@@ -1098,7 +1098,7 @@ build += {
     uri:  ${vars.uris.playframework-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
     extra.exclude: [
-      "SBT-Plugin"  // out of scope
+      "SBT-Plugin", "Play-Docs-SBT-Plugin"  // out of scope
       "Play-Integration-Test"  // TODO/WIP, see https://github.com/scala/community-builds/pull/819
       "Play-Microbenchmark" // out of scope (and besides, requires Play-Integration-Test)
     ]
