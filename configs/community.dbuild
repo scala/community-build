@@ -418,14 +418,10 @@ build += {
     extra.projects: ["testJVM"]
   }
 
-  // 2.13: forked (January 2019) because deprecated APIs were removed from scala.reflect
   ${vars.base} {
     name: "wartremover"
     uri:  ${vars.uris.wartremover-uri}
     extra.exclude: ["sbt-plugin"]
-    // 2.13: until after RC1 is out, we don't care if wartremover actually works,
-    // we just don't want it to get in the way of other things
-    extra.run-tests: false
     deps.ignore: ["org.scala-sbt#scripted-plugin"]
     check-missing: false
   }
