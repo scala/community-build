@@ -58,7 +58,6 @@ object SuccessReport {
     "scala-continuations",
     "scala-java-time",  // not investigated
     "scala-java8-compat",
-    "scala-js",
     "scala-refactoring",
     "scala-sculpt",
     "scala-stm",
