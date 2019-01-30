@@ -422,11 +422,12 @@ build += {
   ${vars.base} {
     name: "wartremover"
     uri:  ${vars.uris.wartremover-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.exclude: ["sbt-plugin"]
     // 2.13: until after RC1 is out, we don't care if wartremover actually works,
     // we just don't want it to get in the way of other things
     extra.run-tests: false
+    deps.ignore: ["org.scala-sbt#scripted-plugin"]
+    check-missing: false
   }
 
   // frozen at v1.5.0 tag because dependencies have historically been fragile.
@@ -1092,6 +1093,13 @@ build += {
     uri:  ${vars.uris.cachecontrol-uri}
   }
 
+  // dependency of playframework
+  ${vars.base} {
+    name: "play-file-watch"
+    uri:  ${vars.uris.play-file-watch-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
+  }
+
   // temporarily forked (October 2018) to remove uses of DebugConfiguration which was
   // removed from ssl-config; https://github.com/lightbend/ssl-config/issues/142
   // is about restoring it
@@ -1101,22 +1109,15 @@ build += {
     name: "playframework"
     uri:  ${vars.uris.playframework-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
-    // TODO: enable more projects? these are just a few that seemed especially high-value.
-    // we tried including "Play-Integration-Test" but hit a mysterious StackOverflowError
-    // in scala.tools.nsc.javac.JavaScanners; see https://github.com/scala/community-builds/issues/304
-    extra.projects: [
-      "Play", "Play-Test", "Play-WS", "Play-Cache", "Play-AHC-WS", "Filters-Helpers", "Play-Logback"
-      // dependency of Lagom
-      "Play-JDBC"
+    extra.exclude: [
+      "SBT-Plugin", "Play-Docs-SBT-Plugin", "Play-Docs"  // out of scope
+      "Play-Integration-Test"  // TODO/WIP, see https://github.com/scala/community-builds/pull/819
+      "Play-Microbenchmark" // out of scope (and besides, requires Play-Integration-Test)
     ]
-    extra.exclude: ["SBT-Plugin"]
     extra.directory: "framework"
     extra.commands: ${vars.default-commands} [
-      // workaround for the problem with PlayVersion.scala file is being passed twice to Scala compiler
-      // and we get double definition error
-      "set sources in (PlayProject, Compile, compile) := (sources in (PlayProject, Compile, compile)).value.distinct"
-      // there was some Scaladoc error here I didn't bother to look into
-      "set sources in doc in Compile in PlayProject := List()"
+      // https://github.com/scala/community-builds/pull/819#issuecomment-443068694
+      "set excludeFilter in (Test, unmanagedSources) in PlayIntegrationTestProject := HiddenFileFilter || \"FormFieldOrderSpec.scala\""
     ]
   }
 
