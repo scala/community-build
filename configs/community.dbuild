@@ -426,7 +426,6 @@ build += {
   ${vars.base} {
     name: "wartremover"
     uri:  ${vars.uris.wartremover-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.exclude: ["sbt-plugin"]
   }
 
