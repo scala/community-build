@@ -427,6 +427,8 @@ build += {
     name: "wartremover"
     uri:  ${vars.uris.wartremover-uri}
     extra.exclude: ["sbt-plugin"]
+    deps.ignore: ["org.scala-sbt#scripted-plugin"]
+    check-missing: false
   }
 
   // frozen at v1.5.0 tag because dependencies have historically been fragile.
