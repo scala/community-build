@@ -299,8 +299,6 @@ build += {
 
   projects: [
 
-  // forked (January 2019) for JDK 11 friendliness. we can unfork if
-  // this is merged: https://github.com/sbt/sbt/pull/4518
   ${vars.base} {
     name: "compiler-bridge-0-13"
     uri:  ${vars.uris.sbt-0-13-uri}
@@ -428,7 +426,6 @@ build += {
   ${vars.base} {
     name: "wartremover"
     uri:  ${vars.uris.wartremover-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.exclude: ["sbt-plugin"]
   }
 
@@ -983,6 +980,8 @@ build += {
     extra.projects: ["crossJVM"]  // no Scala.js please
   }
 
+  // temporarily forked (to remove hard-to-resolve sbt plugin)
+  // until this is merged: https://github.com/lightbend/ssl-config/pull/155
   ${vars.base} {
     name: "ssl-config"
     uri:  ${vars.uris.ssl-config-uri}
