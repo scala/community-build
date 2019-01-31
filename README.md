@@ -8,7 +8,7 @@ a corpus of Scala open source projects together using Lightbend's
 
 **How big is it?**
 It's **3.2 million lines** of Scala code, total,
-from **188 projects** (as of November 2018),
+from **185 projects** (as of January 2019),
 and takes about **15 hours** to run.
 
 **Why do this?** The main goal is to guard against regressions in new
