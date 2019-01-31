@@ -46,7 +46,6 @@ object SuccessReport {
     "jawn-fs2",  // not investigated
     "lift-json",
     "linter",
-    "log4s",
     "magnolia",
     "mima",  // ran afoul of some scala.tools.nsc change, it looks like
     "monix",
