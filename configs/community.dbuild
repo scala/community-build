@@ -2501,4 +2501,16 @@ build += {
     ]
   }
 
+  // dependency of scala-pet-store
+  ${vars.base} {
+    name: "tsec"
+    uri:  ${vars.uris.tsec-uri}
+    extra.exclude: [
+      "microsite", "tsec-bench"  // out of scope
+      "tsec-libsodium"  // java.lang.UnsatisfiedLinkError: no sodiumjni in java.library.path
+      "tsec-examples"  // depends on tsec-libsodium
+    ]
+    check-missing: false  // ignore missing scalafmt
+  }
+
 ]}
