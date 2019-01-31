@@ -354,15 +354,11 @@ build += {
 
   projects: [
 
-  // frozen at v0.1.1 for now, using master broke downstream projects.
-  // (actually, forked off v0.1.1 to get JDK 11 fix which was merged upstream,
-  // but after v0.1.1 was tagged)
   ${vars.base} {
     name: "scala-collection-compat"
     uri:  ${vars.uris.scala-collection-compat-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
-    // change to "compat12" when we unfreeze
-    extra.projects: ["scala-collection-compat"]  // no Scala.js or Scalafix rules plz
+    extra.projects: ["compat12"]  // no Scala.js or Scalafix rules plz
   }
 
   // dependency of cats
