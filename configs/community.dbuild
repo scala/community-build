@@ -928,7 +928,8 @@ build += {
       // this is an aggregation project that we exclude because it adds a
       // ScalaMeter dependency
       "eff"
-      // we don't have doobie
+      // we have doobie now, but for some reason the dependency wasn't found
+      // (January 2019), I didn't investigate
       "doobie"
       // we don't have catbird
       "twitter"
@@ -1094,6 +1095,10 @@ build += {
     name: "play-file-watch"
     uri:  ${vars.uris.play-file-watch-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
+    extra.commands: ${vars.default-commands} [
+      // failing test I haven't gotten around to reporting upstream
+      "set excludeFilter in (Test, unmanagedSources) in `play-file-watch` := HiddenFileFilter || \"FileWatchServiceSpec.scala\""
+    ]
   }
 
   // temporarily forked (October 2018) to remove uses of DebugConfiguration which was
@@ -2320,6 +2325,8 @@ build += {
       "parserJVM", "genericJVM", "literalJVM", "scodecJVM", "testingJVM", "testsJVM"
       // dependency of scrooge-shapes
       "genericExtrasJVM"
+      // dependency of scala-pet-store
+      "java8JVM"
     ]
   }
 
@@ -2381,7 +2388,7 @@ build += {
     ]
     extra.exclude: [
       // outside our purview
-      "bench", "docs"
+      "bench", "docs", "website"
       // requires com.eed3si9n#treehugger, which would be nice to add actually, but I'm
       // not going to tackle it right now, maybe some other time
       "mimedb-generator"
@@ -2491,6 +2498,19 @@ build += {
     uri:  ${vars.uris.circe-derivation-uri}
     // there are some others, but really just trying to get lsp4s going at the moment
     extra.projects: ["derivation", "annotations"]
+  }
+
+  // dependency of scala-pet-store
+  ${vars.base} {
+    name: "doobie"
+    uri:  ${vars.uris.doobie-uri}
+    extra.commands: ${vars.default-commands} [
+      // as per https://github.com/scala/community-builds/pull/835#issuecomment-455729365,
+      // these subprojects require a Postgres instance for the tests to run
+      "set executeTests in postgres in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+      "set executeTests in `postgres-circe` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+      "set executeTests in example in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+    ]
   }
 
 ]}
