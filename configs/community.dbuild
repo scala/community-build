@@ -261,30 +261,6 @@ build += {
     ]
   }
 
-  ${vars.base} {
-    name: "silencer"
-    uri:  ${vars.uris.silencer-uri}
-  }
-
-  // dependency of scribe
-  ${vars.base} {
-    name: "perfolation"
-    uri:  ${vars.uris.perfolation-uri}
-    extra.projects: ["coreJVM"]
-  }
-
-  ${vars.base} {
-    name: "scribe"
-    uri:  ${vars.uris.scribe-uri}
-    extra.projects: ["coreJVM", "macrosJVM", "slf4j"]
-    extra.commands: ${vars.default-commands} [
-      // intermittently failing test I haven't gotten around to reporting upstream
-      "set excludeFilter in (Test, unmanagedSources) in coreJVM := HiddenFileFilter || \"FileLoggingSpec.scala\""
-      // failure here looks like a time zone mistake
-      "set excludeFilter in (Test, unmanagedSources) in slf4j := HiddenFileFilter || \"SLF4JSpec.scala\""
-    ]
-  }
-
   // frozen at v0.1.1 for now, using master broke downstream projects.
   // (actually, forked off v0.1.1 to get JDK 11 fix which was merged upstream,
   // but after v0.1.1 was tagged)
@@ -1101,6 +1077,11 @@ build += {
     uri:  ${vars.uris.monocle-uri}
     // try to enable more subprojects?
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM", "genericJVM"]
+  }
+
+  ${vars.base} {
+    name: "silencer"
+    uri:  ${vars.uris.silencer-uri}
   }
 
   // forked to remove sbt-jmh from extras subproject.
@@ -1998,6 +1979,25 @@ build += {
     // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
     deps.ignore: ["org.scala-sbt#scripted-sbt"]
     check-missing: false
+  }
+
+  // dependency of scribe
+  ${vars.base} {
+    name: "perfolation"
+    uri:  ${vars.uris.perfolation-uri}
+    extra.projects: ["coreJVM"]
+  }
+
+  ${vars.base} {
+    name: "scribe"
+    uri:  ${vars.uris.scribe-uri}
+    extra.projects: ["coreJVM", "macrosJVM", "slf4j"]
+    extra.commands: ${vars.default-commands} [
+      // intermittently failing test I haven't gotten around to reporting upstream
+      "set excludeFilter in (Test, unmanagedSources) in coreJVM := HiddenFileFilter || \"FileLoggingSpec.scala\""
+      // failure here looks like a time zone mistake
+      "set excludeFilter in (Test, unmanagedSources) in slf4j := HiddenFileFilter || \"SLF4JSpec.scala\""
+    ]
   }
 
 ]}
