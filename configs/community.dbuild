@@ -366,6 +366,11 @@ build += {
     name: "scala-parallel-collections"
     uri:  ${vars.uris.scala-parallel-collections-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
+    extra.commands: ${vars.base.extra.commands} [
+      // no idea why this would only be required in the community build context, but without it,
+      // we get java.lang.ClassNotFoundException: org.hamcrest.SelfDescribing
+      "set libraryDependencies in junit += \"org.hamcrest\" % \"hamcrest-core\" % \"1.3\" % \"test\""
+    ]
   }
 
   // dependency of cats
