@@ -360,6 +360,14 @@ build += {
     extra.projects: ["scala-collection-compat"]  // no Scala.js or Scalafix rules plz
   }
 
+  // using Julien's fork until this is merged:
+  // https://github.com/scala/scala-parallel-collections/pull/42
+  ${vars.base} {
+    name: "scala-parallel-collections"
+    uri:  ${vars.uris.scala-parallel-collections-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
+  }
+
   // dependency of cats
   ${vars.base} {
     name: "export-hook"
