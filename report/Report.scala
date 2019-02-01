@@ -36,14 +36,19 @@ object SuccessReport {
     "airframe",
     "akka",
     "base64",
+    "blaze",  // as of Feb 1, doesn't look a 2.13 upgrade has been attempted
     "boopickle",
     "cachecontrol",
     "case-app",
+    "coursier",  // typer crash
     "enumeratum",
     "grizzled",
     "http4s-parboiled2",
+    "jackson-module-scala",  // no arguments allowed for nullary method result
     "jawn-0-10",
     "jawn-fs2",  // not investigated
+    "jsoniter-scala",  // some minor collections ordering thing?
+    "kafka",  // doesn't look a 2.13 upgrade has been attempted
     "lift-json",
     "linter",
     "magnolia",
@@ -51,6 +56,7 @@ object SuccessReport {
     "monix",
     "nyaya",
     "paradox",
+    "parboiled",  // package org.scalatestplus.testng does not exist
     "parboiled2",
     "pcplod",
     "pprint",
@@ -63,15 +69,19 @@ object SuccessReport {
     "scala-swing",
     "scala-xml-quote",
     "scalajson",
+    "scallop",  // trivial post-M5 `remove` vs `removed` fix needed
     "scalameter",
     "scalamock",
     "scalapb",
+    "scalariform",  // not investigated
     "scalastyle",
     "scalatest-tests",
     "scalaz8",
     "scapegoat",
     "scodec",
+    "scopt",  // no arguments allowed for nullary method
     "scribe",
+    "silencer",  // not investigated
     "slick",
     "specs2-more",
     "spire",
