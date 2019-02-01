@@ -2,15 +2,15 @@
 
 // we have these spaces:
 // - scala
-// - scala.main
-//   - scala.main.jawn_0_10
-//   - scala.main.jawn_0_11
-
+//   - scala.main
+//     - scala.main.jawn_0_10
+//     - scala.main.jawn_0_11
+//   - scala.compiler_bridge_0_13
+//   - scala.compiler_bridge_1_0
 // the jawn split is because sbt 1 uses jawn 0.10.x (via its dependency
-//   on sjson-new) and the sbt team is worried about the possible
-//   impact of upgrading on binary compatibility of sbt plugins.
-// but in the meantime the whole Typelevel ecosystem is moving onto
-//   jawn 0.11, and the two versions are source-incompatible.
+// on sjson-new) and the sbt team doesn't want to break  binary compatibility
+// of sbt plugins. nearly everything else is on jawn 0.11, and the two versions
+// are source-incompatible.
 
 //// from environment
 
@@ -178,13 +178,14 @@ build += {
       }
     ]
   }
+
 ]}
 
-//// space: scala
+//// space: scala.main
 
 build += {
 
-  space: scala
+  space: scala.main
 
   check-missing: [ true, false ]
   cross-version: [ disabled, standard ]
@@ -283,76 +284,6 @@ build += {
       "set excludeFilter in (Test, unmanagedSources) in slf4j := HiddenFileFilter || \"SLF4JSpec.scala\""
     ]
   }
-
-]}
-
-//// space: scala.compiler_bridge_0_13
-
-build += {
-
-  space: scala.compiler_bridge_0_13
-
-  check-missing: [ true, false ]
-  cross-version: [ disabled, standard ]
-  extraction-version: ${vars.scala-version}
-  sbt-version: ${vars.sbt-version}
-
-  projects: [
-
-  ${vars.base} {
-    name: "compiler-bridge-0-13"
-    uri:  ${vars.uris.sbt-0-13-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.projects: ["interfaceProj", "compileInterfaceProj"]
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    extra.commands: ${vars.default-commands} [
-      "set every bintrayOmitLicense := true"  // otherwise it complains we don't have one
-    ]
-    // specs2 too old
-    extra.run-tests: false
-  }
-
-]}
-
-//// space: scala.compiler_bridge_1_0
-
-build += {
-
-  space: scala.compiler_bridge_1_0
-
-  check-missing: [ true, false ]
-  cross-version: [ disabled, standard ]
-  extraction-version: ${vars.scala-version}
-  sbt-version: ${vars.sbt-version}
-
-  projects: [
-
-  ${vars.base} {
-    name: "compiler-bridge-1-0"
-    uri:  ${vars.uris.zinc-uri}
-    extra.projects: ["compilerBridge", "compilerBridgeTest", "compilerInterface"]
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    check-missing: false  // ignore missing scalafmt
-    extra.commands: ${vars.default-commands} [
-      "set every scalafmtOnCompile := false"
-    ]
-  }
-
-]}
-
-
-//// space: scala.main
-
-build += {
-
-  space: scala.main
-
-  check-missing: [ true, false ]
-  cross-version: [ disabled, standard ]
-  extraction-version: ${vars.scala-version}
-  sbt-version: ${vars.sbt-version}
-
-  projects: [
 
   // frozen at v0.1.1 for now, using master broke downstream projects.
   // (actually, forked off v0.1.1 to get JDK 11 fix which was merged upstream,
@@ -750,7 +681,6 @@ build += {
     extra.sbt-version: ${vars.sbt-0-13-version}
   }
 
-  // forked (September 2018) for JDK 11 friendliness
   ${vars.base} {
     name: "slick"
     uri:  ${vars.uris.slick-uri}
@@ -771,10 +701,6 @@ build += {
       "osgitests"
       // I think these expect a Slick snapshot to have been `publishLocal`ed?
       "sample-slick-multidb", "sample-hello-slick", "sample-slick-plainsql", "sample-slick-testkit-example"
-    ]
-    extra.commands: ${vars.default-commands} [
-      // fails on JDK 11; see https://github.com/slick/slick/issues/1908
-      "set excludeFilter in (Test, unmanagedSources) in slickTestkitProject := HiddenFileFilter || \"ProfileTest.scala\""
     ]
   }
 
@@ -2516,6 +2442,60 @@ build += {
   ${vars.base} {
     name: "scala-pet-store"
     uri:  ${vars.uris.scala-pet-store-uri}
+  }
+
+]}
+
+//// space: scala.compiler_bridge_0_13
+
+build += {
+
+  space: scala.compiler_bridge_0_13
+
+  check-missing: [ true, false ]
+  cross-version: [ disabled, standard ]
+  extraction-version: ${vars.scala-version}
+  sbt-version: ${vars.sbt-version}
+
+  projects: [
+
+  ${vars.base} {
+    name: "compiler-bridge-0-13"
+    uri:  ${vars.uris.sbt-0-13-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
+    extra.projects: ["interfaceProj", "compileInterfaceProj"]
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayOmitLicense := true"  // otherwise it complains we don't have one
+    ]
+    // specs2 too old
+    extra.run-tests: false
+  }
+
+]}
+
+//// space: scala.compiler_bridge_1_0
+
+build += {
+
+  space: scala.compiler_bridge_1_0
+
+  check-missing: [ true, false ]
+  cross-version: [ disabled, standard ]
+  extraction-version: ${vars.scala-version}
+  sbt-version: ${vars.sbt-version}
+
+  projects: [
+
+  ${vars.base} {
+    name: "compiler-bridge-1-0"
+    uri:  ${vars.uris.zinc-uri}
+    extra.projects: ["compilerBridge", "compilerBridgeTest", "compilerInterface"]
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    check-missing: false  // ignore missing scalafmt
+    extra.commands: ${vars.default-commands} [
+      "set every scalafmtOnCompile := false"
+    ]
   }
 
 ]}
