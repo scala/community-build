@@ -358,7 +358,7 @@ build += {
     name: "scala-collection-compat"
     uri:  ${vars.uris.scala-collection-compat-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.projects: ["compat12"]  // no Scala.js or Scalafix rules plz
+    extra.projects: ["compat212"]  // no Scala.js or Scalafix rules plz
   }
 
   // dependency of cats
