@@ -746,7 +746,6 @@ build += {
     extra.sbt-version: ${vars.sbt-0-13-version}
   }
 
-  // forked (September 2018) for JDK 11 friendliness
   ${vars.base} {
     name: "slick"
     uri:  ${vars.uris.slick-uri}
@@ -767,10 +766,6 @@ build += {
       "osgitests"
       // I think these expect a Slick snapshot to have been `publishLocal`ed?
       "sample-slick-multidb", "sample-hello-slick", "sample-slick-plainsql", "sample-slick-testkit-example"
-    ]
-    extra.commands: ${vars.default-commands} [
-      // fails on JDK 11; see https://github.com/slick/slick/issues/1908
-      "set excludeFilter in (Test, unmanagedSources) in slickTestkitProject := HiddenFileFilter || \"ProfileTest.scala\""
     ]
   }
 
