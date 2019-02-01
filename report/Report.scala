@@ -34,7 +34,6 @@ object SuccessReport {
 
   val expectedToFail = Set[String](
     "airframe",
-    "akka",
     "base64",
     "blaze",  // as of Feb 1, doesn't look a 2.13 upgrade has been attempted
     "boopickle",
