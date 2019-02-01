@@ -861,6 +861,8 @@ build += {
   //   Scala module 2.8.8-dbuildx1c5888e4b2a136333f7edb02dbe6dc5abbfa7de1 requires Jackson Databind version >= 2.8.0 and < 2.9.0
   // for details on how this can happen, see comments on
   // https://github.com/scala/community-builds/pull/785
+  // 2.13: forked temporarily for post-M5 fix until this is merged:
+  // https://github.com/FasterXML/jackson-module-scala/pull/395
   ${vars.base} {
     name: "jackson-module-scala"
     uri:  ${vars.uris.jackson-module-scala-uri}
