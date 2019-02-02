@@ -957,10 +957,9 @@ build += {
     extra.projects: ["play-jsonJVM"]  // no Scala.js plz
   }
 
-  // frozen (October 2018) at v2.0.0-M6 tag because that's what playframework
-  // currently uses. playframework and play-ws tend to get a bit out of sync
-  // with each other so it's generally better to use a tag for play-ws.
-  // temporarily forked (October 2018) to remove uses of DebugConfiguration which was
+  // playframework and play-ws tend to get a bit out of sync with each other so it's generally better
+  // to have play-ws frozen at tag, unless it's forked. which it is right now:
+  // temporarily forked (February 2019) to remove uses of DebugConfiguration which was
   // removed from ssl-config; https://github.com/lightbend/ssl-config/issues/142
   // is about restoring it
   ${vars.base} {
@@ -971,8 +970,8 @@ build += {
     extra.exclude: ["integration-tests"]
   }
 
-  // dependency of play-ws. frozen (June 2018) at a March 2018 commit
-  // before an incompatible change was made (removing joda-time dependency)
+  // tracking 1.1.x branch since there are source-incompatible changes on master;
+  // see https://github.com/scala/community-builds/pull/838#issuecomment-455371993
   ${vars.base} {
     name: "cachecontrol"
     uri:  ${vars.uris.cachecontrol-uri}
