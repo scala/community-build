@@ -972,7 +972,7 @@ build += {
     extra.exclude: ["integration-tests"]
   }
 
-  // frozen at 1.1.5 since there are source-incompatible changes on master;
+  // tracking 1.1.x branch since there are source-incompatible changes on master;
   // see https://github.com/scala/community-builds/pull/838#issuecomment-455371993
   ${vars.base} {
     name: "cachecontrol"
