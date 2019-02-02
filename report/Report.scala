@@ -41,10 +41,10 @@ object SuccessReport {
     "cachecontrol",
     "case-app",
     "coursier",  // typer crash
+    "elastic4s",  // not investigated
     "enumeratum",
     "grizzled",
     "http4s-parboiled2",
-    "jackson-module-scala",  // no arguments allowed for nullary method result
     "jawn-0-10",
     "jawn-fs2",  // not investigated
     "jsoniter-scala",  // some minor collections ordering thing?
