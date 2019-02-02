@@ -39,12 +39,15 @@ object SuccessReport {
       case _ =>
         Set(
           "breeze",  // "object istack is not a member of package com.sun"
+          "compiler-bridge-1.0",  // not investigated
           "coursier",  // needs unfreeze to pull in https://github.com/coursier/coursier/pull/937
+          "doobie",  // needs scala/bug#11125 workaround
           "kxbmap-configs",  // "sjsonnew.DeserializationException: Field not found: $type"
           "playframework", // not investigated yet
           "sbt-util",  // needs scala/bug#11125 workaround
           "scala-debugger",  // "object FieldInfo is not a member of package sun.reflect"
           "scala-refactoring",  // needs scala/bug#11125 workaround?
+          "sconfig",  // test failures; see https://github.com/ekrich/sconfig/issues/4
           "slick",  // https://github.com/slick/slick/pull/1959
           "twitter-util",  // "javadoc: error - invalid flag: -d"
         )

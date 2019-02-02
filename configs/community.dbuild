@@ -2,19 +2,15 @@
 
 // we have these spaces:
 // - scala
-// - scala.main
-//   - scala.main.jawn_0_10
-//   - scala.main.jawn_0_11
-// - scala.scalaz8
-
+//   - scala.main
+//     - scala.main.jawn_0_10
+//     - scala.main.jawn_0_11
+//   - scala.compiler_bridge_0_13
+//   - scala.compiler_bridge_1_0
 // the jawn split is because sbt 1 uses jawn 0.10.x (via its dependency
-//   on sjson-new) and the sbt team is worried about the possible
-//   impact of upgrading on binary compatibility of sbt plugins.
-// but in the meantime the whole Typelevel ecosystem is moving onto
-//   jawn 0.11, and the two versions are source-incompatible.
-
-// the scalaz 7/8 split is because both scalaz versions use (at least
-//   some of) the same artifact names
+// on sjson-new) and the sbt team doesn't want to break  binary compatibility
+// of sbt plugins. nearly everything else is on jawn 0.11, and the two versions
+// are source-incompatible.
 
 //// from environment
 
@@ -54,30 +50,48 @@ vars {
 
 //// compiler options manipulation
 
-// appendScalacOptions and removeScalacOptions
+// appendScalacOptions, removeScalacOptions, removeDependency
 // let us work around https://github.com/lightbend/dbuild/issues/144
 vars.default-commands += """
 set commands ++= {
-  def alterScalacOptions(s: State, fn: Seq[String] => Seq[String]): State = {
+  // TODO: maybe Eugene & Dale could help eliminate the copy-and-paste
+  // between alterSetting and alterTask...?
+  def alterSetting[T](s: State, setting: SettingKey[T])(fn: T => T): State = {
     val extracted = Project extract s
     import extracted._
     val r = Project.relation(extracted.structure, true)
     val allDefs = r._1s.toSeq
-    val scopes = allDefs.filter(_.key == scalacOptions.key).map(_.scope).distinct
-    val redefined = scopes.map(scope => scalacOptions in scope ~= fn)
+    val scopes = allDefs.filter(_.key == setting.key).map(_.scope).distinct
+    val redefined = scopes.map(scope => setting in scope ~= fn)
     val session = extracted.session.appendRaw(redefined)
     BuiltinCommands.reapply(session, structure, s)
   }
-  def appendScalacOptions(s: State, args: Seq[String]) = {
+  def alterTask[T](s: State, task: TaskKey[T])(fn: T => T): State = {
+    val extracted = Project extract s
+    import extracted._
+    val r = Project.relation(extracted.structure, true)
+    val allDefs = r._1s.toSeq
+    val scopes = allDefs.filter(_.key == task.key).map(_.scope).distinct
+    val redefined = scopes.map(scope => task in scope ~= fn)
+    val session = extracted.session.appendRaw(redefined)
+    BuiltinCommands.reapply(session, structure, s)
+  }
+  def appendScalacOptions(s: State, args: Seq[String]): State = {
     def appendDistinct[A](x: Seq[A], y: Seq[A]) =
       x.filterNot(y.contains) ++ y
-    alterScalacOptions(s, appendDistinct(_, args))
+    alterTask(s, scalacOptions)(appendDistinct(_, args))
   }
-  def removeScalacOptions(s: State, args: Seq[String]) =
-    alterScalacOptions(s, _.filterNot(args.contains))
+  def removeScalacOptions(s: State, args: Seq[String]): State =
+    alterTask(s, scalacOptions)(_.filterNot(args.contains))
+  def removeDependency(s: State, args: Seq[String]): State = {
+    require(args.size == 2)
+    alterSetting(s, libraryDependencies)(
+      _.filterNot(mod => mod.organization == args(0) && mod.name == args(1)))
+  }
   Seq(
     Command.args("appendScalacOptions", "<option>")(appendScalacOptions),
-    Command.args("removeScalacOptions", "<option>")(removeScalacOptions))
+    Command.args("removeScalacOptions", "<option>")(removeScalacOptions),
+    Command.args("removeDependency", "<org> <artifact>")(removeDependency))
 }
 """
 vars.default-commands += "appendScalacOptions "${vars.scalac-opts}
@@ -164,13 +178,14 @@ build += {
       }
     ]
   }
+
 ]}
 
-//// space: scala
+//// space: scala.main
 
 build += {
 
-  space: scala
+  space: scala.main
 
   check-missing: [ true, false ]
   cross-version: [ disabled, standard ]
@@ -186,6 +201,8 @@ build += {
   }
 
   // see also scalatest-tests
+  // forked for: build tweak, JDK 11 friendliness, comment out a test
+  // fork refreshed (from 3.0.x branch) January 2019
   ${vars.base} {
     name: "scalatest"
     uri:  ${vars.uris.scalatest-uri}
@@ -244,43 +261,6 @@ build += {
     ]
   }
 
-  ${vars.base} {
-    name: "silencer"
-    uri:  ${vars.uris.silencer-uri}
-  }
-
-  // dependency of scribe
-  ${vars.base} {
-    name: "perfolation"
-    uri:  ${vars.uris.perfolation-uri}
-    extra.projects: ["coreJVM"]
-  }
-
-  ${vars.base} {
-    name: "scribe"
-    uri:  ${vars.uris.scribe-uri}
-    extra.projects: ["coreJVM", "macrosJVM"]
-    // intermittently failing test I haven't gotten around to reporting upstream
-    extra.commands: ${vars.default-commands} [
-      "set excludeFilter in (Test, unmanagedSources) in coreJVM := HiddenFileFilter || \"FileLoggingSpec.scala\""
-    ]
-  }
-
-]}
-
-//// space: scala.main
-
-build += {
-
-  space: scala.main
-
-  check-missing: [ true, false ]
-  cross-version: [ disabled, standard ]
-  extraction-version: ${vars.scala-version}
-  sbt-version: ${vars.sbt-version}
-
-  projects: [
-
   // frozen at v0.1.1 for now, using master broke downstream projects.
   // (actually, forked off v0.1.1 to get JDK 11 fix which was merged upstream,
   // but after v0.1.1 was tagged)
@@ -313,7 +293,12 @@ build += {
     extra.commands: ${vars.base.extra.commands} [
       // otherwise sbt-gpg errors on `publish`
       "set every gpgWarnOnFailure := true"
+      // we have wartremover, but it's better to avoid the dependency if we can, to help
+      // the dependency structure flatter overall
+      "removeDependency org.wartremover wartremover"
+      "removeScalacOptions -P:wartremover:traverser:org.wartremover.warts.ExplicitImplicitTypes -P:wartremover:traverser:org.wartremover.warts.ImplicitConversion"
     ]
+    deps.ignore: ["org.wartremover#wartremover"]
   }
 
   ${vars.base} {
@@ -348,8 +333,9 @@ build += {
   ${vars.base} {
     name: "wartremover"
     uri:  ${vars.uris.wartremover-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.exclude: ["sbt-plugin"]
+    deps.ignore: ["org.scala-sbt#scripted-plugin"]
+    check-missing: false
   }
 
   // frozen at v1.5.0 tag because dependencies have historically been fragile.
@@ -464,11 +450,15 @@ build += {
     ]
   }
 
-  // frozen (November 2018) at v2.5.18.  this repo is volatile (very
+  // frozen (January 2019) at v2.5.20.  this repo is volatile (very
   // frequent commits) and when it needs to be rebuilt, the testing
   // takes a long time (especially akka-more) and the downstream
   // rebuilding takes a long time too.  so in general we want to
   // freeze at a tag (preferably) or SHA (if we must)
+  // also forked (January 2019), based off v2.5.20, for JDK 11 friendliness,
+  // see https://github.com/scala/community-builds/pull/832 ; and also
+  // because of January 2019 changes to ScalaTest on 3.0.x branch that are
+  // source-incompatible when seen from Java (Akka uses ScalaTest from Java)
   ${vars.base} {
     name: "akka"
     uri:  ${vars.uris.akka-uri}
@@ -633,6 +623,8 @@ build += {
     ]
   }
 
+  // forked (January 2019) because of recent changes to ScalaTest on 3.0.x branch
+  // that are source-incompatible when seen from Java source
   ${vars.base} {
     name: "akka-http"
     uri:  ${vars.uris.akka-http-uri}
@@ -665,7 +657,6 @@ build += {
     extra.sbt-version: ${vars.sbt-0-13-version}
   }
 
-  // forked (September 2018) for JDK 11 friendliness
   ${vars.base} {
     name: "slick"
     uri:  ${vars.uris.slick-uri}
@@ -686,10 +677,6 @@ build += {
       "osgitests"
       // I think these expect a Slick snapshot to have been `publishLocal`ed?
       "sample-slick-multidb", "sample-hello-slick", "sample-slick-plainsql", "sample-slick-testkit-example"
-    ]
-    extra.commands: ${vars.default-commands} [
-      // fails on JDK 11; see https://github.com/slick/slick/issues/1908
-      "set excludeFilter in (Test, unmanagedSources) in slickTestkitProject := HiddenFileFilter || \"ProfileTest.scala\""
     ]
   }
 
@@ -808,6 +795,8 @@ build += {
     ]
   }
 
+  // forked (January 2019) because of recent changes to ScalaTest on 3.0.x branch
+  // that are source-incompatible when seen from Java (parboiled uses ScalaTest from Java)
   ${vars.base} {
     name: "parboiled"
     uri:  ${vars.uris.parboiled-uri}
@@ -828,7 +817,8 @@ build += {
       // this is an aggregation project that we exclude because it adds a
       // ScalaMeter dependency
       "eff"
-      // we don't have doobie
+      // we have doobie now, but for some reason the dependency wasn't found
+      // (January 2019), I didn't investigate
       "doobie"
       // we don't have catbird
       "twitter"
@@ -987,6 +977,17 @@ build += {
     uri:  ${vars.uris.cachecontrol-uri}
   }
 
+  // dependency of playframework
+  ${vars.base} {
+    name: "play-file-watch"
+    uri:  ${vars.uris.play-file-watch-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
+    extra.commands: ${vars.default-commands} [
+      // failing test I haven't gotten around to reporting upstream
+      "set excludeFilter in (Test, unmanagedSources) in `play-file-watch` := HiddenFileFilter || \"FileWatchServiceSpec.scala\""
+    ]
+  }
+
   // temporarily forked (October 2018) to remove uses of DebugConfiguration which was
   // removed from ssl-config; https://github.com/lightbend/ssl-config/issues/142
   // is about restoring it
@@ -996,22 +997,15 @@ build += {
     name: "playframework"
     uri:  ${vars.uris.playframework-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
-    // TODO: enable more projects? these are just a few that seemed especially high-value.
-    // we tried including "Play-Integration-Test" but hit a mysterious StackOverflowError
-    // in scala.tools.nsc.javac.JavaScanners; see https://github.com/scala/community-builds/issues/304
-    extra.projects: [
-      "Play", "Play-Test", "Play-WS", "Play-Cache", "Play-AHC-WS", "Filters-Helpers", "Play-Logback"
-      // dependency of Lagom
-      "Play-JDBC"
+    extra.exclude: [
+      "SBT-Plugin", "Play-Docs-SBT-Plugin", "Play-Docs"  // out of scope
+      "Play-Integration-Test"  // TODO/WIP, see https://github.com/scala/community-builds/pull/819
+      "Play-Microbenchmark" // out of scope (and besides, requires Play-Integration-Test)
     ]
-    extra.exclude: ["SBT-Plugin"]
     extra.directory: "framework"
     extra.commands: ${vars.default-commands} [
-      // workaround for the problem with PlayVersion.scala file is being passed twice to Scala compiler
-      // and we get double definition error
-      "set sources in (PlayProject, Compile, compile) := (sources in (PlayProject, Compile, compile)).value.distinct"
-      // there was some Scaladoc error here I didn't bother to look into
-      "set sources in doc in Compile in PlayProject := List()"
+      // https://github.com/scala/community-builds/pull/819#issuecomment-443068694
+      "set excludeFilter in (Test, unmanagedSources) in PlayIntegrationTestProject := HiddenFileFilter || \"FormFieldOrderSpec.scala\""
     ]
   }
 
@@ -1033,6 +1027,11 @@ build += {
     uri:  ${vars.uris.lift-json-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["lift-json"]
+  }
+
+  ${vars.base} {
+    name: "sconfig"
+    uri:  ${vars.uris.sconfig-uri}
   }
 
   // frozen (November 2017) at June 2017 commit, for compatibility with
@@ -1077,6 +1076,11 @@ build += {
     uri:  ${vars.uris.monocle-uri}
     // try to enable more subprojects?
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM", "genericJVM"]
+  }
+
+  ${vars.base} {
+    name: "silencer"
+    uri:  ${vars.uris.silencer-uri}
   }
 
   // forked to remove sbt-jmh from extras subproject.
@@ -1161,7 +1165,7 @@ build += {
   ${vars.base} {
     name: "minitest"
     uri:  ${vars.uris.minitest-uri}
-    extra.projects: ["minitestJVM", "lawsJVM"]  // no Scala.js
+    extra.projects: ["minitestJVM", "lawsJVM", "lawsLegacyJVM"]  // no Scala.js
   }
 
   ${vars.base} {
@@ -1242,15 +1246,12 @@ build += {
     extra.projects: ["fansiJVM"]  // no Scala.js
   }
 
-  // using Yoshida-san's fork, pending merge of https://github.com/lihaoyi/PPrint/pull/21
   ${vars.base} {
     name: "pprint"
     uri:  ${vars.uris.pprint-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["pprintJVM"]  // no Scala.js
-    // there is a post-2.12.6 failure because a test is sensitive
-    // Iterator#toString format.  we could re-enable once 2.12.7
-    // is released and the repo has upgraded
+    // we could re-enable tests if https://github.com/lihaoyi/PPrint/pull/23
+    // is updated for 2.12.8 and merged
     extra.test-tasks: ["compile"]
   }
 
@@ -1385,8 +1386,6 @@ build += {
     uri:  ${vars.uris.gigahorse-uri}
     // as of August 2017, doesn't compile against latest akka-http
     extra.exclude: ["akkaHttp"]
-    // pending: https://github.com/eed3si9n/gigahorse/issues/54
-    extra.test-tasks: ["compile"]
   }
 
   // dependency of scalachess
@@ -1932,6 +1931,74 @@ build += {
     uri:  ${vars.uris.kafka-uri}
   }
 
+  ${vars.base} {
+    name: "pascal"
+    uri:  ${vars.uris.pascal-uri}
+  }
+
+  ${vars.base} {
+    name: "scalaz-zio"
+    uri:  ${vars.uris.scalaz-zio-uri}
+    // omit benchmarks, microsite, Scala.js;
+    // also omit interopCatsJVM; tried it but got "conflicting cross-version suffixes"
+    // error I didn't understand (see:
+    // https://github.com/scala/community-builds/pull/831#issuecomment-455666134)
+    extra.projects: ["coreJVM", "interopSharedJVM", "interopFutureJVM", "interopMonixJVM", "interopScalaz7xJVM"]
+    // dbuild messes with the jcstress dependency that comes from sbt-jcstress. not really sure
+    // what's going on, but we can work around it:
+    extra.commands: ${vars.default-commands} [
+      "set libraryDependencies in coreJVM ~= (_.filterNot(_.toString.contains(\"jcstress\")))"
+      "set libraryDependencies in coreJVM += \"org.openjdk.jcstress\" % \"jcstress-core\" % \"0.4\" % Test"
+      "set libraryDependencies in interopSharedJVM ~= (_.filterNot(_.toString.contains(\"jcstress\")))"
+      "set libraryDependencies in interopSharedJVM += \"org.openjdk.jcstress\" % \"jcstress-core\" % \"0.4\" % Test"
+      "set libraryDependencies in interopCatsJVM ~= (_.filterNot(_.toString.contains(\"jcstress\")))"
+      "set libraryDependencies in interopCatsJVM += \"org.openjdk.jcstress\" % \"jcstress-core\" % \"0.4\" % Test"
+      "set libraryDependencies in interopScalaz7xJVM ~= (_.filterNot(_.toString.contains(\"jcstress\")))"
+      "set libraryDependencies in interopScalaz7xJVM += \"org.openjdk.jcstress\" % \"jcstress-core\" % \"0.4\" % Test"
+      "set libraryDependencies in interopMonixJVM ~= (_.filterNot(_.toString.contains(\"jcstress\")))"
+      "set libraryDependencies in interopMonixJVM += \"org.openjdk.jcstress\" % \"jcstress-core\" % \"0.4\" % Test"
+      "set libraryDependencies in interopFutureJVM ~= (_.filterNot(_.toString.contains(\"jcstress\")))"
+      "set libraryDependencies in interopFutureJVM += \"org.openjdk.jcstress\" % \"jcstress-core\" % \"0.4\" % Test"
+    ]
+    // I guess dbuild is getting confused by the extra _1.13? seen in other projects as well
+    deps.ignore: ["com.github.alexarchambault#scalacheck-shapeless"]
+    deps.inject: ${vars.base.deps.inject} [
+      "com.github.alexarchambault#scalacheck-shapeless_1.13"
+    ]
+    check-missing: false
+  }
+
+  ${vars.base} {
+    name: "mdoc"
+    uri:  ${vars.uris.mdoc-uri}
+    extra.exclude: [
+      "lsp"  // Olaf says: "please exclude [...] it's an undocumented and untested module"
+      "js", "jsdocs", "docs", "unit"  // no Scala.js plz
+    ]
+    // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
+    deps.ignore: ["org.scala-sbt#scripted-sbt"]
+    check-missing: false
+  }
+
+  // dependency of scribe
+  ${vars.base} {
+    name: "perfolation"
+    uri:  ${vars.uris.perfolation-uri}
+    extra.projects: ["coreJVM"]
+  }
+
+  ${vars.base} {
+    name: "scribe"
+    uri:  ${vars.uris.scribe-uri}
+    extra.projects: ["coreJVM", "macrosJVM", "slf4j"]
+    extra.commands: ${vars.default-commands} [
+      // intermittently failing test I haven't gotten around to reporting upstream
+      "set excludeFilter in (Test, unmanagedSources) in coreJVM := HiddenFileFilter || \"FileLoggingSpec.scala\""
+      // failure here looks like a time zone mistake
+      "set excludeFilter in (Test, unmanagedSources) in slf4j := HiddenFileFilter || \"SLF4JSpec.scala\""
+    ]
+  }
+
 ]}
 
 //// space: jawn_0_10
@@ -2094,7 +2161,6 @@ build += {
       // library com.avsystem.commons#commons-core is not provided
       "akka-http-avsystem-gencodec"
     ]
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     // apparently some dependency dropped its scala-reflect dependency?
     // and we have the newer version of that dependency here in the
     // community build, while the akka-http-jackson subproject's
@@ -2104,7 +2170,6 @@ build += {
       "org.scala-lang#scala-reflect"
     ]
     extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
       "set libraryDependencies in `akka-http-jackson` += \"org.scala-lang\" %% \"scala-reflect\" % \""${vars.scala-version}"\""
     ]
   }
@@ -2172,6 +2237,8 @@ build += {
       "parserJVM", "genericJVM", "literalJVM", "scodecJVM", "testingJVM", "testsJVM"
       // dependency of scrooge-shapes
       "genericExtrasJVM"
+      // dependency of scala-pet-store
+      "java8JVM"
     ]
   }
 
@@ -2233,7 +2300,7 @@ build += {
     ]
     extra.exclude: [
       // outside our purview
-      "bench", "docs"
+      "bench", "docs", "website"
       // requires com.eed3si9n#treehugger, which would be nice to add actually, but I'm
       // not going to tackle it right now, maybe some other time
       "mimedb-generator"
@@ -2345,13 +2412,38 @@ build += {
     extra.projects: ["derivation", "annotations"]
   }
 
+  // dependency of scala-pet-store
+  ${vars.base} {
+    name: "doobie"
+    uri:  ${vars.uris.doobie-uri}
+    extra.commands: ${vars.default-commands} [
+      // as per https://github.com/scala/community-builds/pull/835#issuecomment-455729365,
+      // these subprojects require a Postgres instance for the tests to run
+      "set executeTests in postgres in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+      "set executeTests in `postgres-circe` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+      "set executeTests in example in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+    ]
+  }
+
+  // dependency of scala-pet-store
+  ${vars.base} {
+    name: "tsec"
+    uri:  ${vars.uris.tsec-uri}
+    extra.exclude: [
+      "microsite", "tsec-bench"  // out of scope
+      "tsec-libsodium"  // java.lang.UnsatisfiedLinkError: no sodiumjni in java.library.path
+      "tsec-examples"  // depends on tsec-libsodium
+    ]
+    check-missing: false  // ignore missing scalafmt
+  }
+
 ]}
 
-//// space: scalaz8
+//// space: scala.compiler_bridge_0_13
 
 build += {
 
-  space: scala.scalaz8
+  space: scala.compiler_bridge_0_13
 
   check-missing: [ true, false ]
   cross-version: [ disabled, standard ]
@@ -2360,21 +2452,43 @@ build += {
 
   projects: [
 
-  // dependency of scalaz8
   ${vars.base} {
-    name: "pascal"
-    uri:  ${vars.uris.pascal-uri}
+    name: "compiler-bridge-0-13"
+    uri:  ${vars.uris.sbt-0-13-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
+    extra.projects: ["interfaceProj", "compileInterfaceProj"]
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayOmitLicense := true"  // otherwise it complains we don't have one
+    ]
+    // specs2 too old
+    extra.run-tests: false
   }
 
-  // needs its own space because:
-  // [error] Fatal: multiple projects have the same artifacts visible in the same space.
-  // [error]   org.scalaz#scalaz-effect  from scalaz and scalaz8, both visible in space "scala"
-  // frozen (June 2018) because of this error, not investigated:
-  // [scalaz8:error] scala.MatchError: d4636d92-SNAPSHOT (of class java.lang.String)
+]}
+
+//// space: scala.compiler_bridge_1_0
+
+build += {
+
+  space: scala.compiler_bridge_1_0
+
+  check-missing: [ true, false ]
+  cross-version: [ disabled, standard ]
+  extraction-version: ${vars.scala-version}
+  sbt-version: ${vars.sbt-version}
+
+  projects: [
+
   ${vars.base} {
-    name: "scalaz8"
-    uri:  ${vars.uris.scalaz8-uri}
-    extra.projects: ["baseJVM", "effectJVM", "metaJVM"]
+    name: "compiler-bridge-1-0"
+    uri:  ${vars.uris.zinc-uri}
+    extra.projects: ["compilerBridge", "compilerBridgeTest", "compilerInterface"]
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    check-missing: false  // ignore missing scalafmt
+    extra.commands: ${vars.default-commands} [
+      "set every scalafmtOnCompile := false"
+    ]
   }
 
 ]}
