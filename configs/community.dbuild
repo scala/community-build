@@ -410,6 +410,8 @@ build += {
     check-missing: false
   }
 
+  // 2.13: temporarily forked for post-M5 changes (after RC1 is out we should finish
+  // and merge https://github.com/lightbend/genjavadoc/pull/164, then unfork)
   ${vars.base} {
     name: "genjavadoc"
     uri:  ${vars.uris.genjavadoc-uri}
