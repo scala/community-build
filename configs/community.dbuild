@@ -1731,8 +1731,6 @@ build += {
     extra.projects: ["spireJVM"]  // no Scala.js please
   }
 
-  // temporarily forked for JDK 11 friendliness, pending merge of
-  // https://github.com/scalanlp/breeze/pull/708
   ${vars.base} {
     name: "breeze"
     uri:  ${vars.uris.breeze-uri}
