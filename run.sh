@@ -32,7 +32,7 @@ dbuild_args=""
 Usage(){
     ex=$1
     shift
-echo >&2 "Usage: `basename $0` [<options>] [projects...]
+echo >&2 "Usage: `basename $0` [<options>] [project,projects...]
 Function: Downloads dbuild if not already installed locally and runs dbuild with defined options.
 
 Options:
