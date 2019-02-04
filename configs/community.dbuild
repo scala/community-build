@@ -176,6 +176,7 @@ build += {
 
   projects: [
 
+  // forked (February 2019) to adapt to scala/scala#7624
   ${vars.base} {
     name: "scala-xml"
     uri:  ${vars.uris.scala-xml-uri}
