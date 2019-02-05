@@ -2401,7 +2401,7 @@ build += {
     uri:  ${vars.uris.scrooge-shapes-uri}
   }
 
-  // dependency of lsp4s
+  // dependency of lsp4s and scala-pet-store
   ${vars.base} {
     name: "circe-derivation"
     uri:  ${vars.uris.circe-derivation-uri}
@@ -2434,8 +2434,6 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
-  // temporarily forked pending merge of:
-  // https://github.com/pauljamescleary/scala-pet-store/pull/140
   ${vars.base} {
     name: "scala-pet-store"
     uri:  ${vars.uris.scala-pet-store-uri}
