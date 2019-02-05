@@ -340,6 +340,7 @@ build += {
 
   // frozen at v1.6.0 tag because dependencies have historically been fragile.
   // (perhaps this is overly cautious now, in 2019? not sure)
+  // and forked (February 2019) from that tag to make some tiny ScalaCheck 1.13 vs 1.14 tweaks so tests pass
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
