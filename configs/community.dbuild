@@ -2437,6 +2437,13 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
+  // temporarily forked pending merge of:
+  // https://github.com/pauljamescleary/scala-pet-store/pull/140
+  ${vars.base} {
+    name: "scala-pet-store"
+    uri:  ${vars.uris.scala-pet-store-uri}
+  }
+
 ]}
 
 //// space: scala.compiler_bridge_0_13
