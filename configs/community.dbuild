@@ -1654,9 +1654,6 @@ build += {
     extra.projects: ["coreJVM", "tests"]
   }
 
-  // frozen (December 2018) at a September 2018 commit because the latest
-  // commit doesn't compile; reported upstream at
-  // https://github.com/propensive/magnolia/issues/144#issuecomment-443950744
   ${vars.base} {
     name: "magnolia"
     uri:  ${vars.uris.magnolia-uri}
