@@ -2280,7 +2280,6 @@ build += {
   ${vars.base} {
     name: "http4s-parboiled2"
     uri:  ${vars.uris.http4s-parboiled2-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["parboiledJVM"]
   }
 
