@@ -911,8 +911,6 @@ build += {
     ]
   }
 
-  // temporarily forked (February 2019) pending merge of
-  // https://github.com/scalikejdbc/scalikejdbc/pull/984
   ${vars.base} {
     name: "scalikejdbc"
     uri:  ${vars.uris.scalikejdbc-uri}
