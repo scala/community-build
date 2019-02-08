@@ -769,6 +769,7 @@ build += {
   }
 
   // forked (September 2018) for JDK 11 friendliness
+  // added to fork (February 2019): scala-collection-compat upgrade
   ${vars.base} {
     name: "kxbmap-configs"
     uri:  ${vars.uris.kxbmap-configs-uri}
