@@ -38,8 +38,6 @@ object SuccessReport {
         Set()
       case _ =>
         Set(
-          "breeze",  // "object istack is not a member of package com.sun"
-          "compiler-bridge-1.0",  // not investigated
           "coursier",  // needs unfreeze to pull in https://github.com/coursier/coursier/pull/937
           "doobie",  // needs scala/bug#11125 workaround
           "kxbmap-configs",  // "sjsonnew.DeserializationException: Field not found: $type"
