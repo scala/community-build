@@ -1363,6 +1363,8 @@ build += {
     ]
   }
 
+  // temporarily forked (February 2019) pending merge of
+  // https://github.com/scalastyle/scalastyle/pull/332
   ${vars.base} {
     name: "scalastyle"
     uri: ${vars.uris.scalastyle-uri}
