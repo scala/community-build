@@ -768,8 +768,8 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
-  // forked (September 2018) for JDK 11 friendliness
-  // added to fork (February 2019): scala-collection-compat upgrade
+  // temporarily forked (February 2019) for scala-collection-compat upgrade
+  // pending merge of https://github.com/kxbmap/configs/pull/36
   ${vars.base} {
     name: "kxbmap-configs"
     uri:  ${vars.uris.kxbmap-configs-uri}
@@ -911,11 +911,8 @@ build += {
     ]
   }
 
-  // currently to avoid a stack overflow on 1.1.5+2.12.6 they are overriding
-  // sbt's scala version to 2.12.4.  I have suggested they increase -Xss
-  // instead (https://github.com/scalikejdbc/scalikejdbc/pull/874).  if they
-  // take that suggestion, we may need to make the change here, too
-  // temporarily forked (February 2019) pending upstream scala-collection-compat upgrade
+  // temporarily forked (February 2019) pending merge of
+  // https://github.com/scalikejdbc/scalikejdbc/pull/984
   ${vars.base} {
     name: "scalikejdbc"
     uri:  ${vars.uris.scalikejdbc-uri}
