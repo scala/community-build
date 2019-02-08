@@ -64,6 +64,7 @@ object SuccessReport {
     "scala-java-time",  // not investigated
     "scala-java8-compat",
     "scala-refactoring",
+    "scala-sculpt",
     "scala-stm",
     "scala-swing",
     "scala-xml-quote",
