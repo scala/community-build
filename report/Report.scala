@@ -40,7 +40,6 @@ object SuccessReport {
         Set(
           "coursier",  // needs unfreeze to pull in https://github.com/coursier/coursier/pull/937
           "doobie",  // needs scala/bug#11125 workaround
-          "kxbmap-configs",  // "sjsonnew.DeserializationException: Field not found: $type"
           "playframework", // not investigated yet
           "sbt-util",  // needs scala/bug#11125 workaround
           "scala-debugger",  // "object FieldInfo is not a member of package sun.reflect"
