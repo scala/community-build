@@ -255,15 +255,11 @@ build += {
     ]
   }
 
-  // frozen at v0.1.1 for now, using master broke downstream projects.
-  // (actually, forked off v0.1.1 to get JDK 11 fix which was merged upstream,
-  // but after v0.1.1 was tagged)
   ${vars.base} {
     name: "scala-collection-compat"
     uri:  ${vars.uris.scala-collection-compat-uri}
-    // change to "compat13" when we unfreeze
     extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.projects: ["scala-collection-compat"]  // no Scala.js or Scalafix rules plz
+    extra.projects: ["compat213"]  // no Scala.js or Scalafix rules plz
   }
 
   ${vars.base} {
@@ -797,7 +793,8 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
-  // forked (September 2018) for JDK 11 friendliness
+  // temporarily forked (February 2019) for scala-collection-compat upgrade
+  // pending merge of https://github.com/kxbmap/configs/pull/36
   ${vars.base} {
     name: "kxbmap-configs"
     uri:  ${vars.uris.kxbmap-configs-uri}
@@ -941,10 +938,6 @@ build += {
     ]
   }
 
-  // currently to avoid a stack overflow on 1.1.5+2.12.6 they are overriding
-  // sbt's scala version to 2.12.4.  I have suggested they increase -Xss
-  // instead (https://github.com/scalikejdbc/scalikejdbc/pull/874).  if they
-  // take that suggestion, we may need to make the change here, too
   ${vars.base} {
     name: "scalikejdbc"
     uri:  ${vars.uris.scalikejdbc-uri}
@@ -1396,6 +1389,8 @@ build += {
     ]
   }
 
+  // temporarily forked (February 2019) pending merge of
+  // https://github.com/scalastyle/scalastyle/pull/332
   ${vars.base} {
     name: "scalastyle"
     uri: ${vars.uris.scalastyle-uri}
@@ -1947,6 +1942,7 @@ build += {
       "jdbc"  // requires PostgreSQL for testing
       "fluentd"  // requires org.xerial#fluentd-standalone which we don't have
       "finagle"  // we don't have finatra or finagle
+      "httpRecorder"  // needs finatra-http
     ]
   }
 
