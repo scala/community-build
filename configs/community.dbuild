@@ -765,8 +765,6 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
-  // temporarily forked (February 2019) for scala-collection-compat upgrade
-  // pending merge of https://github.com/kxbmap/configs/pull/36
   ${vars.base} {
     name: "kxbmap-configs"
     uri:  ${vars.uris.kxbmap-configs-uri}
