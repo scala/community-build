@@ -259,9 +259,6 @@ build += {
     ]
   }
 
-  // frozen at v0.1.1 for now, using master broke downstream projects.
-  // (actually, forked off v0.1.1 to get JDK 11 fix which was merged upstream,
-  // but after v0.1.1 was tagged)
   ${vars.base} {
     name: "scala-collection-compat"
     uri:  ${vars.uris.scala-collection-compat-uri}
