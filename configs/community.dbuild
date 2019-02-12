@@ -198,7 +198,7 @@ build += {
   }
 
   // see also scalatest-tests
-  // 2.13: forked (January 2019) for post-M5 changes
+  // 2.13: forked (January 2019) for post-M5 changes; fork refreshed (from 3.0.x branch) February 2019
   // 2.12: forked for: build tweak, JDK 11 friendliness, comment out a test
   // fork refreshed (from 3.0.x branch) January 2019
   ${vars.base} {
