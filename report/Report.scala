@@ -46,7 +46,6 @@ object SuccessReport {
     "grizzled",
     "http4s-parboiled2",
     "jawn-0-10",
-    "jawn-fs2",  // not investigated
     "jsoniter-scala",  // some minor collections ordering thing?
     "kafka",  // doesn't look a 2.13 upgrade has been attempted
     "lift-json",
@@ -56,7 +55,6 @@ object SuccessReport {
     "monix",
     "nyaya",
     "paradox",
-    "parboiled",  // package org.scalatestplus.testng does not exist
     "parboiled2",
     "pcplod",
     "pprint",
