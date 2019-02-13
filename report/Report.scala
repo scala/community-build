@@ -60,6 +60,7 @@ object SuccessReport {
     "parboiled2",
     "pcplod",
     "pprint",
+    "scala-collection-contrib",  // needs M4->M5 changes
     "scala-continuations",
     "scala-java-time",  // not investigated
     "scala-java8-compat",
