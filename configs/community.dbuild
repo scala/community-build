@@ -2277,6 +2277,13 @@ build += {
     extra.projects: ["parboiledJVM"]
   }
 
+  // dependency of vault
+  ${vars.base} {
+    name: "unique"
+    uri:  ${vars.uris.unique-uri}
+    extra.projects: ["coreJVM"]  // no docs, no Scala.js
+  }
+
   // dependency of http4s
   ${vars.base} {
     name: "vault"
