@@ -1373,8 +1373,8 @@ build += {
   }
 
   ${vars.base} {
-    name: "scala-collections-laws"
-    uri: ${vars.uris.scala-collections-laws-uri}
+    name: "scala-collection-laws"
+    uri: ${vars.uris.scala-collection-laws-uri}
     // as per the repo readme
     extra.options: ["-XX:MaxMetaspaceSize=1G", "-Xmx6G"]
     extra.commands: ${vars.default-commands} [
@@ -2308,6 +2308,20 @@ build += {
     name: "http4s-parboiled2"
     uri:  ${vars.uris.http4s-parboiled2-uri}
     extra.projects: ["parboiledJVM"]
+  }
+
+  // dependency of vault
+  ${vars.base} {
+    name: "unique"
+    uri:  ${vars.uris.unique-uri}
+    extra.projects: ["coreJVM"]  // no docs, no Scala.js
+  }
+
+  // dependency of http4s
+  ${vars.base} {
+    name: "vault"
+    uri:  ${vars.uris.vault-uri}
+    extra.projects: ["coreJVM"]  // no docs, no Scala.js
   }
 
   // this is a big build with a ton of subprojects.  we needn't be shy
