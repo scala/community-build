@@ -84,7 +84,7 @@ object SuccessReport {
     "slick",
     "specs2-more",
     "spire",
-    "tut",
+    "tut",  // deps.ignore thing misses the CrossVersion.full’ed version number :-/
     "twitter-util",
     "twotails",  // "null" in scala.tools.nsc.classpath.FileBasedCache.getOrCreate
   )
