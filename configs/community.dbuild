@@ -1334,8 +1334,8 @@ build += {
 
   // tracking old-2.12 branch because master has moved on to 2.13 collections
   ${vars.base} {
-    name: "scala-collections-laws"
-    uri: ${vars.uris.scala-collections-laws-uri}
+    name: "scala-collection-laws"
+    uri: ${vars.uris.scala-collection-laws-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
     // as per the repo readme
     extra.options: ["-XX:MaxMetaspaceSize=1G", "-Xmx6G"]
