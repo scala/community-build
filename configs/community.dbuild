@@ -1110,8 +1110,6 @@ build += {
     uri:  ${vars.uris.silencer-uri}
   }
 
-  // forked to remove sbt-jmh from extras subproject.
-  // we can unfork if https://github.com/scalaz/testz/pull/31 is merged
   ${vars.base} {
     name: "testz"
     uri:  ${vars.uris.testz-uri}
