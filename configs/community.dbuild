@@ -466,9 +466,8 @@ build += {
       "set skip in publish in actorTests := false"
       // makes "configuration not public" errors downstream go away
       "set every publishMavenStyle := false"
-      // "JDK 11: Async channel closing semantics changed":
-      // https://github.com/akka/akka/issues/25913
-      "set excludeFilter in (Test, unmanagedSources) in actorTests := HiddenFileFilter || \"TcpConnectionSpec.scala\" || \"UdpConnectedIntegrationSpec.scala\""
+      // https://github.com/akka/akka/issues/25882
+      "set excludeFilter in (Test, unmanagedSources) in actorTests := HiddenFileFilter || \"UdpConnectedIntegrationSpec.scala\""
       // idk why, but prevents dbuild-only sun.misc.Unsafe compile errors;
       // see https://github.com/scala/community-builds/issues/757
       "set scalacOptions in Compile in actor --= Seq(\"-release\", \"8\")"
