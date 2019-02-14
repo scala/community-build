@@ -46,7 +46,6 @@ object SuccessReport {
     "grizzled",
     "http4s-parboiled2",
     "jawn-0-10",
-    "jsoniter-scala",  // some minor collections ordering thing?
     "kafka",  // doesn't look a 2.13 upgrade has been attempted
     "lift-json",
     "linter",
