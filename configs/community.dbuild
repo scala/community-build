@@ -390,7 +390,6 @@ build += {
   ${vars.base} {
     name: "kittens"
     uri:  ${vars.uris.kittens-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["coreJVM"]  // sorry, Scala.js
   }
 
@@ -506,9 +505,8 @@ build += {
       "set skip in publish in actorTests := false"
       // makes "configuration not public" errors downstream go away
       "set every publishMavenStyle := false"
-      // "JDK 11: Async channel closing semantics changed":
-      // https://github.com/akka/akka/issues/25913
-      "set excludeFilter in (Test, unmanagedSources) in actorTests := HiddenFileFilter || \"TcpConnectionSpec.scala\" || \"UdpConnectedIntegrationSpec.scala\""
+      // https://github.com/akka/akka/issues/25882
+      "set excludeFilter in (Test, unmanagedSources) in actorTests := HiddenFileFilter || \"UdpConnectedIntegrationSpec.scala\""
       // idk why, but prevents dbuild-only sun.misc.Unsafe compile errors;
       // see https://github.com/scala/community-builds/issues/757
       "set scalacOptions in Compile in actor --= Seq(\"-release\", \"8\")"
@@ -881,10 +879,6 @@ build += {
 
   // tracking "develop" branch.
   // try master instead if develop proves too fragile?
-  // currently (October 2018) fails on JDK 11 because of https://github.com/sbt/sbt/issues/4350,
-  // haven't attempted a workaround yet
-  // frozen (December 2018) at a November 2018 commit before a test failure started
-  // (haven't gotten around to investigating or reporting)
   ${vars.base} {
     name: "twitter-util"
     uri:  ${vars.uris.twitter-util-uri}
@@ -1258,7 +1252,7 @@ build += {
     extra.projects: ["http4sWebsocketJVM"]  // no Scala.js plz
   }
 
-  // frozen (October 2018) at v0.14.0-M8 tag since that's the version http4s wants
+  // frozen (February 2019) at v0.14.0-M12 tag since that's the version http4s wants
   ${vars.base} {
     name: "blaze"
     uri: ${vars.uris.blaze-uri}
