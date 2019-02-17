@@ -444,15 +444,12 @@ build += {
     ]
   }
 
-  // frozen (January 2019) at v2.5.20.  this repo is volatile (very
-  // frequent commits) and when it needs to be rebuilt, the testing
+  // frozen (February 2019) at an arbitrary post-2.5.21 commit (that
+  // includes changes we had previously kept in a fork). this repo is volatile
+  // (very frequent commits) and when it needs to be rebuilt, the testing
   // takes a long time (especially akka-more) and the downstream
   // rebuilding takes a long time too.  so in general we want to
   // freeze at a tag (preferably) or SHA (if we must)
-  // also forked (January 2019), based off v2.5.20, for JDK 11 friendliness,
-  // see https://github.com/scala/community-builds/pull/832 ; and also
-  // because of January 2019 changes to ScalaTest on 3.0.x branch that are
-  // source-incompatible when seen from Java (Akka uses ScalaTest from Java)
   ${vars.base} {
     name: "akka"
     uri:  ${vars.uris.akka-uri}
