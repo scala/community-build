@@ -497,7 +497,6 @@ build += {
   ${vars.base} {
     name: "scala-partest"
     uri:  ${vars.uris.scala-partest-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
   }
 
   ${vars.base} {
