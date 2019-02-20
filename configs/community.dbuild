@@ -481,6 +481,7 @@ build += {
   ${vars.base} {
     name: "scala-java8-compat"
     uri:  ${vars.uris.scala-java8-compat-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.commands: ${vars.default-commands} [
       // For some reason dbuild includes test sources in the javadocs, which trips up javadoc because
       // we use "assert" as an identifier there. We disable doc building to avoid that.
