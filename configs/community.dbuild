@@ -211,7 +211,6 @@ build += {
   ${vars.base} {
     name: "scala-parser-combinators"
     uri:  ${vars.uris.scala-parser-combinators-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.exclude: ["scala-parser-combinatorsJS", "scala-parser-combinatorsNative"]
     extra.commands: ${vars.base.extra.commands} [
       // work around https://github.com/scala/community-builds/issues/575
@@ -482,7 +481,6 @@ build += {
   ${vars.base} {
     name: "scala-java8-compat"
     uri:  ${vars.uris.scala-java8-compat-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.commands: ${vars.default-commands} [
       // For some reason dbuild includes test sources in the javadocs, which trips up javadoc because
       // we use "assert" as an identifier there. We disable doc building to avoid that.
@@ -680,7 +678,6 @@ build += {
   ${vars.base} {
     name: "scala-async"
     uri:  ${vars.uris.scala-async-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
   }
 
   ${vars.base} {
@@ -1357,9 +1354,7 @@ build += {
     name: "doodle"
     uri: ${vars.uris.doodle-uri}
     extra.projects: [
-      "animateJVM", "coreJVM", "java2d", "exploreJVM", "imageJVM"  // no Scala.js plz
-      // "turtleJVM" temporarily omitted pending resolution of
-      // https://github.com/creativescala/doodle/issues/71#issuecomment-451700589
+      "animateJVM", "coreJVM", "java2d", "exploreJVM", "imageJVM", "turtleJVM"  // no Scala.js plz
     ]
   }
 
