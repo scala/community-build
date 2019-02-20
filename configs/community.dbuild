@@ -1317,9 +1317,7 @@ build += {
     name: "doodle"
     uri: ${vars.uris.doodle-uri}
     extra.projects: [
-      "animateJVM", "coreJVM", "java2d", "exploreJVM", "imageJVM"  // no Scala.js plz
-      // "turtleJVM" temporarily omitted pending resolution of
-      // https://github.com/creativescala/doodle/issues/71#issuecomment-451700589
+      "animateJVM", "coreJVM", "java2d", "exploreJVM", "imageJVM", "turtleJVM"  // no Scala.js plz
     ]
   }
 
