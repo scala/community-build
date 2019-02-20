@@ -57,7 +57,7 @@ build += {
           // (in a community build context, we don't need MiMa to run)
           "set every ScalaModulePlugin.mimaPreviousVersion := None"
         ]
-        extra.projects: ["scala-parser-combinators"]   // no JS or Native
+        extra.projects: ["scala-parser-combinatorsJVM"]   // no JS or Native
       }
     ]
   }
