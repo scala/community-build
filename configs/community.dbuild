@@ -970,7 +970,6 @@ build += {
   ${vars.base} {
     name: "play-json"
     uri:  ${vars.uris.play-json-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["play-jsonJVM"]  // no Scala.js plz
   }
 
