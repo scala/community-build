@@ -613,7 +613,8 @@ build += {
   }
 
   // forked (January 2019) because of recent changes to ScalaTest on 3.0.x branch
-  // that are source-incompatible when seen from Java source
+  // that are source-incompatible when seen from Java source; we should be able to unfork when
+  // https://github.com/akka/akka-http/pull/2432 is merged
   ${vars.base} {
     name: "akka-http"
     uri:  ${vars.uris.akka-http-uri}
