@@ -211,7 +211,6 @@ build += {
   ${vars.base} {
     name: "scala-parser-combinators"
     uri:  ${vars.uris.scala-parser-combinators-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.exclude: ["scala-parser-combinatorsJS", "scala-parser-combinatorsNative"]
     extra.commands: ${vars.base.extra.commands} [
       // work around https://github.com/scala/community-builds/issues/575
@@ -262,7 +261,6 @@ build += {
   ${vars.base} {
     name: "scala-collection-compat"
     uri:  ${vars.uris.scala-collection-compat-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["compat212"]  // no Scala.js or Scalafix rules plz
   }
 
@@ -436,7 +434,6 @@ build += {
   ${vars.base} {
     name: "scala-java8-compat"
     uri:  ${vars.uris.scala-java8-compat-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.commands: ${vars.default-commands} [
       // For some reason dbuild includes test sources in the javadocs, which trips up javadoc because
       // we use "assert" as an identifier there. We disable doc building to avoid that.
@@ -494,13 +491,11 @@ build += {
   ${vars.base} {
     name: "scala-partest"
     uri:  ${vars.uris.scala-partest-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
   }
 
   ${vars.base} {
     name: "scala-swing"
     uri:  ${vars.uris.scala-swing-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.commands: ${vars.default-commands} [
       // work around https://github.com/scala/community-builds/issues/575
       // (in a community build context, we don't need MiMa to run)
@@ -618,7 +613,8 @@ build += {
   }
 
   // forked (January 2019) because of recent changes to ScalaTest on 3.0.x branch
-  // that are source-incompatible when seen from Java source
+  // that are source-incompatible when seen from Java source; we should be able to unfork when
+  // https://github.com/akka/akka-http/pull/2432 is merged
   ${vars.base} {
     name: "akka-http"
     uri:  ${vars.uris.akka-http-uri}
@@ -648,7 +644,6 @@ build += {
   ${vars.base} {
     name: "scala-async"
     uri:  ${vars.uris.scala-async-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
   }
 
   ${vars.base} {
@@ -939,7 +934,6 @@ build += {
   ${vars.base} {
     name: "play-json"
     uri:  ${vars.uris.play-json-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["play-jsonJVM"]  // no Scala.js plz
   }
 
@@ -1319,9 +1313,7 @@ build += {
     name: "doodle"
     uri: ${vars.uris.doodle-uri}
     extra.projects: [
-      "animateJVM", "coreJVM", "java2d", "exploreJVM", "imageJVM"  // no Scala.js plz
-      // "turtleJVM" temporarily omitted pending resolution of
-      // https://github.com/creativescala/doodle/issues/71#issuecomment-451700589
+      "animateJVM", "coreJVM", "java2d", "exploreJVM", "imageJVM", "turtleJVM"  // no Scala.js plz
     ]
   }
 
