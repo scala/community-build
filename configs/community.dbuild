@@ -956,6 +956,16 @@ build += {
     uri:  ${vars.uris.cachecontrol-uri}
   }
 
+  // dependency of play-file-watch
+  ${vars.base} {
+    name: "better-files"
+    uri: ${vars.uris.better-files-uri}
+    extra.commands: ${vars.default-commands} [
+      // keep scalafmtSbtCheck from complaining about code dbuild injects
+      "set checkFormat := {}"
+    ]
+  }
+
   // dependency of playframework
   ${vars.base} {
     name: "play-file-watch"
@@ -1329,15 +1339,6 @@ build += {
     // extra.test-tasks to a task that takes arguments.  (anyway,
     // it's not clear it's really necessary or appropriate to
     // actually run the whole thing as part of the community build?)
-  }
-
-  ${vars.base} {
-    name: "better-files"
-    uri: ${vars.uris.better-files-uri}
-    extra.commands: ${vars.default-commands} [
-      // keep scalafmtSbtCheck from complaining about code dbuild injects
-      "set checkFormat := {}"
-    ]
   }
 
   // temporarily forked (February 2019) pending merge of
