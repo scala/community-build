@@ -868,6 +868,9 @@ build += {
     extra.projects: ["crossJVM"]  // no Scala.js please
   }
 
+  // frozen (February 2019) at v3.7.0 (the version playframework expects)
+  // https://github.com/lightbend/ssl-config/issues/142
+  // is about resolving the source incompatibility on master
   ${vars.base} {
     name: "ssl-config"
     uri:  ${vars.uris.ssl-config-uri}
@@ -977,24 +980,14 @@ build += {
     ]
   }
 
-  // temporarily forked (October 2018) to remove uses of DebugConfiguration which was
-  // removed from ssl-config; https://github.com/lightbend/ssl-config/issues/142
-  // is about restoring it
-  // (Jan 2019) then made the build not fail hard on Java 11:
-  // https://github.com/scalacommunitybuild/playframework/pull/1
   ${vars.base} {
     name: "playframework"
     uri:  ${vars.uris.playframework-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
     extra.exclude: [
-      "SBT-Plugin", "Play-Docs-SBT-Plugin", "Play-Docs"  // out of scope
+      "Play-Docs", "Sbt-Plugin", "Play-Docs-Sbt-Plugin"  // out of scope
       "Play-Integration-Test"  // TODO/WIP, see https://github.com/scala/community-builds/pull/819
       "Play-Microbenchmark" // out of scope (and besides, requires Play-Integration-Test)
-    ]
-    extra.directory: "framework"
-    extra.commands: ${vars.default-commands} [
-      // https://github.com/scala/community-builds/pull/819#issuecomment-443068694
-      "set excludeFilter in (Test, unmanagedSources) in PlayIntegrationTestProject := HiddenFileFilter || \"FormFieldOrderSpec.scala\""
     ]
   }
 
