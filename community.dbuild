@@ -51,6 +51,7 @@ build += {
       {
         name: "scala-parser-combinators"
         uri: "https://github.com/"${vars.scala-parser-combinators-ref}
+        extra.sbt-version: "1.2.8"
         extra.commands: [
           // override scalaVersion in the modules since otherwise we get
           // whatever random Scala version the module has -- it might be a
@@ -60,7 +61,7 @@ build += {
           // (in a community build context, we don't need MiMa to run)
           "set every ScalaModulePlugin.mimaPreviousVersion := None"
         ]
-        extra.projects: ["scala-parser-combinatorsJVM"]   // no JS or Native
+        extra.projects: ["scala-parser-combinators"]   // no JS or Native
       }
     ]
   }
