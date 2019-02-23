@@ -5,10 +5,16 @@
 //   - scala.main
 //     - scala.main.jawn_0_10
 //     - scala.main.jawn_0_11
+//     - scala.main.shopping_cart_scala
+//     - scala.main.shopping_cart_java
+//
 // the jawn split is because sbt 1 uses jawn 0.10.x (via its dependency
 // on sjson-new) and the sbt team doesn't want to break  binary compatibility
 // of sbt plugins. nearly everything else is on jawn 0.11, and the two versions
 // are source-incompatible.
+//
+// the shopping-cart split is because the two projects publish artifacts with
+// the same name/org, and I couldn't find another workaround
 
 //// from environment
 
@@ -1967,6 +1973,50 @@ build += {
       // failure here looks like a time zone mistake
       "set excludeFilter in (Test, unmanagedSources) in slf4j := HiddenFileFilter || \"SLF4JSpec.scala\""
     ]
+  }
+
+]}
+
+//// space: shopping_cart_java
+
+build += {
+
+  space: scala.main.shopping_cart_java
+
+  check-missing: [ true, false ]
+  cross-version: [ disabled, standard ]
+  extraction-version: ${vars.scala-version}
+  sbt-version: ${vars.sbt-version}
+
+  projects: [
+
+  // lagom
+  ${vars.base} {
+    name: "shopping-cart-java"
+    uri:  ${vars.uris.shopping-cart-java-uri}
+    extra.exclude: ["lagom-internal-meta-project-*"]
+  }
+
+]}
+
+//// space: shopping_cart_scala
+
+build += {
+
+  space: scala.main.shopping_cart_scala
+
+  check-missing: [ true, false ]
+  cross-version: [ disabled, standard ]
+  extraction-version: ${vars.scala-version}
+  sbt-version: ${vars.sbt-version}
+
+  projects: [
+
+  // lagom
+  ${vars.base} {
+    name: "shopping-cart-scala"
+    uri:  ${vars.uris.shopping-cart-scala-uri}
+    extra.exclude: ["lagom-internal-meta-project-*"]
   }
 
 ]}
