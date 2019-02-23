@@ -1955,6 +1955,9 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
+  // frozen (February 2019) at a February 2019 tag; I got a compile error with
+  // a more recent commit. at present this is a leaf project so it's not worth
+  // messing with, frozen is fine for now
   ${vars.base} {
     name: "scribe"
     uri:  ${vars.uris.scribe-uri}
