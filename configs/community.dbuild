@@ -488,8 +488,7 @@ build += {
     ]
   }
 
-  // 2.13: we're forked, and the fork is behind what we use in 2.12,
-  // but we should probably just leave it alone until the Akka team publishes for 2.13.0-M5
+  // 2.13: we're forked, and the fork is behind what we use in 2.12
   ${vars.base} {
     name: "akka"
     uri:  ${vars.uris.akka-uri}
@@ -611,6 +610,8 @@ build += {
       // has been failing consistently lately, let's recheck it next time we push the tag forward
       // and report upstream if it hasn't gone away
       "set excludeFilter in (Test, unmanagedSources) in streamTests := HiddenFileFilter || \"TlsSpec.scala\""
+      // prevents [akka-stream] [error] Class jdk.internal.HotSpotIntrinsicCandidate not found - continuing with a stub.
+      "set scalacOptions in Compile in actor --= Seq(\"-release\", \"8\")"
     ]
     extra.exclude: [
       // because we already built them in "akka"
@@ -636,6 +637,8 @@ build += {
     extra.commands: ${vars.default-commands} [
       // https://github.com/scala/community-builds/issues/373
       "set every apiURL := None"
+      // prevents [akka-stream] [error] Class jdk.internal.HotSpotIntrinsicCandidate not found - continuing with a stub.
+      "set scalacOptions in Compile in actor --= Seq(\"-release\", \"8\")"
     ]
     extra.exclude: [
       "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
@@ -1990,6 +1993,9 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
+  // frozen (February 2019) at a February 2019 tag; I got a compile error with
+  // a more recent commit. at present this is a leaf project so it's not worth
+  // messing with, frozen is fine for now
   ${vars.base} {
     name: "scribe"
     uri:  ${vars.uris.scribe-uri}
