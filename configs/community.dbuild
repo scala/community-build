@@ -961,9 +961,6 @@ build += {
   }
 
   // dependency of play-file-watch
-  // frozen (February 2019) at a December 2018 commit before
-  // https://github.com/pathikrit/better-files/pull/280 introduced
-  // a regression; I commented on the PR
   ${vars.base} {
     name: "better-files"
     uri: ${vars.uris.better-files-uri}
