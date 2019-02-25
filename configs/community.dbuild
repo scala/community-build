@@ -910,9 +910,11 @@ build += {
     extra.projects: ["crossJVM"]  // no Scala.js please
   }
 
-  // frozen (February 2019) at v3.7.0 (the version playframework expects)
+  // forked (February 2019) from v3.7.0 (the version playframework expects);
   // https://github.com/lightbend/ssl-config/issues/142
-  // is about resolving the source incompatibility on master
+  // is about resolving the source incompatibility on master;
+  // the fork is needed until unfreeze to remove an unused sbt plugin so we don't have
+  // to add a resolver (lightbend/ssl-config@b2544f853f4e62165f43a)
   ${vars.base} {
     name: "ssl-config"
     uri:  ${vars.uris.ssl-config-uri}
