@@ -418,6 +418,7 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
+  // 2.13: forked (February 2019) for post-M5 changes
   ${vars.base} {
     name: "scalaz"
     uri:  ${vars.uris.scalaz-uri}
