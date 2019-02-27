@@ -1972,6 +1972,15 @@ build += {
     ]
   }
 
+  // dependency of sttp
+  ${vars.base} {
+    name: "scala-clippy"
+    uri:  ${vars.uris.scala-clippy-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
+    // for now, anyway, let's just pull in the thing we know sttp needs
+    extra.projects: ["plugin"]
+  }
+
 ]}
 
 //// space: jawn_0_10
