@@ -2400,6 +2400,14 @@ build += {
     extra.projects: ["derivation", "annotations"]
   }
 
+  // dependency of github4s
+  ${vars.base} {
+    name: "circe-jackson"
+    uri:  ${vars.uris.circe-jackson-uri}
+    // there are some others, but for now, just trying to get github4s green again
+    extra.projects: ["jackson28"]
+  }
+
   // dependency of scala-pet-store
   ${vars.base} {
     name: "doobie"
