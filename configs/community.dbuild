@@ -192,6 +192,9 @@ build += {
 
   projects: [
 
+  // frozen (February 2019) at a December 2018 commit
+  // because of a downstream circe failure, reported here:
+  // https://github.com/circe/circe/issues/1084
   ${vars.base} {
     name: "scalacheck"
     uri:  ${vars.uris.scalacheck-uri}
