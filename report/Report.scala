@@ -48,6 +48,7 @@ object SuccessReport {
           "slick",  // https://github.com/slick/slick/pull/1959
           "ssl-config",  // https://github.com/lightbend/ssl-config/issues/142
           "twitter-util",  // "javadoc: error - invalid flag: -d"
+          "scalaz-zio",  // needs scala/bug#11125 workaround
         )
     }
 
