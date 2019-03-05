@@ -2370,6 +2370,10 @@ build += {
       // significant. it's fine, we don't need to have every last subproject
       "monix", "okhttpBackendMonix", "asyncHttpClientBackendMonix"
     ]
+    // ignore missing scala-clippy (a failed attempt to add scala-clippy to the
+    // community build is at https://github.com/scala/community-builds/pull/871)
+    check-missing: false
+    deps.ignore: ["com.softwaremill.clippy#plugin"]
   }
 
   // dependency of scrooge-shapes.
