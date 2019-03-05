@@ -1000,7 +1000,6 @@ build += {
   // 3.5 is the current stable branch (as of Oct 2016)
   // there is also a brand-new development branch, 3.6, we should
   // maybe switch to at some point
-  // temporarily forked (March 2019) pending merge of https://github.com/json4s/json4s/pull/588
   ${vars.base} {
     name: "json4s"
     uri:  ${vars.uris.json4s-uri}
