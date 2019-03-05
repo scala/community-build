@@ -192,6 +192,9 @@ build += {
 
   projects: [
 
+  // frozen (February 2019) at a December 2018 commit
+  // because of a downstream circe failure, reported here:
+  // https://github.com/circe/circe/issues/1084
   ${vars.base} {
     name: "scalacheck"
     uri:  ${vars.uris.scalacheck-uri}
@@ -2407,6 +2410,14 @@ build += {
     uri:  ${vars.uris.circe-derivation-uri}
     // there are some others, but really just trying to get lsp4s going at the moment
     extra.projects: ["derivation", "annotations"]
+  }
+
+  // dependency of github4s
+  ${vars.base} {
+    name: "circe-jackson"
+    uri:  ${vars.uris.circe-jackson-uri}
+    // there are some others, but for now, just trying to get github4s green again
+    extra.projects: ["jackson28"]
   }
 
   // dependency of scala-pet-store
