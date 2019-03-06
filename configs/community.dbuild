@@ -1559,7 +1559,8 @@ build += {
   }
 
   // forked (April 2018) because some classpath-handling code didn't
-  // work under dbuild
+  // work under dbuild.  the fork also (March 2019) includes a slight
+  // build tweak for JDK 12 (avoid `-source 1.6`)
   ${vars.base} {
     name: "scapegoat"
     uri:  ${vars.uris.scapegoat-uri}
