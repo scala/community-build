@@ -202,12 +202,9 @@ build += {
   }
 
   // see also scalatest-tests
-  // forked for: build tweak, JDK 11 friendliness, comment out a test
-  // fork refreshed (from 3.0.x branch) January 2019
   ${vars.base} {
     name: "scalatest"
     uri:  ${vars.uris.scalatest-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["scalatest", "scalactic"]
   }
 
@@ -476,7 +473,6 @@ build += {
   ${vars.base} {
     name: "scalatest-tests"
     uri:  ${vars.uris.scalatest-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.exclude: [
       // we already built these above
       "scalatest", "scalactic", "scalacticMacro"
