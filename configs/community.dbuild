@@ -245,6 +245,8 @@ build += {
     uri:  ${vars.uris.kind-projector-uri}
   }
 
+  // frozen (March 2019) at a March 2019 commit, a commit shortly afterwards
+  // make the test suite start hanging
   ${vars.base} {
     name: "specs2"
     uri:  ${vars.uris.specs2-uri}
