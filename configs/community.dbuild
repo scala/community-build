@@ -484,12 +484,6 @@ build += {
   ${vars.base} {
     name: "scala-java8-compat"
     uri:  ${vars.uris.scala-java8-compat-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.commands: ${vars.default-commands} [
-      // For some reason dbuild includes test sources in the javadocs, which trips up javadoc because
-      // we use "assert" as an identifier there. We disable doc building to avoid that.
-      "set publishArtifact in packageDoc := false"
-    ]
   }
 
   // 2.13: we're forked, and the fork is behind what we use in 2.12
@@ -1605,7 +1599,8 @@ build += {
   }
 
   // forked (April 2018) because some classpath-handling code didn't
-  // work under dbuild
+  // work under dbuild.  the fork also (March 2019) includes a slight
+  // build tweak for JDK 12 (avoid `-source 1.6`)
   ${vars.base} {
     name: "scapegoat"
     uri:  ${vars.uris.scapegoat-uri}
