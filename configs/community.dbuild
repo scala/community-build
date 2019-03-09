@@ -752,6 +752,8 @@ build += {
     uri:  ${vars.uris.scala-logging-uri}
   }
 
+  // frozen (March 2019) at a December 2018 commit, since recent changes
+  // broke kxbmap-configs
   ${vars.base} {
     name: "scalaprops"
     uri:  ${vars.uris.scalaprops-uri}
