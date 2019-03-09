@@ -997,17 +997,13 @@ build += {
     ]
   }
 
-  // 3.5 is the current stable branch (as of Oct 2016)
-  // there is also a brand-new development branch, 3.6, we should
-  // maybe switch to at some point
+  // 3.6 is the current stable branch (as of March 2019);
+  // there is also a development branch
   ${vars.base} {
     name: "json4s"
     uri:  ${vars.uris.json4s-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     // TODO: exclude subprojects we don't want, rather than naming a few we want. probably adding more would work?
     extra.projects: ["json4s-native", "json4s-jackson", "json4s-ast"]
-    // disable Java version check which would otherwise reject Java 9
-    extra.commands: ["set every javaVersionPrefix := None"]
   }
 
   ${vars.base} {
