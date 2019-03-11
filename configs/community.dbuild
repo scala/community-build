@@ -1891,6 +1891,7 @@ build += {
       "fluentd"  // requires org.xerial#fluentd-standalone which we don't have
       "finagle"  // we don't have finatra or finagle
       "httpRecorder"  // needs finatra-http
+      "sql"  // needs org.apache.spark#spark-sql
     ]
   }
 
