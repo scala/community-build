@@ -2358,6 +2358,8 @@ build += {
     extra.projects: ["declineJVM", "refinedJVM"]  // no Scala.js, no doc
   }
 
+  // frozen (March 2019) before newer commits broke the zio subproject.
+  // no time to look into it right now, temporarily freezing is fine
   ${vars.base} {
     name: "sttp"
     uri:  ${vars.uris.sttp-uri}
