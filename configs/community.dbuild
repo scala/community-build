@@ -930,8 +930,9 @@ build += {
   ${vars.base} {
     name: "twirl"
     uri:  ${vars.uris.twirl-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.exclude: [ "plugin", "apiJS" ]
+    extra.exclude: ["plugin", "apiJS"]
+    deps.ignore: ["org.scala-sbt#scripted-plugin"]
+    check-missing: false
   }
 
   ${vars.base} {
