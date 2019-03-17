@@ -969,8 +969,9 @@ build += {
   ${vars.base} {
     name: "twirl"
     uri:  ${vars.uris.twirl-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.exclude: [ "plugin", "apiJS" ]
+    extra.exclude: ["plugin", "apiJS"]
+    deps.ignore: ["org.scala-sbt#scripted-plugin"]
+    check-missing: false
   }
 
   ${vars.base} {
@@ -1929,6 +1930,7 @@ build += {
       "fluentd"  // requires org.xerial#fluentd-standalone which we don't have
       "finagle"  // we don't have finatra or finagle
       "httpRecorder"  // needs finatra-http
+      "sql"  // needs org.apache.spark#spark-sql
     ]
   }
 
@@ -2393,6 +2395,8 @@ build += {
     extra.projects: ["declineJVM", "refinedJVM"]  // no Scala.js, no doc
   }
 
+  // frozen (March 2019) before newer commits broke the zio subproject.
+  // no time to look into it right now, temporarily freezing is fine
   ${vars.base} {
     name: "sttp"
     uri:  ${vars.uris.sttp-uri}
