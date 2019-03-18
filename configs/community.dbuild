@@ -789,8 +789,6 @@ build += {
     uri:  ${vars.uris.scala-logging-uri}
   }
 
-  // frozen (March 2019) at a December 2018 commit, since recent changes
-  // broke kxbmap-configs
   ${vars.base} {
     name: "scalaprops"
     uri:  ${vars.uris.scalaprops-uri}
@@ -1790,9 +1788,7 @@ build += {
     ]
   }
 
-  // dependency of scaladex (via akka-http-json);
-  // frozen (March 2019) at a March 2019 commit before a source-incompatible
-  // change that broke akka-http-json
+  // dependency of scaladex (via akka-http-json)
   ${vars.base} {
     name: "jsoniter-scala"
     uri:  ${vars.uris.jsoniter-scala-uri}
@@ -1925,7 +1921,7 @@ build += {
     uri:  ${vars.uris.airframe-uri}
     extra.projects: ["projectJVM"]  // no Scala.js plz
     extra.exclude: [
-      "jsonBenchmark"  // out of scope
+      "jsonBenchmark", "msgpackBenchmark"  // out of scope
       "jdbc"  // requires PostgreSQL for testing
       "fluentd"  // requires org.xerial#fluentd-standalone which we don't have
       "finagle"  // we don't have finatra or finagle
