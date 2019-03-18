@@ -1790,9 +1790,7 @@ build += {
     ]
   }
 
-  // dependency of scaladex (via akka-http-json);
-  // frozen (March 2019) at a March 2019 commit before a source-incompatible
-  // change that broke akka-http-json
+  // dependency of scaladex (via akka-http-json)
   ${vars.base} {
     name: "jsoniter-scala"
     uri:  ${vars.uris.jsoniter-scala-uri}
