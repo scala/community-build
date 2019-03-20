@@ -1878,14 +1878,9 @@ build += {
   ${vars.base} {
     name: "airframe"
     uri:  ${vars.uris.airframe-uri}
-    extra.projects: ["projectJVM"]  // no Scala.js plz
+    extra.projects: ["communityBuildProjects"]  // no Scala.js plz
     extra.exclude: [
       "jsonBenchmark", "msgpackBenchmark"  // out of scope
-      "jdbc"  // requires PostgreSQL for testing
-      "fluentd"  // requires org.xerial#fluentd-standalone which we don't have
-      "finagle"  // we don't have finatra or finagle
-      "httpRecorder"  // needs finatra-http
-      "sql"  // needs org.apache.spark#spark-sql
     ]
   }
 
