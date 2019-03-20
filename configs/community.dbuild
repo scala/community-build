@@ -1878,7 +1878,7 @@ build += {
   ${vars.base} {
     name: "airframe"
     uri:  ${vars.uris.airframe-uri}
-    extra.projects: ["communityBuildProjects"]  // no Scala.js plz
+    extra.projects: ["communityBuild"]  // no Scala.js plz
   }
 
   // Kafka doesn't have its own sbt build, but Enno made one on his branch
