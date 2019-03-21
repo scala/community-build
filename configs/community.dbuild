@@ -1038,7 +1038,6 @@ build += {
   ${vars.base} {
     name: "argonaut"
     uri:  ${vars.uris.argonaut-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["argonautJVM"]  // no Scala.js
     extra.exclude: [
       // fails to declare its scala-parser-combinators dependency,
