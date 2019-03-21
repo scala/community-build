@@ -238,9 +238,6 @@ build += {
     uri:  ${vars.uris.kind-projector-uri}
   }
 
-  // frozen (March 2019) at a March 2019 commit, a commit shortly afterwards
-  // make the test suite start hanging; reported upstream at
-  // https://github.com/etorreborre/specs2/issues/732
   ${vars.base} {
     name: "specs2"
     uri:  ${vars.uris.specs2-uri}
@@ -1919,15 +1916,7 @@ build += {
   ${vars.base} {
     name: "airframe"
     uri:  ${vars.uris.airframe-uri}
-    extra.projects: ["projectJVM"]  // no Scala.js plz
-    extra.exclude: [
-      "jsonBenchmark", "msgpackBenchmark"  // out of scope
-      "jdbc"  // requires PostgreSQL for testing
-      "fluentd"  // requires org.xerial#fluentd-standalone which we don't have
-      "finagle"  // we don't have finatra or finagle
-      "httpRecorder"  // needs finatra-http
-      "sql"  // needs org.apache.spark#spark-sql
-    ]
+    extra.projects: ["communityBuild"]  // no Scala.js plz
   }
 
   // Kafka doesn't have its own sbt build, but Enno made one on his branch
