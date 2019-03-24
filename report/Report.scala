@@ -50,7 +50,6 @@ object SuccessReport {
     "lift-json",
     "linter",
     "magnolia",
-    "mima",  // ran afoul of some scala.tools.nsc change, it looks like
     "monix",
     "nyaya",
     "paradox",
