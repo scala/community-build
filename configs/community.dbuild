@@ -359,6 +359,12 @@ build += {
   }
 
   ${vars.base} {
+    name: "claimant"
+    uri:  ${vars.uris.claimant-uri}
+    extra.exclude: ["root", "mcJS", "coreJS"]  // no Scala.js plz
+  }
+
+  ${vars.base} {
     name: "tut"
     uri:  ${vars.uris.tut-uri}
     extra.exclude: [
