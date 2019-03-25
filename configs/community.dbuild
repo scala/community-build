@@ -727,6 +727,8 @@ build += {
 
   // forked (October 2018) for JDK 11 compat, awaiting merge of
   // https://github.com/lihaoyi/fastparse/pull/196
+  // also note that master is now Fastparse 2 which is completely
+  // source-incompatible with Fastparse 1
   ${vars.base} {
     name: "fastparse"
     uri:  ${vars.uris.fastparse-uri}
@@ -1285,6 +1287,7 @@ build += {
   }
 
   // dependency of scalameta
+  // frozen (March 2019) at March 2019 commit before Fastparse 2 upgrade
   ${vars.base} {
     name: "scalapb"
     uri:  ${vars.uris.scalapb-uri}
