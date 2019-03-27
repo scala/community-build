@@ -1268,6 +1268,7 @@ build += {
     extra.projects: ["fansiJVM"]  // no Scala.js
   }
 
+  // 2.13: using Alex A's fork at https://github.com/lihaoyi/PPrint/pull/27
   ${vars.base} {
     name: "pprint"
     uri:  ${vars.uris.pprint-uri}
