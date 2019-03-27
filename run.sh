@@ -15,7 +15,7 @@ export LANG="en_US.UTF-8"
 export HOME="$(pwd)"
 
 # Defaults
-scala_version_default="2.13.0-pre-dc11644"  # Mar 27
+scala_version_default="2.13.0-pre-bd28253"  # Mar 27
 scala_version="$scala_version_default"
 root_dir=$(pwd)
 config_dir="configs"
