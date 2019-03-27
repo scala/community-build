@@ -33,58 +33,54 @@ object SuccessReport {
   val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
   val expectedToFail = Set[String](
-    "airframe",
-    "akka",
-    "base64",
-    "blaze",  // as of Feb 1, doesn't look a 2.13 upgrade has been attempted
-    "boopickle",
-    "cachecontrol",
-    "case-app",
-    "coursier",  // typer crash
-    "elastic4s",  // not investigated
-    "enumeratum",
-    "grizzled",
-    "http4s-parboiled2",
-    "jawn-0-10",
+    "airframe",  // one test failure, looks collections related, could possibly be a collections regression
+    "base64",  // StringBuilder stopped allowing assignment to its `.length` member? is that an intentional change we made?
+    "blaze",  // no 2.13 upgrade attempted?
+    "boopickle", // no 2.13 upgrade attempted?
+    "cachecontrol", // looks like maybe we're not picking up their 2.13 version-specific sources?
+    "case-app",  // ignore; we're forked from an old version before M5 work happened
+    "circe-jackson",  // appears to have run afoul of recent (Feb? Mar?) changes to overloading resolution? could possibly be a Scala regression
+    "coursier",  // ignore; we're forked from an old version before M5 work happened
+    "elastic4s",  // no 2.13 upgrade attempted?
+    "enumeratum",  // strange missing dependency in circe subproject, we should probably not worry for now
+    "grizzled",  // M5 compat is in place, but there are collections-related compile errors, maybe just needs post-M5 tweaks?
+    "http4s-parboiled2",  // diverging implicit expansion -- could be a Scala regression, looks tricky to troubleshoot
+    "jawn-0-10",  // we can ignore unless/until we're trying to get sbt green
     "kafka",  // doesn't look a 2.13 upgrade has been attempted
-    "lift-json",
-    "linter",
-    "magnolia",
-    "monix",
-    "nyaya",
-    "paradox",
-    "parboiled2",
-    "pcplod",
-    "pprint",
+    "lift-json",  // no 2.13 upgrade attempted? JavaConversions removed, scala-xml dependency missing
+    "linter", // no 2.13 upgrade attempted? not essential
+    "magnolia",  // they're on M4 but not M5 yet, probably not worth investigating
+    "monix",  // silly compile error, I submitted https://github.com/monix/monix/pull/854/files with a fix
+    "nyaya",  // no 2.13 upgrade attempted?
+    "paradox",  // no 2.13 upgrade (beyond M1) attempted?
+    "parboiled2",  // diverging implicit expansion -- could be a Scala regression, looks tricky to troubleshoot
+    "pcplod",  // no 2.13 upgrade attempted?
     "scala-collection-contrib",  // needs M4->M5 changes
-    "scala-continuations",
-    "scala-java-time",  // not investigated
-    "scala-java8-compat",
-    "scala-refactoring",
-    "scala-sculpt",
-    "scala-stm",
-    "scala-swing",
-    "scala-xml-quote",
-    "scalajson",
+    "scala-continuations",  // no 2.13 upgrade attempted
+    "scala-java-time",  // scalatest dependency somehow not being picked up
+    "scala-refactoring",  // no 2.13 upgrade attempted
+    "scala-sculpt",  // test failure, some silly ordering thing, fine to investigate after RC1 is out
+    "scala-stm",  // no 2.13 upgrade attempted
+    "scala-swing",  // looks like it needs tweaks for post-M5 changes
+    "scala-xml-quote",  // accidental use of `Unit` for `()`
+    "scalajson",  // looks like it might be hitting Som's change where `import` shadows local identifiers?
     "scallop",  // trivial post-M5 `remove` vs `removed` fix needed
-    "scalameter",
-    "scalamock",
-    "scalapb",
-    "scalariform",  // not investigated
-    "scalastyle",
-    "scalatest-tests",
-    "scalaz8",
-    "scapegoat",
-    "scodec",
+    "scalameter",  // no 2.13 upgrade attempted?
+    "scalamock",  // no 2.13 upgrqde attempted (only as far as M3)
+    "scalapb",  // dilemma: on master they have M5 support, but they also require Fastparse 2. what to do?
+    "scalariform",  // looks like a trivial compile error perhaps related to removal of `foo bar ()` syntax
+    "scalatest-tests",  // missing dependency, probably some dbuild phantom rather than a real issue
+    "scapegoat",  // bad option: '-Xmax-classfile-name'
+    "scodec",  // collections related compile error. may just need small post-M5 change? not clear
     "scopt",  // no arguments allowed for nullary method
-    "scribe",
-    "silencer",  // not investigated
-    "slick",
-    "specs2-more",
-    "spire",
+    "scribe",  // bahahahahahaha no more octal escapes! get out of the stone age!
+    "silencer",  // test failure, maybe just a changed error message wording?
+    "slick",  // no 2.13 upgrade attempted?
+    "specs2-more",  // test failure, scala-xml related?
+    "spire",  // "incompatible type in overriding" -- maybe just needs post-M5 changes? worth a look
     "tut",  // deps.ignore thing misses the CrossVersion.full’ed version number :-/
-    "twitter-util",
-    "twotails",  // "null" in scala.tools.nsc.classpath.FileBasedCache.getOrCreate
+    "twitter-util",  // no 2.13 upgrade attempted
+    "twotails",  // "no arguments allowed for nullary method"
   )
 
   def apply(log: io.Source): Unit = {
