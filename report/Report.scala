@@ -77,7 +77,6 @@ object SuccessReport {
     "silencer",  // test failure, maybe just a changed error message wording?
     "slick",  // no 2.13 upgrade attempted?
     "specs2-more",  // test failure, scala-xml related?
-    "spire",  // "incompatible type in overriding" -- maybe just needs post-M5 changes? worth a look
     "tut",  // deps.ignore thing misses the CrossVersion.full’ed version number :-/
     "twitter-util",  // no 2.13 upgrade attempted
     "twotails",  // "no arguments allowed for nullary method"
