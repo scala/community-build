@@ -36,6 +36,7 @@ object SuccessReport {
     "airframe",  // one test failure, looks collections related, could possibly be a collections regression
     "base64",  // StringBuilder stopped allowing assignment to its `.length` member? is that an intentional change we made?
     "blaze",  // no 2.13 upgrade attempted?
+    "breeze",  // spire dep org change; but prob not worth messing with until they attempt 2.13 upgrade themselves
     "boopickle", // no 2.13 upgrade attempted?
     "cachecontrol", // looks like maybe we're not picking up their 2.13 version-specific sources?
     "case-app",  // ignore; we're forked from an old version before M5 work happened
@@ -47,10 +48,12 @@ object SuccessReport {
     "http4s-parboiled2",  // diverging implicit expansion -- could be a Scala regression, looks tricky to troubleshoot
     "jawn-0-10",  // we can ignore unless/until we're trying to get sbt green
     "kafka",  // doesn't look a 2.13 upgrade has been attempted
+    "kittens",  // test failures; could be collections regressions, could just be over-sensitive tests
     "lift-json",  // no 2.13 upgrade attempted? JavaConversions removed, scala-xml dependency missing
     "linter", // no 2.13 upgrade attempted? not essential
     "magnolia",  // they're on M4 but not M5 yet, probably not worth investigating
     "monix",  // silly compile error, I submitted https://github.com/monix/monix/pull/854/files with a fix
+    "multibot",  // doesn't find scalaz-zio and linter deps, no idea why
     "nyaya",  // no 2.13 upgrade attempted?
     "paradox",  // no 2.13 upgrade (beyond M1) attempted?
     "parboiled2",  // diverging implicit expansion -- could be a Scala regression, looks tricky to troubleshoot
@@ -58,6 +61,9 @@ object SuccessReport {
     "scala-collection-contrib",  // needs M4->M5 changes
     "scala-continuations",  // no 2.13 upgrade attempted
     "scala-java-time",  // scalatest dependency somehow not being picked up
+    "scala-java8-compat",  // for 2.13 might become just some shims for cross-compiling, but hasn't yet
+    "scala-js",  // needs post-M5 tweak for knownSize override
+    "scala-logging",  // runs afoul of new rules about varargs overloading
     "scala-refactoring",  // no 2.13 upgrade attempted
     "scala-sculpt",  // test failure, some silly ordering thing, fine to investigate after RC1 is out
     "scala-stm",  // no 2.13 upgrade attempted
