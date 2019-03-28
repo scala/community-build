@@ -42,6 +42,7 @@ object SuccessReport {
     "case-app",  // ignore; we're forked from an old version before M5 work happened
     "circe-jackson",  // appears to have run afoul of recent (Feb? Mar?) changes to overloading resolution? could possibly be a Scala regression
     "coursier",  // ignore; we're forked from an old version before M5 work happened
+    "eff",  // looks like we made source-incompatible changes to scala.concurrent.Batchable? no 2.13 upgrade attempted, it seems
     "elastic4s",  // no 2.13 upgrade attempted?
     "enumeratum",  // strange missing dependency in circe subproject, we should probably not worry for now
     "grizzled",  // M5 compat is in place, but there are collections-related compile errors, maybe just needs post-M5 tweaks?
@@ -69,6 +70,7 @@ object SuccessReport {
     "scala-stm",  // no 2.13 upgrade attempted
     "scala-swing",  // looks like it needs tweaks for post-M5 changes
     "scala-xml-quote",  // accidental use of `Unit` for `()`
+    "scalachess",  // no 2.13 upgrade attempted
     "scalajson",  // looks like it might be hitting Som's change where `import` shadows local identifiers?
     "scallop",  // trivial post-M5 `remove` vs `removed` fix needed
     "scalameter",  // no 2.13 upgrade attempted?
@@ -82,7 +84,6 @@ object SuccessReport {
     "scribe",  // bahahahahahaha no more octal escapes! get out of the stone age!
     "silencer",  // test failure, maybe just a changed error message wording?
     "slick",  // no 2.13 upgrade attempted?
-    "specs2-more",  // test failure, scala-xml related?
     "tut",  // deps.ignore thing misses the CrossVersion.full’ed version number :-/
     "twitter-util",  // no 2.13 upgrade attempted
     "twotails",  // "no arguments allowed for nullary method"
