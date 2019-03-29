@@ -34,7 +34,6 @@ object SuccessReport {
 
   val expectedToFail = Set[String](
     "airframe",
-    "base64",
     "blaze",
     "breeze",
     "boopickle",
@@ -76,11 +75,10 @@ object SuccessReport {
     "scalameter",
     "scalamock",
     "scalapb",
-    "scalariform",
+    "scalastyle",
     "scalatest-tests",
     "scapegoat",
     "scodec",
-    "scopt",
     "scribe",
     "silencer",
     "slick",
