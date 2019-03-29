@@ -84,7 +84,6 @@ object SuccessReport {
     "slick",
     "tut",
     "twitter-util",
-    "twotails",
   )
 
   def apply(log: io.Source): Unit = {
