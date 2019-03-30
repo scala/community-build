@@ -78,7 +78,6 @@ object SuccessReport {
     "scalastyle",
     "scalatest-tests",
     "scapegoat",
-    "scodec",
     "scribe",
     "silencer",
     "slick",
