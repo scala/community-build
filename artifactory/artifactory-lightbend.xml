@@ -826,7 +826,7 @@
             <storeArtifactsLocally>true</storeArtifactsLocally>
             <fetchJarsEagerly>false</fetchJarsEagerly>
             <fetchSourcesEagerly>false</fetchSourcesEagerly>
-            <retrievalCachePeriodSecs>600</retrievalCachePeriodSecs>
+            <retrievalCachePeriodSecs>86400</retrievalCachePeriodSecs>
             <assumedOfflinePeriodSecs>300</assumedOfflinePeriodSecs>
             <missedRetrievalCachePeriodSecs>1800</missedRetrievalCachePeriodSecs>
             <remoteRepoChecksumPolicyType>generate-if-absent</remoteRepoChecksumPolicyType>
