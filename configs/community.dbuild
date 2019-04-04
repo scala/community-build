@@ -174,8 +174,6 @@ build += {
 
   projects: [
 
-  // forked (February 2019) to adapt to scala/scala#7624
-  // 2.13: forked for 2.13.0-RC1 compat, we should be able to unfork once we publish for RC1
   ${vars.base} {
     name: "scala-xml"
     uri:  ${vars.uris.scala-xml-uri}
