@@ -1032,7 +1032,6 @@ build += {
   ${vars.base} {
     name: "playframework"
     uri:  ${vars.uris.playframework-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.exclude: [
       "Play-Docs", "Sbt-Plugin", "Play-Docs-Sbt-Plugin"  // out of scope
       "Play-Integration-Test"  // TODO/WIP, see https://github.com/scala/community-builds/pull/819
