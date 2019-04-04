@@ -175,6 +175,7 @@ build += {
   projects: [
 
   // forked (February 2019) to adapt to scala/scala#7624
+  // 2.13: forked for 2.13.0-RC1 compat, we should be able to unfork once we publish for RC1
   ${vars.base} {
     name: "scala-xml"
     uri:  ${vars.uris.scala-xml-uri}
@@ -867,6 +868,7 @@ build += {
   //   Scala module 2.8.8-dbuildx1c5888e4b2a136333f7edb02dbe6dc5abbfa7de1 requires Jackson Databind version >= 2.8.0 and < 2.9.0
   // for details on how this can happen, see comments on
   // https://github.com/scala/community-builds/pull/785
+  // 2.13: forked for 2.13.0-RC1 compat, we should be able to unfork once they publish for RC1
   ${vars.base} {
     name: "jackson-module-scala"
     uri:  ${vars.uris.jackson-module-scala-uri}
@@ -1735,6 +1737,7 @@ build += {
     ]
   }
 
+  // 2.13: forked for 2.13.0-RC1 compat, we should be able to unfork once they publish for RC1
   ${vars.base} {
     name: "spire"
     uri:  ${vars.uris.spire-uri}
