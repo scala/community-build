@@ -1983,6 +1983,8 @@ build += {
   }
 
   // dependency of scribe
+  // frozen (April 2019) before test failure reported upstream at
+  // https://github.com/outr/perfolation/issues/15
   ${vars.base} {
     name: "perfolation"
     uri:  ${vars.uris.perfolation-uri}
