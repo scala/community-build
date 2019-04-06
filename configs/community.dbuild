@@ -479,7 +479,12 @@ build += {
     uri:  ${vars.uris.scala-java8-compat-uri}
   }
 
-  // 2.13: we're forked, and the fork is behind what we use in 2.12
+  // 2.13: tracking master to get latest 2.13 changes. as for 2.12:
+  // frozen (April 2019) at v2.5.22.  this repo is volatile
+  // (very frequent commits) and when it needs to be rebuilt, the testing
+  // takes a long time (especially akka-more) and the downstream
+  // rebuilding takes a long time too.  so in general we want to
+  // freeze at a tag (preferably) or SHA (if we must)
   ${vars.base} {
     name: "akka"
     uri:  ${vars.uris.akka-uri}
@@ -1214,6 +1219,7 @@ build += {
     uri:  ${vars.uris.unfiltered-uri}
   }
 
+  // frozen (April 2019) because of some netty classpath problem (not investigated)
   ${vars.base} {
     name: "dispatch"
     uri:  ${vars.uris.dispatch-uri}
@@ -1930,6 +1936,7 @@ build += {
     uri:  ${vars.uris.pascal-uri}
   }
 
+  // frozen (April 2019) because of compile errors (not investigated)
   ${vars.base} {
     name: "scalaz-zio"
     uri:  ${vars.uris.scalaz-zio-uri}
