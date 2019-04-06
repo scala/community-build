@@ -1094,6 +1094,8 @@ build += {
   ${vars.base} {
     name: "silencer"
     uri:  ${vars.uris.silencer-uri}
+    // 2.13: we should try running the tests again after they publish for RC1
+    extra.run-tests: false
   }
 
   ${vars.base} {
