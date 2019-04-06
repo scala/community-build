@@ -1035,6 +1035,8 @@ build += {
       "Play-Integration-Test"  // TODO/WIP, see https://github.com/scala/community-builds/pull/819
       "Play-Microbenchmark" // out of scope (and besides, requires Play-Integration-Test)
     ]
+    deps.ignore: ["org.scala-sbt#scripted-plugin"]
+    check-missing: false
   }
 
   // 3.6 is the current stable branch (as of March 2019);
@@ -1983,8 +1985,6 @@ build += {
   }
 
   // dependency of scribe
-  // frozen (April 2019) before test failure reported upstream at
-  // https://github.com/outr/perfolation/issues/15
   ${vars.base} {
     name: "perfolation"
     uri:  ${vars.uris.perfolation-uri}
