@@ -384,7 +384,6 @@ build += {
   ${vars.base} {
     name: "genjavadoc"
     uri:  ${vars.uris.genjavadoc-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
   }
 
   ${vars.base} {
