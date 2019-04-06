@@ -444,8 +444,7 @@ build += {
     uri:  ${vars.uris.scala-java8-compat-uri}
   }
 
-  // frozen (February 2019) at an arbitrary post-2.5.21 commit (that
-  // includes changes we had previously kept in a fork). this repo is volatile
+  // frozen (April 2019) at v2.5.22.  this repo is volatile
   // (very frequent commits) and when it needs to be rebuilt, the testing
   // takes a long time (especially akka-more) and the downstream
   // rebuilding takes a long time too.  so in general we want to
