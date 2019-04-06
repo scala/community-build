@@ -389,7 +389,9 @@ build += {
   ${vars.base} {
     name: "scalaz"
     uri:  ${vars.uris.scalaz-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["rootJVM"]  // no Scala.js please
+    extra.exclude: ["scalacheck-binding_1_13JVM"]  // we're on 1.14
   }
 
   // if master proves difficult to track, the 0.6.x branch could be
