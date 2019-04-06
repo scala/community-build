@@ -1186,6 +1186,7 @@ build += {
     uri:  ${vars.uris.unfiltered-uri}
   }
 
+  // frozen (April 2019) because of some netty classpath problem (not investigated)
   ${vars.base} {
     name: "dispatch"
     uri:  ${vars.uris.dispatch-uri}
@@ -1901,6 +1902,7 @@ build += {
     uri:  ${vars.uris.pascal-uri}
   }
 
+  // frozen (April 2019) because of compile errors (not investigated)
   ${vars.base} {
     name: "scalaz-zio"
     uri:  ${vars.uris.scalaz-zio-uri}
