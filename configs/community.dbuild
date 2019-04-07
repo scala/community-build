@@ -269,6 +269,7 @@ build += {
   }
 
   // dependency of cats
+  // temporarily forked (April 2019) pending merge of https://github.com/milessabin/export-hook/pull/34
   ${vars.base} {
     name: "export-hook"
     uri:  ${vars.uris.export-hook-uri}
