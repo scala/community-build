@@ -82,7 +82,6 @@ object SuccessReport {
     "scalatest-tests",
     "scapegoat",
     "scribe",
-    "silencer",
     "slick",
     "tut",
     "twitter-util",
