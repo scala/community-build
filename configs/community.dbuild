@@ -237,6 +237,7 @@ build += {
     uri:  ${vars.uris.kind-projector-uri}
   }
 
+  // temporarily forked (April 2019) pending merge of https://github.com/etorreborre/specs2/pull/736
   ${vars.base} {
     name: "specs2"
     uri:  ${vars.uris.specs2-uri}
