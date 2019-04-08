@@ -1020,7 +1020,6 @@ build += {
   ${vars.base} {
     name: "lift-json"
     uri:  ${vars.uris.lift-json-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["lift-json"]
   }
 
