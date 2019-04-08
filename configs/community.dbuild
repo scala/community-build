@@ -351,6 +351,10 @@ build += {
     // just fluctuate :-/  I've been gradually increasing this trying to fix an OOM in
     // ApplicativeSuite.  the repo's own .jvmopts has 6g
     extra.options: ["-Xmx6g"]
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   ${vars.base} {
@@ -393,6 +397,10 @@ build += {
     extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["rootJVM"]  // no Scala.js please
     extra.exclude: ["scalacheck-binding_1_13JVM"]  // we're on 1.14
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   // if master proves difficult to track, the 0.6.x branch could be
