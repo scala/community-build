@@ -62,7 +62,6 @@ object SuccessReport {
     "paradox",
     "parboiled2",
     "pcplod",
-    "scala-collection-contrib",
     "scala-continuations",
     "scala-java-time",
     "scala-java8-compat",
