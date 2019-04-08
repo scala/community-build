@@ -385,6 +385,10 @@ build += {
       // 2.13: some hashing thing, the cats team will presumably hit & fix it
       "set excludeFilter in (Test, unmanagedSources) in kernelLaws.jvm := HiddenFileFilter || \"LawTests.scala\""
     ]
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   ${vars.base} {
@@ -427,6 +431,10 @@ build += {
     extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["rootJVM"]  // no Scala.js please
     extra.exclude: ["scalacheck-binding_1_13JVM"]  // we're on 1.14
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   // if master proves difficult to track, the 0.6.x branch could be
@@ -750,8 +758,6 @@ build += {
     uri:  ${vars.uris.utest-uri}
     // no Scala.js plz
     extra.projects: ["utestJVM"]
-    // waiting for fix on https://github.com/lihaoyi/utest/issues/168
-    extra.test-tasks: ["compile"]
   }
 
   // forked (October 2018) for JDK 11 compat, awaiting merge of
