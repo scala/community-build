@@ -804,12 +804,16 @@ build += {
     extra.exclude: ["docs"]
   }
 
-  // frozen at v1.1.0 tag for now, perhaps excessively cautiously; we might
+  // frozen at v1.2.0 tag for now, perhaps excessively cautiously; we might
   // consider tracking a branch instead
   ${vars.base} {
     name: "cats-effect"
     uri:  ${vars.uris.cats-effect-uri}
     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js plz
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   ${vars.base} {
@@ -820,6 +824,10 @@ build += {
       // otherwise sbt-gpg errors on `publish`
       "set every gpgWarnOnFailure := true"
     ]
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   // forked (January 2019) because of recent changes to ScalaTest on 3.0.x branch
@@ -1048,7 +1056,6 @@ build += {
   ${vars.base} {
     name: "lift-json"
     uri:  ${vars.uris.lift-json-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["lift-json"]
   }
 
@@ -1098,6 +1105,10 @@ build += {
     uri:  ${vars.uris.monocle-uri}
     // try to enable more subprojects?
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM", "genericJVM"]
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   ${vars.base} {
@@ -1196,6 +1207,10 @@ build += {
     extra.options: ["-Dmonix.requireJava8=false"]
     // no Scala.js, no benchmarks.
     extra.projects: ["coreJVM"]
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   // this was added because conductr-lib's Play integration depended on it,
