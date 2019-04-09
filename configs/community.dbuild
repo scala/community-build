@@ -361,6 +361,10 @@ build += {
     name: "kittens"
     uri:  ${vars.uris.kittens-uri}
     extra.projects: ["coreJVM"]  // sorry, Scala.js
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   ${vars.base} {
@@ -883,6 +887,10 @@ build += {
     name: "mouse"
     uri:  ${vars.uris.mouse-uri}
     extra.projects: ["crossJVM"]  // no Scala.js please
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   // forked (February 2019) from v3.7.0 (the version playframework expects);
@@ -1092,6 +1100,10 @@ build += {
       "coreJVM", "resourceJVM", "runnerJVM", "scalatestJVM", "specs2JVM", "stdlibJVM", "utilJVM",
       "tests", "scalaz"
     ]
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   ${vars.base} {
@@ -1159,6 +1171,10 @@ build += {
     name: "nyaya"
     uri:  ${vars.uris.nyaya-uri}
     extra.projects: ["testModuleJVM"]  // no Scala.js, no benchmarks
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   ${vars.base} {
@@ -1222,6 +1238,10 @@ build += {
       // no Scala.js
       "catsJS", "coreJS", "scalaz72JS", "testsJS"
     ]
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   ${vars.base} {
@@ -1492,7 +1512,11 @@ build += {
     extra.commands: ${vars.default-commands} [
       "set libraryDependencies in core += \"com.typesafe.akka\" %% \"akka-testkit\" % \"0.0.0\" % Test"
     ]
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
     deps.inject: ${vars.base.deps.inject} [
+      "org.typelevel#kind-projector"
       "com.typesafe.akka#akka-testkit"
     ]
   }
@@ -1918,6 +1942,10 @@ build += {
   ${vars.base} {
     name: "pascal"
     uri:  ${vars.uris.pascal-uri}
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   // frozen (April 2019) because of compile errors (not investigated)
