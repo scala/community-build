@@ -1033,6 +1033,7 @@ build += {
     extra.projects: ["json4s-native", "json4s-jackson", "json4s-ast"]
   }
 
+  // frozen (April 2019) at last green commit, not investigated
   ${vars.base} {
     name: "lift-json"
     uri:  ${vars.uris.lift-json-uri}
