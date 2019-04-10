@@ -2328,6 +2328,10 @@ build += {
     name: "vault"
     uri:  ${vars.uris.vault-uri}
     extra.projects: ["coreJVM"]  // no docs, no Scala.js
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   // this is a big build with a ton of subprojects.  we needn't be shy
@@ -2366,6 +2370,10 @@ build += {
     extra.projects: ["github4sJVM", "catsEffectJVM", "scalaz"]  // but no "docs" or Scala.js stuff
     // waiting (January 2018) on https://github.com/47deg/github4s/issues/178
     extra.test-tasks: "compile"
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   ${vars.base} {
@@ -2410,6 +2418,10 @@ build += {
     name: "decline"
     uri:  ${vars.uris.decline-uri}
     extra.projects: ["declineJVM", "refinedJVM"]  // no Scala.js, no doc
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   // frozen (March 2019) before newer commits broke the zio subproject.
