@@ -971,9 +971,6 @@ build += {
 
   // playframework and play-ws tend to get a bit out of sync with each other so it's generally better
   // to have play-ws frozen at tag, unless it's forked. which it is right now:
-  // temporarily forked (February 2019) to remove uses of DebugConfiguration which was
-  // removed from ssl-config; https://github.com/lightbend/ssl-config/issues/142
-  // is about restoring it
   ${vars.base} {
     name: "play-ws"
     uri:  ${vars.uris.play-ws-uri}
