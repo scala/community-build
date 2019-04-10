@@ -913,6 +913,7 @@ build += {
   ${vars.base} {
     name: "spray-json"
     uri:  ${vars.uris.spray-json-uri}
+    extra.projects: ["sprayJsonJVM"]
   }
 
   // forked (September 2018) for JDK 11 friendliness
