@@ -45,7 +45,6 @@ object SuccessReport {
           "scala-debugger",  // "object FieldInfo is not a member of package sun.reflect"
           "scala-refactoring",  // needs scala/bug#11125 workaround?
           "sconfig",  // test failures; see https://github.com/ekrich/sconfig/issues/4
-          "slick",  // https://github.com/slick/slick/pull/1959
           "ssl-config",  // https://github.com/lightbend/ssl-config/issues/142
           "twitter-util",  // "javadoc: error - invalid flag: -d"
         )
