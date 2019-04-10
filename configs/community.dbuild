@@ -976,7 +976,7 @@ build += {
     uri:  ${vars.uris.play-ws-uri}
     // NullPointerException in CachingSpec
     // (https://github.com/scala/community-builds/issues/564)
-    extra.exclude: ["integration-tests"]
+    extra.exclude: ["integration-tests", "bench"]
   }
 
   // tracking 1.1.x branch since there are source-incompatible changes on master;
