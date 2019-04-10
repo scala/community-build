@@ -454,6 +454,7 @@ build += {
     ]
     // not really sure how this list was arrived at
     // "linker" was disabled for 2.13.x because it requires parallel collections
+    // we should re-enable it sometime, as per the abandoned https://github.com/scala/community-builds/pull/856
     extra.projects: ["io", "logging", "testSuite"]
     extra.commands: ${vars.default-commands} [
       // - We disable source map tests to save ourselves a `npm install source-map-support` on the workers.
