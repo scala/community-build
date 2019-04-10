@@ -1219,6 +1219,9 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
+  // frozen (April 2019) at a March 2019 commit before PR #440
+  // started causing netty-related compile errors, downstream
+  // in dispatch. I didn't investigate
   ${vars.base} {
     name: "unfiltered"
     uri:  ${vars.uris.unfiltered-uri}
