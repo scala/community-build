@@ -2355,6 +2355,10 @@ build += {
       // (October 2018)
       "async-http-client"
     ]
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   // dependency of github4s
