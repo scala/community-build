@@ -32,6 +32,7 @@ object SuccessReport {
   //   (?!-) = negative lookahead -- next character is not "-"
   val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
+<<<<<<< HEAD
   val expectedToFail = Set[String](
     // reasons for the failures are at https://github.com/scala/bug/issues/11453
     // but it will start falling out of date as soon as we unfreeze all the 2.13 SHAs
@@ -88,36 +89,40 @@ object SuccessReport {
 
   def apply(log: io.Source): Unit = {
     val lines = log.getLines.dropWhile(!_.contains("---==  Execution Report ==---"))
-    var success, failed, didNotRun, unexpected = 0
-    var unexpectedFailures = collection.mutable.Buffer[String]()
+    var success, failed, didNotRun = 0
+    val unexpectedSuccesses = collection.mutable.Buffer[String]()
+    val unexpectedFailures = collection.mutable.Buffer[String]()
     val blockerCounts = collection.mutable.Map[String, Int]()
     for (Regex(name, status, blockers) <- lines)
       status match {
         case "SUCCESS" =>
           success += 1
-          if (expectedToFail(name)) {
-            println(s"unexpected SUCCESS: $name")
-            unexpected += 1
-          }
+          if (expectedToFail(name))
+            unexpectedSuccesses += name
         case "FAILED" =>
           failed += 1
-          if (!expectedToFail(name)) {
-            println(s"unexpected FAILED: $name")
-            unexpected += 1
-          }
+          if (!expectedToFail(name))
+            unexpectedFailures += name
         case "DID NOT RUN" =>
           didNotRun += 1
           for (blocker <- blockers.split(',').map(_.trim))
             blockerCounts(blocker) = 1 + blockerCounts.getOrElse(blocker, 0)
       }
     val total = success + failed + didNotRun
-    println(s"SUCCESS $success FAILED $failed DID NOT RUN $didNotRun TOTAL $total")
-    println(s"UNEXPECTED $unexpected")
+    val uf = unexpectedFailures.mkString(",")
+    println(s"SUCCESS $success FAILED?! $uf")
     if (didNotRun > 0) {
-      println("BLOCKERS:")
-      for ((blocker, count) <- blockerCounts.toList.sortBy(_._2).reverse)
-        println(s"$count $blocker")
+      val blockers =
+        blockerCounts.toList.sortBy(_._2).reverse
+          .collect{case (blocker, count) => s"$count $blocker"}
+          .mkString(", ")
+      println(s"BLOCKERS: $blockers")
     }
+    if (unexpectedSuccesses.nonEmpty) {
+      val us = unexpectedSuccesses.mkString(",")
+      println(s"UNEXPECTED SUCCESSES: $us")
+    }
+    println(s"FAILED $failed DID NOT RUN $didNotRun TOTAL $total")
   }
 
 }
