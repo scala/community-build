@@ -395,6 +395,10 @@ build += {
     name: "kittens"
     uri:  ${vars.uris.kittens-uri}
     extra.projects: ["coreJVM"]  // sorry, Scala.js
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   ${vars.base} {
@@ -830,8 +834,6 @@ build += {
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
-  // forked (January 2019) because of recent changes to ScalaTest on 3.0.x branch
-  // that are source-incompatible when seen from Java (parboiled uses ScalaTest from Java)
   ${vars.base} {
     name: "parboiled"
     uri:  ${vars.uris.parboiled-uri}
@@ -863,6 +865,10 @@ build += {
       // no Scala.js please
       "coreJS", "monixJS", "catsEffectJS"
     ]
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   // downstream projects expecting a different jackson version than the
@@ -915,6 +921,10 @@ build += {
     name: "mouse"
     uri:  ${vars.uris.mouse-uri}
     extra.projects: ["crossJVM"]  // no Scala.js please
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   // forked (February 2019) from v3.7.0 (the version playframework expects);
@@ -1053,6 +1063,7 @@ build += {
     extra.projects: ["json4s-native", "json4s-jackson", "json4s-ast"]
   }
 
+  // frozen (April 2019) at last green commit, not investigated
   ${vars.base} {
     name: "lift-json"
     uri:  ${vars.uris.lift-json-uri}
@@ -1126,6 +1137,10 @@ build += {
       "coreJVM", "resourceJVM", "runnerJVM", "scalatestJVM", "specs2JVM", "stdlibJVM", "utilJVM",
       "tests", "scalaz"
     ]
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   ${vars.base} {
@@ -1193,6 +1208,10 @@ build += {
     name: "nyaya"
     uri:  ${vars.uris.nyaya-uri}
     extra.projects: ["testModuleJVM"]  // no Scala.js, no benchmarks
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   ${vars.base} {
@@ -1256,6 +1275,10 @@ build += {
       // no Scala.js
       "catsJS", "coreJS", "scalaz72JS", "testsJS"
     ]
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   ${vars.base} {
@@ -1381,6 +1404,10 @@ build += {
     extra.projects: [
       "animateJVM", "coreJVM", "java2d", "exploreJVM", "imageJVM", "turtleJVM"  // no Scala.js plz
     ]
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   ${vars.base} {
@@ -1529,7 +1556,11 @@ build += {
     extra.commands: ${vars.default-commands} [
       "set libraryDependencies in core += \"com.typesafe.akka\" %% \"akka-testkit\" % \"0.0.0\" % Test"
     ]
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
     deps.inject: ${vars.base.deps.inject} [
+      "org.typelevel#kind-projector"
       "com.typesafe.akka#akka-testkit"
     ]
   }
@@ -1953,6 +1984,10 @@ build += {
   ${vars.base} {
     name: "pascal"
     uri:  ${vars.uris.pascal-uri}
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   // frozen (April 2019) because of compile errors (not investigated)
@@ -2314,6 +2349,10 @@ build += {
     name: "unique"
     uri:  ${vars.uris.unique-uri}
     extra.projects: ["coreJVM"]  // no docs, no Scala.js
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   // dependency of http4s
@@ -2321,6 +2360,10 @@ build += {
     name: "vault"
     uri:  ${vars.uris.vault-uri}
     extra.projects: ["coreJVM"]  // no docs, no Scala.js
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   // this is a big build with a ton of subprojects.  we needn't be shy
@@ -2359,6 +2402,10 @@ build += {
     extra.projects: ["github4sJVM", "catsEffectJVM", "scalaz"]  // but no "docs" or Scala.js stuff
     // waiting (January 2018) on https://github.com/47deg/github4s/issues/178
     extra.test-tasks: "compile"
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   ${vars.base} {
@@ -2403,6 +2450,10 @@ build += {
     name: "decline"
     uri:  ${vars.uris.decline-uri}
     extra.projects: ["declineJVM", "refinedJVM"]  // no Scala.js, no doc
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   // frozen (March 2019) before newer commits broke the zio subproject.
@@ -2417,6 +2468,10 @@ build += {
       // significant. it's fine, we don't need to have every last subproject
       "monix", "okhttpBackendMonix", "asyncHttpClientBackendMonix"
     ]
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   // dependency of scrooge-shapes.
@@ -2469,6 +2524,10 @@ build += {
       "set executeTests in `postgres-circe` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
       "set executeTests in example in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
     ]
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   // dependency of scala-pet-store
