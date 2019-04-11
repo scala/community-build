@@ -2085,6 +2085,10 @@ build += {
     uri:  ${vars.uris.sjson-new-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
     extra.exclude: ["benchmark"]
+    // spray org change
+    check-missing: false
+    deps.ignore: ["io.spray#spray-json"]
+    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
   }
 
   // using a slightly post v1.2.0 commit in order to get
