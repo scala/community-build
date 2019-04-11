@@ -1004,15 +1004,12 @@ build += {
 
   // playframework and play-ws tend to get a bit out of sync with each other so it's generally better
   // to have play-ws frozen at tag, unless it's forked. which it is right now:
-  // temporarily forked (February 2019) to remove uses of DebugConfiguration which was
-  // removed from ssl-config; https://github.com/lightbend/ssl-config/issues/142
-  // is about restoring it
   ${vars.base} {
     name: "play-ws"
     uri:  ${vars.uris.play-ws-uri}
     // NullPointerException in CachingSpec
     // (https://github.com/scala/community-builds/issues/564)
-    extra.exclude: ["integration-tests"]
+    extra.exclude: ["integration-tests", "bench"]
   }
 
   // tracking 1.1.x branch since there are source-incompatible changes on master;
@@ -2373,6 +2370,7 @@ build += {
 
   // this is a big build with a ton of subprojects.  we needn't be shy
   // about disabling fragile ones, ones with obscure dependencies we don't have, etc.
+  // temporarily forked (April 2019) for kind-projector org change
   ${vars.base} {
     name: "http4s"
     uri:  ${vars.uris.http4s-uri}
@@ -2392,10 +2390,6 @@ build += {
       // (October 2018)
       "async-http-client"
     ]
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   // dependency of github4s

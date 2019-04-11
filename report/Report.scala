@@ -32,7 +32,6 @@ object SuccessReport {
   //   (?!-) = negative lookahead -- next character is not "-"
   val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
-<<<<<<< HEAD
   val expectedToFail = Set[String](
     // reasons for the failures are at https://github.com/scala/bug/issues/11453
     // but it will start falling out of date as soon as we unfreeze all the 2.13 SHAs
