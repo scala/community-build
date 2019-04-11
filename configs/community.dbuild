@@ -915,7 +915,9 @@ build += {
     uri:  ${vars.uris.spray-json-uri}
     extra.projects: ["sprayJsonJVM"]
     // otherwise sbt-gpg errors on `publish`
-    "set every gpgWarnOnFailure := true"
+    extra.commands: ${vars.default-commands} [
+      "set every gpgWarnOnFailure := true"
+    ]
   }
 
   // forked (September 2018) for JDK 11 friendliness
@@ -1042,10 +1044,6 @@ build += {
   ${vars.base} {
     name: "sconfig"
     uri:  ${vars.uris.sconfig-uri}
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["io.spray#spray-json"]
-    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
   }
 
   // frozen (November 2017) at June 2017 commit, for compatibility with
