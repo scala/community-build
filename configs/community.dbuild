@@ -914,6 +914,8 @@ build += {
     name: "spray-json"
     uri:  ${vars.uris.spray-json-uri}
     extra.projects: ["sprayJsonJVM"]
+    // otherwise sbt-gpg errors on `publish`
+    "set every gpgWarnOnFailure := true"
   }
 
   // forked (September 2018) for JDK 11 friendliness
