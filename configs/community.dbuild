@@ -646,6 +646,10 @@ build += {
     // * akka.http.impl.engine.client.NewConnectionPoolSpec
     // * akka.http.impl.engine.client.HostConnectionPoolSpec
     extra.test-tasks: ["compile"]
+    // spray org change
+    check-missing: false
+    deps.ignore: ["io.spray#spray-json"]
+    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
   }
 
   ${vars.base} {
@@ -814,6 +818,10 @@ build += {
     uri:  ${vars.uris.parboiled2-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["parboiledJVM", "examples"]
+    // spray org change
+    check-missing: false
+    deps.ignore: ["io.spray#spray-json"]
+    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
   }
 
   ${vars.base} {
@@ -913,6 +921,11 @@ build += {
   ${vars.base} {
     name: "spray-json"
     uri:  ${vars.uris.spray-json-uri}
+    extra.projects: ["sprayJsonJVM"]
+    // otherwise sbt-gpg errors on `publish`
+    extra.commands: ${vars.default-commands} [
+      "set every gpgWarnOnFailure := true"
+    ]
   }
 
   // forked (September 2018) for JDK 11 friendliness
@@ -1590,6 +1603,10 @@ build += {
   ${vars.base} {
     name: "scala-sculpt"
     uri:  ${vars.uris.scala-sculpt-uri}
+    // spray org change
+    check-missing: false
+    deps.ignore: ["io.spray#spray-json"]
+    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
   }
 
   ${vars.base} {
@@ -2050,6 +2067,10 @@ build += {
     // doesn't like the circularity. I think we could break it by having two jawn entries,
     // one for the core and one for the extras, but I haven't tried yet)
     extra.projects: ["ast", "parser", "json4s", "spray"]
+    // spray org change
+    check-missing: false
+    deps.ignore: ["io.spray#spray-json"]
+    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
   }
 
   // for sjson-new
@@ -2064,6 +2085,10 @@ build += {
     uri:  ${vars.uris.sjson-new-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
     extra.exclude: ["benchmark"]
+    // spray org change
+    check-missing: false
+    deps.ignore: ["io.spray#spray-json"]
+    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
   }
 
   // using a slightly post v1.2.0 commit in order to get
@@ -2298,6 +2323,10 @@ build += {
     // doesn't like the circularity. I think we could break it by having two jawn entries,
     // one for the core and one for the extras, but I haven't tried yet)
     extra.projects: ["ast", "parser", "json4s", "spray", "play"]
+    // spray org change
+    check-missing: false
+    deps.ignore: ["io.spray#spray-json"]
+    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
   }
 
   ${vars.base} {
