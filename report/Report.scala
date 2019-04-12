@@ -108,8 +108,12 @@ object SuccessReport {
             blockerCounts(blocker) = 1 + blockerCounts.getOrElse(blocker, 0)
       }
     val total = success + failed + didNotRun
-    val uf = unexpectedFailures.mkString(",")
-    println(s"SUCCESS $success FAILED?! $uf")
+    if (unexpectedFailures.isEmpty)
+      println(s"SUCCESS $success")
+    else {
+      val uf = unexpectedFailures.mkString(",")
+      println(s"SUCCESS $success FAILED?! $uf")
+    }
     if (didNotRun > 0) {
       val blockers =
         blockerCounts.toList.sortBy(_._2).reverse
