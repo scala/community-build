@@ -38,7 +38,6 @@ object SuccessReport {
         Set()
       case _ =>
         Set(
-          "coursier",  // needs unfreeze to pull in https://github.com/coursier/coursier/pull/937
           "doobie",  // needs scala/bug#11125 workaround
           "sbt-util",  // needs scala/bug#11125 workaround
           "scala-debugger",  // "object FieldInfo is not a member of package sun.reflect"
