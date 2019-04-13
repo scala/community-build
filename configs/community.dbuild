@@ -1914,7 +1914,6 @@ build += {
   ${vars.base} {
     name: "classpath-shrinker"
     uri:  ${vars.uris.classpath-shrinker-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
     ]
