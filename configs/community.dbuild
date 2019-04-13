@@ -246,9 +246,8 @@ build += {
       "matcherExtraJVM", "matcherJVM", "mockJVM", "junitJVM"
       "scalacheckJVM"
     ]
+    // makes "configuration not public" errors downstream go away
     extra.commands: ${vars.default-commands} [
-      // makes a "configuration not public" error in specs2-scalaz go away.  I got the idea to
-      // try it by googling that phrase and finding https://github.com/sbt/sbt/pull/2345
       "set every publishMavenStyle := false"
       // 2.13-only test failures, mentioned to Eric on a PR. check on it again sometime before 2.13.0 time
       "set excludeFilter in (Test, unmanagedSources) in coreJvm := HiddenFileFilter || \"NotNullStringsSpec.scala\""
@@ -1274,15 +1273,7 @@ build += {
   ${vars.base} {
     name: "atto"
     uri:  ${vars.uris.atto-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.exclude: [
-      // just scalaz72 plz!
-      "scalaz71"
-      // depends on scalaz71
-      "atto", "testsJVM", "docs"
-      // no Scala.js
-      "catsJS", "coreJS", "scalaz72JS", "testsJS"
-    ]
+    extra.projects: ["coreJVM", "refinedJVM", "fs2JVM", "testsJVM"]
     // kind-projector org change
     check-missing: false
     deps.ignore: ["org.spire-math#kind-projector"]
@@ -1487,17 +1478,12 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
-  // frozen (October 2018) at an October 2018 commit just before source-incompatible
-  // changes which broke coursier-small and classpath-shrinker downstream.
-  // note that https://github.com/coursier/coursier/pull/937 (October 2018) adds build-on-JDK-11
-  // support, so we'll need to unfreeze at some point in order to get that
+  // forked (April 2019) to remove weird git submodule stuff from build.sbt
   ${vars.base} {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
-    // no Scala.js or Scala Native plz
     extra.projects: ["jvm"]
-    // these depend on Scala Native
-    extra.exclude: ["extra", "cli"]
+    extra.exclude: ["scalazJVM"]
   }
 
   // dependency of scala-debugger. we track the develop branch, since
@@ -1952,7 +1938,6 @@ build += {
   ${vars.base} {
     name: "classpath-shrinker"
     uri:  ${vars.uris.classpath-shrinker-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
     ]
@@ -2549,6 +2534,7 @@ build += {
       "set executeTests in `postgres-circe` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
       "set executeTests in example in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
     ]
+    extra.exclude: ["docs", "doobie"]  // out of scope ("doobie" is just an aggregation, and causes missing-tut error)
     // kind-projector org change
     check-missing: false
     deps.ignore: ["org.spire-math#kind-projector"]
