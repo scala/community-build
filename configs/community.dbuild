@@ -1234,7 +1234,6 @@ build += {
     uri:  ${vars.uris.dispatch-uri}
   }
 
-  // temporarily forked (April 2019) pending merge of https://github.com/tpolecat/atto/pull/97
   ${vars.base} {
     name: "atto"
     uri:  ${vars.uris.atto-uri}
