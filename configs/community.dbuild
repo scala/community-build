@@ -1818,8 +1818,6 @@ build += {
     check-missing: false
   }
 
-  // frozen (April 2019), probably temporarily, pending resolution of
-  // https://github.com/oleg-py/better-monadic-for/issues/21
   ${vars.base} {
     name: "better-monadic-for"
     uri:  ${vars.uris.better-monadic-for-uri}
