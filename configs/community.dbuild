@@ -1250,13 +1250,6 @@ build += {
     extra.exclude: ["coreJS", "testingJS"]
   }
 
-  ${vars.base} {
-    name: "http4s-websocket"
-    uri:  ${vars.uris.http4s-websocket-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.projects: ["http4sWebsocketJVM"]  // no Scala.js plz
-  }
-
   // frozen (February 2019) at v0.14.0-M12 tag since that's the version http4s wants
   ${vars.base} {
     name: "blaze"
