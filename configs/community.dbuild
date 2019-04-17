@@ -347,8 +347,8 @@ build += {
   // frozen at v1.6.0 tag because dependencies have historically been fragile.
   // (perhaps this is overly cautious now, in 2019? not sure)
   // and forked (February 2019) from that tag to make some tiny ScalaCheck 1.13 vs 1.14 tweaks so tests pass
-  // 2.13: and forked (January 2019, from v1.5.0 tag not master) to adapt to a
-  // method name change in the 2.13 collections
+  // 2.13: using Travis Brown's branch, pending merge of
+  // https://github.com/typelevel/cats/pull/2792
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
