@@ -1148,7 +1148,6 @@ build += {
   ${vars.base} {
     name: "scala-continuations"
     uri:  ${vars.uris.scala-continuations-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
   }
 
   ${vars.base} {
