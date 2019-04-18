@@ -2314,6 +2314,8 @@ build += {
     ]
   }
 
+  // 2.13: no clue why the extra spray-json stuff is necessary on 2.13.x
+  // branch but not in 2.12.x branch? it's a mystery
   ${vars.base} {
     name: "jawn-0-11"
     uri:  ${vars.uris.jawn-0-11-uri}
@@ -2326,6 +2328,10 @@ build += {
     check-missing: false
     deps.ignore: ["io.spray#spray-json"]
     deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
+    extra.commands: ${vars.base.extra.commands} [
+      "removeDependency io.spray spray-json"
+      "set supportSpray/libraryDependencies += \"io.crashbox\" % \"spray-json\" % \"1.3.5\""
+    ]
   }
 
   ${vars.base} {
