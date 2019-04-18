@@ -807,16 +807,18 @@ build += {
     extra.exclude: ["docs"]
   }
 
-  // frozen at v1.2.0 tag for now, perhaps excessively cautiously; we might
-  // consider tracking a branch instead
+  // 2.13: temporarily forked for kind-projector org change (no clue why this
+  // didn't seem to be needed in 2.12 but was needed here)
   ${vars.base} {
     name: "cats-effect"
     uri:  ${vars.uris.cats-effect-uri}
     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js plz
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+    extra.commands: ${vars.base.extra.commands} [
+      // I think cats dropped its catalysts dependency but there is one source file
+      // in cats-effect that still expects it to be there, though not explicitly declared.
+      "set libraryDependencies in coreJVM += \"org.typelevel\" % \"catalysts-platform\" % \"0.10.0\" % Test"
+    ]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#catalysts-platform"]
   }
 
   ${vars.base} {
