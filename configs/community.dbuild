@@ -1146,11 +1146,6 @@ build += {
   }
 
   ${vars.base} {
-    name: "scala-continuations"
-    uri:  ${vars.uris.scala-continuations-uri}
-  }
-
-  ${vars.base} {
     name: "scala-ssh"
     uri:  ${vars.uris.scala-ssh-uri}
     // we have to disable this early (extra.commands isn't soon enough)
