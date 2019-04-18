@@ -156,7 +156,9 @@ build += {
       }
       {
         name: "scala-xml"
-        uri: "https://github.com/scala/scala-xml.git"
+        // master has moved to a new 2.x series, but the Scala 2.12 compiler
+        // is going to continue depending on 1.x, so freeze at last 1.x tag
+        uri: "https://github.com/scala/scala-xml.git#v1.1.1"
         // this gives us "scala-xml_2.12" which is what we want, sbt 1 will get
         // upset if there are two different kinds of scala-xml dependencies
         // floating around (https://github.com/scala/community-builds/issues/679)
