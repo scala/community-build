@@ -957,18 +957,6 @@ build += {
     ]
   }
 
-  // forked (September 2018) for JDK 11 friendliness
-  ${vars.base} {
-    name: "pcplod"
-    uri:  ${vars.uris.pcplod-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
-    // in our fork we removed the sbt-sensible plugin, setting this
-    // was one of the things the plugin did. tests fail otherwise
-    extra.commands: ${vars.default-commands} [
-      "set every fork in Test := true"
-    ]
-  }
-
   ${vars.base} {
     name: "scalikejdbc"
     uri:  ${vars.uris.scalikejdbc-uri}

@@ -61,7 +61,6 @@ object SuccessReport {
     "nyaya",
     "paradox",
     "parboiled2",
-    "pcplod",
     "scala-java-time",
     "scala-logging",
     "scala-refactoring",
