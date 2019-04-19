@@ -1115,6 +1115,9 @@ build += {
   ${vars.base} {
     name: "scala-continuations"
     uri:  ${vars.uris.scala-continuations-uri}
+    extra.commands: ${vars.default-commands} [
+      "set every ScalaModulePlugin.mimaPreviousVersion := None"
+    ]
   }
 
   ${vars.base} {
