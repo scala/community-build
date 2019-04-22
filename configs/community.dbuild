@@ -1253,7 +1253,7 @@ build += {
     extra.exclude: ["coreJS", "testingJS"]
   }
 
-  // frozen (February 2019) at v0.14.0-M12 tag since that's the version http4s wants
+  // frozen (April 2019) at v0.14.0 tag since that's the version http4s wants
   ${vars.base} {
     name: "blaze"
     uri: ${vars.uris.blaze-uri}
