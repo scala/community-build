@@ -297,6 +297,8 @@ build += {
     deps.ignore: ["org.wartremover#wartremover"]
   }
 
+  // frozen (April 2019) at April 2019 commit before source-incompatible upgrade
+  // to ScalaTest 3.1
   ${vars.base} {
     name: "discipline"
     uri:  ${vars.uris.discipline-uri}
