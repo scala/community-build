@@ -487,7 +487,10 @@ build += {
     uri:  ${vars.uris.scala-java8-compat-uri}
   }
 
-  // 2.13: tracking master to get latest 2.13 changes. as for 2.12:
+  // 2.13: tracking master to get latest 2.13 changes.
+  // but also (April 2019) temporarily using Johan's fork with
+  // as-yet-unmerged 2.13 changes
+  // as for 2.12:
   // frozen (April 2019) at v2.5.22.  this repo is volatile
   // (very frequent commits) and when it needs to be rebuilt, the testing
   // takes a long time (especially akka-more) and the downstream
