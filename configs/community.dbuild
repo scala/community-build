@@ -489,10 +489,13 @@ build += {
     uri:  ${vars.uris.scala-java8-compat-uri}
   }
 
-  // 2.13: tracking master to get latest 2.13 changes.
-  // but also (April 2019) temporarily using Johan's fork with
-  // as-yet-unmerged 2.13 changes
-  // as for 2.12:
+  ${vars.base} {
+    name: "silencer"
+    uri:  ${vars.uris.silencer-uri}
+    // 2.13: we should try running the tests again after they publish for RC1
+    extra.run-tests: false
+  }
+
   // tracking release-2.5 branch. master is very volatile, and
   // tracking master isn't really needed here
   ${vars.base} {
@@ -1115,13 +1118,6 @@ build += {
     uri:  ${vars.uris.monocle-uri}
     // try to enable more subprojects?
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM", "genericJVM"]
-  }
-
-  ${vars.base} {
-    name: "silencer"
-    uri:  ${vars.uris.silencer-uri}
-    // 2.13: we should try running the tests again after they publish for RC1
-    extra.run-tests: false
   }
 
   ${vars.base} {
