@@ -458,6 +458,11 @@ build += {
     uri:  ${vars.uris.scala-java8-compat-uri}
   }
 
+  ${vars.base} {
+    name: "silencer"
+    uri:  ${vars.uris.silencer-uri}
+  }
+
   // tracking release-2.5 branch. master is very volatile, and
   // tracking master isn't really needed here
   ${vars.base} {
@@ -1094,11 +1099,6 @@ build += {
     uri:  ${vars.uris.monocle-uri}
     // try to enable more subprojects?
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM", "genericJVM"]
-  }
-
-  ${vars.base} {
-    name: "silencer"
-    uri:  ${vars.uris.silencer-uri}
   }
 
   ${vars.base} {
