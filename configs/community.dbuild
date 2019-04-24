@@ -463,8 +463,15 @@ build += {
     uri:  ${vars.uris.silencer-uri}
   }
 
-  // tracking release-2.5 branch. master is very volatile, and
-  // tracking master isn't really needed here
+  // frozen (April 2019) at v2.5.22.  this repo is volatile
+  // (very frequent commits) and when it needs to be rebuilt, the testing
+  // takes a long time (especially akka-more) and the downstream
+  // rebuilding takes a long time too.  so in general we want to
+  // freeze at a tag (preferably) or SHA (if we must).
+  // it might be better to track the release-2.5 branch, but there
+  // were ScalaTest-related compilation failures when I tried it
+  // (April 2019). we could try again after the 2.13.0-RC1 upgrade
+  // goes through?
   ${vars.base} {
     name: "akka"
     uri:  ${vars.uris.akka-uri}
