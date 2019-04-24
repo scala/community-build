@@ -457,11 +457,8 @@ build += {
     uri:  ${vars.uris.scala-java8-compat-uri}
   }
 
-  // frozen (April 2019) at v2.5.22.  this repo is volatile
-  // (very frequent commits) and when it needs to be rebuilt, the testing
-  // takes a long time (especially akka-more) and the downstream
-  // rebuilding takes a long time too.  so in general we want to
-  // freeze at a tag (preferably) or SHA (if we must)
+  // tracking release-2.5 branch. master is very volatile, and
+  // tracking master isn't really needed here
   ${vars.base} {
     name: "akka"
     uri:  ${vars.uris.akka-uri}
