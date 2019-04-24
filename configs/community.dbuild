@@ -496,6 +496,7 @@ build += {
 
   // tracking release-2.5 branch. master is very volatile, and
   // tracking master isn't really needed here
+  // 2.13: we're branched off Johan's 2.13.0-RC1 WIP branch
   ${vars.base} {
     name: "akka"
     uri:  ${vars.uris.akka-uri}
