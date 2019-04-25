@@ -494,8 +494,15 @@ build += {
     uri:  ${vars.uris.silencer-uri}
   }
 
-  // tracking release-2.5 branch. master is very volatile, and
-  // tracking master isn't really needed here
+  // frozen (April 2019) at v2.5.22.  this repo is volatile
+  // (very frequent commits) and when it needs to be rebuilt, the testing
+  // takes a long time (especially akka-more) and the downstream
+  // rebuilding takes a long time too.  so in general we want to
+  // freeze at a tag (preferably) or SHA (if we must).
+  // it might be better to track the release-2.5 branch, but there
+  // were ScalaTest-related compilation failures when I tried it
+  // (April 2019). we could try again after the 2.13.0-RC1 upgrade
+  // goes through?
   // 2.13: we're branched off Johan's 2.13.0-RC1 WIP branch
   ${vars.base} {
     name: "akka"
@@ -1112,11 +1119,26 @@ build += {
     ]
   }
 
+  // dependency of monocle's cats branch
+  ${vars.base} {
+    name: "newts"
+    uri:  ${vars.uris.newts-uri}
+    extra.projects: ["coreJVM", "testJVM"]
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+  }
+
   ${vars.base} {
     name: "monocle"
     uri:  ${vars.uris.monocle-uri}
     // try to enable more subprojects?
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM", "genericJVM"]
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   ${vars.base} {
@@ -1451,12 +1473,18 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
-  // forked (April 2019) to remove weird git submodule stuff from build.sbt
+  // frozen (April 2019) at October 2018 commit, since master has since moved to fastparse 2
+  // which we don't have yet
   ${vars.base} {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
     extra.projects: ["jvm"]
-    extra.exclude: ["scalazJVM"]
+    extra.exclude: [
+      // these require scalaz-concurrent (but that dependency will go away when we unfreeze)
+      "scalazJVM", "testsJVM", "proxy-tests"
+      // these require Scala Native
+      "extra", "cli"
+    ]
   }
 
   // dependency of scala-debugger. we track the develop branch, since
@@ -1872,18 +1900,6 @@ build += {
     ]
   }
 
-  // dependency of scalafix
-  // should be easy to remove if it ever acts up; see Olaf's remarks at
-  // https://github.com/scala/community-builds/pull/765
-  ${vars.base} {
-    name: "coursier-small"
-    uri:  ${vars.uris.coursier-small-uri}
-    // reported upstream: https://github.com/olafurpg/coursier-small/issues/8
-    extra.commands: ${vars.default-commands} [
-      "set excludeFilter in (Test, unmanagedSources) in small := HiddenFileFilter || \"CoursierSmallSuite.scala\""
-    ]
-  }
-
   // frozen (September 2018) at a September 2018 commit just before a scalameta
   // version bump.  we *could* try to move them forward together, and we will
   // at some point, but for now, choosing stability.
@@ -1903,19 +1919,9 @@ build += {
       // for JDK 11. one-deeper nesting level makes it apply to build definition
       ["libraryDependencies += \"javax.xml.bind\" % \"jaxb-api\" % \"2.3.0\""]
     ]
-  }
-
-  // forked because https://github.com/scalacenter/classpath-shrinker/pull/5 was
-  // closed without being merged. the project seems abandoned, so we can probably
-  // just remove it here if it ever acts up
-  ${vars.base} {
-    name: "classpath-shrinker"
-    uri:  ${vars.uris.classpath-shrinker-uri}
-    extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
-    ]
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    extra.exclude: ["root", "default-sbt-project"]  // not needed, and runs into bintray publishing trouble
+    // only used by ScalafixImplSuite and ToolClasspathSuite
+    check-missing: false
+    deps.ignore: ["com.geirsson#coursier-small"]
   }
 
   // I know, it's a little weird to include my personal Project Euler
