@@ -372,6 +372,9 @@ build += {
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
+  // frozen (April 2019) before org move to typelevel, I had trouble downstream
+  // in jawn-0-11 trying to apply the org change, let's just wait for jawn to
+  // catch up
   ${vars.base} {
     name: "claimant"
     uri:  ${vars.uris.claimant-uri}
@@ -2295,10 +2298,10 @@ build += {
     // doesn't like the circularity. I think we could break it by having two jawn entries,
     // one for the core and one for the extras, but I haven't tried yet)
     extra.projects: ["ast", "parser", "json4s", "spray", "play"]
-    // spray, claimant org changes
+    // spray org change
     check-missing: false
-    deps.ignore: ["io.spray#spray-json", "org.spire-math#claimant"]
-    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json", "org.typelevel#claimant"]
+    deps.ignore: ["io.spray#spray-json"]
+    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
   }
 
   ${vars.base} {
