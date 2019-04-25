@@ -1201,16 +1201,6 @@ build += {
   }
 
   ${vars.base} {
-    name: "nyaya"
-    uri:  ${vars.uris.nyaya-uri}
-    extra.projects: ["testModuleJVM"]  // no Scala.js, no benchmarks
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
-  }
-
-  ${vars.base} {
     name: "minitest"
     uri:  ${vars.uris.minitest-uri}
     extra.projects: ["minitestJVM", "lawsJVM", "lawsLegacyJVM"]  // no Scala.js
