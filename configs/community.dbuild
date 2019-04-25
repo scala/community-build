@@ -1451,7 +1451,11 @@ build += {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
     extra.projects: ["jvm"]
-    extra.exclude: ["scalazJVM", "extra", "cli"]
+    extra.exclude: [
+      "scalazJVM", "testsJVM"  // testsJVM requires scalaz-concurrent (but that dependency will go away when we unfreeze)
+      // these require Scala Native
+      "extra", "cli"
+    ]
   }
 
   // dependency of scala-debugger. we track the develop branch, since
