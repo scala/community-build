@@ -1451,7 +1451,7 @@ build += {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
     extra.projects: ["jvm"]
-    extra.exclude: ["scalazJVM", "extra"]
+    extra.exclude: ["scalazJVM", "extra", "cli"]
   }
 
   // dependency of scala-debugger. we track the develop branch, since
