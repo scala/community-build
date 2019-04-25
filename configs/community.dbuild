@@ -1865,18 +1865,6 @@ build += {
     ]
   }
 
-  // dependency of scalafix
-  // should be easy to remove if it ever acts up; see Olaf's remarks at
-  // https://github.com/scala/community-builds/pull/765
-  ${vars.base} {
-    name: "coursier-small"
-    uri:  ${vars.uris.coursier-small-uri}
-    // reported upstream: https://github.com/olafurpg/coursier-small/issues/8
-    extra.commands: ${vars.default-commands} [
-      "set excludeFilter in (Test, unmanagedSources) in small := HiddenFileFilter || \"CoursierSmallSuite.scala\""
-    ]
-  }
-
   // frozen (September 2018) at a September 2018 commit just before a scalameta
   // version bump.  we *could* try to move them forward together, and we will
   // at some point, but for now, choosing stability.
@@ -1896,6 +1884,9 @@ build += {
       // for JDK 11. one-deeper nesting level makes it apply to build definition
       ["libraryDependencies += \"javax.xml.bind\" % \"jaxb-api\" % \"2.3.0\""]
     ]
+    // only used by ScalafixImplSuite and ToolClasspathSuite
+    check-missing: false
+    deps.ignore: ["com.geirsson#coursier-small"]
   }
 
   // forked because https://github.com/scalacenter/classpath-shrinker/pull/5 was
