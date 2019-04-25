@@ -1445,7 +1445,8 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
-  // forked (April 2019) to remove weird git submodule stuff from build.sbt
+  // frozen (April 2019) at October 2018 commit, since master has since moved to fastparse 2
+  // which we don't have yet
   ${vars.base} {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
