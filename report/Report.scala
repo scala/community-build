@@ -38,7 +38,6 @@ object SuccessReport {
     // at some point we should put the reasons, when known, back in here.  maybe after
     // RC1 is out and the ecosystem python has sufficiently digested the RC1 pig
     "akka",
-    "blaze",
     "breeze",
     "boopickle",
     "cachecontrol",
@@ -77,7 +76,6 @@ object SuccessReport {
     "scalatest-tests",
     "scapegoat",
     "scribe",
-    "slick",
     "tut",
     "twitter-util",
   )
