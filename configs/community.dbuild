@@ -1452,7 +1452,8 @@ build += {
     uri:  ${vars.uris.coursier-uri}
     extra.projects: ["jvm"]
     extra.exclude: [
-      "scalazJVM", "testsJVM"  // testsJVM requires scalaz-concurrent (but that dependency will go away when we unfreeze)
+      // these require scalaz-concurrent (but that dependency will go away when we unfreeze)
+      "scalazJVM", "testsJVM", "proxy-tests"
       // these require Scala Native
       "extra", "cli"
     ]
