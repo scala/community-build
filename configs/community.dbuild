@@ -2425,8 +2425,6 @@ build += {
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
-  // frozen (March 2019) before newer commits broke the zio subproject.
-  // no time to look into it right now, temporarily freezing is fine
   ${vars.base} {
     name: "sttp"
     uri:  ${vars.uris.sttp-uri}
@@ -2436,6 +2434,8 @@ build += {
       // I got some compile error here (September 2018) that seemed unlikely to be
       // significant. it's fine, we don't need to have every last subproject
       "monix", "okhttpBackendMonix", "asyncHttpClientBackendMonix"
+      // uninvestigated compile errors
+      "zio", "asyncHttpClientBackendZio"
     ]
     // kind-projector org change
     check-missing: false
