@@ -2305,10 +2305,10 @@ build += {
     // doesn't like the circularity. I think we could break it by having two jawn entries,
     // one for the core and one for the extras, but I haven't tried yet)
     extra.projects: ["ast", "parser", "json4s", "spray", "play"]
-    // spray org change
+    // spray, claimant org changes
     check-missing: false
-    deps.ignore: ["io.spray#spray-json"]
-    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
+    deps.ignore: ["io.spray#spray-json", "org.spire-math#claimant"]
+    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json", "org.typelevel#claimant"]
   }
 
   ${vars.base} {
