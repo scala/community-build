@@ -509,7 +509,9 @@ build += {
     uri:  ${vars.uris.akka-uri}
     extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"]
     extra.projects: ["akka-actor", "akka-actor-typed", "akka-testkit", "akka-actor-tests"]
-    extra.commands: ${vars.default-commands} [
+    extra.commands:  [
+      "removeScalacOptions -Xfatal-warnings -Yno-adapted-args -Ywarn-inaccessible -Ywarn-nullary-override -Ywarn-nullary-unit -Ywarn-infer-any -Ywarn-unused-import -Ypartial-unification -Ywarn-adapted-args"
+
       // https://github.com/scala/community-builds/issues/373
       "set every apiURL := None"
       // needed downstream in akka-stream and/or akka-more
