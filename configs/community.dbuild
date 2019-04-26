@@ -2217,6 +2217,7 @@ build += {
 
   // 2.13: no clue why the extra spray-json stuff is necessary on 2.13.x
   // branch but not in 2.12.x branch? it's a mystery
+  // 2.13: using branch until https://github.com/typelevel/jawn/pull/161 is merged
   ${vars.base} {
     name: "jawn-0-11"
     uri:  ${vars.uris.jawn-0-11-uri}
