@@ -614,7 +614,7 @@ build += {
       // not part of akka-stream, but throwing it in so that akka-http doesn't need anything from akka-more
       "akka-multi-node-testkit"
     ]
-    extra.commands: ${vars.default-commands} [
+    extra.commands: ${vars.commands-preamble} [
       // https://github.com/scala/community-builds/issues/373
       "set every apiURL := None"
       // makes "configuration not public" errors downstream go away
@@ -646,7 +646,7 @@ build += {
       // for JDK 11. one-deeper nesting level makes it apply to build definition
       ["libraryDependencies += \"javax.xml.bind\" % \"jaxb-api\" % \"2.3.0\""]
     ]
-    extra.commands: ${vars.default-commands} [
+    extra.commands: ${vars.commands-preamble} [
       // https://github.com/scala/community-builds/issues/373
       "set every apiURL := None"
       // prevents [akka-stream] [error] Class jdk.internal.HotSpotIntrinsicCandidate not found - continuing with a stub.
