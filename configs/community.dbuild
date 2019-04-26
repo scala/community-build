@@ -403,14 +403,6 @@ build += {
     uri:  ${vars.uris.genjavadoc-uri}
   }
 
-  ${vars.base} {
-    name: "scalaz"
-    uri:  ${vars.uris.scalaz-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.projects: ["rootJVM"]  // no Scala.js please
-    extra.exclude: ["scalacheck-binding_1_13JVM"]  // we're on 1.14
-  }
-
   // if master proves difficult to track, the 0.6.x branch could be
   // used instead; see discussion at
   // https://github.com/scala/community-builds/issues/506
@@ -440,13 +432,12 @@ build += {
     name: "specs2-more"
     uri:  ${vars.uris.specs2-uri}
     extra.projects: [
-      "shapelessJVM", "catsJVM", "scalazJVM", "examplesJVM"
+      "shapelessJVM", "catsJVM", "examplesJVM"
     ]
-    // already built in "specs2"
     extra.exclude: [
-      "analysisJVM", "commonJVM", "coreJVM", "fpJVM"
-      "matcherExtraJVM", "matcherJVM", "mockJVM", "junitJVM"
-      "scalacheckJVM"
+      // already built in "specs2"
+      "analysisJVM", "commonJVM", "coreJVM", "fpJVM", "matcherExtraJVM", "matcherJVM",
+      "mockJVM", "junitJVM", "scalacheckJVM"
     ]
     extra.commands: ${vars.default-commands} [
       // not sure if necessary, but we have it in the specs entry, so let's have it here too
@@ -841,6 +832,7 @@ build += {
     name: "eff"
     uri:  ${vars.uris.eff-uri}
     extra.exclude: [
+      "scalaz"
       // this is an aggregation project that we exclude because it adds a
       // ScalaMeter dependency
       "eff"
@@ -1089,21 +1081,6 @@ build += {
     ]
   }
 
-  ${vars.base} {
-    name: "argonaut"
-    uri:  ${vars.uris.argonaut-uri}
-    extra.projects: ["argonautJVM"]  // no Scala.js
-    extra.exclude: [
-      // fails to declare its scala-parser-combinators dependency,
-      // and anyway we don't want to run benchmarks
-      "argonaut-benchmark"
-    ]
-    // work around https://github.com/scala/scala-dev/issues/252
-    extra.commands: ${vars.default-commands} [
-      "set unmanagedSourceDirectories in (argonautJVM, Compile) += baseDirectory.value / \"argonaut\" / \"shared\" / \"src\" / \"main\" / \"scala-2.12\""
-    ]
-  }
-
   // dependency of monocle's cats branch
   ${vars.base} {
     name: "newts"
@@ -1120,20 +1097,6 @@ build += {
     uri:  ${vars.uris.monocle-uri}
     // try to enable more subprojects?
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM", "genericJVM"]
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
-  }
-
-  ${vars.base} {
-    name: "testz"
-    uri:  ${vars.uris.testz-uri}
-    // omit Scala.js, benchmarks, docs
-    extra.projects: [
-      "coreJVM", "resourceJVM", "runnerJVM", "scalatestJVM", "specs2JVM", "stdlibJVM", "utilJVM",
-      "tests", "scalaz"
-    ]
     // kind-projector org change
     check-missing: false
     deps.ignore: ["org.spire-math#kind-projector"]
@@ -1420,17 +1383,6 @@ build += {
     extra.exclude: ["akkaHttp"]
   }
 
-  // dependency of scalachess
-  ${vars.base} {
-    name: "scalalib"
-    uri:  ${vars.uris.scalalib-uri}
-  }
-
-  ${vars.base} {
-    name: "scalachess"
-    uri:  ${vars.uris.scalachess-uri}
-  }
-
   ${vars.base} {
     name: "sbt-io"
     uri:  ${vars.uris.sbt-io-uri}
@@ -1445,12 +1397,6 @@ build += {
     // DefaultWatchServiceSpec fails on MacOS only, see
     // https://github.com/scala/community-builds/pull/714
     extra.test-tasks: ["compile"]
-  }
-
-  ${vars.base} {
-    name: "argonaut-shapeless"
-    uri:  ${vars.uris.argonaut-shapeless-uri}
-    extra.projects: ["coreJVM"]
   }
 
   // frozen (April 2019) at October 2018 commit, since master has since moved to fastparse 2
@@ -1840,6 +1786,7 @@ build += {
   ${vars.base} {
     name: "better-monadic-for"
     uri:  ${vars.uris.better-monadic-for-uri}
+    extra.exclude: ["scalazTests"]
   }
 
   ${vars.base} {
@@ -1948,39 +1895,6 @@ build += {
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
-  // frozen (April 2019) because of compile errors (not investigated)
-  ${vars.base} {
-    name: "scalaz-zio"
-    uri:  ${vars.uris.scalaz-zio-uri}
-    // omit benchmarks, microsite, Scala.js;
-    // also omit interopCatsJVM; tried it but got "conflicting cross-version suffixes"
-    // error I didn't understand (see:
-    // https://github.com/scala/community-builds/pull/831#issuecomment-455666134)
-    extra.projects: ["coreJVM", "interopSharedJVM", "interopFutureJVM", "interopMonixJVM", "interopScalaz7xJVM"]
-    // dbuild messes with the jcstress dependency that comes from sbt-jcstress. not really sure
-    // what's going on, but we can work around it:
-    extra.commands: ${vars.default-commands} [
-      "set libraryDependencies in coreJVM ~= (_.filterNot(_.toString.contains(\"jcstress\")))"
-      "set libraryDependencies in coreJVM += \"org.openjdk.jcstress\" % \"jcstress-core\" % \"0.4\" % Test"
-      "set libraryDependencies in interopSharedJVM ~= (_.filterNot(_.toString.contains(\"jcstress\")))"
-      "set libraryDependencies in interopSharedJVM += \"org.openjdk.jcstress\" % \"jcstress-core\" % \"0.4\" % Test"
-      "set libraryDependencies in interopCatsJVM ~= (_.filterNot(_.toString.contains(\"jcstress\")))"
-      "set libraryDependencies in interopCatsJVM += \"org.openjdk.jcstress\" % \"jcstress-core\" % \"0.4\" % Test"
-      "set libraryDependencies in interopScalaz7xJVM ~= (_.filterNot(_.toString.contains(\"jcstress\")))"
-      "set libraryDependencies in interopScalaz7xJVM += \"org.openjdk.jcstress\" % \"jcstress-core\" % \"0.4\" % Test"
-      "set libraryDependencies in interopMonixJVM ~= (_.filterNot(_.toString.contains(\"jcstress\")))"
-      "set libraryDependencies in interopMonixJVM += \"org.openjdk.jcstress\" % \"jcstress-core\" % \"0.4\" % Test"
-      "set libraryDependencies in interopFutureJVM ~= (_.filterNot(_.toString.contains(\"jcstress\")))"
-      "set libraryDependencies in interopFutureJVM += \"org.openjdk.jcstress\" % \"jcstress-core\" % \"0.4\" % Test"
-    ]
-    // I guess dbuild is getting confused by the extra _1.13? seen in other projects as well
-    deps.ignore: ["com.github.alexarchambault#scalacheck-shapeless"]
-    deps.inject: ${vars.base.deps.inject} [
-      "com.github.alexarchambault#scalacheck-shapeless_1.13"
-    ]
-    check-missing: false
-  }
-
   ${vars.base} {
     name: "mdoc"
     uri:  ${vars.uris.mdoc-uri}
@@ -2038,9 +1952,6 @@ build += {
     extra.sbt-version: ${vars.sbt-0-13-version}
     // omitted TODO: play
     // omitted: rojoma-v3, rojoma, benchmark, argonaut
-    // (we have Argonaut in the community build, but it depends on jawn! dbuild
-    // doesn't like the circularity. I think we could break it by having two jawn entries,
-    // one for the core and one for the extras, but I haven't tried yet)
     extra.projects: ["ast", "parser", "json4s", "spray"]
     // spray org change
     check-missing: false
@@ -2184,6 +2095,8 @@ build += {
       "akka-http-avro4s"
       // library com.avsystem.commons#commons-core is not provided
       "akka-http-avsystem-gencodec"
+      // out of scope
+      "akka-http-argonaut"
     ]
     // apparently some dependency dropped its scala-reflect dependency?
     // and we have the newer version of that dependency here in the
@@ -2294,9 +2207,6 @@ build += {
     name: "jawn-0-11"
     uri:  ${vars.uris.jawn-0-11-uri}
     // omitted: rojoma-v3, rojoma, benchmark, argonaut
-    // (we have Argonaut in the community build, but it depends on jawn! dbuild
-    // doesn't like the circularity. I think we could break it by having two jawn entries,
-    // one for the core and one for the extras, but I haven't tried yet)
     extra.projects: ["ast", "parser", "json4s", "spray", "play"]
     // spray org change
     check-missing: false
@@ -2351,7 +2261,7 @@ build += {
     ]
     extra.exclude: [
       // outside our purview
-      "bench", "docs", "website"
+      "bench", "docs", "website", "argonaut"
       // requires com.eed3si9n#treehugger, which would be nice to add actually, but I'm
       // not going to tackle it right now, maybe some other time
       "mimedb-generator"
@@ -2371,7 +2281,7 @@ build += {
   ${vars.base} {
     name: "github4s"
     uri:  ${vars.uris.github4s-uri}
-    extra.projects: ["github4sJVM", "catsEffectJVM", "scalaz"]  // but no "docs" or Scala.js stuff
+    extra.projects: ["github4sJVM", "catsEffectJVM"]  // but no "docs" or Scala.js stuff
     // waiting (January 2018) on https://github.com/47deg/github4s/issues/178
     extra.test-tasks: "compile"
     // kind-projector org change
@@ -2414,7 +2324,7 @@ build += {
     // pureconfigJVM, same, though the problem didn't start until November 2018.  maybe
     // unfreezing pureconfig (or updating our fork) would fix it, but I'd rather not mess
     // it with right now.
-    extra.projects: ["catsJVM", "coreJVM", "evalJVM", "jsonpathJVM", "scalacheckJVM", "scalazJVM", "shapelessJVM"]
+    extra.projects: ["catsJVM", "coreJVM", "evalJVM", "jsonpathJVM", "scalacheckJVM", "shapelessJVM"]
   }
 
   // core doesn't depend on refined, but refinedJVM does.
@@ -2434,11 +2344,9 @@ build += {
     // aggregates all JVM projects
     extra.projects: ["rootJVM"]
     extra.exclude: [
-      // I got some compile error here (September 2018) that seemed unlikely to be
-      // significant. it's fine, we don't need to have every last subproject
+      // it's fine, we don't need to have every last subproject
       "monix", "okhttpBackendMonix", "asyncHttpClientBackendMonix"
-      // uninvestigated compile errors
-      "zio", "asyncHttpClientBackendZio"
+      "scalaz", "zio", "asyncHttpClientBackendZio"
     ]
     // kind-projector org change
     check-missing: false
