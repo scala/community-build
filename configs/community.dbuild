@@ -41,6 +41,7 @@ include file(".dbuild/resolvers.conf")
 //// shared settings
 
 vars {
+  commands-preamble: []
   default-commands: []
   sbt-0-13-version: "0.13.18"
   sbt-version: "1.2.8"
@@ -50,7 +51,7 @@ vars {
 
 // appendScalacOptions, removeScalacOptions, removeDependency
 // let us work around https://github.com/lightbend/dbuild/issues/144
-vars.default-commands += """
+vars.commands-preamble += """
 set commands ++= {
   // TODO: maybe Eugene & Dale could help eliminate the copy-and-paste
   // between alterSetting and alterTask...?
@@ -92,8 +93,10 @@ set commands ++= {
     Command.args("removeDependency", "<org> <artifact>")(removeDependency))
 }
 """
-vars.default-commands += "appendScalacOptions "${vars.scalac-opts}
-vars.default-commands += "removeScalacOptions -Xfatal-warnings -Yno-adapted-args -Ywarn-inaccessible -Ywarn-nullary-override -Ywarn-nullary-unit -Ywarn-infer-any -Ywarn-unused-import -Ypartial-unification -Ywarn-adapted-args"
+vars.commands-preamble += "appendScalacOptions "${vars.scalac-opts}
+vars.commands-preamble += "removeScalacOptions -Xfatal-warnings -Yno-adapted-args -Ywarn-inaccessible -Ywarn-nullary-override -Ywarn-nullary-unit -Ywarn-infer-any -Ywarn-unused-import -Ypartial-unification -Ywarn-adapted-args"
+
+vars.default-commands = ${vars.commands-preamble}
 vars.default-commands += "appendScalacOptions -Ymacro-annotations"
 vars.default-commands += "removeDependency org.scalamacros paradise"
 vars.base.extra.commands = ${vars.default-commands}
@@ -509,9 +512,7 @@ build += {
     uri:  ${vars.uris.akka-uri}
     extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"]
     extra.projects: ["akka-actor", "akka-actor-typed", "akka-testkit", "akka-actor-tests"]
-    extra.commands:  [
-      "removeScalacOptions -Xfatal-warnings -Yno-adapted-args -Ywarn-inaccessible -Ywarn-nullary-override -Ywarn-nullary-unit -Ywarn-infer-any -Ywarn-unused-import -Ypartial-unification -Ywarn-adapted-args"
-
+    extra.commands:  ${vars.commands-preamble} [
       // https://github.com/scala/community-builds/issues/373
       "set every apiURL := None"
       // needed downstream in akka-stream and/or akka-more
