@@ -37,7 +37,6 @@ object SuccessReport {
     // but it will start falling out of date as soon as we unfreeze all the 2.13 SHAs
     // at some point we should put the reasons, when known, back in here.  maybe after
     // RC1 is out and the ecosystem python has sufficiently digested the RC1 pig
-    "akka",
     "breeze",
     "boopickle",
     "cachecontrol",
