@@ -775,7 +775,7 @@ build += {
     name: "scalaprops"
     uri:  ${vars.uris.scalaprops-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.projects: ["rootJVM"]  // no Scala.js please
+    extra.projects: ["scalapropsJVM"]  // no Scala.js please
     check-missing: false  // ignore missing scalafmt
   }
 
