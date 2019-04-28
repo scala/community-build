@@ -504,14 +504,8 @@ build += {
     extra.exclude: [
       // we already built these above
       "scalatest", "scalactic", "scalacticMacro"
-      // no Scala.js plz
-      "commonTestJS", "examplesJS", "scalacticJS", "scalacticMacroJS", "scalacticTestJS"
-      "scalatestAppJS", "scalatestJS", "scalatestTestJS"
-      // or Dotty
-      "scalatestTestDotty", "scalacticTestDotty", "commonTestDotty", "scalatestDotty", "scalacticDotty"
-      // or Scala Native
-      "scalatestAppNative", "scalacticTestNative", "scalatestTestNative", "commonTestNative",
-      "scalatestNative", "scalacticNative", "scalacticMacroNative"
+      // out of scope
+      "*JS", "*Native", "*Dotty"
       // [scalatest-tests] [info] *** 5 SUITES ABORTED ***
       // [scalatest-tests] [info] *** 29 TESTS FAILED ***
       // (not reinvestigated in a long time)
