@@ -372,9 +372,6 @@ build += {
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
-  // frozen (April 2019) before org move to typelevel, I had trouble downstream
-  // in jawn-0-11 trying to apply the org change, let's just wait for jawn to
-  // catch up
   ${vars.base} {
     name: "claimant"
     uri:  ${vars.uris.claimant-uri}
@@ -2206,7 +2203,7 @@ build += {
   ${vars.base} {
     name: "jawn-0-11"
     uri:  ${vars.uris.jawn-0-11-uri}
-    // omitted: rojoma-v3, rojoma, benchmark, argonaut
+    // omitted: benchmark
     extra.projects: ["ast", "parser", "json4s", "spray", "play"]
     // spray org change
     check-missing: false
