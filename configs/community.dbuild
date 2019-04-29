@@ -501,7 +501,10 @@ build += {
     uri:  ${vars.uris.scalatest-uri}
     extra.exclude: [
       // we already built these above
-      "scalatest", "scalactic", "scalacticMacro"
+      "scalatest", "scalactic"
+      // I don't understand why we can't exclude this too, since we already
+      // built it once, but oh well :-/
+      // "scalacticMacro"
       // out of scope
       "*JS", "*Native", "*Dotty"
       // [scalatest-tests] [info] *** 5 SUITES ABORTED ***
@@ -511,9 +514,6 @@ build += {
     ]
     // needs extra heap to even compile
     extra.options: ["-Xmx3072m"]
-    // this is part of the scalactic jar so we don't need it as a separate dependency
-    deps.ignore: ["org.scalactic#scalacticmacro"]
-    check-missing: false
   }
 
   ${vars.base} {
