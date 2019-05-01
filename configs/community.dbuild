@@ -1053,6 +1053,11 @@ build += {
       "Play-Docs", "Sbt-Plugin", "Play-Docs-Sbt-Plugin"  // out of scope
       "Play-Integration-Test"  // TODO/WIP, see https://github.com/scala/community-builds/pull/819
       "Play-Microbenchmark" // out of scope (and besides, requires Play-Integration-Test)
+      // 2.13: the following projects happen to be green in the 2.12.x build just because
+      // sbt 1 itself is on 2.12.x. logically we could exclude them as out of scope
+      // even in 2.12.x, and we should if they cause trouble, but for now let's just
+      // exclude them here in 2.13.x:
+      "Sbt-Routes-Compiler", "Build-Link", "Run-Support"
     ]
     deps.ignore: ["org.scala-sbt#scripted-plugin"]
     check-missing: false
