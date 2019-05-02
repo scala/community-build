@@ -2368,6 +2368,7 @@ build += {
   }
 
   // dependency of lsp4s and scala-pet-store
+  // frozen (April 2019) at an April 2019 commit just before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "circe-derivation"
     uri:  ${vars.uris.circe-derivation-uri}
@@ -2376,6 +2377,7 @@ build += {
   }
 
   // dependency of github4s
+  // frozen (April 2019) at an April 2019 commit just before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "circe-jackson"
     uri:  ${vars.uris.circe-jackson-uri}
