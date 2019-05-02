@@ -1055,7 +1055,7 @@ build += {
       // sbt 1 itself is on 2.12.x. logically we could exclude them as out of scope
       // even in 2.12.x, and we should if they cause trouble, but for now let's just
       // exclude them here in 2.13.x:
-      "Sbt-Routes-Compiler", "Build-Link", "Run-Support"
+      "Sbt-Routes-Compiler", "Run-Support"
     ]
     deps.ignore: ["org.scala-sbt#scripted-plugin"]
     check-missing: false
