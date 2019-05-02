@@ -39,7 +39,6 @@ object SuccessReport {
     // RC1 is out and the ecosystem python has sufficiently digested the RC1 pig
     "breeze",
     "boopickle",
-    "cachecontrol",
     "case-app",
     "circe-jackson",
     "coursier",
@@ -67,7 +66,6 @@ object SuccessReport {
     "scala-xml-quote",
     "scalachess",
     "scalajson",
-    "scallop",
     "scalameter",
     "scalamock",
     "scalapb",
