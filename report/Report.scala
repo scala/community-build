@@ -33,18 +33,23 @@ object SuccessReport {
   val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
   val expectedToFail = Set[String](
-    // reasons for the failures are at https://github.com/scala/bug/issues/11453
-    // but it will start falling out of date as soon as we unfreeze all the 2.13 SHAs
-    // at some point we should put the reasons, when known, back in here.  maybe after
-    // RC1 is out and the ecosystem python has sufficiently digested the RC1 pig
+    // old list of reasons for the failures are at https://github.com/scala/bug/issues/11453
+    // could be reapplied here but would need updating
+    "akka-contrib-extra",  // no 2.13 upgrade attempted afaict
+    "akka-http-session",  // kind-projector org change dbuild workaround not working?
+    "akka-persistence-cassandra",  // no 2.13 upgrade attempted afaict
+    "akka-persistence-jdbc",  // overloading-related compilation errors?
+    "algebra",  // source incompatibility involving catalysts?
     "breeze",
     "boopickle",
     "case-app",
     "circe-jackson",
     "coursier",
+    "decline",  // kind-projector org change dbuild workaround not working?
     "eff",
     "elastic4s",
     "enumeratum",
+    "fs2",  // kind-projector org change dbuild workaround not working?
     "grizzled",
     "http4s-parboiled2",
     "jawn-0-10",
@@ -53,18 +58,25 @@ object SuccessReport {
     "lift-json",
     "linter",
     "magnolia",
+    "metrics-scala",  // scala.language.postfixOps
     "monix",
+    "monocle",  // kind-projector org change dbuild workaround not working?
+    "mouse",  // kind-projector org change dbuild workaround not working?
     "multibot",
+    "newts",  // kind-projector org change dbuild workaround not working?
     "nyaya",
+    "paiges",  // source incompatibility involving catalysts?
     "paradox",
     "parboiled2",
+    "play-file-watch",  // no 2.13 upgrade attempted afaict
+    "play-webgoat",  // "com.typesafe.play#play-omnidoc_2.13.0-pre-bec2441;2.7.0: not found" ?!
+    "scala-gopher",  // no 2.13 upgrade attempted afaict
     "scala-java-time",
     "scala-logging",
     "scala-refactoring",
     "scala-sculpt",
     "scala-stm",
     "scala-xml-quote",
-    "scalachess",
     "scalajson",
     "scalameter",
     "scalamock",
