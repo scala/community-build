@@ -405,9 +405,6 @@ build += {
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
-  // frozen (April 2019) before org move to typelevel, I had trouble downstream
-  // in jawn-0-11 trying to apply the org change, let's just wait for jawn to
-  // catch up
   ${vars.base} {
     name: "claimant"
     uri:  ${vars.uris.claimant-uri}
@@ -806,7 +803,7 @@ build += {
     name: "scalaprops"
     uri:  ${vars.uris.scalaprops-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.projects: ["rootJVM"]  // no Scala.js please
+    extra.projects: ["scalapropsJVM"]  // no Scala.js please
     check-missing: false  // ignore missing scalafmt
   }
 
@@ -2180,6 +2177,7 @@ build += {
 
   projects: [
 
+  // frozen (April 2019) at an April 2019 commit just before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "circe"
     uri:  ${vars.uris.circe-uri}
@@ -2227,7 +2225,7 @@ build += {
   ${vars.base} {
     name: "jawn-0-11"
     uri:  ${vars.uris.jawn-0-11-uri}
-    // omitted: rojoma-v3, rojoma, benchmark, argonaut
+    // omitted: benchmark
     extra.projects: ["ast", "parser", "json4s", "spray", "play"]
     // spray org change
     check-missing: false
