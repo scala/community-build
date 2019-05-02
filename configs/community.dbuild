@@ -1800,7 +1800,11 @@ build += {
   ${vars.base} {
     name: "better-monadic-for"
     uri:  ${vars.uris.better-monadic-for-uri}
-    extra.exclude: ["scalazTests"]
+    extra.exclude: [
+      "scalazTests"
+      // 2.13: pcplod is unmaintained, there is no 2.13 version
+      "pcplodTests"
+    ]
   }
 
   ${vars.base} {
