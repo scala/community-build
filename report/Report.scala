@@ -38,10 +38,14 @@ object SuccessReport {
         Set()
       case _ =>
         Set(
+          "coursier",  // needs scala/bug#11125 workaround
           "doobie",  // needs scala/bug#11125 workaround
+          "jsoniter-scala",  // "Cancelling publish, please use JDK 1.8" -- can we override?
+          "lagom",  // "javadoc: error - invalid flag: -d"
           "sbt-util",  // needs scala/bug#11125 workaround
           "scala-debugger",  // "object FieldInfo is not a member of package sun.reflect"
           "scala-refactoring",  // needs scala/bug#11125 workaround?
+          "scalafix",  // needs scala/bug#11125 workaround
           "sconfig",  // test failures; see https://github.com/ekrich/sconfig/issues/4
           "twitter-util",  // "javadoc: error - invalid flag: -d"
         )
