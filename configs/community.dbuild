@@ -2447,6 +2447,7 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
+  // 2.13: using branch until https://github.com/pauljamescleary/scala-pet-store/pull/142 is merged
   ${vars.base} {
     name: "scala-pet-store"
     uri:  ${vars.uris.scala-pet-store-uri}
