@@ -788,12 +788,6 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
-  ${vars.base} {
-    name: "kxbmap-configs"
-    uri:  ${vars.uris.kxbmap-configs-uri}
-    extra.exclude: ["docs"]
-  }
-
   // frozen at v1.2.0 tag for now, perhaps excessively cautiously; we might
   // consider tracking a branch instead
   ${vars.base} {
@@ -2169,25 +2163,6 @@ build += {
 
   projects: [
 
-  // frozen (April 2018) at an April 2018 commit just before an upgrade to jawn 0.12.
-  // at some point we should move everything off 0.11 and onto 0.12, but there's no rush.
-  ${vars.base} {
-    name: "circe"
-    uri:  ${vars.uris.circe-uri}
-    extra.projects: [
-      // easy
-      "coreJVM", "numbersJVM"
-      // harder
-      "jawn"
-      // bunch more stuff that all depends on jawn
-      "parserJVM", "genericJVM", "literalJVM", "scodecJVM", "testingJVM", "testsJVM"
-      // dependency of scrooge-shapes
-      "genericExtrasJVM"
-      // dependency of scala-pet-store
-      "java8JVM"
-    ]
-  }
-
   ${vars.base} {
     name: "boopickle"
     uri:  ${vars.uris.boopickle-uri}
@@ -2221,6 +2196,24 @@ build += {
     check-missing: false
     deps.ignore: ["io.spray#spray-json"]
     deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
+  }
+
+  // frozen (April 2019) at an April 2019 commit just before ScalaTest 3.1 upgrade
+  ${vars.base} {
+    name: "circe"
+    uri:  ${vars.uris.circe-uri}
+    extra.projects: [
+      // easy
+      "coreJVM", "numbersJVM"
+      // harder
+      "jawn"
+      // bunch more stuff that all depends on jawn
+      "parserJVM", "genericJVM", "literalJVM", "scodecJVM", "testingJVM", "testsJVM"
+      // dependency of scrooge-shapes
+      "genericExtrasJVM"
+      // dependency of scala-pet-store
+      "java8JVM"
+    ]
   }
 
   ${vars.base} {
@@ -2387,6 +2380,7 @@ build += {
   }
 
   // dependency of lsp4s and scala-pet-store
+  // frozen (April 2019) at an April 2019 commit just before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "circe-derivation"
     uri:  ${vars.uris.circe-derivation-uri}
@@ -2395,6 +2389,7 @@ build += {
   }
 
   // dependency of github4s
+  // frozen (April 2019) at an April 2019 commit just before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "circe-jackson"
     uri:  ${vars.uris.circe-jackson-uri}
