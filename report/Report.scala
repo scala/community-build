@@ -36,7 +36,6 @@ object SuccessReport {
     // old list of reasons for the failures are at https://github.com/scala/bug/issues/11453
     // could be reapplied here but would need updating
     "akka-contrib-extra",  // no 2.13 upgrade attempted afaict
-    "akka-http-session",  // kind-projector org change dbuild workaround not working?
     "akka-persistence-cassandra",  // no 2.13 upgrade attempted afaict
     "akka-persistence-jdbc",  // overloading-related compilation errors?
     "algebra",  // source incompatibility involving catalysts?
@@ -45,11 +44,9 @@ object SuccessReport {
     "case-app",
     "circe-jackson",
     "coursier",
-    "decline",  // kind-projector org change dbuild workaround not working?
     "eff",
     "elastic4s",
     "enumeratum",
-    "fs2",  // kind-projector org change dbuild workaround not working?
     "grizzled",
     "http4s-parboiled2",
     "jawn-0-10",
@@ -60,10 +57,7 @@ object SuccessReport {
     "magnolia",
     "metrics-scala",  // scala.language.postfixOps
     "monix",
-    "monocle",  // kind-projector org change dbuild workaround not working?
-    "mouse",  // kind-projector org change dbuild workaround not working?
     "multibot",
-    "newts",  // kind-projector org change dbuild workaround not working?
     "nyaya",
     "paiges",  // source incompatibility involving catalysts?
     "paradox",
