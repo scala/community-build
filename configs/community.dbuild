@@ -843,7 +843,6 @@ build += {
   ${vars.base} {
     name: "parboiled2"
     uri:  ${vars.uris.parboiled2-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["parboiledJVM", "examples"]
     // spray org change
     check-missing: false
