@@ -1547,6 +1547,7 @@ build += {
     ]
   }
 
+  // frozen (May 2019) at May 2019 commit just before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "metrics-scala"
     uri:  ${vars.uris.metrics-scala-uri}
