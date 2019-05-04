@@ -506,7 +506,12 @@ build += {
   ${vars.base} {
     name: "akka"
     uri:  ${vars.uris.akka-uri}
-    extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"]
+    extra.options: [
+      // 2.13: not sure why we only need more heap in 2.13
+      "-Xmx4g"
+      // the rest is just as in 2.12, I think?
+      "-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"
+    ]
     extra.projects: ["akka-actor", "akka-actor-typed", "akka-testkit", "akka-actor-tests"]
     extra.commands:  ${vars.default-commands} [
       // https://github.com/scala/community-builds/issues/373
