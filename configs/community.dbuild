@@ -706,7 +706,6 @@ build += {
     // or scalafmt will run `update` and `cloc-plugin` won't be found
     extra.settings: ${vars.base.extra.settings} [
       "scalafmtOnCompile in ThisBuild := false"
-      "scalafmtOnCompile in Sbt := false"
     ]
     check-missing: false  // ignore missing scalafmt
   }
@@ -1382,7 +1381,9 @@ build += {
     // or scalafmt will run `update` and `cloc-plugin` won't be found
     extra.settings: ${vars.base.extra.settings} [
       "scalafmtOnCompile in ThisBuild := false"
-      "scalafmtOnCompile in Sbt := false"
+    ]
+    extra.commands: ${vars.default-commands} [
+      "set every scalafmtOnCompile := false"
     ]
     check-missing: false  // ignore missing scalafmt
     // DefaultWatchServiceSpec fails on MacOS only, see
@@ -1968,8 +1969,6 @@ build += {
     deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
   }
 
-  // using a slightly post v1.2.0 commit in order to get
-  // https://github.com/sbt/util/pull/172 which fixes failing tests
   ${vars.base} {
     name: "sbt-util"
     uri:  ${vars.uris.sbt-util-uri}
@@ -1988,7 +1987,9 @@ build += {
     // or scalafmt will run `update` and `cloc-plugin` won't be found
     extra.settings: ${vars.base.extra.settings} [
       "scalafmtOnCompile in ThisBuild := false"
-      "scalafmtOnCompile in Sbt := false"
+    ]
+    extra.commands: ${vars.default-commands} [
+      "set every scalafmtOnCompile := false"
     ]
     check-missing: false  // ignore missing scalafmt
   }
@@ -2022,7 +2023,6 @@ build += {
   ${vars.base} {
     name: "sbt"
     uri:  ${vars.uris.sbt-uri}
-    extra.sbt-version: "1.2.0"  // yup, 1.2.1 is built with 1.2.0
     extra.options: [
       "-Xmx2048m"
       "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
@@ -2031,7 +2031,6 @@ build += {
     // or scalafmt will run `update` and `cloc-plugin` won't be found
     extra.settings: ${vars.base.extra.settings} [
       "scalafmtOnCompile in ThisBuild := false"
-      "scalafmtOnCompile in Sbt := false"
     ]
     extra.exclude: [
       // dbuild & sbt-bintray fight (Release.scala calls bintrayRepo.value.upload)
@@ -2046,6 +2045,7 @@ build += {
     // flaky tests are segregated
     extra.test-tasks: ["safeUnitTests"]
     extra.commands: ${vars.default-commands} [
+      "set every scalafmtOnCompile := false"
       // as per https://github.com/scala/community-builds/pull/758
       "set excludeFilter in (Test, unmanagedSources) in mainProj := HiddenFileFilter || \"ParseKey.scala\""
     ]
