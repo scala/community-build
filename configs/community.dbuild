@@ -844,6 +844,12 @@ build += {
     name: "parboiled2"
     uri:  ${vars.uris.parboiled2-uri}
     extra.projects: ["parboiledJVM", "examples"]
+    extra.commands: ${vars.base.extra.commands} [
+      // errors, who knows why
+      "set every scalafmtOnCompile := false"
+      // otherwise sbt-gpg errors on `publish`
+      "set every gpgWarnOnFailure := true"
+    ]
     // spray org change
     check-missing: false
     deps.ignore: ["io.spray#spray-json"]
