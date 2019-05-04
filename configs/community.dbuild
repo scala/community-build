@@ -927,17 +927,11 @@ build += {
     check-missing: false
   }
 
+  // 2.13: temporarily forked awaiting merge of https://github.com/typelevel/mouse/pull/73
   ${vars.base} {
     name: "mouse"
     uri:  ${vars.uris.mouse-uri}
     extra.projects: ["crossJVM"]  // no Scala.js please
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
-    extra.commands: ${vars.default-commands} [
-      "removeDependency org.spire-math kind-projector"
-    ]
   }
 
   // forked (February 2019) from v3.7.0 (the version playframework expects);
