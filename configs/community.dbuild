@@ -1672,6 +1672,10 @@ build += {
     name: "magnolia"
     uri:  ${vars.uris.magnolia-uri}
     extra.projects: ["coreJVM", "examplesJVM", "tests"]
+    extra.commands: ${vars.base.extra.commands} [
+      "appendScalacOptions -Ymacro-annotations"
+      "removeDependency org.scalamacros paradise"
+    ]
   }
 
   // dependency of giter8
