@@ -487,6 +487,12 @@ build += {
     uri:  ${vars.uris.silencer-uri}
   }
 
+  // dependency of metrics-scala
+  ${vars.base} {
+    name: "mockito-scala"
+    uri:  ${vars.uris.mockito-scala-uri}
+  }
+
   // frozen (April 2019) at v2.5.22.  this repo is volatile
   // (very frequent commits) and when it needs to be rebuilt, the testing
   // takes a long time (especially akka-more) and the downstream
@@ -1219,16 +1225,6 @@ build += {
   ${vars.base} {
     name: "dispatch"
     uri:  ${vars.uris.dispatch-uri}
-  }
-
-  ${vars.base} {
-    name: "atto"
-    uri:  ${vars.uris.atto-uri}
-    extra.projects: ["coreJVM", "refinedJVM", "fs2JVM", "testsJVM"]
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   ${vars.base} {
@@ -2348,6 +2344,13 @@ build += {
     // unfreezing pureconfig (or updating our fork) would fix it, but I'd rather not mess
     // it with right now.
     extra.projects: ["catsJVM", "coreJVM", "evalJVM", "jsonpathJVM", "scalacheckJVM", "shapelessJVM"]
+  }
+
+  // in this space because refinedJVM subproject depends on refined
+  ${vars.base} {
+    name: "atto"
+    uri:  ${vars.uris.atto-uri}
+    extra.projects: ["coreJVM", "refinedJVM", "fs2JVM", "testsJVM"]
   }
 
   // core doesn't depend on refined, but refinedJVM does.
