@@ -980,13 +980,13 @@ build += {
 
   // playframework and play-ws tend to get a bit out of sync with each other so it's generally better
   // to have play-ws frozen at tag, unless it's forked. which it is right now:
-  ${vars.base} {
-    name: "play-ws"
-    uri:  ${vars.uris.play-ws-uri}
-    // NullPointerException in CachingSpec
-    // (https://github.com/scala/community-builds/issues/564)
-    extra.exclude: ["integration-tests", "bench"]
-  }
+  // ${vars.base} {
+  //   name: "play-ws"
+  //   uri:  ${vars.uris.play-ws-uri}
+  //   // NullPointerException in CachingSpec
+  //   // (https://github.com/scala/community-builds/issues/564)
+  //   extra.exclude: ["integration-tests", "bench"]
+  // }
 
   // tracking 1.1.x branch since there are source-incompatible changes on master;
   // see https://github.com/scala/community-builds/pull/838#issuecomment-455371993
@@ -1762,17 +1762,17 @@ build += {
     extra.exclude: ["jsoniter-scala-benchmark"]
   }
 
-  ${vars.base} {
-    name: "scalatex"
-    uri:  ${vars.uris.scalatex-uri}
-    extra.exclude: [
-      "scalatexSbtPlugin"  // we never build sbt plugins
-      "site", "readme", "scrollspy"  // these use Scala.js
-    ]
-    // ignore missing scripted-sbt. don't know why
-    deps.ignore: ["org.scala-sbt#scripted-sbt"]
-    check-missing: false
-  }
+  // ${vars.base} {
+  //   name: "scalatex"
+  //   uri:  ${vars.uris.scalatex-uri}
+  //   extra.exclude: [
+  //     "scalatexSbtPlugin"  // we never build sbt plugins
+  //     "site", "readme", "scrollspy"  // these use Scala.js
+  //   ]
+  //   // ignore missing scripted-sbt. don't know why
+  //   deps.ignore: ["org.scala-sbt#scripted-sbt"]
+  //   check-missing: false
+  // }
 
   ${vars.base} {
     name: "better-monadic-for"
