@@ -1106,17 +1106,15 @@ build += {
     ]
   }
 
+  // 2.13: temporarily forked pending merge of https://github.com/julien-truffaut/Monocle/pull/662
   ${vars.base} {
     name: "monocle"
     uri:  ${vars.uris.monocle-uri}
     // try to enable more subprojects?
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM", "genericJVM"]
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
-    extra.commands: ${vars.default-commands} [
-      "removeDependency org.spire-math kind-projector"
+    extra.commands: ${vars.base.extra.commands} [
+      "appendScalacOptions -Ymacro-annotations"
+      "removeDependency org.scalamacros paradise"
     ]
   }
 
