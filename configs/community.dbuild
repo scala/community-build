@@ -1077,17 +1077,6 @@ build += {
     ]
   }
 
-  // dependency of monocle's cats branch
-  ${vars.base} {
-    name: "newts"
-    uri:  ${vars.uris.newts-uri}
-    extra.projects: ["coreJVM", "testJVM"]
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
-  }
-
   ${vars.base} {
     name: "monocle"
     uri:  ${vars.uris.monocle-uri}
