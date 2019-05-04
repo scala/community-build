@@ -275,7 +275,6 @@ build += {
   }
 
   // dependency of cats
-  // temporarily forked (April 2019) pending merge of https://github.com/milessabin/export-hook/pull/34
   ${vars.base} {
     name: "export-hook"
     uri:  ${vars.uris.export-hook-uri}
@@ -772,7 +771,7 @@ build += {
   // https://github.com/lihaoyi/fastparse/pull/196
   // also note that master is now Fastparse 2 which is completely
   // source-incompatible with Fastparse 1
-  // 2.13: using thesamet's 2.13 branch instead, https://github.com/lihaoyi/fastparse/pull/200
+  // 2.13: using special 2.13 branch
   ${vars.base} {
     name: "fastparse"
     uri:  ${vars.uris.fastparse-uri}
@@ -786,7 +785,6 @@ build += {
     ]
   }
 
-  // 2.13: forked pending merge of https://github.com/lihaoyi/geny/pull/6
   ${vars.base} {
     name: "geny"
     uri:  ${vars.uris.geny-uri}
@@ -937,6 +935,9 @@ build += {
     check-missing: false
     deps.ignore: ["org.spire-math#kind-projector"]
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+    extra.commands: ${vars.default-commands} [
+      "removeDependency org.spire-math kind-projector"
+    ]
   }
 
   // forked (February 2019) from v3.7.0 (the version playframework expects);
@@ -1266,7 +1267,6 @@ build += {
     extra.projects: ["fansiJVM"]  // no Scala.js
   }
 
-  // 2.13: using Alex A's fork at https://github.com/lihaoyi/PPrint/pull/27
   ${vars.base} {
     name: "pprint"
     uri:  ${vars.uris.pprint-uri}
@@ -2214,7 +2214,6 @@ build += {
 
   // 2.13: no clue why the extra spray-json stuff is necessary on 2.13.x
   // branch but not in 2.12.x branch? it's a mystery
-  // 2.13: using branch until https://github.com/typelevel/jawn/pull/161 is merged
   ${vars.base} {
     name: "jawn-0-11"
     uri:  ${vars.uris.jawn-0-11-uri}
@@ -2373,6 +2372,9 @@ build += {
     check-missing: false
     deps.ignore: ["org.spire-math#kind-projector"]
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+    extra.commands: ${vars.default-commands} [
+      "removeDependency org.spire-math kind-projector"
+    ]
   }
 
   ${vars.base} {
@@ -2389,6 +2391,9 @@ build += {
     check-missing: false
     deps.ignore: ["org.spire-math#kind-projector"]
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+    extra.commands: ${vars.default-commands} [
+      "removeDependency org.spire-math kind-projector"
+    ]
   }
 
   // dependency of scrooge-shapes.
