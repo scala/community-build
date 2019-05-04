@@ -454,6 +454,12 @@ build += {
     uri:  ${vars.uris.silencer-uri}
   }
 
+  // dependency of metrics-scala
+  ${vars.base} {
+    name: "mockito-scala"
+    uri:  ${vars.uris.mockito-scala-uri}
+  }
+
   // frozen (April 2019) at v2.5.22.  this repo is volatile
   // (very frequent commits) and when it needs to be rebuilt, the testing
   // takes a long time (especially akka-more) and the downstream
