@@ -849,6 +849,8 @@ build += {
       "set every scalafmtOnCompile := false"
       // otherwise sbt-gpg errors on `publish`
       "set every gpgWarnOnFailure := true"
+      // spray org change
+      "removeDependency io.spray spray-json"
     ]
     // spray org change
     check-missing: false
@@ -1123,6 +1125,9 @@ build += {
     check-missing: false
     deps.ignore: ["org.spire-math#kind-projector"]
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+    extra.commands: ${vars.default-commands} [
+      "removeDependency org.spire-math kind-projector"
+    ]
   }
 
   ${vars.base} {
@@ -1657,6 +1662,10 @@ build += {
     name: "mercator"
     uri:  ${vars.uris.mercator-uri}
     extra.projects: ["coreJVM", "tests"]
+    extra.commands: ${vars.base.extra.commands} [
+      "appendScalacOptions -Ymacro-annotations"
+      "removeDependency org.scalamacros paradise"
+    ]
   }
 
   ${vars.base} {
@@ -2260,6 +2269,9 @@ build += {
     check-missing: false
     deps.ignore: ["org.spire-math#kind-projector"]
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+    extra.commands: ${vars.base.extra.commands} [
+      "removeDependency org.spire-math kind-projector"
+    ]
   }
 
   // dependency of http4s
@@ -2430,6 +2442,8 @@ build += {
       "set executeTests in postgres in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
       "set executeTests in `postgres-circe` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
       "set executeTests in example in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+      // kind-projector org change
+      "removeDependency org.spire-math kind-projector"
     ]
     extra.exclude: ["docs", "doobie"]  // out of scope ("doobie" is just an aggregation, and causes missing-tut error)
     // kind-projector org change
