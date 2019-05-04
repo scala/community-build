@@ -1479,6 +1479,12 @@ build += {
     // not really sure why akka-testkit doesn't get picked up, maybe a "provided" dependency issue?
     extra.commands: ${vars.default-commands} [
       "set libraryDependencies in core += \"com.typesafe.akka\" %% \"akka-testkit\" % \"0.0.0\" % Test"
+      // kind projector org change
+      """set libraryDependencies in ThisBuild += compilerPlugin("org.typelevel" %% "kind-projector" % "0.10.0")"""
+      // paradise is on earth now
+      "appendScalacOptions -Ymacro-annotations"
+      "removeDependency org.scalamacros paradise"
+      "removeDependency org.spire-math kind-projector"
     ]
     // kind-projector org change
     check-missing: false
@@ -1497,6 +1503,8 @@ build += {
     extra.commands: ${vars.default-commands} [
       // flaky test, reported at https://github.com/lightbend/paradox/issues/229
       "set excludeFilter in (Test, unmanagedSources) in tests := HiddenFileFilter || \"VarsDirectiveSpec.scala\""
+      // kind projector org change
+      "set libraryDependencies in ThisBuild += compilerPlugin("org.typelevel" %% "kind-projector" % "0.10.0")"""
     ]
   }
 
@@ -2264,9 +2272,11 @@ build += {
     uri:  ${vars.uris.vault-uri}
     extra.projects: ["coreJVM"]  // no docs, no Scala.js
     // kind-projector org change
-    check-missing: false
     deps.ignore: ["org.spire-math#kind-projector"]
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+    extra.commands: ${vars.base.extra.commands} [
+      "removeDependency org.spire-math kind-projector"
+    ]
   }
 
   // this is a big build with a ton of subprojects.  we needn't be shy
