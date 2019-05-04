@@ -1111,7 +1111,6 @@ build += {
     ]
   }
 
-  // 2.13: temporarily forked pending merge of https://github.com/julien-truffaut/Monocle/pull/662
   ${vars.base} {
     name: "monocle"
     uri:  ${vars.uris.monocle-uri}
