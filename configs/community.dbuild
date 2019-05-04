@@ -2351,17 +2351,11 @@ build += {
   }
 
   // core doesn't depend on refined, but refinedJVM does.
+  // 2.13: temporarily forked pending merge of https://github.com/bkirwi/decline/pull/58
   ${vars.base} {
     name: "decline"
     uri:  ${vars.uris.decline-uri}
     extra.projects: ["declineJVM", "refinedJVM"]  // no Scala.js, no doc
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
-    extra.commands: ${vars.default-commands} [
-      "removeDependency org.spire-math kind-projector"
-    ]
   }
 
   ${vars.base} {
