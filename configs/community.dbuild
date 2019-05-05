@@ -398,6 +398,9 @@ build += {
   ${vars.base} {
     name: "genjavadoc"
     uri:  ${vars.uris.genjavadoc-uri}
+    extra.commands: ${vars.default-commands} [
+      "clean"
+    ]
   }
 
   // if master proves difficult to track, the 0.6.x branch could be
