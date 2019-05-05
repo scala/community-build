@@ -2205,6 +2205,10 @@ build += {
     name: "http4s-parboiled2"
     uri:  ${vars.uris.http4s-parboiled2-uri}
     extra.projects: ["parboiledJVM"]
+    extra.commands: ${vars.base.extra.commands} [
+      // otherwise sbt-gpg errors on `publish`
+      "set every gpgWarnOnFailure := true"
+    ]
   }
 
   // dependency of vault
