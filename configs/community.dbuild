@@ -596,7 +596,7 @@ build += {
       // and report upstream if it hasn't gone away
       "set excludeFilter in (Test, unmanagedSources) in streamTests := HiddenFileFilter || \"TlsSpec.scala\""
       // prevents [akka-stream] [error] Class jdk.internal.HotSpotIntrinsicCandidate not found - continuing with a stub.
-      "set scalacOptions in Compile in actor --= Seq(\"-release\", \"8\")"
+      "set scalacOptions in Compile in stream --= Seq(\"-release\", \"8\")"
     ]
     extra.exclude: [
       // because we already built them in "akka"
@@ -622,8 +622,6 @@ build += {
     extra.commands: ${vars.default-commands} [
       // https://github.com/scala/community-builds/issues/373
       "set every apiURL := None"
-      // prevents [akka-stream] [error] Class jdk.internal.HotSpotIntrinsicCandidate not found - continuing with a stub.
-      "set scalacOptions in Compile in actor --= Seq(\"-release\", \"8\")"
     ]
     extra.exclude: [
       "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
