@@ -1993,22 +1993,22 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
-  ${vars.base} {
-    name: "zinc"
-    uri:  ${vars.uris.zinc-uri}
-    extra.exclude: [
-      "zincBenchmarks"
-    ]
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    extra.commands: ${vars.default-commands} [
-      "set every scalafmtOnCompile := false"
-      // sbt.internal.inc.ZincComponentCompilerSpec fails with:
-      // sbt.internal.inc.InvalidComponent: The compiler bridge sources org.scala-sbt:compiler-bridge_2.12:1.1.0-dbuildxbf579d40cbffdff1fd1e72ea5565b14e328a9c02:compile could not be retrieved.
-      // many failed tests with "sbt.internal.inc.InvalidComponent: The Scala compiler and library could not be retrieved"
-      "set executeTests in zinc in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-    ]
-    check-missing: false  // ignore missing scalafmt
-  }
+  // ${vars.base} {
+  //   name: "zinc"
+  //   uri:  ${vars.uris.zinc-uri}
+  //   extra.exclude: [
+  //     "zincBenchmarks"
+  //   ]
+  //   extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+  //   extra.commands: ${vars.default-commands} [
+  //     "set every scalafmtOnCompile := false"
+  //     // sbt.internal.inc.ZincComponentCompilerSpec fails with:
+  //     // sbt.internal.inc.InvalidComponent: The compiler bridge sources org.scala-sbt:compiler-bridge_2.12:1.1.0-dbuildxbf579d40cbffdff1fd1e72ea5565b14e328a9c02:compile could not be retrieved.
+  //     // many failed tests with "sbt.internal.inc.InvalidComponent: The Scala compiler and library could not be retrieved"
+  //     "set executeTests in zinc in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+  //   ]
+  //   check-missing: false  // ignore missing scalafmt
+  // }
 
   // currently sbt and its modules are frozen and/or forked, since
   // sbt has its own dbuild-based "community build" so we don't need
