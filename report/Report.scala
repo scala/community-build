@@ -49,7 +49,6 @@ object SuccessReport {
     "enumeratum",
     "geny",  // 2.13 work postdates mill build replacing sbt build
     "grizzled",
-    "http4s-parboiled2",
     "jawn-0-10",
     "kafka",
     "kittens",

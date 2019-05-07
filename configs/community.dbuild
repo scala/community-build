@@ -507,9 +507,9 @@ build += {
     name: "akka"
     uri:  ${vars.uris.akka-uri}
     extra.options: [
-      // 2.13: not sure why we only need more heap in 2.13
-      "-Xmx4g"
-      // the rest is just as in 2.12, I think?
+      // as per their own .sbtopts file
+      "-Xmx3g"
+      // other customizations
       "-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"
     ]
     extra.projects: ["akka-actor", "akka-actor-typed", "akka-testkit", "akka-actor-tests"]
@@ -630,7 +630,7 @@ build += {
       // and report upstream if it hasn't gone away
       "set excludeFilter in (Test, unmanagedSources) in streamTests := HiddenFileFilter || \"TlsSpec.scala\""
       // prevents [akka-stream] [error] Class jdk.internal.HotSpotIntrinsicCandidate not found - continuing with a stub.
-      "set scalacOptions in Compile in actor --= Seq(\"-release\", \"8\")"
+      "set scalacOptions in Compile in stream --= Seq(\"-release\", \"8\")"
     ]
     extra.exclude: [
       // because we already built them in "akka"
@@ -656,8 +656,6 @@ build += {
     extra.commands: ${vars.default-commands} [
       // https://github.com/scala/community-builds/issues/373
       "set every apiURL := None"
-      // prevents [akka-stream] [error] Class jdk.internal.HotSpotIntrinsicCandidate not found - continuing with a stub.
-      "set scalacOptions in Compile in actor --= Seq(\"-release\", \"8\")"
     ]
     extra.exclude: [
       "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
@@ -1577,6 +1575,7 @@ build += {
     ]
   }
 
+  // frozen (May 2019) at May 2019 commit just before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "metrics-scala"
     uri:  ${vars.uris.metrics-scala-uri}
@@ -2250,6 +2249,10 @@ build += {
     name: "http4s-parboiled2"
     uri:  ${vars.uris.http4s-parboiled2-uri}
     extra.projects: ["parboiledJVM"]
+    extra.commands: ${vars.base.extra.commands} [
+      // otherwise sbt-gpg errors on `publish`
+      "set every gpgWarnOnFailure := true"
+    ]
   }
 
   // dependency of vault
