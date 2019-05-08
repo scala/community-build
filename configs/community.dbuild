@@ -2441,7 +2441,8 @@ build += {
 
   // dependency of scala-pet-store
   // 2.13: tracking series/0.7.x since that's where 2.13 support is landing;
-  // perhaps we can movie 2.12.x to 0.7.x as well?
+  // perhaps we can movie 2.12.x to 0.7.x as well?  also temporarily forked
+  // for kind-projector change
   ${vars.base} {
     name: "doobie"
     uri:  ${vars.uris.doobie-uri}
@@ -2452,14 +2453,11 @@ build += {
       "set executeTests in postgres in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
       "set executeTests in `postgres-circe` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
       "set executeTests in example in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-      // kind-projector org change
-      "removeDependency org.spire-math kind-projector"
+      // 2.13: pull in version-specific source directory
+      """set core/Compile/unmanagedSourceDirectories += baseDirectory.value / "modules" / "core" / "src" / "main" / "scala-2.13.0-M5""""
     ]
-    extra.exclude: ["docs", "doobie"]  // out of scope ("doobie" is just an aggregation, and causes missing-tut error)
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+    // out of scope ("doobie" is just an aggregation, and causes missing-tut error)
+    extra.exclude: ["docs", "doobie", "bench"]
   }
 
   // dependency of scala-pet-store
