@@ -2445,6 +2445,7 @@ build += {
   ${vars.base} {
     name: "doobie"
     uri:  ${vars.uris.doobie-uri}
+    extra.options: ["-Xss16m"]  // prevent stack overflow when compiling build definition
     extra.commands: ${vars.default-commands} [
       // as per https://github.com/scala/community-builds/pull/835#issuecomment-455729365,
       // these subprojects require a Postgres instance for the tests to run
