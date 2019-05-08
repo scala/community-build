@@ -1890,7 +1890,6 @@ build += {
     ]
     // hungry hungry heapos
     extra.options: ["-Xmx4g"]
-    // some things don't work on 2.13 yet
   }
 
   ${vars.base} {
