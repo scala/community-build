@@ -79,6 +79,7 @@ object SuccessReport {
     "scalatest-tests",
     "scapegoat",
     "scribe",
+    "sttp",  // no 2.13 upgrade attempted afaict
     "tut",
     "twitter-util",
   )
