@@ -2440,6 +2440,8 @@ build += {
   }
 
   // dependency of scala-pet-store
+  // 2.13: tracking series/0.7.x since that's where 2.13 support is landing;
+  // perhaps we can movie 2.12.x to 0.7.x as well?
   ${vars.base} {
     name: "doobie"
     uri:  ${vars.uris.doobie-uri}

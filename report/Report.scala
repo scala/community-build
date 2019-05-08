@@ -56,6 +56,7 @@ object SuccessReport {
     "linter",
     "magnolia",
     "metrics-scala",  // scala.language.postfixOps
+    "mockito-scala",  // no arguments allowed for nullary method
     "monix",
     "multibot",
     "nyaya",
