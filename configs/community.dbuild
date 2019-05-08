@@ -1842,6 +1842,7 @@ build += {
   // them for testing, it's convenient to have them here so I don't
   // have to worry about whether I have a usable ScalaTest build I can
   // use to test with an arbitrary Scala - Seth
+  // frozen at last commit before 2.13.x upgrade (there is no cross-build)
   ${vars.base} {
     name: "euler"
     uri:  ${vars.uris.euler-uri}
