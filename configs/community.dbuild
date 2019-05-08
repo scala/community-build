@@ -936,7 +936,6 @@ build += {
     check-missing: false
   }
 
-  // 2.13: temporarily forked awaiting merge of https://github.com/typelevel/mouse/pull/73
   ${vars.base} {
     name: "mouse"
     uri:  ${vars.uris.mouse-uri}
