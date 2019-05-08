@@ -1837,12 +1837,9 @@ build += {
 
   // I know, it's a little weird to include my personal Project Euler
   // solutions, but it's actually a pretty broad-ranging assortment of
-  // small, self-contained tests of the collections API. they've
-  // caught many Scala bugs over the years.  and since I often use
-  // them for testing, it's convenient to have them here so I don't
-  // have to worry about whether I have a usable ScalaTest build I can
-  // use to test with an arbitrary Scala - Seth
-  // frozen at last commit before 2.13.x upgrade (there is no cross-build)
+  // small, self-contained tests of the collections API. It has
+  // caught many Scala bugs over the years. - Seth
+  // 2.12: frozen at last commit before 2.13.x upgrade (there is no cross-build)
   ${vars.base} {
     name: "euler"
     uri:  ${vars.uris.euler-uri}
