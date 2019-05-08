@@ -2387,11 +2387,14 @@ build += {
       "scalaz", "zio", "asyncHttpClientBackendZio"
     ]
     // kind-projector org change
+    // TODO remove kind-projector and macro-paradise workarounds https://github.com/softwaremill/sbt-softwaremill/pull/8
     check-missing: false
     deps.ignore: ["org.spire-math#kind-projector"]
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
     extra.commands: ${vars.default-commands} [
+      "removeDependency org.scalamacros paradise"
       "removeDependency org.spire-math kind-projector"
+      """set libraryDependencies in ThisBuild += compilerPlugin("org.typelevel" %% "kind-projector" % "0.10.0")"""
     ]
   }
 
