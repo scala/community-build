@@ -2244,6 +2244,7 @@ build += {
     name: "http4s-parboiled2"
     uri:  ${vars.uris.http4s-parboiled2-uri}
     extra.projects: ["parboiledJVM"]
+    extra.test-tasks: ["compile"] // tests are broken: https://github.com/http4s/parboiled2/pull/10
     extra.commands: ${vars.base.extra.commands} [
       // otherwise sbt-gpg errors on `publish`
       "set every gpgWarnOnFailure := true"
