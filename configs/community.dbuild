@@ -235,6 +235,7 @@ build += {
     uri:  ${vars.uris.scala-js-stubs-uri}
   }
 
+  // forked (May 2019) to make a trivial source change for JDK 11 compat
   ${vars.base} {
     name: "macro-paradise"
     uri:  ${vars.uris.macro-paradise-uri}
