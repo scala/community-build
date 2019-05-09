@@ -161,7 +161,7 @@ build += {
         // probably stay frozen at 1.0.6 forever. but the v1.0.6 tag won't
         // build on JDK 11, so let's use the 1.x branch
         uri: "https://github.com/scala/scala-xml.git#1.x"
-        // this gives us "scala-xml_2.12" which is what we want, sbt 1 will get
+        // this gives us "scala-xml_2.11" which is what we want, sbt 1 will get
         // upset if there are two different kinds of scala-xml dependencies
         // floating around (https://github.com/scala/community-builds/issues/679)
         cross-version: standard
@@ -171,7 +171,7 @@ build += {
         extra.commands: ${vars.default-commands} [
           // override scalaVersion here since otherwise we get
           // whatever random Scala version the module has
-          "set scalaVersion := \""${vars.scala-version}"\""
+          "set every scalaVersion := \""${vars.scala-version}"\""
           // work around https://github.com/scala/community-builds/issues/575
           // (in a community build context, we don't need MiMa to run)
           "set every ScalaModulePlugin.mimaPreviousVersion := None"
