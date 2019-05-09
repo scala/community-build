@@ -235,4 +235,135 @@ build += {
     uri:  ${vars.uris.scala-js-stubs-uri}
   }
 
+  // forked (May 2017) to make a trivial source change for 2.12.3 compat;
+  // see https://github.com/scalamacros/paradise/issues/98
+  ${vars.base} {
+    name: "macro-paradise"
+    uri:  ${vars.uris.macro-paradise-uri}
+  }
+
+  ${vars.base} {
+    name: "shapeless"
+    uri:  ${vars.uris.shapeless-uri}
+    extra.projects: ["coreJVM"]
+  }
+
+  ${vars.base} {
+    name: "kind-projector"
+    uri:  ${vars.uris.kind-projector-uri}
+  }
+
+  ${vars.base} {
+    name: "specs2"
+    uri:  ${vars.uris.specs2-uri}
+    // I don't see a project that aggregates JVM-only stuff, so...
+    extra.projects: [
+      "analysisJVM", "commonJVM", "coreJVM", "fpJVM"
+      "matcherExtraJVM", "matcherJVM", "mockJVM", "junitJVM"
+      "scalacheckJVM"
+    ]
+    // makes "configuration not public" errors downstream go away
+    extra.commands: ${vars.default-commands} [
+      "set every publishMavenStyle := false"
+    ]
+  }
+
+  ${vars.base} {
+    name: "scala-collection-compat"
+    uri:  ${vars.uris.scala-collection-compat-uri}
+    extra.projects: ["compat212"]  // no Scala.js or Scalafix rules plz
+  }
+
+  // dependency of cats
+  // temporarily forked (April 2019) pending merge of https://github.com/milessabin/export-hook/pull/34
+  ${vars.base} {
+    name: "export-hook"
+    uri:  ${vars.uris.export-hook-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
+    extra.projects: ["coreJVM"]  // no Scala.js plz
+  }
+
+  ${vars.base} {
+    name: "scala-java-time"
+    uri:  ${vars.uris.scala-java-time-uri}
+    extra.projects: ["scalajavatimeJVM", "scalajavatimeTZDBJVM", "scalajavatimeTestsJVM"]  // no Scala.js plz
+  }
+
+  ${vars.base} {
+    name: "simulacrum"
+    uri:  ${vars.uris.simulacrum-uri}
+    extra.projects: ["coreJVM", "examplesJVM"] // no Scala.js please
+    extra.commands: ${vars.base.extra.commands} [
+      // otherwise sbt-gpg errors on `publish`
+      "set every gpgWarnOnFailure := true"
+      // we have wartremover, but it's better to avoid the dependency if we can, to help
+      // the dependency structure flatter overall
+      "removeDependency org.wartremover wartremover"
+      "removeScalacOptions -P:wartremover:traverser:org.wartremover.warts.ExplicitImplicitTypes -P:wartremover:traverser:org.wartremover.warts.ImplicitConversion"
+    ]
+    deps.ignore: ["org.wartremover#wartremover"]
+  }
+
+  // frozen (April 2019) at April 2019 commit before source-incompatible upgrade
+  // to ScalaTest 3.1
+  ${vars.base} {
+    name: "discipline"
+    uri:  ${vars.uris.discipline-uri}
+    extra.projects: ["disciplineJVM"]  // no Scala.js please
+  }
+
+  // frozen (March 2018) at a March 2018 commit before an sbt-catalysts version
+  // bump -- the new version wouldn't resolve, not sure why
+  ${vars.base} {
+    name: "catalysts"
+    uri:  ${vars.uris.catalysts-uri}
+    // other projects aren't pertinent or errored out (not investigated)
+    extra.projects: ["specbaseJVM", "lawkitJVM", "scalatestJVM", "macrosJVM", "platformJVM", "testkitJVM"]
+  }
+
+  ${vars.base} {
+    name: "machinist"
+    uri:  ${vars.uris.machinist-uri}
+    extra.projects: ["machinistJVM"]  // no Scala.js please
+  }
+
+  ${vars.base} {
+    name: "macro-compat"
+    uri:  ${vars.uris.macro-compat-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
+    // no Scala.js plz
+    extra.projects: ["testJVM"]
+  }
+
+  ${vars.base} {
+    name: "wartremover"
+    uri:  ${vars.uris.wartremover-uri}
+    extra.exclude: ["sbt-plugin"]
+    deps.ignore: ["org.scala-sbt#scripted-plugin"]
+    check-missing: false
+  }
+
+  // frozen at v1.6.0 tag because dependencies have historically been fragile.
+  // (perhaps this is overly cautious now, in 2019? not sure)
+  // and forked (February 2019) from that tag to make some tiny ScalaCheck 1.13 vs 1.14 tweaks so tests pass
+  ${vars.base} {
+    name: "cats"
+    uri:  ${vars.uris.cats-uri}
+    // for some reason, adding the umbrella "catsJVM" project but excluding "bench"
+    // (and "docs") doesn't succeed in removing the depending on cats-bench.
+    // using deps.ignore doesn't fix it either. not sure how else to fix it
+    // other than just enumerating what we want:
+    extra.projects: ["coreJVM", "freeJVM", "kernelJVM", "kernelLawsJVM", "lawsJVM", "macrosJVM", "testkitJVM", "testsJVM", "alleycatsCoreJVM", "alleycatsTestsJVM"]
+    extra.exclude: ["bench", "docs"]
+    // tests are memory-hungry. hard to tell if occasional OutOfMemoryErrors are because
+    // some random test input in a generative test hit a real bug, or whether memory needs
+    // just fluctuate :-/  I've been gradually increasing this trying to fix an OOM in
+    // ApplicativeSuite.  the repo's own .jvmopts has 6g
+    extra.options: ["-Xmx6g"]
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+  }
+
 ]}
