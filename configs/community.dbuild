@@ -235,11 +235,10 @@ build += {
     uri:  ${vars.uris.scala-js-stubs-uri}
   }
 
-  // forked (May 2017) to make a trivial source change for 2.12.3 compat;
-  // see https://github.com/scalamacros/paradise/issues/98
   ${vars.base} {
     name: "macro-paradise"
     uri:  ${vars.uris.macro-paradise-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
   }
 
   ${vars.base} {
