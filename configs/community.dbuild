@@ -362,4 +362,684 @@ build += {
     extra.options: ["-Xmx6g"]
   }
 
+  ${vars.base} {
+    name: "kittens"
+    uri:  ${vars.uris.kittens-uri}
+    extra.projects: ["coreJVM"]  // sorry, Scala.js
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+  }
+
+  ${vars.base} {
+    name: "claimant"
+    uri:  ${vars.uris.claimant-uri}
+    extra.exclude: ["root", "mcJS", "coreJS"]  // no Scala.js plz
+  }
+
+  ${vars.base} {
+    name: "tut"
+    uri:  ${vars.uris.tut-uri}
+    extra.exclude: [
+      "plugin"  // we never build sbt plugins
+      "docs"  // out of scope
+      "root"  // weird errors; irrelevant anyway
+    ]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
+    deps.ignore: ["org.scala-sbt#scripted-sbt"]
+    check-missing: false
+  }
+
+  ${vars.base} {
+    name: "genjavadoc"
+    uri:  ${vars.uris.genjavadoc-uri}
+  }
+
+  // if master proves difficult to track, the 0.6.x branch could be
+  // used instead; see discussion at
+  // https://github.com/scala/community-builds/issues/506
+  ${vars.base} {
+    name: "scala-js"
+    uri:  ${vars.uris.scala-js-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
+    extra.options: [
+      // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
+      "-Xmx2048m"
+    ]
+    // not really sure how this list was arrived at
+    extra.projects: [ "io", "logging", "linker", "testSuite" ]
+    extra.commands: ${vars.default-commands} [
+      // - We disable source map tests to save ourselves a `npm install source-map-support` on the workers.
+      //   Although only `testSuite` actually has tests, dbuild will try to run the tests for all projects
+      //   that `testSuite` depends on (transitively), so we need to set it in a bunch of places.
+      "set Seq(library, testInterface, jUnitRuntime, testSuite).map(p => jsEnv in p := new org.scalajs.jsenv.nodejs.NodeJSEnv(org.scalajs.jsenv.nodejs.NodeJSEnv.Config().withExecutable(\""${vars.node}"\").withSourceMap(false)))"
+      "set MyScalaJSPlugin.wantSourceMaps in testSuite := false"
+    ]
+  }
+
+  // keep this stuff separate so the overall dependency tree is
+  // flatter and when dependencies fail they don't take out every
+  // specs2-using project downstream
+  ${vars.base} {
+    name: "specs2-more"
+    uri:  ${vars.uris.specs2-uri}
+    extra.projects: [
+      "shapelessJVM", "catsJVM", "examplesJVM"
+    ]
+    extra.exclude: [
+      // already built in "specs2"
+      "analysisJVM", "commonJVM", "coreJVM", "fpJVM", "matcherExtraJVM", "matcherJVM",
+      "mockJVM", "junitJVM", "scalacheckJVM"
+    ]
+    extra.commands: ${vars.default-commands} [
+      // not sure if necessary, but we have it in the specs entry, so let's have it here too
+      "set every publishMavenStyle := false"
+      // flaky test, https://github.com/etorreborre/specs2/issues/673
+      "set excludeFilter in (Test, unmanagedSources) in examplesJvm := HiddenFileFilter || \"StackIsolatedSpec.scala\""
+    ]
+  }
+
+  ${vars.base} {
+    name: "scala-java8-compat"
+    uri:  ${vars.uris.scala-java8-compat-uri}
+  }
+
+  ${vars.base} {
+    name: "silencer"
+    uri:  ${vars.uris.silencer-uri}
+  }
+
+  // dependency of metrics-scala
+  ${vars.base} {
+    name: "mockito-scala"
+    uri:  ${vars.uris.mockito-scala-uri}
+  }
+
+  // frozen (April 2019) at v2.5.22.  this repo is volatile
+  // (very frequent commits) and when it needs to be rebuilt, the testing
+  // takes a long time (especially akka-more) and the downstream
+  // rebuilding takes a long time too.  so in general we want to
+  // freeze at a tag (preferably) or SHA (if we must).
+  // it might be better to track the release-2.5 branch, but there
+  // were ScalaTest-related compilation failures when I tried it
+  // (April 2019). we could try again after the 2.13.0-RC1 upgrade
+  // goes through?
+  ${vars.base} {
+    name: "akka"
+    uri:  ${vars.uris.akka-uri}
+    extra.options: [
+      // as per their own .sbtopts file
+      "-Xmx3g"
+      // other customizations
+      "-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"
+    ]
+    extra.projects: ["akka-actor", "akka-actor-typed", "akka-testkit", "akka-actor-tests"]
+    extra.commands: ${vars.default-commands} [
+      // https://github.com/scala/community-builds/issues/373
+      "set every apiURL := None"
+      // needed downstream in akka-stream and/or akka-more
+      "set skip in publish in actorTests := false"
+      // makes "configuration not public" errors downstream go away
+      "set every publishMavenStyle := false"
+      // https://github.com/akka/akka/issues/25882
+      "set excludeFilter in (Test, unmanagedSources) in actorTests := HiddenFileFilter || \"UdpConnectedIntegrationSpec.scala\""
+      // idk why, but prevents dbuild-only sun.misc.Unsafe compile errors;
+      // see https://github.com/scala/community-builds/issues/757
+      "set scalacOptions in Compile in actor --= Seq(\"-release\", \"8\")"
+    ]
+  }
+
+  // this is almost 1M lines of code, but it needn't be green (or be compiled at all)
+  // for dependent projects to proceed, so let's keep it separate.  forked (December 2017)
+  // because of trouble with scalacticMacro -- the latter has publishing disabled
+  ${vars.base} {
+    name: "scalatest-tests"
+    uri:  ${vars.uris.scalatest-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
+    extra.exclude: [
+      // we already built these above
+      "scalatest", "scalactic", "scalacticMacro"
+      // no Scala.js plz
+      "commonTestJS", "examplesJS", "scalacticJS", "scalacticMacroJS", "scalacticTestJS"
+      "scalatestAppJS", "scalatestJS", "scalatestTestJS"
+      // [scalatest-tests] [info] *** 5 SUITES ABORTED ***
+      // [scalatest-tests] [info] *** 29 TESTS FAILED ***
+      "examples"
+    ]
+    // needs extra heap to even compile
+    extra.options: ["-Xmx3072m"]
+  }
+
+  ${vars.base} {
+    name: "scala-partest"
+    uri:  ${vars.uris.scala-partest-uri}
+  }
+
+  ${vars.base} {
+    name: "scala-swing"
+    uri:  ${vars.uris.scala-swing-uri}
+    extra.commands: ${vars.default-commands} [
+      // work around https://github.com/scala/community-builds/issues/575
+      // (in a community build context, we don't need MiMa to run)
+      "set every ScalaModulePlugin.mimaPreviousVersion := None"
+    ]
+  }
+
+  // tracking master as of December 2016.  if master proves unstable,
+  // we could try "release-0.8" (or a newer branch if there is one)
+  ${vars.base} {
+    name: "scala-stm"
+    uri:  ${vars.uris.scala-stm-uri}
+    // scala.concurrent.stm.CommitBarrierSuite failing;
+    // reported upstream at https://github.com/nbronson/scala-stm/issues/53
+    // (report updated December 2017)
+    extra.test-tasks: ["compile"]
+  }
+
+  ${vars.base} {
+    name: "scoverage"
+    uri:  ${vars.uris.scoverage-uri}
+    extra.exclude: ["scalac-scoverage-runtimeJS"] // no Scala.js please
+    // [info] java.io.FileNotFoundException: Could not locate [~/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.0.jar].
+    // January 2018: failure's continued existence confirmed
+    // see https://github.com/scala/community-builds/pull/387
+    extra.test-tasks: ["compile"]
+  }
+
+  ${vars.base} {
+    name: "scodec-bits"
+    uri:  ${vars.uris.scodec-bits-uri}
+    extra.projects: ["coreJVM"]
+    extra.commands: ${vars.base.extra.commands} [
+      // because scodec-build brings in sbt-gpg which errors on `publish`
+      "set every gpgWarnOnFailure := true"
+    ]
+  }
+
+  ${vars.base} {
+    name: "scodec"
+    uri:  ${vars.uris.scodec-uri}
+    extra.projects: ["coreJVM"]
+    extra.commands: ${vars.base.extra.commands} [
+      // because scodec-build brings in sbt-gpg which errors on `publish`
+      "set every gpgWarnOnFailure := true"
+    ]
+  }
+
+  ${vars.base} {
+    name: "scala-records"
+    uri:  ${vars.uris.scala-records-uri}
+    extra.exclude: [
+      "coreJS"  // no Scala.js please
+      "root"    // dbuild thinks it tries to publish root#root
+    ]
+  }
+
+  ${vars.base} {
+    name: "akka-stream"
+    uri:  ${vars.uris.akka-uri}
+    extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"
+      // repo readme recommended
+      "-Xmx2g"
+    ]
+    extra.projects: [
+      "akka-stream", "akka-stream-tests"
+      // not part of akka-stream, but throwing it in so that akka-http doesn't need anything from akka-more
+      "akka-multi-node-testkit"
+    ]
+    extra.commands: ${vars.default-commands} [
+      // https://github.com/scala/community-builds/issues/373
+      "set every apiURL := None"
+      // makes "configuration not public" errors downstream go away
+      "set every publishMavenStyle := false"
+      // has been failing consistently lately, let's recheck it next time we push the tag forward
+      // and report upstream if it hasn't gone away
+      "set excludeFilter in (Test, unmanagedSources) in streamTests := HiddenFileFilter || \"TlsSpec.scala\""
+      // prevents [akka-stream] [error] Class jdk.internal.HotSpotIntrinsicCandidate not found - continuing with a stub.
+      "set scalacOptions in Compile in stream --= Seq(\"-release\", \"8\")"
+    ]
+    extra.exclude: [
+      // because we already built them in "akka"
+      "akka-actor", "akka-actor-typed", "akka-testkit", "akka-actor-tests"
+    ]
+  }
+
+  // this is separate from "akka" because there is a circular dependency between
+  // the akka and ssl-config repos. and also just so failures in obscure subprojects
+  // don't take out too much of the build
+  ${vars.base} {
+    name: "akka-more"
+    uri:  ${vars.uris.akka-uri}
+    extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"
+      // repo readme recommended
+      "-Xmx2g"
+    ]
+    extra.projects: ["akka-scala-nightly"]
+    extra.settings: ${vars.base.extra.settings} [
+      // for JDK 11. one-deeper nesting level makes it apply to build definition
+      ["libraryDependencies += \"javax.xml.bind\" % \"jaxb-api\" % \"2.3.0\""]
+    ]
+    extra.commands: ${vars.default-commands} [
+      // https://github.com/scala/community-builds/issues/373
+      "set every apiURL := None"
+    ]
+    extra.exclude: [
+      "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
+      "akka-actor", "akka-actor-typed", "akka-actor-tests", "akka-testkit"  // because we already built them in "akka"
+      "akka-stream", "akka-stream-testkit", "akka-remote", "akka-stream-tests"  // because we already built them in "akka-stream"
+      "akka-bench-jmh", "akka-bench-jmh-typed"  // we'd have to add a resolver to get the JMH dependency, and we prefer not to run benchmarks here anyway
+      "akka-protobuf", "akka-multi-node-testkit"  // already built these in akka-stream
+    ]
+  }
+
+  ${vars.base} {
+    name: "akka-http"
+    uri:  ${vars.uris.akka-http-uri}
+    extra.exclude: ["docs", "akka-http-bench-jmh"]
+    extra.options: [
+      "-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false"
+      "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
+    ]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+      // Scaladoc generation failure reported upstream at https://github.com/akka/akka/issues/21543
+      "set sources in doc in Compile in httpCore := List()"
+    ]
+    // "HTTP is sadly very timing sensitive we're working on improving its stability regularly,
+    // OK to disable it for now." - Konrad M, October 2016
+    // reconfirmed January 2018 that some tests are failing. in one run, it was:
+    // * akka.http.impl.engine.client.NewConnectionPoolSpec
+    // * akka.http.impl.engine.client.HostConnectionPoolSpec
+    extra.test-tasks: ["compile"]
+    // spray org change
+    check-missing: false
+    deps.ignore: ["io.spray#spray-json"]
+    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
+  }
+
+  ${vars.base} {
+    name: "scalariform"
+    uri: ${vars.uris.scalariform-uri}
+  }
+
+  ${vars.base} {
+    name: "scala-async"
+    uri:  ${vars.uris.scala-async-uri}
+  }
+
+  ${vars.base} {
+    name: "slick"
+    uri:  ${vars.uris.slick-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
+    deps.inject: ${vars.base.deps.inject} [
+      // without this dbuild doesn't pick up that one of the subprojects has this dependency.
+      // it doesn't even make sense; it seems to me that testNGSettings should not be adding
+      // a dependency of the plugin to the libraryDependencies of the test code.
+      // the line in question is:
+      //   https://github.com/sbt/sbt-testng-interface/blob/ca730f705f48af2139f39bc726b474afec072738/plugin/src/main/scala/de/johoop/testngplugin/TestNGPlugin.scala#L44
+      // I think it's a confusion of levels, but maybe I'm missing something. - ST 8/27/15
+      "de.johoop#sbt-testng-interface"
+    ]
+    extra.exclude: [
+      // unless we exclude, it looks for an Ornate dependency here
+      "root"
+      // disable fragile tests (https://github.com/scala/community-builds/issues/12#issuecomment-149941055)
+      "osgitests"
+      // I think these expect a Slick snapshot to have been `publishLocal`ed?
+      "sample-slick-multidb", "sample-hello-slick", "sample-slick-plainsql", "sample-slick-testkit-example"
+    ]
+  }
+
+  ${vars.base} {
+    name: "sbt-testng"
+    uri:  ${vars.uris.sbt-testng-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
+    extra.projects: ["sbt-testng-interface"]  // just the interface, we don't need to build the plugin
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
+  }
+
+  ${vars.base} {
+    name: "sbinary"
+    uri:  ${vars.uris.sbinary-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    // we have to disable this early (extra.commands isn't soon enough)
+    // or scalafmt will run `update` and `cloc-plugin` won't be found
+    extra.settings: ${vars.base.extra.settings} [
+      "scalafmtOnCompile in ThisBuild := false"
+      "scalafmtOnCompile in Sbt := false"
+    ]
+    check-missing: false  // ignore missing scalafmt
+  }
+
+  ${vars.base} {
+    name: "acyclic"
+    uri:  ${vars.uris.acyclic-uri}
+  }
+
+  ${vars.base} {
+    name: "sourcecode"
+    uri:  ${vars.uris.sourcecode-uri}
+    // no Scala.js plz
+    extra.projects: ["sourcecodeJVM"]
+  }
+
+  ${vars.base} {
+    name: "portable-scala-reflect"
+    uri:  ${vars.uris.portable-scala-reflect-uri}
+    extra.projects: ["portable-scala-reflectJVM"]  // no Scala.js plz
+  }
+
+  ${vars.base} {
+    name: "utest"
+    uri:  ${vars.uris.utest-uri}
+    // no Scala.js plz
+    extra.projects: ["utestJVM"]
+  }
+
+  // forked (October 2018) for JDK 11 compat, awaiting merge of
+  // https://github.com/lihaoyi/fastparse/pull/196
+  // also note that master is now Fastparse 2 which is completely
+  // source-incompatible with Fastparse 1
+  ${vars.base} {
+    name: "fastparse"
+    uri:  ${vars.uris.fastparse-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
+    extra.projects: [
+      "fastparseJVM"   // no Scala.js plz
+      "scalaparseJVM"  // dependency of scalatex
+    ]
+    extra.commands: ${vars.default-commands} [
+      // too prone to unexplained failure
+      "set executeTests in scalaparseJVM in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+    ]
+  }
+
+  // frozen (January 2019) at December 2018 commit before the build was changed
+  // from sbt to mill
+  ${vars.base} {
+    name: "geny"
+    uri:  ${vars.uris.geny-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
+    extra.projects: ["genyJVM"]  // no Scala.js plz
+  }
+
+  ${vars.base} {
+    name: "scala-logging"
+    uri:  ${vars.uris.scala-logging-uri}
+  }
+
+  ${vars.base} {
+    name: "scalaprops"
+    uri:  ${vars.uris.scalaprops-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
+    extra.projects: ["scalapropsJVM"]  // no Scala.js please
+    check-missing: false  // ignore missing scalafmt
+  }
+
+  // frozen at v1.2.0 tag for now, perhaps excessively cautiously; we might
+  // consider tracking a branch instead
+  ${vars.base} {
+    name: "cats-effect"
+    uri:  ${vars.uris.cats-effect-uri}
+    extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js plz
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+  }
+
+  ${vars.base} {
+    name: "fs2"
+    uri:  ${vars.uris.fs2-uri}
+    extra.projects: ["coreJVM", "io", "reactiveStreams"]  // no Scala.js, no benchmarks or docs
+    extra.commands: ${vars.base.extra.commands} [
+      // otherwise sbt-gpg errors on `publish`
+      "set every gpgWarnOnFailure := true"
+    ]
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+  }
+
+  ${vars.base} {
+    name: "parboiled"
+    uri:  ${vars.uris.parboiled-uri}
+    extra.projects: ["parboiled-scala"]
+  }
+
+  ${vars.base} {
+    name: "parboiled2"
+    uri:  ${vars.uris.parboiled2-uri}
+    extra.projects: ["parboiledJVM", "examples"]
+    extra.commands: ${vars.base.extra.commands} [
+      // errors, who knows why
+      "set every scalafmtOnCompile := false"
+      // otherwise sbt-gpg errors on `publish`
+      "set every gpgWarnOnFailure := true"
+    ]
+    // spray org change
+    check-missing: false
+    deps.ignore: ["io.spray#spray-json"]
+    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
+  }
+
+  ${vars.base} {
+    name: "eff"
+    uri:  ${vars.uris.eff-uri}
+    extra.exclude: [
+      "scalaz"
+      // this is an aggregation project that we exclude because it adds a
+      // ScalaMeter dependency
+      "eff"
+      // we have doobie now, but for some reason the dependency wasn't found
+      // (January 2019), I didn't investigate
+      "doobie"
+      // we don't have catbird
+      "twitter"
+      // at present this doesn't compile, probably a version mismatch that will sort
+      // itself out in the fullness of time, but for now:
+      "monixJVM"
+      // no Scala.js please
+      "coreJS", "monixJS", "catsEffectJS"
+    ]
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+  }
+
+  // downstream projects expecting a different jackson version than the
+  // one we have here are prone to errors such as:
+  // com.fasterxml.jackson.databind.JsonMappingException:
+  //   Scala module 2.8.8-dbuildx1c5888e4b2a136333f7edb02dbe6dc5abbfa7de1 requires Jackson Databind version >= 2.8.0 and < 2.9.0
+  // for details on how this can happen, see comments on
+  // https://github.com/scala/community-builds/pull/785
+  ${vars.base} {
+    name: "jackson-module-scala"
+    uri:  ${vars.uris.jackson-module-scala-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
+    // surely they'll drop this crufty thing from their build eventually,
+    // but for the time being we need to fill in something:
+    extra.options: ["-Djava7.home="${JAVA_HOME}]
+    extra.commands: ${vars.base.extra.commands} [
+      // the `-bootclasspath ...` thing their build does doesn't work on Java 9
+      "set javacOptions ~= (_.dropRight(2))"
+    ]
+  }
+
+  // tracking "develop" branch.
+  // try master instead if develop proves too fragile?
+  ${vars.base} {
+    name: "twitter-util"
+    uri:  ${vars.uris.twitter-util-uri}
+    extra.exclude: [
+      // this isn't really necessary and would pull in a JMH dependency
+      "util-benchmark"
+      // this is 2.11-only
+      "util-intellij"
+    ]
+    // recommended at https://github.com/twitter/util/issues/173:
+    // "We use that when we don't think the tests will be reliable in a ci environment"
+    extra.options: ["-DSKIP_FLAKY=true"]
+  }
+
+  ${vars.base} {
+    name: "mima"
+    uri:  ${vars.uris.mima-uri}
+    // we don't compile sbt plugins
+    extra.exclude: ["sbtplugin"]
+    // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
+    deps.ignore: ["org.scala-sbt#scripted-sbt"]
+    check-missing: false
+  }
+
+  ${vars.base} {
+    name: "mouse"
+    uri:  ${vars.uris.mouse-uri}
+    extra.projects: ["crossJVM"]  // no Scala.js please
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+  }
+
+  // forked (February 2019) from v3.7.0 (the version playframework expects);
+  // https://github.com/lightbend/ssl-config/issues/142
+  // is about resolving the source incompatibility on master;
+  // the fork is needed until unfreeze to remove an unused sbt plugin so we don't have
+  // to add a resolver (lightbend/ssl-config@b2544f853f4e62165f43a)
+  ${vars.base} {
+    name: "ssl-config"
+    uri:  ${vars.uris.ssl-config-uri}
+    extra.projects: ["sslConfigCore"]
+    // repeated hangs during testing; see
+    // https://github.com/scala/community-builds/issues/560
+    // (last confirmed: January 2018)
+    extra.test-tasks: ["compile"]
+  }
+
+  ${vars.base} {
+    name: "spray-json"
+    uri:  ${vars.uris.spray-json-uri}
+    extra.projects: ["sprayJsonJVM"]
+    // otherwise sbt-gpg errors on `publish`
+    extra.commands: ${vars.default-commands} [
+      "set every gpgWarnOnFailure := true"
+    ]
+  }
+
+  // forked (September 2018) for JDK 11 friendliness
+  ${vars.base} {
+    name: "pcplod"
+    uri:  ${vars.uris.pcplod-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
+    // in our fork we removed the sbt-sensible plugin, setting this
+    // was one of the things the plugin did. tests fail otherwise
+    extra.commands: ${vars.default-commands} [
+      "set every fork in Test := true"
+    ]
+  }
+
+  ${vars.base} {
+    name: "scalikejdbc"
+    uri:  ${vars.uris.scalikejdbc-uri}
+    // don't build sbt plugin
+    extra.exclude: ["mapper-generator"]
+    // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
+    deps.ignore: ["org.scala-sbt#scripted-sbt"]
+    check-missing: false
+  }
+
+  ${vars.base} {
+    name: "scopt"
+    uri:  ${vars.uris.scopt-uri}
+    extra.projects: ["scoptJVM"]  // no Scala.js plz
+  }
+
+  // dependency of scopt
+  ${vars.base} {
+    name: "expecty"
+    uri:  ${vars.uris.expecty-uri}
+    extra.projects: ["expectyJVM"]
+  }
+
+  ${vars.base} {
+    name: "twirl"
+    uri:  ${vars.uris.twirl-uri}
+    extra.exclude: ["plugin", "apiJS"]
+    deps.ignore: ["org.scala-sbt#scripted-plugin"]
+    check-missing: false
+  }
+
+  ${vars.base} {
+    name: "play-doc"
+    uri:  ${vars.uris.play-doc-uri}
+  }
+
+  ${vars.base} {
+    name: "play-json"
+    uri:  ${vars.uris.play-json-uri}
+    extra.projects: ["play-jsonJVM"]  // no Scala.js plz
+  }
+
+  // playframework and play-ws tend to get a bit out of sync with each other so it's generally better
+  // to have play-ws frozen at tag, unless it's forked. which it is right now:
+  ${vars.base} {
+    name: "play-ws"
+    uri:  ${vars.uris.play-ws-uri}
+    // NullPointerException in CachingSpec
+    // (https://github.com/scala/community-builds/issues/564)
+    extra.exclude: ["integration-tests", "bench"]
+  }
+
+  // tracking 1.1.x branch since there are source-incompatible changes on master;
+  // see https://github.com/scala/community-builds/pull/838#issuecomment-455371993
+  ${vars.base} {
+    name: "cachecontrol"
+    uri:  ${vars.uris.cachecontrol-uri}
+  }
+
+  // dependency of play-file-watch
+  ${vars.base} {
+    name: "better-files"
+    uri: ${vars.uris.better-files-uri}
+    extra.commands: ${vars.default-commands} [
+      // keep scalafmtSbtCheck from complaining about code dbuild injects
+      "set checkFormat := {}"
+    ]
+  }
+
+  // dependency of playframework
+  ${vars.base} {
+    name: "play-file-watch"
+    uri:  ${vars.uris.play-file-watch-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
+    extra.commands: ${vars.default-commands} [
+      // failing test I haven't gotten around to reporting upstream
+      "set excludeFilter in (Test, unmanagedSources) in `play-file-watch` := HiddenFileFilter || \"FileWatchServiceSpec.scala\""
+    ]
+  }
+
+  ${vars.base} {
+    name: "playframework"
+    uri:  ${vars.uris.playframework-uri}
+    extra.exclude: [
+      "Play-Docs", "Sbt-Plugin", "Play-Docs-Sbt-Plugin"  // out of scope
+      "Play-Integration-Test"  // TODO/WIP, see https://github.com/scala/community-builds/pull/819
+      "Play-Microbenchmark" // out of scope (and besides, requires Play-Integration-Test)
+    ]
+    deps.ignore: ["org.scala-sbt#scripted-plugin"]
+    check-missing: false
+  }
+
 ]}
