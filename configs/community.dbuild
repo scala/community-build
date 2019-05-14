@@ -1522,12 +1522,15 @@ build += {
     name: "akka-persistence-cassandra"
     uri:  ${vars.uris.akka-persistence-cassandra-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
+    extra.test-tasks: "compile"
   }
 
   // dependency of lagom
   ${vars.base} {
     name: "akka-persistence-jdbc"
     uri:  ${vars.uris.akka-persistence-jdbc-uri}
+    deps.inject: ${vars.base.deps.inject} ["org.scala-lang.modules#scala-xml"]
+
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
