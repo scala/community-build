@@ -2365,7 +2365,6 @@ build += {
   }
 
   // core doesn't depend on refined, but refinedJVM does.
-  // 2.13: temporarily forked pending merge of https://github.com/bkirwi/decline/pull/58
   ${vars.base} {
     name: "decline"
     uri:  ${vars.uris.decline-uri}
