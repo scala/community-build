@@ -93,7 +93,7 @@ set commands ++= {
 }
 """
 vars.default-commands += "appendScalacOptions "${vars.scalac-opts}
-vars.default-commands += "removeScalacOptions -Xfatal-warnings -Yno-adapted-args -Ywarn-inaccessible -Ywarn-nullary-override -Ywarn-nullary-unit -Ywarn-infer-any -Ywarn-unused-import -Ypartial-unification -Ywarn-adapted-args"
+vars.default-commands += "removeScalacOptions -Xfatal-warnings -Yno-adapted-args -Ywarn-inaccessible -Ywarn-nullary-override -Ywarn-nullary-unit -Ywarn-infer-any -Ywarn-unused-import -Ypartial-unification -Ywarn-adapted-args -Xmax-classfile-name"
 vars.base.extra.commands = ${vars.default-commands}
 
 //// count lines of code
@@ -401,6 +401,10 @@ build += {
     check-missing: false
     deps.ignore: ["org.spire-math#kind-projector"]
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+    extra.commands: ${vars.default-commands} [
+      "removeDependency org.spire-math kind-projector"
+      """set libraryDependencies in ThisBuild += compilerPlugin("org.typelevel" %% "kind-projector" % "0.10.0")"""
+    ]
   }
 
   ${vars.base} {
@@ -1333,6 +1337,11 @@ build += {
     extra.sbt-version: ${vars.sbt-0-13-version}
     // this is enough for scalafix, I didn't even try adding the rest
     extra.projects: ["coreJVM"]
+    extra.commands: ${vars.default-commands} [
+      // paradise is on earth now
+      "appendScalacOptions -Ymacro-annotations"
+      "removeDependency org.scalamacros paradise"
+    ]
   }
 
   ${vars.base} {
@@ -1501,7 +1510,7 @@ build += {
       // flaky test, reported at https://github.com/lightbend/paradox/issues/229
       "set excludeFilter in (Test, unmanagedSources) in tests := HiddenFileFilter || \"VarsDirectiveSpec.scala\""
       // kind projector org change
-      "set libraryDependencies in ThisBuild += compilerPlugin("org.typelevel" %% "kind-projector" % "0.10.0")"""
+      """set libraryDependencies in ThisBuild += compilerPlugin("org.typelevel" %% "kind-projector" % "0.10.0")"""
     ]
   }
 
@@ -1559,6 +1568,9 @@ build += {
     check-missing: false
     deps.ignore: ["io.spray#spray-json"]
     deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
+    extra.commands: ${vars.default-commands} [
+      "removeDependency io.spray spray-json"
+    ]
   }
 
   ${vars.base} {
@@ -1686,9 +1698,6 @@ build += {
   }
 
   // dependency of giter8
-  // frozen (December 2018) because it needs latest scala-collection-compat
-  // but using that breaks other projects (e.g. play-json); we'll have to wait and then move
-  // it all forward together
   ${vars.base} {
     name: "grizzled"
     uri:  ${vars.uris.grizzled-uri}
@@ -2465,6 +2474,13 @@ build += {
       "tsec-examples"  // depends on tsec-libsodium
     ]
     check-missing: false  // ignore missing scalafmt
+    // kind-projector org change
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+    extra.commands: ${vars.default-commands} [
+      "removeDependency org.spire-math kind-projector"
+      """set libraryDependencies in ThisBuild += compilerPlugin("org.typelevel" %% "kind-projector" % "0.10.0")"""
+    ]
   }
 
   // 2.13: using branch until https://github.com/pauljamescleary/scala-pet-store/pull/142 is merged

@@ -37,52 +37,43 @@ object SuccessReport {
     // could be reapplied here but would need updating
     "akka-contrib-extra",  // no 2.13 upgrade attempted afaict
     "akka-persistence-cassandra",  // no 2.13 upgrade attempted afaict
-    "akka-persistence-jdbc",  // overloading-related compilation errors?
+    "akka-persistence-jdbc",  // uses scala.xml.pull, which no longer exists
     "algebra",  // source incompatibility involving catalysts?
-    "breeze",
-    "boopickle",
-    "case-app",
-    "circe-jackson",
-    "coursier",
-    "eff",
-    "elastic4s",
-    "enumeratum",
+    "circe-jackson",  // overloading related compile errors
+    "coursier",  // no 2.13 upgrade attempted afaict (Seq-related compile errors)
+    "doobie",  // looks like we might be picking up the wrong version-specific sources?
+    "eff",  // ambiguous implicits
+    "elastic4s",  // no 2.13 upgrade attempted afaict (Seq-related compile errors)
+    "enumeratum",  // strange dependency error, maybe dbuild-specific? idk
     "geny",  // 2.13 work postdates mill build replacing sbt build
-    "grizzled",
-    "jawn-0-10",
-    "kafka",
-    "kittens",
-    "lift-json",
-    "linter",
-    "magnolia",
+    "jawn-0-10",  // no 2.13 upgrade attempted afaik
+    "kafka",  // no 2.13 upgrade attempted afaik
+    "lift-json",  // no 2.13 upgrade attempted afaik
+    "linter",  // no 2.13 upgrade attempted afaict
+    "magnolia",  // no 2.13 upgrade attempted afaik
     "metrics-scala",  // scala.language.postfixOps
     "mockito-scala",  // no arguments allowed for nullary method
-    "monix",
-    "multibot",
-    "nyaya",
+    "monix",  // no 2.13.0-RC1 upgrade attempted afaik
     "paiges",  // source incompatibility involving catalysts?
-    "paradox",
-    "parboiled2",
+    "parboiled2",  // ???
     "play-file-watch",  // no 2.13 upgrade attempted afaict
     "play-webgoat",  // "com.typesafe.play#play-omnidoc_2.13.0-pre-bec2441;2.7.0: not found" ?!
+    "scala-collection-contrib",  // needs code changes related to Ordering
     "scala-gopher",  // no 2.13 upgrade attempted afaict
-    "scala-java-time",
-    "scala-logging",
-    "scala-refactoring",
-    "scala-sculpt",
-    "scala-stm",
-    "scala-xml-quote",
-    "scalajson",
-    "scalameter",
-    "scalamock",
-    "scalapb",
-    "scalastyle",
-    "scalatest-tests",
-    "scapegoat",
-    "scribe",
+    "scala-java-time",  // ScalaTest 3.0 vs 3.1 compile errors, I think?
+    "scala-refactoring",  // postfixOps
+    "scala-stm",  // still using JavaConversions
+    "scala-xml-quote",  // Unit companion object not allowed in source
+    "scalajson",  // test don't compile, specs2 not found, maybe related to imports-shadow-current-package change
+    "scalameter",  // no 2.13 upgrade attempted afaict
+    "scalamock",  // macro implementations cannot have implicit parameters other than WeakTypeTag evidences
+    "scalapb",  // master, where 2.13 support is, needs fastparse 2
+    "scalastyle",  // no 2.13 upgrade attempted afaict
+    "scalatest-tests",  // module not found: org.scalactic#scalacticmacro;3.0.8-dbuildx1fc18ed8d484a103fd15bec043bb31de68d9b550 ?!
+    "scribe",  // invalid escape
     "sttp",  // no 2.13 upgrade attempted afaict
-    "tut",
-    "twitter-util",
+    "tut",  // org.scala-sbt#scripted-sbt_2.13.0-pre-06392a5;1.2.8: not found
+    "twitter-util",  // no 2.13 upgrade (an unmerged third-party PR exists, we could try that?)
   )
 
   def apply(log: io.Source): Unit = {
