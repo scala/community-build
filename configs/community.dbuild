@@ -1505,7 +1505,8 @@ build += {
     name: "paradox"
     uri:  ${vars.uris.paradox-uri}
     extra.exclude: ["plugin", "themePlugin", "genericTheme"]
-    check-missing: false  // ignore missing scripted-sbt
+    check-missing: false  // ignore missing scripted-sbt, kind-projector
+    deps.inject: ${vars.base.deps.inject} [ "org.typelevel#kind-projector" ]
     extra.commands: ${vars.default-commands} [
       // flaky test, reported at https://github.com/lightbend/paradox/issues/229
       "set excludeFilter in (Test, unmanagedSources) in tests := HiddenFileFilter || \"VarsDirectiveSpec.scala\""

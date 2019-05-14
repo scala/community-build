@@ -39,6 +39,7 @@ object SuccessReport {
     "akka-persistence-cassandra",  // no 2.13 upgrade attempted afaict
     "akka-persistence-jdbc",  // uses scala.xml.pull, which no longer exists
     "algebra",  // source incompatibility involving catalysts?
+    "case-app",  // shapeless-related compilation errors, looks hairy
     "circe-jackson",  // overloading related compile errors
     "coursier",  // no 2.13 upgrade attempted afaict (Seq-related compile errors)
     "doobie",  // looks like we might be picking up the wrong version-specific sources?
