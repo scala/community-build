@@ -40,6 +40,7 @@ object SuccessReport {
     "algebra",  // source incompatibility involving catalysts?
     "case-app",  // shapeless-related compilation errors, looks hairy
     "circe-jackson",  // overloading related compile errors
+    "classutil",  // some Stream/LazyList confusion?
     "coursier",  // no 2.13 upgrade attempted afaict (Seq-related compile errors)
     "doobie",  // looks like we might be picking up the wrong version-specific sources?
     "eff",  // ambiguous implicits
@@ -48,6 +49,7 @@ object SuccessReport {
     "geny",  // 2.13 work postdates mill build replacing sbt build
     "jawn-0-10",  // no 2.13 upgrade attempted afaik
     "kafka",  // no 2.13 upgrade attempted afaik
+    "kittens",  // Failed tests: cats.derived.HashSuite
     "lift-json",  // no 2.13 upgrade attempted afaik
     "linter",  // no 2.13 upgrade attempted afaict
     "magnolia",  // no 2.13 upgrade attempted afaik
@@ -55,6 +57,7 @@ object SuccessReport {
     "mockito-scala",  // no arguments allowed for nullary method
     "monix",  // no 2.13.0-RC1 upgrade attempted afaik
     "paiges",  // source incompatibility involving catalysts?
+    "paradox",  // no 2.13 upgrade attempted afaict
     "parboiled2",  // ???
     "play-file-watch",  // no 2.13 upgrade attempted afaict
     "play-webgoat",  // "com.typesafe.play#play-omnidoc_2.13.0-pre-bec2441;2.7.0: not found" ?!
@@ -66,9 +69,9 @@ object SuccessReport {
     "scalajson",  // test don't compile, specs2 not found, maybe related to imports-shadow-current-package change
     "scalameter",  // no 2.13 upgrade attempted afaict
     "scalamock",  // macro implementations cannot have implicit parameters other than WeakTypeTag evidences
-    "scalapb",  // master, where 2.13 support is, needs fastparse 2
     "scalastyle",  // no 2.13 upgrade attempted afaict
     "scalatest-tests",  // module not found: org.scalactic#scalacticmacro;3.0.8-dbuildx1fc18ed8d484a103fd15bec043bb31de68d9b550 ?!
+    "scapegoat",  // no 2.13 upgrade attempted afaict
     "scribe",  // invalid escape
     "sttp",  // no 2.13 upgrade attempted afaict
     "tut",  // org.scala-sbt#scripted-sbt_2.13.0-pre-06392a5;1.2.8: not found

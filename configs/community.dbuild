@@ -1574,6 +1574,7 @@ build += {
     deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
     extra.commands: ${vars.default-commands} [
       "removeDependency io.spray spray-json"
+      """set libraryDependencies in ThisBuild += "io.crashbox" %% "spray-json" % "0.0""""
     ]
   }
 
