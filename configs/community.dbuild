@@ -1529,7 +1529,6 @@ build += {
   ${vars.base} {
     name: "akka-persistence-jdbc"
     uri:  ${vars.uris.akka-persistence-jdbc-uri}
-    deps.inject: ${vars.base.deps.inject} ["org.scala-lang.modules#scala-xml"]
 
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
@@ -2338,51 +2337,51 @@ build += {
     uri:  ${vars.uris.circe-config-uri}
   }
 
-  # forked (November 2017, refreshed January 2018) to remove a build.sbt thing that
-  # adds Ammonite, because it isn't a true dependency and we don't want the complication
-  # of Ammonite's own dependency tree (in particular, the jawn versions conflict).
-  # plus in September 2018 we pulled Ammonite from the community build entirely
-  ${vars.base} {
-    name: "pureconfig"
-    uri:  ${vars.uris.pureconfig-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
-    deps.inject: ${vars.base.deps.inject} [
-      // I guess dbuild is getting confused by the extra _1.13
-      "com.github.alexarchambault#scalacheck-shapeless_1.13"
-    ]
-    check-missing: false
-    extra.commands: ${vars.default-commands} [
-      // not sure why we get these errors unless we turn them off
-      "set every conflictWarning := ConflictWarning.disable"
-    ]
-  }
-
-  // in this space because it depends on pureconfig
-  ${vars.base} {
-    name: "refined"
-    uri:  ${vars.uris.refined-uri}
-    // I don't see a project that aggregates just the JVM subprojects, so we name them one by one.
-    // scodecJVM isn't included because the dependency wasn't found, maybe a version mismatch?
-    // it's okay, we don't need to have absolutely every subproject
-    // pureconfigJVM, same, though the problem didn't start until November 2018.  maybe
-    // unfreezing pureconfig (or updating our fork) would fix it, but I'd rather not mess
-    // it with right now.
-    extra.projects: ["catsJVM", "coreJVM", "evalJVM", "jsonpathJVM", "scalacheckJVM", "shapelessJVM"]
-  }
-
-  // in this space because refinedJVM subproject depends on refined
-  ${vars.base} {
-    name: "atto"
-    uri:  ${vars.uris.atto-uri}
-    extra.projects: ["coreJVM", "refinedJVM", "fs2JVM", "testsJVM"]
-  }
-
-  // core doesn't depend on refined, but refinedJVM does.
-  ${vars.base} {
-    name: "decline"
-    uri:  ${vars.uris.decline-uri}
-    extra.projects: ["declineJVM", "refinedJVM"]  // no Scala.js, no doc
-  }
+  // forked (November 2017, refreshed January 2018) to remove a build.sbt thing that
+  // adds Ammonite, because it isn't a true dependency and we don't want the complication
+  // of Ammonite's own dependency tree (in particular, the jawn versions conflict).
+  // plus in September 2018 we pulled Ammonite from the community build entirely
+  // ${vars.base} {
+  //   name: "pureconfig"
+  //   uri:  ${vars.uris.pureconfig-uri}
+  //   extra.sbt-version: ${vars.sbt-0-13-version}
+  //   deps.inject: ${vars.base.deps.inject} [
+  //     // I guess dbuild is getting confused by the extra _1.13
+  //     "com.github.alexarchambault#scalacheck-shapeless_1.13"
+  //   ]
+  //   check-missing: false
+  //   extra.commands: ${vars.default-commands} [
+  //     // not sure why we get these errors unless we turn them off
+  //     "set every conflictWarning := ConflictWarning.disable"
+  //   ]
+  // }
+  //
+  // // in this space because it depends on pureconfig
+  // ${vars.base} {
+  //   name: "refined"
+  //   uri:  ${vars.uris.refined-uri}
+  //   // I don't see a project that aggregates just the JVM subprojects, so we name them one by one.
+  //   // scodecJVM isn't included because the dependency wasn't found, maybe a version mismatch?
+  //   // it's okay, we don't need to have absolutely every subproject
+  //   // pureconfigJVM, same, though the problem didn't start until November 2018.  maybe
+  //   // unfreezing pureconfig (or updating our fork) would fix it, but I'd rather not mess
+  //   // it with right now.
+  //   extra.projects: ["catsJVM", "coreJVM", "evalJVM", "jsonpathJVM", "scalacheckJVM", "shapelessJVM"]
+  // }
+  //
+  // // in this space because refinedJVM subproject depends on refined
+  // ${vars.base} {
+  //   name: "atto"
+  //   uri:  ${vars.uris.atto-uri}
+  //   extra.projects: ["coreJVM", "refinedJVM", "fs2JVM", "testsJVM"]
+  // }
+  //
+  // // core doesn't depend on refined, but refinedJVM does.
+  // ${vars.base} {
+  //   name: "decline"
+  //   uri:  ${vars.uris.decline-uri}
+  //   extra.projects: ["declineJVM", "refinedJVM"]  // no Scala.js, no doc
+  // }
 
   ${vars.base} {
     name: "sttp"
@@ -2451,46 +2450,46 @@ build += {
   // 2.13: tracking series/0.7.x since that's where 2.13 support is landing;
   // perhaps we can movie 2.12.x to 0.7.x as well?  also temporarily forked
   // for kind-projector change
-  ${vars.base} {
-    name: "doobie"
-    uri:  ${vars.uris.doobie-uri}
-    extra.options: ["-Xss16m"]  // prevent stack overflow when compiling build definition
-    extra.commands: ${vars.default-commands} [
-      // as per https://github.com/scala/community-builds/pull/835#issuecomment-455729365,
-      // these subprojects require a Postgres instance for the tests to run
-      "set executeTests in postgres in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-      "set executeTests in `postgres-circe` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-      "set executeTests in example in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-      // 2.13: pull in version-specific source directory
-      """set core/Compile/unmanagedSourceDirectories += baseDirectory.value / "modules" / "core" / "src" / "main" / "scala-2.13.0-M5""""
-    ]
-    // out of scope ("doobie" is just an aggregation, and causes missing-tut error)
-    extra.exclude: ["docs", "doobie", "bench"]
-  }
+  //${vars.base} {
+  //  name: "doobie"
+  //  uri:  ${vars.uris.doobie-uri}
+  //  extra.options: ["-Xss16m"]  // prevent stack overflow when compiling build definition
+  //  extra.commands: ${vars.default-commands} [
+  //    // as per https://github.com/scala/community-builds/pull/835#issuecomment-455729365,
+  //    // these subprojects require a Postgres instance for the tests to run
+  //    "set executeTests in postgres in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+  //    "set executeTests in `postgres-circe` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+  //    "set executeTests in example in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+  //    // 2.13: pull in version-specific source directory
+  //    """set core/Compile/unmanagedSourceDirectories += baseDirectory.value / "modules" / "core" / "src" / "main" / "scala-2.13.0-M5""""
+  //  ]
+  //  // out of scope ("doobie" is just an aggregation, and causes missing-tut error)
+  //  extra.exclude: ["docs", "doobie", "bench"]
+  //}
 
   // dependency of scala-pet-store
-  ${vars.base} {
-    name: "tsec"
-    uri:  ${vars.uris.tsec-uri}
-    extra.exclude: [
-      "microsite", "tsec-bench"  // out of scope
-      "tsec-libsodium"  // java.lang.UnsatisfiedLinkError: no sodiumjni in java.library.path
-      "tsec-examples"  // depends on tsec-libsodium
-    ]
-    check-missing: false  // ignore missing scalafmt
-    // kind-projector org change
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
-    extra.commands: ${vars.default-commands} [
-      "removeDependency org.spire-math kind-projector"
-      """set libraryDependencies in ThisBuild += compilerPlugin("org.typelevel" %% "kind-projector" % "0.10.0")"""
-    ]
-  }
+  //${vars.base} {
+  //  name: "tsec"
+  //  uri:  ${vars.uris.tsec-uri}
+  //  extra.exclude: [
+  //    "microsite", "tsec-bench"  // out of scope
+  //    "tsec-libsodium"  // java.lang.UnsatisfiedLinkError: no sodiumjni in java.library.path
+  //    "tsec-examples"  // depends on tsec-libsodium
+  //  ]
+  //  check-missing: false  // ignore missing scalafmt
+  //  // kind-projector org change
+  //  deps.ignore: ["org.spire-math#kind-projector"]
+  //  deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+  //  extra.commands: ${vars.default-commands} [
+  //    "removeDependency org.spire-math kind-projector"
+  //    """set libraryDependencies in ThisBuild += compilerPlugin("org.typelevel" %% "kind-projector" % "0.10.0")"""
+  //  ]
+  //}
 
   // 2.13: using branch until https://github.com/pauljamescleary/scala-pet-store/pull/142 is merged
-  ${vars.base} {
-    name: "scala-pet-store"
-    uri:  ${vars.uris.scala-pet-store-uri}
-  }
+  //${vars.base} {
+  //  name: "scala-pet-store"
+  //  uri:  ${vars.uris.scala-pet-store-uri}
+  //}
 
 ]}
