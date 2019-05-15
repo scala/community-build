@@ -1741,12 +1741,6 @@ build += {
       // and I empirically found scalafix and/or scalafmt to need:
       "testkit", "contribJVM", "symtab", "metapJVM"
     ]
-    // use right version-specific source directories regardless of our weird dbuild Scala version numbers
-    extra.commands: ${vars.default-commands} [
-      "set unmanagedSourceDirectories in (commonJVM, Compile) += (baseDirectory in commonJVM).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (dialectsJVM, Compile) += (baseDirectory in dialectsJVM).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (semanticdbScalacCore, Compile) += (baseDirectory in semanticdbScalacCore).value / \"src\" / \"main\" / \"scala-2.12.6\""
-    ]
   }
 
   // dependency of scaladex (via akka-http-json)
@@ -1925,7 +1919,7 @@ build += {
   {
     name: "shaded-scalajson"
     system: ivy
-    uri: "ivy:com.eed3si9n#shaded-scalajson_2.12;1.0.0-M4"
+    uri: "ivy:com.eed3si9n#shaded-scalajson_2.11;1.0.0-M4"
   }
 
   ${vars.base} {
