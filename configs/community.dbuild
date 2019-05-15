@@ -2277,6 +2277,8 @@ build += {
     uri:  ${vars.uris.circe-config-uri}
   }
 
+  // forked (May 2019) from May 2019 commit to allow building on JDK 9+,
+  // as per https://github.com/scala/community-builds/pull/906#issuecomment-492482343
   ${vars.base} {
     name: "pureconfig"
     uri:  ${vars.uris.pureconfig-uri}
