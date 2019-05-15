@@ -346,11 +346,7 @@ build += {
     check-missing: false
   }
 
-  // frozen at v1.6.0 tag because dependencies have historically been fragile.
-  // (perhaps this is overly cautious now, in 2019? not sure)
-  // and forked (February 2019) from that tag to make some tiny ScalaCheck 1.13 vs 1.14 tweaks so tests pass
-  // 2.13: master is where 2.13 support is; frozen (May 2019) at April 2019 commit
-  // before ScalaTest 3.1 upgrade
+  // 2.13: master is where 2.13 support is
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
@@ -364,10 +360,6 @@ build += {
       "kernelLawsJVM", "alleycatsCoreJVM"
     ]
     extra.exclude: [
-      // failing as of Nov 14 2018, not investigated.
-      // for now we're mainly interested in letting downstream projects build,
-      // less interested in making every test pass, but perhaps we can come back to this before RC1
-      "alleycatsTestsJVM"
       // out of scope
       "bench", "docs"
     ]
@@ -376,21 +368,6 @@ build += {
     // just fluctuate :-/  I've been gradually increasing this trying to fix an OOM in
     // ApplicativeSuite.  the repo's own .jvmopts has 6g
     extra.options: ["-Xmx6g"]
-    extra.commands: ${vars.default-commands} [
-      // 2.13: see https://github.com/typelevel/cats/issues/2347
-      "set sources in doc in Compile in core.jvm := List()"
-      "set sources in doc in Compile in alleycatsCore.jvm := List()"
-      // 2.13: sigh, https://github.com/typelevel/cats/issues/2360
-      // 2.13: SortedMapSuite/SortedSetSuite: some hashing thing, the cats team will presumably hit & fix it
-      // 2.13: ChainSuite: cause unclear, the cats team will presumably hit & fix it
-      "set excludeFilter in (Test, unmanagedSources) in tests.jvm := HiddenFileFilter || \"OpSuite.scala\" || \"SortedSetSuite.scala\" || \"SortedMapSuite.scala\" || \"ChainSuite.scala\""
-      // 2.13: some hashing thing, the cats team will presumably hit & fix it
-      "set excludeFilter in (Test, unmanagedSources) in kernelLaws.jvm := HiddenFileFilter || \"LawTests.scala\""
-    ]
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   ${vars.base} {
