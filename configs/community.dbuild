@@ -1541,10 +1541,25 @@ build += {
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
       """set libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "1.2.0" % "test""""
-      "show Test/dependencyClasspath"
     ]
     // at least one test was hanging
     extra.test-tasks: "compile"
+  }
+
+  // dependency of lagom
+  ${vars.base} {
+    name: "akka-management"
+    uri:  ${vars.uris.akka-management-uri}
+
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.test-tasks: "compile"
+  }
+
+  // TODO: drop, but here as backstop for lagom (no kafka yet for 2.13)
+  {
+    name: "akka-stream-kafka-ivy"
+    system: ivy
+    uri: "ivy:com.typesafe.akka#akka-stream-kafka_2.12;1.0.2"
   }
 
   // there are a *ton* of subprojects.  it might be interesting to try to add
@@ -1554,9 +1569,8 @@ build += {
   ${vars.base} {
     name: "lagom"
     uri:  ${vars.uris.lagom-uri}
-//    extra.sbt-version: ${vars.sbt-0-13-version}
     // these pull in a number of dependent projects
-    // extra.projects: ["server", "testkit-scaladsl"]
+    extra.projects: ["api-scaladsl", "client-scaladsl", "server-scaladsl", "persistence-scaladsl"]
     extra.options: [
       // hopefully avoid intermittent OutOfMemoryErrors with default heap
       "-Xmx2g"
