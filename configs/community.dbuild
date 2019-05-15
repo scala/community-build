@@ -1590,7 +1590,15 @@ build += {
     ]
     // [error] **** Missing dependency: the library org.scala-sbt#scripted-plugin is not provided (in space "scala.main") by any project in this configuration file.
     check-missing: false
-    deps.ignore: ["org.scala-sbt#scripted-plugin"]
+    deps.ignore: ["org.scala-sbt#scripted-plugin", "io.spray#spray-json"]
+
+    // spray org change
+    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
+    extra.commands: ${vars.default-commands} [
+      "removeDependency io.spray spray-json"
+      """set libraryDependencies in ThisBuild += "io.crashbox" %% "spray-json" % "0.0""""
+    ]
+
   }
 
   // not (as of January 2018 anyway) an actively maintained project, so it's
