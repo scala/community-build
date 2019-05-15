@@ -1569,6 +1569,9 @@ build += {
       // more flaky tests I haven't reported upstream
       "set excludeFilter in (Test, unmanagedSources) in `server-scaladsl` := HiddenFileFilter || \"LagomApplicationSpec.scala\""
     ]
+    // [error] **** Missing dependency: the library org.scala-sbt#scripted-plugin is not provided (in space "scala.main") by any project in this configuration file.
+    check-missing: false
+    deps.ignore: ["org.scala-sbt#scripted-plugin"]
   }
 
   // not (as of January 2018 anyway) an actively maintained project, so it's
