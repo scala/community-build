@@ -36,7 +36,6 @@ object SuccessReport {
     // old list of reasons for the failures are at https://github.com/scala/bug/issues/11453
     // could be reapplied here but would need updating
     "akka-contrib-extra",  // no 2.13 upgrade attempted afaict
-    "akka-persistence-cassandra",  // no 2.13 upgrade attempted afaict
     "akka-persistence-jdbc",  // uses scala.xml.pull, which no longer exists
     "algebra",  // source incompatibility involving catalysts?
     "case-app",  // shapeless-related compilation errors, looks hairy
@@ -59,7 +58,6 @@ object SuccessReport {
     "parboiled2",  // ???
     "play-file-watch",  // no 2.13 upgrade attempted afaict
     "play-webgoat",  // "com.typesafe.play#play-omnidoc_2.13.0-pre-bec2441;2.7.0: not found" ?!
-    "scala-collection-contrib",  // needs code changes related to Ordering
     "scala-gopher",  // no 2.13 upgrade attempted afaict
     "scala-java-time",  // ScalaTest 3.0 vs 3.1 compile errors, I think?
     "scala-refactoring",  // postfixOps
