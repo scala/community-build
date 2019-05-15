@@ -1084,6 +1084,9 @@ build += {
     uri:  ${vars.uris.lift-json-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["lift-json"]
+    extra.commands: ${vars.default-commands} [
+      """set libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "1.2.0""""
+    ]
   }
 
   ${vars.base} {
@@ -1514,6 +1517,8 @@ build += {
       // kind projector org change
       """set libraryDependencies in ThisBuild += compilerPlugin("org.typelevel" %% "kind-projector" % "0.10.0")"""
     ]
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   // dependency of lagom. forked (August 2018) at last green version,
