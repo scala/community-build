@@ -1506,7 +1506,8 @@ build += {
     name: "paradox"
     uri:  ${vars.uris.paradox-uri}
     extra.exclude: ["plugin", "themePlugin", "genericTheme"]
-    check-missing: false  // ignore missing scripted-sbt
+    check-missing: false  // ignore missing scripted-sbt, kind-projector
+    deps.inject: ${vars.base.deps.inject} [ "org.typelevel#kind-projector" ]
     extra.commands: ${vars.default-commands} [
       // flaky test, reported at https://github.com/lightbend/paradox/issues/229
       "set excludeFilter in (Test, unmanagedSources) in tests := HiddenFileFilter || \"VarsDirectiveSpec.scala\""
@@ -1576,6 +1577,7 @@ build += {
     deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
     extra.commands: ${vars.default-commands} [
       "removeDependency io.spray spray-json"
+      """set libraryDependencies in ThisBuild += "io.crashbox" %% "spray-json" % "0.0""""
     ]
   }
 
@@ -2340,51 +2342,48 @@ build += {
     uri:  ${vars.uris.circe-config-uri}
   }
 
-  // forked (November 2017, refreshed January 2018) to remove a build.sbt thing that
-  // adds Ammonite, because it isn't a true dependency and we don't want the complication
-  // of Ammonite's own dependency tree (in particular, the jawn versions conflict).
-  // plus in September 2018 we pulled Ammonite from the community build entirely
-  // ${vars.base} {
-  //   name: "pureconfig"
-  //   uri:  ${vars.uris.pureconfig-uri}
-  //   extra.sbt-version: ${vars.sbt-0-13-version}
-  //   deps.inject: ${vars.base.deps.inject} [
-  //     // I guess dbuild is getting confused by the extra _1.13
-  //     "com.github.alexarchambault#scalacheck-shapeless_1.13"
-  //   ]
-  //   check-missing: false
-  //   extra.commands: ${vars.default-commands} [
-  //     // not sure why we get these errors unless we turn them off
-  //     "set every conflictWarning := ConflictWarning.disable"
-  //   ]
-  // }
-  //
-  // // in this space because it depends on pureconfig
-  // ${vars.base} {
-  //   name: "refined"
-  //   uri:  ${vars.uris.refined-uri}
-  //   // I don't see a project that aggregates just the JVM subprojects, so we name them one by one.
-  //   // scodecJVM isn't included because the dependency wasn't found, maybe a version mismatch?
-  //   // it's okay, we don't need to have absolutely every subproject
-  //   // pureconfigJVM, same, though the problem didn't start until November 2018.  maybe
-  //   // unfreezing pureconfig (or updating our fork) would fix it, but I'd rather not mess
-  //   // it with right now.
-  //   extra.projects: ["catsJVM", "coreJVM", "evalJVM", "jsonpathJVM", "scalacheckJVM", "shapelessJVM"]
-  // }
-  //
-  // // in this space because refinedJVM subproject depends on refined
-  // ${vars.base} {
-  //   name: "atto"
-  //   uri:  ${vars.uris.atto-uri}
-  //   extra.projects: ["coreJVM", "refinedJVM", "fs2JVM", "testsJVM"]
-  // }
-  //
-  // // core doesn't depend on refined, but refinedJVM does.
-  // ${vars.base} {
-  //   name: "decline"
-  //   uri:  ${vars.uris.decline-uri}
-  //   extra.projects: ["declineJVM", "refinedJVM"]  // no Scala.js, no doc
-  // }
+  // forked (May 2019) from May 2019 commit to allow building on JDK 9+,
+  // as per https://github.com/scala/community-builds/pull/906#issuecomment-492482343
+  ${vars.base} {
+    name: "pureconfig"
+    uri:  ${vars.uris.pureconfig-uri}
+    deps.inject: ${vars.base.deps.inject} [
+      // I guess dbuild is getting confused by the extra _1.13
+      "com.github.alexarchambault#scalacheck-shapeless_1.13"
+    ]
+    check-missing: false
+    extra.commands: ${vars.default-commands} [
+      // not sure why we get these errors unless we turn them off
+      "set every conflictWarning := ConflictWarning.disable"
+    ]
+  }
+
+  // in this space because it depends on pureconfig
+  ${vars.base} {
+    name: "refined"
+    uri:  ${vars.uris.refined-uri}
+    // I don't see a project that aggregates just the JVM subprojects, so we name them one by one.
+    // scodecJVM isn't included because the dependency wasn't found, maybe a version mismatch?
+    // it's okay, we don't need to have absolutely every subproject
+    // pureconfigJVM, same, though the problem didn't start until November 2018.  maybe
+    // unfreezing pureconfig (or updating our fork) would fix it, but I'd rather not mess
+    // it with right now.
+    extra.projects: ["catsJVM", "coreJVM", "evalJVM", "jsonpathJVM", "scalacheckJVM", "shapelessJVM"]
+  }
+
+  // in this space because refinedJVM subproject depends on refined
+  ${vars.base} {
+    name: "atto"
+    uri:  ${vars.uris.atto-uri}
+    extra.projects: ["coreJVM", "refinedJVM", "fs2JVM", "testsJVM"]
+  }
+
+  // core doesn't depend on refined, but refinedJVM does.
+  ${vars.base} {
+    name: "decline"
+    uri:  ${vars.uris.decline-uri}
+    extra.projects: ["declineJVM", "refinedJVM"]  // no Scala.js, no doc
+  }
 
   ${vars.base} {
     name: "sttp"
