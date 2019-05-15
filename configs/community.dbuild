@@ -1835,27 +1835,6 @@ build += {
     deps.ignore: ["com.geirsson#coursier-small"]
   }
 
-  // I know, it's a little weird to include my personal Project Euler
-  // solutions, but it's actually a pretty broad-ranging assortment of
-  // small, self-contained tests of the collections API. It has
-  // caught many Scala bugs over the years. - Seth
-  // 2.12: frozen at last commit before 2.13.x upgrade (there is no cross-build)
-  ${vars.base} {
-    name: "euler"
-    uri:  ${vars.uris.euler-uri}
-    // some solutions are heap-hungry. avoiding parallel execution prevents
-    // intermittent OOM issue
-    extra.commands: ${vars.default-commands} [
-      "set parallelExecution in Test := false"
-    ]
-    // hungry hungry heapos
-    extra.options: ["-Xmx4g"]
-    extra.commands: ${vars.default-commands} [
-      // this can be removed once https://github.com/scala/scala/pull/6828 is merged
-      "set excludeFilter in (Test, unmanagedSources) := HiddenFileFilter || \"75.scala\" || \"95.scala\""
-    ]
-  }
-
   ${vars.base} {
     name: "airframe"
     uri:  ${vars.uris.airframe-uri}
