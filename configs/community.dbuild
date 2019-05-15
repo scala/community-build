@@ -2339,14 +2339,11 @@ build += {
     uri:  ${vars.uris.circe-config-uri}
   }
 
-  # forked (November 2017, refreshed January 2018) to remove a build.sbt thing that
-  # adds Ammonite, because it isn't a true dependency and we don't want the complication
-  # of Ammonite's own dependency tree (in particular, the jawn versions conflict).
-  # plus in September 2018 we pulled Ammonite from the community build entirely
+  // forked (May 2019) from May 2019 commit to allow building on JDK 9+,
+  // as per https://github.com/scala/community-builds/pull/906#issuecomment-492482343
   ${vars.base} {
     name: "pureconfig"
     uri:  ${vars.uris.pureconfig-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     deps.inject: ${vars.base.deps.inject} [
       // I guess dbuild is getting confused by the extra _1.13
       "com.github.alexarchambault#scalacheck-shapeless_1.13"
