@@ -1548,17 +1548,18 @@ build += {
   ${vars.base} {
     name: "lagom"
     uri:  ${vars.uris.lagom-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
+//    extra.sbt-version: ${vars.sbt-0-13-version}
     // these pull in a number of dependent projects
-    extra.projects: ["server", "testkit-scaladsl"]
+    // extra.projects: ["server", "testkit-scaladsl"]
     extra.options: [
       // hopefully avoid intermittent OutOfMemoryErrors with default heap
       "-Xmx2g"
     ]
+    extra.test-tasks: "compile"
     extra.commands: ${vars.default-commands} [
       // tests in these subprojects are too slow and (more importantly) too fragile
-      "set executeTests in `persistence-cassandra-scaladsl` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-      "set executeTests in `testkit-scaladsl` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+      // "set executeTests in `persistence-cassandra-scaladsl` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+      // "set executeTests in `testkit-scaladsl` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
       // more flaky tests I haven't reported upstream
       "set excludeFilter in (Test, unmanagedSources) in `server-scaladsl` := HiddenFileFilter || \"LagomApplicationSpec.scala\""
     ]
