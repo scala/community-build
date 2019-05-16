@@ -1086,6 +1086,9 @@ build += {
   ${vars.base} {
     name: "monocle"
     uri:  ${vars.uris.monocle-uri}
+    // failed extraction on 1.3; not investigated
+    // error: type mismatch; found: String("org.typelevel") required: ?{def %%%(x$1: ? >: String("cats-core")): ?}
+    extra.sbt-version: ${vars.sbt-1-2-version}
     // try to enable more subprojects?
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM", "genericJVM"]
     // kind-projector org change
@@ -1219,6 +1222,9 @@ build += {
   ${vars.base} {
     name: "blaze"
     uri: ${vars.uris.blaze-uri}
+    // failed extraction on 1.3; not investigated
+    // [blaze] [error] (update) sbt.librarymanagement.ResolveException: Error downloading org.xerial.sbt:sbt-sonatype;sbtVersion=1.0;scalaVersion=2.12:1.1
+    extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
   ${vars.base} {
@@ -1367,6 +1373,9 @@ build += {
   ${vars.base} {
     name: "sbt-io"
     uri:  ${vars.uris.sbt-io-uri}
+    // failed extraction on 1.3; not investigated
+    // sbt.librarymanagement.ResolveException: Error downloading org.boris:pecoff4j:0.0.2.1
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     // we have to disable this early (extra.commands isn't soon enough)
     // or scalafmt will run `update` and `cloc-plugin` won't be found
@@ -1962,6 +1971,9 @@ build += {
   ${vars.base} {
     name: "sbt-util"
     uri:  ${vars.uris.sbt-util-uri}
+    // failed extraction on 1.3; not investigated
+    // sbt.librarymanagement.ResolveException: Error downloading org.boris:pecoff4j:0.0.2.1
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     check-missing: false  // ignore missing scalafmt
     extra.commands: ${vars.default-commands} [
@@ -1972,6 +1984,9 @@ build += {
   ${vars.base} {
     name: "sbt-librarymanagement"
     uri:  ${vars.uris.sbt-librarymanagement-uri}
+    // failed extraction on 1.3; not investigated
+    // sbt.librarymanagement.ResolveException: Error downloading org.boris:pecoff4j:0.0.2.1
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     // we have to disable this early (extra.commands isn't soon enough)
     // or scalafmt will run `update` and `cloc-plugin` won't be found
@@ -2390,6 +2405,7 @@ build += {
   ${vars.base} {
     name: "doobie"
     uri:  ${vars.uris.doobie-uri}
+    extra.options: ["-Xss16m"]  // prevent stack overflow when compiling build definition
     extra.commands: ${vars.default-commands} [
       // as per https://github.com/scala/community-builds/pull/835#issuecomment-455729365,
       // these subprojects require a Postgres instance for the tests to run
