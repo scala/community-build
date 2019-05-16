@@ -61,7 +61,6 @@ object SuccessReport {
     "scala-gopher",  // no 2.13 upgrade attempted afaict
     "scala-java-time",  // ScalaTest 3.0 vs 3.1 compile errors, I think?
     "scala-refactoring",  // postfixOps
-    "scala-sculpt",  // one test failure, not urgent to investigate
     "scala-stm",  // still using JavaConversions
     "scala-xml-quote",  // Unit companion object not allowed in source
     "scalajson",  // test don't compile, specs2 not found, maybe related to imports-shadow-current-package change
