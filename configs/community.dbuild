@@ -2209,6 +2209,9 @@ build += {
 
   // this is a big build with a ton of subprojects.  we needn't be shy
   // about disabling fragile ones, ones with obscure dependencies we don't have, etc.
+  // frozen May 2019 at a May 2019 commit just before a blaze test started failing; I see
+  // the failure in their own CI (perhaps it was a semantic merge conflict?), so probably
+  // we'll be able to unfreeze promptly
   ${vars.base} {
     name: "http4s"
     uri:  ${vars.uris.http4s-uri}
@@ -2254,19 +2257,20 @@ build += {
     uri:  ${vars.uris.circe-config-uri}
   }
 
-  // forked (May 2019) from May 2019 commit to allow building on JDK 9+,
-  // as per https://github.com/scala/community-builds/pull/906#issuecomment-492482343
   ${vars.base} {
     name: "pureconfig"
     uri:  ${vars.uris.pureconfig-uri}
     deps.inject: ${vars.base.deps.inject} [
       // I guess dbuild is getting confused by the extra _1.13
       "com.github.alexarchambault#scalacheck-shapeless_1.13"
+      // not sure why we aren't getting this dependency
+      "org.scala-lang.modules#scala-collection-compat"
     ]
     check-missing: false
     extra.commands: ${vars.default-commands} [
       // not sure why we get these errors unless we turn them off
       "set every conflictWarning := ConflictWarning.disable"
+      "set libraryDependencies in ThisBuild += \"org.scala-lang.modules\" %% \"scala-collection-compat\" % \"0.0.0\""
     ]
   }
 
