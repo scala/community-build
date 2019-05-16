@@ -65,6 +65,7 @@ object SuccessReport {
     "scala-stm",  // still using JavaConversions
     "scala-xml-quote",  // Unit companion object not allowed in source
     "scalajson",  // test don't compile, specs2 not found, maybe related to imports-shadow-current-package change
+    "scalameta",  // no 2.13 upgrade attempted afaict
     "scalameter",  // no 2.13 upgrade attempted afaict
     "scalamock",  // macro implementations cannot have implicit parameters other than WeakTypeTag evidences
     "scalastyle",  // no 2.13 upgrade attempted afaict
