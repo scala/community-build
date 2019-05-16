@@ -802,7 +802,6 @@ build += {
   ${vars.base} {
     name: "geny"
     uri:  ${vars.uris.geny-uri}
-    extra.projects: ["genyJVM"]  // no Scala.js plz
   }
 
   ${vars.base} {

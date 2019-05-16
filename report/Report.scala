@@ -45,7 +45,6 @@ object SuccessReport {
     "eff",  // ambiguous implicits
     "elastic4s",  // no 2.13 upgrade attempted afaict (Seq-related compile errors)
     "enumeratum",  // strange dependency error, maybe dbuild-specific? idk
-    "geny",  // 2.13 work postdates mill build replacing sbt build
     "jawn-0-10",  // no 2.13 upgrade attempted afaik
     "kafka",  // no 2.13 upgrade attempted afaik
     "kittens",  // Failed tests: cats.derived.HashSuite
