@@ -43,7 +43,8 @@ include file(".dbuild/resolvers.conf")
 vars {
   default-commands: []
   sbt-0-13-version: "0.13.18"
-  sbt-version: "1.2.8"
+  sbt-1-2-version: "1.2.8"
+  sbt-version: "1.3.0-RC1"
 }
 
 //// compiler options manipulation
@@ -394,6 +395,9 @@ build += {
   ${vars.base} {
     name: "genjavadoc"
     uri:  ${vars.uris.genjavadoc-uri}
+    // failed compilation on 1.3; not investigated
+    // [genjavadoc] [error] java.io.FileNotFoundException: /home/jenkins/workspace/scala-2.12.x-integrate-community-build/target-0.9.16/project-builds/genjavadoc-b903def1d2bae4166747cc3b089a06c0da762fa3/plugin/target/scala-2.12/classes/com/typesafe/genjavadoc/BaseComments.class (No such file or directory)
+    extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
   // if master proves difficult to track, the 0.6.x branch could be
@@ -454,6 +458,9 @@ build += {
   ${vars.base} {
     name: "mockito-scala"
     uri:  ${vars.uris.mockito-scala-uri}
+    // failed test on 1.3; not investigated
+    // [mockito-scala] [error] Test suite org.mockito.MockitoSugarTest failed with java.lang.IllegalAccessError: org/mockito/internal/handler/InvocationNotifierHandler. This may be due to the ClassLoaderLayeringStrategy (TestDependencies) used by your task.
+    extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
   // frozen (April 2019) at v2.5.22.  this repo is volatile
@@ -579,6 +586,9 @@ build += {
   ${vars.base} {
     name: "akka-stream"
     uri:  ${vars.uris.akka-uri}
+    // doc failures on 1.3; not investigated
+    // Unexpected javac output: javadoc: error - invalid flag: --ignore-source-errors.
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"
       // repo readme recommended
       "-Xmx2g"
@@ -719,6 +729,9 @@ build += {
   ${vars.base} {
     name: "acyclic"
     uri:  ${vars.uris.acyclic-uri}
+    // test failures on 1.3; not investigated
+    // object scala in compiler mirror not found
+    extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
   ${vars.base} {
@@ -816,6 +829,9 @@ build += {
   ${vars.base} {
     name: "parboiled2"
     uri:  ${vars.uris.parboiled2-uri}
+    // failed compilation on 1.3; not investigated
+    // java.util.zip.ZipException: duplicate entry: LICENSE
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: ["parboiledJVM", "examples"]
     extra.commands: ${vars.base.extra.commands} [
       // errors, who knows why
@@ -972,6 +988,9 @@ build += {
   ${vars.base} {
     name: "twirl"
     uri:  ${vars.uris.twirl-uri}
+    // failed tests on 1.3; not investigated
+    // It looks like the scala-xml module is missing; try adding a dependency on "org.scala-lang.modules" : "scala-xml"
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.exclude: ["plugin", "apiJS"]
     deps.ignore: ["org.scala-sbt#scripted-plugin"]
     check-missing: false
@@ -980,6 +999,8 @@ build += {
   ${vars.base} {
     name: "play-doc"
     uri:  ${vars.uris.play-doc-uri}
+    // failed compilation on 1.3; not investigated
+    extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
   ${vars.base} {
@@ -1085,6 +1106,9 @@ build += {
   ${vars.base} {
     name: "monocle"
     uri:  ${vars.uris.monocle-uri}
+    // failed extraction on 1.3; not investigated
+    // error: type mismatch; found: String("org.typelevel") required: ?{def %%%(x$1: ? >: String("cats-core")): ?}
+    extra.sbt-version: ${vars.sbt-1-2-version}
     // try to enable more subprojects?
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM", "genericJVM"]
     // kind-projector org change
@@ -1212,12 +1236,17 @@ build += {
     name: "log4s"
     uri:  ${vars.uris.log4s-uri}
     extra.exclude: ["coreJS", "testingJS"]
+    // failed tests on 1.3; not investigated
+    extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
   // frozen (April 2019) at v0.14.0 tag since that's the version http4s wants
   ${vars.base} {
     name: "blaze"
     uri: ${vars.uris.blaze-uri}
+    // failed extraction on 1.3; not investigated
+    // [blaze] [error] (update) sbt.librarymanagement.ResolveException: Error downloading org.xerial.sbt:sbt-sonatype;sbtVersion=1.0;scalaVersion=2.12:1.1
+    extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
   ${vars.base} {
@@ -1295,6 +1324,9 @@ build += {
   ${vars.base} {
     name: "paiges"
     uri:  ${vars.uris.paiges-uri}
+    // failed tests on 1.3; not investigated
+    // Test suite org.typelevel.paiges.LawTests failed with java.lang.ClassNotFoundException: org.typelevel.paiges.CatsDocument$$anon$1. This may be due to the ClassLoaderLayeringStrategy (TestDependencies) used by your task
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: ["coreJVM", "catsJVM"]  // but not "benchmark"
   }
 
@@ -1366,6 +1398,9 @@ build += {
   ${vars.base} {
     name: "sbt-io"
     uri:  ${vars.uris.sbt-io-uri}
+    // failed extraction on 1.3 (ResolveException on org.boris:pecoff4j:0.0.2.1);
+    // see remarks at https://github.com/scala/community-builds/pull/909
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     // we have to disable this early (extra.commands isn't soon enough)
     // or scalafmt will run `update` and `cloc-plugin` won't be found
@@ -1694,6 +1729,9 @@ build += {
     // hopefully avoid intermittent OutOfMemoryErrors during compilation
     extra.options: ["-Xmx2560m"]
     extra.projects: ["spireJVM"]  // no Scala.js please
+    extra.exclude: ["benchmark"]  // out of scope
+    // failed resolution on 1.3; not investigated
+    extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
   ${vars.base} {
@@ -1773,6 +1811,9 @@ build += {
   ${vars.base} {
     name: "metaconfig"
     uri:  ${vars.uris.metaconfig-uri}
+    // compilation failures on 1.3; not investigated
+    // object ConfShow is not a member of package metaconfig
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: ["hoconJVM", "typesafe"]  // no Scala.js plz
     // I guess dbuild is getting confused by the extra _1.13?
     deps.ignore: ["com.github.alexarchambault#scalacheck-shapeless"]
@@ -1863,6 +1904,9 @@ build += {
   ${vars.base} {
     name: "kafka"
     uri:  ${vars.uris.kafka-uri}
+    // failed compilation on 1.3; not investigated
+    //  cannot find symbol; symbol: class MockTime
+    extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
   ${vars.base} {
@@ -1961,6 +2005,9 @@ build += {
   ${vars.base} {
     name: "sbt-util"
     uri:  ${vars.uris.sbt-util-uri}
+    // failed extraction on 1.3 (ResolveException on org.boris:pecoff4j:0.0.2.1);
+    // see remarks at https://github.com/scala/community-builds/pull/909
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     check-missing: false  // ignore missing scalafmt
     extra.commands: ${vars.default-commands} [
@@ -1971,6 +2018,9 @@ build += {
   ${vars.base} {
     name: "sbt-librarymanagement"
     uri:  ${vars.uris.sbt-librarymanagement-uri}
+    // failed extraction on 1.3 (ResolveException on org.boris:pecoff4j:0.0.2.1);
+    // see remarks at https://github.com/scala/community-builds/pull/909
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     // we have to disable this early (extra.commands isn't soon enough)
     // or scalafmt will run `update` and `cloc-plugin` won't be found
@@ -2178,6 +2228,9 @@ build += {
   ${vars.base} {
     name: "circe"
     uri:  ${vars.uris.circe-uri}
+    // failed compilation on 1.3; not investigated
+    // Symbol 'type io.circe.java8.time.JavaTimeDecoders' is missing from the classpath
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: [
       // easy
       "coreJVM", "numbersJVM"
@@ -2201,6 +2254,9 @@ build += {
   ${vars.base} {
     name: "http4s-parboiled2"
     uri:  ${vars.uris.http4s-parboiled2-uri}
+    // failed compilation on 1.3; not investigated
+    // java.util.zip.ZipException: duplicate entry: LICENSE
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: ["parboiledJVM"]
     extra.commands: ${vars.base.extra.commands} [
       // otherwise sbt-gpg errors on `publish`
@@ -2278,6 +2334,10 @@ build += {
   ${vars.base} {
     name: "circe-config"
     uri:  ${vars.uris.circe-config-uri}
+    // test failures on 1.3; not investigated
+    // [circe-config] [error] Test suite io.circe.config.CirceConfigLaws failed with java.lang.ClassNotFoundException: io.circe.config.parser$.
+    // [circe-config] [error] This may be due to the ClassLoaderLayeringStrategy (TestDependencies) used by your task.
+    extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
   ${vars.base} {
@@ -2372,6 +2432,8 @@ build += {
   ${vars.base} {
     name: "circe-derivation"
     uri:  ${vars.uris.circe-derivation-uri}
+    // test failures on 1.3; not investigated
+    extra.sbt-version: ${vars.sbt-1-2-version}
     // there are some others, but really just trying to get lsp4s going at the moment
     extra.projects: ["derivation", "annotations"]
   }
@@ -2381,6 +2443,10 @@ build += {
   ${vars.base} {
     name: "circe-jackson"
     uri:  ${vars.uris.circe-jackson-uri}
+    // test failures on 1.3; not investigated
+    // [circe-jackson] [error] Test suite io.circe.jackson.JacksonParserSuite failed with java.lang.ClassNotFoundException: io.circe.jackson.package$.
+    // [circe-jackson] [error] This may be due to the ClassLoaderLayeringStrategy (TestDependencies) used by your task.
+    extra.sbt-version: ${vars.sbt-1-2-version}
     // there are some others, but for now, just trying to get github4s green again
     extra.projects: ["jackson28"]
   }
@@ -2389,6 +2455,7 @@ build += {
   ${vars.base} {
     name: "doobie"
     uri:  ${vars.uris.doobie-uri}
+    extra.options: ["-Xss16m"]  // prevent stack overflow when compiling build definition
     extra.commands: ${vars.default-commands} [
       // as per https://github.com/scala/community-builds/pull/835#issuecomment-455729365,
       // these subprojects require a Postgres instance for the tests to run
@@ -2396,7 +2463,7 @@ build += {
       "set executeTests in `postgres-circe` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
       "set executeTests in example in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
     ]
-    extra.exclude: ["docs", "doobie"]  // out of scope ("doobie" is just an aggregation, and causes missing-tut error)
+    extra.exclude: ["docs", "doobie", "bench"]  // out of scope ("doobie" is just an aggregation, and causes missing-tut error)
     // kind-projector org change
     check-missing: false
     deps.ignore: ["org.spire-math#kind-projector"]
