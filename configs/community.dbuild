@@ -1740,6 +1740,12 @@ build += {
     extra.options: ["-Xmx2560m"]
     // this is all of spireJVM but omitting "benchmark". just excluding "benchmark" didn't work, idk why
     extra.projects: ["legacyJVM", "dataJVM", "macrosJVM", "utilJVM", "platformJVM", "coreJVM", "extrasJVM", "lawsJVM", "examples", "testsJVM", "spireJVM"]
+    extra.exclude: ["benchmark"]
+    extra.commands: ${vars.base.extra.commands} [
+      "removeDependency org.openjdk.jmh jmh-core"
+      "removeDependency org.openjdk.jmh jmh-generator-bytecode"
+      "removeDependency org.openjdk.jmh jmh-generator-reflection"
+    ]
   }
 
   ${vars.base} {
