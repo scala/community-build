@@ -1389,6 +1389,9 @@ build += {
   ${vars.base} {
     name: "play-webgoat"
     uri: ${vars.uris.play-webgoat-uri}
+    // compilation failure on 1.3; not investigated
+    // object index is not a member of package views.html
+    extra.sbt-version: ${vars.sbt-1-2-version}
     // not sure how this gets pulled in but it's just doc not code, I think?
     // so let's just ignore that it's missing
     check-missing: false
@@ -1735,10 +1738,8 @@ build += {
     uri:  ${vars.uris.spire-uri}
     // hopefully avoid intermittent OutOfMemoryErrors during compilation
     extra.options: ["-Xmx2560m"]
-    extra.projects: ["spireJVM"]  // no Scala.js please
-    extra.exclude: ["benchmark"]  // out of scope
-    // failed resolution on 1.3; not investigated
-    extra.sbt-version: ${vars.sbt-1-2-version}
+    // this is all of spireJVM but omitting "benchmark". just excluding "benchmark" didn't work, idk why
+    extra.projects: ["legacyJVM", "dataJVM", "macrosJVM", "utilJVM", "platformJVM", "coreJVM", "extrasJVM", "lawsJVM", "examples", "testsJVM", "spireJVM"]
   }
 
   ${vars.base} {
