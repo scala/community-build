@@ -1050,6 +1050,9 @@ build += {
   ${vars.base} {
     name: "playframework"
     uri:  ${vars.uris.playframework-uri}
+    // compilation failure on 1.3; not investigated
+    // dev-mode/routes-compiler/src/main/scala/play/routes/compiler/RoutesGenerator.scala:171:5: not found: value static
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.exclude: [
       "Play-Docs", "Sbt-Plugin", "Play-Docs-Sbt-Plugin"  // out of scope
       "Play-Integration-Test"  // TODO/WIP, see https://github.com/scala/community-builds/pull/819
@@ -1128,6 +1131,9 @@ build += {
   ${vars.base} {
     name: "scala-ssh"
     uri:  ${vars.uris.scala-ssh-uri}
+    // compilation failure on 1.3; not investigated
+    // src/main/scala/com/decodified/scalassh/ScpTransferable.scala:53:75: no arguments allowed for nullary constructor LoggingTransferListener: ()net.schmizz.sshj.xfer.LoggingTransferListener
+    extra.sbt-version: ${vars.sbt-1-2-version}
     // we have to disable this early (extra.commands isn't soon enough)
     // or scalafmt will run `update` and `cloc-plugin` won't be found
     extra.settings: ${vars.base.extra.settings} [
@@ -1265,6 +1271,7 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
+  // frozen (May 2019) at May 2019 commit just before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "algebra"
     uri:  ${vars.uris.algebra-uri}
@@ -2294,6 +2301,9 @@ build += {
   ${vars.base} {
     name: "http4s"
     uri:  ${vars.uris.http4s-uri}
+    // compilation failure on 1.3; not investigated
+    // Symbol 'type org.http4s.json4s.jackson.Json4sJacksonInstances' is missing from the classpath.
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.commands: ${vars.default-commands} [
       // didn't compile (October 2018), it didn't seem worth investigating, probably a specs2 change
       "set excludeFilter in (Test, unmanagedSources) in tests := HiddenFileFilter || \"UriSpec.scala\""
@@ -2391,6 +2401,9 @@ build += {
   ${vars.base} {
     name: "sttp"
     uri:  ${vars.uris.sttp-uri}
+    // compilation failure on 1.3; not investigated
+    // Symbol 'type com.softwaremill.sttp.playJson.SttpPlayJsonApi' is missing from the classpath.
+    extra.sbt-version: ${vars.sbt-1-2-version}
     // aggregates all JVM projects
     extra.projects: ["rootJVM"]
     extra.exclude: [
