@@ -2592,28 +2592,28 @@ build += {
   }
 
   // dependency of scala-pet-store
-  //${vars.base} {
-  //  name: "tsec"
-  //  uri:  ${vars.uris.tsec-uri}
-  //  extra.exclude: [
-  //    "microsite", "tsec-bench"  // out of scope
-  //    "tsec-libsodium"  // java.lang.UnsatisfiedLinkError: no sodiumjni in java.library.path
-  //    "tsec-examples"  // depends on tsec-libsodium
-  //  ]
-  //  check-missing: false  // ignore missing scalafmt
-  //  // kind-projector org change
-  //  deps.ignore: ["org.spire-math#kind-projector"]
-  //  deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
-  //  extra.commands: ${vars.default-commands} [
-  //    "removeDependency org.spire-math kind-projector"
-  //    """set libraryDependencies in ThisBuild += compilerPlugin("org.typelevel" %% "kind-projector" % "0.10.0")"""
-  //  ]
-  //}
+  ${vars.base} {
+    name: "tsec"
+    uri:  ${vars.uris.tsec-uri}
+    extra.exclude: [
+      "microsite", "tsec-bench"  // out of scope
+      "tsec-libsodium"  // java.lang.UnsatisfiedLinkError: no sodiumjni in java.library.path
+      "tsec-examples"  // depends on tsec-libsodium
+    ]
+    check-missing: false  // ignore missing scalafmt
+    // kind-projector org change
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+    extra.commands: ${vars.default-commands} [
+      "removeDependency org.spire-math kind-projector"
+      """set libraryDependencies in ThisBuild += compilerPlugin("org.typelevel" %% "kind-projector" % "0.10.0")"""
+    ]
+  }
 
   // 2.13: using branch until https://github.com/pauljamescleary/scala-pet-store/pull/142 is merged
-  //${vars.base} {
-  //  name: "scala-pet-store"
-  //  uri:  ${vars.uris.scala-pet-store-uri}
-  //}
+  ${vars.base} {
+    name: "scala-pet-store"
+    uri:  ${vars.uris.scala-pet-store-uri}
+  }
 
 ]}
