@@ -463,7 +463,7 @@ build += {
     extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
-  // frozen (April 2019) at v2.5.22.  this repo is volatile
+  // frozen at a v2.5.x tag.  this repo is volatile
   // (very frequent commits) and when it needs to be rebuilt, the testing
   // takes a long time (especially akka-more) and the downstream
   // rebuilding takes a long time too.  so in general we want to
