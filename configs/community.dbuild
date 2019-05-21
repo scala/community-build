@@ -1864,6 +1864,8 @@ build += {
   // since then, a November 2018 PR (https://github.com/scalameta/scalameta/pull/1810)
   // added JDK 11 friendliness, so likely we can unfork the next time it's time to
   // upgrade the scalameta+scalafix+scalafmt combo
+  // 2.13: support for 2.13 only exists in one place, namely
+  // https://github.com/scalameta/scalameta/pull/1870/ which targets master
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
@@ -1879,9 +1881,9 @@ build += {
     ]
     // use right version-specific source directories regardless of our weird dbuild Scala version numbers
     extra.commands: ${vars.default-commands} [
-      "set unmanagedSourceDirectories in (commonJVM, Compile) += (baseDirectory in commonJVM).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (dialectsJVM, Compile) += (baseDirectory in dialectsJVM).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (semanticdbScalacCore, Compile) += (baseDirectory in semanticdbScalacCore).value / \"src\" / \"main\" / \"scala-2.12.6\""
+      "set unmanagedSourceDirectories in (commonJVM, Compile) += (baseDirectory in commonJVM).value / \"src\" / \"main\" / \"scala-2.13.0-RC1\""
+      "set unmanagedSourceDirectories in (dialectsJVM, Compile) += (baseDirectory in dialectsJVM).value / \"src\" / \"main\" / \"scala-2.13.0-RC1\""
+      "set unmanagedSourceDirectories in (semanticdbScalacCore, Compile) += (baseDirectory in semanticdbScalacCore).value / \"src\" / \"main\" / \"scala-2.13.0-RC1\""
     ]
   }
 
