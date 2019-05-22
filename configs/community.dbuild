@@ -505,16 +505,13 @@ build += {
     extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
-  // frozen at a v2.5.x tag.  this repo is volatile
-  // (very frequent commits) and when it needs to be rebuilt, the testing
-  // takes a long time (especially akka-more) and the downstream
-  // rebuilding takes a long time too.  so in general we want to
-  // freeze at a tag (preferably) or SHA (if we must).
-  // it might be better to track the release-2.5 branch, but there
-  // were ScalaTest-related compilation failures when I tried it
-  // (April 2019). we could try again after the 2.13.0-RC1 upgrade
-  // goes through?
-  // 2.13: we're branched off Johan's 2.13.0-RC1 WIP branch
+  // using 2.5-scala-2.13.0-RC2 branch right now (May 2019) because
+  // that's what works with ScalaTest 3.0.8-RC2.  maybe switch
+  // to release-2.5 branch, or freeze at v2.25.24 once it exists?
+  // this repo is volatile (very frequent commits) and when it needs to
+  // be rebuilt, the testing takes a long time (especially akka-more) and
+  // the downstream rebuilding takes a long time too.  so in general we
+  // want to freeze at a tag (preferably) or SHA (if we must).
   ${vars.base} {
     name: "akka"
     uri:  ${vars.uris.akka-uri}
@@ -1823,7 +1820,7 @@ build += {
     ]
   }
 
-  // 2.13: forked for 2.13.0-RC1 compat, we should be able to unfork once they publish for RC1
+  // frozen (May 2019) just before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "spire"
     uri:  ${vars.uris.spire-uri}
