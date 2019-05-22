@@ -1736,6 +1736,7 @@ build += {
     ]
   }
 
+  // frozen (May 2019) just before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "spire"
     uri:  ${vars.uris.spire-uri}
