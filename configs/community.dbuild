@@ -1877,7 +1877,7 @@ build += {
       // to include.  this is the main thing:
       "semanticdbScalacPlugin"
       // and I empirically found scalafix and/or scalafmt to need:
-      "testkit", "contribJVM", "symtab", "metapJVM"
+      "testkit" // "contribJVM", "symtab", "metapJVM"  // 2.13 don't exist anymore?
     ]
     // use right version-specific source directories regardless of our weird dbuild Scala version numbers
     extra.commands: ${vars.default-commands} [
