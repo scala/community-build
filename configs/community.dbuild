@@ -1063,12 +1063,15 @@ build += {
   }
 
   // 3.6 is the current stable branch (as of March 2019);
-  // there is also a development branch
+  // there is also a development branch.  we are forked from the 3.6 branch
+  // to relocate some scalaz-based tests
   ${vars.base} {
     name: "json4s"
     uri:  ${vars.uris.json4s-uri}
-    // TODO: exclude subprojects we don't want, rather than naming a few we want. probably adding more would work?
-    extra.projects: ["json4s-native", "json4s-jackson", "json4s-ast"]
+    extra.exclude: ["json4s-scalaz"]
+    extra.commands: ${vars.default-commands} [
+      "set every mimaPreviousArtifacts := Set()"
+    ]
   }
 
   // frozen (April 2019) at last green commit, not investigated
