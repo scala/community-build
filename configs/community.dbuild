@@ -454,7 +454,7 @@ build += {
     // not really sure how this list was arrived at
     // "linker" was disabled for 2.13.x because it requires parallel collections
     // we should re-enable it sometime, as per the abandoned https://github.com/scala/community-builds/pull/856
-    extra.projects: ["io", "logging", "testSuite"]
+    extra.projects: ["logging", "testSuite"]
     extra.commands: ${vars.default-commands} [
       // - We disable source map tests to save ourselves a `npm install source-map-support` on the workers.
       //   Although only `testSuite` actually has tests, dbuild will try to run the tests for all projects
@@ -505,7 +505,7 @@ build += {
     extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
-  // frozen (April 2019) at v2.5.22.  this repo is volatile
+  // frozen at a v2.5.x tag.  this repo is volatile
   // (very frequent commits) and when it needs to be rebuilt, the testing
   // takes a long time (especially akka-more) and the downstream
   // rebuilding takes a long time too.  so in general we want to
@@ -1115,7 +1115,7 @@ build += {
   ${vars.base} {
     name: "sconfig"
     uri:  ${vars.uris.sconfig-uri}
-    extra.exclude: ["sconfigNative"]
+    extra.exclude: ["sconfigNative", "sconfigJS"]
   }
 
   // frozen (November 2017) at June 2017 commit, for compatibility with
