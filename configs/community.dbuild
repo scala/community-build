@@ -1082,7 +1082,7 @@ build += {
   ${vars.base} {
     name: "sconfig"
     uri:  ${vars.uris.sconfig-uri}
-    extra.exclude: ["sconfigNative"]
+    extra.exclude: ["sconfigNative", "sconfigJS"]
   }
 
   // frozen (November 2017) at June 2017 commit, for compatibility with
