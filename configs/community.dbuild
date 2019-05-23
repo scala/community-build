@@ -1864,8 +1864,7 @@ build += {
   // since then, a November 2018 PR (https://github.com/scalameta/scalameta/pull/1810)
   // added JDK 11 friendliness, so likely we can unfork the next time it's time to
   // upgrade the scalameta+scalafix+scalafmt combo
-  // 2.13: support for 2.13 only exists in one place, namely
-  // https://github.com/scalameta/scalameta/pull/1870/ which targets master
+  // 2.13: support for 2.13 only exists on master
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
