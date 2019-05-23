@@ -1880,7 +1880,7 @@ build += {
     ]
     // use right version-specific source directories regardless of our weird dbuild Scala version numbers
     extra.commands: ${vars.default-commands} [
-      "set unmanagedSourceDirectories in (commonJVM, Compile) += (baseDirectory in commonJVM).value / \"shared\" / \"src\" / \"main\" / \"scala-2.13.0-RC1\""
+      "set unmanagedSourceDirectories in (commonJVM, Compile) += baseDirectory.value / \"scalameta\" / \"common\" / \"shared\" / \"src\" / \"main\" / \"scala-2.13.0-RC1\""
       "set unmanagedSourceDirectories in (semanticdbScalacCore, Compile) += (baseDirectory in semanticdbScalacCore).value / \"src\" / \"main\" / \"scala-2.13.0-RC1\""
     ]
   }
