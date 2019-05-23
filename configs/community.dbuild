@@ -1858,6 +1858,21 @@ build += {
     check-missing: false
   }
 
+  // shaded version of fastparse 1 for scalameta's private use
+  // forked (October 2018) for JDK 11 compat, awaiting merge of
+  // https://github.com/lihaoyi/fastparse/pull/196
+  // also note that master is now Fastparse 2 which is completely
+  // source-incompatible with Fastparse 1
+  // 2.13: using special 2.13 branch
+  ${vars.base} {
+    name: "fastparse-scalameta"
+    uri:  ${vars.uris.fastparse-scalameta-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
+    extra.projects: [
+      "fastparseJVM"   // no Scala.js plz
+    ]
+  }
+
   // forked off v4.0.0-M11 since that's what scalafix currently (Sep 2 2018) expects
   // our fork includes Jason's 2.12.7 changes (which have probably since been merged
   // upstream) and some JDK 11 friendliness changes.
