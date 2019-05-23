@@ -467,15 +467,13 @@ build += {
     extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
-  // frozen (April 2019) at v2.5.22.  this repo is volatile
-  // (very frequent commits) and when it needs to be rebuilt, the testing
-  // takes a long time (especially akka-more) and the downstream
-  // rebuilding takes a long time too.  so in general we want to
-  // freeze at a tag (preferably) or SHA (if we must).
-  // it might be better to track the release-2.5 branch, but there
-  // were ScalaTest-related compilation failures when I tried it
-  // (April 2019). we could try again after the 2.13.0-RC1 upgrade
-  // goes through?
+  // using 2.5-scala-2.13.0-RC2 branch right now (May 2019) because
+  // that's what works with ScalaTest 3.0.8-RC2.  maybe switch
+  // to release-2.5 branch, or freeze at v2.25.24 once it exists?
+  // this repo is volatile (very frequent commits) and when it needs to
+  // be rebuilt, the testing takes a long time (especially akka-more) and
+  // the downstream rebuilding takes a long time too.  so in general we
+  // want to freeze at a tag (preferably) or SHA (if we must).
   ${vars.base} {
     name: "akka"
     uri:  ${vars.uris.akka-uri}
@@ -1068,12 +1066,15 @@ build += {
   }
 
   // 3.6 is the current stable branch (as of March 2019);
-  // there is also a development branch
+  // there is also a development branch.  we are forked from the 3.6 branch
+  // to relocate some scalaz-based tests
   ${vars.base} {
     name: "json4s"
     uri:  ${vars.uris.json4s-uri}
-    // TODO: exclude subprojects we don't want, rather than naming a few we want. probably adding more would work?
-    extra.projects: ["json4s-native", "json4s-jackson", "json4s-ast"]
+    extra.exclude: ["json4s-scalaz"]
+    extra.commands: ${vars.default-commands} [
+      "set every mimaPreviousArtifacts := Set()"
+    ]
   }
 
   // frozen (April 2019) at last green commit, not investigated
@@ -1087,7 +1088,7 @@ build += {
   ${vars.base} {
     name: "sconfig"
     uri:  ${vars.uris.sconfig-uri}
-    extra.exclude: ["sconfigNative"]
+    extra.exclude: ["sconfigNative", "sconfigJS"]
   }
 
   // frozen (November 2017) at June 2017 commit, for compatibility with
@@ -1738,6 +1739,7 @@ build += {
     ]
   }
 
+  // frozen (May 2019) just before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "spire"
     uri:  ${vars.uris.spire-uri}
