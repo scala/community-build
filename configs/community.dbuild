@@ -1264,7 +1264,6 @@ build += {
   ${vars.base} {
     name: "fansi"
     uri:  ${vars.uris.fansi-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["fansiJVM"]  // no Scala.js
   }
 
