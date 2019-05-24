@@ -227,6 +227,11 @@ build += {
     name: "scalatestplus-scalacheck"
     uri:  ${vars.uris.scalatestplus-scalacheck-uri}
     extra.projects: ["scalatestPlusScalaCheckJVM"]
+    // scala.MatchError: ff6da566+20190524-1028-SNAPSHOT (of class java.lang.String)
+    //   at com.typesafe.dbuild.project.build.LocalBuildRunner$.prepareDepsArtifacts(LocalBuildRunner.scala:106)
+    extra.settings: ${vars.base.extra.settings} [
+      "version in ThisBuild := \"1.0.0\""
+    ]
   }
 
   ${vars.base} {
