@@ -1001,20 +1001,12 @@ build += {
     extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
+  // right now (May 2019) we're frozen at a May 2019 commit before some source-incompatible changes;
+  // see https://github.com/scala/community-builds/issues/912
   ${vars.base} {
     name: "play-json"
     uri:  ${vars.uris.play-json-uri}
     extra.projects: ["play-jsonJVM"]  // no Scala.js plz
-  }
-
-  // playframework and play-ws tend to get a bit out of sync with each other so it's generally better
-  // to have play-ws frozen at tag, unless it's forked. which it is right now:
-  ${vars.base} {
-    name: "play-ws"
-    uri:  ${vars.uris.play-ws-uri}
-    // NullPointerException in CachingSpec
-    // (https://github.com/scala/community-builds/issues/564)
-    extra.exclude: ["integration-tests", "bench"]
   }
 
   // tracking 1.1.x branch since there are source-incompatible changes on master;
@@ -1022,6 +1014,18 @@ build += {
   ${vars.base} {
     name: "cachecontrol"
     uri:  ${vars.uris.cachecontrol-uri}
+  }
+
+  // playframework and play-ws tend to get a bit out of sync with each other so it's generally better
+  // to have play-ws frozen at tag, unless it's forked.
+  // right now (May 2019) we're frozen at a May 2019 commit before some source-incompatible changes;
+  // see https://github.com/scala/community-builds/issues/912
+  ${vars.base} {
+    name: "play-ws"
+    uri:  ${vars.uris.play-ws-uri}
+    // NullPointerException in CachingSpec
+    // (https://github.com/scala/community-builds/issues/564)
+    extra.exclude: ["integration-tests", "bench"]
   }
 
   // dependency of play-file-watch
