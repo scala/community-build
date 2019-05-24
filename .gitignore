@@ -9,3 +9,4 @@
 /.npm/
 /dbuild-*.tgz
 /.gnupg/
+/Library/Caches/Coursier/v1/
