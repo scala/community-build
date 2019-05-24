@@ -43,7 +43,8 @@ include file(".dbuild/resolvers.conf")
 vars {
   default-commands: []
   sbt-0-13-version: "0.13.18"
-  sbt-version: "1.2.8"
+  sbt-1-2-version: "1.2.8"
+  sbt-version: "1.3.0-RC1"
 }
 
 //// compiler options manipulation
@@ -367,10 +368,6 @@ build += {
     // just fluctuate :-/  I've been gradually increasing this trying to fix an OOM in
     // ApplicativeSuite.  the repo's own .jvmopts has 6g
     extra.options: ["-Xmx6g"]
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   ${vars.base} {
@@ -409,6 +406,9 @@ build += {
   ${vars.base} {
     name: "genjavadoc"
     uri:  ${vars.uris.genjavadoc-uri}
+    // failed compilation on 1.3; not investigated
+    // [genjavadoc] [error] java.io.FileNotFoundException: /home/jenkins/workspace/scala-2.12.x-integrate-community-build/target-0.9.16/project-builds/genjavadoc-b903def1d2bae4166747cc3b089a06c0da762fa3/plugin/target/scala-2.12/classes/com/typesafe/genjavadoc/BaseComments.class (No such file or directory)
+    extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
   // if master proves difficult to track, the 0.6.x branch could be
@@ -423,7 +423,7 @@ build += {
       "-Xmx2048m"
     ]
     // not really sure how this list was arrived at
-    extra.projects: [ "io", "logging", "linker", "testSuite" ]
+    extra.projects: [ "logging", "linker", "testSuite" ]
     extra.commands: ${vars.default-commands} [
       // - We disable source map tests to save ourselves a `npm install source-map-support` on the workers.
       //   Although only `testSuite` actually has tests, dbuild will try to run the tests for all projects
@@ -465,19 +465,31 @@ build += {
     uri:  ${vars.uris.silencer-uri}
   }
 
-  // frozen (April 2019) at v2.5.22.  this repo is volatile
-  // (very frequent commits) and when it needs to be rebuilt, the testing
-  // takes a long time (especially akka-more) and the downstream
-  // rebuilding takes a long time too.  so in general we want to
-  // freeze at a tag (preferably) or SHA (if we must).
-  // it might be better to track the release-2.5 branch, but there
-  // were ScalaTest-related compilation failures when I tried it
-  // (April 2019). we could try again after the 2.13.0-RC1 upgrade
-  // goes through?
+  // dependency of metrics-scala
+  ${vars.base} {
+    name: "mockito-scala"
+    uri:  ${vars.uris.mockito-scala-uri}
+    // failed test on 1.3; not investigated
+    // [mockito-scala] [error] Test suite org.mockito.MockitoSugarTest failed with java.lang.IllegalAccessError: org/mockito/internal/handler/InvocationNotifierHandler. This may be due to the ClassLoaderLayeringStrategy (TestDependencies) used by your task.
+    extra.sbt-version: ${vars.sbt-1-2-version}
+  }
+
+  // using 2.5-scala-2.13.0-RC2 branch right now (May 2019) because
+  // that's what works with ScalaTest 3.0.8-RC2.  maybe switch
+  // to release-2.5 branch, or freeze at v2.25.24 once it exists?
+  // this repo is volatile (very frequent commits) and when it needs to
+  // be rebuilt, the testing takes a long time (especially akka-more) and
+  // the downstream rebuilding takes a long time too.  so in general we
+  // want to freeze at a tag (preferably) or SHA (if we must).
   ${vars.base} {
     name: "akka"
     uri:  ${vars.uris.akka-uri}
-    extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"]
+    extra.options: [
+      // as per their own .sbtopts file
+      "-Xmx3g"
+      // other customizations
+      "-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"
+    ]
     extra.projects: ["akka-actor", "akka-actor-typed", "akka-testkit", "akka-actor-tests"]
     extra.commands: ${vars.default-commands} [
       // https://github.com/scala/community-builds/issues/373
@@ -584,6 +596,9 @@ build += {
   ${vars.base} {
     name: "akka-stream"
     uri:  ${vars.uris.akka-uri}
+    // doc failures on 1.3; not investigated
+    // Unexpected javac output: javadoc: error - invalid flag: --ignore-source-errors.
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"
       // repo readme recommended
       "-Xmx2g"
@@ -602,7 +617,7 @@ build += {
       // and report upstream if it hasn't gone away
       "set excludeFilter in (Test, unmanagedSources) in streamTests := HiddenFileFilter || \"TlsSpec.scala\""
       // prevents [akka-stream] [error] Class jdk.internal.HotSpotIntrinsicCandidate not found - continuing with a stub.
-      "set scalacOptions in Compile in actor --= Seq(\"-release\", \"8\")"
+      "set scalacOptions in Compile in stream --= Seq(\"-release\", \"8\")"
     ]
     extra.exclude: [
       // because we already built them in "akka"
@@ -628,8 +643,6 @@ build += {
     extra.commands: ${vars.default-commands} [
       // https://github.com/scala/community-builds/issues/373
       "set every apiURL := None"
-      // prevents [akka-stream] [error] Class jdk.internal.HotSpotIntrinsicCandidate not found - continuing with a stub.
-      "set scalacOptions in Compile in actor --= Seq(\"-release\", \"8\")"
     ]
     extra.exclude: [
       "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
@@ -726,6 +739,9 @@ build += {
   ${vars.base} {
     name: "acyclic"
     uri:  ${vars.uris.acyclic-uri}
+    // test failures on 1.3; not investigated
+    // object scala in compiler mirror not found
+    extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
   ${vars.base} {
@@ -823,7 +839,16 @@ build += {
   ${vars.base} {
     name: "parboiled2"
     uri:  ${vars.uris.parboiled2-uri}
+    // failed compilation on 1.3; not investigated
+    // java.util.zip.ZipException: duplicate entry: LICENSE
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: ["parboiledJVM", "examples"]
+    extra.commands: ${vars.base.extra.commands} [
+      // errors, who knows why
+      "set every scalafmtOnCompile := false"
+      // otherwise sbt-gpg errors on `publish`
+      "set every gpgWarnOnFailure := true"
+    ]
     // spray org change
     check-missing: false
     deps.ignore: ["io.spray#spray-json"]
@@ -973,6 +998,9 @@ build += {
   ${vars.base} {
     name: "twirl"
     uri:  ${vars.uris.twirl-uri}
+    // failed tests on 1.3; not investigated
+    // It looks like the scala-xml module is missing; try adding a dependency on "org.scala-lang.modules" : "scala-xml"
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.exclude: ["plugin", "apiJS"]
     deps.ignore: ["org.scala-sbt#scripted-plugin"]
     check-missing: false
@@ -981,6 +1009,8 @@ build += {
   ${vars.base} {
     name: "play-doc"
     uri:  ${vars.uris.play-doc-uri}
+    // failed compilation on 1.3; not investigated
+    extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
   ${vars.base} {
@@ -1030,6 +1060,9 @@ build += {
   ${vars.base} {
     name: "playframework"
     uri:  ${vars.uris.playframework-uri}
+    // compilation failure on 1.3; not investigated
+    // dev-mode/routes-compiler/src/main/scala/play/routes/compiler/RoutesGenerator.scala:171:5: not found: value static
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.exclude: [
       "Play-Docs", "Sbt-Plugin", "Play-Docs-Sbt-Plugin"  // out of scope
       "Play-Integration-Test"  // TODO/WIP, see https://github.com/scala/community-builds/pull/819
@@ -1040,12 +1073,15 @@ build += {
   }
 
   // 3.6 is the current stable branch (as of March 2019);
-  // there is also a development branch
+  // there is also a development branch.  we are forked from the 3.6 branch
+  // to relocate some scalaz-based tests
   ${vars.base} {
     name: "json4s"
     uri:  ${vars.uris.json4s-uri}
-    // TODO: exclude subprojects we don't want, rather than naming a few we want. probably adding more would work?
-    extra.projects: ["json4s-native", "json4s-jackson", "json4s-ast"]
+    extra.exclude: ["json4s-scalaz"]
+    extra.commands: ${vars.default-commands} [
+      "set every mimaPreviousArtifacts := Set()"
+    ]
   }
 
   // frozen (April 2019) at last green commit, not investigated
@@ -1059,7 +1095,7 @@ build += {
   ${vars.base} {
     name: "sconfig"
     uri:  ${vars.uris.sconfig-uri}
-    extra.exclude: ["sconfigNative"]
+    extra.exclude: ["sconfigNative", "sconfigJS"]
   }
 
   // frozen (November 2017) at June 2017 commit, for compatibility with
@@ -1083,20 +1119,12 @@ build += {
     ]
   }
 
-  // dependency of monocle's cats branch
-  ${vars.base} {
-    name: "newts"
-    uri:  ${vars.uris.newts-uri}
-    extra.projects: ["coreJVM", "testJVM"]
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
-  }
-
   ${vars.base} {
     name: "monocle"
     uri:  ${vars.uris.monocle-uri}
+    // failed extraction on 1.3; not investigated
+    // error: type mismatch; found: String("org.typelevel") required: ?{def %%%(x$1: ? >: String("cats-core")): ?}
+    extra.sbt-version: ${vars.sbt-1-2-version}
     // try to enable more subprojects?
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM", "genericJVM"]
     // kind-projector org change
@@ -1116,6 +1144,9 @@ build += {
   ${vars.base} {
     name: "scala-ssh"
     uri:  ${vars.uris.scala-ssh-uri}
+    // compilation failure on 1.3; not investigated
+    // src/main/scala/com/decodified/scalassh/ScpTransferable.scala:53:75: no arguments allowed for nullary constructor LoggingTransferListener: ()net.schmizz.sshj.xfer.LoggingTransferListener
+    extra.sbt-version: ${vars.sbt-1-2-version}
     // we have to disable this early (extra.commands isn't soon enough)
     // or scalafmt will run `update` and `cloc-plugin` won't be found
     extra.settings: ${vars.base.extra.settings} [
@@ -1221,31 +1252,25 @@ build += {
   }
 
   ${vars.base} {
-    name: "atto"
-    uri:  ${vars.uris.atto-uri}
-    extra.projects: ["coreJVM", "refinedJVM", "fs2JVM", "testsJVM"]
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
-  }
-
-  ${vars.base} {
     name: "log4s"
     uri:  ${vars.uris.log4s-uri}
     extra.exclude: ["coreJS", "testingJS"]
+    // failed tests on 1.3; not investigated
+    extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
   // frozen (April 2019) at v0.14.0 tag since that's the version http4s wants
   ${vars.base} {
     name: "blaze"
     uri: ${vars.uris.blaze-uri}
+    // failed extraction on 1.3; not investigated
+    // [blaze] [error] (update) sbt.librarymanagement.ResolveException: Error downloading org.xerial.sbt:sbt-sonatype;sbtVersion=1.0;scalaVersion=2.12:1.1
+    extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
   ${vars.base} {
     name: "fansi"
     uri:  ${vars.uris.fansi-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["fansiJVM"]  // no Scala.js
   }
 
@@ -1258,6 +1283,7 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
+  // frozen (May 2019) at May 2019 commit just before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "algebra"
     uri:  ${vars.uris.algebra-uri}
@@ -1317,6 +1343,9 @@ build += {
   ${vars.base} {
     name: "paiges"
     uri:  ${vars.uris.paiges-uri}
+    // failed tests on 1.3; not investigated
+    // Test suite org.typelevel.paiges.LawTests failed with java.lang.ClassNotFoundException: org.typelevel.paiges.CatsDocument$$anon$1. This may be due to the ClassLoaderLayeringStrategy (TestDependencies) used by your task
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: ["coreJVM", "catsJVM"]  // but not "benchmark"
   }
 
@@ -1372,6 +1401,9 @@ build += {
   ${vars.base} {
     name: "play-webgoat"
     uri: ${vars.uris.play-webgoat-uri}
+    // compilation failure on 1.3; not investigated
+    // object index is not a member of package views.html
+    extra.sbt-version: ${vars.sbt-1-2-version}
     // not sure how this gets pulled in but it's just doc not code, I think?
     // so let's just ignore that it's missing
     check-missing: false
@@ -1388,6 +1420,9 @@ build += {
   ${vars.base} {
     name: "sbt-io"
     uri:  ${vars.uris.sbt-io-uri}
+    // failed extraction on 1.3 (ResolveException on org.boris:pecoff4j:0.0.2.1);
+    // see remarks at https://github.com/scala/community-builds/pull/909
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     // we have to disable this early (extra.commands isn't soon enough)
     // or scalafmt will run `update` and `cloc-plugin` won't be found
@@ -1568,6 +1603,7 @@ build += {
     ]
   }
 
+  // frozen (May 2019) at May 2019 commit just before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "metrics-scala"
     uri:  ${vars.uris.metrics-scala-uri}
@@ -1709,12 +1745,20 @@ build += {
     ]
   }
 
+  // frozen (May 2019) just before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "spire"
     uri:  ${vars.uris.spire-uri}
     // hopefully avoid intermittent OutOfMemoryErrors during compilation
     extra.options: ["-Xmx2560m"]
-    extra.projects: ["spireJVM"]  // no Scala.js please
+    // this is all of spireJVM but omitting "benchmark". just excluding "benchmark" didn't work, idk why
+    extra.projects: ["legacyJVM", "dataJVM", "macrosJVM", "utilJVM", "platformJVM", "coreJVM", "extrasJVM", "lawsJVM", "examples", "testsJVM", "spireJVM"]
+    extra.exclude: ["benchmark"]
+    extra.commands: ${vars.base.extra.commands} [
+      "removeDependency org.openjdk.jmh jmh-core"
+      "removeDependency org.openjdk.jmh jmh-generator-bytecode"
+      "removeDependency org.openjdk.jmh jmh-generator-reflection"
+    ]
   }
 
   ${vars.base} {
@@ -1794,6 +1838,9 @@ build += {
   ${vars.base} {
     name: "metaconfig"
     uri:  ${vars.uris.metaconfig-uri}
+    // compilation failures on 1.3; not investigated
+    // object ConfShow is not a member of package metaconfig
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: ["hoconJVM", "typesafe"]  // no Scala.js plz
     // I guess dbuild is getting confused by the extra _1.13?
     deps.ignore: ["com.github.alexarchambault#scalacheck-shapeless"]
@@ -1854,11 +1901,9 @@ build += {
 
   // I know, it's a little weird to include my personal Project Euler
   // solutions, but it's actually a pretty broad-ranging assortment of
-  // small, self-contained tests of the collections API. they've
-  // caught many Scala bugs over the years.  and since I often use
-  // them for testing, it's convenient to have them here so I don't
-  // have to worry about whether I have a usable ScalaTest build I can
-  // use to test with an arbitrary Scala - Seth
+  // small, self-contained tests of the collections API. It has
+  // caught many Scala bugs over the years. - Seth
+  // 2.12: frozen at last commit before 2.13.x upgrade (there is no cross-build)
   ${vars.base} {
     name: "euler"
     uri:  ${vars.uris.euler-uri}
@@ -1886,6 +1931,9 @@ build += {
   ${vars.base} {
     name: "kafka"
     uri:  ${vars.uris.kafka-uri}
+    // failed compilation on 1.3; not investigated
+    //  cannot find symbol; symbol: class MockTime
+    extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
   ${vars.base} {
@@ -1984,6 +2032,9 @@ build += {
   ${vars.base} {
     name: "sbt-util"
     uri:  ${vars.uris.sbt-util-uri}
+    // failed extraction on 1.3 (ResolveException on org.boris:pecoff4j:0.0.2.1);
+    // see remarks at https://github.com/scala/community-builds/pull/909
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     check-missing: false  // ignore missing scalafmt
     extra.commands: ${vars.default-commands} [
@@ -1994,6 +2045,9 @@ build += {
   ${vars.base} {
     name: "sbt-librarymanagement"
     uri:  ${vars.uris.sbt-librarymanagement-uri}
+    // failed extraction on 1.3 (ResolveException on org.boris:pecoff4j:0.0.2.1);
+    // see remarks at https://github.com/scala/community-builds/pull/909
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     // we have to disable this early (extra.commands isn't soon enough)
     // or scalafmt will run `update` and `cloc-plugin` won't be found
@@ -2201,6 +2255,9 @@ build += {
   ${vars.base} {
     name: "circe"
     uri:  ${vars.uris.circe-uri}
+    // failed compilation on 1.3; not investigated
+    // Symbol 'type io.circe.java8.time.JavaTimeDecoders' is missing from the classpath
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: [
       // easy
       "coreJVM", "numbersJVM"
@@ -2224,7 +2281,14 @@ build += {
   ${vars.base} {
     name: "http4s-parboiled2"
     uri:  ${vars.uris.http4s-parboiled2-uri}
+    // failed compilation on 1.3; not investigated
+    // java.util.zip.ZipException: duplicate entry: LICENSE
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: ["parboiledJVM"]
+    extra.commands: ${vars.base.extra.commands} [
+      // otherwise sbt-gpg errors on `publish`
+      "set every gpgWarnOnFailure := true"
+    ]
   }
 
   // dependency of vault
@@ -2251,9 +2315,15 @@ build += {
 
   // this is a big build with a ton of subprojects.  we needn't be shy
   // about disabling fragile ones, ones with obscure dependencies we don't have, etc.
+  // frozen May 2019 at a May 2019 commit just before a blaze test started failing; I see
+  // the failure in their own CI (perhaps it was a semantic merge conflict?), so probably
+  // we'll be able to unfreeze promptly
   ${vars.base} {
     name: "http4s"
     uri:  ${vars.uris.http4s-uri}
+    // compilation failure on 1.3; not investigated
+    // Symbol 'type org.http4s.json4s.jackson.Json4sJacksonInstances' is missing from the classpath.
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.commands: ${vars.default-commands} [
       // didn't compile (October 2018), it didn't seem worth investigating, probably a specs2 change
       "set excludeFilter in (Test, unmanagedSources) in tests := HiddenFileFilter || \"UriSpec.scala\""
@@ -2294,24 +2364,26 @@ build += {
   ${vars.base} {
     name: "circe-config"
     uri:  ${vars.uris.circe-config-uri}
+    // test failures on 1.3; not investigated
+    // [circe-config] [error] Test suite io.circe.config.CirceConfigLaws failed with java.lang.ClassNotFoundException: io.circe.config.parser$.
+    // [circe-config] [error] This may be due to the ClassLoaderLayeringStrategy (TestDependencies) used by your task.
+    extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
-  # forked (November 2017, refreshed January 2018) to remove a build.sbt thing that
-  # adds Ammonite, because it isn't a true dependency and we don't want the complication
-  # of Ammonite's own dependency tree (in particular, the jawn versions conflict).
-  # plus in September 2018 we pulled Ammonite from the community build entirely
   ${vars.base} {
     name: "pureconfig"
     uri:  ${vars.uris.pureconfig-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     deps.inject: ${vars.base.deps.inject} [
       // I guess dbuild is getting confused by the extra _1.13
       "com.github.alexarchambault#scalacheck-shapeless_1.13"
+      // not sure why we aren't getting this dependency
+      "org.scala-lang.modules#scala-collection-compat"
     ]
     check-missing: false
     extra.commands: ${vars.default-commands} [
       // not sure why we get these errors unless we turn them off
       "set every conflictWarning := ConflictWarning.disable"
+      "set libraryDependencies in ThisBuild += \"org.scala-lang.modules\" %% \"scala-collection-compat\" % \"0.0.0\""
     ]
   }
 
@@ -2328,6 +2400,13 @@ build += {
     extra.projects: ["catsJVM", "coreJVM", "evalJVM", "jsonpathJVM", "scalacheckJVM", "shapelessJVM"]
   }
 
+  // in this space because refinedJVM subproject depends on refined
+  ${vars.base} {
+    name: "atto"
+    uri:  ${vars.uris.atto-uri}
+    extra.projects: ["coreJVM", "refinedJVM", "fs2JVM", "testsJVM"]
+  }
+
   // core doesn't depend on refined, but refinedJVM does.
   ${vars.base} {
     name: "decline"
@@ -2342,6 +2421,9 @@ build += {
   ${vars.base} {
     name: "sttp"
     uri:  ${vars.uris.sttp-uri}
+    // compilation failure on 1.3; not investigated
+    // Symbol 'type com.softwaremill.sttp.playJson.SttpPlayJsonApi' is missing from the classpath.
+    extra.sbt-version: ${vars.sbt-1-2-version}
     // aggregates all JVM projects
     extra.projects: ["rootJVM"]
     extra.exclude: [
@@ -2383,6 +2465,8 @@ build += {
   ${vars.base} {
     name: "circe-derivation"
     uri:  ${vars.uris.circe-derivation-uri}
+    // test failures on 1.3; not investigated
+    extra.sbt-version: ${vars.sbt-1-2-version}
     // there are some others, but really just trying to get lsp4s going at the moment
     extra.projects: ["derivation", "annotations"]
   }
@@ -2392,6 +2476,10 @@ build += {
   ${vars.base} {
     name: "circe-jackson"
     uri:  ${vars.uris.circe-jackson-uri}
+    // test failures on 1.3; not investigated
+    // [circe-jackson] [error] Test suite io.circe.jackson.JacksonParserSuite failed with java.lang.ClassNotFoundException: io.circe.jackson.package$.
+    // [circe-jackson] [error] This may be due to the ClassLoaderLayeringStrategy (TestDependencies) used by your task.
+    extra.sbt-version: ${vars.sbt-1-2-version}
     // there are some others, but for now, just trying to get github4s green again
     extra.projects: ["jackson28"]
   }
@@ -2400,6 +2488,7 @@ build += {
   ${vars.base} {
     name: "doobie"
     uri:  ${vars.uris.doobie-uri}
+    extra.options: ["-Xss16m"]  // prevent stack overflow when compiling build definition
     extra.commands: ${vars.default-commands} [
       // as per https://github.com/scala/community-builds/pull/835#issuecomment-455729365,
       // these subprojects require a Postgres instance for the tests to run
@@ -2407,7 +2496,7 @@ build += {
       "set executeTests in `postgres-circe` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
       "set executeTests in example in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
     ]
-    extra.exclude: ["docs", "doobie"]  // out of scope ("doobie" is just an aggregation, and causes missing-tut error)
+    extra.exclude: ["docs", "doobie", "bench"]  // out of scope ("doobie" is just an aggregation, and causes missing-tut error)
     // kind-projector org change
     check-missing: false
     deps.ignore: ["org.spire-math#kind-projector"]

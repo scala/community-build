@@ -15,7 +15,7 @@ export LANG="en_US.UTF-8"
 export HOME="$(pwd)"
 
 # Defaults
-scala_version_default="2.12.9-bin-bf89d69"  # Apr 17
+scala_version_default="2.12.9-bin-d28a129"  # May 17
 scala_version="$scala_version_default"
 root_dir=$(pwd)
 config_dir="configs"
@@ -191,6 +191,6 @@ rm -rf target-*/project-builds
 
 # report summary information (line counts, green project counts, ...?)
 cd report
-sbt -error "run ../dbuild-${DBUILDVERSION}/dbuild.out"
+sbt -error -Dsbt.supershell=false "run ../dbuild-${DBUILDVERSION}/dbuild.out"
 
 exit $STATUS
