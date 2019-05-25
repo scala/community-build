@@ -59,7 +59,6 @@ object SuccessReport {
     "parboiled2",  // ???
     "play-webgoat",  // "com.typesafe.play#play-omnidoc_2.13.0-pre-bec2441;2.7.0: not found" ?!
     "scala-gopher",  // no 2.13 upgrade attempted afaict
-    "scala-java-time",  // ScalaTest 3.0 vs 3.1 compile errors, I think?
     "scala-refactoring",  // postfixOps
     "scala-stm",  // still using JavaConversions
     "scala-xml-quote",  // Unit companion object not allowed in source
