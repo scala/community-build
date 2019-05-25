@@ -1368,6 +1368,9 @@ build += {
     // Test suite org.typelevel.paiges.LawTests failed with java.lang.ClassNotFoundException: org.typelevel.paiges.CatsDocument$$anon$1. This may be due to the ClassLoaderLayeringStrategy (TestDependencies) used by your task
     extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: ["coreJVM", "catsJVM"]  // but not "benchmark"
+    // 2.13: tests don't compile until the catalysts dependency is dropped;
+    // probably just wait for the maintainers to do their 2.13.0-RC2/Cats 2 upgrade
+    extra.run-tests: false
   }
 
   // adding (September 2017) because scalafix's "cli" subproject uses it.
