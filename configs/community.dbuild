@@ -620,6 +620,21 @@ build += {
     ]
   }
 
+  // forked (February 2019) from v3.7.0 (the version playframework expects);
+  // https://github.com/lightbend/ssl-config/issues/142
+  // is about resolving the source incompatibility on master;
+  // the fork is needed until unfreeze to remove an unused sbt plugin so we don't have
+  // to add a resolver (lightbend/ssl-config@b2544f853f4e62165f43a)
+  ${vars.base} {
+    name: "ssl-config"
+    uri:  ${vars.uris.ssl-config-uri}
+    extra.projects: ["sslConfigCore"]
+    // repeated hangs during testing; see
+    // https://github.com/scala/community-builds/issues/560
+    // (last confirmed: January 2018)
+    extra.test-tasks: ["compile"]
+  }
+
   ${vars.base} {
     name: "akka-stream"
     uri:  ${vars.uris.akka-uri}
@@ -652,9 +667,8 @@ build += {
     ]
   }
 
-  // this is separate from "akka" because there is a circular dependency between
-  // the akka and ssl-config repos. and also just so failures in obscure subprojects
-  // don't take out too much of the build
+  // separate from "akka"+"akka-stream" because it takes a long time to build and run the
+  // tests, and so failures in obscure subprojects don't take out too much of the build
   ${vars.base} {
     name: "akka-more"
     uri:  ${vars.uris.akka-uri}
@@ -959,21 +973,6 @@ build += {
     name: "mouse"
     uri:  ${vars.uris.mouse-uri}
     extra.projects: ["crossJVM"]  // no Scala.js please
-  }
-
-  // forked (February 2019) from v3.7.0 (the version playframework expects);
-  // https://github.com/lightbend/ssl-config/issues/142
-  // is about resolving the source incompatibility on master;
-  // the fork is needed until unfreeze to remove an unused sbt plugin so we don't have
-  // to add a resolver (lightbend/ssl-config@b2544f853f4e62165f43a)
-  ${vars.base} {
-    name: "ssl-config"
-    uri:  ${vars.uris.ssl-config-uri}
-    extra.projects: ["sslConfigCore"]
-    // repeated hangs during testing; see
-    // https://github.com/scala/community-builds/issues/560
-    // (last confirmed: January 2018)
-    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {

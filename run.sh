@@ -191,6 +191,6 @@ rm -rf target-*/project-builds
 
 # report summary information (line counts, green project counts, ...?)
 cd report
-sbt -error -Dsbt.supershell=false "run ../dbuild-${DBUILDVERSION}/dbuild.out"
+sbt -Dsbt.supershell=false -error "run ../dbuild-${DBUILDVERSION}/dbuild.out"
 
 exit $STATUS
