@@ -1604,7 +1604,7 @@ build += {
       "removeDependency io.spray spray-json"
       """set libraryDependencies in ThisBuild += "io.crashbox" %% "spray-json" % "0.0""""
     ]
-    extra.projects: ["docs", "akka-management", "cluster-bootstrap", "cluster-http", "integration-test-kubernetes-api-java", "integration-test-local", "integration-test-kubernetes-dns", "integration-test-aws-api-ec2-tag-based", "integration-test-kubernetes-api", "akka-discovery-aws-api", "akka-discovery-kubernetes-api", "akka-discovery-consul", "akka-discovery-marathon-api"]
+    extra.projects: ["akka-management", "cluster-bootstrap", "cluster-http", "integration-test-kubernetes-api-java", "integration-test-local", "integration-test-kubernetes-dns", "integration-test-aws-api-ec2-tag-based", "integration-test-kubernetes-api", "akka-discovery-aws-api", "akka-discovery-kubernetes-api", "akka-discovery-consul", "akka-discovery-marathon-api"]
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.test-tasks: "compile"
     // spray org change
