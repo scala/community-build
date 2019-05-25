@@ -766,10 +766,11 @@ build += {
     extra.projects: ["utestJVM"]
   }
 
-  ${vars.base} {
+  // just fetch Fastparse 2 from Maven Central, since it has no sbt build anymore
+  {
     name: "fastparse"
-    uri:  ${vars.uris.fastparse-uri}
-    extra.exclude: ["readme"]  // out of scope
+    system: aether
+    uri: "aether:com.lihaoyi#fastparse_2.12;2.1.2"
   }
 
   // frozen (January 2019) at December 2018 commit before the build was changed
