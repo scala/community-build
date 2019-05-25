@@ -57,7 +57,6 @@ object SuccessReport {
     "paiges",  // source incompatibility involving catalysts?
     "paradox",  // no 2.13 upgrade attempted afaict
     "parboiled2",  // ???
-    "play-file-watch",  // no 2.13 upgrade attempted afaik
     "play-webgoat",  // "com.typesafe.play#play-omnidoc_2.13.0-pre-bec2441;2.7.0: not found" ?!
     "scala-gopher",  // no 2.13 upgrade attempted afaict
     "scala-java-time",  // ScalaTest 3.0 vs 3.1 compile errors, I think?
