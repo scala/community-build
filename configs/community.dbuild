@@ -581,6 +581,21 @@ build += {
     ]
   }
 
+  // forked (February 2019) from v3.7.0 (the version playframework expects);
+  // https://github.com/lightbend/ssl-config/issues/142
+  // is about resolving the source incompatibility on master;
+  // the fork is needed until unfreeze to remove an unused sbt plugin so we don't have
+  // to add a resolver (lightbend/ssl-config@b2544f853f4e62165f43a)
+  ${vars.base} {
+    name: "ssl-config"
+    uri:  ${vars.uris.ssl-config-uri}
+    extra.projects: ["sslConfigCore"]
+    // repeated hangs during testing; see
+    // https://github.com/scala/community-builds/issues/560
+    // (last confirmed: January 2018)
+    extra.test-tasks: ["compile"]
+  }
+
   ${vars.base} {
     name: "akka-stream"
     uri:  ${vars.uris.akka-uri}
@@ -920,21 +935,6 @@ build += {
     check-missing: false
     deps.ignore: ["org.spire-math#kind-projector"]
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
-  }
-
-  // forked (February 2019) from v3.7.0 (the version playframework expects);
-  // https://github.com/lightbend/ssl-config/issues/142
-  // is about resolving the source incompatibility on master;
-  // the fork is needed until unfreeze to remove an unused sbt plugin so we don't have
-  // to add a resolver (lightbend/ssl-config@b2544f853f4e62165f43a)
-  ${vars.base} {
-    name: "ssl-config"
-    uri:  ${vars.uris.ssl-config-uri}
-    extra.projects: ["sslConfigCore"]
-    // repeated hangs during testing; see
-    // https://github.com/scala/community-builds/issues/560
-    // (last confirmed: January 2018)
-    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
