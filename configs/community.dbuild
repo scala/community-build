@@ -322,11 +322,9 @@ build += {
   ${vars.base} {
     name: "discipline"
     uri:  ${vars.uris.discipline-uri}
-    extra.projects: ["disciplineJVM"]  // no Scala.js please
+    extra.projects: ["disciplineJVM", "scalaTestDisciplineJVM", "specs2DisciplineJVM"]  // no Scala.js please
   }
 
-  // frozen (March 2018) at a March 2018 commit before an sbt-catalysts version
-  // bump -- the new version wouldn't resolve, not sure why
   ${vars.base} {
     name: "catalysts"
     uri:  ${vars.uris.catalysts-uri}
