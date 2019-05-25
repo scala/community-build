@@ -1598,14 +1598,19 @@ build += {
   ${vars.base} {
     name: "akka-management"
     uri:  ${vars.uris.akka-management-uri}
-
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
+      // spray org change
+      "removeDependency io.spray spray-json"
+      """set libraryDependencies in ThisBuild += "io.crashbox" %% "spray-json" % "0.0""""
     ]
-
     extra.projects: ["docs", "akka-management", "cluster-bootstrap", "cluster-http", "integration-test-kubernetes-api-java", "integration-test-local", "integration-test-kubernetes-dns", "integration-test-aws-api-ec2-tag-based", "integration-test-kubernetes-api", "akka-discovery-aws-api", "akka-discovery-kubernetes-api", "akka-discovery-consul", "akka-discovery-marathon-api"]
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.test-tasks: "compile"
+    // spray org change
+    check-missing: false
+    deps.ignore: ["io.spray#spray-json"]
+    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
   }
 
   // TODO: drop, but here as backstop for lagom (no kafka yet for 2.13)
@@ -1646,7 +1651,6 @@ build += {
       "removeDependency io.spray spray-json"
       """set libraryDependencies in ThisBuild += "io.crashbox" %% "spray-json" % "0.0""""
     ]
-
   }
 
   // not (as of January 2018 anyway) an actively maintained project, so it's
