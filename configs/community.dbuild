@@ -613,9 +613,8 @@ build += {
     ]
   }
 
-  // this is separate from "akka" because there is a circular dependency between
-  // the akka and ssl-config repos. and also just so failures in obscure subprojects
-  // don't take out too much of the build
+  // separate from "akka"+"akka-stream" because it takes a long time to build and run the
+  // tests, and so failures in obscure subprojects don't take out too much of the build
   ${vars.base} {
     name: "akka-more"
     uri:  ${vars.uris.akka-uri}
