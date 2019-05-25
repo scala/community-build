@@ -1270,10 +1270,8 @@ build += {
     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js, no benchmarks, no docs
   }
 
-  // dependency of scalafix
-  // (we use allanrenucci's fork because that's where `organization` is set
-  // as scalafix expects; it's where 0.1.4 was apparently published from,
-  // which is the version scalafix declares a dependency on)
+  // former dependency of scalafix. now it's a leaf, we could remove it if it acts up.
+  // no commits since September 2018 (as of May 2019)
   ${vars.base} {
     name: "scala-xml-quote"
     uri:  ${vars.uris.scala-xml-quote-uri}
@@ -1310,14 +1308,11 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
-  // dependency of scalameta
-  // frozen (March 2019) at March 2019 commit before Fastparse 2 upgrade
   ${vars.base} {
     name: "scalapb"
     uri:  ${vars.uris.scalapb-uri}
     // just what scalameta needs, for now
     extra.projects: ["runtimeJVM"]
-    // there's a 2.12 -> 2.11 symlink that should make this unnecessary, don't know why we need this:
   }
 
   ${vars.base} {
@@ -1416,8 +1411,6 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
-  // frozen (April 2019) at October 2018 commit, since master has since moved to fastparse 2
-  // which we don't have yet
   ${vars.base} {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
