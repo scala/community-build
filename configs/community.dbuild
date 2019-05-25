@@ -766,22 +766,10 @@ build += {
     extra.projects: ["utestJVM"]
   }
 
-  // forked (October 2018) for JDK 11 compat, awaiting merge of
-  // https://github.com/lihaoyi/fastparse/pull/196
-  // also note that master is now Fastparse 2 which is completely
-  // source-incompatible with Fastparse 1
   ${vars.base} {
     name: "fastparse"
     uri:  ${vars.uris.fastparse-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.projects: [
-      "fastparseJVM"   // no Scala.js plz
-      "scalaparseJVM"  // dependency of scalatex
-    ]
-    extra.commands: ${vars.default-commands} [
-      // too prone to unexplained failure
-      "set executeTests in scalaparseJVM in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-    ]
+    extra.exclude: ["readme"]  // out of scope
   }
 
   // frozen (January 2019) at December 2018 commit before the build was changed
