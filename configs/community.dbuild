@@ -693,6 +693,12 @@ build += {
     uri:  ${vars.uris.scala-async-uri}
   }
 
+  // forked to remove minor usage of scalaz
+  ${vars.base} {
+    name: "prog-scala-examples"
+    uri:  ${vars.uris.prog-scala-examples-uri}
+  }
+
   ${vars.base} {
     name: "slick"
     uri:  ${vars.uris.slick-uri}
