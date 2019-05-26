@@ -54,7 +54,6 @@ object SuccessReport {
     "metrics-scala",  // scala.language.postfixOps
     "mockito-scala",  // no arguments allowed for nullary method
     "monix",  // no 2.13.0-RC1 upgrade attempted afaik
-    "paiges",  // source incompatibility involving catalysts?
     "paradox",  // no 2.13 upgrade attempted afaict
     "parboiled2",  // ???
     "play-webgoat",  // "com.typesafe.play#play-omnidoc_2.13.0-pre-bec2441;2.7.0: not found" ?!
