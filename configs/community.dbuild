@@ -449,6 +449,7 @@ build += {
     uri:  ${vars.uris.scala-java8-compat-uri}
   }
 
+  // frozen (May 2019) at May 2019 commit just before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "silencer"
     uri:  ${vars.uris.silencer-uri}
