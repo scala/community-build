@@ -453,6 +453,7 @@ build += {
     uri:  ${vars.uris.scala-java8-compat-uri}
   }
 
+  // frozen (May 2019) at May 2019 commit just before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "silencer"
     uri:  ${vars.uris.silencer-uri}
@@ -586,6 +587,21 @@ build += {
     ]
   }
 
+  // forked (February 2019) from v3.7.0 (the version playframework expects);
+  // https://github.com/lightbend/ssl-config/issues/142
+  // is about resolving the source incompatibility on master;
+  // the fork is needed until unfreeze to remove an unused sbt plugin so we don't have
+  // to add a resolver (lightbend/ssl-config@b2544f853f4e62165f43a)
+  ${vars.base} {
+    name: "ssl-config"
+    uri:  ${vars.uris.ssl-config-uri}
+    extra.projects: ["sslConfigCore"]
+    // repeated hangs during testing; see
+    // https://github.com/scala/community-builds/issues/560
+    // (last confirmed: January 2018)
+    extra.test-tasks: ["compile"]
+  }
+
   ${vars.base} {
     name: "akka-stream"
     uri:  ${vars.uris.akka-uri}
@@ -618,9 +634,8 @@ build += {
     ]
   }
 
-  // this is separate from "akka" because there is a circular dependency between
-  // the akka and ssl-config repos. and also just so failures in obscure subprojects
-  // don't take out too much of the build
+  // separate from "akka"+"akka-stream" because it takes a long time to build and run the
+  // tests, and so failures in obscure subprojects don't take out too much of the build
   ${vars.base} {
     name: "akka-more"
     uri:  ${vars.uris.akka-uri}
@@ -646,6 +661,8 @@ build += {
     ]
   }
 
+  // frozen (May 2019) at May 2019 commit just before breaking change to javadoc generation;
+  // see https://github.com/akka/akka-http/pull/2541#issuecomment-495941809
   ${vars.base} {
     name: "akka-http"
     uri:  ${vars.uris.akka-http-uri}
@@ -679,6 +696,12 @@ build += {
   ${vars.base} {
     name: "scala-async"
     uri:  ${vars.uris.scala-async-uri}
+  }
+
+  // forked to remove minor usage of scalaz
+  ${vars.base} {
+    name: "prog-scala-examples"
+    uri:  ${vars.uris.prog-scala-examples-uri}
   }
 
   ${vars.base} {
@@ -926,21 +949,6 @@ build += {
     check-missing: false
     deps.ignore: ["org.spire-math#kind-projector"]
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
-  }
-
-  // forked (February 2019) from v3.7.0 (the version playframework expects);
-  // https://github.com/lightbend/ssl-config/issues/142
-  // is about resolving the source incompatibility on master;
-  // the fork is needed until unfreeze to remove an unused sbt plugin so we don't have
-  // to add a resolver (lightbend/ssl-config@b2544f853f4e62165f43a)
-  ${vars.base} {
-    name: "ssl-config"
-    uri:  ${vars.uris.ssl-config-uri}
-    extra.projects: ["sslConfigCore"]
-    // repeated hangs during testing; see
-    // https://github.com/scala/community-builds/issues/560
-    // (last confirmed: January 2018)
-    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
