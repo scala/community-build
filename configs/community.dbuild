@@ -493,6 +493,7 @@ build += {
     uri:  ${vars.uris.scala-java8-compat-uri}
   }
 
+  // frozen (May 2019) at May 2019 commit just before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "silencer"
     uri:  ${vars.uris.silencer-uri}
@@ -694,6 +695,8 @@ build += {
     ]
   }
 
+  // frozen (May 2019) at May 2019 commit just before breaking change to javadoc generation;
+  // see https://github.com/akka/akka-http/pull/2541#issuecomment-495941809
   ${vars.base} {
     name: "akka-http"
     uri:  ${vars.uris.akka-http-uri}
@@ -727,6 +730,12 @@ build += {
   ${vars.base} {
     name: "scala-async"
     uri:  ${vars.uris.scala-async-uri}
+  }
+
+  // forked to remove minor usage of scalaz
+  ${vars.base} {
+    name: "prog-scala-examples"
+    uri:  ${vars.uris.prog-scala-examples-uri}
   }
 
   ${vars.base} {
