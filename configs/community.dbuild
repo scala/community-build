@@ -44,7 +44,7 @@ vars {
   default-commands: []
   sbt-0-13-version: "0.13.18"
   sbt-1-2-version: "1.2.8"
-  sbt-version: "1.3.0-RC1"
+  sbt-version: "1.2.8"
 }
 
 //// compiler options manipulation
