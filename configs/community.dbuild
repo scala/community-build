@@ -1339,7 +1339,7 @@ build += {
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     // use right version-specific source directory regardless of our weird dbuild Scala version numbers
     extra.commands: ${vars.default-commands} [
-      "set unmanagedSourceDirectories in Compile += baseDirectory.value / \"src\" / \"main\" / \"scala-2.13.0-RC1\""
+      "set unmanagedSourceDirectories in Compile += baseDirectory.value / \"src\" / \"main\" / \"scala-2.13.0-RC2\""
     ]
   }
 
