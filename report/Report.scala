@@ -42,7 +42,6 @@ object SuccessReport {
     "classutil",  // some Stream/LazyList confusion?
     "coursier",  // no 2.13 upgrade attempted afaict (Seq-related compile errors)
     "doobie",  // looks like we might be picking up the wrong version-specific sources?
-    "eff",  // ambiguous implicits
     "elastic4s",  // no 2.13 upgrade attempted afaict (Seq-related compile errors)
     "enumeratum",  // strange dependency error, maybe dbuild-specific? idk
     "jawn-0-10",  // no 2.13 upgrade attempted afaik
