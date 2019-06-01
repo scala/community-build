@@ -1604,6 +1604,7 @@ build += {
   }
 
   // dependency of lagom
+  // 2.13: our fork is from the abandoned PR https://github.com/akka/akka-management/pull/539
   ${vars.base} {
     name: "akka-management"
     uri:  ${vars.uris.akka-management-uri}
