@@ -867,6 +867,7 @@ build += {
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#catalysts-platform"]
   }
 
+  // frozen at last commit before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "fs2"
     uri:  ${vars.uris.fs2-uri}
@@ -2630,6 +2631,10 @@ build += {
   ${vars.base} {
     name: "scala-pet-store"
     uri:  ${vars.uris.scala-pet-store-uri}
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
 ]}
