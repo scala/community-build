@@ -1631,7 +1631,6 @@ build += {
     name: "scala-newtype"
     uri:  ${vars.uris.scala-newtype-uri}
     extra.exclude: ["newtypeJS", "catsTestsJS"]  // no Scala.js plz
-    extra.sbt-version: ${vars.sbt-0-13-version}
   }
 
   ${vars.base} {
