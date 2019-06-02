@@ -1959,7 +1959,9 @@ build += {
   }
 
   // dependency of scribe
-  ${vars.base} {
+  // frozen (June 2019) at a May 2019 commit just before a 2.13 upgrade that broke
+  // scribe downstream. presumably eventually scribe will adapt and we can unfreeze
+   ${vars.base} {
     name: "perfolation"
     uri:  ${vars.uris.perfolation-uri}
     extra.projects: ["coreJVM"]
