@@ -419,6 +419,9 @@ build += {
       //   that `testSuite` depends on (transitively), so we need to set it in a bunch of places.
       "set Seq(library, testInterface, jUnitRuntime, testSuite).map(p => jsEnv in p := new org.scalajs.jsenv.nodejs.NodeJSEnv(org.scalajs.jsenv.nodejs.NodeJSEnv.Config().withExecutable(\""${vars.node}"\").withSourceMap(false)))"
       "set MyScalaJSPlugin.wantSourceMaps in testSuite := false"
+      // Seb says it isn't appropriate to compile or run tests in this subproject;
+      // see https://github.com/scala-js/scala-js/issues/3680
+      "set test in testInterface in Test := {}"
     ]
   }
 
