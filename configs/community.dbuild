@@ -423,6 +423,7 @@ build += {
       // see https://github.com/scala-js/scala-js/issues/3680
       "set test in testInterface in Test := {}"
       "set test in jUnitRuntime in Test := {}"
+      "set test in testBridge in Test := {}"
     ]
   }
 
