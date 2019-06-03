@@ -1992,6 +1992,14 @@ build += {
     ]
   }
 
+  // forked to removed antiquated scalafmt version;
+  // problem reported upstream at https://github.com/adamw/quicklens/issues/54
+  ${vars.base} {
+    name: "quicklens"
+    uri:  ${vars.uris.quicklens-uri}
+    extra.projects: ["quicklensJVM"]
+  }
+
 ]}
 
 //// space: jawn_0_10
