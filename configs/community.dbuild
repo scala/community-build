@@ -217,11 +217,6 @@ build += {
   }
 
   ${vars.base} {
-    name: "kits"
-    uri:  ${vars.uris.kits-uri}
-  }
-
-  ${vars.base} {
     name: "scala-parser-combinators"
     uri:  ${vars.uris.scala-parser-combinators-uri}
     extra.exclude: ["scala-parser-combinatorsJS", "scala-parser-combinatorsNative"]
@@ -1998,6 +1993,11 @@ build += {
     name: "quicklens"
     uri:  ${vars.uris.quicklens-uri}
     extra.projects: ["quicklensJVM"]
+  }
+
+  ${vars.base} {
+    name: "kits"
+    uri:  ${vars.uris.kits-uri}
   }
 
 ]}
