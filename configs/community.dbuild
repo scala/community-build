@@ -423,6 +423,11 @@ build += {
       //   that `testSuite` depends on (transitively), so we need to set it in a bunch of places.
       "set Seq(library, testInterface, jUnitRuntime, testSuite).map(p => jsEnv in p := new org.scalajs.jsenv.nodejs.NodeJSEnv(org.scalajs.jsenv.nodejs.NodeJSEnv.Config().withExecutable(\""${vars.node}"\").withSourceMap(false)))"
       "set MyScalaJSPlugin.wantSourceMaps in testSuite := false"
+      // Seb says it isn't appropriate to compile or run tests in certain subprojects;
+      // see https://github.com/scala-js/scala-js/issues/3680
+      "set test in testInterface in Test := {}"
+      "set test in jUnitRuntime in Test := {}"
+      "set test in testBridge in Test := {}"
     ]
   }
 
@@ -833,6 +838,7 @@ build += {
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
+  // frozen at last commit before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "fs2"
     uri:  ${vars.uris.fs2-uri}
@@ -1936,7 +1942,9 @@ build += {
   }
 
   // dependency of scribe
-  ${vars.base} {
+  // frozen (June 2019) at a May 2019 commit just before a 2.13 upgrade that broke
+  // scribe downstream. presumably eventually scribe will adapt and we can unfreeze
+   ${vars.base} {
     name: "perfolation"
     uri:  ${vars.uris.perfolation-uri}
     extra.projects: ["coreJVM"]
@@ -1955,6 +1963,17 @@ build += {
       // failure here looks like a time zone mistake
       "set excludeFilter in (Test, unmanagedSources) in slf4j := HiddenFileFilter || \"SLF4JSpec.scala\""
     ]
+  }
+
+  ${vars.base} {
+    name: "quicklens"
+    uri:  ${vars.uris.quicklens-uri}
+    extra.projects: ["quicklensJVM"]
+  }
+
+  ${vars.base} {
+    name: "kits"
+    uri:  ${vars.uris.kits-uri}
   }
 
 ]}
@@ -2496,6 +2515,10 @@ build += {
   ${vars.base} {
     name: "scala-pet-store"
     uri:  ${vars.uris.scala-pet-store-uri}
+    // kind-projector org change
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
 ]}
