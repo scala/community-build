@@ -193,4 +193,6 @@ rm -rf target-*/project-builds
 cd report
 sbt -Dsbt.supershell=false -error "run ../dbuild-${DBUILDVERSION}/dbuild.out"
 
-exit $STATUS
+# we've captured $STATUS above, but in this version of the script, it isn't used,
+# instead the reporting stuff is in charge of calling sys.exit if it decides to
+# exit $STATUS
