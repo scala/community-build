@@ -91,6 +91,7 @@ object SuccessReport {
       println(s"UNEXPECTED SUCCESSES: $us")
     }
     println(s"FAILED $failed DID NOT RUN $didNotRun TOTAL $total")
+    sys.exit(unexpectedFailures.size)
   }
 
 }
