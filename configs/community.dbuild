@@ -1998,6 +1998,14 @@ build += {
     uri:  ${vars.uris.kits-uri}
   }
 
+  // there is a "develop" branch, but master seemed like a better bet
+  ${vars.base} {
+    name: "finagle"
+    uri:  ${vars.uris.finagle-uri}
+    // I didn't attempt to add any other subprojects
+    extra.projects: ["finagle-core"]
+  }
+
 ]}
 
 //// space: jawn_0_10
