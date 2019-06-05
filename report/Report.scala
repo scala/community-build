@@ -56,7 +56,6 @@ object SuccessReport {
     "paradox",  // no 2.13 upgrade attempted afaict
     "parboiled2",  // ???
     "play-webgoat",  // "com.typesafe.play#play-omnidoc_2.13.0-pre-bec2441;2.7.0: not found" ?!
-    "quicklens",  // no 2.13 upgrade attempted afaict
     "scala-gopher",  // no 2.13 upgrade attempted afaict
     "scala-refactoring",  // postfixOps
     "scala-stm",  // still using JavaConversions
