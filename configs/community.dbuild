@@ -1280,6 +1280,7 @@ build += {
     extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
+  // frozen (June 2019) at May 2019 commit just before sbt->mill move
   ${vars.base} {
     name: "fansi"
     uri:  ${vars.uris.fansi-uri}
@@ -1974,6 +1975,16 @@ build += {
   ${vars.base} {
     name: "kits"
     uri:  ${vars.uris.kits-uri}
+  }
+
+  // there is a "develop" branch, but master seemed like a better bet
+  ${vars.base} {
+    name: "finagle"
+    uri:  ${vars.uris.finagle-uri}
+    // test failures on 1.3.0-RC1
+    extra.sbt-version: ${vars.sbt-1-2-version}
+    // I didn't attempt to add any other subprojects
+    extra.projects: ["finagle-core"]
   }
 
 ]}
