@@ -1275,6 +1275,7 @@ build += {
     extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
+  // frozen (June 2019) at May 2019 commit just before sbt->mill move
   ${vars.base} {
     name: "fansi"
     uri:  ${vars.uris.fansi-uri}
