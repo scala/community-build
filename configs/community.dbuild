@@ -766,6 +766,8 @@ build += {
     extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
+  // frozen (June 2019) at April 2019 commit just before sbt->mill move
+
   ${vars.base} {
     name: "sourcecode"
     uri:  ${vars.uris.sourcecode-uri}
@@ -778,6 +780,8 @@ build += {
     uri:  ${vars.uris.portable-scala-reflect-uri}
     extra.projects: ["portable-scala-reflectJVM"]  // no Scala.js plz
   }
+
+  // frozen (June 2019) at May 2019 commit just before sbt->mill move
 
   ${vars.base} {
     name: "utest"
@@ -1201,7 +1205,6 @@ build += {
   ${vars.base} {
     name: "scalatags"
     uri:  ${vars.uris.scalatags-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["scalatagsJVM"]  // no Scala.js
   }
 
@@ -1287,6 +1290,7 @@ build += {
     extra.projects: ["fansiJVM"]  // no Scala.js
   }
 
+  // frozen (June 2019) at May 2019 commit just before sbt->mill move
   ${vars.base} {
     name: "pprint"
     uri:  ${vars.uris.pprint-uri}
