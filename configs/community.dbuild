@@ -424,6 +424,7 @@ build += {
       "set test in testInterface in Test := {}"
       "set test in jUnitRuntime in Test := {}"
       "set test in testBridge in Test := {}"
+      "set test in jUnitAsyncJS in Test := {}"
     ]
   }
 
