@@ -753,6 +753,7 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
+  // frozen (June 2019) at April 2019 commit just before sbt->mill move
   ${vars.base} {
     name: "acyclic"
     uri:  ${vars.uris.acyclic-uri}
