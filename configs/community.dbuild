@@ -1607,7 +1607,6 @@ build += {
   ${vars.base} {
     name: "singleton-ops"
     uri:  ${vars.uris.singleton-ops-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["singleton_opsJVM"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
