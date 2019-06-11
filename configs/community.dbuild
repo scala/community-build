@@ -44,7 +44,7 @@ vars {
   default-commands: []
   sbt-0-13-version: "0.13.18"
   sbt-1-2-version: "1.2.8"
-  sbt-version: "1.2.8"
+  sbt-version: "1.3.0-RC2"
 }
 
 //// compiler options manipulation
@@ -1612,7 +1612,6 @@ build += {
   ${vars.base} {
     name: "singleton-ops"
     uri:  ${vars.uris.singleton-ops-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["singleton_opsJVM"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
