@@ -1224,6 +1224,7 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
+  // frozen (June 2019) at June 2019 commit just before sbt->mill move
   ${vars.base} {
     name: "scalatags"
     uri:  ${vars.uris.scalatags-uri}
@@ -1833,6 +1834,7 @@ build += {
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
+      "set every bintrayOmitLicense := true"  // otherwise it complains we don't have one
     ]
   }
 
@@ -2403,6 +2405,9 @@ build += {
     ]
   }
 
+  // frozen (June 2019) at April 2019 commit before fs2 version upgraded to
+  // 1.1.x series; currently we have fs2 frozen on 1.0.x because of a ScalaTest 3.1
+  // upgrade; presumably before too long we can move them all forward together
   ${vars.base} {
     name: "jawn-fs2"
     uri:  ${vars.uris.jawn-fs2-uri}
