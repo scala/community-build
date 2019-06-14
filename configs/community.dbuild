@@ -1743,6 +1743,7 @@ build += {
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
+      "set every bintrayOmitLicense := true"  // otherwise it complains we don't have one
     ]
   }
 
