@@ -2309,6 +2309,9 @@ build += {
     ]
   }
 
+  // frozen (June 2019) at April 2019 commit before fs2 version upgraded to
+  // 1.1.x series; currently we have fs2 frozen on 1.0.x because of a ScalaTest 3.1
+  // upgrade; presumably before too long we can move them all forward together
   ${vars.base} {
     name: "jawn-fs2"
     uri:  ${vars.uris.jawn-fs2-uri}
