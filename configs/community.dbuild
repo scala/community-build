@@ -526,7 +526,7 @@ build += {
       "examples"
     ]
     // needs extra heap to even compile
-    extra.options: ["-Xmx3072m"]
+    extra.options: ["-Xmx4g"]
   }
 
   ${vars.base} {
