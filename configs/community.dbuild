@@ -1011,6 +1011,7 @@ build += {
     extra.projects: ["expectyJVM"]
   }
 
+  // 2.11: frozen (June 2019) at April 2019 commit before 2.11 support was dropped
   ${vars.base} {
     name: "twirl"
     uri:  ${vars.uris.twirl-uri}
