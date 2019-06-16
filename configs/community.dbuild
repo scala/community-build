@@ -1390,7 +1390,7 @@ build += {
     name: "doodle"
     uri: ${vars.uris.doodle-uri}
     extra.projects: [
-      "coreJVM", "java2d", "exploreJVM", "imageJVM", "turtleJVM"  // no Scala.js plz
+      "animateJVM", "coreJVM", "java2d", "exploreJVM", "imageJVM", "turtleJVM"  // no Scala.js plz
     ]
     // kind-projector org change
     check-missing: false
@@ -2524,6 +2524,8 @@ build += {
   }
 
   // dependency of scala-pet-store
+  // frozen (June 2019) at a June 2019 commit before some dependency bumps. it looks like the
+  // kind of thing where it isn't worth us digging into. (tsec.hashing.bouncy.HasherTest failed)
   ${vars.base} {
     name: "tsec"
     uri:  ${vars.uris.tsec-uri}
