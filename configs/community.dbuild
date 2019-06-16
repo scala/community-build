@@ -1045,10 +1045,7 @@ build += {
     uri:  ${vars.uris.cachecontrol-uri}
   }
 
-  // playframework and play-ws tend to get a bit out of sync with each other so it's generally better
-  // to have play-ws frozen at tag, unless it's forked.
-  // right now (May 2019) we're frozen at a May 2019 commit before some source-incompatible changes;
-  // see https://github.com/scala/community-builds/issues/912
+  // 2.11: frozen (June 2019) at May 2019 commit before 2.11 support was dropped
   ${vars.base} {
     name: "play-ws"
     uri:  ${vars.uris.play-ws-uri}
