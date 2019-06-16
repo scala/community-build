@@ -2545,6 +2545,8 @@ build += {
   }
 
   // dependency of scala-pet-store
+  // frozen (June 2019) at a June 2019 commit before some dependency bumps. it looks like the
+  // kind of thing where it isn't worth us digging into. (tsec.hashing.bouncy.HasherTest failed)
   ${vars.base} {
     name: "tsec"
     uri:  ${vars.uris.tsec-uri}
