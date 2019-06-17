@@ -476,7 +476,14 @@ build += {
     extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
-  // 2.11: 2.5-release branch seems like an appropriate choice here
+  // forked (June 2019) from release-2.5 branch to upgrade to ScalaTest 3.0.8,
+  // pending possible merge of https://github.com/akka/akka/pull/27154 and/or
+  // https://github.com/akka/akka/pull/27109
+  //
+  // this repo is volatile (very frequent commits) and when it needs to
+  // be rebuilt, the testing takes a long time (especially akka-more) and
+  // the downstream rebuilding takes a long time too.  so in general we
+  // want to freeze at a tag (preferably) or SHA (if we must).
   ${vars.base} {
     name: "akka"
     uri:  ${vars.uris.akka-uri}
