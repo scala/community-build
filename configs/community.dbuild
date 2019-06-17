@@ -515,9 +515,8 @@ build += {
     extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
-  // forked (June 2019) from release-2.5 branch to upgrade to ScalaTest 3.0.8,
-  // pending possible merge of https://github.com/akka/akka/pull/27154 and/or
-  // https://github.com/akka/akka/pull/27109
+  // 2.13: using 2.5-scala-2.13.0-RC2 for now, but if https://github.com/akka/akka/pull/27109
+  // goes through we could probably switch to the release-2.5 branch
   //
   // this repo is volatile (very frequent commits) and when it needs to
   // be rebuilt, the testing takes a long time (especially akka-more) and
