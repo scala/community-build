@@ -668,6 +668,10 @@ build += {
       "akka-stream", "akka-stream-testkit", "akka-remote", "akka-stream-tests"  // because we already built them in "akka-stream"
       "akka-bench-jmh", "akka-bench-jmh-typed"  // we'd have to add a resolver to get the JMH dependency, and we prefer not to run benchmarks here anyway
       "akka-protobuf", "akka-multi-node-testkit"  // already built these in akka-stream
+      // as per https://github.com/akka/akka/issues/26618, the typed modules are not expected
+      // to work on Scala 2.11, so we can exclude any typed modules that cause trouble:
+      "akka-distributed-data"  // LoggerSpec fails, again as per issue 26618
+      "akka-cluster-sharding", "akka-cluster-typed", "akka-cluster-sharding-typed"  // these depend on akka-distributed-data
     ]
   }
 
