@@ -945,13 +945,6 @@ build += {
     // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
     deps.ignore: ["org.scala-sbt#scripted-sbt"]
     check-missing: false
-    // MiMa's functional tests are its most important test suite
-    // Just "testFunctional" means it will:
-    // 1. compile MiMa with HEAD scala
-    // 2. compile all of MiMa's functional test projects with HEAD scala
-    // 3. run MiMa to verify expected and not-expected binary problems
-    // (more combinations should be run: https://github.com/lightbend/mima/issues/318)
-    extra.test-tasks: ["test", "it:test", "testFunctional"]
   }
 
   ${vars.base} {
