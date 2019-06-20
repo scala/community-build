@@ -121,7 +121,12 @@ build += {
   ${vars.base} {
     name: "scala-xml"
     uri:  ${vars.uris.scala-xml-uri}
-    extra.settings: ["scalaVersion in ThisBuild := \""${vars.scala-version}"\""]
+    check-missing: false
+    deps.ignore: ["ch.epfl.lamp#dotty-library"]
+    extra.settings: [
+      "scalaVersion in ThisBuild := \""${vars.scala-version}"\""
+      "scalaBinaryVersion in ThisBuild := \"0.16\""
+    ]
     extra.projects: ["xml"]
     extra.commands: ${vars.base.extra.commands} [
       // work around https://github.com/scala/community-builds/issues/575
