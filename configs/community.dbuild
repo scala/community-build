@@ -1,15 +1,3 @@
-//// about spaces
-
-// we have these spaces:
-// - scala
-//   - scala.main
-//     - scala.main.jawn_0_10
-//     - scala.main.jawn_0_11
-// the jawn split is because sbt 1 uses jawn 0.10.x (via its dependency
-// on sjson-new) and the sbt team doesn't want to break  binary compatibility
-// of sbt plugins. nearly everything else is on jawn 0.11, and the two versions
-// are source-incompatible.
-
 //// from environment
 
 vars: {
@@ -125,6 +113,7 @@ build += {
 
   space: scala
 
+  projects: [
   {
     name:  "scala"
     system: assemble
@@ -132,25 +121,29 @@ build += {
     extra.parts.projects: [
       {
         set-version: ${vars.scala-version}
-        name:   scala-library
+        name:   dotty-library
         system: aether
-        uri:   "aether:org.scala-lang#scala-library;"${vars.scala-version}
-        extra.sources: true  // Scala.js wants this
+        uri:   "aether:ch.epfl.lamp#dotty-library_0.16;"${vars.scala-version}
       }
       {
         set-version: ${vars.scala-version}
-        name:   scala-reflect
+        name:   dotty-compiler
         system: aether
-        uri:   "aether:org.scala-lang#scala-reflect;"${vars.scala-version}
+        uri:   "aether:ch.epfl.lamp#dotty-compiler_0.16;"${vars.scala-version}
       }
-      {
-        set-version: ${vars.scala-version}
-        name:   scala-compiler
-        system: aether
-        uri:   "aether:org.scala-lang#scala-compiler;"${vars.scala-version}
-      }
+      // [scala:warn] WARN: The dependency of dotty-library on com.novocode#junit-interface will be ignored.
+      // [scala:warn] WARN: The dependency of dotty-library on org.scala-lang#scala-library will be ignored.
+      // [scala:warn] WARN: The dependency of dotty-compiler on ch.epfl.lamp#dotty-interfaces will be ignored.
+      // [scala:warn] WARN: The dependency of dotty-compiler on com.novocode#junit-interface will be ignored.
+      // [scala:warn] WARN: The dependency of dotty-compiler on org.scala-lang.modules#scala-asm will be ignored.
+      // [scala:warn] WARN: The dependency of dotty-compiler on org.scala-lang#scala-library will be ignored.
+      // [scala:warn] WARN: The dependency of dotty-compiler on org.scala-sbt#compiler-interface will be ignored.
+      // [scala:warn] WARN: The dependency of dotty-compiler on org.jline#jline-reader will be ignored.
+      // [scala:warn] WARN: The dependency of dotty-compiler on org.jline#jline-terminal will be ignored.
+      // [scala:warn] WARN: The dependency of dotty-compiler on org.jline#jline-terminal-jna will be ignored.
     ]
   }
+
 ]}
 
 //// space: scala.main
@@ -166,22 +159,27 @@ build += {
 
   projects: [
 
-  // frozen (February 2019) at a December 2018 commit
-  // because of a downstream circe failure, reported here:
-  // https://github.com/circe/circe/issues/1084
+  ${vars.base} {
+    name: "scala-xml"
+    uri:  ${vars.uris.scala-xml-uri}
+    extra.projects: ["xml"]
+    extra.commands: ${vars.base.extra.commands} [
+      // work around https://github.com/scala/community-builds/issues/575
+      // (in a community build context, we don't need MiMa to run)
+      "set every ScalaModulePlugin.mimaPreviousVersion := None"
+    ]
+  }
+
   ${vars.base} {
     name: "scalacheck"
     uri:  ${vars.uris.scalacheck-uri}
     extra.projects: ["jvm"]  // no Scala.js please
   }
 
-  // see also scalatest-tests
-  // forked for: build tweak, JDK 11 friendliness, comment out a test
-  // fork refreshed (from 3.0.x branch) January 2019
   ${vars.base} {
     name: "scalatest"
     uri:  ${vars.uris.scalatest-uri}
-    extra.projects: ["scalatest", "scalactic"]
+    extra.projects: ["scalacticTestDotty", "scalatestTestDotty"]
   }
 
   ${vars.base} {
@@ -193,29 +191,6 @@ build += {
       // (in a community build context, we don't need MiMa to run)
       "set every ScalaModulePlugin.mimaPreviousVersion := None"
     ]
-  }
-
-  ${vars.base} {
-    name: "scala-js-stubs"
-    uri:  ${vars.uris.scala-js-stubs-uri}
-  }
-
-  ${vars.base} {
-    name: "scala-collection-compat"
-    uri:  ${vars.uris.scala-collection-compat-uri}
-    extra.projects: ["compat212"]  // no Scala.js or Scalafix rules plz
-  }
-
-  ${vars.base} {
-    name: "scala-java-time"
-    uri:  ${vars.uris.scala-java-time-uri}
-    extra.projects: ["scalajavatimeJVM", "scalajavatimeTZDBJVM", "scalajavatimeTestsJVM"]  // no Scala.js plz
-  }
-
-  ${vars.base} {
-    name: "claimant"
-    uri:  ${vars.uris.claimant-uri}
-    extra.exclude: ["root", "mcJS", "coreJS"]  // no Scala.js plz
   }
 
 ]}
