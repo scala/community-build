@@ -105,53 +105,6 @@ options.cleanup: {
   }
 }
 
-//// Scala itself
-
-build += {
-  sbt-version: ${vars.sbt-version}
-  extraction-version: ${vars.scala-version}
-
-  space: scala
-
-  projects: [
-  {
-    name:  "scala"
-    system: assemble
-    cross-version: disabled
-    extra.parts.projects: [
-      {
-        set-version: ${vars.scala-version}
-        name:   scala-library
-        system: aether
-        uri:   "aether:ch.epfl.lamp#scala-library;"${vars.scala-version}
-      }
-      {
-        set-version: ${vars.scala-version}
-        name:   dotty-library
-        system: aether
-        uri:   "aether:ch.epfl.lamp#dotty-library_0.16;"${vars.scala-version}
-      }
-      {
-        set-version: ${vars.scala-version}
-        name:   dotty-compiler
-        system: aether
-        uri:   "aether:ch.epfl.lamp#dotty-compiler_0.16;"${vars.scala-version}
-      }
-      // [scala:warn] WARN: The dependency of dotty-library on com.novocode#junit-interface will be ignored.
-      // [scala:warn] WARN: The dependency of dotty-library on org.scala-lang#scala-library will be ignored.
-      // [scala:warn] WARN: The dependency of dotty-compiler on ch.epfl.lamp#dotty-interfaces will be ignored.
-      // [scala:warn] WARN: The dependency of dotty-compiler on com.novocode#junit-interface will be ignored.
-      // [scala:warn] WARN: The dependency of dotty-compiler on org.scala-lang.modules#scala-asm will be ignored.
-      // [scala:warn] WARN: The dependency of dotty-compiler on org.scala-lang#scala-library will be ignored.
-      // [scala:warn] WARN: The dependency of dotty-compiler on org.scala-sbt#compiler-interface will be ignored.
-      // [scala:warn] WARN: The dependency of dotty-compiler on org.jline#jline-reader will be ignored.
-      // [scala:warn] WARN: The dependency of dotty-compiler on org.jline#jline-terminal will be ignored.
-      // [scala:warn] WARN: The dependency of dotty-compiler on org.jline#jline-terminal-jna will be ignored.
-    ]
-  }
-
-]}
-
 //// space: scala.main
 
 build += {
@@ -168,6 +121,7 @@ build += {
   ${vars.base} {
     name: "scala-xml"
     uri:  ${vars.uris.scala-xml-uri}
+    extra.settings: ["scalaVersion in ThisBuild := \""${vars.scala-version}"\""]
     extra.projects: ["xml"]
     extra.commands: ${vars.base.extra.commands} [
       // work around https://github.com/scala/community-builds/issues/575
