@@ -86,7 +86,7 @@ vars.base.extra.commands = ${vars.default-commands}
 
 //// count lines of code
 
-vars.base.extra.settings = []
+vars.base.extra.settings = ["""scalaVersion := "${vars.scala-version}""""]
 vars.base.deps.inject: []
 
 //// cache
