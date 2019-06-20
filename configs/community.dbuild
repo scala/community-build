@@ -112,7 +112,7 @@ build += {
   space: scala.main
 
   check-missing: [ true, false ]
-  cross-version: [ disabled, standard ]
+  cross-version: standard
   extraction-version: ${vars.scala-version}
   sbt-version: ${vars.sbt-version}
 
@@ -123,12 +123,9 @@ build += {
     uri:  ${vars.uris.scala-xml-uri}
     check-missing: false
     deps.ignore: ["ch.epfl.lamp#dotty-library"]
-    extra.settings: [
-      "scalaVersion in ThisBuild := \""${vars.scala-version}"\""
-      "scalaBinaryVersion in ThisBuild := \"0.16\""
-    ]
     extra.projects: ["xml"]
     extra.commands: ${vars.base.extra.commands} [
+      "++"${vars.scala-version}"!"
       // work around https://github.com/scala/community-builds/issues/575
       // (in a community build context, we don't need MiMa to run)
       "set every ScalaModulePlugin.mimaPreviousVersion := None"
