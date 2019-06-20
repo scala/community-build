@@ -1663,6 +1663,10 @@ build += {
     extra.exclude: ["fsi-benchmark", "fsi-benchmark-core"]
   }
 
+  // frozen (June 2019) at a June 2019 config just before a sbt-coursier
+  // version bump that seems to be confusing dbuild during dependency extraction:
+  // [scalacheck-shapeless] [error] java.lang.NoSuchMethodError: lmcoursier.definitions.ToCoursier$.project(Llmcoursier/definitions/Project;)Lcoursier/core/Project;
+  // [scalacheck-shapeless] [error] 	at coursier.sbtcoursier.ResolutionTasks$.$anonfun$resolutionsTask$3(ResolutionTasks.scala:42)
   ${vars.base} {
     name: "scalacheck-shapeless"
     uri:  ${vars.uris.scalacheck-shapeless-uri}
