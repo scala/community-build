@@ -42,9 +42,8 @@ include file(".dbuild/resolvers.conf")
 
 vars {
   default-commands: []
-  sbt-0-13-version: "0.13.18"
   sbt-1-2-version: "1.2.8"
-  sbt-version: "1.3.0-RC2"
+  sbt-version: "1.2.8"
 }
 
 //// compiler options manipulation
@@ -99,8 +98,8 @@ vars.base.extra.commands = ${vars.default-commands}
 
 //// count lines of code
 
-vars.base.extra.settings = ["""libraryDependencies in ThisBuild += compilerPlugin("com.lightbend" %% "cloc-plugin" % "0")"""]
-vars.base.deps.inject: ["com.lightbend#cloc-plugin"]
+vars.base.extra.settings = []
+vars.base.deps.inject: []
 
 //// cache
 
@@ -126,11 +125,6 @@ build += {
 
   space: scala
 
-  projects: [
-  {
-    name: "cloc-plugin"
-    uri:  "https://github.com/SethTisue/cloc-plugin.git"
-  }
   {
     name:  "scala"
     system: assemble
@@ -155,33 +149,8 @@ build += {
         system: aether
         uri:   "aether:org.scala-lang#scala-compiler;"${vars.scala-version}
       }
-      {
-        name: "scala-xml"
-        // master has moved to a new 2.x series, but the Scala 2.12 compiler
-        // is going to continue depending on 1.x, in fact Scala 2.12 will
-        // probably stay frozen at 1.0.6 forever. but the v1.0.6 tag won't
-        // build on JDK 11, so let's use the 1.x branch
-        uri: "https://github.com/scala/scala-xml.git#1.x"
-        // this gives us "scala-xml_2.12" which is what we want, sbt 1 will get
-        // upset if there are two different kinds of scala-xml dependencies
-        // floating around (https://github.com/scala/community-builds/issues/679)
-        cross-version: standard
-        // override sbt version here since otherwise we get
-        // whatever random sbt version the module has
-        extra.sbt-version: ${vars.sbt-0-13-version}
-        extra.commands: ${vars.default-commands} [
-          // override scalaVersion here since otherwise we get
-          // whatever random Scala version the module has
-          "set scalaVersion := \""${vars.scala-version}"\""
-          // work around https://github.com/scala/community-builds/issues/575
-          // (in a community build context, we don't need MiMa to run)
-          "set every ScalaModulePlugin.mimaPreviousVersion := None"
-        ]
-        extra.projects: ["xml"]
-      }
     ]
   }
-
 ]}
 
 //// space: scala.main
@@ -212,7 +181,6 @@ build += {
   ${vars.base} {
     name: "scalatest"
     uri:  ${vars.uris.scalatest-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["scalatest", "scalactic"]
   }
 
