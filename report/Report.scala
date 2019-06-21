@@ -40,7 +40,6 @@ object SuccessReport {
         Set(
           "coursier",  // needs scala/bug#11125 workaround
           "doobie",  // needs scala/bug#11125 workaround
-          "jsoniter-scala",  // "Cancelling publish, please use JDK 1.8" -- can we override?
           "lagom",  // "javadoc: error - invalid flag: -d"
           "sbt-util",  // needs scala/bug#11125 workaround
           "scala-debugger",  // "object FieldInfo is not a member of package sun.reflect"
