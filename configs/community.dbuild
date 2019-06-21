@@ -1833,6 +1833,12 @@ build += {
     extra.exclude: ["jsoniter-scala-benchmark"]
   }
 
+  // compile-time only dependency of jsoniter-scala
+  ${vars.base} {
+    name: "expression-evaluator"
+    uri:  ${vars.uris.expression-evaluator-uri}
+  }
+
   ${vars.base} {
     name: "scalatex"
     uri:  ${vars.uris.scalatex-uri}
