@@ -2447,6 +2447,7 @@ build += {
     // unfreezing pureconfig (or updating our fork) would fix it, but I'd rather not mess
     // it with right now.
     extra.projects: ["catsJVM", "coreJVM", "evalJVM", "jsonpathJVM", "scalacheckJVM", "shapelessJVM"]
+    extra.exclude: ["scalacheck_1_13JVM"]
   }
 
   // in this space because refinedJVM subproject depends on refined
