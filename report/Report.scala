@@ -53,7 +53,6 @@ object SuccessReport {
     "monix",  // no 2.13.0-RC1 upgrade attempted afaik
     "paradox",  // no 2.13 upgrade attempted afaict
     "parboiled2",  // ???
-    "scala-gopher",  // no 2.13 upgrade attempted afaict
     "scala-refactoring",  // postfixOps
     "scala-stm",  // still using JavaConversions
     "scala-xml-quote",  // Unit companion object not allowed in source
