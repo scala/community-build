@@ -185,17 +185,10 @@ build += {
     ]
   }
 
-  // forked (October 2018) for JDK 11 friendliness
-  // frozen (February 2019) at a December 2018 commit
-  // because of a downstream circe failure, reported here:
-  // https://github.com/circe/circe/issues/1084
   ${vars.base} {
     name: "scalacheck"
     uri:  ${vars.uris.scalacheck-uri}
     extra.projects: ["jvm"]  // no Scala.js please
-    extra.commands: ${vars.base.extra.commands} [
-      "set jvm/Test/unmanagedSources/excludeFilter := HiddenFileFilter || \"SerializabilitySpecification.scala\""
-    ]
   }
 
   // see also scalatest-tests
