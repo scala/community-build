@@ -1883,12 +1883,10 @@ build += {
   }
 
   // OlegYch's fork hangs out in scala/scala (Gitter) and #scala (IRC)
+  // we forked it his fork to remove minor usage of scalaz
   ${vars.base} {
     name: "multibot"
     uri:  ${vars.uris.multibot-uri}
-    // linter isn't essential to the build
-    deps.ignore: ["org.psywerx.hairyfotr#linter"]
-    check-missing: false
   }
 
   // forked off v4.0.0-M11 since that's what scalafix currently (Sep 2 2018) expects
