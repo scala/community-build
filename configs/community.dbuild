@@ -263,7 +263,6 @@ build += {
   ${vars.base} {
     name: "scala-collection-contrib"
     uri:  ${vars.uris.scala-collection-contrib-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
   }
 
   ${vars.base} {
