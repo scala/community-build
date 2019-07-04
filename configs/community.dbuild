@@ -1314,6 +1314,9 @@ build += {
     name: "fansi"
     uri:  ${vars.uris.fansi-uri}
     extra.projects: ["fansiJVM"]  // no Scala.js
+    extra.commands: ${vars.base.extra.commands} [
+      "removeScalacOptions -target:jvm-1.7"
+    ]
   }
 
   // frozen (June 2019) at May 2019 commit just before sbt->mill move
