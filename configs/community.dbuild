@@ -1327,6 +1327,9 @@ build += {
     // we could re-enable tests if https://github.com/lihaoyi/PPrint/pull/23
     // is updated for 2.12.8 and merged
     extra.test-tasks: ["compile"]
+    extra.commands: ${vars.base.extra.commands} [
+      "removeScalacOptions -target:jvm-1.7"
+    ]
   }
 
   // frozen (May 2019) at May 2019 commit just before ScalaTest 3.1 upgrade
