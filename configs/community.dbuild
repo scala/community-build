@@ -1791,8 +1791,8 @@ build += {
     extra.run-tests: false
   }
 
-  // OlegYch's fork hangs out in scala/scala (Gitter) and #scala (IRC)
-  // we forked it his fork to remove minor usage of scalaz
+  // OlegYch's fork hangs out in scala/scala (Gitter) and #scala (IRC).
+  // frozen (July 2019) at December 2018 commit just before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "multibot"
     uri:  ${vars.uris.multibot-uri}
