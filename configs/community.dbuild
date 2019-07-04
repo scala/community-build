@@ -1890,10 +1890,16 @@ build += {
   }
 
   // OlegYch's fork hangs out in scala/scala (Gitter) and #scala (IRC).
-  // frozen (July 2019) at December 2018 commit just before ScalaTest 3.1 upgrade
+  // 2.13: support is on master, but requires ScalaTest 3.1
   ${vars.base} {
     name: "multibot"
     uri:  ${vars.uris.multibot-uri}
+    extra.commands: ${vars.base.extra.commands} [
+      "removeDependency org.scalaz scalaz-iteratee"
+      "removeDependency org.scalaz scalaz-effect"
+      "removeDependency org.scalaz scalaz-concurrent"
+      "removeDependency org.scalaz scalaz-ioeffect"
+    ]
   }
 
   // forked off v4.0.0-M11 since that's what scalafix currently (Sep 2 2018) expects
