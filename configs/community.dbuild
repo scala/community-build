@@ -1796,6 +1796,14 @@ build += {
   ${vars.base} {
     name: "multibot"
     uri:  ${vars.uris.multibot-uri}
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+    extra.commands: ${vars.base.extra.commands} [
+      "removeDependency org.spire-math kind-projector"
+      "removeDependency org.scalaz scalaz-iteratee"
+      "removeDependency org.scalaz scalaz-effect"
+      "removeDependency org.scalaz scalaz-concurrent"
+      "removeDependency org.scalaz scalaz-ioeffect"
+    ]
   }
 
   // forked off v4.0.0-M11 since that's what scalafix currently (Sep 2 2018) expects
