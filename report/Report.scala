@@ -35,7 +35,9 @@ object SuccessReport {
   val expectedToFail: Set[String] =
     System.getProperty("java.specification.version") match {
       case "1.8" =>
-        Set()
+        Set(
+          "kafka",  // test failures, notified Enno on Jul 8
+        )
       case _ =>
         Set(
           "coursier",  // needs scala/bug#11125 workaround
