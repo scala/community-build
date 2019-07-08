@@ -176,7 +176,6 @@ build += {
   ${vars.base} {
     name: "scala-xml"
     uri:  ${vars.uris.scala-xml-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version} // scala-xml 1.2 is on old scala module sbt plugin, which is not published for sbt 1.x
     extra.projects: ["xml"]
     extra.commands: ${vars.base.extra.commands} [
       // work around https://github.com/scala/community-builds/issues/575
