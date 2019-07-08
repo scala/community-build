@@ -457,10 +457,7 @@ build += {
       // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
       "-Xmx2048m"
     ]
-    // not really sure how this list was arrived at
-    // "linker" was disabled for 2.13.x because it requires parallel collections
-    // we should re-enable it sometime, as per the abandoned https://github.com/scala/community-builds/pull/856
-    extra.projects: ["logging", "testSuite"]
+    extra.projects: ["logging", "testSuite", "linker"]
     extra.commands: ${vars.default-commands} [
       // - We disable source map tests to save ourselves a `npm install source-map-support` on the workers.
       //   Although only `testSuite` actually has tests, dbuild will try to run the tests for all projects
