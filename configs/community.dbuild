@@ -2486,6 +2486,7 @@ build += {
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
+  // forked pending merge of https://github.com/softwaremill/sttp/pull/247
   ${vars.base} {
     name: "sttp"
     uri:  ${vars.uris.sttp-uri}
@@ -2497,12 +2498,13 @@ build += {
     extra.exclude: [
       // it's fine, we don't need to have every last subproject
       "monix", "okhttpBackendMonix", "asyncHttpClientBackendMonix"
-      "scalaz", "zio", "asyncHttpClientBackendZio"
+      "scalaz", "zio", "asyncHttpClientBackendZio", "asyncHttpClientBackendScalaz",
+      "asyncHttpClientBackendZio-streams"
     ]
-    // kind-projector org change
+    // spray org change
     check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+    deps.ignore: ["io.spray#spray-json"]
+    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
   }
 
   // dependency of scrooge-shapes.
