@@ -2577,6 +2577,8 @@ build += {
   ${vars.base} {
     name: "tsec"
     uri:  ${vars.uris.tsec-uri}
+    // on 1.3.0-RC2 tsec.SignatureTests failed, likely related to classloader layering
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.exclude: [
       "microsite", "tsec-bench"  // out of scope
       "tsec-libsodium"  // java.lang.UnsatisfiedLinkError: no sodiumjni in java.library.path
