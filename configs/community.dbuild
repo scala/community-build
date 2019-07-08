@@ -1144,6 +1144,10 @@ build += {
     name: "sconfig"
     uri:  ${vars.uris.sconfig-uri}
     extra.exclude: ["sconfigNative", "sconfigJS"]
+    // use right version-specific source directories regardless of our weird dbuild Scala version numbers
+    extra.commands: ${vars.default-commands} [
+      "set unmanagedSourceDirectories in (sconfigJVM, Compile) += (baseDirectory in ThisBuild).value / \"sconfig\" / \"shared\" / \"src\" / \"main\" / \"scala-2.12\""
+    ]
   }
 
   // frozen (November 2017) at June 2017 commit, for compatibility with
