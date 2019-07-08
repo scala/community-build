@@ -1838,9 +1838,9 @@ build += {
     ]
     // use right version-specific source directories regardless of our weird dbuild Scala version numbers
     extra.commands: ${vars.default-commands} [
-      "set unmanagedSourceDirectories in (commonJVM, Compile) += (baseDirectory in commonJVM).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (dialectsJVM, Compile) += (baseDirectory in dialectsJVM).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (semanticdbScalacCore, Compile) += (baseDirectory in semanticdbScalacCore).value / \"src\" / \"main\" / \"scala-2.12.6\""
+      """set unmanagedSourceDirectories in (commonJVM, Compile) += (baseDirectory in commonJVM).value / "src" / "main" / "scala-2.12""""
+      """set unmanagedSourceDirectories in (dialectsJVM, Compile) += (baseDirectory in dialectsJVM).value / "src" / "main" / "scala-2.12""""
+      """set unmanagedSourceDirectories in (semanticdbScalacCore, Compile) += (baseDirectory in semanticdbScalacCore).value / "src" / "main" / "scala-2.12.6""""
     ]
   }
 
@@ -1921,6 +1921,8 @@ build += {
   ${vars.base} {
     name: "scalafix"
     uri:  ${vars.uris.scalafix-uri}
+    // failed tests; not investigated
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.exclude: ["docs"]
     extra.commands: ${vars.default-commands} [
       // java.lang.IllegalStateException: unable to auto-detect semanticdb-scalac compiler plugin
