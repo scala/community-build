@@ -1946,17 +1946,12 @@ build += {
   ${vars.base} {
     name: "euler"
     uri:  ${vars.uris.euler-uri}
-    // some solutions are heap-hungry. avoiding parallel execution prevents
-    // intermittent OOM issue
+    // some solutions are heap-hungry; serial execution avoids intermittent OOM
     extra.commands: ${vars.default-commands} [
       "set parallelExecution in Test := false"
     ]
     // hungry hungry heapos
     extra.options: ["-Xmx4g"]
-    extra.commands: ${vars.default-commands} [
-      // this can be removed once https://github.com/scala/scala/pull/6828 is merged
-      "set excludeFilter in (Test, unmanagedSources) := HiddenFileFilter || \"75.scala\" || \"95.scala\""
-    ]
   }
 
   ${vars.base} {
