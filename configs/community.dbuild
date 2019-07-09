@@ -831,7 +831,8 @@ build += {
   // https://github.com/lihaoyi/fastparse/pull/196
   // also note that master is now Fastparse 2 which is completely
   // source-incompatible with Fastparse 1
-  // 2.13: using special 2.13 branch
+  // 2.13: our fork is forked from lihaoyi/fastparse.git#2.13-for-1.x
+  // and then adds a JDK 11 fix
   ${vars.base} {
     name: "fastparse"
     uri:  ${vars.uris.fastparse-uri}
