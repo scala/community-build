@@ -2596,7 +2596,7 @@ build += {
   }
 
   // dependency of scala-pet-store
-  // 2.13: series/0.6.x doesn't have 2.13 support, let's try series/0.7.x
+  // 2.13: series/0.6.x doesn't have 2.13 support, let's try series/0.8.x
   ${vars.base} {
     name: "doobie"
     uri:  ${vars.uris.doobie-uri}
@@ -2609,10 +2609,6 @@ build += {
       "set executeTests in example in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
     ]
     extra.exclude: ["docs", "doobie", "bench"]  // out of scope ("doobie" is just an aggregation, and causes missing-tut error)
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   // dependency of scala-pet-store

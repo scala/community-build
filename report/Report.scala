@@ -40,7 +40,6 @@ object SuccessReport {
     "case-app",  // shapeless-related compilation errors, looks hairy
     "circe-jackson",  // overloading related compile errors
     "coursier",  // no 2.13 upgrade attempted afaict (Seq-related compile errors)
-    "doobie",  // looks like we might be picking up the wrong version-specific sources?
     "elastic4s",  // no 2.13 upgrade attempted afaict (Seq-related compile errors)
     "jawn-0-10",  // no 2.13 upgrade attempted afaik
     "kafka",  // no 2.13 upgrade attempted afaik
