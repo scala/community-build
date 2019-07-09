@@ -212,9 +212,6 @@ build += {
 
   projects: [
 
-  // frozen (February 2019) at a December 2018 commit
-  // because of a downstream circe failure, reported here:
-  // https://github.com/circe/circe/issues/1084
   ${vars.base} {
     name: "scalacheck"
     uri:  ${vars.uris.scalacheck-uri}
@@ -1957,6 +1954,9 @@ build += {
     // failed compilation on 1.3; not investigated
     //  cannot find symbol; symbol: class MockTime
     extra.sbt-version: ${vars.sbt-1-2-version}
+    // don't run tests for now as several are known to fail; waiting (July 2019)
+    // on response from Enno about it
+    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
@@ -2469,7 +2469,6 @@ build += {
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
-  // forked pending merge of https://github.com/softwaremill/sttp/pull/247
   ${vars.base} {
     name: "sttp"
     uri:  ${vars.uris.sttp-uri}
@@ -2577,6 +2576,10 @@ build += {
   ${vars.base} {
     name: "scala-pet-store"
     uri:  ${vars.uris.scala-pet-store-uri}
+    // kind-projector org change; remove when we unfreeze
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
 ]}

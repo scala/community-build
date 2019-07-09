@@ -36,7 +36,6 @@ object SuccessReport {
     System.getProperty("java.specification.version") match {
       case "1.8" =>
         Set(
-          "kafka",  // test failures, notified Enno on Jul 8
         )
       case _ =>
         Set(
@@ -77,7 +76,8 @@ object SuccessReport {
     if (unexpectedFailures.isEmpty)
       println(s"SUCCESS $success")
     else {
-      val uf = unexpectedFailures.mkString(",")
+      val counts = blockerCounts.withDefaultValue(0)
+      val uf = unexpectedFailures.sortBy(counts).reverse.mkString(",")
       println(s"SUCCESS $success FAILED?! $uf")
     }
     if (didNotRun > 0) {
