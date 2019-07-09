@@ -2488,7 +2488,6 @@ build += {
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
-  // forked pending merge of https://github.com/softwaremill/sttp/pull/247
   ${vars.base} {
     name: "sttp"
     uri:  ${vars.uris.sttp-uri}
