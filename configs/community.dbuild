@@ -448,8 +448,6 @@ build += {
     extra.commands: ${vars.default-commands} [
       // not sure if necessary, but we have it in the specs entry, so let's have it here too
       "set every publishMavenStyle := false"
-      // flaky test, https://github.com/etorreborre/specs2/issues/673
-      "set excludeFilter in (Test, unmanagedSources) in examplesJvm := HiddenFileFilter || \"StackIsolatedSpec.scala\""
     ]
   }
 
@@ -494,8 +492,6 @@ build += {
       "set skip in publish in actorTests := false"
       // makes "configuration not public" errors downstream go away
       "set every publishMavenStyle := false"
-      // https://github.com/akka/akka/issues/25882
-      "set excludeFilter in (Test, unmanagedSources) in actorTests := HiddenFileFilter || \"UdpConnectedIntegrationSpec.scala\""
       // idk why, but prevents dbuild-only sun.misc.Unsafe compile errors;
       // see https://github.com/scala/community-builds/issues/757
       "set scalacOptions in Compile in actor --= Seq(\"-release\", \"8\")"
@@ -1064,10 +1060,6 @@ build += {
     name: "play-file-watch"
     uri:  ${vars.uris.play-file-watch-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.commands: ${vars.default-commands} [
-      // failing test I haven't gotten around to reporting upstream
-      "set excludeFilter in (Test, unmanagedSources) in `play-file-watch` := HiddenFileFilter || \"FileWatchServiceSpec.scala\""
-    ]
   }
 
   ${vars.base} {
@@ -1550,10 +1542,6 @@ build += {
     uri:  ${vars.uris.paradox-uri}
     extra.exclude: ["plugin", "themePlugin", "genericTheme"]
     check-missing: false  // ignore missing scripted-sbt
-    extra.commands: ${vars.default-commands} [
-      // flaky test, reported at https://github.com/lightbend/paradox/issues/229
-      "set excludeFilter in (Test, unmanagedSources) in tests := HiddenFileFilter || \"VarsDirectiveSpec.scala\""
-    ]
   }
 
   // dependency of lagom. forked (August 2018) at last green version,
@@ -1903,13 +1891,6 @@ build += {
     extra.options: [
       "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
     ]
-    extra.commands: ${vars.default-commands} [
-      // FormatTests: maybe xml-related, I should report it upstream
-      // GitOptsTest: Failed git command. Got: java.lang.IllegalStateException: Failed to
-      // run command git commit -m 'some-message'. Error: *** Please tell me
-      // who you are. Run git config --global user.email "you@example.com"
-      """set excludeFilter in (Test, unmanagedSources) in tests := HiddenFileFilter || "FormatTests.scala" || "GitOpsTest.scala""""
-    ]
   }
 
   // frozen (September 2018) at a September 2018 commit just before a scalameta
@@ -1953,10 +1934,6 @@ build += {
     ]
     // hungry hungry heapos
     extra.options: ["-Xmx4g"]
-    extra.commands: ${vars.default-commands} [
-      // this can be removed once https://github.com/scala/scala/pull/6828 is merged
-      "set excludeFilter in (Test, unmanagedSources) := HiddenFileFilter || \"75.scala\" || \"95.scala\""
-    ]
   }
 
   ${vars.base} {
@@ -2012,12 +1989,6 @@ build += {
     name: "scribe"
     uri:  ${vars.uris.scribe-uri}
     extra.projects: ["coreJVM", "macrosJVM", "slf4j"]
-    extra.commands: ${vars.default-commands} [
-      // intermittently failing test I haven't gotten around to reporting upstream
-      "set excludeFilter in (Test, unmanagedSources) in coreJVM := HiddenFileFilter || \"FileLoggingSpec.scala\""
-      // failure here looks like a time zone mistake
-      "set excludeFilter in (Test, unmanagedSources) in slf4j := HiddenFileFilter || \"SLF4JSpec.scala\""
-    ]
   }
 
   ${vars.base} {
