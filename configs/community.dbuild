@@ -1872,8 +1872,7 @@ build += {
       // holy cow there are a lot of subprojects. it's not super clear what's important
       // to include.  this is the main thing:
       "semanticdbScalacPlugin"
-      // and I empirically found scalafix and/or scalafmt to need:
-      "testkit", "contribJVM", "symtab", "metapJVM"
+      // we may need to re-add other subprojects to get scalafix and/or scalafmt working on 2.13
     ]
     // use right version-specific source directories regardless of our weird dbuild Scala version numbers
     extra.commands: ${vars.default-commands} [
