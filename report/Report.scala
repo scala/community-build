@@ -36,7 +36,6 @@ object SuccessReport {
     System.getProperty("java.specification.version") match {
       case "1.8" =>
         Set(
-          "kafka",  // test failures, notified Enno on Jul 8
         )
       case _ =>
         Set(
