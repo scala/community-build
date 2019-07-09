@@ -1138,25 +1138,11 @@ build += {
     extra.exclude: ["sconfigNative", "sconfigJS"]
   }
 
-  // frozen (November 2017) at June 2017 commit, for compatibility with
-  // github4s which depends on the older version.  we might also consider
-  // forking github4s and/or contributing the needed change upstream
-  // forked (October 2018) to apply JDK 11 patch
+  // 2.13: tracking master since that's where 2.13 support landed
   ${vars.base} {
     name: "scalamock"
     uri:  ${vars.uris.scalamock-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.commands: ${vars.default-commands} [
-      // work around https://github.com/scala/scala-dev/issues/252 ;
-      // see https://github.com/scala/community-builds/issues/434
-      "set unmanagedSourceDirectories in (`scalamock-core-jvm`, Compile) += baseDirectory.value / \"shared\" / \"src\" / \"main\" / \"scala-2.12\""
-    ]
-    extra.projects: [
-      // no Scala.js
-      "scalamock-coreJVM"
-      // dependency of github4s
-      "scalamock-scalatest-supportJVM"
-    ]
+    extra.projects: ["scalamockJVM", "examplesJVM"]
   }
 
   // frozen (July 2019) at June 2019 commit just before ScalaTest 3.1 upgrade
