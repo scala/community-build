@@ -47,7 +47,6 @@ object SuccessReport {
     "kittens",  // Failed tests: cats.derived.HashSuite
     "lift-json",  // no 2.13 upgrade attempted afaik
     "linter",  // no 2.13 upgrade attempted afaict
-    "magnolia",  // no 2.13 upgrade attempted afaik
     "metrics-scala",  // scala.language.postfixOps
     "mockito-scala",  // no arguments allowed for nullary method
     "monix",  // no 2.13.0-RC1 upgrade attempted afaik
