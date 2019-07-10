@@ -376,7 +376,6 @@ build += {
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
-  // 2.11: temporarily forked, pending merge of https://github.com/typelevel/claimant/pull/19
   ${vars.base} {
     name: "claimant"
     uri:  ${vars.uris.claimant-uri}
