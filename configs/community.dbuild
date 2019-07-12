@@ -2476,6 +2476,7 @@ build += {
   }
 
   // core doesn't depend on refined, but refinedJVM does.
+  // frozen (July 2019) just before ScalaTest 3.1 upgrade (2.13 support also)
   ${vars.base} {
     name: "decline"
     uri:  ${vars.uris.decline-uri}
