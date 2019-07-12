@@ -1806,8 +1806,6 @@ build += {
   ${vars.base} {
     name: "giter8"
     uri:  ${vars.uris.giter8-uri}
-    // yes, using 1.2.x fails (as of October 2018 anyway)
-    extra.sbt-version: "1.1.6"
     extra.exclude: ["plugin", "scaffold"]  // these are sbt plugins
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
@@ -1971,7 +1969,9 @@ build += {
       //   at scala.Option.getOrElse(Option.scala:121)
       //   at scalafix.tests.cli.ScalafixImplSuite.semanticdbPluginPath(ScalafixImplSuite.scala:36)
       // and the ToolClasspathSuite one is https://github.com/scalacenter/scalafix/issues/896
-      "set excludeFilter in (Test, unmanagedSources) in unit := HiddenFileFilter || \"ScalafixImplSuite.scala\" || \"ToolClasspathSuite.scala\""
+      // as for PrettyExpectSuite/SaveExpect, see https://github.com/scala/community-builds/issues/935 for details;
+      //   it should start passing again once we're on a scalameta version that supports Scala 2.12.9
+      """set excludeFilter in (Test, unmanagedSources) in unit := HiddenFileFilter || "ScalafixImplSuite.scala" || "ToolClasspathSuite.scala" || "PrettyExpectSuite.scala" || "SaveExpect.scala""""
     ]
     extra.settings: ${vars.base.extra.settings} [
       // for JDK 11. one-deeper nesting level makes it apply to build definition
@@ -1989,8 +1989,7 @@ build += {
   ${vars.base} {
     name: "euler"
     uri:  ${vars.uris.euler-uri}
-    // some solutions are heap-hungry. avoiding parallel execution prevents
-    // intermittent OOM issue
+    // some solutions are heap-hungry; serial execution avoids intermittent OOM
     extra.commands: ${vars.default-commands} [
       "set parallelExecution in Test := false"
     ]
