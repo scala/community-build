@@ -1768,8 +1768,6 @@ build += {
   ${vars.base} {
     name: "giter8"
     uri:  ${vars.uris.giter8-uri}
-    // yes, using 1.2.x fails (as of October 2018 anyway)
-    extra.sbt-version: "1.1.6"
     extra.exclude: ["plugin", "scaffold"]  // these are sbt plugins
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
