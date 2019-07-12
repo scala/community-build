@@ -925,6 +925,8 @@ build += {
 
   // tracking "develop" branch.
   // try master instead if develop proves too fragile?
+  // frozen (July 2019) at July 2019 commit just before `BypassScheduler` change which broke finagle downstream;
+  //   eventually I suppose finagle will upgrade and we can unfreeze again
   ${vars.base} {
     name: "twitter-util"
     uri:  ${vars.uris.twitter-util-uri}
