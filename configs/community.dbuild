@@ -2340,7 +2340,7 @@ build += {
     ]
     extra.commands: ${vars.default-commands} [
       // didn't compile (July 2019) after we unfroze ScalaCheck (StackOverflowError)
-      """set excludeFilter in (Test, unmanagedSources) in genericJVM := HiddenFileFilter || "AutoDerivedSuite.scala""""
+      """set excludeFilter in (Test, unmanagedSources) in generic := HiddenFileFilter || "AutoDerivedSuite.scala""""
     ]
   }
 
