@@ -372,7 +372,7 @@ build += {
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
     extra.commands: ${vars.default-commands} [
       // didn't compile (July 2019) after we unfroze ScalaCheck (StackOverflowError)
-      """set excludeFilter in (Test, unmanagedSources) in tests := HiddenFileFilter || "partialOrder.scala""""
+      """set excludeFilter in (Test, unmanagedSources) in coreJVM := HiddenFileFilter || "partialOrder.scala""""
     ]
   }
 
