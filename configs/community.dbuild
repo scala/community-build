@@ -372,7 +372,7 @@ build += {
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
     extra.commands: ${vars.default-commands} [
       // didn't compile (July 2019) after we unfroze ScalaCheck (StackOverflowError)
-      """set excludeFilter in (Test, unmanagedSources) in coreJVM := HiddenFileFilter || "partialOrder.scala""""
+      """set excludeFilter in (Test, unmanagedSources) in coreJVM := HiddenFileFilter || "partialOrder.scala" || "monoid.scala" || "semigroup.scala" || "order.scala""""
     ]
   }
 
@@ -2340,7 +2340,7 @@ build += {
     ]
     extra.commands: ${vars.default-commands} [
       // didn't compile (July 2019) after we unfroze ScalaCheck (StackOverflowError)
-      """set excludeFilter in (Test, unmanagedSources) in generic := HiddenFileFilter || "AutoDerivedSuite.scala""""
+      """set excludeFilter in (Test, unmanagedSources) in generic := HiddenFileFilter || "AutoDerivedSuite.scala" || "JsonCodecMacrosSuite.scala" || "SemiautoDerivedSuite.scala""""
     ]
   }
 
