@@ -1570,11 +1570,11 @@ build += {
   ${vars.base} {
     name: "akka-persistence-jdbc"
     uri:  ${vars.uris.akka-persistence-jdbc-uri}
-
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
-      """set libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "1.2.0" % "test""""
+      // this test uses scala.xml.pull, which was removed from latest scala-xml
+      """set Test / unmanagedSources / excludeFilter := HiddenFileFilter || "ClasspathResources.scala""""
     ]
     // at least one test was hanging
     extra.test-tasks: "compile"
