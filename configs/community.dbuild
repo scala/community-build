@@ -2314,7 +2314,11 @@ build += {
     deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
   }
 
-  // frozen (April 2019) at an April 2019 commit just before ScalaTest 3.1 upgrade
+  // frozen (April 2019) at an April 2019 commit just before ScalaTest
+  // 3.1 upgrade (eeae56d3a4f612069a401020d226af8759b0a91d); and then
+  // forked (July 2019) from that commit in order to cherry-pick a fix
+  // for an incompatibility with ScalaCheck master. we can unfork at
+  // the time we move to ScalaTest 3.1
   ${vars.base} {
     name: "circe"
     uri:  ${vars.uris.circe-uri}
