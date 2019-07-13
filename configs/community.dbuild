@@ -2338,6 +2338,10 @@ build += {
       // dependency of scala-pet-store
       "java8JVM"
     ]
+    extra.commands: ${vars.default-commands} [
+      // didn't compile (July 2019) after we unfroze ScalaCheck (StackOverflowError)
+      """set excludeFilter in (Test, unmanagedSources) in genericJVM := HiddenFileFilter || "AutoDerivedSuite.scala""""
+    ]
   }
 
   // frozen (June 2019) at April 2019 commit before fs2 version upgraded to
