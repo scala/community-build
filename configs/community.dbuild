@@ -2072,7 +2072,6 @@ build += {
   ${vars.base} {
     name: "sjson-new"
     uri:  ${vars.uris.sjson-new-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.exclude: ["benchmark"]
     // spray org change
     check-missing: false
