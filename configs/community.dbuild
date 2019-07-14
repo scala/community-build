@@ -379,7 +379,10 @@ build += {
     extra.commands: ${vars.default-commands} [
       "removeDependency org.spire-math kind-projector"
       """set libraryDependencies in ThisBuild += compilerPlugin("org.typelevel" %% "kind-projector" % "0.10.0")"""
+      // didn't compile (July 2019) after we unfroze ScalaCheck (StackOverflowError)
+      """set excludeFilter in (Test, unmanagedSources) in coreJVM := HiddenFileFilter || "partialOrder.scala" || "monoid.scala" || "semigroup.scala" || "order.scala""""
     ]
+>>>>>>> origin/2.12.x
   }
 
   ${vars.base} {
@@ -2126,7 +2129,6 @@ build += {
   ${vars.base} {
     name: "sjson-new"
     uri:  ${vars.uris.sjson-new-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.exclude: ["benchmark"]
     // spray org change
     check-missing: false
@@ -2364,11 +2366,7 @@ build += {
     ]
   }
 
-  // frozen (April 2019) at an April 2019 commit just before ScalaTest
-  // 3.1 upgrade (eeae56d3a4f612069a401020d226af8759b0a91d); and then
-  // forked (July 2019) from that commit in order to cherry-pick a fix
-  // for an incompatibility with ScalaCheck master. we can unfork at
-  // the time we move to ScalaTest 3.1
+  // frozen (April 2019) at an April 2019 commit just before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "circe"
     uri:  ${vars.uris.circe-uri}
@@ -2386,6 +2384,10 @@ build += {
       "genericExtrasJVM"
       // dependency of scala-pet-store
       "java8JVM"
+    ]
+    extra.commands: ${vars.default-commands} [
+      // didn't compile (July 2019) after we unfroze ScalaCheck (StackOverflowError)
+      """set excludeFilter in (Test, unmanagedSources) in generic := HiddenFileFilter || "AutoDerivedSuite.scala" || "JsonCodecMacrosSuite.scala" || "SemiautoDerivedSuite.scala""""
     ]
   }
 
