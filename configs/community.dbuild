@@ -382,7 +382,6 @@ build += {
       // didn't compile (July 2019) after we unfroze ScalaCheck (StackOverflowError)
       """set excludeFilter in (Test, unmanagedSources) in coreJVM := HiddenFileFilter || "partialOrder.scala" || "monoid.scala" || "semigroup.scala" || "order.scala""""
     ]
->>>>>>> origin/2.12.x
   }
 
   ${vars.base} {
