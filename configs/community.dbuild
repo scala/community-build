@@ -365,6 +365,9 @@ build += {
   ${vars.base} {
     name: "kittens"
     uri:  ${vars.uris.kittens-uri}
+    // excludeFilter stuff below doesn't work on 1.3.0-RC2. I should look into it and report it to Eugene.
+    // it's reproducible outside dbuild
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: ["coreJVM"]  // sorry, Scala.js
     // kind-projector org change
     check-missing: false
