@@ -374,6 +374,10 @@ build += {
     check-missing: false
     deps.ignore: ["org.spire-math#kind-projector"]
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+    extra.commands: ${vars.default-commands} [
+      // didn't compile (July 2019) after we unfroze ScalaCheck (StackOverflowError)
+      """set excludeFilter in (Test, unmanagedSources) in coreJVM := HiddenFileFilter || "partialOrder.scala" || "monoid.scala" || "semigroup.scala" || "order.scala""""
+    ]
   }
 
   ${vars.base} {
@@ -1371,6 +1375,7 @@ build += {
     // there's a 2.12 -> 2.11 symlink that should make this unnecessary, don't know why we need this:
   }
 
+  // frozen (July 2019) at June 2019 commit just before ScalaTest 3.1 upgrade (which also landed 2.13 support)
   ${vars.base} {
     name: "paiges"
     uri:  ${vars.uris.paiges-uri}
@@ -2317,6 +2322,10 @@ build += {
       "genericExtrasJVM"
       // dependency of scala-pet-store
       "java8JVM"
+    ]
+    extra.commands: ${vars.default-commands} [
+      // didn't compile (July 2019) after we unfroze ScalaCheck (StackOverflowError)
+      """set excludeFilter in (Test, unmanagedSources) in generic := HiddenFileFilter || "AutoDerivedSuite.scala" || "JsonCodecMacrosSuite.scala" || "SemiautoDerivedSuite.scala""""
     ]
   }
 
