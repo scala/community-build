@@ -2547,6 +2547,10 @@ build += {
     extra.sbt-version: ${vars.sbt-1-2-version}
     // there are some others, but really just trying to get lsp4s going at the moment
     extra.projects: ["derivation", "annotations"]
+    extra.commands: ${vars.default-commands} [
+      // didn't compile (July 2019) after we unfroze ScalaCheck (StackOverflowError)
+      """set annotationsJVM / unmanagedSources / excludeFilter := HiddenFileFilter || "JsonCodecMacrosSuite.scala""""
+    ]
   }
 
   // dependency of github4s
