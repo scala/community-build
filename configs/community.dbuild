@@ -2125,7 +2125,7 @@ build += {
   {
     name: "shaded-scalajson"
     system: ivy
-    uri: "ivy:com.eed3si9n#shaded-scalajson_2.12;1.0.0-M4"
+    uri: "ivy:com.eed3si9n#shaded-scalajson_2.13;1.0.0-M4"
   }
 
   ${vars.base} {
