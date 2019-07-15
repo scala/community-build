@@ -94,7 +94,7 @@ set commands ++= {
 }
 """
 vars.default-commands += "appendScalacOptions "${vars.scalac-opts}
-vars.default-commands += "removeScalacOptions -Xfatal-warnings -Yno-adapted-args -Ywarn-inaccessible -Ywarn-nullary-override -Ywarn-nullary-unit -Ywarn-infer-any -Ywarn-unused-import -Ypartial-unification -Ywarn-adapted-args -Xmax-classfile-name"
+vars.default-commands += "removeScalacOptions -Xfatal-warnings -Yno-adapted-args -Ywarn-inaccessible -Ywarn-nullary-override -Ywarn-nullary-unit -Ywarn-infer-any -Ywarn-unused-import -Ypartial-unification -Ywarn-adapted-args -Xmax-classfile-name -Ymacro-no-expand"
 vars.base.extra.commands = ${vars.default-commands}
 
 //// count lines of code
