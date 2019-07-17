@@ -44,7 +44,7 @@ vars {
   default-commands: []
   sbt-0-13-version: "0.13.18"
   sbt-1-2-version: "1.2.8"
-  sbt-version: "1.3.0-RC2"
+  sbt-version: "1.3.0-RC3"
 }
 
 //// compiler options manipulation
@@ -371,9 +371,6 @@ build += {
   ${vars.base} {
     name: "kittens"
     uri:  ${vars.uris.kittens-uri}
-    // excludeFilter stuff below doesn't work on 1.3.0-RC2. I should look into it and report it to Eugene.
-    // it's reproducible outside dbuild
-    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: ["coreJVM"]  // sorry, Scala.js
     // kind-projector org change
     check-missing: false
@@ -413,9 +410,6 @@ build += {
   ${vars.base} {
     name: "genjavadoc"
     uri:  ${vars.uris.genjavadoc-uri}
-    // failed compilation on 1.3; not investigated
-    // [genjavadoc] [error] java.io.FileNotFoundException: /home/jenkins/workspace/scala-2.12.x-integrate-community-build/target-0.9.16/project-builds/genjavadoc-b903def1d2bae4166747cc3b089a06c0da762fa3/plugin/target/scala-2.12/classes/com/typesafe/genjavadoc/BaseComments.class (No such file or directory)
-    extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
   // if master proves difficult to track, the 0.6.x branch could be
@@ -1926,9 +1920,6 @@ build += {
   ${vars.base} {
     name: "metaconfig"
     uri:  ${vars.uris.metaconfig-uri}
-    // compilation failures on 1.3; not investigated
-    // object ConfShow is not a member of package metaconfig
-    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: ["hoconJVM", "typesafe"]  // no Scala.js plz
     // I guess dbuild is getting confused by the extra _1.13?
     deps.ignore: ["com.github.alexarchambault#scalacheck-shapeless"]
@@ -1969,8 +1960,6 @@ build += {
   ${vars.base} {
     name: "scalafix"
     uri:  ${vars.uris.scalafix-uri}
-    // failed tests; not investigated
-    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.exclude: ["docs"]
     extra.commands: ${vars.default-commands} [
       // java.lang.IllegalStateException: unable to auto-detect semanticdb-scalac compiler plugin
@@ -2082,6 +2071,8 @@ build += {
   }
 
   // there is a "develop" branch, but master seemed like a better bet
+  // frozen (July 2019) at last commit before it stopped extracting with
+  // sbt.librarymanagement.ResolveException: unresolved dependency: com.twitter#scrooge-generator_2.12;19.7.0: not found
   ${vars.base} {
     name: "finagle"
     uri:  ${vars.uris.finagle-uri}
@@ -2372,9 +2363,6 @@ build += {
   ${vars.base} {
     name: "circe"
     uri:  ${vars.uris.circe-uri}
-    // failed compilation on 1.3; not investigated
-    // Symbol 'type io.circe.java8.time.JavaTimeDecoders' is missing from the classpath
-    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: [
       // easy
       "coreJVM", "numbersJVM"
@@ -2449,9 +2437,6 @@ build += {
   ${vars.base} {
     name: "http4s"
     uri:  ${vars.uris.http4s-uri}
-    // compilation failure on 1.3; not investigated
-    // Symbol 'type org.http4s.json4s.jackson.Json4sJacksonInstances' is missing from the classpath.
-    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.commands: ${vars.default-commands} [
       // didn't compile (October 2018), it didn't seem worth investigating, probably a specs2 change
       "set excludeFilter in (Test, unmanagedSources) in tests := HiddenFileFilter || \"UriSpec.scala\""
@@ -2586,8 +2571,6 @@ build += {
   ${vars.base} {
     name: "circe-derivation"
     uri:  ${vars.uris.circe-derivation-uri}
-    // test failures on 1.3; not investigated
-    extra.sbt-version: ${vars.sbt-1-2-version}
     // there are some others, but really just trying to get lsp4s going at the moment
     extra.projects: ["derivation", "annotations"]
     extra.commands: ${vars.default-commands} [
