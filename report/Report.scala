@@ -35,12 +35,12 @@ object SuccessReport {
   val expectedToFail: Set[String] =
     System.getProperty("java.specification.version") match {
       case "1.8" =>
-        Set()
+        Set(
+        )
       case _ =>
         Set(
           "coursier",  // needs scala/bug#11125 workaround
           "doobie",  // needs scala/bug#11125 workaround
-          "jsoniter-scala",  // "Cancelling publish, please use JDK 1.8" -- can we override?
           "lagom",  // "javadoc: error - invalid flag: -d"
           "sbt-util",  // needs scala/bug#11125 workaround
           "scala-debugger",  // "object FieldInfo is not a member of package sun.reflect"
@@ -76,7 +76,8 @@ object SuccessReport {
     if (unexpectedFailures.isEmpty)
       println(s"SUCCESS $success")
     else {
-      val uf = unexpectedFailures.mkString(",")
+      val counts = blockerCounts.withDefaultValue(0)
+      val uf = unexpectedFailures.sortBy(counts).reverse.mkString(",")
       println(s"SUCCESS $success FAILED?! $uf")
     }
     if (didNotRun > 0) {
@@ -91,6 +92,7 @@ object SuccessReport {
       println(s"UNEXPECTED SUCCESSES: $us")
     }
     println(s"FAILED $failed DID NOT RUN $didNotRun TOTAL $total")
+    sys.exit(unexpectedFailures.size)
   }
 
 }

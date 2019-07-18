@@ -15,7 +15,7 @@ export LANG="en_US.UTF-8"
 export HOME="$(pwd)"
 
 # Defaults
-scala_version_default="2.12.9-bin-d28a129"  # May 17
+scala_version_default="2.12.9-bin-d386f96"  # Jul 18
 scala_version="$scala_version_default"
 root_dir=$(pwd)
 config_dir="configs"
@@ -193,4 +193,6 @@ rm -rf target-*/project-builds
 cd report
 sbt -Dsbt.supershell=false -error "run ../dbuild-${DBUILDVERSION}/dbuild.out"
 
-exit $STATUS
+# we've captured $STATUS above, but in this version of the script, it isn't used,
+# instead the reporting stuff is in charge of calling sys.exit if it decides to
+# exit $STATUS

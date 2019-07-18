@@ -44,7 +44,7 @@ vars {
   default-commands: []
   sbt-0-13-version: "0.13.18"
   sbt-1-2-version: "1.2.8"
-  sbt-version: "1.3.0-RC1"
+  sbt-version: "1.3.0-RC3"
 }
 
 //// compiler options manipulation
@@ -197,9 +197,6 @@ build += {
 
   projects: [
 
-  // frozen (February 2019) at a December 2018 commit
-  // because of a downstream circe failure, reported here:
-  // https://github.com/circe/circe/issues/1084
   ${vars.base} {
     name: "scalacheck"
     uri:  ${vars.uris.scalacheck-uri}
@@ -259,9 +256,13 @@ build += {
       "matcherExtraJVM", "matcherJVM", "mockJVM", "junitJVM"
       "scalacheckJVM"
     ]
-    // makes "configuration not public" errors downstream go away
     extra.commands: ${vars.default-commands} [
+      // makes "configuration not public" errors downstream go away
       "set every publishMavenStyle := false"
+      // sbt 1.3.0-RC3 specific?
+      // [warn] Credentials file /Users/tisue/.sbt/specs2.credentials does not exist
+      // [error] java.lang.RuntimeException: Credentials file /Users/tisue/.sbt/specs2.credentials does not exist
+      "set every credentials := Seq()"
     ]
   }
 
@@ -269,6 +270,11 @@ build += {
     name: "scala-collection-compat"
     uri:  ${vars.uris.scala-collection-compat-uri}
     extra.projects: ["compat212"]  // no Scala.js or Scalafix rules plz
+    extra.commands: ${vars.default-commands} [
+      // work around https://github.com/scala/community-builds/issues/575
+      // (in a community build context, we don't need MiMa to run)
+      "set every ScalaModulePlugin.mimaPreviousVersion := None"
+    ]
   }
 
   // dependency of cats
@@ -307,6 +313,10 @@ build += {
     name: "discipline"
     uri:  ${vars.uris.discipline-uri}
     extra.projects: ["disciplineJVM"]  // no Scala.js please
+    extra.commands: ${vars.default-commands} [
+      // sbt 1.3.0-RC3 specific? Credentials file [...] does not exist
+      "set every credentials := Seq()"
+    ]
   }
 
   // frozen (March 2018) at a March 2018 commit before an sbt-catalysts version
@@ -322,6 +332,10 @@ build += {
     name: "machinist"
     uri:  ${vars.uris.machinist-uri}
     extra.projects: ["machinistJVM"]  // no Scala.js please
+    extra.commands: ${vars.default-commands} [
+      // sbt 1.3.0-RC3 specific? Credentials file [...] does not exist
+      "set every credentials := Seq()"
+    ]
   }
 
   ${vars.base} {
@@ -358,6 +372,7 @@ build += {
     extra.options: ["-Xmx6g"]
   }
 
+  // frozen (June 2019) at June 2019 commit just before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "kittens"
     uri:  ${vars.uris.kittens-uri}
@@ -365,12 +380,20 @@ build += {
     // kind-projector org change
     deps.ignore: ["org.spire-math#kind-projector"]
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+    extra.commands: ${vars.default-commands} [
+      // didn't compile (July 2019) after we unfroze ScalaCheck (StackOverflowError)
+      """set excludeFilter in (Test, unmanagedSources) in coreJVM := HiddenFileFilter || "partialOrder.scala" || "monoid.scala" || "semigroup.scala" || "order.scala""""
+    ]
   }
 
   ${vars.base} {
     name: "claimant"
     uri:  ${vars.uris.claimant-uri}
     extra.exclude: ["root", "mcJS", "coreJS"]  // no Scala.js plz
+    extra.commands: ${vars.default-commands} [
+      // sbt 1.3.0-RC3 specific? Credentials file [...] does not exist
+      "set every credentials := Seq()"
+    ]
   }
 
   ${vars.base} {
@@ -392,8 +415,10 @@ build += {
   ${vars.base} {
     name: "genjavadoc"
     uri:  ${vars.uris.genjavadoc-uri}
-    // failed compilation on 1.3; not investigated
-    // [genjavadoc] [error] java.io.FileNotFoundException: /home/jenkins/workspace/scala-2.12.x-integrate-community-build/target-0.9.16/project-builds/genjavadoc-b903def1d2bae4166747cc3b089a06c0da762fa3/plugin/target/scala-2.12/classes/com/typesafe/genjavadoc/BaseComments.class (No such file or directory)
+    // failed compilation on sbt 1.3.0-RC3; not investigated
+    // [genjavadoc] [error] ## Exception when compiling 8 sources to /Users/tisue/community.212/target-0.9.16/project-builds/genjavadoc-6b88a0370f6ac590936bca7f545b84205dd0627f/plugin/target/scala-2.12/test-classes
+    // [genjavadoc] [error] java.lang.NullPointerException
+    // [genjavadoc] [error] scala.tools.nsc.backend.jvm.GenBCode$BCodePhase.close(GenBCode.scala:101)
     extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
@@ -416,6 +441,12 @@ build += {
       //   that `testSuite` depends on (transitively), so we need to set it in a bunch of places.
       "set Seq(library, testInterface, jUnitRuntime, testSuite).map(p => jsEnv in p := new org.scalajs.jsenv.nodejs.NodeJSEnv(org.scalajs.jsenv.nodejs.NodeJSEnv.Config().withExecutable(\""${vars.node}"\").withSourceMap(false)))"
       "set MyScalaJSPlugin.wantSourceMaps in testSuite := false"
+      // Seb says it isn't appropriate to compile or run tests in certain subprojects;
+      // see https://github.com/scala-js/scala-js/issues/3680
+      "set test in testInterface in Test := {}"
+      "set test in jUnitRuntime in Test := {}"
+      "set test in testBridge in Test := {}"
+      "set test in jUnitAsyncJS in Test := {}"
     ]
   }
 
@@ -436,8 +467,6 @@ build += {
     extra.commands: ${vars.default-commands} [
       // not sure if necessary, but we have it in the specs entry, so let's have it here too
       "set every publishMavenStyle := false"
-      // flaky test, https://github.com/etorreborre/specs2/issues/673
-      "set excludeFilter in (Test, unmanagedSources) in examplesJvm := HiddenFileFilter || \"StackIsolatedSpec.scala\""
     ]
   }
 
@@ -446,6 +475,7 @@ build += {
     uri:  ${vars.uris.scala-java8-compat-uri}
   }
 
+  // frozen (May 2019) at May 2019 commit just before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "silencer"
     uri:  ${vars.uris.silencer-uri}
@@ -460,9 +490,6 @@ build += {
     extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
-  // using 2.5-scala-2.13.0-RC2 branch right now (May 2019) because
-  // that's what works with ScalaTest 3.0.8-RC2.  maybe switch
-  // to release-2.5 branch, or freeze at v2.25.24 once it exists?
   // this repo is volatile (very frequent commits) and when it needs to
   // be rebuilt, the testing takes a long time (especially akka-more) and
   // the downstream rebuilding takes a long time too.  so in general we
@@ -484,8 +511,6 @@ build += {
       "set skip in publish in actorTests := false"
       // makes "configuration not public" errors downstream go away
       "set every publishMavenStyle := false"
-      // https://github.com/akka/akka/issues/25882
-      "set excludeFilter in (Test, unmanagedSources) in actorTests := HiddenFileFilter || \"UdpConnectedIntegrationSpec.scala\""
       // idk why, but prevents dbuild-only sun.misc.Unsafe compile errors;
       // see https://github.com/scala/community-builds/issues/757
       "set scalacOptions in Compile in actor --= Seq(\"-release\", \"8\")"
@@ -537,6 +562,10 @@ build += {
     // reported upstream at https://github.com/nbronson/scala-stm/issues/53
     // (report updated December 2017)
     extra.test-tasks: ["compile"]
+    extra.commands: ${vars.default-commands} [
+      // sbt 1.3.0-RC3 specific? Credentials file [...] does not exist
+      "set every credentials := Seq()"
+    ]
   }
 
   ${vars.base} {
@@ -549,6 +578,7 @@ build += {
     extra.test-tasks: ["compile"]
   }
 
+  // frozen (May 2019) at May 2019 commit just before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "scodec-bits"
     uri:  ${vars.uris.scodec-bits-uri}
@@ -688,6 +718,12 @@ build += {
     uri:  ${vars.uris.scala-async-uri}
   }
 
+  // forked to remove minor usage of scalaz
+  ${vars.base} {
+    name: "prog-scala-examples"
+    uri:  ${vars.uris.prog-scala-examples-uri}
+  }
+
   ${vars.base} {
     name: "slick"
     uri:  ${vars.uris.slick-uri}
@@ -735,6 +771,7 @@ build += {
     ]
   }
 
+  // frozen (June 2019) at April 2019 commit just before sbt->mill move
   ${vars.base} {
     name: "acyclic"
     uri:  ${vars.uris.acyclic-uri}
@@ -742,6 +779,8 @@ build += {
     // object scala in compiler mirror not found
     extra.sbt-version: ${vars.sbt-1-2-version}
   }
+
+  // frozen (June 2019) at April 2019 commit just before sbt->mill move
 
   ${vars.base} {
     name: "sourcecode"
@@ -755,6 +794,8 @@ build += {
     uri:  ${vars.uris.portable-scala-reflect-uri}
     extra.projects: ["portable-scala-reflectJVM"]  // no Scala.js plz
   }
+
+  // frozen (June 2019) at May 2019 commit just before sbt->mill move
 
   ${vars.base} {
     name: "utest"
@@ -813,6 +854,7 @@ build += {
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
+  // frozen at last commit before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "fs2"
     uri:  ${vars.uris.fs2-uri}
@@ -895,6 +937,8 @@ build += {
 
   // tracking "develop" branch.
   // try master instead if develop proves too fragile?
+  // frozen (July 2019) at July 2019 commit just before `BypassScheduler` change which broke finagle downstream;
+  //   eventually I suppose finagle will upgrade and we can unfreeze again
   ${vars.base} {
     name: "twitter-util"
     uri:  ${vars.uris.twitter-util-uri}
@@ -1030,10 +1074,6 @@ build += {
     name: "play-file-watch"
     uri:  ${vars.uris.play-file-watch-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.commands: ${vars.default-commands} [
-      // failing test I haven't gotten around to reporting upstream
-      "set excludeFilter in (Test, unmanagedSources) in `play-file-watch` := HiddenFileFilter || \"FileWatchServiceSpec.scala\""
-    ]
   }
 
   ${vars.base} {
@@ -1074,6 +1114,10 @@ build += {
     name: "sconfig"
     uri:  ${vars.uris.sconfig-uri}
     extra.exclude: ["sconfigNative", "sconfigJS"]
+    // use right version-specific source directories regardless of our weird dbuild Scala version numbers
+    extra.commands: ${vars.default-commands} [
+      "set unmanagedSourceDirectories in (sconfigJVM, Compile) += (baseDirectory in ThisBuild).value / \"sconfig\" / \"shared\" / \"src\" / \"main\" / \"scala-2.12\""
+    ]
   }
 
   // frozen (November 2017) at June 2017 commit, for compatibility with
@@ -1097,6 +1141,7 @@ build += {
     ]
   }
 
+  // frozen (July 2019) at June 2019 commit just before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "monocle"
     uri:  ${vars.uris.monocle-uri}
@@ -1160,10 +1205,10 @@ build += {
     extra.projects: ["scalaJsonJVM"]
   }
 
+  // frozen (June 2019) at June 2019 commit just before sbt->mill move
   ${vars.base} {
     name: "scalatags"
     uri:  ${vars.uris.scalatags-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["scalatagsJVM"]  // no Scala.js
   }
 
@@ -1241,12 +1286,14 @@ build += {
     extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
+  // frozen (June 2019) at May 2019 commit just before sbt->mill move
   ${vars.base} {
     name: "fansi"
     uri:  ${vars.uris.fansi-uri}
     extra.projects: ["fansiJVM"]  // no Scala.js
   }
 
+  // frozen (June 2019) at May 2019 commit just before sbt->mill move
   ${vars.base} {
     name: "pprint"
     uri:  ${vars.uris.pprint-uri}
@@ -1295,6 +1342,8 @@ build += {
     uri:  ${vars.uris.twotails-uri}
   }
 
+  // 2.12: frozen at last green commit before 2.12 support was dropped
+  // 2.13: track master
   ${vars.base} {
     name: "scala-gopher"
     uri:  ${vars.uris.scala-gopher-uri}
@@ -1313,6 +1362,7 @@ build += {
     // there's a 2.12 -> 2.11 symlink that should make this unnecessary, don't know why we need this:
   }
 
+  // frozen (July 2019) at June 2019 commit just before ScalaTest 3.1 upgrade (which also landed 2.13 support)
   ${vars.base} {
     name: "paiges"
     uri:  ${vars.uris.paiges-uri}
@@ -1496,10 +1546,6 @@ build += {
     name: "paradox"
     uri:  ${vars.uris.paradox-uri}
     extra.exclude: ["plugin", "themePlugin", "genericTheme"]
-    extra.commands: ${vars.default-commands} [
-      // flaky test, reported at https://github.com/lightbend/paradox/issues/229
-      "set excludeFilter in (Test, unmanagedSources) in tests := HiddenFileFilter || \"VarsDirectiveSpec.scala\""
-    ]
   }
 
   // dependency of lagom. forked (August 2018) at last green version,
@@ -1560,7 +1606,6 @@ build += {
   ${vars.base} {
     name: "singleton-ops"
     uri:  ${vars.uris.singleton-ops-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["singleton_opsJVM"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
@@ -1597,7 +1642,6 @@ build += {
     name: "scala-newtype"
     uri:  ${vars.uris.scala-newtype-uri}
     extra.exclude: ["newtypeJS", "catsTestsJS"]  // no Scala.js plz
-    extra.sbt-version: ${vars.sbt-0-13-version}
   }
 
   ${vars.base} {
@@ -1611,6 +1655,10 @@ build += {
     extra.exclude: ["fsi-benchmark", "fsi-benchmark-core"]
   }
 
+  // frozen (June 2019) at a June 2019 config just before a sbt-coursier
+  // version bump that seems to be confusing dbuild during dependency extraction:
+  // [scalacheck-shapeless] [error] java.lang.NoSuchMethodError: lmcoursier.definitions.ToCoursier$.project(Llmcoursier/definitions/Project;)Lcoursier/core/Project;
+  // [scalacheck-shapeless] [error] 	at coursier.sbtcoursier.ResolutionTasks$.$anonfun$resolutionsTask$3(ResolutionTasks.scala:42)
   ${vars.base} {
     name: "scalacheck-shapeless"
     uri:  ${vars.uris.scalacheck-shapeless-uri}
@@ -1692,19 +1740,19 @@ build += {
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
+      "set every bintrayOmitLicense := true"  // otherwise it complains we don't have one
     ]
   }
 
   ${vars.base} {
     name: "giter8"
     uri:  ${vars.uris.giter8-uri}
-    // yes, using 1.2.x fails (as of October 2018 anyway)
-    extra.sbt-version: "1.1.6"
     extra.exclude: ["plugin", "scaffold"]  // these are sbt plugins
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
     ]
+    check-missing: false  // ignore missing scripted-sbt
   }
 
   // frozen (May 2019) just before ScalaTest 3.1 upgrade
@@ -1735,12 +1783,21 @@ build += {
     extra.run-tests: false
   }
 
-  // OlegYch's fork hangs out in scala/scala (Gitter) and #scala (IRC)
+  // OlegYch's fork hangs out in scala/scala (Gitter) and #scala (IRC).
+  // frozen (July 2019) at December 2018 commit just before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "multibot"
     uri:  ${vars.uris.multibot-uri}
     // linter isn't essential to the build
     deps.ignore: ["org.psywerx.hairyfotr#linter"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+    extra.commands: ${vars.base.extra.commands} [
+      "removeDependency org.spire-math kind-projector"
+      "removeDependency org.scalaz scalaz-iteratee"
+      "removeDependency org.scalaz scalaz-effect"
+      "removeDependency org.scalaz scalaz-concurrent"
+      "removeDependency org.scalaz scalaz-ioeffect"
+    ]
   }
 
   // forked off v4.0.0-M11 since that's what scalafix currently (Sep 2 2018) expects
@@ -1764,9 +1821,9 @@ build += {
     ]
     // use right version-specific source directories regardless of our weird dbuild Scala version numbers
     extra.commands: ${vars.default-commands} [
-      "set unmanagedSourceDirectories in (commonJVM, Compile) += (baseDirectory in commonJVM).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (dialectsJVM, Compile) += (baseDirectory in dialectsJVM).value / \"src\" / \"main\" / \"scala-2.12\""
-      "set unmanagedSourceDirectories in (semanticdbScalacCore, Compile) += (baseDirectory in semanticdbScalacCore).value / \"src\" / \"main\" / \"scala-2.12.6\""
+      """set unmanagedSourceDirectories in (commonJVM, Compile) += (baseDirectory in commonJVM).value / "src" / "main" / "scala-2.12""""
+      """set unmanagedSourceDirectories in (dialectsJVM, Compile) += (baseDirectory in dialectsJVM).value / "src" / "main" / "scala-2.12""""
+      """set unmanagedSourceDirectories in (semanticdbScalacCore, Compile) += (baseDirectory in semanticdbScalacCore).value / "src" / "main" / "scala-2.12.6""""
     ]
   }
 
@@ -1775,6 +1832,12 @@ build += {
     name: "jsoniter-scala"
     uri:  ${vars.uris.jsoniter-scala-uri}
     extra.exclude: ["jsoniter-scala-benchmark"]
+  }
+
+  // compile-time only dependency of jsoniter-scala
+  ${vars.base} {
+    name: "expression-evaluator"
+    uri:  ${vars.uris.expression-evaluator-uri}
   }
 
   ${vars.base} {
@@ -1797,9 +1860,6 @@ build += {
   ${vars.base} {
     name: "metaconfig"
     uri:  ${vars.uris.metaconfig-uri}
-    // compilation failures on 1.3; not investigated
-    // object ConfShow is not a member of package metaconfig
-    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: ["hoconJVM", "typesafe"]  // no Scala.js plz
     // I guess dbuild is getting confused by the extra _1.13?
     deps.ignore: ["com.github.alexarchambault#scalacheck-shapeless"]
@@ -1824,13 +1884,6 @@ build += {
     extra.options: [
       "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
     ]
-    extra.commands: ${vars.default-commands} [
-      // FormatTests: maybe xml-related, I should report it upstream
-      // GitOptsTest: Failed git command. Got: java.lang.IllegalStateException: Failed to
-      // run command git commit -m 'some-message'. Error: *** Please tell me
-      // who you are. Run git config --global user.email "you@example.com"
-      "set excludeFilter in (Test, unmanagedSources) in tests := HiddenFileFilter || \"FormatTests.scala\" || \"GitOpsTest.scala\""
-    ]
   }
 
   // frozen (September 2018) at a September 2018 commit just before a scalameta
@@ -1846,7 +1899,9 @@ build += {
       //   at scala.Option.getOrElse(Option.scala:121)
       //   at scalafix.tests.cli.ScalafixImplSuite.semanticdbPluginPath(ScalafixImplSuite.scala:36)
       // and the ToolClasspathSuite one is https://github.com/scalacenter/scalafix/issues/896
-      "set excludeFilter in (Test, unmanagedSources) in unit := HiddenFileFilter || \"ScalafixImplSuite.scala\" || \"ToolClasspathSuite.scala\""
+      // as for PrettyExpectSuite/SaveExpect, see https://github.com/scala/community-builds/issues/935 for details;
+      //   it should start passing again once we're on a scalameta version that supports Scala 2.12.9
+      """set excludeFilter in (Test, unmanagedSources) in unit := HiddenFileFilter || "ScalafixImplSuite.scala" || "ToolClasspathSuite.scala" || "PrettyExpectSuite.scala" || "SaveExpect.scala""""
     ]
     extra.settings: ${vars.base.extra.settings} [
       // for JDK 11. one-deeper nesting level makes it apply to build definition
@@ -1864,17 +1919,12 @@ build += {
   ${vars.base} {
     name: "euler"
     uri:  ${vars.uris.euler-uri}
-    // some solutions are heap-hungry. avoiding parallel execution prevents
-    // intermittent OOM issue
+    // some solutions are heap-hungry; serial execution avoids intermittent OOM
     extra.commands: ${vars.default-commands} [
       "set parallelExecution in Test := false"
     ]
     // hungry hungry heapos
     extra.options: ["-Xmx4g"]
-    extra.commands: ${vars.default-commands} [
-      // this can be removed once https://github.com/scala/scala/pull/6828 is merged
-      "set excludeFilter in (Test, unmanagedSources) := HiddenFileFilter || \"75.scala\" || \"95.scala\""
-    ]
   }
 
   ${vars.base} {
@@ -1891,6 +1941,9 @@ build += {
     // failed compilation on 1.3; not investigated
     //  cannot find symbol; symbol: class MockTime
     extra.sbt-version: ${vars.sbt-1-2-version}
+    // don't run tests for now as several are known to fail; waiting (July 2019)
+    // on response from Enno about it
+    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
@@ -1913,7 +1966,9 @@ build += {
   }
 
   // dependency of scribe
-  ${vars.base} {
+  // frozen (June 2019) at a May 2019 commit just before a 2.13 upgrade that broke
+  // scribe downstream. presumably eventually scribe will adapt and we can unfreeze
+   ${vars.base} {
     name: "perfolation"
     uri:  ${vars.uris.perfolation-uri}
     extra.projects: ["coreJVM"]
@@ -1932,6 +1987,33 @@ build += {
       // failure here looks like a time zone mistake
       "set excludeFilter in (Test, unmanagedSources) in slf4j := HiddenFileFilter || \"SLF4JSpec.scala\""
     ]
+  }
+
+  ${vars.base} {
+    name: "quicklens"
+    uri:  ${vars.uris.quicklens-uri}
+    extra.projects: ["quicklensJVM"]
+    extra.commands: ${vars.default-commands} [
+      // sbt 1.3.0-RC3 specific? Credentials file [...] does not exist
+      "set every credentials := Seq()"
+    ]
+  }
+
+  ${vars.base} {
+    name: "kits"
+    uri:  ${vars.uris.kits-uri}
+  }
+
+  // there is a "develop" branch, but master seemed like a better bet
+  // frozen (July 2019) at last commit before it stopped extracting with
+  // sbt.librarymanagement.ResolveException: unresolved dependency: com.twitter#scrooge-generator_2.12;19.7.0: not found
+  ${vars.base} {
+    name: "finagle"
+    uri:  ${vars.uris.finagle-uri}
+    // test failures on 1.3.0-RC1
+    extra.sbt-version: ${vars.sbt-1-2-version}
+    // I didn't attempt to add any other subprojects
+    extra.projects: ["finagle-core"]
   }
 
 ]}
@@ -1973,7 +2055,6 @@ build += {
   ${vars.base} {
     name: "sjson-new"
     uri:  ${vars.uris.sjson-new-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.exclude: ["benchmark"]
     // spray org change
     deps.ignore: ["io.spray#spray-json"]
@@ -2203,7 +2284,7 @@ build += {
   ${vars.base} {
     name: "circe"
     uri:  ${vars.uris.circe-uri}
-    // failed compilation on 1.3; not investigated
+    // failed compilation on sbt 1.3.0-RC3; not investigated
     // Symbol 'type io.circe.java8.time.JavaTimeDecoders' is missing from the classpath
     extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: [
@@ -2218,8 +2299,15 @@ build += {
       // dependency of scala-pet-store
       "java8JVM"
     ]
+    extra.commands: ${vars.default-commands} [
+      // didn't compile (July 2019) after we unfroze ScalaCheck (StackOverflowError)
+      """set excludeFilter in (Test, unmanagedSources) in generic := HiddenFileFilter || "AutoDerivedSuite.scala" || "JsonCodecMacrosSuite.scala" || "SemiautoDerivedSuite.scala""""
+    ]
   }
 
+  // frozen (June 2019) at April 2019 commit before fs2 version upgraded to
+  // 1.1.x series; currently we have fs2 frozen on 1.0.x because of a ScalaTest 3.1
+  // upgrade; presumably before too long we can move them all forward together
   ${vars.base} {
     name: "jawn-fs2"
     uri:  ${vars.uris.jawn-fs2-uri}
@@ -2267,7 +2355,7 @@ build += {
   ${vars.base} {
     name: "http4s"
     uri:  ${vars.uris.http4s-uri}
-    // compilation failure on 1.3; not investigated
+    // compilation failure on sbt 1.3.0-RC3; not investigated
     // Symbol 'type org.http4s.json4s.jackson.Json4sJacksonInstances' is missing from the classpath.
     extra.sbt-version: ${vars.sbt-1-2-version}
     extra.commands: ${vars.default-commands} [
@@ -2306,6 +2394,7 @@ build += {
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
+  // frozen (June 2019) at May 2019 commit before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "circe-config"
     uri:  ${vars.uris.circe-config-uri}
@@ -2342,6 +2431,7 @@ build += {
     // unfreezing pureconfig (or updating our fork) would fix it, but I'd rather not mess
     // it with right now.
     extra.projects: ["catsJVM", "coreJVM", "evalJVM", "jsonpathJVM", "scalacheckJVM", "shapelessJVM"]
+    extra.exclude: ["scalacheck_1_13JVM"]
   }
 
   // in this space because refinedJVM subproject depends on refined
@@ -2352,6 +2442,7 @@ build += {
   }
 
   // core doesn't depend on refined, but refinedJVM does.
+  // frozen (July 2019) just before ScalaTest 3.1 upgrade (2.13 support also)
   ${vars.base} {
     name: "decline"
     uri:  ${vars.uris.decline-uri}
@@ -2372,11 +2463,12 @@ build += {
     extra.exclude: [
       // it's fine, we don't need to have every last subproject
       "monix", "okhttpBackendMonix", "asyncHttpClientBackendMonix"
-      "scalaz", "zio", "asyncHttpClientBackendZio"
+      "scalaz", "zio", "asyncHttpClientBackendZio", "asyncHttpClientBackendScalaz",
+      "asyncHttpClientBackendZio-streams"
     ]
-    // kind-projector org change
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+    // kind-projector & spray org changes
+    deps.ignore: ["org.spire-math#kind-projector" "io.spray#spray-json"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector" "io.crashbox#spray-json"]
   }
 
   // dependency of scrooge-shapes.
@@ -2406,10 +2498,12 @@ build += {
   ${vars.base} {
     name: "circe-derivation"
     uri:  ${vars.uris.circe-derivation-uri}
-    // test failures on 1.3; not investigated
-    extra.sbt-version: ${vars.sbt-1-2-version}
     // there are some others, but really just trying to get lsp4s going at the moment
     extra.projects: ["derivation", "annotations"]
+    extra.commands: ${vars.default-commands} [
+      // didn't compile (July 2019) after we unfroze ScalaCheck (StackOverflowError)
+      """set annotationsJVM / unmanagedSources / excludeFilter := HiddenFileFilter || "JsonCodecMacrosSuite.scala""""
+    ]
   }
 
   // dependency of github4s
@@ -2444,9 +2538,13 @@ build += {
   }
 
   // dependency of scala-pet-store
+  // frozen (June 2019) at a June 2019 commit before some dependency bumps. it looks like the
+  // kind of thing where it isn't worth us digging into. (tsec.hashing.bouncy.HasherTest failed)
   ${vars.base} {
     name: "tsec"
     uri:  ${vars.uris.tsec-uri}
+    // on 1.3.0-RC2 tsec.SignatureTests failed, likely related to classloader layering
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.exclude: [
       "microsite", "tsec-bench"  // out of scope
       "tsec-libsodium"  // java.lang.UnsatisfiedLinkError: no sodiumjni in java.library.path
@@ -2454,9 +2552,15 @@ build += {
     ]
   }
 
+  // frozen (July 2019) at June 2019 commit before ScalaTest 3.1 upgrade
+  // (the same commit also adds 2.13 support)
   ${vars.base} {
     name: "scala-pet-store"
     uri:  ${vars.uris.scala-pet-store-uri}
+    // kind-projector org change; remove when we unfreeze
+    check-missing: false
+    deps.ignore: ["org.spire-math#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
 ]}
