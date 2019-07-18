@@ -313,6 +313,10 @@ build += {
     name: "discipline"
     uri:  ${vars.uris.discipline-uri}
     extra.projects: ["disciplineJVM"]  // no Scala.js please
+    extra.commands: ${vars.default-commands} [
+      // sbt 1.3.0-RC3 specific? Credentials file [...] does not exist
+      "set every credentials := Seq()"
+    ]
   }
 
   // frozen (March 2018) at a March 2018 commit before an sbt-catalysts version
@@ -328,6 +332,10 @@ build += {
     name: "machinist"
     uri:  ${vars.uris.machinist-uri}
     extra.projects: ["machinistJVM"]  // no Scala.js please
+    extra.commands: ${vars.default-commands} [
+      // sbt 1.3.0-RC3 specific? Credentials file [...] does not exist
+      "set every credentials := Seq()"
+    ]
   }
 
   ${vars.base} {
@@ -410,6 +418,11 @@ build += {
   ${vars.base} {
     name: "genjavadoc"
     uri:  ${vars.uris.genjavadoc-uri}
+    // failed compilation on sbt 1.3.0-RC3; not investigated
+    // [genjavadoc] [error] ## Exception when compiling 8 sources to /Users/tisue/community.212/target-0.9.16/project-builds/genjavadoc-6b88a0370f6ac590936bca7f545b84205dd0627f/plugin/target/scala-2.12/test-classes
+    // [genjavadoc] [error] java.lang.NullPointerException
+    // [genjavadoc] [error] scala.tools.nsc.backend.jvm.GenBCode$BCodePhase.close(GenBCode.scala:101)
+    extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
   // if master proves difficult to track, the 0.6.x branch could be
@@ -556,6 +569,10 @@ build += {
     // reported upstream at https://github.com/nbronson/scala-stm/issues/53
     // (report updated December 2017)
     extra.test-tasks: ["compile"]
+    extra.commands: ${vars.default-commands} [
+      // sbt 1.3.0-RC3 specific? Credentials file [...] does not exist
+      "set every credentials := Seq()"
+    ]
   }
 
   ${vars.base} {
@@ -2030,6 +2047,10 @@ build += {
     name: "quicklens"
     uri:  ${vars.uris.quicklens-uri}
     extra.projects: ["quicklensJVM"]
+    extra.commands: ${vars.default-commands} [
+      // sbt 1.3.0-RC3 specific? Credentials file [...] does not exist
+      "set every credentials := Seq()"
+    ]
   }
 
   ${vars.base} {
@@ -2324,6 +2345,9 @@ build += {
   ${vars.base} {
     name: "circe"
     uri:  ${vars.uris.circe-uri}
+    // failed compilation on sbt 1.3.0-RC3; not investigated
+    // Symbol 'type io.circe.java8.time.JavaTimeDecoders' is missing from the classpath
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: [
       // easy
       "coreJVM", "numbersJVM"
