@@ -256,9 +256,12 @@ build += {
       "matcherExtraJVM", "matcherJVM", "mockJVM", "junitJVM"
       "scalacheckJVM"
     ]
-    // makes "configuration not public" errors downstream go away
     extra.commands: ${vars.default-commands} [
+      // makes "configuration not public" errors downstream go away
       "set every publishMavenStyle := false"
+      // [warn] Credentials file /Users/tisue/.sbt/specs2.credentials does not exist
+      // [error] java.lang.RuntimeException: Credentials file /Users/tisue/.sbt/specs2.credentials does not exist
+      "set every credentials := Seq()"
     ]
   }
 
