@@ -76,7 +76,8 @@ object SuccessReport {
     if (unexpectedFailures.isEmpty)
       println(s"SUCCESS $success")
     else {
-      val uf = unexpectedFailures.mkString(",")
+      val counts = blockerCounts.withDefaultValue(0)
+      val uf = unexpectedFailures.sortBy(counts).reverse.mkString(",")
       println(s"SUCCESS $success FAILED?! $uf")
     }
     if (didNotRun > 0) {
