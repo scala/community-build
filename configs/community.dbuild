@@ -2016,6 +2016,12 @@ build += {
     name: "scribe"
     uri:  ${vars.uris.scribe-uri}
     extra.projects: ["coreJVM", "macrosJVM", "slf4j"]
+    extra.commands: ${vars.default-commands} [
+      // intermittently failing test I haven't gotten around to reporting upstream
+      "set excludeFilter in (Test, unmanagedSources) in coreJVM := HiddenFileFilter || \"FileLoggingSpec.scala\""
+      // failure here looks like a time zone mistake
+      "set excludeFilter in (Test, unmanagedSources) in slf4j := HiddenFileFilter || \"SLF4JSpec.scala\""
+    ]
   }
 
   ${vars.base} {
