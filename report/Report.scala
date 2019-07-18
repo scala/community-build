@@ -55,7 +55,6 @@ object SuccessReport {
     "scala-refactoring",  // postfixOps
     "scala-stm",  // still using JavaConversions
     "scala-xml-quote",  // Unit companion object not allowed in source
-    "scalajson",  // test don't compile, specs2 not found, maybe related to imports-shadow-current-package change
     "scalameter",  // no 2.13 upgrade attempted afaict
     "scalastyle",  // no 2.13 upgrade attempted afaict
     "scalatest-tests",  // module not found: org.scalactic#scalacticmacro;3.0.8-dbuildx1fc18ed8d484a103fd15bec043bb31de68d9b550 ?!
