@@ -1086,8 +1086,8 @@ build += {
   ${vars.base} {
     name: "playframework"
     uri:  ${vars.uris.playframework-uri}
-    // compilation failure on 1.3; not investigated
-    // dev-mode/routes-compiler/src/main/scala/play/routes/compiler/RoutesGenerator.scala:171:5: not found: value static
+    // compilation failure on sbt 1.3.0-RC3; not investigated
+    // error] Symbol 'type play.api.libs.ws.WSBodyWritables' is missing from the classpath
     extra.sbt-version: ${vars.sbt-1-2-version}
     extra.exclude: [
       "Play-Docs", "Sbt-Plugin", "Play-Docs-Sbt-Plugin"  // out of scope
