@@ -408,6 +408,8 @@ build += {
     ]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
+      // sbt 1.3.0-RC3 specific: Credentials file [...] does not exist
+      "set every credentials := Seq()"
     ]
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
