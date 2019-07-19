@@ -477,8 +477,6 @@ build += {
     extra.commands: ${vars.default-commands} [
       // not sure if necessary, but we have it in the specs entry, so let's have it here too
       "set every publishMavenStyle := false"
-      // flaky test, https://github.com/etorreborre/specs2/issues/673
-      "set excludeFilter in (Test, unmanagedSources) in examplesJvm := HiddenFileFilter || \"StackIsolatedSpec.scala\""
     ]
   }
 
@@ -497,9 +495,6 @@ build += {
   ${vars.base} {
     name: "mockito-scala"
     uri:  ${vars.uris.mockito-scala-uri}
-    // failed test on 1.3; not investigated
-    // [mockito-scala] [error] Test suite org.mockito.MockitoSugarTest failed with java.lang.IllegalAccessError: org/mockito/internal/handler/InvocationNotifierHandler. This may be due to the ClassLoaderLayeringStrategy (TestDependencies) used by your task.
-    extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
   // this repo is volatile (very frequent commits) and when it needs to
@@ -523,8 +518,6 @@ build += {
       "set skip in publish in actorTests := false"
       // makes "configuration not public" errors downstream go away
       "set every publishMavenStyle := false"
-      // https://github.com/akka/akka/issues/25882
-      "set excludeFilter in (Test, unmanagedSources) in actorTests := HiddenFileFilter || \"UdpConnectedIntegrationSpec.scala\""
       // idk why, but prevents dbuild-only sun.misc.Unsafe compile errors;
       // see https://github.com/scala/community-builds/issues/757
       "set scalacOptions in Compile in actor --= Seq(\"-release\", \"8\")"
@@ -635,7 +628,7 @@ build += {
   ${vars.base} {
     name: "akka-stream"
     uri:  ${vars.uris.akka-uri}
-    // doc failures on 1.3; not investigated
+    // doc failures on sbt 1.3.0-RC1 or RC2; not investigated; we should try 1.3.0-RC3
     // Unexpected javac output: javadoc: error - invalid flag: --ignore-source-errors.
     extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"
@@ -788,9 +781,6 @@ build += {
   ${vars.base} {
     name: "acyclic"
     uri:  ${vars.uris.acyclic-uri}
-    // test failures on 1.3; not investigated
-    // object scala in compiler mirror not found
-    extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
   // frozen (June 2019) at April 2019 commit just before sbt->mill move
@@ -893,7 +883,7 @@ build += {
   ${vars.base} {
     name: "parboiled2"
     uri:  ${vars.uris.parboiled2-uri}
-    // failed compilation on 1.3; not investigated
+    // failed on sbt 1.3.0-RC3; not investigated
     // java.util.zip.ZipException: duplicate entry: LICENSE
     extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: ["parboiledJVM", "examples"]
@@ -1026,9 +1016,6 @@ build += {
   ${vars.base} {
     name: "twirl"
     uri:  ${vars.uris.twirl-uri}
-    // failed tests on 1.3; not investigated
-    // It looks like the scala-xml module is missing; try adding a dependency on "org.scala-lang.modules" : "scala-xml"
-    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.exclude: ["plugin", "apiJS"]
     deps.ignore: ["org.scala-sbt#scripted-plugin"]
     check-missing: false
@@ -1037,8 +1024,6 @@ build += {
   ${vars.base} {
     name: "play-doc"
     uri:  ${vars.uris.play-doc-uri}
-    // failed compilation on 1.3; not investigated
-    extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
   // right now (May 2019) we're frozen at a May 2019 commit before some source-incompatible changes;
@@ -1083,10 +1068,6 @@ build += {
     name: "play-file-watch"
     uri:  ${vars.uris.play-file-watch-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.commands: ${vars.default-commands} [
-      // failing test I haven't gotten around to reporting upstream
-      "set excludeFilter in (Test, unmanagedSources) in `play-file-watch` := HiddenFileFilter || \"FileWatchServiceSpec.scala\""
-    ]
   }
 
   ${vars.base} {
@@ -1149,9 +1130,6 @@ build += {
   ${vars.base} {
     name: "monocle"
     uri:  ${vars.uris.monocle-uri}
-    // failed extraction on 1.3; not investigated
-    // error: type mismatch; found: String("org.typelevel") required: ?{def %%%(x$1: ? >: String("cats-core")): ?}
-    extra.sbt-version: ${vars.sbt-1-2-version}
     // try to enable more subprojects?
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM", "genericJVM"]
     extra.commands: ${vars.base.extra.commands} [
@@ -1163,9 +1141,6 @@ build += {
   ${vars.base} {
     name: "scala-ssh"
     uri:  ${vars.uris.scala-ssh-uri}
-    // compilation failure on 1.3; not investigated
-    // src/main/scala/com/decodified/scalassh/ScpTransferable.scala:53:75: no arguments allowed for nullary constructor LoggingTransferListener: ()net.schmizz.sshj.xfer.LoggingTransferListener
-    extra.sbt-version: ${vars.sbt-1-2-version}
     // we have to disable this early (extra.commands isn't soon enough)
     // or scalafmt will run `update` and `cloc-plugin` won't be found
     extra.settings: ${vars.base.extra.settings} [
@@ -1282,7 +1257,7 @@ build += {
   ${vars.base} {
     name: "blaze"
     uri: ${vars.uris.blaze-uri}
-    // failed extraction on 1.3; not investigated
+    // failed extraction on 1.3.0-RC3; not investigated
     // [blaze] [error] (update) sbt.librarymanagement.ResolveException: Error downloading org.xerial.sbt:sbt-sonatype;sbtVersion=1.0;scalaVersion=2.12:1.1
     extra.sbt-version: ${vars.sbt-1-2-version}
   }
@@ -1371,9 +1346,6 @@ build += {
   ${vars.base} {
     name: "paiges"
     uri:  ${vars.uris.paiges-uri}
-    // failed tests on 1.3; not investigated
-    // Test suite org.typelevel.paiges.LawTests failed with java.lang.ClassNotFoundException: org.typelevel.paiges.CatsDocument$$anon$1. This may be due to the ClassLoaderLayeringStrategy (TestDependencies) used by your task
-    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: ["coreJVM", "catsJVM"]  // but not "benchmark"
     // 2.13: tests don't compile until the catalysts dependency is dropped;
     // probably just wait for the maintainers to do their 2.13.0-RC2/Cats 2 upgrade
@@ -1454,7 +1426,7 @@ build += {
   ${vars.base} {
     name: "sbt-io"
     uri:  ${vars.uris.sbt-io-uri}
-    // failed extraction on 1.3 (ResolveException on org.boris:pecoff4j:0.0.2.1);
+    // failed extraction on 1.3.0-RC3 (ResolveException on org.boris:pecoff4j:0.0.2.1);
     // see remarks at https://github.com/scala/community-builds/pull/909
     extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
@@ -1570,8 +1542,6 @@ build += {
     check-missing: false  // ignore missing scripted-sbt, kind-projector
     deps.inject: ${vars.base.deps.inject} [ "org.typelevel#kind-projector" ]
     extra.commands: ${vars.default-commands} [
-      // flaky test, reported at https://github.com/lightbend/paradox/issues/229
-      "set excludeFilter in (Test, unmanagedSources) in tests := HiddenFileFilter || \"VarsDirectiveSpec.scala\""
       // kind projector org change
       """set libraryDependencies in ThisBuild += compilerPlugin("org.typelevel" %% "kind-projector" % "0.10.0")"""
     ]
@@ -1970,13 +1940,6 @@ build += {
     extra.options: [
       "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
     ]
-    extra.commands: ${vars.default-commands} [
-      // FormatTests: maybe xml-related, I should report it upstream
-      // GitOptsTest: Failed git command. Got: java.lang.IllegalStateException: Failed to
-      // run command git commit -m 'some-message'. Error: *** Please tell me
-      // who you are. Run git config --global user.email "you@example.com"
-      """set excludeFilter in (Test, unmanagedSources) in tests := HiddenFileFilter || "FormatTests.scala" || "GitOpsTest.scala""""
-    ]
   }
 
   // frozen (September 2018) at a September 2018 commit just before a scalameta
@@ -2105,8 +2068,6 @@ build += {
   ${vars.base} {
     name: "finagle"
     uri:  ${vars.uris.finagle-uri}
-    // test failures on 1.3.0-RC1
-    extra.sbt-version: ${vars.sbt-1-2-version}
     // I didn't attempt to add any other subprojects
     extra.projects: ["finagle-core"]
   }
@@ -2163,7 +2124,7 @@ build += {
   ${vars.base} {
     name: "sbt-util"
     uri:  ${vars.uris.sbt-util-uri}
-    // failed extraction on 1.3 (ResolveException on org.boris:pecoff4j:0.0.2.1);
+    // failed extraction on 1.3.0-RC3 (ResolveException on org.boris:pecoff4j:0.0.2.1);
     // see remarks at https://github.com/scala/community-builds/pull/909
     extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
@@ -2176,7 +2137,7 @@ build += {
   ${vars.base} {
     name: "sbt-librarymanagement"
     uri:  ${vars.uris.sbt-librarymanagement-uri}
-    // failed extraction on 1.3 (ResolveException on org.boris:pecoff4j:0.0.2.1);
+    // failed extraction on 1.3.0-RC3 (ResolveException on org.boris:pecoff4j:0.0.2.1);
     // see remarks at https://github.com/scala/community-builds/pull/909
     extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
@@ -2425,7 +2386,7 @@ build += {
   ${vars.base} {
     name: "http4s-parboiled2"
     uri:  ${vars.uris.http4s-parboiled2-uri}
-    // failed compilation on 1.3; not investigated
+    // failed compilation on sbt 1.3.0-RC3; not investigated
     // java.util.zip.ZipException: duplicate entry: LICENSE
     extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: ["parboiledJVM"]
@@ -2510,10 +2471,6 @@ build += {
   ${vars.base} {
     name: "circe-config"
     uri:  ${vars.uris.circe-config-uri}
-    // test failures on 1.3; not investigated
-    // [circe-config] [error] Test suite io.circe.config.CirceConfigLaws failed with java.lang.ClassNotFoundException: io.circe.config.parser$.
-    // [circe-config] [error] This may be due to the ClassLoaderLayeringStrategy (TestDependencies) used by your task.
-    extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
   ${vars.base} {
@@ -2619,10 +2576,6 @@ build += {
   ${vars.base} {
     name: "circe-jackson"
     uri:  ${vars.uris.circe-jackson-uri}
-    // test failures on 1.3; not investigated
-    // [circe-jackson] [error] Test suite io.circe.jackson.JacksonParserSuite failed with java.lang.ClassNotFoundException: io.circe.jackson.package$.
-    // [circe-jackson] [error] This may be due to the ClassLoaderLayeringStrategy (TestDependencies) used by your task.
-    extra.sbt-version: ${vars.sbt-1-2-version}
     // there are some others, but for now, just trying to get github4s green again
     extra.projects: ["jackson28"]
   }
