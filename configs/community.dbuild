@@ -1862,6 +1862,7 @@ build += {
     check-missing: false
   }
 
+  // frozen (July 2019) at a commit just before some ScalaTest 3.1 specific code was added
   ${vars.base} {
     name: "better-monadic-for"
     uri:  ${vars.uris.better-monadic-for-uri}
