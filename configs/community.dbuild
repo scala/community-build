@@ -1088,9 +1088,6 @@ build += {
   ${vars.base} {
     name: "playframework"
     uri:  ${vars.uris.playframework-uri}
-    // compilation failure on sbt 1.3.0-RC3; not investigated
-    // error] Symbol 'type play.api.libs.ws.WSBodyWritables' is missing from the classpath
-    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.exclude: [
       "Play-Docs", "Sbt-Plugin", "Play-Docs-Sbt-Plugin"  // out of scope
       "Play-Integration-Test"  // TODO/WIP, see https://github.com/scala/community-builds/pull/819
