@@ -173,6 +173,8 @@ else
   fi
 fi
 
+echo "JAVA_OPTS: $JAVA_OPTS"
+
 # And finally, call dbuild
 echo "dbuild-${DBUILDVERSION}/bin/dbuild"  "$dbuild_args" "$DBUILDCONFIG" "${@}"
 ("dbuild-${DBUILDVERSION}/bin/dbuild"  "$dbuild_args" "$DBUILDCONFIG" "${@}" 2>&1 | tee "dbuild-${DBUILDVERSION}/dbuild.out") || STATUS="$?"
