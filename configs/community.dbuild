@@ -1024,6 +1024,10 @@ build += {
     name: "expecty"
     uri:  ${vars.uris.expecty-uri}
     extra.projects: ["expectyJVM"]
+    // use right version-specific source directories (not sure why existing stuff in build.sbt doesn't work)
+    extra.commands: ${vars.default-commands} [
+      "set unmanagedSourceDirectories in (expectyJVM, Compile) += (baseDirectory in ThisBuild).value / \"shared\" / \"src\" / \"main\" / \"scala-2.12\""
+    ]
   }
 
   ${vars.base} {
