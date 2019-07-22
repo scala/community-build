@@ -2176,6 +2176,8 @@ build += {
       // ParseKey exclusion is as per https://github.com/scala/community-builds/pull/758
       // ParseSpec exclusion is because a test there started consistently failing in July 2019
       """set mainProj/Test/unmanagedSources/excludeFilter := HiddenFileFilter || "ParseKey.scala" || "ParseSpec.scala""""
+      // EvalTest keeps getting OutOfMemoryError. revist after bump to 1.3.0
+      "set actionsProj/Test/unmanagedSources/excludeFilter := HiddenFileFilter || \"EvalTest.scala\""
     ]
   }
 
