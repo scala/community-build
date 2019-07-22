@@ -2181,8 +2181,9 @@ build += {
     // flaky tests are segregated
     extra.test-tasks: ["safeUnitTests"]
     extra.commands: ${vars.default-commands} [
-      // as per https://github.com/scala/community-builds/pull/758
-      "set excludeFilter in (Test, unmanagedSources) in mainProj := HiddenFileFilter || \"ParseKey.scala\""
+      // ParseKey exclusion is as per https://github.com/scala/community-builds/pull/758
+      // ParseSpec exclusion is because a test there started consistently failing in July 2019
+      """set mainProj/Test/unmanagedSources/excludeFilter := HiddenFileFilter || "ParseKey.scala" || "ParseSpec.scala""""
     ]
   }
 
