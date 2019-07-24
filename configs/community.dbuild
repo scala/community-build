@@ -454,6 +454,9 @@ build += {
       "set test in testBridge in Test := {}"
       "set test in jUnitAsyncJS in Test := {}"
     ]
+    // as usual with scripted-plugin, sigh
+    deps.ignore: ["org.scala-sbt#scripted-plugin"]
+    check-missing: false
   }
 
   // keep this stuff separate so the overall dependency tree is
