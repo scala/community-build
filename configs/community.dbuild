@@ -2133,6 +2133,8 @@ build += {
       "set executeTests in zincIvyIntegration in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
       // many failed tests with "sbt.internal.inc.InvalidComponent: The Scala compiler and library could not be retrieved"
       "set executeTests in zinc in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+      // started failing in 2.12.9 nightlies
+      """set compilerBridgeTest/Test/unmanagedSources/excludeFilter := HiddenFileFilter || "ExtractUsedNamesPerformanceSpecification.scala""""
     ]
     check-missing: false  // ignore missing scalafmt
   }
@@ -2146,7 +2148,7 @@ build += {
     uri:  ${vars.uris.sbt-uri}
     extra.sbt-version: "1.2.0"  // yup, 1.2.1 is built with 1.2.0
     extra.options: [
-      "-Xmx2048m"
+      "-Xmx2048M", "-Xms2048M", "-Xss4M",
       "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
     ]
     // we have to disable this early (extra.commands isn't soon enough)
