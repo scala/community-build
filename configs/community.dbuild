@@ -441,7 +441,8 @@ build += {
   ${vars.base} {
     name: "scala-js"
     uri:  ${vars.uris.scala-js-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
+    // ScalaJSCrossVersion.scala:34:23: stable identifier required, but sbt.`package`.CrossVersion.Disabled found.
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: [
       // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
       "-Xmx2048m"
