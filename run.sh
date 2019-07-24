@@ -15,8 +15,6 @@ export LANG="en_US.UTF-8"
 export HOME="$(pwd)"
 
 # Defaults
-scala_version_default="2.12.9-bin-87a3dd7"  # Jul 23
-scala_version="$scala_version_default"
 root_dir=$(pwd)
 config_dir="configs"
 dbuild_file="$config_dir/community.dbuild"
@@ -55,7 +53,7 @@ Examples:
   version=2.12.1-bin-933bab2 ./run.sh project1
   version=2.12.1-bin-933bab2 ./run.sh project1,project2,project3
 
-If no Scala version is specified, we use whatever's hardcoded in run.sh.
+If no Scala version is specified, we use whatever's in nightly.properties.
 "
   echo >&2 "$@"
   exit $ex
@@ -86,7 +84,7 @@ while getopts c:dD:f:hlnp:r:s:v: c; do
        ;;
     r) resolvers_file="$OPTARG"
        ;;
-    v) scala_version="$OPTARG"
+    v) version="$OPTARG"
        ;;
   esac
 done
@@ -106,16 +104,12 @@ cbuild settings:
   resolvers_file_default: $resolvers_file_default
   resolvers_file          $resolvers_file
   root directory:         $root_dir
-  scala_version_default:  $scala_version_default
   scala_version:          $scala_version
 "
 fi
 
-export version=${version-$scala_version}
-if [ "$version" = "$scala_version_default" ]; then
- >&2 echo "No Scala version specified. Using latest nightly."
-fi
-
+source nightly.properties
+export version=${version-$nightly}
 echo "re-run as:"
 echo version=$version ./run.sh ${@}
 
