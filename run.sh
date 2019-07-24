@@ -123,7 +123,7 @@ echo version=$version ./run.sh ${@}
 # whereby we copy the contents of the real file to a temporary file of known name.
 mkdir -p .dbuild
 if [ "$resolvers_file" = "none" ]; then
- cat $resolvers_file_default > .dbuild/resolvers.conf
+  cat $resolvers_file_default > .dbuild/resolvers.conf
 else
   cat $resolvers_file > .dbuild/resolvers.conf
 fi
