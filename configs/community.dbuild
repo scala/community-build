@@ -970,6 +970,8 @@ build += {
   ${vars.base} {
     name: "mima"
     uri:  ${vars.uris.mima-uri}
+    // [error] java.lang.NoClassDefFoundError: xsbt/ZincCompiler$sbtDependency$
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.exclude: [
       // we don't compile sbt plugins
       "sbtplugin"
@@ -977,6 +979,7 @@ build += {
       // https://github.com/lightbend/mima/issues/355
       "test-value-class-generic-replacement-false-ok"
     ]
+    extra.options: ["-Xmx4g"]
     // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
     deps.ignore: ["org.scala-sbt#scripted-sbt"]
     check-missing: false
