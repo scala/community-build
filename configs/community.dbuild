@@ -1401,7 +1401,7 @@ build += {
     name: "doodle"
     uri: ${vars.uris.doodle-uri}
     extra.projects: [
-      "animateJVM", "coreJVM", "java2d", "exploreJVM", "imageJVM", "turtleJVM"  // no Scala.js plz
+      "coreJVM", "java2d", "exploreJVM", "imageJVM", "turtleJVM"  // no Scala.js plz
     ]
     // kind-projector org change
     check-missing: false
