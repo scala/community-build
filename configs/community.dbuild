@@ -1400,6 +1400,8 @@ build += {
   ${vars.base} {
     name: "doodle"
     uri: ${vars.uris.doodle-uri}
+    // [doodle] [error] Symbol 'type doodle.explore.syntax.ExploreSyntax' is missing from the classpath.
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: [
       "coreJVM", "java2d", "exploreJVM", "imageJVM", "turtleJVM"  // no Scala.js plz
     ]
