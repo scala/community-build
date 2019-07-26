@@ -2164,7 +2164,7 @@ build += {
     uri:  ${vars.uris.sbt-uri}
     extra.sbt-version: "1.2.0"  // yup, 1.2.1 is built with 1.2.0
     extra.options: [
-      "-Xmx2048M", "-Xms2048M", "-Xss4M",
+      "-Xmx4G", "-Xss4M",
       "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
     ]
     // we have to disable this early (extra.commands isn't soon enough)
