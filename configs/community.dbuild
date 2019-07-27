@@ -2556,6 +2556,10 @@ build += {
       "scalaz", "zio", "asyncHttpClientBackendZio", "asyncHttpClientBackendScalaz",
       "asyncHttpClientBackendZio-streams"
     ]
+    // spray org change
+    check-missing: false
+    deps.ignore: ["io.spray#spray-json"]
+    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
   }
 
   // dependency of scrooge-shapes.
