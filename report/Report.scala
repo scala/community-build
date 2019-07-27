@@ -60,7 +60,6 @@ object SuccessReport {
     "scalatest-tests",  // module not found: org.scalactic#scalacticmacro;3.0.8-dbuildx1fc18ed8d484a103fd15bec043bb31de68d9b550 ?!
     "scapegoat",  // no 2.13 upgrade attempted afaict
     "scribe",  // invalid escape
-    "sttp",  // no 2.13 upgrade attempted afaict
     "tsec",  // they haven't upgraded past 2.13.0-M5 yet
     "tut",  // org.scala-sbt#scripted-sbt_2.13.0-pre-06392a5;1.2.8: not found
     "twitter-util",  // no 2.13 upgrade (an unmerged third-party PR exists, we could try that?)
