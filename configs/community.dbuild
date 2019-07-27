@@ -1051,6 +1051,10 @@ build += {
     extra.exclude: ["plugin", "apiJS"]
     deps.ignore: ["org.scala-sbt#scripted-plugin"]
     check-missing: false
+    extra.commands: ${vars.default-commands} [
+      // sbt 1.3.0-RC3 specific: "Credentials file [...] does not exist"
+      "set every credentials := Seq()"
+    ]
   }
 
   ${vars.base} {
