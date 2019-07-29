@@ -1051,6 +1051,7 @@ build += {
     ]
   }
 
+  // 2.11: frozen (July 2019) at May 2019 commit before 2.11 support was dropped
   ${vars.base} {
     name: "play-doc"
     uri:  ${vars.uris.play-doc-uri}
