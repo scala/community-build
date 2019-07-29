@@ -42,6 +42,7 @@ object SuccessReport {
           "coursier",  // needs scala/bug#11125 workaround
           "doobie",  // needs scala/bug#11125 workaround
           "lagom",  // "javadoc: error - invalid flag: -d"
+          "multibot",  //  - testScalaInterpreter *** FAILED ***; [java.lang.SecurityException: ("java.lang.RuntimePermission" "accessSystemModules")
           "sbt-util",  // needs scala/bug#11125 workaround
           "scala-debugger",  // "object FieldInfo is not a member of package sun.reflect"
           "scala-refactoring",  // needs scala/bug#11125 workaround?
