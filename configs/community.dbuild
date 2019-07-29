@@ -1164,7 +1164,7 @@ build += {
     ]
   }
 
-  // frozen (July 2019) at June 2019 commit just before ScalaTest 3.1 upgrade
+  // 2.11: frozen (July 2019) at April 2019 commit before 2.11 support was dropped
   ${vars.base} {
     name: "monocle"
     uri:  ${vars.uris.monocle-uri}
