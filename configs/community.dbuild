@@ -2525,6 +2525,11 @@ build += {
     // it with right now.
     extra.projects: ["catsJVM", "coreJVM", "evalJVM", "jsonpathJVM", "scalacheckJVM", "shapelessJVM"]
     extra.exclude: ["scalacheck_1_13JVM"]
+    extra.commands: ${vars.default-commands} [
+      // as per https://github.com/fthomas/refined/issues/661 , this test can be re-enabled
+      // once the repo is upgraded to 2.13.1
+      """set coreJVM / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "AdjacentSpec.scala""""
+    ]
   }
 
   // in this space because refinedJVM subproject depends on refined
