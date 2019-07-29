@@ -1581,6 +1581,7 @@ build += {
   }
 
   // dependency of lagom
+  // 2.13: temporarily forked (July 2019) pending merge of https://github.com/dnvriend/akka-persistence-jdbc/pull/242
   ${vars.base} {
     name: "akka-persistence-jdbc"
     uri:  ${vars.uris.akka-persistence-jdbc-uri}
