@@ -1363,11 +1363,11 @@ build += {
     uri:  ${vars.uris.twotails-uri}
   }
 
-  // 2.12: frozen at last green commit before 2.12 support was dropped
-  // 2.13: track master
+  // 2.11: frozen at an old (2016) commit. can be dropped if it acts up
   ${vars.base} {
     name: "scala-gopher"
     uri:  ${vars.uris.scala-gopher-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
     // too many intermittent failures -- reported at
     // https://github.com/rssh/scala-gopher/issues/20
     extra.test-tasks: ["compile"]
