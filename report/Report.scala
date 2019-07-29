@@ -32,23 +32,29 @@ object SuccessReport {
   //   (?!-) = negative lookahead -- next character is not "-"
   val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
+  val jdk11Failures = Set(
+    "coursier",  // needs scala/bug#11125 workaround
+    "doobie",  // needs scala/bug#11125 workaround
+    "lagom",  // "javadoc: error - invalid flag: -d"
+    "multibot",  //  - testScalaInterpreter *** FAILED ***; [java.lang.SecurityException: ("java.lang.RuntimePermission" "accessSystemModules")
+    "sbt-util",  // needs scala/bug#11125 workaround
+    "scala-debugger",  // "object FieldInfo is not a member of package sun.reflect"
+    "scala-refactoring",  // needs scala/bug#11125 workaround?
+    "scalafix",  // needs scala/bug#11125 workaround
+    "sconfig",  // test failures; see https://github.com/ekrich/sconfig/issues/4
+    "twitter-util",  // "javadoc: error - invalid flag: -d"
+  )
+
   val expectedToFail: Set[String] =
     System.getProperty("java.specification.version") match {
       case "1.8" =>
         Set(
         )
+      case "11" =>
+        jdk11Failures
       case _ =>
-        Set(
-          "coursier",  // needs scala/bug#11125 workaround
-          "doobie",  // needs scala/bug#11125 workaround
-          "lagom",  // "javadoc: error - invalid flag: -d"
-          "multibot",  //  - testScalaInterpreter *** FAILED ***; [java.lang.SecurityException: ("java.lang.RuntimePermission" "accessSystemModules")
-          "sbt-util",  // needs scala/bug#11125 workaround
-          "scala-debugger",  // "object FieldInfo is not a member of package sun.reflect"
-          "scala-refactoring",  // needs scala/bug#11125 workaround?
-          "scalafix",  // needs scala/bug#11125 workaround
-          "sconfig",  // test failures; see https://github.com/ekrich/sconfig/issues/4
-          "twitter-util",  // "javadoc: error - invalid flag: -d"
+        jdk11Failures ++ Set(
+          "play-file-watch"  // https://github.com/playframework/play-file-watch/issues/46
         )
     }
 
