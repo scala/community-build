@@ -233,11 +233,7 @@ build += {
     extra.commands: ${vars.default-commands} [
       // makes "configuration not public" errors downstream go away
       "set every publishMavenStyle := false"
-      // 2.13-only test failures, mentioned to Eric on a PR. check on it again sometime before 2.13.0 time
-      "set excludeFilter in (Test, unmanagedSources) in coreJvm := HiddenFileFilter || \"NotNullStringsSpec.scala\""
-      "set excludeFilter in (Test, unmanagedSources) in mockJvm := HiddenFileFilter || \"MockitoSpec.scala\""
-      // sbt 1.3.0-RC3 specific?
-      // [warn] Credentials file /Users/tisue/.sbt/specs2.credentials does not exist
+      // sbt 1.3.0-RC3 specific:
       // [error] java.lang.RuntimeException: Credentials file /Users/tisue/.sbt/specs2.credentials does not exist
       "set every credentials := Seq()"
     ]
