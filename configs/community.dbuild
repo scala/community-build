@@ -1094,6 +1094,9 @@ build += {
       "Play-Microbenchmark" // out of scope (and besides, requires Play-Integration-Test)
     ]
     deps.ignore: ["org.scala-sbt#scripted-plugin"]
+    extra.commands: ${vars.default-commands} [
+      """Play-WS/Compile/clean;set every Compile/scalacOptions := List("-Ylog-classpath")"""
+    ]
     check-missing: false
   }
 
