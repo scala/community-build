@@ -651,8 +651,9 @@ build += {
       // has been failing consistently lately, let's recheck it next time we push the tag forward
       // and report upstream if it hasn't gone away
       "set excludeFilter in (Test, unmanagedSources) in streamTests := HiddenFileFilter || \"TlsSpec.scala\""
-      // prevents [akka-stream] [error] Class jdk.internal.HotSpotIntrinsicCandidate not found - continuing with a stub.
+      // prevents: Class jdk.internal.HotSpotIntrinsicCandidate not found - continuing with a stub.
       "set scalacOptions in Compile in stream --= Seq(\"-release\", \"8\")"
+      "set scalacOptions in Jdk9.CompileJdk9 in stream --= Seq(\"-release\", \"11\")"
     ]
     extra.exclude: [
       // because we already built them in "akka"
@@ -710,10 +711,6 @@ build += {
     // * akka.http.impl.engine.client.NewConnectionPoolSpec
     // * akka.http.impl.engine.client.HostConnectionPoolSpec
     extra.test-tasks: ["compile"]
-    // spray org change
-    check-missing: false
-    deps.ignore: ["io.spray#spray-json"]
-    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
   }
 
   ${vars.base} {
@@ -895,13 +892,7 @@ build += {
       "set every scalafmtOnCompile := false"
       // otherwise sbt-gpg errors on `publish`
       "set every gpgWarnOnFailure := true"
-      // spray org change
-      "removeDependency io.spray spray-json"
     ]
-    // spray org change
-    check-missing: false
-    deps.ignore: ["io.spray#spray-json"]
-    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
   }
 
   ${vars.base} {
@@ -996,10 +987,6 @@ build += {
     name: "spray-json"
     uri:  ${vars.uris.spray-json-uri}
     extra.projects: ["sprayJsonJVM"]
-    // otherwise sbt-gpg errors on `publish`
-    extra.commands: ${vars.default-commands} [
-      "set every gpgWarnOnFailure := true"
-    ]
   }
 
   ${vars.base} {
@@ -1129,6 +1116,17 @@ build += {
     name: "sconfig"
     uri:  ${vars.uris.sconfig-uri}
     extra.exclude: ["sconfigNative", "sconfigJS"]
+    extra.commands: ${vars.default-commands} [
+      // spray org change (July 2019). presumably before long spray-json will
+      // publish their Scala.js/Native support, Eric will change sconfig to use it,
+      // and we'll be able to remove this stuff.
+      "removeDependency io.crashbox spray-json"
+      """set libraryDependencies in sconfigJVM += "io.spray" %% "spray-json" % "0.0.0""""
+    ]
+    // more spray org change
+    check-missing: false
+    deps.ignore: ["io.crashbox#spray-json"]
+    deps.inject: ${vars.base.deps.inject} ["io.spray#spray-json"]
   }
 
   // 2.13: tracking master since that's where 2.13 support landed
@@ -1597,17 +1595,10 @@ build += {
     uri:  ${vars.uris.akka-management-uri}
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
-      // spray org change
-      "removeDependency io.spray spray-json"
-      """set libraryDependencies in ThisBuild += "io.crashbox" %% "spray-json" % "0.0""""
     ]
     extra.projects: ["akka-management", "cluster-bootstrap", "cluster-http", "integration-test-kubernetes-api-java", "integration-test-local", "integration-test-kubernetes-dns", "integration-test-aws-api-ec2-tag-based", "integration-test-kubernetes-api", "akka-discovery-aws-api", "akka-discovery-kubernetes-api", "akka-discovery-consul", "akka-discovery-marathon-api"]
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.test-tasks: "compile"
-    // spray org change
-    check-missing: false
-    deps.ignore: ["io.spray#spray-json"]
-    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
   }
 
   // TODO: drop, but here as backstop for lagom (no kafka yet for 2.13)
@@ -1640,14 +1631,7 @@ build += {
     ]
     // [error] **** Missing dependency: the library org.scala-sbt#scripted-plugin is not provided (in space "scala.main") by any project in this configuration file.
     check-missing: false
-    deps.ignore: ["org.scala-sbt#scripted-plugin", "io.spray#spray-json"]
-
-    // spray org change
-    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
-    extra.commands: ${vars.default-commands} [
-      "removeDependency io.spray spray-json"
-      """set libraryDependencies in ThisBuild += "io.crashbox" %% "spray-json" % "0.0""""
-    ]
+    deps.ignore: ["org.scala-sbt#scripted-plugin"]
   }
 
   // not (as of January 2018 anyway) an actively maintained project, so it's
@@ -1655,14 +1639,6 @@ build += {
   ${vars.base} {
     name: "scala-sculpt"
     uri:  ${vars.uris.scala-sculpt-uri}
-    // spray org change
-    check-missing: false
-    deps.ignore: ["io.spray#spray-json"]
-    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
-    extra.commands: ${vars.default-commands} [
-      "removeDependency io.spray spray-json"
-      """set libraryDependencies in ThisBuild += "io.crashbox" %% "spray-json" % "0.0""""
-    ]
   }
 
   ${vars.base} {
@@ -2121,10 +2097,6 @@ build += {
     // omitted TODO: play
     // omitted: rojoma-v3, rojoma, benchmark, argonaut
     extra.projects: ["ast", "parser", "json4s", "spray"]
-    // spray org change
-    check-missing: false
-    deps.ignore: ["io.spray#spray-json"]
-    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
   }
 
   // for sjson-new
@@ -2138,10 +2110,6 @@ build += {
     name: "sjson-new"
     uri:  ${vars.uris.sjson-new-uri}
     extra.exclude: ["benchmark"]
-    // spray org change
-    check-missing: false
-    deps.ignore: ["io.spray#spray-json"]
-    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
   }
 
   // using a slightly post v1.2.0 commit in order to get
@@ -2208,7 +2176,7 @@ build += {
     uri:  ${vars.uris.sbt-uri}
     extra.sbt-version: "1.2.0"  // yup, 1.2.1 is built with 1.2.0
     extra.options: [
-      "-Xmx2048M", "-Xms2048M", "-Xss4M",
+      "-Xmx4G", "-Xss4M",
       "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
     ]
     // we have to disable this early (extra.commands isn't soon enough)
@@ -2360,21 +2328,11 @@ build += {
     ]
   }
 
-  // 2.13: no clue why the extra spray-json stuff is necessary on 2.13.x
-  // branch but not in 2.12.x branch? it's a mystery
   ${vars.base} {
     name: "jawn-0-11"
     uri:  ${vars.uris.jawn-0-11-uri}
     // omitted: benchmark
     extra.projects: ["ast", "parser", "json4s", "spray", "play"]
-    // spray org change
-    check-missing: false
-    deps.ignore: ["io.spray#spray-json"]
-    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
-    extra.commands: ${vars.base.extra.commands} [
-      "removeDependency io.spray spray-json"
-      "set supportSpray/libraryDependencies += \"io.crashbox\" % \"spray-json\" % \"1.3.5\""
-    ]
   }
 
   // frozen (April 2019) at an April 2019 commit just before ScalaTest 3.1 upgrade
@@ -2566,10 +2524,6 @@ build += {
       "scalaz", "zio", "asyncHttpClientBackendZio", "asyncHttpClientBackendScalaz",
       "asyncHttpClientBackendZio-streams"
     ]
-    // spray org change
-    check-missing: false
-    deps.ignore: ["io.spray#spray-json"]
-    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
   }
 
   // dependency of scrooge-shapes.
