@@ -1123,8 +1123,13 @@ build += {
     // use right version-specific source directories regardless of our weird dbuild Scala version numbers
     extra.commands: ${vars.default-commands} [
       "set unmanagedSourceDirectories in (sconfigJVM, Compile) += (baseDirectory in ThisBuild).value / \"sconfig\" / \"shared\" / \"src\" / \"main\" / \"scala-2.12\""
+      // spray org change (July 2019). presumably before long spray-json will
+      // publish their Scala.js/Native support, Eric will change sconfig to use it,
+      // and we'll be able to remove this stuff.
+      "removeDependency io.crashbox spray-json"
+      """set libraryDependencies in sconfigJVM += "io.spray" %% "spray-json" % "0.0.0""""
     ]
-    // spray org change
+    // more spray org change
     check-missing: false
     deps.ignore: ["io.crashbox#spray-json"]
     deps.inject: ${vars.base.deps.inject} ["io.spray#spray-json"]
