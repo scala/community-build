@@ -705,10 +705,6 @@ build += {
     // * akka.http.impl.engine.client.NewConnectionPoolSpec
     // * akka.http.impl.engine.client.HostConnectionPoolSpec
     extra.test-tasks: ["compile"]
-    // spray org change
-    check-missing: false
-    deps.ignore: ["io.spray#spray-json"]
-    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
   }
 
   ${vars.base} {
@@ -891,10 +887,6 @@ build += {
       // otherwise sbt-gpg errors on `publish`
       "set every gpgWarnOnFailure := true"
     ]
-    // spray org change
-    check-missing: false
-    deps.ignore: ["io.spray#spray-json"]
-    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
   }
 
   ${vars.base} {
@@ -991,9 +983,9 @@ build += {
     name: "spray-json"
     uri:  ${vars.uris.spray-json-uri}
     extra.projects: ["sprayJsonJVM"]
-    // otherwise sbt-gpg errors on `publish`
     extra.commands: ${vars.default-commands} [
-      "set every gpgWarnOnFailure := true"
+      // waiting for a fix for https://github.com/spray/spray-json/issues/315
+      """set excludeFilter in (Test, unmanagedSources) in sprayJsonJVM := HiddenFileFilter || "JsonParserSpecJvm.scala""""
     ]
   }
 
@@ -1136,6 +1128,10 @@ build += {
     extra.commands: ${vars.default-commands} [
       "set unmanagedSourceDirectories in (sconfigJVM, Compile) += (baseDirectory in ThisBuild).value / \"sconfig\" / \"shared\" / \"src\" / \"main\" / \"scala-2.12\""
     ]
+    // spray org change
+    check-missing: false
+    deps.ignore: ["io.crashbox#spray-json"]
+    deps.inject: ${vars.base.deps.inject} ["io.spray#spray-json"]
   }
 
   // frozen (November 2017) at June 2017 commit, for compatibility with
@@ -1619,10 +1615,6 @@ build += {
   ${vars.base} {
     name: "scala-sculpt"
     uri:  ${vars.uris.scala-sculpt-uri}
-    // spray org change
-    check-missing: false
-    deps.ignore: ["io.spray#spray-json"]
-    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
   }
 
   ${vars.base} {
@@ -2078,10 +2070,6 @@ build += {
     // omitted TODO: play
     // omitted: rojoma-v3, rojoma, benchmark, argonaut
     extra.projects: ["ast", "parser", "json4s", "spray"]
-    // spray org change
-    check-missing: false
-    deps.ignore: ["io.spray#spray-json"]
-    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
   }
 
   // for sjson-new
@@ -2095,10 +2083,6 @@ build += {
     name: "sjson-new"
     uri:  ${vars.uris.sjson-new-uri}
     extra.exclude: ["benchmark"]
-    // spray org change
-    check-missing: false
-    deps.ignore: ["io.spray#spray-json"]
-    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
   }
 
   // using a slightly post v1.2.0 commit in order to get
@@ -2322,10 +2306,6 @@ build += {
     uri:  ${vars.uris.jawn-0-11-uri}
     // omitted: benchmark
     extra.projects: ["ast", "parser", "json4s", "spray", "play"]
-    // spray org change
-    check-missing: false
-    deps.ignore: ["io.spray#spray-json"]
-    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
   }
 
   // frozen (April 2019) at an April 2019 commit just before ScalaTest 3.1 upgrade
@@ -2515,10 +2495,6 @@ build += {
       "scalaz", "zio", "asyncHttpClientBackendZio", "asyncHttpClientBackendScalaz",
       "asyncHttpClientBackendZio-streams"
     ]
-    // spray org change
-    check-missing: false
-    deps.ignore: ["io.spray#spray-json"]
-    deps.inject: ${vars.base.deps.inject} ["io.crashbox#spray-json"]
   }
 
   // dependency of scrooge-shapes.
