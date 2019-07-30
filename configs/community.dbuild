@@ -983,10 +983,6 @@ build += {
     name: "spray-json"
     uri:  ${vars.uris.spray-json-uri}
     extra.projects: ["sprayJsonJVM"]
-    extra.commands: ${vars.default-commands} [
-      // waiting for a fix for https://github.com/spray/spray-json/issues/315
-      """set excludeFilter in (Test, unmanagedSources) in sprayJsonJVM := HiddenFileFilter || "JsonParserSpecJvm.scala""""
-    ]
   }
 
   // forked (September 2018) for JDK 11 friendliness
