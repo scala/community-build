@@ -647,8 +647,9 @@ build += {
       // has been failing consistently lately, let's recheck it next time we push the tag forward
       // and report upstream if it hasn't gone away
       "set excludeFilter in (Test, unmanagedSources) in streamTests := HiddenFileFilter || \"TlsSpec.scala\""
-      // prevents [akka-stream] [error] Class jdk.internal.HotSpotIntrinsicCandidate not found - continuing with a stub.
+      // prevents: Class jdk.internal.HotSpotIntrinsicCandidate not found - continuing with a stub.
       "set scalacOptions in Compile in stream --= Seq(\"-release\", \"8\")"
+      "set scalacOptions in Jdk9.CompileJdk9 in stream --= Seq(\"-release\", \"11\")"
     ]
     extra.exclude: [
       // because we already built them in "akka"
