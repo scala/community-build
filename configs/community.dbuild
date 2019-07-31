@@ -370,16 +370,16 @@ build += {
     extra.options: ["-Xmx6g"]
   }
 
-  // frozen (June 2019) at June 2019 commit just before ScalaTest 3.1 upgrade
+  // frozen (June 2019) at June 2019 commit just before ScalaTest 3.1 upgrade.
+  // (when we unfreeze, the kind-projector org change stuff can go)
   ${vars.base} {
     name: "kittens"
     uri:  ${vars.uris.kittens-uri}
     extra.projects: ["coreJVM"]  // sorry, Scala.js
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+    deps.inject: ["org.typelevel#kind-projector"]
     extra.commands: ${vars.default-commands} [
+      "removeDependency org.spire-math kind-projector"
+      """set libraryDependencies in ThisBuild += compilerPlugin("org.typelevel" %% "kind-projector" % "0.0.0")"""
       // didn't compile (July 2019) after we unfroze ScalaCheck (StackOverflowError)
       """set excludeFilter in (Test, unmanagedSources) in coreJVM := HiddenFileFilter || "partialOrder.scala" || "monoid.scala" || "semigroup.scala" || "order.scala""""
     ]
@@ -398,19 +398,16 @@ build += {
   ${vars.base} {
     name: "tut"
     uri:  ${vars.uris.tut-uri}
-    extra.exclude: [
-      "plugin"  // we never build sbt plugins
-      "docs"  // out of scope
-      "root"  // weird errors; irrelevant anyway
-    ]
+    // just core; it's unfortunate we don't run the tests, but they all use
+    // scripted-plugin, which we don't know how to make work under dbuild
+    extra.projects: ["core"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
       // sbt 1.3.0-RC3 specific: Credentials file [...] does not exist
       "set every credentials := Seq()"
     ]
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
-    deps.ignore: ["org.scala-sbt#scripted-sbt"]
+    // ignore missing org.scala-sbt#scripted-plugin
     check-missing: false
   }
 
@@ -841,7 +838,6 @@ build += {
     uri:  ${vars.uris.scalaprops-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["scalapropsJVM"]  // no Scala.js please
-    check-missing: false  // ignore missing scalafmt
   }
 
   // frozen at v1.2.0 tag for now, perhaps excessively cautiously; we might
@@ -850,10 +846,11 @@ build += {
     name: "cats-effect"
     uri:  ${vars.uris.cats-effect-uri}
     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js plz
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+    deps.inject: ["org.typelevel#kind-projector"]
+    extra.commands: ${vars.default-commands} [
+      "removeDependency org.spire-math kind-projector"
+      """set libraryDependencies in ThisBuild += compilerPlugin("org.typelevel" %% "kind-projector" % "0.0.0")"""
+    ]
   }
 
   // frozen at last commit before ScalaTest 3.1 upgrade
@@ -865,10 +862,6 @@ build += {
       // otherwise sbt-gpg errors on `publish`
       "set every gpgWarnOnFailure := true"
     ]
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   ${vars.base} {
@@ -911,10 +904,6 @@ build += {
       // no Scala.js please
       "coreJS", "monixJS", "catsEffectJS"
     ]
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   // downstream projects expecting a different jackson version than the
@@ -986,6 +975,10 @@ build += {
     name: "spray-json"
     uri:  ${vars.uris.spray-json-uri}
     extra.projects: ["sprayJsonJVM"]
+    // TODO report upstream; doc generation fails on JDK 11 + 12
+    extra.commands: ${vars.base.extra.commands} [
+      "set sources in doc in Compile in sprayJsonJVM := List()"
+    ]
   }
 
   // forked (September 2018) for JDK 11 friendliness
@@ -1135,10 +1128,7 @@ build += {
       "removeDependency io.crashbox spray-json"
       """set libraryDependencies in sconfigJVM += "io.spray" %% "spray-json" % "0.0.0""""
     ]
-    // more spray org change
-    check-missing: false
-    deps.ignore: ["io.crashbox#spray-json"]
-    deps.inject: ${vars.base.deps.inject} ["io.spray#spray-json"]
+    deps.inject: ["io.spray#spray-json"]
   }
 
   // frozen (November 2017) at June 2017 commit, for compatibility with
@@ -1168,10 +1158,6 @@ build += {
     uri:  ${vars.uris.monocle-uri}
     // try to enable more subprojects?
     extra.projects: ["coreJVM", "macrosJVM", "lawJVM", "genericJVM"]
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   ${vars.base} {
@@ -1249,10 +1235,6 @@ build += {
     extra.options: ["-Dmonix.requireJava8=false"]
     // no Scala.js, no benchmarks.
     extra.projects: ["coreJVM"]
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   // this was added because conductr-lib's Play integration depended on it,
@@ -1938,10 +1920,6 @@ build += {
   ${vars.base} {
     name: "pascal"
     uri:  ${vars.uris.pascal-uri}
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   ${vars.base} {
