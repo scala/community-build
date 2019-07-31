@@ -39,6 +39,7 @@ object SuccessReport {
     "case-app",  // shapeless-related compilation errors, looks hairy
     "circe-jackson",  // overloading related compile errors
     "coursier",  // no 2.13 upgrade attempted afaict (Seq-related compile errors)
+    "curryhoward",  // no 2.13 upgrade attempted afaict
     "doobie",  // needs newer cats-effect
     "elastic4s",  // no 2.13 upgrade attempted afaict (Seq-related compile errors)
     "kafka",  // no 2.13 upgrade attempted afaik
@@ -57,6 +58,7 @@ object SuccessReport {
     "scalatest-tests",  // module not found: org.scalactic#scalacticmacro;3.0.8-dbuildx1fc18ed8d484a103fd15bec043bb31de68d9b550 ?!
     "scapegoat",  // no 2.13 upgrade attempted afaict
     "scribe",  // invalid escape
+    "sjson-new",  // needs newer jawn now; but there's no point in attempting to make this green on 2.13 except as part of an effort to get sbt and all of its modules green on 2.13
     "tsec",  // they haven't upgraded past 2.13.0-M5 yet
     "twitter-util",  // no 2.13 upgrade (an unmerged third-party PR exists, we could try that?)
   )
