@@ -52,7 +52,6 @@ object SuccessReport {
     "monix",  // no 2.13.0-RC1 upgrade attempted afaik
     "multibot",  // we need to unfreeze to get 2.13 support but then we also need ScalaTest 3.1
     "paradox",  // no 2.13 upgrade attempted afaict
-    "parboiled2",  // ???
     "scala-refactoring",  // postfixOps
     "scala-stm",  // still using JavaConversions
     "scala-xml-quote",  // Unit companion object not allowed in source
