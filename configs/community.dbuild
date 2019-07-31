@@ -1817,7 +1817,7 @@ build += {
     uri:  ${vars.uris.scalameta-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: [
-      "testkit"
+      "semanticdbScalacPlugin"
       // we may need to re-add other subprojects to get scalafix and/or scalafmt working on 2.13
     ]
     // use right version-specific source directories regardless of our weird dbuild Scala version numbers
