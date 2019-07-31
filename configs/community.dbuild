@@ -1820,10 +1820,13 @@ build += {
       "semanticdbScalacPlugin", "testsJVM"
       // we may need to re-add other subprojects to get scalafix and/or scalafmt working on 2.13
     ]
-    // use right version-specific source directories regardless of our weird dbuild Scala version numbers
     extra.commands: ${vars.default-commands} [
+      // use right version-specific source directories regardless of our weird dbuild Scala version numbers
       """set unmanagedSourceDirectories in (commonJVM, Compile) += baseDirectory.value / "scalameta" / "common" / "shared" / "src" / "main" / "scala-2.13""""
       """set unmanagedSourceDirectories in (semanticdbScalacCore, Compile) += baseDirectory.value / "semanticdb" / "scalac" / "library" / "src" / "main" / "scala-2.13""""
+      // testkit compiles on 2.13, but its tests don't (not just in the community build context,
+      // the problem exists upstream as well)
+      """set unmanagedSourceDirectories in (testkit, Test) := Seq()"""
     ]
   }
 
