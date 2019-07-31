@@ -1173,12 +1173,6 @@ build += {
   }
 
   ${vars.base} {
-    name: "scala-refactoring"
-    uri:  ${vars.uris.scala-refactoring-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
-  }
-
-  ${vars.base} {
     name: "minitest"
     uri:  ${vars.uris.minitest-uri}
     extra.projects: ["minitestJVM", "lawsJVM", "lawsLegacyJVM"]  // no Scala.js
