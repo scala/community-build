@@ -1533,13 +1533,6 @@ build += {
     ]
   }
 
-  ${vars.base} {
-    name: "paradox"
-    uri:  ${vars.uris.paradox-uri}
-    extra.exclude: ["plugin", "themePlugin", "genericTheme"]
-    check-missing: false  // ignore missing scripted-sbt
-  }
-
   // dependency of lagom. forked (August 2018) at last green version,
   // since newer commits break lagom; see https://github.com/lagom/lagom/issues/1413
   // the fork is so we could cherry-pick https://github.com/akka/akka-persistence-cassandra/pull/377
