@@ -803,23 +803,10 @@ build += {
     extra.projects: ["utestJVM"]
   }
 
-  // forked (October 2018) for JDK 11 compat, awaiting merge of
-  // https://github.com/lihaoyi/fastparse/pull/196
-  // also note that master is now Fastparse 2 which is completely
-  // source-incompatible with Fastparse 1
-  // 2.13: our fork is forked from lihaoyi/fastparse.git#2.13-for-1.x
-  // and then adds a JDK 11 fix
-  ${vars.base} {
-    name: "fastparse"
-    uri:  ${vars.uris.fastparse-uri}
-    extra.projects: [
-      "fastparseJVM"   // no Scala.js plz
-      "scalaparseJVM"  // dependency of scalatex
-    ]
-    extra.commands: ${vars.default-commands} [
-      // too prone to unexplained failure
-      "set executeTests in scalaparseJVM in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-    ]
+  {
+    name:   "fastparse"
+    system: aether
+    uri:   "aether:com.lihaoyi#fastparse_2.13;2.1.3"
   }
 
   ${vars.base} {
