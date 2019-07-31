@@ -852,6 +852,7 @@ build += {
       // I think cats dropped its catalysts dependency but there is one source file
       // in cats-effect that still expects it to be there, though not explicitly declared.
       "set libraryDependencies in coreJVM += \"org.typelevel\" % \"catalysts-platform\" % \"0.10.0\" % Test"
+    ]
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#catalysts-platform"]
   }
 
