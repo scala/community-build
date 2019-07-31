@@ -3,12 +3,16 @@
 // we have these spaces:
 // - scala
 //   - scala.main
-//     - scala.main.jawn_0_10
 //     - scala.main.jawn_0_11
 // the jawn split is because sbt 1 uses jawn 0.10.x (via its dependency
 // on sjson-new) and the sbt team doesn't want to break  binary compatibility
 // of sbt plugins. nearly everything else is on jawn 0.11, and the two versions
 // are source-incompatible.
+//
+// in 2.13 we currently aren't even trying to build jawn 0.10 world.
+// most of that world is old frozen versions of sbt(+modules) and zinc
+// anyway, plus scaladex which hasn't moved to 2.13 and it's not clear
+// if it will.
 
 //// from environment
 
@@ -2020,45 +2024,6 @@ build += {
     extra.projects: ["finagle-core"]
   }
 
-]}
-
-//// space: jawn_0_10
-
-build += {
-
-  space: scala.main.jawn_0_10
-
-  check-missing: [ true, false ]
-  cross-version: [ disabled, standard ]
-  extraction-version: ${vars.scala-version}
-  sbt-version: ${vars.sbt-version}
-
-  projects: [
-
-  // forked (June 2018) from the v0.10.4 tag to backport JDK 11 friendliness change
-  // (https://github.com/non/jawn/pull/106) to 0.10 series
-  ${vars.base} {
-    name: "jawn-0-10"
-    uri:  ${vars.uris.jawn-0-10-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
-    // omitted TODO: play
-    // omitted: rojoma-v3, rojoma, benchmark, argonaut
-    extra.projects: ["ast", "parser", "json4s", "spray"]
-  }
-
-  // for sjson-new
-  {
-    name: "shaded-scalajson"
-    system: ivy
-    uri: "ivy:com.eed3si9n#shaded-scalajson_2.13;1.0.0-M4"
-  }
-
-  ${vars.base} {
-    name: "sjson-new"
-    uri:  ${vars.uris.sjson-new-uri}
-    extra.exclude: ["benchmark"]
-  }
-
   // using a slightly post v1.2.0 commit in order to get
   // https://github.com/sbt/util/pull/172 which fixes failing tests
   ${vars.base} {
@@ -2090,67 +2055,6 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
-  ${vars.base} {
-    name: "zinc"
-    uri:  ${vars.uris.zinc-uri}
-    extra.sbt-version: "1.2.0"  // yup, 1.2.1 is built with 1.2.0
-    extra.exclude: [
-      "zincBenchmarks"
-      // has circular dependency on sbt repo
-      "bloopScripted"
-    ]
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    extra.commands: ${vars.default-commands} [
-      "set every scalafmtOnCompile := false"
-      // sbt.internal.inc.ZincComponentCompilerSpec fails with:
-      // sbt.internal.inc.InvalidComponent: The compiler bridge sources org.scala-sbt:compiler-bridge_2.12:1.1.0-dbuildxbf579d40cbffdff1fd1e72ea5565b14e328a9c02:compile could not be retrieved.
-      // reported upstream at https://github.com/sbt/zinc/issues/485
-      "set executeTests in zincIvyIntegration in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-      // many failed tests with "sbt.internal.inc.InvalidComponent: The Scala compiler and library could not be retrieved"
-      "set executeTests in zinc in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-      // started failing in 2.12.9 nightlies
-      """set compilerBridgeTest/Test/unmanagedSources/excludeFilter := HiddenFileFilter || "ExtractUsedNamesPerformanceSpecification.scala""""
-    ]
-    check-missing: false  // ignore missing scalafmt
-  }
-
-  // currently sbt and its modules are frozen and/or forked, since
-  // sbt has its own dbuild-based "community build" so we don't need
-  // to track the latest (and doing so would be fragile).  but,
-  // we should move to newer tags from time to time.
-  ${vars.base} {
-    name: "sbt"
-    uri:  ${vars.uris.sbt-uri}
-    extra.sbt-version: "1.2.0"  // yup, 1.2.1 is built with 1.2.0
-    extra.options: [
-      "-Xmx4G", "-Xss4M",
-      "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
-    ]
-    // we have to disable this early (extra.commands isn't soon enough)
-    // or scalafmt will run `update` and `cloc-plugin` won't be found
-    extra.settings: ${vars.base.extra.settings} [
-      "scalafmtOnCompile in ThisBuild := false"
-      "scalafmtOnCompile in Sbt := false"
-    ]
-    extra.exclude: [
-      // dbuild & sbt-bintray fight (Release.scala calls bintrayRepo.value.upload)
-      "bundledLauncherProj"
-      // depends on sxr_2.10?!
-      "sbtRoot"
-      // [sbt:error] java.lang.RuntimeException: You asked dbuild to test using the task "safeUnitTests". The task key exists, but it is undefined in project "vscodePlugin".
-      // (fixable I guess, but also seems maybe out-of-scope-ish anyway)
-      "vscodePlugin"
-    ]
-    check-missing: false  // ignore missing scalafmt
-    // flaky tests are segregated
-    extra.test-tasks: ["safeUnitTests"]
-    extra.commands: ${vars.default-commands} [
-      // ParseKey exclusion is as per https://github.com/scala/community-builds/pull/758
-      // ParseSpec exclusion is because a test there started consistently failing in July 2019
-      """set mainProj/Test/unmanagedSources/excludeFilter := HiddenFileFilter || "ParseKey.scala" || "ParseSpec.scala""""
-    ]
-  }
-
   // dependency of autowire. (and Ammonite, but we pulled Ammonite.)
   // otherwise obsolete, as per https://github.com/lihaoyi/upickle-pprint/issues/209
   // (the pprint part has its own repo now)
@@ -2172,68 +2076,6 @@ build += {
     uri:  ${vars.uris.autowire-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["autowireJVM"]  // no Scala.js plz
-  }
-
-  // dependency of Scaladex
-  ${vars.base} {
-    name: "akka-http-json"
-    uri:  ${vars.uris.akka-http-json-uri}
-    extra.exclude: [
-      // we're in jawn 0.10 space because scaladex is, but circe is over in jawn 0.11 space.
-      // (if it becomes important, we could have entries in both spaces.)
-      "akka-http-circe"
-      // library com.sksamuel.avro4s#avro4s-json is not provided
-      "akka-http-avro4s"
-      // library com.avsystem.commons#commons-core is not provided
-      "akka-http-avsystem-gencodec"
-      // out of scope
-      "akka-http-argonaut"
-    ]
-    // apparently some dependency dropped its scala-reflect dependency?
-    // and we have the newer version of that dependency here in the
-    // community build, while the akka-http-jackson subproject's
-    // declared dependency is on the old version?
-    // that's my best guess of why we need this here, anyway
-    deps.inject: ${vars.base.deps.inject} [
-      "org.scala-lang#scala-reflect"
-    ]
-    extra.commands: ${vars.default-commands} [
-      "set libraryDependencies in `akka-http-jackson` += \"org.scala-lang\" %% \"scala-reflect\" % \""${vars.scala-version}"\""
-    ]
-  }
-
-  // frozen (February 2018) at an October 2017 commit; see
-  // https://github.com/scala/community-builds/issues/682
-  ${vars.base} {
-    name: "scaladex"
-    uri:  ${vars.uris.scaladex-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.exclude: [
-      // no Scala.js plz
-      "sharedJS", "client"
-      // "java.io.IOException: Cannot run program "sass": error=2, No such file or directory"
-      // not insurmountable -- we could add commands to install the gem in the current directory,
-      // and then customize `sassExecutable in Assets` if needed. but I feel it's not really worth
-      // the additional labor and (more importantly) the additional fragility
-      "server"
-    ]
-  }
-
-  ${vars.base} {
-    name: "scala-debugger"
-    uri:  ${vars.uris.scala-debugger-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.exclude: [
-      // no sbt plugins plz!
-      "sbtScalaDebuggerPlugin"
-      // Missing dependency: the library org.senkbeil#grus-layouts
-      "scalaDebuggerDocs"
-      // depends on ammonite, which we no longer have
-      "scalaDebuggerTool"
-    ]
-    // java.util.concurrent.ExecutionException: java.lang.OutOfMemoryError: GC overhead limit exceeded
-    // perhaps only the -Xmx is really necessary, but let's try it with all of the repo's own .jvmopts:
-    extra.options: ["-Xms1g", "-Xmx4g", "-Xss2m", "-XX:MaxMetaspaceSize=256m"]
   }
 
 ]}
