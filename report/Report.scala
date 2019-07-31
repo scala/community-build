@@ -62,7 +62,6 @@ object SuccessReport {
     "scapegoat",  // no 2.13 upgrade attempted afaict
     "scribe",  // invalid escape
     "tsec",  // they haven't upgraded past 2.13.0-M5 yet
-    "tut",  // org.scala-sbt#scripted-sbt_2.13.0-pre-06392a5;1.2.8: not found
     "twitter-util",  // no 2.13 upgrade (an unmerged third-party PR exists, we could try that?)
   )
 
