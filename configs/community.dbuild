@@ -1204,26 +1204,6 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
-  // this was added because conductr-lib's Play integration depended on it,
-  // but we ended up not including that integration (for now anyway?), so
-  // nothing depends on this.  leaving it in since we might as well, but
-  // if it acts up, it can go.
-  // forked (December 2016) to get rid of the usual bintray-sbt stuff that
-  // makes dbuild upset. note that as of December 2018 we no longer build
-  // conductr-lib, so that's another reason this can go if it ever acts up.
-  ${vars.base} {
-    name: "akka-contrib-extra"
-    uri:  ${vars.uris.akka-contrib-extra-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
-    ]
-    // reported test failure upstream:
-    // https://github.com/typesafehub/akka-contrib-extra/issues/74
-    extra.test-tasks: ["compile"]
-  }
-
   // frozen (April 2019) at a March 2019 commit before PR #440
   // started causing netty-related compile errors, downstream
   // in dispatch. I didn't investigate

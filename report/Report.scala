@@ -35,7 +35,6 @@ object SuccessReport {
   val expectedToFail = Set[String](
     // old list of reasons for the failures are at https://github.com/scala/bug/issues/11453
     // could be reapplied here but would need updating
-    "akka-contrib-extra",  // no 2.13 upgrade attempted afaict
     "algebra",  // source incompatibility involving catalysts?
     "case-app",  // shapeless-related compilation errors, looks hairy
     "circe-jackson",  // overloading related compile errors
