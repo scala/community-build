@@ -1967,11 +1967,6 @@ build += {
     ]
   }
 
-  ${vars.base} {
-    name: "kits"
-    uri:  ${vars.uris.kits-uri}
-  }
-
   // there is a "develop" branch, but master seemed like a better bet
   // frozen (July 2019) at last commit before it stopped extracting with
   // sbt.librarymanagement.ResolveException: unresolved dependency: com.twitter#scrooge-generator_2.12;19.7.0: not found
