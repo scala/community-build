@@ -2129,6 +2129,9 @@ build += {
     uri:  ${vars.uris.autowire-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["autowireJVM"]  // no Scala.js plz
+    // on 2.11 only, there's a test dependency on scala-pickling which
+    // we don't have and it isn't worth adding
+    extra.run-tests: false
   }
 
   // dependency of Scaladex
