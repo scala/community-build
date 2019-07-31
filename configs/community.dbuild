@@ -1815,27 +1815,28 @@ build += {
     ]
   }
 
-  // forked off v4.0.0-M11 since that's what scalafix currently (Sep 2 2018) expects
-  // our fork includes Jason's 2.12.7 changes (which have probably since been merged
-  // upstream) and some JDK 11 friendliness changes.
-  // since then, a November 2018 PR (https://github.com/scalameta/scalameta/pull/1810)
-  // added JDK 11 friendliness, so likely we can unfork the next time it's time to
-  // upgrade the scalameta+scalafix+scalafmt combo
-  // 2.13: tracking master since that's where 2.13 support is
+  // shaded version of fastparse 1 for scalameta's private use
+  ${vars.base} {
+    name: "fastparse-scalameta"
+    uri:  ${vars.uris.fastparse-scalameta-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
+    extra.projects: [
+      "fastparseJVM"   // no Scala.js plz
+    ]
+  }
+
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: [
-      // holy cow there are a lot of subprojects. it's not super clear what's important
-      // to include.  this is the main thing:
-      "semanticdbScalacPlugin"
+      "testkit"
       // we may need to re-add other subprojects to get scalafix and/or scalafmt working on 2.13
     ]
     // use right version-specific source directories regardless of our weird dbuild Scala version numbers
     extra.commands: ${vars.default-commands} [
-      """set unmanagedSourceDirectories in (commonJVM, Compile) += (baseDirectory in commonJVM).value / "src" / "main" / "scala-2.13""""
-      """set unmanagedSourceDirectories in (semanticdbScalacCore, Compile) += (baseDirectory in semanticdbScalacCore).value / "src" / "main" / "scala-2.13""""
+      """set commonJVM / Compile / unmanagedSourceDirectories += baseDirectory.value / "scalameta" / "common" / "shared" / "src" / "main" / "scala-2.13""""
+      """set semanticdbScalacCore / Compile / unmanagedSourceDirectories += baseDirectory.value / "semanticdb" / "scalac" / "library" / "src" / "main" / "scala-2.13""""
     ]
   }
 
