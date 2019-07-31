@@ -878,7 +878,6 @@ build += {
     extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: ["parboiledJVM", "examples"]
     extra.commands: ${vars.base.extra.commands} [
-      // errors, who knows why
       "set every scalafmtOnCompile := false"
       // otherwise sbt-gpg errors on `publish`
       "set every gpgWarnOnFailure := true"
@@ -2335,7 +2334,6 @@ build += {
     // java.util.zip.ZipException: duplicate entry: LICENSE
     extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: ["parboiledJVM"]
-    extra.test-tasks: ["compile"] // tests are broken: https://github.com/http4s/parboiled2/pull/10
     extra.commands: ${vars.base.extra.commands} [
       // otherwise sbt-gpg errors on `publish`
       "set every gpgWarnOnFailure := true"
