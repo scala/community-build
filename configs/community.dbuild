@@ -374,18 +374,16 @@ build += {
     extra.options: ["-Xmx6g"]
   }
 
-  // frozen (June 2019) at June 2019 commit just before ScalaTest 3.1 upgrade
+  // frozen (June 2019) at June 2019 commit just before ScalaTest 3.1 upgrade.
+  // (when we unfreeze, the kind-projector org change stuff can go)
   ${vars.base} {
     name: "kittens"
     uri:  ${vars.uris.kittens-uri}
     extra.projects: ["coreJVM"]  // sorry, Scala.js
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+    deps.inject: ["org.typelevel#kind-projector"]
     extra.commands: ${vars.default-commands} [
       "removeDependency org.spire-math kind-projector"
-      """set libraryDependencies in ThisBuild += compilerPlugin("org.typelevel" %% "kind-projector" % "0.10.0")"""
+      """set libraryDependencies in ThisBuild += compilerPlugin("org.typelevel" %% "kind-projector" % "0.0.0")"""
       // didn't compile (July 2019) after we unfroze ScalaCheck (StackOverflowError)
       """set excludeFilter in (Test, unmanagedSources) in coreJVM := HiddenFileFilter || "partialOrder.scala" || "monoid.scala" || "semigroup.scala" || "order.scala""""
     ]
@@ -842,7 +840,6 @@ build += {
     uri:  ${vars.uris.scalaprops-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["scalapropsJVM"]  // no Scala.js please
-    check-missing: false  // ignore missing scalafmt
   }
 
   // frozen at v1.2.0 tag for now, perhaps excessively cautiously; we might
@@ -855,7 +852,6 @@ build += {
       // I think cats dropped its catalysts dependency but there is one source file
       // in cats-effect that still expects it to be there, though not explicitly declared.
       "set libraryDependencies in coreJVM += \"org.typelevel\" % \"catalysts-platform\" % \"0.10.0\" % Test"
-    ]
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#catalysts-platform"]
   }
 
@@ -868,10 +864,6 @@ build += {
       // otherwise sbt-gpg errors on `publish`
       "set every gpgWarnOnFailure := true"
     ]
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   ${vars.base} {
@@ -914,10 +906,6 @@ build += {
       // no Scala.js please
       "coreJS", "monixJS", "catsEffectJS"
     ]
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   // downstream projects expecting a different jackson version than the
@@ -987,6 +975,10 @@ build += {
     name: "spray-json"
     uri:  ${vars.uris.spray-json-uri}
     extra.projects: ["sprayJsonJVM"]
+    // TODO report upstream; doc generation fails on JDK 11 + 12
+    extra.commands: ${vars.base.extra.commands} [
+      "set sources in doc in Compile in sprayJsonJVM := List()"
+    ]
   }
 
   ${vars.base} {
@@ -1123,10 +1115,7 @@ build += {
       "removeDependency io.crashbox spray-json"
       """set libraryDependencies in sconfigJVM += "io.spray" %% "spray-json" % "0.0.0""""
     ]
-    // more spray org change
-    check-missing: false
-    deps.ignore: ["io.crashbox#spray-json"]
-    deps.inject: ${vars.base.deps.inject} ["io.spray#spray-json"]
+    deps.inject: ["io.spray#spray-json"]
   }
 
   // 2.13: tracking master since that's where 2.13 support landed
@@ -1215,10 +1204,6 @@ build += {
     extra.options: ["-Dmonix.requireJava8=false"]
     // no Scala.js, no benchmarks.
     extra.projects: ["coreJVM"]
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   // this was added because conductr-lib's Play integration depended on it,
@@ -2006,10 +1991,6 @@ build += {
   ${vars.base} {
     name: "pascal"
     uri:  ${vars.uris.pascal-uri}
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   ${vars.base} {
