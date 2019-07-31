@@ -2132,6 +2132,9 @@ build += {
     // on 2.11 only, there's a test dependency on scala-pickling which
     // we don't have and it isn't worth adding
     extra.run-tests: false
+    extra.commands: ${vars.base.extra.commands} [
+      "removeDependency org.scala-lang scala-pickling"
+    ]
   }
 
   // dependency of Scaladex
