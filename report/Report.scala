@@ -42,7 +42,6 @@ object SuccessReport {
     "curryhoward",  // no 2.13 upgrade attempted afaict
     "doobie",  // needs newer cats-effect
     "elastic4s",  // no 2.13 upgrade attempted afaict (Seq-related compile errors)
-    "jawn-0-10",  // no 2.13 upgrade attempted afaik
     "kafka",  // no 2.13 upgrade attempted afaik
     "kittens",  // Failed tests: cats.derived.HashSuite
     "lift-json",  // no 2.13 upgrade attempted afaik
@@ -53,8 +52,6 @@ object SuccessReport {
     "monix",  // no 2.13.0-RC1 upgrade attempted afaik
     "multibot",  // we need to unfreeze to get 2.13 support but then we also need ScalaTest 3.1
     "paradox",  // no 2.13 upgrade attempted afaict
-    "scala-debugger",  // no 2.13 upgrade attempted afaict
-    "scala-refactoring",  // postfixOps
     "scala-stm",  // still using JavaConversions
     "scala-xml-quote",  // Unit companion object not allowed in source
     "scalastyle",  // no 2.13 upgrade attempted afaict
