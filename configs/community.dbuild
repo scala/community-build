@@ -946,8 +946,7 @@ build += {
   ${vars.base} {
     name: "mima"
     uri:  ${vars.uris.mima-uri}
-    // [error] java.lang.NoClassDefFoundError: xsbt/ZincCompiler$sbtDependency$
-    extra.sbt-version: ${vars.sbt-1-2-version}
+    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.exclude: [
       // we don't compile sbt plugins
       "sbtplugin"
