@@ -972,9 +972,9 @@ build += {
     name: "spray-json"
     uri:  ${vars.uris.spray-json-uri}
     extra.projects: ["sprayJsonJVM"]
-    // TODO report upstream; doc generation fails on JDK 11 + 12
-    extra.commands: ${vars.base.extra.commands} [
-      "set sources in doc in Compile in sprayJsonJVM := List()"
+    extra.commands: ${vars.default-commands} [
+      // needed on JDK 11+, as per https://github.com/scala/community-builds/issues/796#issuecomment-423395500
+      """set sprayJsonJVM / Compile / doc / scalacOptions --= Seq("-release", "8")"""
     ]
   }
 
