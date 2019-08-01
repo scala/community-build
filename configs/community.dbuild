@@ -2075,29 +2075,6 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
-  // dependency of autowire. (and Ammonite, but we pulled Ammonite.)
-  // otherwise obsolete, as per https://github.com/lihaoyi/upickle-pprint/issues/209
-  // (the pprint part has its own repo now)
-  // requires jawn 0.10
-  // April 2018 news: upickle has been revived, and is now
-  // a dependency of Haoyi's new uJson library, which we
-  // should probably add at some point. for now, doing nothing
-  ${vars.base} {
-    name: "upickle"
-    uri:  ${vars.uris.upickle-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
-    // no Scala.js; also only upickle no pprint
-    extra.projects: ["upickleJVM"]
-  }
-
-  // dependency of scaladex. depends on upickle
-  ${vars.base} {
-    name: "autowire"
-    uri:  ${vars.uris.autowire-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.projects: ["autowireJVM"]  // no Scala.js plz
-  }
-
 ]}
 
 //// space: jawn_0_11
