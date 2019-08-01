@@ -2031,6 +2031,19 @@ build += {
     extra.projects: ["finagle-core"]
   }
 
+  // for sjson-new
+  {
+    name: "shaded-scalajson"
+    system: ivy
+    uri: "ivy:com.eed3si9n#shaded-scalajson_2.13;1.0.0-M4"
+  }
+
+  ${vars.base} {
+    name: "sjson-new"
+    uri:  ${vars.uris.sjson-new-uri}
+    extra.exclude: ["benchmark"]
+  }
+
   // using a slightly post v1.2.0 commit in order to get
   // https://github.com/sbt/util/pull/172 which fixes failing tests
   ${vars.base} {
