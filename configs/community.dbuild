@@ -1670,6 +1670,10 @@ build += {
     extra.settings: ${vars.base.extra.settings} [
       "conflictWarning in ThisBuild := ConflictWarning.disable"
     ]
+    extra.commands: ${vars.default-commands} [
+      // these fail on 2.11.12 even outside dbuild
+      """set excludeFilter in (Test, unmanagedSources) in curryhoward := HiddenFileFilter || "MacrosSpec.scala" || "LambdaTermsSpec.scala" || "MoreMatchTypeSpec.scala""""
+    ]
   }
 
   // dependency of giter8
