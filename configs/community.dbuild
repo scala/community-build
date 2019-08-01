@@ -2520,15 +2520,4 @@ build += {
     check-missing: false  // ignore missing scalafmt
   }
 
-  // frozen (July 2019) at June 2019 commit before ScalaTest 3.1 upgrade
-  // (the same commit also adds 2.13 support)
-  ${vars.base} {
-    name: "scala-pet-store"
-    uri:  ${vars.uris.scala-pet-store-uri}
-    // kind-projector org change; remove when we unfreeze
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
-  }
-
 ]}
