@@ -1798,13 +1798,19 @@ build += {
     ]
   }
 
-  // shaded version of fastparse 1 for scalameta's private use
+  // shaded version of fastparse 1 for scalameta's private use;
+  // forked for needed 2.13 changes
   ${vars.base} {
     name: "fastparse-scalameta"
     uri:  ${vars.uris.fastparse-scalameta-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: [
       "fastparseJVM"   // no Scala.js plz
+      "scalaparseJVM"  // scalatex needs this
+    ]
+    extra.commands: ${vars.default-commands} [
+      // historically, too prone to unexplained failure
+      "set executeTests in scalaparseJVM in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
     ]
   }
 
@@ -1839,12 +1845,19 @@ build += {
     uri:  ${vars.uris.expression-evaluator-uri}
   }
 
+  // 2.13: forked (August 2019) to use scalameta fork of fastparse
   ${vars.base} {
     name: "scalatex"
     uri:  ${vars.uris.scalatex-uri}
     extra.exclude: [
       "scalatexSbtPlugin"  // we never build sbt plugins
       "site", "readme", "scrollspy"  // these use Scala.js
+    ]
+    // needs scalaparse(/fastparse) v1 not v2
+    deps.inject: ["org.scalameta#scalaparse"]
+    extra.commands: ${vars.default-commands} [
+      "removeDependency com.lihaoyi scalaparse"
+      """set libraryDependencies in api += "org.scalameta" %% "scalaparse" % "0.0.0""""
     ]
     // ignore missing scripted-sbt. don't know why
     deps.ignore: ["org.scala-sbt#scripted-sbt"]
