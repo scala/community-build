@@ -802,6 +802,7 @@ build += {
     uri:  ${vars.uris.utest-uri}
   }
 
+  // forked to add sbt build (instead of mill)
   ${vars.base} {
     name: "fastparse"
     uri:  ${vars.uris.fastparse-uri}
@@ -1292,13 +1293,11 @@ build += {
   }
 
   // dependency of scalameta
-  // frozen (March 2019) at March 2019 commit before Fastparse 2 upgrade
   ${vars.base} {
     name: "scalapb"
     uri:  ${vars.uris.scalapb-uri}
     // just what scalameta needs, for now
     extra.projects: ["runtimeJVM"]
-    // there's a 2.12 -> 2.11 symlink that should make this unnecessary, don't know why we need this:
   }
 
   // frozen (July 2019) at June 2019 commit just before ScalaTest 3.1 upgrade (which also landed 2.13 support)
@@ -1845,7 +1844,7 @@ build += {
     uri:  ${vars.uris.expression-evaluator-uri}
   }
 
-  // 2.13: forked (August 2019) to use scalameta fork of fastparse
+  // 2.13: forked (August 2019) to use scalameta fork of scalaparse+fastparse v1
   ${vars.base} {
     name: "scalatex"
     uri:  ${vars.uris.scalatex-uri}
@@ -1853,7 +1852,6 @@ build += {
       "scalatexSbtPlugin"  // we never build sbt plugins
       "site", "readme", "scrollspy"  // these use Scala.js
     ]
-    // needs scalaparse(/fastparse) v1 not v2
     deps.inject: ["org.scalameta#scalaparse"]
     extra.commands: ${vars.default-commands} [
       "removeDependency com.lihaoyi scalaparse"
