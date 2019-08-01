@@ -1925,18 +1925,6 @@ build += {
     uri:  ${vars.uris.pascal-uri}
   }
 
-  ${vars.base} {
-    name: "mdoc"
-    uri:  ${vars.uris.mdoc-uri}
-    extra.exclude: [
-      "lsp"  // Olaf says: "please exclude [...] it's an undocumented and untested module"
-      "js", "jsdocs", "docs", "unit"  // no Scala.js plz
-    ]
-    // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
-    deps.ignore: ["org.scala-sbt#scripted-sbt"]
-    check-missing: false
-  }
-
   // dependency of scribe
   // frozen (June 2019) at a May 2019 commit just before a 2.13 upgrade that broke
   // scribe downstream. presumably eventually scribe will adapt and we can unfreeze
