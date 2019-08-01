@@ -2029,19 +2029,6 @@ build += {
     extra.projects: ["finagle-core"]
   }
 
-  // for sjson-new
-  {
-    name: "shaded-scalajson"
-    system: ivy
-    uri: "ivy:com.eed3si9n#shaded-scalajson_2.13;1.0.0-M4"
-  }
-
-  ${vars.base} {
-    name: "sjson-new"
-    uri:  ${vars.uris.sjson-new-uri}
-    extra.exclude: ["benchmark"]
-  }
-
   // using a slightly post v1.2.0 commit in order to get
   // https://github.com/sbt/util/pull/172 which fixes failing tests
   ${vars.base} {
@@ -2117,6 +2104,19 @@ build += {
     uri:  ${vars.uris.jawn-0-11-uri}
     // omitted: benchmark
     extra.projects: ["ast", "parser", "json4s", "spray", "play"]
+  }
+
+  // for sjson-new
+  {
+    name: "shaded-scalajson"
+    system: ivy
+    uri: "ivy:com.eed3si9n#shaded-scalajson_2.13;1.0.0-M4"
+  }
+
+  ${vars.base} {
+    name: "sjson-new"
+    uri:  ${vars.uris.sjson-new-uri}
+    extra.exclude: ["benchmark"]
   }
 
   // frozen (April 2019) at an April 2019 commit just before ScalaTest 3.1 upgrade
