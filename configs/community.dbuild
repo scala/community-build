@@ -1383,27 +1383,10 @@ build += {
     extra.exclude: ["akkaHttp"]
   }
 
-  // normally we keep sbt modules frozen at the last release version,
-  // but for now anyway we're tracking 1.1.x of sbt-io since it has
-  // M4 changes
   ${vars.base} {
     name: "sbt-io"
     uri:  ${vars.uris.sbt-io-uri}
-    // failed extraction on 1.3.0-RC3 (ResolveException on org.boris:pecoff4j:0.0.2.1);
-    // see remarks at https://github.com/scala/community-builds/pull/909
-    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    // we have to disable this early (extra.commands isn't soon enough)
-    // or scalafmt will run `update` and `cloc-plugin` won't be found
-    extra.settings: ${vars.base.extra.settings} [
-      "scalafmtOnCompile in ThisBuild := false"
-      "scalafmtOnCompile in Sbt := false"
-    ]
-    check-missing: false  // ignore missing scalafmt
-    deps.ignore: ["com.geirsson#scalafmt-core", "com.lucidchart#scalafmt-impl"]
-    // DefaultWatchServiceSpec fails on MacOS only, see
-    // https://github.com/scala/community-builds/pull/714
-    extra.test-tasks: ["compile"]
   }
 
   // frozen (April 2019) at October 2018 commit, since master has since moved to fastparse 2
@@ -2094,37 +2077,10 @@ build += {
     extra.exclude: ["benchmark"]
   }
 
-  // using a slightly post v1.2.0 commit in order to get
-  // https://github.com/sbt/util/pull/172 which fixes failing tests
   ${vars.base} {
     name: "sbt-util"
     uri:  ${vars.uris.sbt-util-uri}
-    // failed extraction on 1.3.0-RC3 (ResolveException on org.boris:pecoff4j:0.0.2.1);
-    // see remarks at https://github.com/scala/community-builds/pull/909
-    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    extra.commands: ${vars.default-commands} [
-      "set every scalafmtOnCompile := false"
-    ]
-    check-missing: false  // ignore missing scalafmt
-    deps.ignore: ["com.geirsson#scalafmt-core", "com.lucidchart#scalafmt-impl"]
-  }
-
-  ${vars.base} {
-    name: "sbt-librarymanagement"
-    uri:  ${vars.uris.sbt-librarymanagement-uri}
-    // failed extraction on 1.3.0-RC3 (ResolveException on org.boris:pecoff4j:0.0.2.1);
-    // see remarks at https://github.com/scala/community-builds/pull/909
-    extra.sbt-version: ${vars.sbt-1-2-version}
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    // we have to disable this early (extra.commands isn't soon enough)
-    // or scalafmt will run `update` and `cloc-plugin` won't be found
-    extra.settings: ${vars.base.extra.settings} [
-      "scalafmtOnCompile in ThisBuild := false"
-      "scalafmtOnCompile in Sbt := false"
-    ]
-    deps.ignore: ["com.geirsson#scalafmt-core", "com.lucidchart#scalafmt-impl"]
-    check-missing: false  // ignore missing scalafmt
   }
 
   // frozen (April 2019) at an April 2019 commit just before ScalaTest 3.1 upgrade
