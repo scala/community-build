@@ -2567,6 +2567,7 @@ build += {
     deps.inject: ["org.typelevel#kind-projector"]
     extra.commands: ${vars.default-commands} [
       "removeDependency org.spire-math kind-projector"
+      """set libraryDependencies in ThisBuild += compilerPlugin("org.typelevel" %% "kind-projector" % "0.0.0")"""
     ]
   }
 
