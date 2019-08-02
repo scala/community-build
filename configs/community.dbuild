@@ -774,6 +774,7 @@ build += {
       "scalafmtOnCompile in Sbt := false"
     ]
     check-missing: false  // ignore missing scalafmt
+    deps.ignore: ["com.geirsson#scalafmt-core", "com.lucidchart#scalafmt-impl"]
   }
 
   // frozen (June 2019) at April 2019 commit just before sbt->mill move
@@ -1137,6 +1138,7 @@ build += {
       "set every scalafmtOnCompile := false"
     ]
     check-missing: false  // ignore missing scalafmt
+    deps.ignore: ["com.geirsson#scalafmt-core", "com.lucidchart#scalafmt-impl"]
     // Known test failures: https://github.com/sirthias/scala-ssh/issues/38
     extra.test-tasks: "compile"
   }
@@ -1164,6 +1166,7 @@ build += {
     // no Scala.js please, and no benchmarks either
     extra.projects: ["scalaJsonJVM"]
     check-missing: false  // ignore missing scalafmt
+    deps.ignore: ["com.geirsson#scalafmt-core", "com.lucidchart#scalafmt-impl"]
   }
 
   // frozen (June 2019) at June 2019 commit just before sbt->mill move
@@ -1397,6 +1400,7 @@ build += {
       "scalafmtOnCompile in Sbt := false"
     ]
     check-missing: false  // ignore missing scalafmt
+    deps.ignore: ["com.geirsson#scalafmt-core", "com.lucidchart#scalafmt-impl"]
     // DefaultWatchServiceSpec fails on MacOS only, see
     // https://github.com/scala/community-builds/pull/714
     extra.test-tasks: ["compile"]
@@ -2038,10 +2042,11 @@ build += {
     // see remarks at https://github.com/scala/community-builds/pull/909
     extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    check-missing: false  // ignore missing scalafmt
     extra.commands: ${vars.default-commands} [
       "set every scalafmtOnCompile := false"
     ]
+    check-missing: false  // ignore missing scalafmt
+    deps.ignore: ["com.geirsson#scalafmt-core", "com.lucidchart#scalafmt-impl"]
   }
 
   ${vars.base} {
@@ -2057,6 +2062,7 @@ build += {
       "scalafmtOnCompile in ThisBuild := false"
       "scalafmtOnCompile in Sbt := false"
     ]
+    deps.ignore: ["com.geirsson#scalafmt-core", "com.lucidchart#scalafmt-impl"]
     check-missing: false  // ignore missing scalafmt
   }
 
@@ -2383,6 +2389,7 @@ build += {
       "tsec-libsodium"  // java.lang.UnsatisfiedLinkError: no sodiumjni in java.library.path
       "tsec-examples"  // depends on tsec-libsodium
     ]
+    deps.ignore: ["com.geirsson#scalafmt-core", "com.lucidchart#scalafmt-impl"]
     check-missing: false  // ignore missing scalafmt
     // kind-projector org change
     deps.ignore: ["org.spire-math#kind-projector"]
