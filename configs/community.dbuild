@@ -1751,6 +1751,8 @@ build += {
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
+      // in recent ScalaMock this is no longer a separate artifact
+      "removeDependency org.scalamock scalamock-scalatest-support"
     ]
     check-missing: false  // ignore missing scripted-sbt
   }
