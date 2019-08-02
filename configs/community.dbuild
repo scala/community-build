@@ -2155,8 +2155,6 @@ build += {
     ]
     deps.ignore: ["com.geirsson#scalafmt-core", "com.lucidchart#scalafmt-impl"]
     check-missing: false  // ignore missing scalafmt
-    // flaky tests are segregated
-    extra.test-tasks: ["safeUnitTests"]
     extra.commands: ${vars.default-commands} [
       // ParseKey exclusion is as per https://github.com/scala/community-builds/pull/758
       // ParseSpec exclusion is because a test there started consistently failing in July 2019
