@@ -963,10 +963,10 @@ build += {
     name: "mouse"
     uri:  ${vars.uris.mouse-uri}
     extra.projects: ["crossJVM"]  // no Scala.js please
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+    deps.inject: ["org.typelevel#kind-projector"]
+    extra.commands: ${vars.default-commands} [
+      "removeDependency org.spire-math kind-projector"
+    ]
   }
 
   ${vars.base} {
@@ -1532,16 +1532,14 @@ build += {
     name: "akka-http-session"
     uri:  ${vars.uris.akka-http-session-uri}
     extra.projects: ["core"]
-    // not really sure why akka-testkit doesn't get picked up, maybe a "provided" dependency issue?
-    extra.commands: ${vars.default-commands} [
-      "set libraryDependencies in core += \"com.typesafe.akka\" %% \"akka-testkit\" % \"0.0.0\" % Test"
-    ]
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
     deps.inject: ${vars.base.deps.inject} [
       "org.typelevel#kind-projector"
+      // not really sure why this doesn't get picked up, maybe a "provided" dependency issue?
       "com.typesafe.akka#akka-testkit"
+    ]
+    extra.commands: ${vars.default-commands} [
+      "removeDependency org.spire-math kind-projector"
+      "set libraryDependencies in core += \"com.typesafe.akka\" %% \"akka-testkit\" % \"0.0.0\" % Test"
     ]
   }
 
@@ -1784,17 +1782,16 @@ build += {
   ${vars.base} {
     name: "breeze"
     uri:  ${vars.uris.breeze-uri}
-    // spire moved from org.spire to org.typelevel but breeze hasn't
-    // changed their dependency yet
-    deps.ignore: ["org.spire-math#spire"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#spire"]
-    check-missing: false
     // tests don't compile, could be a ScalaCheck 1.13 vs 1.14 thing?
     // see https://github.com/scala/community-builds/pull/722
     extra.run-tests: false
+    // spire moved from org.spire to org.typelevel but breeze hasn't
+    // changed their dependency yet
+    deps.inject: ["org.typelevel#spire"]
     extra.commands: ${vars.default-commands} [
       // sbt 1.3.0-RC3 specific: Credentials file [...] does not exist
       "set every credentials := Seq()"
+      "removeDependency org.spire-math spire"
     ]
   }
 
@@ -2345,10 +2342,10 @@ build += {
     name: "unique"
     uri:  ${vars.uris.unique-uri}
     extra.projects: ["coreJVM"]  // no docs, no Scala.js
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+    deps.inject: ["org.typelevel#kind-projector"]
+    extra.commands: ${vars.default-commands} [
+      "removeDependency org.spire-math kind-projector"
+    ]
   }
 
   // dependency of http4s
@@ -2356,10 +2353,10 @@ build += {
     name: "vault"
     uri:  ${vars.uris.vault-uri}
     extra.projects: ["coreJVM"]  // no docs, no Scala.js
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+    deps.inject: ["org.typelevel#kind-projector"]
+    extra.commands: ${vars.default-commands} [
+      "removeDependency org.spire-math kind-projector"
+    ]
   }
 
   // this is a big build with a ton of subprojects.  we needn't be shy
@@ -2404,10 +2401,10 @@ build += {
     extra.projects: ["github4sJVM", "catsEffectJVM"]  // but no "docs" or Scala.js stuff
     // waiting (January 2018) on https://github.com/47deg/github4s/issues/178
     extra.test-tasks: "compile"
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+    deps.inject: ["org.typelevel#kind-projector"]
+    extra.commands: ${vars.default-commands} [
+      "removeDependency org.spire-math kind-projector"
+    ]
   }
 
   // frozen (June 2019) at May 2019 commit before ScalaTest 3.1 upgrade
@@ -2460,10 +2457,10 @@ build += {
     name: "decline"
     uri:  ${vars.uris.decline-uri}
     extra.projects: ["declineJVM", "refinedJVM"]  // no Scala.js, no doc
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+    deps.inject: ["org.typelevel#kind-projector"]
+    extra.commands: ${vars.default-commands} [
+      "removeDependency org.spire-math kind-projector"
+    ]
   }
 
   ${vars.base} {
@@ -2532,18 +2529,17 @@ build += {
     name: "doobie"
     uri:  ${vars.uris.doobie-uri}
     extra.options: ["-Xss16m"]  // prevent stack overflow when compiling build definition
+    extra.exclude: ["docs", "doobie", "bench"]  // out of scope ("doobie" is just an aggregation, and causes missing-tut error)
+    deps.inject: ["org.typelevel#kind-projector"]
     extra.commands: ${vars.default-commands} [
+      "removeDependency org.spire-math kind-projector"
+      """set libraryDependencies in ThisBuild += compilerPlugin("org.typelevel" %% "kind-projector" % "0.0.0")"""
       // as per https://github.com/scala/community-builds/pull/835#issuecomment-455729365,
       // these subprojects require a Postgres instance for the tests to run
       "set executeTests in postgres in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
       "set executeTests in `postgres-circe` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
       "set executeTests in example in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
     ]
-    extra.exclude: ["docs", "doobie", "bench"]  // out of scope ("doobie" is just an aggregation, and causes missing-tut error)
-    // kind-projector org change
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
   }
 
   // dependency of scala-pet-store
@@ -2568,10 +2564,11 @@ build += {
   ${vars.base} {
     name: "scala-pet-store"
     uri:  ${vars.uris.scala-pet-store-uri}
-    // kind-projector org change; remove when we unfreeze
-    check-missing: false
-    deps.ignore: ["org.spire-math#kind-projector"]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
+    deps.inject: ["org.typelevel#kind-projector"]
+    extra.commands: ${vars.default-commands} [
+      "removeDependency org.spire-math kind-projector"
+      """set libraryDependencies in ThisBuild += compilerPlugin("org.typelevel" %% "kind-projector" % "0.0.0")"""
+    ]
   }
 
 ]}
