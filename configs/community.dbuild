@@ -1785,14 +1785,12 @@ build += {
     // tests don't compile, could be a ScalaCheck 1.13 vs 1.14 thing?
     // see https://github.com/scala/community-builds/pull/722
     extra.run-tests: false
-    extra.commands: ${vars.default-commands} [
-      // sbt 1.3.0-RC3 specific: Credentials file [...] does not exist
-      "set every credentials := Seq()"
-    ]
     // spire moved from org.spire to org.typelevel but breeze hasn't
     // changed their dependency yet
     deps.inject: ["org.typelevel#spire"]
     extra.commands: ${vars.default-commands} [
+      // sbt 1.3.0-RC3 specific: Credentials file [...] does not exist
+      "set every credentials := Seq()"
       "removeDependency org.spire-math spire"
     ]
   }
@@ -2535,6 +2533,7 @@ build += {
     deps.inject: ["org.typelevel#kind-projector"]
     extra.commands: ${vars.default-commands} [
       "removeDependency org.spire-math kind-projector"
+      """set libraryDependencies in ThisBuild += compilerPlugin("org.typelevel" %% "kind-projector" % "0.0.0")"""
       // as per https://github.com/scala/community-builds/pull/835#issuecomment-455729365,
       // these subprojects require a Postgres instance for the tests to run
       "set executeTests in postgres in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
