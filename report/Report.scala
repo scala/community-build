@@ -42,6 +42,7 @@ object SuccessReport {
     "curryhoward",  // no 2.13 upgrade attempted afaict
     "doobie",  // needs newer cats-effect
     "elastic4s",  // no 2.13 upgrade attempted afaict (Seq-related compile errors)
+    "giter8",  // no 2.13 upgrade attempted afaict
     "kafka",  // no 2.13 upgrade attempted afaik
     "kittens",  // Failed tests: cats.derived.HashSuite
     "lift-json",  // no 2.13 upgrade attempted afaik
