@@ -1599,6 +1599,14 @@ build += {
     ]
   }
 
+  ${vars.base} {
+    name: "lagom-samples"
+    uri:  ${vars.uris.lagom-samples-uri}
+    // TODO add the Scala version too (may be tricky, see history at https://github.com/scala/community-builds/pull/869)
+    extra.directory: "shopping-cart/shopping-cart-java"
+    // TODO add the other samples too
+  }
+
   // not (as of January 2018 anyway) an actively maintained project, so it's
   // droppable if it acts up
   ${vars.base} {
