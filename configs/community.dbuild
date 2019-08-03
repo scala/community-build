@@ -1185,7 +1185,6 @@ build += {
     name: "scalameter"
     uri:  ${vars.uris.scalameter-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
-    check-missing: false
     deps.ignore: [
       // doesn't support 2.12 (yet?)
       "org.mongodb#casbah"
@@ -1195,6 +1194,11 @@ build += {
     deps.inject: ${vars.base.deps.inject} [
       // ...but this one does
       "com.veact#scala-ssh"
+    ]
+    extra.commands: ${vars.default-commands} [
+      "removeDependency com.decodified scala-ssh"
+      "removeDependency org.mongodb casbah"
+      "removeDependency org.mongodb.scala mongo-scala-driver"
     ]
   }
 
