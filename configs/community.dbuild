@@ -670,8 +670,9 @@ build += {
     extra.commands: ${vars.default-commands} [
       // https://github.com/scala/community-builds/issues/373
       "set every apiURL := None"
-      // on 2.11 it seems like at least one test fails pretty much every goddamn run, except it's
-      // not always the same test.  let's just exclude ones that have repeatedly been the flaky one.
+      // on 2.11 anyway, it seems easier for a camel to pass through the eye of a needle,
+      // then for all of the akka-more tests to run without even a single one failing.
+      // which one fails first seems to vary a lot.  common culprits excluded below.
       // failure counts, so far, for tests I'm considering also excluding:
       // * akka.persistence.typed.scaladsl.EventSourcedBehaviorSpec (1)
       // * akka.persistence.SnapshotFailureRobustnessSpec (1)
@@ -1229,26 +1230,6 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
-  // this was added because conductr-lib's Play integration depended on it,
-  // but we ended up not including that integration (for now anyway?), so
-  // nothing depends on this.  leaving it in since we might as well, but
-  // if it acts up, it can go.
-  // forked (December 2016) to get rid of the usual bintray-sbt stuff that
-  // makes dbuild upset. note that as of December 2018 we no longer build
-  // conductr-lib, so that's another reason this can go if it ever acts up.
-  ${vars.base} {
-    name: "akka-contrib-extra"
-    uri:  ${vars.uris.akka-contrib-extra-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
-    ]
-    // reported test failure upstream:
-    // https://github.com/typesafehub/akka-contrib-extra/issues/74
-    extra.test-tasks: ["compile"]
-  }
-
   // frozen (April 2019) at a March 2019 commit before PR #440
   // started causing netty-related compile errors, downstream
   // in dispatch. I didn't investigate
@@ -1545,29 +1526,6 @@ build += {
     ]
     // at least one test was hanging
     extra.test-tasks: "compile"
-  }
-
-  // there are a *ton* of subprojects.  it might be interesting to try to add
-  // as many as possible. for now, we've somewhat arbitrarily selected a few.
-  // frozen (November 2018), trying to get the latest latest working was getting annoying,
-  // we can revisit it in a few weeks or months
-  ${vars.base} {
-    name: "lagom"
-    uri:  ${vars.uris.lagom-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
-    // these pull in a number of dependent projects
-    extra.projects: ["server", "testkit-scaladsl"]
-    extra.options: [
-      // hopefully avoid intermittent OutOfMemoryErrors with default heap
-      "-Xmx2g"
-    ]
-    extra.commands: ${vars.default-commands} [
-      // tests in these subprojects are too slow and (more importantly) too fragile
-      "set executeTests in `persistence-cassandra-scaladsl` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-      "set executeTests in `testkit-scaladsl` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
-      // more flaky tests I haven't reported upstream
-      "set excludeFilter in (Test, unmanagedSources) in `server-scaladsl` := HiddenFileFilter || \"LagomApplicationSpec.scala\""
-    ]
   }
 
   // not (as of January 2018 anyway) an actively maintained project, so it's
@@ -2112,23 +2070,6 @@ build += {
     ]
   }
 
-  // frozen (February 2018) at an October 2017 commit; see
-  // https://github.com/scala/community-builds/issues/682
-  ${vars.base} {
-    name: "scaladex"
-    uri:  ${vars.uris.scaladex-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.exclude: [
-      // no Scala.js plz
-      "sharedJS", "client"
-      // "java.io.IOException: Cannot run program "sass": error=2, No such file or directory"
-      // not insurmountable -- we could add commands to install the gem in the current directory,
-      // and then customize `sassExecutable in Assets` if needed. but I feel it's not really worth
-      // the additional labor and (more importantly) the additional fragility
-      "server"
-    ]
-  }
-
   ${vars.base} {
     name: "scala-debugger"
     uri:  ${vars.uris.scala-debugger-uri}
@@ -2313,23 +2254,6 @@ build += {
   ${vars.base} {
     name: "circe-config"
     uri:  ${vars.uris.circe-config-uri}
-  }
-
-  ${vars.base} {
-    name: "pureconfig"
-    uri:  ${vars.uris.pureconfig-uri}
-    deps.inject: ${vars.base.deps.inject} [
-      // I guess dbuild is getting confused by the extra _1.13
-      "com.github.alexarchambault#scalacheck-shapeless_1.13"
-      // not sure why we aren't getting this dependency
-      "org.scala-lang.modules#scala-collection-compat"
-    ]
-    check-missing: false
-    extra.commands: ${vars.default-commands} [
-      // not sure why we get these errors unless we turn them off
-      "set every conflictWarning := ConflictWarning.disable"
-      "set libraryDependencies in ThisBuild += \"org.scala-lang.modules\" %% \"scala-collection-compat\" % \"0.0.0\""
-    ]
   }
 
   // in this space because it depends on pureconfig
