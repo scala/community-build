@@ -1228,6 +1228,10 @@ build += {
     extra.options: ["-Dmonix.requireJava8=false"]
     // no Scala.js, no benchmarks.
     extra.projects: ["coreJVM"]
+    extra.commands: ${vars.default-commands} [
+      // on JDK 11, doc generation runs afoul of https://github.com/scala/bug/issues/11635
+      "set sources in doc in Compile in reactiveJVM := List()"
+    ]
   }
 
   // frozen (April 2019) at a March 2019 commit before PR #440
@@ -1663,6 +1667,8 @@ build += {
       // don't happen in Brian's own CI, I have no idea. doesn't seem worth
       // investigating
       "set every wartremoverErrors := Seq()"
+      // on JDK 11, doc generation runs afoul of https://github.com/scala/bug/issues/11635
+      "set sources in doc in Compile := List()"
     ]
   }
 
@@ -1855,6 +1861,7 @@ build += {
     name: "airframe"
     uri:  ${vars.uris.airframe-uri}
     extra.projects: ["communityBuild"]  // no Scala.js plz
+    extra.exclude: ["jmx"]  // on JDK 11: java.lang.ClassNotFoundException: sun.management.Agent
   }
 
   // Kafka doesn't have its own sbt build, but Enno made one on his branch
