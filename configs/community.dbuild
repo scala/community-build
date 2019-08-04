@@ -1075,7 +1075,7 @@ build += {
     extra.sbt-version: ${vars.sbt-0-13-version}
     extra.commands: ${vars.default-commands} [
       // tends to fail on MacOS
-      """set excludeFilter in (Test, unmanagedSources) := HiddenFileFilter || "JNotifyFileWatchServiceSpec.scala""""
+      """set excludeFilter in (Test, unmanagedSources) := HiddenFileFilter || "FileWatchServiceSpec.scala""""
     ]
   }
 
