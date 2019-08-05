@@ -941,6 +941,7 @@ build += {
     extra.options: ["-DSKIP_FLAKY=true"]
   }
 
+  // temporarily forked pending merge of https://github.com/lightbend/mima/pull/368
   ${vars.base} {
     name: "mima"
     uri:  ${vars.uris.mima-uri}
