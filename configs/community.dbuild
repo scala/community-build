@@ -1225,6 +1225,9 @@ build += {
     extra.sbt-version: ${vars.sbt-0-13-version}
   }
 
+  // frozen (August 2019) at a June 2019 commit before adding Scala
+  // Native to the build screwed things up somehow; reported upstream:
+  // https://github.com/monix/minitest/pull/41#issuecomment-517426795
   ${vars.base} {
     name: "minitest"
     uri:  ${vars.uris.minitest-uri}
