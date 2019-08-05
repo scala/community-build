@@ -1203,13 +1203,13 @@ build += {
     ]
   }
 
+  // we can unfork once https://github.com/mdedetrich/scalajson/pull/52
+  // is merged (if it is updated to include the scalafmt upgrade I suggested)
   ${vars.base} {
     name: "scalajson"
     uri:  ${vars.uris.scalajson-uri}
     // no Scala.js please, and no benchmarks either
     extra.projects: ["scalaJsonJVM"]
-    check-missing: false  // ignore missing scalafmt
-    deps.ignore: ["com.geirsson#scalafmt-core", "com.lucidchart#scalafmt-impl"]
   }
 
   // frozen (June 2019) at June 2019 commit just before sbt->mill move
