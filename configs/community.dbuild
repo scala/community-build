@@ -1379,8 +1379,9 @@ build += {
     extra.sbt-version: ${vars.sbt-1-2-version}
     // not sure how this gets pulled in but it's just doc not code, I think?
     // so let's just ignore that it's missing
-    check-missing: false
-    deps.ignore: ["com.typesafe.play#play-omnidoc"]
+    extra.commands: ${vars.default-commands} [
+      "removeDependency com.typesafe.play play-omnidoc"
+    ]
   }
 
   ${vars.base} {
@@ -1904,6 +1905,8 @@ build += {
     uri:  ${vars.uris.scalafix-uri}
     extra.exclude: ["docs"]
     extra.commands: ${vars.default-commands} [
+      // only used by ScalafixImplSuite and ToolClasspathSuite
+      "removeDependency com.geirsson coursier-small"
       // java.lang.IllegalStateException: unable to auto-detect semanticdb-scalac compiler plugin
       //   at scalafix.tests.cli.ScalafixImplSuite.$anonfun$semanticdbPluginPath$1(ScalafixImplSuite.scala:37)
       //   at scala.Option.getOrElse(Option.scala:121)
@@ -1917,9 +1920,6 @@ build += {
       // for JDK 11. one-deeper nesting level makes it apply to build definition
       ["libraryDependencies += \"javax.xml.bind\" % \"jaxb-api\" % \"2.3.0\""]
     ]
-    // only used by ScalafixImplSuite and ToolClasspathSuite
-    check-missing: false
-    deps.ignore: ["com.geirsson#coursier-small"]
   }
 
   // I know, it's a little weird to include my personal Project Euler
