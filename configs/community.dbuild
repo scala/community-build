@@ -493,7 +493,7 @@ build += {
     uri:  ${vars.uris.silencer-uri}
   }
 
-  // dependency of metrics-scala
+  // dependency of metrics-scala, and of kafka
   ${vars.base} {
     name: "mockito-scala"
     uri:  ${vars.uris.mockito-scala-uri}

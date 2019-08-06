@@ -43,13 +43,11 @@ object SuccessReport {
     "doobie",  // needs newer cats-effect
     "elastic4s",  // no 2.13 upgrade attempted afaict (Seq-related compile errors)
     "giter8",  // no 2.13 upgrade attempted afaict
-    "kafka",  // no 2.13 upgrade attempted afaik
     "kittens",  // Failed tests: cats.derived.HashSuite
     "lift-json",  // no 2.13 upgrade attempted afaik
     "linter",  // no 2.13 upgrade attempted afaict
     "metaconfig",  // no 2.13 upgrade attempted afaict (https://github.com/olafurpg/metaconfig/issues/71)
     "metrics-scala",  // scala.language.postfixOps
-    "mockito-scala",  // no arguments allowed for nullary method
     "monix",  // no 2.13.0-RC1 upgrade attempted afaik
     "multibot",  // we need to unfreeze to get 2.13 support but then we also need ScalaTest 3.1
     "paradox",  // no 2.13 upgrade attempted afaict
