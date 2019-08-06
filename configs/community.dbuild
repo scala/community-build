@@ -942,9 +942,6 @@ build += {
     extra.exclude: [
       // we don't compile sbt plugins
       "sbtplugin"
-      // TODO remove exclusion once Scala 2.12.9 comes out, as per
-      // https://github.com/lightbend/mima/issues/355
-      "test-value-class-generic-replacement-false-ok"
     ]
     extra.options: ["-Xmx4g"]
     // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
