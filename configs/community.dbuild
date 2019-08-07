@@ -830,18 +830,10 @@ build += {
     extra.projects: ["scalapropsJVM"]  // no Scala.js please
   }
 
-  // frozen at v1.2.0 tag for now, perhaps excessively cautiously; we might
-  // consider tracking a branch instead
   ${vars.base} {
     name: "cats-effect"
     uri:  ${vars.uris.cats-effect-uri}
     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js plz
-    extra.commands: ${vars.base.extra.commands} [
-      // I think cats dropped its catalysts dependency but there is one source file
-      // in cats-effect that still expects it to be there, though not explicitly declared.
-      "set libraryDependencies in coreJVM += \"org.typelevel\" % \"catalysts-platform\" % \"0.10.0\" % Test"
-    ]
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#catalysts-platform"]
   }
 
   // frozen at last commit before ScalaTest 3.1 upgrade
@@ -1185,6 +1177,7 @@ build += {
     extra.projects: ["minitestJVM", "lawsJVM", "lawsLegacyJVM"]  // no Scala.js
   }
 
+  // forked awaiting merge of https://github.com/monix/monix/pull/875
   ${vars.base} {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
@@ -1254,15 +1247,6 @@ build += {
     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js, no benchmarks, no docs
   }
 
-  // dependency of scalafix
-  // (we use allanrenucci's fork because that's where `organization` is set
-  // as scalafix expects; it's where 0.1.4 was apparently published from,
-  // which is the version scalafix declares a dependency on)
-  ${vars.base} {
-    name: "scala-xml-quote"
-    uri:  ${vars.uris.scala-xml-quote-uri}
-  }
-
   ${vars.base} {
     name: "scalaj-http"
     uri:  ${vars.uris.scalaj-http-uri}
@@ -1316,24 +1300,11 @@ build += {
     extra.run-tests: false
   }
 
-  // adding (September 2017) because scalafix's "cli" subproject uses it.
-  // forked (November 2017) to use latest coursier.  we forked
-  // from the 1.1.x branch, not master, since there are
-  // source-incompatible changes on master, but scalafix's dependency is
-  // on 1.1.x.  so I'm not bothering to contribute the coursier version
-  // change upstream, since master has already moved on.
-  // fork refreshed August 2018, because https://github.com/milessabin/shapeless/issues/849
   ${vars.base} {
     name: "case-app"
     uri:  ${vars.uris.case-app-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     // this is enough for scalafix, I didn't even try adding the rest
     extra.projects: ["coreJVM"]
-    extra.commands: ${vars.default-commands} [
-      // paradise is on earth now
-      "appendScalacOptions -Ymacro-annotations"
-      "removeDependency org.scalamacros paradise"
-    ]
   }
 
   ${vars.base} {
@@ -1393,18 +1364,10 @@ build += {
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
   }
 
-  // frozen (April 2019) at October 2018 commit, since master has since moved to fastparse 2
-  // which we don't have yet
   ${vars.base} {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
     extra.projects: ["jvm"]
-    extra.exclude: [
-      // these require scalaz-concurrent (but that dependency will go away when we unfreeze)
-      "scalazJVM", "testsJVM", "proxy-tests"
-      // these require Scala Native
-      "extra", "cli"
-    ]
   }
 
   // dependency of scala-debugger. we track the develop branch, since
@@ -1424,15 +1387,10 @@ build += {
 
   // dependency of scaladex.
   // only attempt the subprojects scaladex needs.
-  // we track the release/5.4.x branch since that's what scaladex uses.
   ${vars.base} {
     name: "elastic4s"
     uri:  ${vars.uris.elastic4s-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
     extra.projects: ["elastic4s-core", "elastic4s-embedded"]
-    // some test code uses scala.util.parsing.json, which no longer
-    // exists in the latest scala-parser-combinators
-    extra.run-tests: false
   }
 
   // dependency of elastic4s
@@ -1597,9 +1555,6 @@ build += {
     ]
   }
 
-  // forked (April 2018) because some classpath-handling code didn't
-  // work under dbuild.  the fork also (March 2019) includes a slight
-  // build tweak for JDK 12 (avoid `-source 1.6`)
   ${vars.base} {
     name: "scapegoat"
     uri:  ${vars.uris.scapegoat-uri}
@@ -1979,9 +1934,6 @@ build += {
     extra.projects: ["coreJVM"]
   }
 
-  // frozen (February 2019) at a February 2019 tag; I got a compile error with
-  // a more recent commit. at present this is a leaf project so it's not worth
-  // messing with, frozen is fine for now
   ${vars.base} {
     name: "scribe"
     uri:  ${vars.uris.scribe-uri}
@@ -2315,7 +2267,6 @@ build += {
   }
 
   // dependency of scala-pet-store
-  // 2.13: series/0.6.x doesn't have 2.13 support, let's try series/0.8.x
   ${vars.base} {
     name: "doobie"
     uri:  ${vars.uris.doobie-uri}
