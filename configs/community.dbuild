@@ -497,6 +497,7 @@ build += {
   ${vars.base} {
     name: "mockito-scala"
     uri:  ${vars.uris.mockito-scala-uri}
+    extra.exclude: ["scalaz"]
   }
 
   // this repo is volatile (very frequent commits) and when it needs to
