@@ -35,6 +35,7 @@ object SuccessReport {
   val expectedToFail = Set[String](
     "algebra",          // needs ScalaTest 3.1
     "circe-jackson",    // needs ScalaTest 3.1
+    "coursier",         // weird git submodule problem when I tried to unfreeze to get 2.13 support. try again I guess
     "curryhoward",      // no 2.13 upgrade (checked Aug 6 2019)
     "giter8",           // no 2.13 upgrade (checked Aug 6 2019)
     "lift-json",        // no 2.13 upgrade (checked Aug 6 2019)
