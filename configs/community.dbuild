@@ -1363,6 +1363,8 @@ build += {
   ${vars.base} {
     name: "coursier"
     uri:  ${vars.uris.coursier-uri}
+    // java.lang.NoSuchMethodError: lmcoursier.definitions.ToCoursier$.project(Llmcoursier/definitions/Project;)Lcoursier/core/Project;
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: ["jvm"]
   }
 
