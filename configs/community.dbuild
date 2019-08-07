@@ -1170,9 +1170,7 @@ build += {
     extra.projects: ["scalatagsJVM"]  // no Scala.js
   }
 
-  // frozen (August 2019) at a June 2019 commit before adding Scala
-  // Native to the build screwed things up somehow; reported upstream:
-  // https://github.com/monix/minitest/pull/41#issuecomment-517426795
+  // frozen (August 2019) because newer commits break monix
   ${vars.base} {
     name: "minitest"
     uri:  ${vars.uris.minitest-uri}
