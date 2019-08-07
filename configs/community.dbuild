@@ -1381,12 +1381,12 @@ build += {
     extra.sbt-version: ${vars.sbt-0-13-version}
   }
 
-  // dependency of scaladex.
-  // only attempt the subprojects scaladex needs.
+  // dependency of scaladex.  we could add more subprojects, perhaps,
+  // but until Scaladex is on 2.13, it isn't a priority
   ${vars.base} {
     name: "elastic4s"
     uri:  ${vars.uris.elastic4s-uri}
-    extra.projects: ["elastic4s-core", "elastic4s-embedded"]
+    extra.projects: ["elastic4s-core"]
   }
 
   // dependency of elastic4s
