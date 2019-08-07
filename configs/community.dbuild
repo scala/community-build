@@ -1956,6 +1956,9 @@ build += {
   ${vars.base} {
     name: "kafka"
     uri:  ${vars.uris.kafka-uri}
+    extra.commands: ${vars.default-commands} [
+      """set core / unmanagedSources / excludeFilter := HiddenFileFilter || "ConsumerBounceTest.scala""""
+    ]
   }
 
   ${vars.base} {
