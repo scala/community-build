@@ -824,10 +824,18 @@ build += {
     extra.projects: ["scalapropsJVM"]  // no Scala.js please
   }
 
+  // frozen at v1.2.0 tag for now, perhaps excessively cautiously; we might
+  // consider tracking a branch instead
   ${vars.base} {
     name: "cats-effect"
     uri:  ${vars.uris.cats-effect-uri}
     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js plz
+    extra.commands: ${vars.base.extra.commands} [
+      // I think cats dropped its catalysts dependency but there is one source file
+      // in cats-effect that still expects it to be there, though not explicitly declared.
+      "set libraryDependencies in coreJVM += \"org.typelevel\" % \"catalysts-platform\" % \"0.10.0\" % Test"
+    ]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#catalysts-platform"]
   }
 
   // frozen at last commit before ScalaTest 3.1 upgrade
