@@ -1946,12 +1946,9 @@ build += {
   ${vars.base} {
     name: "kafka"
     uri:  ${vars.uris.kafka-uri}
-    // failed compilation on 1.3; not investigated
-    //  cannot find symbol; symbol: class MockTime
-    extra.sbt-version: ${vars.sbt-1-2-version}
-    // don't run tests for now as several are known to fail; waiting (July 2019)
-    // on response from Enno about it
-    extra.test-tasks: ["compile"]
+    extra.commands: ${vars.default-commands} [
+      """set core / unmanagedSources / excludeFilter := HiddenFileFilter || "ConsumerBounceTest.scala""""
+    ]
   }
 
   ${vars.base} {
