@@ -1297,6 +1297,8 @@ build += {
   ${vars.base} {
     name: "case-app"
     uri:  ${vars.uris.case-app-uri}
+    // coursier-related errors
+    extra.sbt-version: ${vars.sbt-1-2-version}
     // this is enough for scalafix, I didn't even try adding the rest
     extra.projects: ["coreJVM"]
   }
