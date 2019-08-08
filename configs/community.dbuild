@@ -2142,6 +2142,9 @@ build += {
   }
 
   // dependency of http4s
+  // frozen (August 2019) at a commit before addition of dependency on
+  // discipline-specs2, which we can't add because the version of discipline
+  // that offers it requires a ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "vault"
     uri:  ${vars.uris.vault-uri}
