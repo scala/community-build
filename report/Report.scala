@@ -48,6 +48,7 @@ object SuccessReport {
     "paradox",          // no 2.13 upgrade (checked Aug 6 2019)
     "scalastyle",       // no 2.13 upgrade (checked Aug 6 2019)
     "scalatest-tests",  // let's not worry about it until we move to ScalaTest 3.1
+    "tsec",             // needs ScalaTest 3.1
     "twitter-util",     // no 2.13 upgrade (checked Aug 6 2019); an unmerged third-party PR exists, we could try that?
   )
 
