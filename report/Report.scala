@@ -33,32 +33,23 @@ object SuccessReport {
   val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
   val expectedToFail = Set[String](
-    // old list of reasons for the failures are at https://github.com/scala/bug/issues/11453
-    // could be reapplied here but would need updating
-    "algebra",  // source incompatibility involving catalysts?
-    "case-app",  // shapeless-related compilation errors, looks hairy
-    "circe-jackson",  // overloading related compile errors
-    "coursier",  // no 2.13 upgrade attempted afaict (Seq-related compile errors)
-    "curryhoward",  // no 2.13 upgrade attempted afaict
-    "doobie",  // needs newer cats-effect
-    "elastic4s",  // no 2.13 upgrade attempted afaict (Seq-related compile errors)
-    "giter8",  // no 2.13 upgrade attempted afaict
-    "kittens",  // Failed tests: cats.derived.HashSuite
-    "lift-json",  // no 2.13 upgrade attempted afaik
-    "linter",  // no 2.13 upgrade attempted afaict
-    "metaconfig",  // no 2.13 upgrade attempted afaict (https://github.com/olafurpg/metaconfig/issues/71)
-    "metrics-scala",  // scala.language.postfixOps
-    "monix",  // no 2.13.0-RC1 upgrade attempted afaik
-    "multibot",  // we need to unfreeze to get 2.13 support but then we also need ScalaTest 3.1
-    "paradox",  // no 2.13 upgrade attempted afaict
-    "scala-stm",  // still using JavaConversions
-    "scala-xml-quote",  // Unit companion object not allowed in source
-    "scalastyle",  // no 2.13 upgrade attempted afaict
-    "scalatest-tests",  // module not found: org.scalactic#scalacticmacro;3.0.8-dbuildx1fc18ed8d484a103fd15bec043bb31de68d9b550 ?!
-    "scapegoat",  // no 2.13 upgrade attempted afaict
-    "scribe",  // invalid escape
-    "tsec",  // they haven't upgraded past 2.13.0-M5 yet
-    "twitter-util",  // no 2.13 upgrade (an unmerged third-party PR exists, we could try that?)
+    "algebra",          // needs ScalaTest 3.1
+    "circe-jackson",    // needs ScalaTest 3.1
+    "coursier",         // weird git submodule problem when I tried to unfreeze to get 2.13 support. try again I guess
+    "curryhoward",      // no 2.13 upgrade (checked Aug 6 2019)
+    "doobie",           // needs newer cats-effect, which needs ScalaTest 3.1
+    "giter8",           // no 2.13 upgrade (checked Aug 6 2019)
+    "kittens",          // needs ScalaTest 3.1
+    "lift-json",        // no 2.13 upgrade (checked Aug 6 2019)
+    "linter",           // no 2.13 upgrade (checked Aug 6 2019)
+    "metaconfig",       // no 2.13 upgrade (checked Aug 6 2019)
+    "metrics-scala",    // needs ScalaTest 3.1
+    "multibot",         // needs ScalaTest 3.1
+    "paradox",          // no 2.13 upgrade (checked Aug 6 2019)
+    "scalastyle",       // no 2.13 upgrade (checked Aug 6 2019)
+    "scalatest-tests",  // let's not worry about it until we move to ScalaTest 3.1
+    "tsec",             // needs ScalaTest 3.1
+    "twitter-util",     // no 2.13 upgrade (checked Aug 6 2019); an unmerged third-party PR exists, we could try that?
   )
 
   def apply(log: io.Source): Unit = {
