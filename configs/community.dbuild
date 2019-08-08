@@ -205,6 +205,9 @@ build += {
 
   projects: [
 
+  // well, this is a nice problem to have: ScalaCheck is undergoing such active
+  // development at the moment (August 2019) that it's complicating community
+  // build work by causing repeated rebuild-the-worlds. so, froze it for now.
   ${vars.base} {
     name: "scalacheck"
     uri:  ${vars.uris.scalacheck-uri}
