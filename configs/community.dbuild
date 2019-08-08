@@ -2094,14 +2094,13 @@ build += {
   }
 
   // dependency of vault
+  // frozen (August 2019) at a commit before addition of dependency on
+  // discipline-specs2, which we can't add because the version of discipline
+  // that offers it requires a ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "unique"
     uri:  ${vars.uris.unique-uri}
     extra.projects: ["coreJVM"]  // no docs, no Scala.js
-    deps.inject: ["org.typelevel#kind-projector"]
-    extra.commands: ${vars.default-commands} [
-      "removeDependency org.spire-math kind-projector"
-    ]
   }
 
   // dependency of http4s
