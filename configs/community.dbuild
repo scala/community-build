@@ -1202,8 +1202,6 @@ build += {
     ]
   }
 
-  // we can unfork once https://github.com/mdedetrich/scalajson/pull/52
-  // is merged (if it is updated to include the scalafmt upgrade I suggested)
   ${vars.base} {
     name: "scalajson"
     uri:  ${vars.uris.scalajson-uri}
