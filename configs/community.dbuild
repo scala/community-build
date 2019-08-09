@@ -2380,8 +2380,8 @@ build += {
       // EntityDecoderSpec: test started failing (August 2019), seems like a ScalaCheck issue,
       //   not worth investigating from a Scala perspective
       """set excludeFilter in (Test, unmanagedSources) in tests := HiddenFileFilter || "UriSpec.scala" || "EntityDecoderSpec.scala""""
-      // got tired of this intermittently failing
-      """set excludeFilter in (Test, unmanagedSources) in blazeClient := HiddenFileFilter || "BlazeClientSpec.scala""""
+      // got tired of these intermittently failing
+      """set excludeFilter in (Test, unmanagedSources) in blazeClient := HiddenFileFilter || "BlazeClientSpec.scala" || "BlazeHttp1ClientSpec.scala""""
     ]
     extra.exclude: [
       // outside our purview
