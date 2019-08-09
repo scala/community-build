@@ -2366,9 +2366,9 @@ build += {
 
   // this is a big build with a ton of subprojects.  we needn't be shy
   // about disabling fragile ones, ones with obscure dependencies we don't have, etc.
-  // frozen May 2019 at a May 2019 commit just before a blaze test started failing; I see
-  // the failure in their own CI (perhaps it was a semantic merge conflict?), so probably
-  // we'll be able to unfreeze promptly
+  // frozen (August 2019) at June 2019 commit, because:
+  //   "library org.typelevel#discipline-specs2 is not provided",
+  // and to get it we'd need newer discipline which needs ScalaTest 3.1
   ${vars.base} {
     name: "http4s"
     uri:  ${vars.uris.http4s-uri}
