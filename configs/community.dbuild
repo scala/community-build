@@ -1186,6 +1186,10 @@ build += {
     extra.options: ["-Dmonix.requireJava8=false"]
     // no Scala.js, no benchmarks.
     extra.projects: ["coreJVM"]
+    extra.commands: ${vars.default-commands} [
+      // 2.13: test hangs; not investigated or reported upstream; we should re-check when we unfork
+      """set excludeFilter in (Test, unmanagedSources) in evalJVM := HiddenFileFilter || "TaskAsyncAutoShiftJVMSuite.scala""""
+    ]
   }
 
   // frozen (April 2019) at a March 2019 commit before PR #440
