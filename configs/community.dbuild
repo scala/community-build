@@ -1960,6 +1960,7 @@ build += {
     uri:  ${vars.uris.kafka-uri}
     extra.commands: ${vars.default-commands} [
       """set core / unmanagedSources / excludeFilter := HiddenFileFilter || "ConsumerBounceTest.scala""""
+      """set streams / unmanagedSources / excludeFilter := HiddenFileFilter || "StreamStreamJoinIntegrationTest.java" || "TableTableJoinIntegrationTest.java" || "StreamTableJoinIntegrationTest.java""""
     ]
   }
 
