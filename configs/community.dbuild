@@ -2382,7 +2382,7 @@ build += {
       //   not worth investigating from a Scala perspective
       """set excludeFilter in (Test, unmanagedSources) in tests := HiddenFileFilter || "UriSpec.scala" || "EntityDecoderSpec.scala""""
       // got tired of these intermittently failing
-      """set excludeFilter in (Test, unmanagedSources) in blazeClient := HiddenFileFilter || "BlazeClientSpec.scala" || "BlazeHttp1ClientSpec.scala""""
+      """set excludeFilter in (Test, unmanagedSources) in blazeClient := HiddenFileFilter || "BlazeClientSpec.scala" || "BlazeHttp1ClientSpec.scala" || "ClientTimeoutSpec.scala""""
     ]
     extra.exclude: [
       // outside our purview
