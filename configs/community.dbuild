@@ -1946,6 +1946,8 @@ build += {
     extra.options: ["-Xmx4g"]
   }
 
+  // frozen (August 2019) at an August 2019 before a weird circular dependency was
+  // introduced to the build; see https://github.com/wvlet/airframe/pull/587#issuecomment-520183779
   ${vars.base} {
     name: "airframe"
     uri:  ${vars.uris.airframe-uri}
