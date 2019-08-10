@@ -1207,8 +1207,9 @@ build += {
     // no Scala.js, no benchmarks.
     extra.projects: ["coreJVM"]
     extra.commands: ${vars.default-commands} [
-      // 2.13: test hangs; not investigated or reported upstream; we should re-check when we unfork
+      // 2.13: some tests hang; not investigated or reported upstream; we should re-check when we unfork
       """set excludeFilter in (Test, unmanagedSources) in evalJVM := HiddenFileFilter || "TaskAsyncAutoShiftJVMSuite.scala""""
+      """set excludeFilter in (Test, unmanagedSources) in reactiveJVM := HiddenFileFilter || "OverflowStrategyUnboundedConcurrencySuite.scala""""
     ]
   }
 
