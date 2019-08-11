@@ -960,6 +960,8 @@ build += {
     extra.exclude: [
       // we don't compile sbt plugins
       "sbtplugin"
+      // awaiting word on https://github.com/lightbend/mima/issues/374
+      "test-value-class-generic-replacement-ko"
     ]
     extra.options: ["-Xmx4g"]
     // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
