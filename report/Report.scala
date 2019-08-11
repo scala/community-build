@@ -48,7 +48,6 @@ object SuccessReport {
     "paradox",          // no 2.13 upgrade (checked Aug 6 2019)
     "scalastyle",       // no 2.13 upgrade (checked Aug 6 2019)
     "tsec",             // needs ScalaTest 3.1
-    "twitter-util",     // no 2.13 upgrade (checked Aug 6 2019); an unmerged third-party PR exists, we could try that?
   )
 
   val jdk11Failures = Set(
