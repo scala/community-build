@@ -32,7 +32,7 @@ object SuccessReport {
   //   (?!-) = negative lookahead -- next character is not "-"
   val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
-  val expectedToFail = Set[String](
+  val jdk8Failures = Set(
     "algebra",          // needs ScalaTest 3.1
     "circe-jackson",    // needs ScalaTest 3.1
     "coursier",         // weird git submodule problem when I tried to unfreeze to get 2.13 support. try again I guess
@@ -50,6 +50,21 @@ object SuccessReport {
     "tsec",             // needs ScalaTest 3.1
     "twitter-util",     // no 2.13 upgrade (checked Aug 6 2019); an unmerged third-party PR exists, we could try that?
   )
+
+  val jdk11Failures = Set(
+  )
+
+  val expectedToFail = Set[String] =
+    System.getProperty("java.specification.version") match {
+      case "1.8" =>
+        jdk8Failures
+      case "11" =>
+        jdk8Failures ++ jdk11Failures
+      case "_" =>
+        jdk8Failures ++ jdk11Failures ++ Set(
+          "play-file-watch"  // https://github.com/playframework/play-file-watch/issues/46
+        )
+    }
 
   def apply(log: io.Source): Unit = {
     val lines = log.getLines.dropWhile(!_.contains("---==  Execution Report ==---"))
