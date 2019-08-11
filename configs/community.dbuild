@@ -255,7 +255,7 @@ build += {
     extra.commands: ${vars.default-commands} [
       // makes "configuration not public" errors downstream go away
       "set every publishMavenStyle := false"
-      // sbt 1.3.0-RC3 specific?
+      // sbt 1.3.0-RC3 specific:
       // [warn] Credentials file /Users/tisue/.sbt/specs2.credentials does not exist
       // [error] java.lang.RuntimeException: Credentials file /Users/tisue/.sbt/specs2.credentials does not exist
       "set every credentials := Seq()"
@@ -310,7 +310,7 @@ build += {
     uri:  ${vars.uris.discipline-uri}
     extra.projects: ["disciplineJVM"]  // no Scala.js please
     extra.commands: ${vars.default-commands} [
-      // sbt 1.3.0-RC3 specific? Credentials file [...] does not exist
+      // sbt 1.3.0-RC3 specific: Credentials file [...] does not exist
       "set every credentials := Seq()"
     ]
   }
@@ -329,7 +329,7 @@ build += {
     uri:  ${vars.uris.machinist-uri}
     extra.projects: ["machinistJVM"]  // no Scala.js please
     extra.commands: ${vars.default-commands} [
-      // sbt 1.3.0-RC3 specific? Credentials file [...] does not exist
+      // sbt 1.3.0-RC3 specific: Credentials file [...] does not exist
       "set every credentials := Seq()"
     ]
   }
@@ -389,7 +389,7 @@ build += {
     uri:  ${vars.uris.claimant-uri}
     extra.exclude: ["root", "mcJS", "coreJS"]  // no Scala.js plz
     extra.commands: ${vars.default-commands} [
-      // sbt 1.3.0-RC3 specific? Credentials file [...] does not exist
+      // sbt 1.3.0-RC3 specific: Credentials file [...] does not exist
       "set every credentials := Seq()"
     ]
   }
@@ -564,7 +564,7 @@ build += {
     // (report updated December 2017)
     extra.test-tasks: ["compile"]
     extra.commands: ${vars.default-commands} [
-      // sbt 1.3.0-RC3 specific? Credentials file [...] does not exist
+      // sbt 1.3.0-RC3 specific: Credentials file [...] does not exist
       "set every credentials := Seq()"
     ]
   }
@@ -2012,7 +2012,7 @@ build += {
     uri:  ${vars.uris.quicklens-uri}
     extra.projects: ["quicklensJVM"]
     extra.commands: ${vars.default-commands} [
-      // sbt 1.3.0-RC3 specific? Credentials file [...] does not exist
+      // sbt 1.3.0-RC3 specific: Credentials file [...] does not exist
       "set every credentials := Seq()"
     ]
   }
