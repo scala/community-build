@@ -1151,7 +1151,9 @@ build += {
     ]
   }
 
-  // frozen (July 2019) at June 2019 commit just before ScalaTest 3.1 upgrade
+  // frozen (July 2019) at June 2019 commit just before ScalaTest 3.1 upgrade.
+  // note that at the time we unfreeze, we can move to the master which
+  // is now cats-based, instead of having to use a branch like before
   ${vars.base} {
     name: "monocle"
     uri:  ${vars.uris.monocle-uri}
