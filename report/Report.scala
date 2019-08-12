@@ -61,7 +61,7 @@ object SuccessReport {
         jdk8Failures
       case "11" =>
         jdk8Failures ++ jdk11Failures
-      case "_" =>
+      case _ =>
         jdk8Failures ++ jdk11Failures ++ Set(
           "play-file-watch"  // https://github.com/playframework/play-file-watch/issues/46
         )
