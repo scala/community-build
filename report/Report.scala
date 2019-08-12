@@ -50,10 +50,10 @@ object SuccessReport {
     "tsec",             // needs ScalaTest 3.1
   )
 
-  val jdk11Failures = Set(
+  val jdk11Failures: Set[String] = Set(
   )
 
-  val expectedToFail = Set[String] =
+  val expectedToFail: Set[String] =
     System.getProperty("java.specification.version") match {
       case "1.8" =>
         jdk8Failures
