@@ -1216,6 +1216,8 @@ build += {
     extra.projects: ["scalatagsJVM"]  // no Scala.js
   }
 
+  // forked (August 2019) to fix some bad Scala-version-checking code, as per
+  // https://github.com/scala/scala-dev/issues/644#issuecomment-520562911
   ${vars.base} {
     name: "scala-refactoring"
     uri:  ${vars.uris.scala-refactoring-uri}
