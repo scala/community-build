@@ -978,7 +978,7 @@ build += {
     uri:  ${vars.uris.spray-json-uri}
     extra.projects: ["sprayJsonJVM"]
     extra.commands: ${vars.default-commands} [
-      // needed on JDK 11+, as per https://github.com/scala/community-builds/issues/796#issuecomment-423395500
+      // work around https://github.com/scala/bug/issues/11682
       """set sprayJsonJVM / Compile / doc / scalacOptions --= Seq("-release", "8")"""
     ]
   }
