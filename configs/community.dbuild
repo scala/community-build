@@ -949,8 +949,8 @@ build += {
       // recommended at https://github.com/twitter/util/issues/173:
       // "We use that when we don't think the tests will be reliable in a ci environment"
       "-DSKIP_FLAKY=true"
-      // repo itself has this. I saw an OOM on 2.13, maybe this will help
-      "-Xmx2g"
+      // repo itself has 2g. I saw an OOM on 2.13 even with 2g; maybe this will help
+      "-Xmx3g"
     ]
     extra.commands: ${vars.default-commands} [
       // 2.13: failing test; not investigated or reported upstream. it seems to be a GC-based test, those are typically fragile
