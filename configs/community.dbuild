@@ -1672,20 +1672,10 @@ build += {
     extra.exclude: ["fsi-benchmark", "fsi-benchmark-core"]
   }
 
-  // frozen (June 2019) at a June 2019 config just before a sbt-coursier
-  // version bump that seems to be confusing dbuild during dependency extraction:
-  // [scalacheck-shapeless] [error] java.lang.NoSuchMethodError: lmcoursier.definitions.ToCoursier$.project(Llmcoursier/definitions/Project;)Lcoursier/core/Project;
-  // [scalacheck-shapeless] [error] 	at coursier.sbtcoursier.ResolutionTasks$.$anonfun$resolutionsTask$3(ResolutionTasks.scala:42)
   ${vars.base} {
     name: "scalacheck-shapeless"
     uri:  ${vars.uris.scalacheck-shapeless-uri}
     extra.projects: ["coreJVM", "testJVM"]  // no Scala.js plz
-    // weird missing self-dependency in testJVM project: "the library
-    // com.github.alexarchambault#scalacheck-shapeless is not provided
-    // (in space "default") by any project in this configuration file."
-    check-missing: false
-    // (January 2018) "recursiveADT2" test fails
-    extra.test-tasks: ["compile"]
     // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
     extra.options: ["-Xmx2048m"]
   }
@@ -1694,15 +1684,6 @@ build += {
     name: "curryhoward"
     uri:  ${vars.uris.curryhoward-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
-    // I guess dbuild is getting confused by the extra _1.13?
-    deps.ignore: ["com.github.alexarchambault#scalacheck-shapeless"]
-    deps.inject: ${vars.base.deps.inject} [
-      "com.github.alexarchambault#scalacheck-shapeless_1.13"
-    ]
-    check-missing: false
-    extra.settings: ${vars.base.extra.settings} [
-      "conflictWarning in ThisBuild := ConflictWarning.disable"
-    ]
   }
 
   // dependency of magnolia, avro4s
@@ -1887,15 +1868,6 @@ build += {
     name: "metaconfig"
     uri:  ${vars.uris.metaconfig-uri}
     extra.projects: ["hoconJVM", "typesafe"]  // no Scala.js plz
-    // I guess dbuild is getting confused by the extra _1.13?
-    deps.ignore: ["com.github.alexarchambault#scalacheck-shapeless"]
-    deps.inject: ${vars.base.deps.inject} [
-      "com.github.alexarchambault#scalacheck-shapeless_1.13"
-    ]
-    check-missing: false
-    extra.settings: ${vars.base.extra.settings} [
-      "conflictWarning in ThisBuild := ConflictWarning.disable"
-    ]
     extra.commands: ${vars.default-commands} [
       // https://github.com/olafurpg/metaconfig/issues/59
       "set excludeFilter in (Test, unmanagedSources) in coreJVM := HiddenFileFilter || \"CliSuite.scala\""
@@ -2437,16 +2409,11 @@ build += {
     name: "pureconfig"
     uri:  ${vars.uris.pureconfig-uri}
     deps.inject: ${vars.base.deps.inject} [
-      // I guess dbuild is getting confused by the extra _1.13
-      "com.github.alexarchambault#scalacheck-shapeless_1.13"
       // not sure why we aren't getting this dependency
       "org.scala-lang.modules#scala-collection-compat"
     ]
-    check-missing: false
     extra.commands: ${vars.default-commands} [
-      // not sure why we get these errors unless we turn them off
-      "set every conflictWarning := ConflictWarning.disable"
-      "set libraryDependencies in ThisBuild += \"org.scala-lang.modules\" %% \"scala-collection-compat\" % \"0.0.0\""
+      """set libraryDependencies in ThisBuild += "org.scala-lang.modules" %% "scala-collection-compat" % "0.0.0""""
     ]
   }
 
