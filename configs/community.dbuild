@@ -1716,6 +1716,8 @@ build += {
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
+      // https://github.com/bmc/grizzled-scala/issues/19
+      "set every bintrayOmitLicense := true"
       // why we get wartremover failures in the community build that presumably
       // don't happen in Brian's own CI, I have no idea. doesn't seem worth
       // investigating
