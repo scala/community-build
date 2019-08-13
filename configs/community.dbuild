@@ -2585,6 +2585,10 @@ build += {
       "tsec-libsodium"  // java.lang.UnsatisfiedLinkError: no sodiumjni in java.library.path
       "tsec-examples"  // depends on tsec-libsodium
     ]
+    // in the other repos where we have to ignore missing scalafmt, it's because
+    // the scalafmt version is old.  here the scalafmt version is up-to-date, but
+    // we still need this. I don't understand why.  it's a build level dependency
+    // involved in code generation, it's not the sbt plugin like usual. shrug?
     deps.ignore: ["com.geirsson#scalafmt-core", "com.lucidchart#scalafmt-impl"]
     check-missing: false  // ignore missing scalafmt
   }
