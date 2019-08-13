@@ -1069,6 +1069,10 @@ build += {
     name: "play-file-watch"
     uri:  ${vars.uris.play-file-watch-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
+    extra.commands: ${vars.default-commands} [
+      // fails on JDK 12; reported upstream at https://github.com/playframework/play-file-watch/issues/46
+      """set excludeFilter in (Test, unmanagedSources) := HiddenFileFilter || "FileWatchServiceSpec.scala""""
+    ]
   }
 
   ${vars.base} {
