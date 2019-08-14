@@ -190,6 +190,12 @@ build += {
 
   projects: [
 
+  ${vars.base} {
+    name: "verify"
+    uri:  ${vars.uris.verify-uri}
+    extra.projects: ["verifyJVM"]
+  }
+
   // well, this is a nice problem to have: ScalaCheck is undergoing such active
   // development at the moment (August 2019) that it's complicating community
   // build work by causing repeated rebuild-the-worlds. so, froze it for now.
@@ -978,7 +984,7 @@ build += {
     uri:  ${vars.uris.spray-json-uri}
     extra.projects: ["sprayJsonJVM"]
     extra.commands: ${vars.default-commands} [
-      // needed on JDK 11+, as per https://github.com/scala/community-builds/issues/796#issuecomment-423395500
+      // work around https://github.com/scala/bug/issues/11682
       """set sprayJsonJVM / Compile / doc / scalacOptions --= Seq("-release", "8")"""
     ]
   }
@@ -1983,8 +1989,6 @@ build += {
     extra.options: ["-Xmx4g"]
   }
 
-  // frozen (August 2019) at an August 2019 before a weird circular dependency was
-  // introduced to the build; see https://github.com/wvlet/airframe/pull/587#issuecomment-520183779
   ${vars.base} {
     name: "airframe"
     uri:  ${vars.uris.airframe-uri}
@@ -2614,6 +2618,10 @@ build += {
       "tsec-libsodium"  // java.lang.UnsatisfiedLinkError: no sodiumjni in java.library.path
       "tsec-examples"  // depends on tsec-libsodium
     ]
+    // in the other repos where we have to ignore missing scalafmt, it's because
+    // the scalafmt version is old.  here the scalafmt version is up-to-date, but
+    // we still need this. I don't understand why.  it's a build level dependency
+    // involved in code generation, it's not the sbt plugin like usual. shrug?
     deps.ignore: ["com.geirsson#scalafmt-core", "com.lucidchart#scalafmt-impl"]
     check-missing: false  // ignore missing scalafmt
   }
