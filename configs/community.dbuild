@@ -1675,6 +1675,8 @@ build += {
   ${vars.base} {
     name: "scalacheck-shapeless"
     uri:  ${vars.uris.scalacheck-shapeless-uri}
+    // java.lang.NoSuchMethodError: lmcoursier.definitions.ToCoursier$.project(Llmcoursier/definitions/Project;)Lcoursier/core/Project
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: ["coreJVM", "testJVM"]  // no Scala.js plz
     // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
     extra.options: ["-Xmx2048m"]
