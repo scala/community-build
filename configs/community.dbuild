@@ -1600,12 +1600,10 @@ build += {
     name: "akka-management"
     uri:  ${vars.uris.akka-management-uri}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
-    ]
     // for now anyway, ambition level is just to include anything lagom needs
     extra.projects: ["akka-management", "cluster-bootstrap", "cluster-http"]
     extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
       // some test shutdown thing was killing the JVM:
       // [akka-management:error] Uncaught error from thread [sys-akka.remote.default-remote-dispatcher-7]: akka/remote/EndpointManager$EndpointRegistry$$anonfun$prune$1, shutting down JVM since 'akka.jvm-exit-on-fatal-error' is enabled for ActorSystem[sys]
       // [akka-management:error] java.lang.NoClassDefFoundError: akka/remote/EndpointManager$EndpointRegistry$$anonfun$prune$1
