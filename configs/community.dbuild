@@ -1598,7 +1598,7 @@ build += {
       "set every bintrayReleaseOnPublish := false"
     ]
     // for now anyway, ambition level is just to include anything lagom needs
-    extra.projects: ["akka-management"]
+    extra.projects: ["akka-management", "cluster-bootstrap"]
   }
 
   // there are a *ton* of subprojects.  it might be interesting to try to add
