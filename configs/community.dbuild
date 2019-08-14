@@ -1582,6 +1582,11 @@ build += {
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
     ]
+    // it isn't clear to me that there are any tests we can run without
+    // doing the Docker stuff in their test.sh script.  we might ask the
+    // Akka team if there is any segregation between unit vs. integration tests,
+    // that kind of thing?
+    extra.test-tasks: "compile"
   }
 
   // dependency of lagom
