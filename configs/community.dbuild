@@ -1604,8 +1604,12 @@ build += {
       // more flaky tests I haven't reported upstream
       "set excludeFilter in (Test, unmanagedSources) in `server-scaladsl` := HiddenFileFilter || \"LagomApplicationSpec.scala\""
     ]
-    // Missing dependency: com.typesafe.akka#akka-stream-kafka
-    extra.exclude: ["kafka-client", "kafka-client-scaladsl"]
+    extra.exclude: [
+      // Missing dependency: com.lightbend.akka.management#akka-management
+      "akka-management-core", "akka-management-scaladsl"
+      // Missing dependency: com.typesafe.akka#akka-stream-kafka
+      "kafka-client", "kafka-client-scaladsl"
+    ]
     // as usual with scripted-plugin, sigh
     deps.ignore: ["org.scala-sbt#scripted-plugin"]
     check-missing: false
