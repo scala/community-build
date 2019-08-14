@@ -1606,7 +1606,7 @@ build += {
     ]
     extra.exclude: [
       // Missing dependency: com.lightbend.akka.management#akka-management
-      "akka-management-core", "akka-management-scaladsl"
+      "akka-management-core", "akka-management-scaladsl", "cluster-core"
       // Missing dependency: com.typesafe.akka#akka-stream-kafka
       "kafka-client", "kafka-client-scaladsl"
     ]
