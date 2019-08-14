@@ -1582,8 +1582,18 @@ build += {
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
     ]
-    // at least one test was hanging
-    extra.test-tasks: "compile"
+  }
+
+  // dependency of lagom
+  ${vars.base} {
+    name: "akka-management"
+    uri:  ${vars.uris.akka-management-uri}
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
+    // for now anyway, ambition level is just to include anything lagom needs
+    extra.projects: ["akka-management"]
   }
 
   // there are a *ton* of subprojects.  it might be interesting to try to add
@@ -1605,8 +1615,6 @@ build += {
       "set excludeFilter in (Test, unmanagedSources) in `server-scaladsl` := HiddenFileFilter || \"LagomApplicationSpec.scala\""
     ]
     extra.exclude: [
-      // Missing dependency: com.lightbend.akka.management#akka-management
-      "akka-management-core", "akka-management-scaladsl", "cluster-core", "cluster-scaladsl", "server-scaladsl"
       // Missing dependency: com.typesafe.akka#akka-stream-kafka
       "kafka-client", "kafka-client-scaladsl"
     ]
