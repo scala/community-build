@@ -1604,6 +1604,9 @@ build += {
       // more flaky tests I haven't reported upstream
       "set excludeFilter in (Test, unmanagedSources) in `server-scaladsl` := HiddenFileFilter || \"LagomApplicationSpec.scala\""
     ]
+    // as usual with scripted-plugin, sigh
+    deps.ignore: ["org.scala-sbt#scripted-plugin"]
+    check-missing: false
   }
 
   ${vars.base} {
