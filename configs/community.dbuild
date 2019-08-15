@@ -1639,6 +1639,8 @@ build += {
     extra.exclude: [
       // Missing dependency: com.typesafe.akka#akka-stream-kafka
       "kafka-client", "kafka-client-scaladsl"
+      // gah: Conflicting cross-version suffixes in: com.typesafe.akka:akka-actor, com.typesafe.akka:akka-protobuf, com.typesafe.akka:akka-stream, org.scala-lang.modules:scala-java8-compat, org.scala-lang.modules:scala-parser-combinators, com.typesafe:ssl-config-core
+      "kafka-broker"
     ]
     // as usual with scripted-plugin, sigh
     deps.ignore: ["org.scala-sbt#scripted-plugin"]
