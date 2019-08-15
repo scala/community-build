@@ -1608,7 +1608,7 @@ build += {
       // [akka-management:error] Uncaught error from thread [sys-akka.remote.default-remote-dispatcher-7]: akka/remote/EndpointManager$EndpointRegistry$$anonfun$prune$1, shutting down JVM since 'akka.jvm-exit-on-fatal-error' is enabled for ActorSystem[sys]
       // [akka-management:error] java.lang.NoClassDefFoundError: akka/remote/EndpointManager$EndpointRegistry$$anonfun$prune$1
       // it doesn't seem worth investigating.
-      "set `cluster-http` / Test / executeTests := Tests.Output(TestResult.Passed, Map(), Iterable())"
+      "set `cluster-bootstrap` / Test / executeTests := Tests.Output(TestResult.Passed, Map(), Iterable())"
     ]
   }
 
