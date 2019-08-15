@@ -1615,6 +1615,7 @@ build += {
 
   // there are a *ton* of subprojects.  it might be interesting to try to add
   // as many as possible. for now, we've somewhat arbitrarily selected a few.
+  // tracking 1.5.x branch because master has already moved to Akka 2.6
   ${vars.base} {
     name: "lagom"
     uri:  ${vars.uris.lagom-uri}
