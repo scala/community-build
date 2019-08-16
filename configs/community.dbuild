@@ -1654,6 +1654,7 @@ build += {
     // I figure the Java one is the most important one to have first, since there is a shortage,
     // in the community build, of repos that call into Scala from Java
     extra.directory: "shopping-cart/shopping-cart-java"
+    extra.projects: ["shopping-cart"]
     // TODO add the other samples too
   }
 
