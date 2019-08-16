@@ -2011,6 +2011,7 @@ build += {
     extra.commands: ${vars.default-commands} [
       // prevents javadoc generation from failing on JDK 11+
       """set clients/Compile/doc/javacOptions += "-Xdoclint:none""""
+      """set stream/Compile/doc/javacOptions += "-Xdoclint:none""""
     ]
   }
 
