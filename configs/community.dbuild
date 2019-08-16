@@ -1974,9 +1974,7 @@ build += {
     extra.commands: ${vars.default-commands} [
       // prevents javadoc generation from failing on JDK 11+
       """set clients/Compile/doc/javacOptions += "-Xdoclint:none""""
-      // Enno could move these to his own config
-      """set core / unmanagedSources / excludeFilter := HiddenFileFilter || "ConsumerBounceTest.scala""""
-      """set streams / unmanagedSources / excludeFilter := HiddenFileFilter || "StreamStreamJoinIntegrationTest.java" || "TableTableJoinIntegrationTest.java" || "StreamTableJoinIntegrationTest.java" || "ResetIntegrationWithSslTest.java" || "ResetIntegrationTest" || "InMemoryKeyValueStoreTest.java""""
+      """set stream/Compile/doc/javacOptions += "-Xdoclint:none""""
     ]
   }
 
