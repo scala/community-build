@@ -1624,7 +1624,12 @@ build += {
     name: "lagom"
     uri:  ${vars.uris.lagom-uri}
     // these pull in a number of dependent projects
-    extra.projects: ["server", "testkit-scaladsl"]
+    extra.projects: [
+      "server"
+      // we used to pull in testkit-scaladsl which then transitively pulled in the following.
+      // at the moment testkit-scaladsl requires akka-stream-kafka which we don't have, so we write these out:
+      "persistence-cassandra-scaladsl","server-scaladsl","persistence-scaladsl","testkit-core","broker-scaladsl","persistence-core","persistence-jdbc-scaladsl","kafka-broker-scaladsl","dev-mode-ssl-support"
+    ]
     extra.options: [
       // hopefully avoid intermittent OutOfMemoryErrors with default heap
       "-Xmx2g"
@@ -1640,7 +1645,9 @@ build += {
     ]
     extra.exclude: [
       // Missing dependency: com.typesafe.akka#akka-stream-kafka
-      "kafka-client", "kafka-client-scaladsl", "kafka-broker-scaladsl", "kafka-broker", "testkit-scaladsl"
+      "kafka-client", "kafka-client-scaladsl", "kafka-broker-scaladsl", "kafka-broker"
+      // sigh, see above
+      "testkit-scaladsl"
     ]
     // as usual with scripted-plugin, sigh
     deps.ignore: ["org.scala-sbt#scripted-plugin"]
