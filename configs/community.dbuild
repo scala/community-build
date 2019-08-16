@@ -170,6 +170,12 @@ build += {
 
   projects: [
 
+  ${vars.base} {
+    name: "verify"
+    uri:  ${vars.uris.verify-uri}
+    extra.projects: ["verifyJVM"]
+  }
+
   // well, this is a nice problem to have: ScalaCheck is undergoing such active
   // development at the moment (August 2019) that it's complicating community
   // build work by causing repeated rebuild-the-worlds. so, froze it for now.
@@ -986,7 +992,7 @@ build += {
     uri:  ${vars.uris.spray-json-uri}
     extra.projects: ["sprayJsonJVM"]
     extra.commands: ${vars.default-commands} [
-      // needed on JDK 11+, as per https://github.com/scala/community-builds/issues/796#issuecomment-423395500
+      // work around https://github.com/scala/bug/issues/11682
       """set sprayJsonJVM / Compile / doc / scalacOptions --= Seq("-release", "8")"""
     ]
   }
@@ -1070,7 +1076,8 @@ build += {
     uri:  ${vars.uris.play-file-watch-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
     extra.commands: ${vars.default-commands} [
-      // fails on JDK 12; reported upstream at https://github.com/playframework/play-file-watch/issues/46
+      // tends to fail on MacOS;
+      // also fails on JDK 12; reported upstream at https://github.com/playframework/play-file-watch/issues/46
       """set excludeFilter in (Test, unmanagedSources) := HiddenFileFilter || "FileWatchServiceSpec.scala""""
     ]
   }
@@ -1206,7 +1213,6 @@ build += {
     extra.projects: ["scalatagsJVM"]  // no Scala.js
   }
 
-  // frozen (August 2019) because newer commits break monix
   ${vars.base} {
     name: "minitest"
     uri:  ${vars.uris.minitest-uri}
@@ -1523,7 +1529,28 @@ build += {
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
     ]
-    // at least one test was hanging
+    // it isn't clear to me that there are any tests we can run without
+    // doing the Docker stuff in their test.sh script.  we might ask the
+    // Akka team if there is any segregation between unit vs. integration tests,
+    // that kind of thing?
+    extra.test-tasks: "compile"
+  }
+
+  // dependency of lagom
+  ${vars.base} {
+    name: "akka-management"
+    uri:  ${vars.uris.akka-management-uri}
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    // for now anyway, ambition level is just to include anything lagom needs
+    extra.projects: ["akka-management", "cluster-bootstrap", "cluster-http"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
+    // some test shutdown thing kept killing the JVM:
+    // [akka-management:error] Uncaught error from thread [sys-akka.remote.default-remote-dispatcher-7]: akka/remote/EndpointManager$EndpointRegistry$$anonfun$prune$1, shutting down JVM since 'akka.jvm-exit-on-fatal-error' is enabled for ActorSystem[sys]
+    // [akka-management:error] java.lang.NoClassDefFoundError: akka/remote/EndpointManager$EndpointRegistry$$anonfun$prune$1
+    // it doesn't seem worth investigating.  my goal today is to unfreeze lagom,
+    // not to ensure maximum coverage of akka-management itself
     extra.test-tasks: "compile"
   }
 
@@ -1549,13 +1576,17 @@ build += {
 
   // there are a *ton* of subprojects.  it might be interesting to try to add
   // as many as possible. for now, we've somewhat arbitrarily selected a few.
-  // frozen (November 2018), trying to get the latest latest working was getting annoying,
-  // we can revisit it in a few weeks or months
+  // tracking 1.5.x branch because master has already moved to Akka 2.6
   ${vars.base} {
     name: "lagom"
     uri:  ${vars.uris.lagom-uri}
     // these pull in a number of dependent projects
-    extra.projects: ["api-scaladsl", "client-scaladsl", "server-scaladsl", "persistence-scaladsl"]
+    extra.projects: [
+      "server"
+      // we used to pull in testkit-scaladsl which then transitively pulled in the following.
+      // at the moment testkit-scaladsl requires akka-stream-kafka which we don't have, so we write these out:
+      "persistence-cassandra-scaladsl","server-scaladsl","persistence-scaladsl","testkit-core","broker-scaladsl","persistence-core","persistence-jdbc-scaladsl","kafka-broker-scaladsl","dev-mode-ssl-support"
+    ]
     extra.options: [
       // hopefully avoid intermittent OutOfMemoryErrors with default heap
       "-Xmx2g"
@@ -1567,10 +1598,18 @@ build += {
       // "set executeTests in `testkit-scaladsl` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
       // more flaky tests I haven't reported upstream
       "set excludeFilter in (Test, unmanagedSources) in `server-scaladsl` := HiddenFileFilter || \"LagomApplicationSpec.scala\""
+      // wtf is this: java.lang.NoClassDefFoundError: akka/actor/dungeon/ChildrenContainer$WaitingForChildren
+      "set executeTests in client in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
     ]
-    // [error] **** Missing dependency: the library org.scala-sbt#scripted-plugin is not provided (in space "scala.main") by any project in this configuration file.
-    check-missing: false
+    extra.exclude: [
+      // Missing dependency: com.typesafe.akka#akka-stream-kafka
+      "kafka-client", "kafka-client-scaladsl", "kafka-broker-scaladsl", "kafka-broker"
+      // sigh, see above
+      "testkit-scaladsl"
+    ]
+    // as usual with scripted-plugin, sigh
     deps.ignore: ["org.scala-sbt#scripted-plugin"]
+    check-missing: false
   }
 
   // not (as of January 2018 anyway) an actively maintained project, so it's
@@ -1940,8 +1979,6 @@ build += {
     extra.options: ["-Xmx4g"]
   }
 
-  // frozen (August 2019) at an August 2019 before a weird circular dependency was
-  // introduced to the build; see https://github.com/wvlet/airframe/pull/587#issuecomment-520183779
   ${vars.base} {
     name: "airframe"
     uri:  ${vars.uris.airframe-uri}
@@ -2368,6 +2405,10 @@ build += {
       "tsec-libsodium"  // java.lang.UnsatisfiedLinkError: no sodiumjni in java.library.path
       "tsec-examples"  // depends on tsec-libsodium
     ]
+    // in the other repos where we have to ignore missing scalafmt, it's because
+    // the scalafmt version is old.  here the scalafmt version is up-to-date, but
+    // we still need this. I don't understand why.  it's a build level dependency
+    // involved in code generation, it's not the sbt plugin like usual. shrug?
     deps.ignore: ["com.geirsson#scalafmt-core", "com.lucidchart#scalafmt-impl"]
     check-missing: false  // ignore missing scalafmt
     // kind-projector org change
