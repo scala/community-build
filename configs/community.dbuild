@@ -1640,7 +1640,7 @@ build += {
     ]
     extra.exclude: [
       // Missing dependency: com.typesafe.akka#akka-stream-kafka
-      "kafka-client", "kafka-client-scaladsl", "kafka-broker-scaladsl", "kafka-broker"
+      "kafka-client", "kafka-client-scaladsl", "kafka-broker-scaladsl", "kafka-broker", "testkit-scaladsl"
     ]
     // as usual with scripted-plugin, sigh
     deps.ignore: ["org.scala-sbt#scripted-plugin"]
