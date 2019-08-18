@@ -75,6 +75,8 @@ set commands ++= {
   }
   def removeScalacOptions(s: State, args: Seq[String]): State =
     alterTask(s, scalacOptions)(_.filterNot(args.contains))
+  def removeJavaOptions(s: State, args: Seq[String]): State =
+    alterTask(s, javaOptions)(_.filterNot(args.contains))
   def removeDependency(s: State, args: Seq[String]): State = {
     require(args.size == 2)
     alterSetting(s, libraryDependencies)(
@@ -83,6 +85,7 @@ set commands ++= {
   Seq(
     Command.args("appendScalacOptions", "<option>")(appendScalacOptions),
     Command.args("removeScalacOptions", "<option>")(removeScalacOptions),
+    Command.args("removeJavaOptions", "<option>")(removeJavaOptions),
     Command.args("removeDependency", "<org> <artifact>")(removeDependency))
 }
 """
@@ -954,6 +957,8 @@ build += {
     extra.commands: ${vars.default-commands} [
       // JDK 11+: failing test; not investigated or reported upstream. OutOfMemoryError
       """set utilCore / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "FutureTest.scala""""
+      // not supported on JDK 11+
+      "removeJavaOptions -XX:+UseParNewGC"
     ]
   }
 
