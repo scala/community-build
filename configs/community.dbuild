@@ -285,6 +285,15 @@ build += {
     extra.exclude: ["docs"]
   }
 
+  ${vars.base} {
+    name: "scala-hedgehog"
+    uri:  ${vars.uris.scala-hedgehog-uri}
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+      "set every bintrayOmitLicense := true"
+    ]
+  }
+
   // dependency of cats
   // temporarily forked (April 2019) pending merge of https://github.com/milessabin/export-hook/pull/34
   ${vars.base} {
