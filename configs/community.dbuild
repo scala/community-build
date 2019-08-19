@@ -267,19 +267,23 @@ build += {
   }
 
   ${vars.base} {
-    name: "scala-collection-contrib"
-    uri:  ${vars.uris.scala-collection-contrib-uri}
-    extra.projects: ["scala-collection-contrib"]   // just JVM
-    extra.commands: ${vars.base.extra.commands} [
-      // work around https://github.com/scala/community-builds/issues/575
-      // (in a community build context, we don't need MiMa to run)
-      "set every ScalaModulePlugin.mimaPreviousVersion := None"
+    name: "scala-typed-holes"
+    uri:  ${vars.uris.scala-typed-holes-uri}
+    extra.exclude: ["docs"]
+  }
+
+  ${vars.base} {
+    name: "scala-hedgehog"
+    uri:  ${vars.uris.scala-hedgehog-uri}
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+      "set every bintrayOmitLicense := true"
     ]
   }
 
   ${vars.base} {
-    name: "scala-parallel-collections"
-    uri:  ${vars.uris.scala-parallel-collections-uri}
+    name: "splain"
+    uri:  ${vars.uris.splain-uri}
   }
 
   // dependency of cats
@@ -1791,6 +1795,13 @@ build += {
     ]
   }
 
+  // depends on spire
+  ${vars.base} {
+    name: "libra"
+    uri: ${vars.uris.libra-uri}
+    extra.exclude: ["docs"]
+  }
+
   ${vars.base} {
     name: "breeze"
     uri:  ${vars.uris.breeze-uri}
@@ -2288,6 +2299,27 @@ build += {
     name: "atto"
     uri:  ${vars.uris.atto-uri}
     extra.projects: ["coreJVM", "refinedJVM", "fs2JVM", "testsJVM"]
+  }
+
+  // depends on atto
+  ${vars.base} {
+    name: "droste"
+    uri:  ${vars.uris.droste-uri}
+    extra.exclude: [
+      // out of scope
+      "*JS", "docs", "readme", "publish", "coverage"
+      // [error] **** Missing dependency: the library io.github.stanch#reftree
+      "reftree"
+    ]
+    extra.commands: ${vars.default-commands} [
+      // Scaladoc generation failure:
+      // java.lang.ArrayIndexOutOfBoundsException: 110
+      //   scala.reflect.internal.util.BatchSourceFile.findLine$1(SourceFile.scala:199)
+      "set coreJVM / Compile / doc / sources := List()"
+      // StreamTests.monoid.combine all: Gave up after only 18 passed tests. 501 tests were discarded.
+      """set testsJVM / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "StreamTests.scala" || "ListTests.scala""""
+
+    ]
   }
 
   // core doesn't depend on refined, but refinedJVM does.
