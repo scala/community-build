@@ -2564,9 +2564,8 @@ build += {
       // java.lang.ArrayIndexOutOfBoundsException: 110
       //   scala.reflect.internal.util.BatchSourceFile.findLine$1(SourceFile.scala:199)
       "set coreJVM / Compile / doc / sources := List()"
-      // StreamTests.monoid.combine all: Gave up after only 18 passed tests. 501 tests were discarded.
+      // https://github.com/higherkindness/droste/issues/121
       """set testsJVM / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "StreamTests.scala" || "ListTests.scala""""
-
     ]
   }
 
