@@ -279,6 +279,12 @@ build += {
     ]
   }
 
+  ${vars.base} {
+    name: "scala-typed-holes"
+    uri:  ${vars.uris.scala-typed-holes-uri}
+    extra.exclude: ["docs"]
+  }
+
   // dependency of cats
   // temporarily forked (April 2019) pending merge of https://github.com/milessabin/export-hook/pull/34
   ${vars.base} {
