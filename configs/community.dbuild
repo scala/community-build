@@ -294,6 +294,11 @@ build += {
     ]
   }
 
+  ${vars.base} {
+    name: "splain"
+    uri:  ${vars.uris.splain-uri}
+  }
+
   // dependency of cats
   // temporarily forked (April 2019) pending merge of https://github.com/milessabin/export-hook/pull/34
   ${vars.base} {
