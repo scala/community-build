@@ -267,6 +267,22 @@ build += {
   }
 
   ${vars.base} {
+    name: "scala-collection-contrib"
+    uri:  ${vars.uris.scala-collection-contrib-uri}
+    extra.projects: ["scala-collection-contrib"]   // just JVM
+    extra.commands: ${vars.base.extra.commands} [
+      // work around https://github.com/scala/community-builds/issues/575
+      // (in a community build context, we don't need MiMa to run)
+      "set every ScalaModulePlugin.mimaPreviousVersion := None"
+    ]
+  }
+
+  ${vars.base} {
+    name: "scala-parallel-collections"
+    uri:  ${vars.uris.scala-parallel-collections-uri}
+  }
+
+  ${vars.base} {
     name: "scala-typed-holes"
     uri:  ${vars.uris.scala-typed-holes-uri}
     extra.exclude: ["docs"]
