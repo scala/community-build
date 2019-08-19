@@ -1841,6 +1841,13 @@ build += {
     ]
   }
 
+  // depends on spire
+  ${vars.base} {
+    name: "libra"
+    uri: ${vars.uris.libra-uri}
+    extra.exclude: ["docs"]
+  }
+
   ${vars.base} {
     name: "breeze"
     uri:  ${vars.uris.breeze-uri}
