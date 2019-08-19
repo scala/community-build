@@ -702,7 +702,7 @@ build += {
       "set scalacOptions in Compile in stream --= Seq(\"-release\", \"8\")"
       "set scalacOptions in Jdk9.CompileJdk9 in stream --= Seq(\"-release\", \"11\")"
       // especially prone to intermittent failure
-      """set remote / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "LargeMessagesStreamSpec.scala""""
+      """set remote / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "LargeMessagesStreamSpec.scala" || "RemoteDeathWatchSpec.scala""""
     ]
     extra.exclude: [
       // because we already built them in "akka"
@@ -2336,9 +2336,8 @@ build += {
       // java.lang.ArrayIndexOutOfBoundsException: 110
       //   scala.reflect.internal.util.BatchSourceFile.findLine$1(SourceFile.scala:199)
       "set coreJVM / Compile / doc / sources := List()"
-      // StreamTests.monoid.combine all: Gave up after only 18 passed tests. 501 tests were discarded.
+      // https://github.com/higherkindness/droste/issues/121
       """set testsJVM / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "StreamTests.scala" || "ListTests.scala""""
-
     ]
   }
 
