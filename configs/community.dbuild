@@ -685,6 +685,8 @@ build += {
       // prevents: Class jdk.internal.HotSpotIntrinsicCandidate not found - continuing with a stub.
       "set scalacOptions in Compile in stream --= Seq(\"-release\", \"8\")"
       "set scalacOptions in Jdk9.CompileJdk9 in stream --= Seq(\"-release\", \"11\")"
+      // especially prone to intermittent failure
+      """set remote / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "LargeMessagesStreamSpec.scala""""
     ]
     extra.exclude: [
       // because we already built them in "akka"
