@@ -2525,6 +2525,27 @@ build += {
     extra.projects: ["coreJVM", "refinedJVM", "fs2JVM", "testsJVM"]
   }
 
+  // depends on atto
+  ${vars.base} {
+    name: "droste"
+    uri:  ${vars.uris.droste-uri}
+    extra.exclude: [
+      // out of scope
+      "*JS", "docs", "readme", "publish", "coverage"
+      // [error] **** Missing dependency: the library io.github.stanch#reftree
+      "reftree"
+    ]
+    extra.commands: ${vars.default-commands} [
+      // Scaladoc generation failure:
+      // java.lang.ArrayIndexOutOfBoundsException: 110
+      //   scala.reflect.internal.util.BatchSourceFile.findLine$1(SourceFile.scala:199)
+      "set coreJVM / Compile / doc / sources := List()"
+      // StreamTests.monoid.combine all: Gave up after only 18 passed tests. 501 tests were discarded.
+      """set testsJVM / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "StreamTests.scala" || "ListTests.scala""""
+
+    ]
+  }
+
   // core doesn't depend on refined, but refinedJVM does.
   // frozen (July 2019) just before ScalaTest 3.1 upgrade (2.13 support also)
   ${vars.base} {
