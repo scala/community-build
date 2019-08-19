@@ -35,7 +35,7 @@ object SuccessReport {
   val jdk11Failures = Set(
     "coursier",  // needs scala/bug#11125 workaround
     "doobie",  // needs scala/bug#11125 workaround
-    "lagom",  // "javadoc: error - invalid flag: -d"
+    "multibot",  //  - testScalaInterpreter *** FAILED ***; [java.lang.SecurityException: ("java.lang.RuntimePermission" "accessSystemModules")
     "sbt-util",  // needs scala/bug#11125 workaround
     "scala-debugger",  // "object FieldInfo is not a member of package sun.reflect"
     "scala-refactoring",  // needs scala/bug#11125 workaround?
@@ -48,12 +48,8 @@ object SuccessReport {
       case "1.8" =>
         Set(
         )
-      case "11" =>
-        jdk11Failures
       case _ =>
-        jdk11Failures ++ Set(
-          "play-file-watch"  // https://github.com/playframework/play-file-watch/issues/46
-        )
+        jdk11Failures
     }
 
   def apply(log: io.Source): Unit = {
