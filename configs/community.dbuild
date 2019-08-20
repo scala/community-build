@@ -727,8 +727,8 @@ build += {
     extra.commands: ${vars.default-commands} [
       // https://github.com/scala/community-builds/issues/373
       "set every apiURL := None"
-      // 2.13: failing test; not investigated or reported upstream
-      """set excludeFilter in (Test, unmanagedSources) in actorTypedTests := HiddenFileFilter || "ActorContextPipeToSelfSpec.scala""""
+      // especially prone to intermittent failure
+      """set actorTypedTests / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "ActorContextPipeToSelfSpec.scala""""
     ]
     extra.exclude: [
       "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
