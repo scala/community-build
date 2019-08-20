@@ -44,7 +44,7 @@ vars {
   default-commands: []
   sbt-0-13-version: "0.13.18"
   sbt-1-2-version: "1.2.8"
-  sbt-version: "1.3.0-RC3"
+  sbt-version: "1.3.0-RC4"
 }
 
 //// compiler options manipulation
@@ -261,10 +261,6 @@ build += {
     extra.commands: ${vars.default-commands} [
       // makes "configuration not public" errors downstream go away
       "set every publishMavenStyle := false"
-      // sbt 1.3.0-RC3 specific:
-      // [warn] Credentials file /Users/tisue/.sbt/specs2.credentials does not exist
-      // [error] java.lang.RuntimeException: Credentials file /Users/tisue/.sbt/specs2.credentials does not exist
-      "set every credentials := Seq()"
     ]
   }
 
@@ -336,10 +332,6 @@ build += {
     name: "discipline"
     uri:  ${vars.uris.discipline-uri}
     extra.projects: ["disciplineJVM"]  // no Scala.js please
-    extra.commands: ${vars.default-commands} [
-      // sbt 1.3.0-RC3 specific: Credentials file [...] does not exist
-      "set every credentials := Seq()"
-    ]
   }
 
   // frozen (March 2018) at a March 2018 commit before an sbt-catalysts version
@@ -355,10 +347,6 @@ build += {
     name: "machinist"
     uri:  ${vars.uris.machinist-uri}
     extra.projects: ["machinistJVM"]  // no Scala.js please
-    extra.commands: ${vars.default-commands} [
-      // sbt 1.3.0-RC3 specific: Credentials file [...] does not exist
-      "set every credentials := Seq()"
-    ]
   }
 
   ${vars.base} {
@@ -415,10 +403,6 @@ build += {
     name: "claimant"
     uri:  ${vars.uris.claimant-uri}
     extra.exclude: ["root", "mcJS", "coreJS"]  // no Scala.js plz
-    extra.commands: ${vars.default-commands} [
-      // sbt 1.3.0-RC3 specific: Credentials file [...] does not exist
-      "set every credentials := Seq()"
-    ]
   }
 
   ${vars.base} {
@@ -429,8 +413,6 @@ build += {
     extra.projects: ["core"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
-      // sbt 1.3.0-RC3 specific: Credentials file [...] does not exist
-      "set every credentials := Seq()"
     ]
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     // ignore missing org.scala-sbt#scripted-plugin
@@ -440,11 +422,6 @@ build += {
   ${vars.base} {
     name: "genjavadoc"
     uri:  ${vars.uris.genjavadoc-uri}
-    // failed compilation on sbt 1.3.0-RC3; not investigated
-    // [genjavadoc] [error] ## Exception when compiling 8 sources to /Users/tisue/community.212/target-0.9.16/project-builds/genjavadoc-6b88a0370f6ac590936bca7f545b84205dd0627f/plugin/target/scala-2.12/test-classes
-    // [genjavadoc] [error] java.lang.NullPointerException
-    // [genjavadoc] [error] scala.tools.nsc.backend.jvm.GenBCode$BCodePhase.close(GenBCode.scala:101)
-    extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
   // if master proves difficult to track, the 0.6.x branch could be
@@ -453,8 +430,6 @@ build += {
   ${vars.base} {
     name: "scala-js"
     uri:  ${vars.uris.scala-js-uri}
-    // ScalaJSCrossVersion.scala:34:23: stable identifier required, but sbt.`package`.CrossVersion.Disabled found.
-    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: [
       // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
       "-Xmx2048m"
@@ -496,8 +471,6 @@ build += {
     extra.commands: ${vars.default-commands} [
       // not sure if necessary, but we have it in the specs entry, so let's have it here too
       "set every publishMavenStyle := false"
-      // sbt 1.3.0-RC3 specific: Credentials file [...] does not exist
-      "set every credentials := Seq()"
     ]
   }
 
@@ -590,10 +563,6 @@ build += {
     // reported upstream at https://github.com/nbronson/scala-stm/issues/53
     // (report updated December 2017)
     extra.test-tasks: ["compile"]
-    extra.commands: ${vars.default-commands} [
-      // sbt 1.3.0-RC3 specific: Credentials file [...] does not exist
-      "set every credentials := Seq()"
-    ]
   }
 
   ${vars.base} {
@@ -654,9 +623,6 @@ build += {
   ${vars.base} {
     name: "akka-stream"
     uri:  ${vars.uris.akka-uri}
-    // doc failures on sbt 1.3.0-RC1 or RC2; not investigated; we should try 1.3.0-RC3
-    // Unexpected javac output: javadoc: error - invalid flag: --ignore-source-errors.
-    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"
       // repo readme recommended
       "-Xmx2g"
@@ -905,9 +871,6 @@ build += {
   ${vars.base} {
     name: "parboiled2"
     uri:  ${vars.uris.parboiled2-uri}
-    // failed on sbt 1.3.0-RC3; not investigated
-    // java.util.zip.ZipException: duplicate entry: LICENSE
-    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: ["parboiledJVM", "examples"]
     extra.commands: ${vars.base.extra.commands} [
       // errors, who knows why
@@ -986,8 +949,6 @@ build += {
   ${vars.base} {
     name: "mima"
     uri:  ${vars.uris.mima-uri}
-    // [error] java.lang.NoClassDefFoundError: xsbt/ZincCompiler$sbtDependency$
-    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.exclude: [
       // we don't compile sbt plugins
       "sbtplugin"
@@ -1121,9 +1082,6 @@ build += {
   ${vars.base} {
     name: "playframework"
     uri:  ${vars.uris.playframework-uri}
-    // compilation failure on sbt 1.3.0-RC3; not investigated
-    // error] Symbol 'type play.api.libs.ws.WSBodyWritables' is missing from the classpath
-    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.exclude: [
       "Play-Docs", "Sbt-Plugin", "Play-Docs-Sbt-Plugin"  // out of scope
       "Play-Integration-Test"  // TODO/WIP, see https://github.com/scala/community-builds/pull/819
@@ -1321,17 +1279,12 @@ build += {
     name: "log4s"
     uri:  ${vars.uris.log4s-uri}
     extra.exclude: ["coreJS", "testingJS"]
-    // failed tests on 1.3; not investigated
-    extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
   // frozen (April 2019) at v0.14.0 tag since that's the version http4s wants
   ${vars.base} {
     name: "blaze"
     uri: ${vars.uris.blaze-uri}
-    // failed extraction on 1.3.0-RC3; not investigated
-    // [blaze] [error] (update) sbt.librarymanagement.ResolveException: Error downloading org.xerial.sbt:sbt-sonatype;sbtVersion=1.0;scalaVersion=2.12:1.1
-    extra.sbt-version: ${vars.sbt-1-2-version}
   }
 
   // frozen (June 2019) at May 2019 commit just before sbt->mill move
@@ -1435,14 +1388,8 @@ build += {
   ${vars.base} {
     name: "doodle"
     uri: ${vars.uris.doodle-uri}
-    // [doodle] [error] Symbol 'type doodle.explore.syntax.ExploreSyntax' is missing from the classpath.
-    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: [
       "coreJVM", "java2d", "exploreJVM", "imageJVM", "turtleJVM"  // no Scala.js plz
-    ]
-    extra.commands: ${vars.default-commands} [
-      // sbt 1.3.0-RC3 specific: Credentials file [...] does not exist
-      "set every credentials := Seq()"
     ]
   }
 
@@ -1471,9 +1418,6 @@ build += {
   ${vars.base} {
     name: "play-webgoat"
     uri: ${vars.uris.play-webgoat-uri}
-    // compilation failure on 1.3; not investigated
-    // object index is not a member of package views.html
-    extra.sbt-version: ${vars.sbt-1-2-version}
     // not sure how this gets pulled in but it's just doc not code, I think?
     // so let's just ignore that it's missing
     extra.commands: ${vars.default-commands} [
@@ -1491,9 +1435,6 @@ build += {
   ${vars.base} {
     name: "sbt-io"
     uri:  ${vars.uris.sbt-io-uri}
-    // failed extraction on 1.3.0-RC3 (ResolveException on org.boris:pecoff4j:0.0.2.1);
-    // see remarks at https://github.com/scala/community-builds/pull/909
-    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     // we have to disable this early (extra.commands isn't soon enough)
     // or scalafmt will run `update` and `cloc-plugin` won't be found
@@ -1701,10 +1642,6 @@ build += {
     name: "metrics-scala"
     uri:  ${vars.uris.metrics-scala-uri}
     extra.exclude: ["metricsAkka24"]  // our Akka version is 25
-    extra.commands: ${vars.default-commands} [
-      // sbt 1.3.0-RC3 specific: Credentials file [...] does not exist
-      "set every credentials := Seq()"
-    ]
   }
 
   // forked (April 2018) because some classpath-handling code didn't
@@ -1878,8 +1815,6 @@ build += {
     // changed their dependency yet
     deps.inject: ["org.typelevel#spire"]
     extra.commands: ${vars.default-commands} [
-      // sbt 1.3.0-RC3 specific: Credentials file [...] does not exist
-      "set every credentials := Seq()"
       "removeDependency org.spire-math spire"
     ]
   }
@@ -2093,10 +2028,6 @@ build += {
     name: "quicklens"
     uri:  ${vars.uris.quicklens-uri}
     extra.projects: ["quicklensJVM"]
-    extra.commands: ${vars.default-commands} [
-      // sbt 1.3.0-RC3 specific: Credentials file [...] does not exist
-      "set every credentials := Seq()"
-    ]
   }
 
   ${vars.base} {
@@ -2158,9 +2089,6 @@ build += {
   ${vars.base} {
     name: "sbt-util"
     uri:  ${vars.uris.sbt-util-uri}
-    // failed extraction on 1.3.0-RC3 (ResolveException on org.boris:pecoff4j:0.0.2.1);
-    // see remarks at https://github.com/scala/community-builds/pull/909
-    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every scalafmtOnCompile := false"
@@ -2172,9 +2100,6 @@ build += {
   ${vars.base} {
     name: "sbt-librarymanagement"
     uri:  ${vars.uris.sbt-librarymanagement-uri}
-    // failed extraction on 1.3.0-RC3 (ResolveException on org.boris:pecoff4j:0.0.2.1);
-    // see remarks at https://github.com/scala/community-builds/pull/909
-    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     // we have to disable this early (extra.commands isn't soon enough)
     // or scalafmt will run `update` and `cloc-plugin` won't be found
@@ -2384,9 +2309,6 @@ build += {
   ${vars.base} {
     name: "circe"
     uri:  ${vars.uris.circe-uri}
-    // failed compilation on sbt 1.3.0-RC3; not investigated
-    // Symbol 'type io.circe.java8.time.JavaTimeDecoders' is missing from the classpath
-    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: [
       // easy
       "coreJVM", "numbersJVM"
@@ -2417,9 +2339,6 @@ build += {
   ${vars.base} {
     name: "http4s-parboiled2"
     uri:  ${vars.uris.http4s-parboiled2-uri}
-    // failed compilation on sbt 1.3.0-RC3; not investigated
-    // java.util.zip.ZipException: duplicate entry: LICENSE
-    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: ["parboiledJVM"]
     extra.commands: ${vars.base.extra.commands} [
       // otherwise sbt-gpg errors on `publish`
@@ -2459,9 +2378,6 @@ build += {
   ${vars.base} {
     name: "http4s"
     uri:  ${vars.uris.http4s-uri}
-    // compilation failure on sbt 1.3.0-RC3; not investigated
-    // Symbol 'type org.http4s.json4s.jackson.Json4sJacksonInstances' is missing from the classpath.
-    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.commands: ${vars.default-commands} [
       // UriSpec: didn't compile (October 2018), it didn't seem worth investigating, probably a specs2 change
       // EntityDecoderSpec: test started failing (August 2019), seems like a ScalaCheck issue,
@@ -2539,10 +2455,6 @@ build += {
   ${vars.base} {
     name: "avro4s"
     uri:  ${vars.uris.avro4s-uri}
-    extra.commands: ${vars.default-commands} [
-      // sbt 1.3.0-RC3 specific: Credentials file [...] does not exist
-      "set every credentials := Seq()"
-    ]
   }
 
   // in this space because refinedJVM subproject depends on refined
@@ -2587,9 +2499,6 @@ build += {
   ${vars.base} {
     name: "sttp"
     uri:  ${vars.uris.sttp-uri}
-    // compilation failure on 1.3; not investigated
-    // Symbol 'type com.softwaremill.sttp.playJson.SttpPlayJsonApi' is missing from the classpath.
-    extra.sbt-version: ${vars.sbt-1-2-version}
     // aggregates all JVM projects
     extra.projects: ["rootJVM"]
     extra.exclude: [
@@ -2669,8 +2578,6 @@ build += {
   ${vars.base} {
     name: "tsec"
     uri:  ${vars.uris.tsec-uri}
-    // on sbt 1.3.0-RC3, tsec.PasswordTest failed; not investigated
-    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.exclude: [
       "microsite", "tsec-bench"  // out of scope
       "tsec-libsodium"  // java.lang.UnsatisfiedLinkError: no sodiumjni in java.library.path
