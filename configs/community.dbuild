@@ -959,8 +959,6 @@ build += {
 
   // tracking "develop" branch.
   // try master instead if develop proves too fragile?
-  // frozen (July 2019) at July 2019 commit just before `BypassScheduler` change which broke finagle downstream;
-  //   eventually I suppose finagle will upgrade and we can unfreeze again
   ${vars.base} {
     name: "twitter-util"
     uri:  ${vars.uris.twitter-util-uri}
@@ -2104,9 +2102,6 @@ build += {
     uri:  ${vars.uris.kits-uri}
   }
 
-  // there is a "develop" branch, but master seemed like a better bet
-  // frozen (July 2019) at last commit before it stopped extracting with
-  // sbt.librarymanagement.ResolveException: unresolved dependency: com.twitter#scrooge-generator_2.12;19.7.0: not found
   ${vars.base} {
     name: "finagle"
     uri:  ${vars.uris.finagle-uri}
