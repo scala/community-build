@@ -40,6 +40,7 @@ object SuccessReport {
     "scala-debugger",  // "object FieldInfo is not a member of package sun.reflect"
     "scala-refactoring",  // needs scala/bug#11125 workaround?
     "scalafix",  // needs scala/bug#11125 workaround
+    "splain",  // needs scala/bug#11125 workaround
     "twitter-util",  // "javadoc: error - invalid flag: -d"
   )
 

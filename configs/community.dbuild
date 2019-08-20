@@ -702,14 +702,15 @@ build += {
     extra.commands: ${vars.default-commands} [
       // https://github.com/scala/community-builds/issues/373
       "set every apiURL := None"
-      // on 2.11 anyway, it seems easier for a camel to pass through the eye of a needle,
+      // on 2.11 at least, it seems easier for a camel to pass through the eye of a needle,
       // then for all of the akka-more tests to run without even a single one failing.
       // which one fails first seems to vary a lot.  common culprits excluded below.
       // failure counts, so far, for tests I'm considering also excluding:
       // * akka.persistence.typed.scaladsl.EventSourcedBehaviorSpec (1)
       // * akka.persistence.SnapshotFailureRobustnessSpec (1)
-      """set excludeFilter in (Test, unmanagedSources) in persistenceTyped := HiddenFileFilter || "LoggerSourceSpec.scala""""
-      """set excludeFilter in (Test, unmanagedSources) in actorTypedTests := HiddenFileFilter || "ActorContextPipeToSelfSpec.scala""""
+      """set persistenceTyped / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "LoggerSourceSpec.scala""""
+      // especially prone to intermittent failure
+      """set actorTypedTests / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "ActorContextPipeToSelfSpec.scala""""
     ]
     extra.exclude: [
       "akka-docs"   // this is Sphinx stuff, not really apropos here, no Sphinx on Jenkins anyway
@@ -1589,11 +1590,8 @@ build += {
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
     ]
-    // some test shutdown thing kept killing the JVM:
-    // [akka-management:error] Uncaught error from thread [sys-akka.remote.default-remote-dispatcher-7]: akka/remote/EndpointManager$EndpointRegistry$$anonfun$prune$1, shutting down JVM since 'akka.jvm-exit-on-fatal-error' is enabled for ActorSystem[sys]
-    // [akka-management:error] java.lang.NoClassDefFoundError: akka/remote/EndpointManager$EndpointRegistry$$anonfun$prune$1
-    // it doesn't seem worth investigating.  my goal today is to unfreeze lagom,
-    // not to ensure maximum coverage of akka-management itself
+    // we got errors trying to run the tests, but Patrik suggests we not bother
+    // (https://github.com/scala/community-builds/pull/962#issuecomment-522921834)
     extra.test-tasks: "compile"
   }
 
