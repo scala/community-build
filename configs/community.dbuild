@@ -715,8 +715,6 @@ build += {
     ]
   }
 
-  // frozen (May 2019) at May 2019 commit just before breaking change to javadoc generation;
-  // see https://github.com/akka/akka-http/pull/2541#issuecomment-495941809
   ${vars.base} {
     name: "akka-http"
     uri:  ${vars.uris.akka-http-uri}
@@ -727,15 +725,12 @@ build += {
     ]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
-      // Scaladoc generation failure reported upstream at https://github.com/akka/akka/issues/21543
-      "set sources in doc in Compile in httpCore := List()"
     ]
     // "HTTP is sadly very timing sensitive we're working on improving its stability regularly,
     // OK to disable it for now." - Konrad M, October 2016
-    // reconfirmed January 2018 that some tests are failing. in one run, it was:
-    // * akka.http.impl.engine.client.NewConnectionPoolSpec
-    // * akka.http.impl.engine.client.HostConnectionPoolSpec
-    extra.test-tasks: ["compile"]
+    // August 2019: for a long time we only compiled the tests. back in 2016 I didn't know how to use
+    // excludeFilter yet. let's try running them again, maybe it will be practical now, if we can
+    // exclude common culprits
   }
 
   ${vars.base} {
