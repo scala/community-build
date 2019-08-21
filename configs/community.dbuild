@@ -2529,6 +2529,9 @@ build += {
   ${vars.base} {
     name: "sttp"
     uri:  ${vars.uris.sttp-uri}
+    // shutdown failure on sbt 1.3.0-RC4; not investigated
+    // java.lang.NoClassDefFoundError: akka/http/impl/engine/client/PoolInterfaceActor$Shutdown$
+    extra.sbt-version: ${vars.sbt-1-2-version}
     // aggregates all JVM projects
     extra.projects: ["rootJVM"]
     extra.exclude: [
@@ -2608,6 +2611,8 @@ build += {
   ${vars.base} {
     name: "tsec"
     uri:  ${vars.uris.tsec-uri}
+    // on sbt 1.3.0-RC4, tsec.SignatureTest failed; not investigated
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.exclude: [
       "microsite", "tsec-bench"  // out of scope
       "tsec-libsodium"  // java.lang.UnsatisfiedLinkError: no sodiumjni in java.library.path
