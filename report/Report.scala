@@ -41,7 +41,6 @@ object SuccessReport {
     "scala-refactoring",  // needs scala/bug#11125 workaround?
     "scalafix",  // needs scala/bug#11125 workaround
     "splain",  // needs scala/bug#11125 workaround
-    "twitter-util",  // "javadoc: error - invalid flag: -d"
   )
 
   val expectedToFail: Set[String] =
