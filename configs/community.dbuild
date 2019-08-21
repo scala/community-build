@@ -1614,6 +1614,8 @@ build += {
     extra.options: [
       // hopefully avoid intermittent OutOfMemoryErrors with default heap
       "-Xmx2g"
+      // needed on sbt 1.3 to avoid NoClassDefFoundError after tests run
+      "-Dsbt.classloader.close=false"
     ]
     extra.commands: ${vars.default-commands} [
       // tests in these subprojects are too slow and (more importantly) too fragile
@@ -1621,8 +1623,6 @@ build += {
       "set executeTests in `testkit-scaladsl` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
       // more flaky tests I haven't reported upstream
       "set excludeFilter in (Test, unmanagedSources) in `server-scaladsl` := HiddenFileFilter || \"LagomApplicationSpec.scala\""
-      // wtf is this: java.lang.NoClassDefFoundError: akka/actor/dungeon/ChildrenContainer$WaitingForChildren
-      "set executeTests in client in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
     ]
     extra.exclude: [
       // Missing dependency: com.typesafe.akka#akka-stream-kafka
@@ -2521,9 +2521,8 @@ build += {
   ${vars.base} {
     name: "sttp"
     uri:  ${vars.uris.sttp-uri}
-    // shutdown failure on sbt 1.3.0-RC4; not investigated
-    // java.lang.NoClassDefFoundError: akka/http/impl/engine/client/PoolInterfaceActor$Shutdown$
-    extra.sbt-version: ${vars.sbt-1-2-version}
+    // needed on sbt 1.3 to avoid NoClassDefFoundError after tests run
+    extra.options: ["-Dsbt.classloader.close=false"]
     // aggregates all JVM projects
     extra.projects: ["rootJVM"]
     extra.exclude: [
