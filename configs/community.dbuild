@@ -1437,6 +1437,9 @@ build += {
   ${vars.base} {
     name: "sbt-io"
     uri:  ${vars.uris.sbt-io-uri}
+    // failed extraction on 1.3.0-RC4 (ResolveException on org.boris:pecoff4j:0.0.2.1);
+    // see remarks at https://github.com/scala/community-builds/pull/909
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     // we have to disable this early (extra.commands isn't soon enough)
     // or scalafmt will run `update` and `cloc-plugin` won't be found
@@ -2091,6 +2094,9 @@ build += {
   ${vars.base} {
     name: "sbt-util"
     uri:  ${vars.uris.sbt-util-uri}
+    // failed extraction on 1.3.0-RC4 (ResolveException on org.boris:pecoff4j:0.0.2.1);
+    // see remarks at https://github.com/scala/community-builds/pull/909
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every scalafmtOnCompile := false"
@@ -2102,6 +2108,9 @@ build += {
   ${vars.base} {
     name: "sbt-librarymanagement"
     uri:  ${vars.uris.sbt-librarymanagement-uri}
+    // failed extraction on 1.3.0-RC4 (ResolveException on org.boris:pecoff4j:0.0.2.1);
+    // see remarks at https://github.com/scala/community-builds/pull/909
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     // we have to disable this early (extra.commands isn't soon enough)
     // or scalafmt will run `update` and `cloc-plugin` won't be found
