@@ -1580,21 +1580,6 @@ build += {
     extra.test-tasks: "compile"
   }
 
-  // dependency of lagom
-  ${vars.base} {
-    name: "akka-management"
-    uri:  ${vars.uris.akka-management-uri}
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    // for now anyway, ambition level is just to include anything lagom needs
-    extra.projects: ["akka-management", "cluster-bootstrap", "cluster-http"]
-    extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
-    ]
-    // we got errors trying to run the tests, but Patrik suggests we not bother
-    // (https://github.com/scala/community-builds/pull/962#issuecomment-522921834)
-    extra.test-tasks: "compile"
-  }
-
   // not (as of January 2018 anyway) an actively maintained project, so it's
   // droppable if it acts up
   // 2.11: frozen (July 2019) at July 2019 commit just before Scala 2.11 support was dropped
