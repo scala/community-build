@@ -2057,6 +2057,8 @@ build += {
     uri:  ${vars.uris.kits-uri}
   }
 
+  // there is a `develop` branch, but it requires a snapshot version of the scrooge sbt plugin,
+  // so we track `master`
   ${vars.base} {
     name: "finagle"
     uri:  ${vars.uris.finagle-uri}
