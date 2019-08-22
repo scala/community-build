@@ -2002,6 +2002,8 @@ build += {
       // prevents javadoc generation from failing on JDK 11+
       """set clients/Compile/doc/javacOptions += "-Xdoclint:none""""
       """set streams/Compile/doc/javacOptions += "-Xdoclint:none""""
+      // Enno could move these to his own config
+      """set streams / unmanagedSources / excludeFilter := HiddenFileFilter || "KStreamAggregationIntegrationTest.java""""
     ]
   }
 
