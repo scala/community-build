@@ -277,6 +277,15 @@ build += {
   ${vars.base} {
     name: "scala-parallel-collections"
     uri:  ${vars.uris.scala-parallel-collections-uri}
+    // on 1.3.0-RC4, the hamcrest thing below didn't happen, but instead the entire junit dependency
+    // disappeared from the classpath. I couldn't reproduce it outside dbuild, and I couldn't
+    // find a workaround. I doubt it's worth digging into
+    extra.sbt-version: "1.2.8"
+    extra.commands: ${vars.base.extra.commands} [
+      // no idea why this would only be required in the community build context, but without it,
+      // we get java.lang.ClassNotFoundException: org.hamcrest.SelfDescribing
+      """set libraryDependencies in junit += "org.hamcrest" % "hamcrest-core" % "1.3" % Test"""
+    ]
   }
 
   ${vars.base} {
