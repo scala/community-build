@@ -710,8 +710,9 @@ build += {
     extra.commands: ${vars.default-commands} [
       // https://github.com/scala/community-builds/issues/373
       "set every apiURL := None"
-      // especially prone to intermittent failure
+      // prone to intermittent failure
       """set actorTypedTests / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "ActorContextPipeToSelfSpec.scala""""
+      """set persistence / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "AbstractPersistentFSMTest.java""""
       // too many intermittent failures in too many different tests
       "set persistenceTyped / Test / executeTests := Tests.Output(TestResult.Passed, Map(), Iterable())"
     ]
