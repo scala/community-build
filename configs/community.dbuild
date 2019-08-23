@@ -685,7 +685,7 @@ build += {
       """set clusterSharding / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "SupervisionSpec.scala""""
       """set coordination / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "LeaseDocSpec.scala" || "LeaseDocTest.java""""
       // prone to intermittent failure. several other source files depend on PersistentActorSpec
-      """set persistence / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "AbstractPersistentFSMTest.java" || "PersistentActorSpec.scala" || "EventSourcedActorFailureSpec.scala" || "TimerPersistentActorSpec.scala""""
+      """set persistence / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "PersistentActorBoundedStashingSpec.scala" || "AbstractPersistentFSMTest.java" || "PersistentActorSpec.scala" || "EventSourcedActorFailureSpec.scala" || "TimerPersistentActorSpec.scala""""
       // too many intermittent failures in too many different tests
       "set persistenceTyped / Test / executeTests := Tests.Output(TestResult.Passed, Map(), Iterable())"
     ]
