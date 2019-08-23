@@ -1581,7 +1581,7 @@ build += {
     extra.sbt-version: ${vars.sbt-0-13-version}
     extra.commands: ${vars.default-commands} [
       // intermittent failures
-      """set excludeFilter in (Test, unmanagedSources) in core := HiddenFileFilter || "CassandraReadJournalSpec.scala" || "CassandraEventUpdateSpec.scala""""
+      """set excludeFilter in (Test, unmanagedSources) in core := HiddenFileFilter || "CassandraReadJournalSpec.scala" || "CassandraEventUpdateSpec.scala" || "EventsByTagPubsubSpec.scala""""
     ]
   }
 
