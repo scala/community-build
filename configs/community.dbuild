@@ -681,7 +681,8 @@ build += {
       "set every apiURL := None"
       // prone to intermittent failure
       """set actorTypedTests / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "ActorContextPipeToSelfSpec.scala""""
-      """set persistence / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "AbstractPersistentFSMTest.java""""
+      // prone to intermittent failure. several other source files depend on PersistentActorSpec
+      """set persistence / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "AbstractPersistentFSMTest.java" || "PersistentActorSpec.scala" || "EventSourcedActorFailureSpec.scala" || "TimerPersistentActorSpec.scala""""
       // too many intermittent failures in too many different tests
       "set persistenceTyped / Test / executeTests := Tests.Output(TestResult.Passed, Map(), Iterable())"
     ]
