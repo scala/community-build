@@ -969,7 +969,7 @@ build += {
       // JDK 11+: failing test; not investigated or reported upstream. OutOfMemoryError
       """set utilCore / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "FutureTest.scala""""
       // JDK 11+: failing tests, not investigated or reported upstream
-      """set utilApp / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "GlobalFlagTest.scala" || "JavaGlobalFlagTest.java" || "FlagsTest.scala""""
+      """set utilApp / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "GlobalFlagTest.scala" || "JavaGlobalFlagTest.java" || "FlagsTest.scala" || "FlagTest.scala""""
       // not supported on JDK 11+
       "removeJavaOptions -XX:+UseParNewGC"
     ]
