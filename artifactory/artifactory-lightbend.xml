@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<config xmlns="http://artifactory.jfrog.org/xsd/2.1.5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jfrog.org/xsd/artifactory-v2_1_5.xsd">
+<config xmlns="http://artifactory.jfrog.org/xsd/2.2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jfrog.org/xsd/artifactory-v2_2_1.xsd">
     <offlineMode>false</offlineMode>
     <helpLinksEnabled>true</helpLinksEnabled>
     <fileUploadMaxSizeMb>100</fileUploadMaxSizeMb>
-    <revision>9</revision>
+    <revision>10</revision>
     <dateFormat>dd-MM-yy HH:mm:ss z</dateFormat>
     <addons>
         <showAddonsInfo>true</showAddonsInfo>
@@ -11,7 +11,6 @@
     </addons>
     <security>
         <anonAccessEnabled>true</anonAccessEnabled>
-        <anonAccessToBuildInfosDisabled>false</anonAccessToBuildInfosDisabled>
         <hideUnauthorizedResources>false</hideUnauthorizedResources>
         <passwordSettings>
             <encryptionPolicy>supported</encryptionPolicy>
@@ -33,9 +32,11 @@
             <loginAttempts>5</loginAttempts>
         </userLockPolicy>
         <accessClientSettings>
-            <adminToken>eyJ2ZXIiOiIyIiwidHlwIjoiSldUIiwiYWxnIjoiUlMyNTYiLCJraWQiOiJuUWxpY3pQYnIyNFVUZ2xUVWgzSGQxQVh5RTh6TG52SllfNlEwcE91Uko0In0.eyJzdWIiOiJqZnJ0QDAxY210OXJrZDQ2a2F3MTg0cTJjN2MxcWRnIiwic2NwIjoiYWRtaW4iLCJhdWQiOiJqZmFjQDAxY210OXBiMTAzdDFkMDJjeHhoemcwNzRtIiwiaXNzIjoiamZhY0AwMWNtdDlwYjEwM3QxZDAyY3h4aHpnMDc0bSIsImV4cCI6MjQ4MDI2NjA2MCwiaWF0IjoxNTM0MTg2MDYwLCJqdGkiOiJlNDg0Y2FlZS03NTlmLTQ4NzMtODg4Zi0xYjMzMWI1OTZkNGYifQ.AVuPDHctNbBE4duAAEUsowSHXKw4YWwFfEUzq-Lnp_9uvxJkei1qszdWK28O5dBAugXvbuy7qN-shI_JYGB95v-1hFJ8iSIXLSjn2vMtM4GZyrDs1kPLCHqbPqCGryt9xFJ61aoUgeUKKe733rCQutHI3udFiyR_vtJKOyjlnSPAeTlwSkndNpbP0Vx2T5dKN1wRb6C1cIfu5KbCiSujzvU5IWf-MPj3e_LlYSyzsn1ZNz9qpCKxblnxlh5hV33n28TskeeHVoWnz3dD4k-a44gHaGqOjrU_AFibziZOTZlRF_KU5ErQuyrdPvHAw-WPDLowUL_KYinCNStl4NpzKg</adminToken>
+            <adminToken>AM.23YMY.AES128.3iKd3kKj6sbxtmCz42zgAwWfhbc6Puibixb5vTKqF1g85ipevDSxNrzPukx6xJuZp4uV3HBDE4FZaVjsG49dHRZZfuSQxY5Gfjsg6toTieZonofSPB8ymUYbGmkZSRRhcA2dV13WXRoSYcEdX5jjjcoRTkoMG5FY1nHdbsWyytBEFZgV9oZRXSvqzX6o9b9qhjX1L2aYD2VHfy2Leq5TVB2uLQBuuGWbRC3LY352Bz7q5avF1bpwxWM4b88i56dpCe9jxRKiD9yYTLzziCphiVipLtGcUupFwCrJZGyiKKTSNapT2QBbby3Ag9QnGbdyvovhbaq9RmmCdtj8YeS72Ui3EwyUkCzSJKQjjn3Q82DA4N3AwGKNX2GpHTWaHjRRpXe4q5z7fdTT7ErpTHDdCAP9bVXG1pVr5Lqz6TnmREjf1LzMUfrL4LL6LxoujYdixGVnV9gNPZ8tyxhkj1o4gTrYmYXr6SxYbpwijYFoUVReWsBpQXnLrQPbHb4H6bthEaaBrheN7hT6oLNDzjv5nVpceQm6D6iTbbAT3sehqah4DB5MieWgVCztahAovogNfqTujfNwUSpMC8fCVew2Ydfhw8PsNW2DpLdWvgcyqNtBMCgHfrPFeAnDAQfdg3xekFFrdNTsWwZBkzwnTbNQHdUxk5jXLXH725hNqWkEmkvnmw41gzVBCih3nD8Pzb16TmVNwnzkUwkT3nAWv5WvdbHdteGfC4K6PEbSyUd6tg88SaKtbXkJLonxXRe39kfc18ax1xKwqSFxmNrgLqSZ5ZZwXE5uFdRbPoNugMub8iKraFksruDrD78cUjSXXTWnpPgQC2EWHUK7KZcLrPvKdBTMwW5fQgSmJNiMvXVnUkMbNWBENwgqpbZMwzBQmcwVM7tBeM57WeygEydgkRDeiugoqhnYnwKLtrdMVCpLZdb6xhFhve5WzQAdCiv6Frm8ZSWGpM29VbVxgLgTyZQib3HEPM92QM3e7uio7VE9FqeyyLX4upiw7xY7Hs3nMuEgnc5az69eptG6dxtu8bouc8teqmg5H</adminToken>
             <userTokenMaxExpiresInMinutes>60</userTokenMaxExpiresInMinutes>
         </accessClientSettings>
+        <buildGlobalBasicReadAllowed>true</buildGlobalBasicReadAllowed>
+        <buildGlobalBasicReadForAnonymous>true</buildGlobalBasicReadForAnonymous>
     </security>
     <backups>
         <backup>
@@ -46,7 +47,6 @@
             <createArchive>false</createArchive>
             <excludedRepositories/>
             <sendMailOnError>true</sendMailOnError>
-            <excludeBuilds>false</excludeBuilds>
             <excludeNewRepositories>false</excludeNewRepositories>
             <precalculate>false</precalculate>
         </backup>
@@ -58,7 +58,6 @@
             <createArchive>false</createArchive>
             <excludedRepositories/>
             <sendMailOnError>true</sendMailOnError>
-            <excludeBuilds>false</excludeBuilds>
             <excludeNewRepositories>false</excludeNewRepositories>
             <precalculate>false</precalculate>
         </backup>
@@ -68,6 +67,27 @@
         <cronExp>0 23 5 * * ?</cronExp>
     </indexer>
     <localRepositories>
+        <localRepository>
+            <key>artifactory-build-info</key>
+            <type>buildinfo</type>
+            <includesPattern>**/*</includesPattern>
+            <dockerApiVersion>V2</dockerApiVersion>
+            <forceNugetAuthentication>false</forceNugetAuthentication>
+            <blackedOut>false</blackedOut>
+            <handleReleases>true</handleReleases>
+            <handleSnapshots>true</handleSnapshots>
+            <maxUniqueSnapshots>0</maxUniqueSnapshots>
+            <maxUniqueTags>0</maxUniqueTags>
+            <suppressPomConsistencyChecks>true</suppressPomConsistencyChecks>
+            <propertySets/>
+            <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
+            <snapshotVersionBehavior>unique</snapshotVersionBehavior>
+            <localRepoChecksumPolicyType>client-checksums</localRepoChecksumPolicyType>
+            <calculateYumMetadata>false</calculateYumMetadata>
+            <yumRootDepth>0</yumRootDepth>
+            <debianTrivialLayout>false</debianTrivialLayout>
+            <enableFileListsIndexing>false</enableFileListsIndexing>
+        </localRepository>
         <localRepository>
             <key>ext-release-local</key>
             <type>maven</type>
@@ -1153,9 +1173,11 @@
                 <virtualRetrievalCachePeriodSecs>600</virtualRetrievalCachePeriodSecs>
             </virtualCacheConfig>
             <forceMavenAuthentication>false</forceMavenAuthentication>
+            <debianDefaultArchitectures>i386,amd64</debianDefaultArchitectures>
         </virtualRepository>
     </virtualRepositories>
     <distributionRepositories/>
+    <releaseBundlesRepositories/>
     <proxies/>
     <reverseProxies/>
     <propertySets/>
@@ -1244,10 +1266,10 @@
         </repoLayout>
         <repoLayout>
             <name>conan-default</name>
-            <artifactPathPattern>[org]/[module]/[baseRev]/[channel&lt;[^/]+&gt;][remainder&lt;(?:.*)&gt;].[ext]</artifactPathPattern>
+            <artifactPathPattern>[org]/[module]/[baseRev]/[channel&lt;[^/]+&gt;]/[folderItegRev]/(package/[package_id&lt;[^/]+&gt;]/[fileItegRev]/)?[remainder&lt;(?:.+)&gt;]</artifactPathPattern>
             <distinctiveDescriptorPathPattern>false</distinctiveDescriptorPathPattern>
-            <folderIntegrationRevisionRegExp>.*</folderIntegrationRevisionRegExp>
-            <fileIntegrationRevisionRegExp>.*</fileIntegrationRevisionRegExp>
+            <folderIntegrationRevisionRegExp>[^/]+</folderIntegrationRevisionRegExp>
+            <fileIntegrationRevisionRegExp>[^/]+</fileIntegrationRevisionRegExp>
         </repoLayout>
         <repoLayout>
             <name>puppet-default</name>
@@ -1259,6 +1281,13 @@
         <repoLayout>
             <name>go-default</name>
             <artifactPathPattern>[orgPath]/[module]/@v/v[refs].zip</artifactPathPattern>
+            <distinctiveDescriptorPathPattern>false</distinctiveDescriptorPathPattern>
+            <folderIntegrationRevisionRegExp>.*</folderIntegrationRevisionRegExp>
+            <fileIntegrationRevisionRegExp>.*</fileIntegrationRevisionRegExp>
+        </repoLayout>
+        <repoLayout>
+            <name>build-default</name>
+            <artifactPathPattern>[orgPath]/[module](-[fileItegRev]).[ext]</artifactPathPattern>
             <distinctiveDescriptorPathPattern>false</distinctiveDescriptorPathPattern>
             <folderIntegrationRevisionRegExp>.*</folderIntegrationRevisionRegExp>
             <fileIntegrationRevisionRegExp>.*</fileIntegrationRevisionRegExp>
@@ -1298,5 +1327,8 @@
     <releaseBundlesConfig>
         <incompleteCleanupPeriodHours>720</incompleteCleanupPeriodHours>
     </releaseBundlesConfig>
+    <signedUrlConfig>
+        <maxValidForSeconds>31536000</maxValidForSeconds>
+    </signedUrlConfig>
 </config>
 
