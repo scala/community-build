@@ -949,6 +949,8 @@ build += {
 
   // tracking "develop" branch.
   // try master instead if develop proves too fragile?
+  // forked (August 2019) for JDK 11+ friendliness, pending merge of
+  // https://github.com/twitter/util/pull/255
   ${vars.base} {
     name: "twitter-util"
     uri:  ${vars.uris.twitter-util-uri}
