@@ -680,7 +680,7 @@ build += {
       // https://github.com/scala/community-builds/issues/373
       "set every apiURL := None"
       // prone to intermittent failure
-      """set actorTypedTests / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "ActorContextPipeToSelfSpec.scala""""
+      """set actorTypedTests / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "ActorContextPipeToSelfSpec.java""""
       """set cluster / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "ClusterSpec.scala" || "ClusterHeartbeatReceiverSpec.scala""""
       """set clusterTools / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "ClusterSingletonLeaseSpec.scala""""
       """set clusterSharding / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "SupervisionSpec.scala""""
