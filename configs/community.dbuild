@@ -681,7 +681,7 @@ build += {
       "set every apiURL := None"
       // prone to intermittent failure
       """set actorTypedTests / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "ActorContextPipeToSelfSpec.scala" || "ActorContextPipeToSelfTest.java" || "BubblingSampleTest.java""""
-      """set cluster / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "ClusterSpec.scala" || "ClusterHeartbeatReceiverSpec.scala""""
+      """set cluster / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "ClusterSpec.scala" || "ClusterHeartbeatReceiverSpec.scala" || "ClusterMessageSerializerSpec.scala""""
       """set clusterTools / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "ClusterSingletonLeaseSpec.scala""""
       """set clusterSharding / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "SupervisionSpec.scala" || "ConcurrentStartupShardingSpec.scala""""
       """set coordination / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "LeaseDocSpec.scala" || "LeaseDocTest.java""""
