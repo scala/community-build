@@ -714,7 +714,7 @@ build += {
       """set actorTypedTests / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "ActorContextPipeToSelfSpec.scala" || "ActorContextPipeToSelfTest.java""""
       """set cluster / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "ClusterSpec.scala" || "ClusterHeartbeatReceiverSpec.scala""""
       """set clusterTools / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "ClusterSingletonLeaseSpec.scala""""
-      """set clusterSharding / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "SupervisionSpec.scala""""
+      """set clusterSharding / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "SupervisionSpec.scala" || "ConcurrentStartupShardingSpec.scala""""
       """set coordination / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "LeaseDocSpec.scala" || "LeaseDocTest.java""""
       // prone to intermittent failure. several other source files depend on PersistentActorSpec
       """set persistence / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "PersistentActorBoundedStashingSpec.scala" || "AbstractPersistentFSMTest.java" || "PersistentActorSpec.scala" || "EventSourcedActorFailureSpec.scala" || "TimerPersistentActorSpec.scala""""
