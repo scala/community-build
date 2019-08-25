@@ -606,6 +606,10 @@ build += {
   ${vars.base} {
     name: "scala-stm"
     uri:  ${vars.uris.scala-stm-uri}
+    extra.commands: ${vars.default-commands} [
+      // prone to intermittent failure
+      """set Test / unmanagedSources / excludeFilter := HiddenFileFilter || "TMapSuite.scala""""
+    ]
   }
 
   ${vars.base} {
