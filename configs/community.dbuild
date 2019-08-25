@@ -590,7 +590,7 @@ build += {
       """set managedSources in Test in genContainTests2 ~= (_.filterNot(_.getName.containsSlice("ShouldContainOnly")))"""
       // part 2: unmanaged sources
       """set excludeFilter in (Test, unmanagedSources) in scalacticTest := HiddenFileFilter || "ChainSpec.scala" || "ChainTest.scala" || "EverySpec.scala""""
-      """set excludeFilter in (Test, unmanagedSources) in scalatestTest := HiddenFileFilter || "EveryShouldContainOnlySpec.scala" || "ListShouldContainOnlySpec.scala" || "ListShouldContainOnlyLogicalAndSpec.scala" || "EveryShouldContainOnlyLogicalAndSpec.scala" || "EveryShouldContainOnlyLogicalOrSpec.scala" || "FrameworkSuite.scala" || "ListShouldContainOnlyLogicalOrSpec.scala" || "InsideMixinSpec.scala" || "InsideSpec.scala" || "RetriesSpec.scala" || "WaitersSpec.scala""""
+      """set excludeFilter in (Test, unmanagedSources) in scalatestTest := HiddenFileFilter || "EveryShouldContainOnlySpec.scala" || "ListShouldContainOnlySpec.scala" || "ListShouldContainOnlyLogicalAndSpec.scala" || "EveryShouldContainOnlyLogicalAndSpec.scala" || "EveryShouldContainOnlyLogicalOrSpec.scala" || "FrameworkSuite.scala" || "ListShouldContainOnlyLogicalOrSpec.scala" || "InsideMixinSpec.scala" || "InsideSpec.scala" || "RetriesSpec.scala" || "WaitersSpec.scala" || "ScalaFuturesSpec.scala" || "DispatchReporterSpec.scala""""
     ]
   }
 
@@ -692,8 +692,8 @@ build += {
       "set scalacOptions in Compile in stream --= Seq(\"-release\", \"8\")"
       "set scalacOptions in Jdk9.CompileJdk9 in stream --= Seq(\"-release\", \"11\")"
       // especially prone to intermittent failure
-      """set remote / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "LargeMessagesStreamSpec.scala" || "RemoteDeathWatchSpec.scala" || "SendQueueSpec.scala""""
-      """set streamTests / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "RestartSpec.scala""""
+      """set remote / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "LargeMessagesStreamSpec.scala" || "RemoteDeathWatchSpec.scala" || "SendQueueSpec.scala" || "RemotingSpec.scala""""
+      """set streamTests / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "RestartSpec.scala" || "TlsSpec.scala""""
     ]
     extra.exclude: [
       // because we already built them in "akka"
@@ -2007,7 +2007,7 @@ build += {
       """set streams/Compile/doc/javacOptions += "-Xdoclint:none""""
       // Enno could move these to his own config
       """set core / unmanagedSources / excludeFilter := HiddenFileFilter || "GroupEndToEndAuthorizationTest.scala""""
-      """set streams / unmanagedSources / excludeFilter := HiddenFileFilter || "KStreamAggregationIntegrationTest.java" || "EosIntegrationTest.java""""
+      """set streams / unmanagedSources / excludeFilter := HiddenFileFilter || "KStreamAggregationIntegrationTest.java" || "EosIntegrationTest.java" || "ResetIntegrationTest.java""""
     ]
   }
 
