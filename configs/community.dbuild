@@ -556,7 +556,7 @@ build += {
     extra.options: ["-Xmx4g"]
     extra.commands: ${vars.default-commands} [
       // prone to intermittent failure
-      """set excludeFilter in (Test, unmanagedSources) in scalatestTest := HiddenFileFilter || "AsyncFunSpecSpec.scala" || "AsyncFunSpecSpec2.scala" || "WaitersSpec.scala""""
+      """set excludeFilter in (Test, unmanagedSources) in scalatestTest := HiddenFileFilter || "AsyncFunSpecSpec.scala" || "AsyncFunSpecSpec2.scala" || "WaitersSpec.scala" || "ScalaFuturesSpec.scala" || "DispatchReporterSpec.scala""""
       """set managedSources in Test in genRegularTests4 ~= (_.filterNot(_.getName == "TimeLimitsSpec.scala"))"""
     ]
   }
@@ -661,8 +661,8 @@ build += {
       "set scalacOptions in Compile in stream --= Seq(\"-release\", \"8\")"
       "set scalacOptions in Jdk9.CompileJdk9 in stream --= Seq(\"-release\", \"11\")"
       // especially prone to intermittent failure
-      """set remote / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "LargeMessagesStreamSpec.scala" || "RemoteDeathWatchSpec.scala" || "SendQueueSpec.scala""""
-      """set streamTests / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "RestartSpec.scala""""
+      """set remote / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "LargeMessagesStreamSpec.scala" || "RemoteDeathWatchSpec.scala" || "SendQueueSpec.scala" || "RemotingSpec.scala""""
+      """set streamTests / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "RestartSpec.scala" || "TlsSpec.scala""""
     ]
     extra.exclude: [
       // because we already built them in "akka"
@@ -1923,7 +1923,7 @@ build += {
       """set streams/Compile/doc/javacOptions += "-Xdoclint:none""""
       // Enno could move these to his own config
       """set core / unmanagedSources / excludeFilter := HiddenFileFilter || "GroupEndToEndAuthorizationTest.scala""""
-      """set streams / unmanagedSources / excludeFilter := HiddenFileFilter || "KStreamAggregationIntegrationTest.java" || "EosIntegrationTest.java""""
+      """set streams / unmanagedSources / excludeFilter := HiddenFileFilter || "KStreamAggregationIntegrationTest.java" || "EosIntegrationTest.java" || "ResetIntegrationTest.java""""
     ]
   }
 
