@@ -552,7 +552,7 @@ build += {
     extra.commands: ${vars.default-commands} [
       // prone to intermittent failure
       """set excludeFilter in (Test, unmanagedSources) in scalatestTest := HiddenFileFilter || "AsyncFunSpecSpec.scala" || "AsyncFunSpecSpec2.scala""""
-      """set excludeFilter in (Test, unmanagedSources) in genRegularTests4 := HiddenFileFilter || "TimeLimitsSpec.scala""""
+      """set managedSources in Test in genRegularTests4 ~= (_.filterNot(_.getName == "TimeLimitsSpec.scala"))"""
     ]
   }
 
