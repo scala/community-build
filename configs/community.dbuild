@@ -551,7 +551,7 @@ build += {
     extra.options: ["-Xmx3072m"]
     extra.commands: ${vars.default-commands} [
       // prone to intermittent failure
-      """set excludeFilter in (Test, unmanagedSources) in scalatestTest := HiddenFileFilter || "AsyncFunSpecSpec.scala" || "AsyncFunSpecSpec2.scala""""
+      """set excludeFilter in (Test, unmanagedSources) in scalatestTest := HiddenFileFilter || "AsyncFunSpecSpec.scala" || "AsyncFunSpecSpec2.scala" || "WaitersSpec.scala""""
       """set managedSources in Test in genRegularTests4 ~= (_.filterNot(_.getName == "TimeLimitsSpec.scala"))"""
     ]
   }
@@ -662,6 +662,7 @@ build += {
       "set scalacOptions in Jdk9.CompileJdk9 in stream --= Seq(\"-release\", \"11\")"
       // especially prone to intermittent failure
       """set remote / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "LargeMessagesStreamSpec.scala" || "RemoteDeathWatchSpec.scala""""
+      """set streamTests / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "RestartSpec.scala""""
     ]
     extra.exclude: [
       // because we already built them in "akka"
@@ -2028,6 +2029,7 @@ build += {
       """set clients/Compile/doc/javacOptions += "-Xdoclint:none""""
       """set streams/Compile/doc/javacOptions += "-Xdoclint:none""""
       // Enno could move these to his own config
+      """set core / unmanagedSources / excludeFilter := HiddenFileFilter || "GroupEndToEndAuthorizationTest.scala""""
       """set streams / unmanagedSources / excludeFilter := HiddenFileFilter || "KStreamAggregationIntegrationTest.java""""
     ]
   }
