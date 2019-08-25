@@ -547,6 +547,8 @@ build += {
       // idk why, but prevents dbuild-only sun.misc.Unsafe compile errors;
       // see https://github.com/scala/community-builds/issues/757
       "set scalacOptions in Compile in actor --= Seq(\"-release\", \"8\")"
+      // prone to intermittent failure
+      """set actorTests / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "BackoffSupervisorSpec.scala""""
     ]
   }
 
@@ -589,6 +591,24 @@ build += {
       """set excludeFilter in (Test, unmanagedSources) in scalacticTest := HiddenFileFilter || "ChainSpec.scala" || "ChainTest.scala" || "EverySpec.scala""""
       """set excludeFilter in (Test, unmanagedSources) in scalatestTest := HiddenFileFilter || "EveryShouldContainOnlySpec.scala" || "ListShouldContainOnlySpec.scala" || "ListShouldContainOnlyLogicalAndSpec.scala" || "EveryShouldContainOnlyLogicalAndSpec.scala" || "EveryShouldContainOnlyLogicalOrSpec.scala" || "FrameworkSuite.scala" || "ListShouldContainOnlyLogicalOrSpec.scala" || "InsideMixinSpec.scala" || "InsideSpec.scala" || "RetriesSpec.scala""""
     ]
+||||||| merged common ancestors
+  }
+
+  ${vars.base} {
+    name: "scala-partest"
+    uri:  ${vars.uris.scala-partest-uri}
+=======
+    extra.commands: ${vars.default-commands} [
+      // prone to intermittent failure
+      """set excludeFilter in (Test, unmanagedSources) in scalatestTest := HiddenFileFilter || "AsyncFunSpecSpec.scala" || "AsyncFunSpecSpec2.scala""""
+      """set excludeFilter in (Test, unmanagedSources) in genRegularTests4 := HiddenFileFilter || "TimeLimitsSpec.scala""""
+    ]
+  }
+
+  ${vars.base} {
+    name: "scala-partest"
+    uri:  ${vars.uris.scala-partest-uri}
+>>>>>>> origin/2.12.x
   }
 
   ${vars.base} {
