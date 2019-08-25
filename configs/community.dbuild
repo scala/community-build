@@ -591,24 +591,6 @@ build += {
       """set excludeFilter in (Test, unmanagedSources) in scalacticTest := HiddenFileFilter || "ChainSpec.scala" || "ChainTest.scala" || "EverySpec.scala""""
       """set excludeFilter in (Test, unmanagedSources) in scalatestTest := HiddenFileFilter || "EveryShouldContainOnlySpec.scala" || "ListShouldContainOnlySpec.scala" || "ListShouldContainOnlyLogicalAndSpec.scala" || "EveryShouldContainOnlyLogicalAndSpec.scala" || "EveryShouldContainOnlyLogicalOrSpec.scala" || "FrameworkSuite.scala" || "ListShouldContainOnlyLogicalOrSpec.scala" || "InsideMixinSpec.scala" || "InsideSpec.scala" || "RetriesSpec.scala""""
     ]
-||||||| merged common ancestors
-  }
-
-  ${vars.base} {
-    name: "scala-partest"
-    uri:  ${vars.uris.scala-partest-uri}
-=======
-    extra.commands: ${vars.default-commands} [
-      // prone to intermittent failure
-      """set excludeFilter in (Test, unmanagedSources) in scalatestTest := HiddenFileFilter || "AsyncFunSpecSpec.scala" || "AsyncFunSpecSpec2.scala""""
-      """set managedSources in Test in genRegularTests4 ~= (_.filterNot(_.getName == "TimeLimitsSpec.scala"))"""
-    ]
-  }
-
-  ${vars.base} {
-    name: "scala-partest"
-    uri:  ${vars.uris.scala-partest-uri}
->>>>>>> origin/2.12.x
   }
 
   ${vars.base} {
