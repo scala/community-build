@@ -530,7 +530,7 @@ build += {
       // see https://github.com/scala/community-builds/issues/757
       "set scalacOptions in Compile in actor --= Seq(\"-release\", \"8\")"
       // prone to intermittent failure
-      """set actorTests / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "BackoffSupervisorSpec.scala""""
+      """set actorTests / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "BackoffSupervisorSpec.scala" || "MetricsBasedResizerSpec.scala""""
     ]
   }
 
