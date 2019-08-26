@@ -554,6 +554,7 @@ build += {
       // prone to intermittent failure
       """set excludeFilter in (Test, unmanagedSources) in scalatestTest := HiddenFileFilter || "AsyncFunSpecSpec.scala" || "AsyncFunSpecSpec2.scala" || "WaitersSpec.scala" || "ScalaFuturesSpec.scala" || "DispatchReporterSpec.scala" || "AsyncFunSpecLikeSpec2.scala" || "JUnitSuiteSpec.scala" || "AsyncFeatureSpecLikeSpec2.scala" || "ConductorFixtureSuite.scala" || "AsyncAssertionsSpec.scala""""
       """set managedSources in Test in genRegularTests4 ~= (_.filterNot(_.getName == "TimeLimitsSpec.scala").filterNot(_.getName == "AsyncAssertionsSpec.scala").filterNot(_.getName == "WaitersSpec.scala"))"""
+      """set managedSources in Test in genRegularTests5 ~= (_.filterNot(_.getName == "AsyncFunSpecSpec2.scala"))"""
     ]
   }
 
