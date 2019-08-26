@@ -557,7 +557,7 @@ build += {
     extra.commands: ${vars.default-commands} [
       // prone to intermittent failure
       """set excludeFilter in (Test, unmanagedSources) in scalatestTest := HiddenFileFilter || "AsyncFunSpecSpec.scala" || "AsyncFunSpecSpec2.scala" || "WaitersSpec.scala" || "ScalaFuturesSpec.scala" || "DispatchReporterSpec.scala""""
-      """set managedSources in Test in genRegularTests4 ~= (_.filterNot(_.getName == "TimeLimitsSpec.scala"))"""
+      """set managedSources in Test in genRegularTests4 ~= (_.filterNot(_.getName == "TimeLimitsSpec.scala").filterNot(_.getName == "AsyncAssertionsSpec.scala"))"""
     ]
   }
 
@@ -1922,7 +1922,7 @@ build += {
       """set clients/Compile/doc/javacOptions += "-Xdoclint:none""""
       """set streams/Compile/doc/javacOptions += "-Xdoclint:none""""
       // Enno could move these to his own config
-      """set core / unmanagedSources / excludeFilter := HiddenFileFilter || "GroupEndToEndAuthorizationTest.scala""""
+      """set core / unmanagedSources / excludeFilter := HiddenFileFilter || "GroupEndToEndAuthorizationTest.scala" || "SaslPlainSslEndToEndAuthorizationTest.scala""""
       """set streams / unmanagedSources / excludeFilter := HiddenFileFilter || "KStreamAggregationIntegrationTest.java" || "EosIntegrationTest.java" || "ResetIntegrationTest.java""""
     ]
   }
