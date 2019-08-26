@@ -662,8 +662,8 @@ build += {
       "set scalacOptions in Compile in stream --= Seq(\"-release\", \"8\")"
       "set scalacOptions in Jdk9.CompileJdk9 in stream --= Seq(\"-release\", \"11\")"
       // especially prone to intermittent failure
-      """set remote / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "LargeMessagesStreamSpec.scala" || "RemoteDeathWatchSpec.scala" || "SendQueueSpec.scala" || "RemotingSpec.scala""""
-      """set streamTests / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "RestartSpec.scala" || "TlsSpec.scala""""
+      """set remote / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "LargeMessagesStreamSpec.scala" || "RemoteDeathWatchSpec.scala" || "SendQueueSpec.scala" || "RemotingSpec.scala" || "RemoteActorForSpec.scala""""
+      """set streamTests / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "RestartSpec.scala" || "TlsSpec.scala" || "InputStreamSinkSpec.scala""""
     ]
     extra.exclude: [
       // because we already built them in "akka"
