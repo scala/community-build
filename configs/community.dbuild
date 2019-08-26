@@ -587,6 +587,7 @@ build += {
       """set managedSources in Test in genMustMatchersTests3 ~= (_.filterNot(_.getName == "ListMustContainOnlySpec.scala"))"""
       """set managedSources in Test in genRegularTests3 ~= (_.filterNot(_.getName == "ListShouldContainOnlyLogicalOrSpec.scala"))"""
       """set managedSources in Test in genRegularTests4 ~= (_.filterNot(_.getName == "FrameworkSuite.scala").filterNot(_.getName == "InsideMixinSpec.scala").filterNot(_.getName == "TimeLimitsSpec.scala").filterNot(_.getName == "AsyncAssertionsSpec.scala").filterNot(_.getName == "WaitersSpec.scala"))"""
+      """set managedSources in Test in genRegularTests5 ~= (_.filterNot(_.getName == "AsyncFunSpecSpec2.scala"))"""
       """set managedSources in Test in genContainTests2 ~= (_.filterNot(_.getName.containsSlice("ShouldContainOnly")))"""
       // part 2: unmanaged sources
       """set excludeFilter in (Test, unmanagedSources) in scalacticTest := HiddenFileFilter || "ChainSpec.scala" || "ChainTest.scala" || "EverySpec.scala""""
