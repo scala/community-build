@@ -590,7 +590,7 @@ build += {
       """set managedSources in Test in genContainTests2 ~= (_.filterNot(_.getName.containsSlice("ShouldContainOnly")))"""
       // part 2: unmanaged sources
       """set excludeFilter in (Test, unmanagedSources) in scalacticTest := HiddenFileFilter || "ChainSpec.scala" || "ChainTest.scala" || "EverySpec.scala""""
-      """set excludeFilter in (Test, unmanagedSources) in scalatestTest := HiddenFileFilter || "EveryShouldContainOnlySpec.scala" || "ListShouldContainOnlySpec.scala" || "ListShouldContainOnlyLogicalAndSpec.scala" || "EveryShouldContainOnlyLogicalAndSpec.scala" || "EveryShouldContainOnlyLogicalOrSpec.scala" || "FrameworkSuite.scala" || "ListShouldContainOnlyLogicalOrSpec.scala" || "InsideMixinSpec.scala" || "InsideSpec.scala" || "RetriesSpec.scala" || "WaitersSpec.scala" || "ScalaFuturesSpec.scala" || "DispatchReporterSpec.scala""""
+      """set excludeFilter in (Test, unmanagedSources) in scalatestTest := HiddenFileFilter || "EveryShouldContainOnlySpec.scala" || "ListShouldContainOnlySpec.scala" || "ListShouldContainOnlyLogicalAndSpec.scala" || "EveryShouldContainOnlyLogicalAndSpec.scala" || "EveryShouldContainOnlyLogicalOrSpec.scala" || "FrameworkSuite.scala" || "ListShouldContainOnlyLogicalOrSpec.scala" || "InsideMixinSpec.scala" || "InsideSpec.scala" || "RetriesSpec.scala" || "WaitersSpec.scala" || "ScalaFuturesSpec.scala" || "DispatchReporterSpec.scala" || "AsyncFunSpecLikeSpec2.scala" || "JUnitSuiteSpec.scala" || "AsyncFeatureSpecLikeSpec2.scala""""
     ]
   }
 
@@ -750,12 +750,8 @@ build += {
     ]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
+      """set http2Support / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "WithPriorKnowledgeSpec.scala""""
     ]
-    // "HTTP is sadly very timing sensitive we're working on improving its stability regularly,
-    // OK to disable it for now." - Konrad M, October 2016
-    // August 2019: for a long time we only compiled the tests. back in 2016 I didn't know how to use
-    // excludeFilter yet. let's try running them again, maybe it will be practical now, if we can
-    // exclude common culprits
   }
 
   ${vars.base} {
@@ -2006,7 +2002,7 @@ build += {
       """set clients/Compile/doc/javacOptions += "-Xdoclint:none""""
       """set streams/Compile/doc/javacOptions += "-Xdoclint:none""""
       // Enno could move these to his own config
-      """set core / unmanagedSources / excludeFilter := HiddenFileFilter || "GroupEndToEndAuthorizationTest.scala" || "SaslPlainSslEndToEndAuthorizationTest.scala""""
+      """set core / unmanagedSources / excludeFilter := HiddenFileFilter || "GroupEndToEndAuthorizationTest.scala" || "SaslPlainSslEndToEndAuthorizationTest.scala" || "SimpleAclAuthorizerTest.scala""""
       """set streams / unmanagedSources / excludeFilter := HiddenFileFilter || "KStreamAggregationIntegrationTest.java" || "EosIntegrationTest.java" || "ResetIntegrationTest.java""""
     ]
   }
