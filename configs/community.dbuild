@@ -552,7 +552,7 @@ build += {
     extra.options: ["-Xmx3072m"]
     extra.commands: ${vars.default-commands} [
       // prone to intermittent failure
-      """set excludeFilter in (Test, unmanagedSources) in scalatestTest := HiddenFileFilter || "AsyncFunSpecSpec.scala" || "AsyncFunSpecSpec2.scala" || "WaitersSpec.scala" || "ScalaFuturesSpec.scala" || "DispatchReporterSpec.scala""""
+      """set excludeFilter in (Test, unmanagedSources) in scalatestTest := HiddenFileFilter || "AsyncFunSpecSpec.scala" || "AsyncFunSpecSpec2.scala" || "WaitersSpec.scala" || "ScalaFuturesSpec.scala" || "DispatchReporterSpec.scala" || "AsyncFunSpecLikeSpec2.scala" || "JUnitSuiteSpec.scala" || "AsyncFeatureSpecLikeSpec2.scala""""
       """set managedSources in Test in genRegularTests4 ~= (_.filterNot(_.getName == "TimeLimitsSpec.scala").filterNot(_.getName == "AsyncAssertionsSpec.scala").filterNot(_.getName == "WaitersSpec.scala"))"""
     ]
   }
@@ -720,12 +720,8 @@ build += {
     ]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
+      """set http2Support / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "WithPriorKnowledgeSpec.scala""""
     ]
-    // "HTTP is sadly very timing sensitive we're working on improving its stability regularly,
-    // OK to disable it for now." - Konrad M, October 2016
-    // August 2019: for a long time we only compiled the tests. back in 2016 I didn't know how to use
-    // excludeFilter yet. let's try running them again, maybe it will be practical now, if we can
-    // exclude common culprits
   }
 
   ${vars.base} {
@@ -2030,7 +2026,7 @@ build += {
       """set clients/Compile/doc/javacOptions += "-Xdoclint:none""""
       """set streams/Compile/doc/javacOptions += "-Xdoclint:none""""
       // Enno could move these to his own config
-      """set core / unmanagedSources / excludeFilter := HiddenFileFilter || "GroupEndToEndAuthorizationTest.scala" || "SaslPlainSslEndToEndAuthorizationTest.scala""""
+      """set core / unmanagedSources / excludeFilter := HiddenFileFilter || "GroupEndToEndAuthorizationTest.scala" || "SaslPlainSslEndToEndAuthorizationTest.scala" || "SimpleAclAuthorizerTest.scala""""
       """set streams / unmanagedSources / excludeFilter := HiddenFileFilter || "KStreamAggregationIntegrationTest.java" || "EosIntegrationTest.java" || "ResetIntegrationTest.java""""
     ]
   }
