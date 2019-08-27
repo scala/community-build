@@ -393,7 +393,7 @@ build += {
     name: "kittens"
     uri:  ${vars.uris.kittens-uri}
     extra.projects: ["coreJVM"]  // sorry, Scala.js
-    deps.inject: ["org.typelevel#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
     extra.commands: ${vars.default-commands} [
       "removeDependency org.spire-math kind-projector"
       """set libraryDependencies in ThisBuild += compilerPlugin("org.typelevel" %% "kind-projector" % "0.0.0")"""
@@ -865,7 +865,7 @@ build += {
     name: "cats-effect"
     uri:  ${vars.uris.cats-effect-uri}
     extra.projects: ["coreJVM", "lawsJVM"]  // no Scala.js plz
-    deps.inject: ["org.typelevel#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
     extra.commands: ${vars.default-commands} [
       "removeDependency org.spire-math kind-projector"
       """set libraryDependencies in ThisBuild += compilerPlugin("org.typelevel" %% "kind-projector" % "0.0.0")"""
@@ -999,7 +999,7 @@ build += {
     name: "mouse"
     uri:  ${vars.uris.mouse-uri}
     extra.projects: ["crossJVM"]  // no Scala.js please
-    deps.inject: ["org.typelevel#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
     extra.commands: ${vars.default-commands} [
       "removeDependency org.spire-math kind-projector"
     ]
@@ -1160,7 +1160,7 @@ build += {
       "removeDependency io.crashbox spray-json"
       """set libraryDependencies in sconfigJVM += "io.spray" %% "spray-json" % "0.0.0""""
     ]
-    deps.inject: ["io.spray#spray-json"]
+    deps.inject: ${vars.base.deps.inject} ["io.spray#spray-json"]
   }
 
   // frozen (November 2017) at June 2017 commit, for compatibility with
@@ -1859,7 +1859,7 @@ build += {
     extra.run-tests: false
     // spire moved from org.spire to org.typelevel but breeze hasn't
     // changed their dependency yet
-    deps.inject: ["org.typelevel#spire"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#spire"]
     extra.commands: ${vars.default-commands} [
       "removeDependency org.spire-math spire"
     ]
@@ -2418,7 +2418,7 @@ build += {
     name: "vault"
     uri:  ${vars.uris.vault-uri}
     extra.projects: ["coreJVM"]  // no docs, no Scala.js
-    deps.inject: ["org.typelevel#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
     extra.commands: ${vars.default-commands} [
       "removeDependency org.spire-math kind-projector"
     ]
@@ -2462,7 +2462,7 @@ build += {
     extra.projects: ["github4sJVM", "catsEffectJVM"]  // but no "docs" or Scala.js stuff
     // waiting (January 2018) on https://github.com/47deg/github4s/issues/178
     extra.test-tasks: "compile"
-    deps.inject: ["org.typelevel#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
     extra.commands: ${vars.default-commands} [
       "removeDependency org.spire-math kind-projector"
     ]
@@ -2544,7 +2544,7 @@ build += {
     name: "decline"
     uri:  ${vars.uris.decline-uri}
     extra.projects: ["declineJVM", "refinedJVM"]  // no Scala.js, no doc
-    deps.inject: ["org.typelevel#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
     extra.commands: ${vars.default-commands} [
       "removeDependency org.spire-math kind-projector"
     ]
@@ -2616,7 +2616,7 @@ build += {
     uri:  ${vars.uris.doobie-uri}
     extra.options: ["-Xss16m"]  // prevent stack overflow when compiling build definition
     extra.exclude: ["docs", "doobie", "bench"]  // out of scope ("doobie" is just an aggregation, and causes missing-tut error)
-    deps.inject: ["org.typelevel#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
     extra.commands: ${vars.default-commands} [
       "removeDependency org.spire-math kind-projector"
       """set libraryDependencies in ThisBuild += compilerPlugin("org.typelevel" %% "kind-projector" % "0.0.0")"""
@@ -2654,7 +2654,7 @@ build += {
   ${vars.base} {
     name: "scala-pet-store"
     uri:  ${vars.uris.scala-pet-store-uri}
-    deps.inject: ["org.typelevel#kind-projector"]
+    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
     extra.commands: ${vars.default-commands} [
       "removeDependency org.spire-math kind-projector"
       """set libraryDependencies in ThisBuild += compilerPlugin("org.typelevel" %% "kind-projector" % "0.0.0")"""
