@@ -2003,8 +2003,8 @@ build += {
       """set clients/Compile/doc/javacOptions += "-Xdoclint:none""""
       """set streams/Compile/doc/javacOptions += "-Xdoclint:none""""
       // Enno could move these to his own config
-      """set core / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "GroupEndToEndAuthorizationTest.scala" || "SaslPlainSslEndToEndAuthorizationTest.scala" || "SimpleAclAuthorizerTest.scala" || "ReassignPartitionsClusterTest.scala" || "SocketServerTest.scala""""
-      """set streams / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "KStreamAggregationIntegrationTest.java" || "EosIntegrationTest.java" || "ResetIntegrationTest.java""""
+      """set core / Test / unmanagedSources / excludeFilter ~= (_ || "GroupEndToEndAuthorizationTest.scala" || "SaslPlainSslEndToEndAuthorizationTest.scala" || "SimpleAclAuthorizerTest.scala" || "ReassignPartitionsClusterTest.scala" || "SocketServerTest.scala")"""
+      """set streams / Test / unmanagedSources / excludeFilter ~= (_ || "KStreamAggregationIntegrationTest.java" || "EosIntegrationTest.java" || "ResetIntegrationTest.java")"""
     ]
   }
 
