@@ -2001,6 +2001,7 @@ build += {
     extra.commands: ${vars.default-commands} [
       // Enno could move these to his own config
       """set core / Test / unmanagedSources / excludeFilter ~= (_ || "DelegationTokenEndToEndAuthorizationTest.scala")"""
+      """set streams / Test / unmanagedSources / excludeFilter ~= (_ || "KafkaStreamsTest.java" || "QueryableStateIntegrationTest.java")"""
       // prevents javadoc generation from failing on JDK 11+
       """set clients/Compile/doc/javacOptions += "-Xdoclint:none""""
       """set streams/Compile/doc/javacOptions += "-Xdoclint:none""""
