@@ -1627,6 +1627,24 @@ build += {
     extra.test-tasks: "compile"
   }
 
+  // dependency of lagom
+  ${vars.base} {
+    name: "alpakka-kafka"
+    uri:  ${vars.uris.alpakka-kafka-uri}
+    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
+    extra.commands: ${vars.default-commands} [
+      "set every bintrayReleaseOnPublish := false"
+    ]
+    extra.exclude: [
+      // out of scope
+      "benchmarks", "docs"
+      // missing deps: org.apache.kafka#kafka, io.github.embeddedkafka#embedded-kafka
+      // it's okay to consider it out of scope; see Enno's remarks on
+      // https://github.com/scala/community-builds/pull/969
+      "testkit", "tests"
+    ]
+  }
+
   // there are a *ton* of subprojects.  it might be interesting to try to add
   // as many as possible. for now, we've somewhat arbitrarily selected a few.
   // tracking 1.5.x branch because master has already moved to Akka 2.6
@@ -1634,12 +1652,7 @@ build += {
     name: "lagom"
     uri:  ${vars.uris.lagom-uri}
     // these pull in a number of dependent projects
-    extra.projects: [
-      "server"
-      // we used to pull in testkit-scaladsl which then transitively pulled in the following.
-      // at the moment testkit-scaladsl requires akka-stream-kafka which we don't have, so we write these out:
-      "persistence-cassandra-scaladsl","server-scaladsl","persistence-scaladsl","testkit-core","broker-scaladsl","persistence-core","persistence-jdbc-scaladsl","kafka-broker-scaladsl","dev-mode-ssl-support"
-    ]
+    extra.projects: ["server", "testkit-scaladsl"]
     extra.options: [
       // hopefully avoid intermittent OutOfMemoryErrors with default heap
       "-Xmx2g"
@@ -1652,12 +1665,6 @@ build += {
       "set executeTests in `testkit-scaladsl` in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
       // more flaky tests I haven't reported upstream
       "set excludeFilter in (Test, unmanagedSources) in `server-scaladsl` := HiddenFileFilter || \"LagomApplicationSpec.scala\""
-    ]
-    extra.exclude: [
-      // Missing dependency: com.typesafe.akka#akka-stream-kafka
-      "kafka-client", "kafka-client-scaladsl", "kafka-broker-scaladsl", "kafka-broker"
-      // sigh, see above
-      "testkit-scaladsl"
     ]
     // as usual with scripted-plugin, sigh
     deps.ignore: ["org.scala-sbt#scripted-plugin"]
