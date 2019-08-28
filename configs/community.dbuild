@@ -586,7 +586,7 @@ build += {
       """set managedSources in Test in genMustMatchersTests2 ~= (_.filterNot(_.getName.startsWith("EveryMustContainOnly")))"""
       """set managedSources in Test in genMustMatchersTests3 ~= (_.filterNot(_.getName == "ListMustContainOnlySpec.scala"))"""
       """set managedSources in Test in genRegularTests3 ~= (_.filterNot(_.getName == "ListShouldContainOnlyLogicalOrSpec.scala"))"""
-      """set managedSources in Test in genRegularTests4 ~= (_.filterNot(_.getName == "FrameworkSuite.scala").filterNot(_.getName == "InsideMixinSpec.scala").filterNot(_.getName == "TimeLimitsSpec.scala").filterNot(_.getName == "AsyncAssertionsSpec.scala").filterNot(_.getName == "WaitersSpec.scala"))"""
+      """set managedSources in Test in genRegularTests4 ~= (_.filterNot(_.getName == "FrameworkSuite.scala").filterNot(_.getName == "InsideMixinSpec.scala").filterNot(_.getName == "TimeLimitsSpec.scala").filterNot(_.getName == "AsyncAssertionsSpec.scala").filterNot(_.getName == "WaitersSpec.scala").filterNot(_.getName == "AsyncFeatureSpecSpec.scala").filterNot(_.getName == "ConductorFixtureSuite.scala"))"""
       """set managedSources in Test in genRegularTests5 ~= (_.filterNot(_.getName == "AsyncFunSpecSpec2.scala"))"""
       """set managedSources in Test in genContainTests2 ~= (_.filterNot(_.getName.containsSlice("ShouldContainOnly")))"""
       // part 2: unmanaged sources
@@ -1999,12 +1999,11 @@ build += {
     name: "kafka"
     uri:  ${vars.uris.kafka-uri}
     extra.commands: ${vars.default-commands} [
+      // Enno could move these to his own config
+      """set core / Test / unmanagedSources / excludeFilter ~= (_ || "DelegationTokenEndToEndAuthorizationTest.scala")"""
       // prevents javadoc generation from failing on JDK 11+
       """set clients/Compile/doc/javacOptions += "-Xdoclint:none""""
       """set streams/Compile/doc/javacOptions += "-Xdoclint:none""""
-      // Enno could move these to his own config
-      """set core / Test / unmanagedSources / excludeFilter ~= (_ || "GroupEndToEndAuthorizationTest.scala" || "SaslPlainSslEndToEndAuthorizationTest.scala" || "SimpleAclAuthorizerTest.scala" || "ReassignPartitionsClusterTest.scala" || "SocketServerTest.scala")"""
-      """set streams / Test / unmanagedSources / excludeFilter ~= (_ || "KStreamAggregationIntegrationTest.java" || "EosIntegrationTest.java" || "ResetIntegrationTest.java")"""
     ]
   }
 
