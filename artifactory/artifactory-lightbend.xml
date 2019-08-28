@@ -3,7 +3,7 @@
     <offlineMode>false</offlineMode>
     <helpLinksEnabled>true</helpLinksEnabled>
     <fileUploadMaxSizeMb>100</fileUploadMaxSizeMb>
-    <revision>10</revision>
+    <revision>13</revision>
     <dateFormat>dd-MM-yy HH:mm:ss z</dateFormat>
     <addons>
         <showAddonsInfo>true</showAddonsInfo>
@@ -32,7 +32,7 @@
             <loginAttempts>5</loginAttempts>
         </userLockPolicy>
         <accessClientSettings>
-            <adminToken>AM.23YMY.AES128.3iKd3kKj6sbxtmCz42zgAwWfhbc6Puibixb5vTKqF1g85ipevDSxNrzPukx6xJuZp4uV3HBDE4FZaVjsG49dHRZZfuSQxY5Gfjsg6toTieZonofSPB8ymUYbGmkZSRRhcA2dV13WXRoSYcEdX5jjjcoRTkoMG5FY1nHdbsWyytBEFZgV9oZRXSvqzX6o9b9qhjX1L2aYD2VHfy2Leq5TVB2uLQBuuGWbRC3LY352Bz7q5avF1bpwxWM4b88i56dpCe9jxRKiD9yYTLzziCphiVipLtGcUupFwCrJZGyiKKTSNapT2QBbby3Ag9QnGbdyvovhbaq9RmmCdtj8YeS72Ui3EwyUkCzSJKQjjn3Q82DA4N3AwGKNX2GpHTWaHjRRpXe4q5z7fdTT7ErpTHDdCAP9bVXG1pVr5Lqz6TnmREjf1LzMUfrL4LL6LxoujYdixGVnV9gNPZ8tyxhkj1o4gTrYmYXr6SxYbpwijYFoUVReWsBpQXnLrQPbHb4H6bthEaaBrheN7hT6oLNDzjv5nVpceQm6D6iTbbAT3sehqah4DB5MieWgVCztahAovogNfqTujfNwUSpMC8fCVew2Ydfhw8PsNW2DpLdWvgcyqNtBMCgHfrPFeAnDAQfdg3xekFFrdNTsWwZBkzwnTbNQHdUxk5jXLXH725hNqWkEmkvnmw41gzVBCih3nD8Pzb16TmVNwnzkUwkT3nAWv5WvdbHdteGfC4K6PEbSyUd6tg88SaKtbXkJLonxXRe39kfc18ax1xKwqSFxmNrgLqSZ5ZZwXE5uFdRbPoNugMub8iKraFksruDrD78cUjSXXTWnpPgQC2EWHUK7KZcLrPvKdBTMwW5fQgSmJNiMvXVnUkMbNWBENwgqpbZMwzBQmcwVM7tBeM57WeygEydgkRDeiugoqhnYnwKLtrdMVCpLZdb6xhFhve5WzQAdCiv6Frm8ZSWGpM29VbVxgLgTyZQib3HEPM92QM3e7uio7VE9FqeyyLX4upiw7xY7Hs3nMuEgnc5az69eptG6dxtu8bouc8teqmg5H</adminToken>
+            <adminToken>AM.25shh.AES128.3juWiUpZjjyLztmPBP91pwXDZxMZpxg9r864joxdgBqTeGrzdJ8EY4mNpecTcgqtLNMjJKY11oSUUWmXwtzEHwsZqcL9BZSxER2kETAb9pNSRKXY7JwUXrqPvPnvgPUdht6g7CGzpezdz9BFzPZ5JXD83caU6qAcaa4oy477Q6Vii9gd9wdB6Lzcq7jD8o6hmN5a8FNPBAvDAGDyj2kYy5qRQfDcgojMoBYdDayy8gQ2pye4y3TfYnrsVCgoFw8uekTg2TcZn7esxbpM3AwR4E5Nr6UpEvpjs8iCmxf6VT4kQNA9gEnJYM13TZS9EXY9HujxSY4Bs6VjMianXi1E633z5qiFSBHM4Rv3Ds2JhGauH8H44ZB78AdZpu6HjSgMjH3RVNHdS8xmaSnLGt82ZAk3k3wa9STFHnHXqN1jDjUEXoNbaaNd67E2CWoGZ9ZBFVkcvG8W9zBGyeG9FNghjJ78Nkawcvm474pe69GMcBokig1QEPv5JFBRBipwmFepZeVwp8yKYBbK1GJepwzJXHxbs19kLenB9NYGwgx4qDfFBXEaXQMNLe9a2VTtLLa8EGkUVjUL8NN8rxEDvN9gHMMZrTXi5VrSmvK23JDkFqzWF2KZT19BQo8oTWUkU4SoDCBPWERdaCZYzUh7LKkJbtRDDCdKkaSutUtnVgx8rErA9hszHyfgZoYkbu5nKsMvqNV1sWeDatsxHZLswqs3MgzkntjiVBkfPRTMDEjdqsoTjg4BD4L3Cvz6piA4jdgwHscmG6GE5cxfJZoHKntAdHfa85d3YaRaTJ9Eigyd44i4QGxXvczNJ3C9uBvXEBXd9fagS94uYjLQdDmgxukjXmjYajgwAiasVzTGoVrsGv9z5kkXtj5JvnW6ekc7kkfCKZejq6urvDnwM9TfgiXZJMAEjb8bPzSP39f5i2RXx1xGZYYwqVb1TFbM6SYD2TN7R5EFynSompSnKVdbfVHSocLDEytJx37YuDX9KdNc6RpHa3NRoHkJkiLwbYSPfAqXdWQVqW9FDrDudQEHTHnW4VnpJm5e4</adminToken>
             <userTokenMaxExpiresInMinutes>60</userTokenMaxExpiresInMinutes>
         </accessClientSettings>
         <buildGlobalBasicReadAllowed>true</buildGlobalBasicReadAllowed>
@@ -561,7 +561,7 @@
         <remoteRepository>
             <key>jcenter</key>
             <type>maven</type>
-            <includesPattern>com/typesafe/akka/**</includesPattern>
+            <includesPattern>com/typesafe/akka/**,net/aichler/jupiter-interface/**</includesPattern>
             <repoLayoutRef>maven-2-default</repoLayoutRef>
             <dockerApiVersion>V2</dockerApiVersion>
             <forceNugetAuthentication>false</forceNugetAuthentication>
@@ -721,7 +721,7 @@
         <remoteRepository>
             <key>mm-sbt-plugin-releases</key>
             <type>sbt</type>
-            <includesPattern>me.lessis/bintray-sbt/**</includesPattern>
+            <includesPattern>com.github.ehsanyou/sbt-docker-compose/**,net.virtual-void/sbt-dependency-graph/**</includesPattern>
             <repoLayoutRef>sbt-default</repoLayoutRef>
             <dockerApiVersion>V2</dockerApiVersion>
             <forceNugetAuthentication>false</forceNugetAuthentication>
@@ -733,7 +733,7 @@
             <suppressPomConsistencyChecks>true</suppressPomConsistencyChecks>
             <propertySets/>
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
-            <url>https://dl.bintray.com/2m/sbt-plugin-releases/</url>
+            <url>https://dl.bintray.com/2m/sbt-plugins/</url>
             <offline>false</offline>
             <hardFail>false</hardFail>
             <storeArtifactsLocally>true</storeArtifactsLocally>
@@ -748,7 +748,7 @@
             <synchronizeProperties>false</synchronizeProperties>
             <listRemoteFolderItems>true</listRemoteFolderItems>
             <rejectInvalidJars>false</rejectInvalidJars>
-            <p2OriginalUrl>https://dl.bintray.com/2m/sbt-plugin-releases/</p2OriginalUrl>
+            <p2OriginalUrl>https://dl.bintray.com/2m/sbt-plugins/</p2OriginalUrl>
             <contentSynchronisation>
                 <enabled>false</enabled>
                 <statistics>
@@ -1167,6 +1167,7 @@
                 <repositoryRef>scala-pr-validation-snapshots</repositoryRef>
                 <repositoryRef>sbt-s3-plugins</repositoryRef>
                 <repositoryRef>triplequote</repositoryRef>
+                <repositoryRef>mm-sbt-plugin-releases</repositoryRef>
             </repositories>
             <pomRepositoryReferencesCleanupPolicy>discard_active_reference</pomRepositoryReferencesCleanupPolicy>
             <virtualCacheConfig>
