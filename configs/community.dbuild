@@ -558,7 +558,7 @@ build += {
       // prone to intermittent failure
       """set excludeFilter in (Test, unmanagedSources) in scalatestTest := HiddenFileFilter || "AsyncFunSpecSpec.scala" || "AsyncFunSpecSpec2.scala" || "WaitersSpec.scala" || "ScalaFuturesSpec.scala" || "DispatchReporterSpec.scala" || "AsyncFunSpecLikeSpec2.scala" || "JUnitSuiteSpec.scala" || "AsyncFeatureSpecLikeSpec2.scala" || "ConductorFixtureSuite.scala" || "AsyncAssertionsSpec.scala" || "ConductorFixtureDeprecatedSuite.scala" || "TimeLimitsSpec.scala" || "JavaFuturesSpec.scala" || "TestThreadsStartingCounterSpec.scala""""
       """set managedSources in Test in genRegularTests4 ~= (_.filterNot(_.getName == "TimeLimitsSpec.scala").filterNot(_.getName == "AsyncAssertionsSpec.scala").filterNot(_.getName == "WaitersSpec.scala").filterNot(_.getName == "AsyncFeatureSpecSpec.scala").filterNot(_.getName == "ConductorFixtureSuite.scala"))"""
-      """set managedSources in Test in genRegularTests5 ~= (_.filterNot(_.getName == "AsyncFunSpecSpec2.scala"))"""
+      """set managedSources in Test in genRegularTests5 ~= (_.filterNot(_.getName == "AsyncFunSpecSpec2.scala").filterNot(_.getName == "TimeoutsSpec.scala"))"""
     ]
   }
 
