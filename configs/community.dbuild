@@ -1631,19 +1631,18 @@ build += {
   ${vars.base} {
     name: "alpakka-kafka"
     uri:  ${vars.uris.alpakka-kafka-uri}
-    // let's initially be cautious and try 1.2, then once green, try 1.3.0-RC4 before merge
-    extra.sbt-version: ${vars.sbt-1-2-version}
-    extra.exclude: [
-      "benchmarks", "docs"  // out of scope
-      "testkit"  // missing deps: org.apache.kafka#kafka, io.github.embeddedkafka#embedded-kafka
-      "tests"  // missing dep: io.github.embeddedkafka#embedded-kafka-schema-registry
-    ]
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
     ]
-    // let's initially be cautious and just try to compile the tests, but later (before merge) try running them
-    extra.test-tasks: "compile"
+    extra.exclude: [
+      // out of scope
+      "benchmarks", "docs"
+      // missing deps: org.apache.kafka#kafka, io.github.embeddedkafka#embedded-kafka
+      // it's okay to consider it out of scope; see Enno's remarks on
+      // https://github.com/scala/community-builds/pull/969
+      "testkit", "tests"
+    ]
   }
 
   // there are a *ton* of subprojects.  it might be interesting to try to add
