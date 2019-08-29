@@ -117,20 +117,20 @@ object SplitLog {
     while (lines.hasNext)
       lines.next match {
         case BeginDependencies() =>
-          slurp(lines, makeWriter("dependencies.txt"), EndDependencies)
+          slurp(lines, makeWriter("../dependencies.log"), EndDependencies)
         case BeginExtract(name) =>
-          slurp(lines, makeWriter(s"$name-extract.log"), EndExtract)
+          slurp(lines, makeWriter(s"../logs/$name-extract.log"), EndExtract)
         case BeginBuild(name) =>
-          slurp(lines, makeWriter(s"$name-build.log"), EndBuild)
+          slurp(lines, makeWriter(s"../logs/$name-build.log"), EndBuild)
         case _ =>
       }
   }
 
   import java.io.PrintWriter
 
-  private def makeWriter(name: String): PrintWriter = {
+  private def makeWriter(path: String): PrintWriter = {
     import java.io._
-    val file = new File(s"../logs/$name")
+    val file = new File(path)
     val foStream = new FileOutputStream(file, false)  // false = overwrite, don't append
     val osWriter = new OutputStreamWriter(foStream)
     new PrintWriter(osWriter)
