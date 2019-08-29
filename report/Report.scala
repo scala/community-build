@@ -1,7 +1,9 @@
 object Report extends App {
   def log = io.Source.fromFile(args(0))
   ClocReport(log)
-  SuccessReport(log)
+  val unexpectedFailureCount = SuccessReport(log)
+  SplitLog(log)
+  sys.exit(unexpectedFailureCount)
 }
 
 object ClocReport {
@@ -52,7 +54,7 @@ object SuccessReport {
         jdk11Failures
     }
 
-  def apply(log: io.Source): Unit = {
+  def apply(log: io.Source): Int = {
     val lines = log.getLines.dropWhile(!_.contains("---==  Execution Report ==---"))
     var success, failed, didNotRun = 0
     val unexpectedSuccesses = collection.mutable.Buffer[String]()
@@ -94,7 +96,61 @@ object SuccessReport {
     println(s"FAILED: $failed")
     println(s"DID NOT RUN: $didNotRun")
     println(s"TOTAL: $total")
-    sys.exit(unexpectedFailures.size)
+    unexpectedFailures.size
+  }
+
+}
+
+object SplitLog {
+
+  val BeginDependencies = """\[info\] ---== Dependency Information ===---""".r
+  val EndDependencies = """\[info\] ---== ()End Dependency Information ===---""".r
+  val BeginExtract = """\[([^\]]+)\] --== Extracting dependencies for .+ ==--""".r
+  val EndExtract = """\[([^\]]+)\] --== End Extracting dependencies for .+ ==--""".r
+  val BeginBuild = """\[([^\]]+)\] --== Building .+ ==--""".r
+  val EndBuild = """\[([^\]]+)\] --== End Building .+ ==--""".r
+
+  def apply(log: io.Source): Unit = {
+    val dir = new java.io.File("../logs")
+    dir.mkdirs()
+    val lines = log.getLines
+    while (lines.hasNext)
+      lines.next match {
+        case BeginDependencies() =>
+          slurp(lines, makeWriter("dependencies.txt"), EndDependencies)
+        case BeginExtract(name) =>
+          slurp(lines, makeWriter(s"$name-extract.log"), EndExtract)
+        case BeginBuild(name) =>
+          slurp(lines, makeWriter(s"$name-build.log"), EndBuild)
+        case _ =>
+      }
+  }
+
+  import java.io.PrintWriter
+
+  private def makeWriter(name: String): PrintWriter = {
+    import java.io._
+    val file = new File(s"../logs/$name")
+    val foStream = new FileOutputStream(file, false)  // false = overwrite, don't append
+    val osWriter = new OutputStreamWriter(foStream)
+    new PrintWriter(osWriter)
+  }
+
+  import scala.util.matching.Regex, annotation.tailrec
+
+  def slurp(lines: Iterator[String], writer: java.io.PrintWriter, sentinel: Regex): Unit = {
+    @tailrec def iterate(): Unit =
+      if (lines.hasNext)
+        lines.next match {
+          case sentinel(_) =>
+            writer.close()
+          case line =>
+            writer.println(line)
+            iterate()
+        }
+      else
+        throw new IllegalStateException(s"missing end: $sentinel")
+    iterate()
   }
 
 }
