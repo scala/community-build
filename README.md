@@ -9,7 +9,7 @@ primarily maintained by Lightbend, as part of our overall maintenance of the
 Scala compiler and standard library.
 
 **How big is it?**
-It's **3.2 million lines** of Scala code, total,
+It's **3.6 million lines** of Scala code, total,
 from **199 projects** (as of August 2019),
 and takes about **15 hours** to run.
 
