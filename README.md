@@ -9,7 +9,7 @@ primarily maintained by Lightbend, as part of our overall maintenance of the
 Scala compiler and standard library.
 
 **How big is it?**
-The 2.12 build is **3.2 million lines** of Scala code, total,
+The 2.12 build is **3.6 million lines** of Scala code, total,
 from **199 projects** (as of August 2019),
 and takes about **15 hours** to run.
 

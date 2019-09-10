@@ -2074,6 +2074,13 @@ build += {
     extra.projects: ["finagle-core"]
   }
 
+  ${vars.base} {
+    name: "treehugger"
+    uri:  ${vars.uris.treehugger-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
+    extra.exclude: ["root"]
+  }
+
 ]}
 
 //// space: jawn_0_11
