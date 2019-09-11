@@ -2497,6 +2497,9 @@ build += {
   ${vars.base} {
     name: "pureconfig"
     uri:  ${vars.uris.pureconfig-uri}
+    // we have squants now, but I guess there's a version mismatch,
+    // because there are compiler errors here. it isn't worth digging into
+    extra.exclude: ["squants"]
     deps.inject: ${vars.base.deps.inject} [
       // I guess dbuild is getting confused by the extra _1.13
       "com.github.alexarchambault#scalacheck-shapeless_1.13"
