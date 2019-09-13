@@ -954,8 +954,6 @@ build += {
 
   // tracking "develop" branch.
   // try master instead if develop proves too fragile?
-  // forked (August 2019) for JDK 11+ friendliness, pending merge of
-  // https://github.com/twitter/util/pull/255
   ${vars.base} {
     name: "twitter-util"
     uri:  ${vars.uris.twitter-util-uri}
@@ -982,6 +980,8 @@ build += {
     ]
   }
 
+  // temporarily forked awaiting fix for
+  // https://github.com/lightbend/mima/issues/383 is fixed
   ${vars.base} {
     name: "mima"
     uri:  ${vars.uris.mima-uri}
