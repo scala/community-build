@@ -1736,7 +1736,7 @@ build += {
     extra.exclude: ["fsi-benchmark", "fsi-benchmark-core"]
   }
 
-  // frozen (June 2019) at a June 2019 config just before a sbt-coursier
+  // frozen (June 2019) at a June 2019 commit some time before a sbt-coursier
   // version bump that seems to be confusing dbuild during dependency extraction:
   // [scalacheck-shapeless] [error] java.lang.NoSuchMethodError: lmcoursier.definitions.ToCoursier$.project(Llmcoursier/definitions/Project;)Lcoursier/core/Project;
   // [scalacheck-shapeless] [error] 	at coursier.sbtcoursier.ResolutionTasks$.$anonfun$resolutionsTask$3(ResolutionTasks.scala:42)
@@ -1952,6 +1952,10 @@ build += {
     extra.exclude: ["scalazTests"]
   }
 
+  // frozen (September 2019) at a April 2019 commit just before a sbt-coursier
+  // version bump that seems to be confusing dbuild during dependency extraction:
+  // java.lang.NoSuchMethodError: lmcoursier.definitions.ToCoursier$.project(Llmcoursier/definitions/Project;)Lcoursier/core/Project;
+  //   at coursier.sbtcoursier.ResolutionTasks$.$anonfun$resolutionsTask$3(ResolutionTasks.scala:42)
   ${vars.base} {
     name: "metaconfig"
     uri:  ${vars.uris.metaconfig-uri}
@@ -2050,6 +2054,10 @@ build += {
     uri:  ${vars.uris.pascal-uri}
   }
 
+  // frozen (September 2019) at an August 2019 commit some time before a sbt-coursier
+  // version bump that seems to be confusing dbuild during dependency extraction:
+  // java.lang.NoSuchMethodError: lmcoursier.definitions.ToCoursier$.project(Llmcoursier/definitions/Project;)Lcoursier/core/Project;
+  //   at coursier.sbtcoursier.ResolutionTasks$.$anonfun$resolutionsTask$3(ResolutionTasks.scala:42)
   ${vars.base} {
     name: "mdoc"
     uri:  ${vars.uris.mdoc-uri}
