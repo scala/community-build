@@ -368,9 +368,9 @@ build += {
     check-missing: false
   }
 
-  // frozen at v1.6.0 tag because dependencies have historically been fragile.
-  // (perhaps this is overly cautious now, in 2019? not sure)
-  // and forked (February 2019) from that tag to make some tiny ScalaCheck 1.13 vs 1.14 tweaks so tests pass
+  // forked (February 2019) from 1.6.0 tag to make some tiny ScalaCheck
+  // 1.13 vs 1.14 tweaks so tests pass.
+  // when we upgrade to ScalaTest 3.1, let's freeze at v2.0.0 tag?
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
@@ -727,6 +727,8 @@ build += {
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
       """set http2Support / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "WithPriorKnowledgeSpec.scala""""
+      """set httpCore / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "GracefulTerminationSpec.scala""""
+      """set httpTests / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "CodingDirectivesSpec.scala""""
     ]
   }
 
@@ -985,8 +987,6 @@ build += {
     ]
   }
 
-  // temporarily forked awaiting fix for
-  // https://github.com/lightbend/mima/issues/383 is fixed
   ${vars.base} {
     name: "mima"
     uri:  ${vars.uris.mima-uri}
@@ -1165,6 +1165,8 @@ build += {
   ${vars.base} {
     name: "sconfig"
     uri:  ${vars.uris.sconfig-uri}
+    // java.lang.NoClassDefFoundError: xerial/sbt/Sonatype$
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.exclude: ["sconfigNative", "sconfigJS"]
     // use right version-specific source directories regardless of our weird dbuild Scala version numbers
     extra.commands: ${vars.default-commands} [
@@ -1294,6 +1296,8 @@ build += {
   ${vars.base} {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
+    // error: not found: value sonatypeProfileName
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Dmonix.requireJava8=false"]
     // no Scala.js, no benchmarks.
     extra.projects: ["coreJVM"]
@@ -1449,6 +1453,8 @@ build += {
   ${vars.base} {
     name: "doodle"
     uri: ${vars.uris.doodle-uri}
+    // error: not found: value sonatypePublishToBundle
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: [
       "coreJVM", "java2d", "exploreJVM", "imageJVM", "turtleJVM"  // no Scala.js plz
     ]
@@ -1601,6 +1607,8 @@ build += {
   ${vars.base} {
     name: "paradox"
     uri:  ${vars.uris.paradox-uri}
+    // Common.scala:22:8: not found: object xerial
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.exclude: ["plugin", "themePlugin", "genericTheme"]
     check-missing: false  // ignore missing scripted-sbt
   }
@@ -2300,7 +2308,7 @@ build += {
     extra.projects: ["autowireJVM"]  // no Scala.js plz
   }
 
-  // dependency of Scaladex
+  // dependency of Scaladex (specifically, akka-http-json4s)
   ${vars.base} {
     name: "akka-http-json"
     uri:  ${vars.uris.akka-http-json-uri}
@@ -2576,6 +2584,11 @@ build += {
   }
 
   // depends on atto
+  // frozen (September 2019) at an August 2019 commit some time before this
+  // started happening (during regular build, not during dependency extraction):
+  // [droste] [info] Wrote /home/jenkins/workspace/scala-2.12.x-integrate-community-build/target-0.9.16/project-builds/droste-eb96026c097f9944a71ea72d767bf9b274655ea9/modules/meta/.jvm/target/scala-2.12/droste-meta-0.7.1-dbuildxeb96026c097f9944a71ea72d767bf9b274655ea9.pom
+  // [droste] [error] java.lang.NoSuchMethodError: lmcoursier.definitions.ToCoursier$.project(Llmcoursier/definitions/Project;)Lcoursier/core/Project;
+  // [droste] [error] 	at coursier.sbtcoursier.ResolutionTasks$.$anonfun$resolutionsTask$3(ResolutionTasks.scala:42)
   ${vars.base} {
     name: "droste"
     uri:  ${vars.uris.droste-uri}
