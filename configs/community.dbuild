@@ -728,6 +728,9 @@ build += {
       "set every bintrayReleaseOnPublish := false"
       """set http2Support / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "WithPriorKnowledgeSpec.scala""""
     ]
+    extra.commands: ${vars.default-commands} [
+      """set httpCore / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "GracefulTerminationSpec.scala""""
+    ]
   }
 
   ${vars.base} {
