@@ -153,8 +153,8 @@ build += {
       }
       {
         name: "scala-xml"
-        // master has moved to a new 2.x series, but the Scala 2.12 compiler
-        // is going to continue depending on 1.x, in fact Scala 2.12 will
+        // master has moved to a new 2.x series, but the Scala 2.11 compiler
+        // is going to continue depending on 1.x, in fact Scala 2.11 will
         // probably stay frozen at 1.0.6 forever. but the v1.0.6 tag won't
         // build on JDK 11, so let's use the 1.x branch
         uri: "https://github.com/scala/scala-xml.git#1.x"
@@ -177,7 +177,8 @@ build += {
       }
       {
         name: "scala-parser-combinators"
-        uri:  ${vars.uris.scala-parser-combinators-uri}
+        // see remarks above about scala-xml
+        uri: "https://github.com/scala/scala-parser-combinators.git#1.0.x"
         cross-version: standard
         extra.sbt-version: ${vars.sbt-0-13-version}
         extra.projects: ["scala-parser-combinatorsJVM"]
@@ -278,7 +279,7 @@ build += {
     extra.commands: ${vars.default-commands} [
       // work around https://github.com/scala/community-builds/issues/575
       // (in a community build context, we don't need MiMa to run)
-      "set every ScalaModulePlugin.mimaPreviousVersion := None"
+      "set every scalaModuleMimaPreviousVersion := None"
     ]
   }
 
@@ -572,7 +573,7 @@ build += {
     extra.commands: ${vars.default-commands} [
       // work around https://github.com/scala/community-builds/issues/575
       // (in a community build context, we don't need MiMa to run)
-      "set every ScalaModulePlugin.mimaPreviousVersion := None"
+      "set every scalaModuleMimaPreviousVersion := None"
     ]
   }
 
@@ -1206,7 +1207,7 @@ build += {
     name: "scala-continuations"
     uri:  ${vars.uris.scala-continuations-uri}
     extra.commands: ${vars.default-commands} [
-      "set every ScalaModulePlugin.mimaPreviousVersion := None"
+      "set every scalaModuleMimaPreviousVersion := None"
     ]
   }
 
