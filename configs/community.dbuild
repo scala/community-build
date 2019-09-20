@@ -368,9 +368,9 @@ build += {
     check-missing: false
   }
 
-  // frozen at v1.6.0 tag because dependencies have historically been fragile.
-  // (perhaps this is overly cautious now, in 2019? not sure)
-  // and forked (February 2019) from that tag to make some tiny ScalaCheck 1.13 vs 1.14 tweaks so tests pass
+  // forked (February 2019) from 1.6.0 tag to make some tiny ScalaCheck
+  // 1.13 vs 1.14 tweaks so tests pass.
+  // when we upgrade to ScalaTest 3.1, let's freeze at v2.0.0 tag?
   ${vars.base} {
     name: "cats"
     uri:  ${vars.uris.cats-uri}
@@ -728,6 +728,7 @@ build += {
       "set every bintrayReleaseOnPublish := false"
       """set http2Support / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "WithPriorKnowledgeSpec.scala""""
       """set httpCore / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "GracefulTerminationSpec.scala""""
+      """set httpTests / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "CodingDirectivesSpec.scala""""
     ]
   }
 
@@ -960,8 +961,6 @@ build += {
 
   // tracking "develop" branch.
   // try master instead if develop proves too fragile?
-  // forked (August 2019) for JDK 11+ friendliness, pending merge of
-  // https://github.com/twitter/util/pull/255
   ${vars.base} {
     name: "twitter-util"
     uri:  ${vars.uris.twitter-util-uri}
@@ -1104,6 +1103,7 @@ build += {
   }
 
   // dependency of play-file-watch
+  // frozen (September 2019) at a July 2019 commit before ScalaTest 3.1 upgrade
   ${vars.base} {
     name: "better-files"
     uri: ${vars.uris.better-files-uri}
@@ -1165,6 +1165,8 @@ build += {
   ${vars.base} {
     name: "sconfig"
     uri:  ${vars.uris.sconfig-uri}
+    // java.lang.NoClassDefFoundError: xerial/sbt/Sonatype$
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.exclude: ["sconfigNative", "sconfigJS"]
     // use right version-specific source directories regardless of our weird dbuild Scala version numbers
     extra.commands: ${vars.default-commands} [
@@ -1284,9 +1286,18 @@ build += {
     extra.projects: ["minitestJVM", "lawsJVM", "lawsLegacyJVM"]  // no Scala.js
   }
 
+  // dependency of monix
+  ${vars.base} {
+    name: "implicitbox"
+    uri:  ${vars.uris.implicitbox-uri}
+    extra.projects: ["implicitboxJVM"]
+  }
+
   ${vars.base} {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
+    // error: not found: value sonatypeProfileName
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Dmonix.requireJava8=false"]
     // no Scala.js, no benchmarks.
     extra.projects: ["coreJVM"]
@@ -1442,6 +1453,8 @@ build += {
   ${vars.base} {
     name: "doodle"
     uri: ${vars.uris.doodle-uri}
+    // error: not found: value sonatypePublishToBundle
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.projects: [
       "coreJVM", "java2d", "exploreJVM", "imageJVM", "turtleJVM"  // no Scala.js plz
     ]
@@ -1594,6 +1607,8 @@ build += {
   ${vars.base} {
     name: "paradox"
     uri:  ${vars.uris.paradox-uri}
+    // Common.scala:22:8: not found: object xerial
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.exclude: ["plugin", "themePlugin", "genericTheme"]
     check-missing: false  // ignore missing scripted-sbt
   }
@@ -1745,7 +1760,7 @@ build += {
     extra.exclude: ["fsi-benchmark", "fsi-benchmark-core"]
   }
 
-  // frozen (June 2019) at a June 2019 config just before a sbt-coursier
+  // frozen (June 2019) at a June 2019 commit some time before a sbt-coursier
   // version bump that seems to be confusing dbuild during dependency extraction:
   // [scalacheck-shapeless] [error] java.lang.NoSuchMethodError: lmcoursier.definitions.ToCoursier$.project(Llmcoursier/definitions/Project;)Lcoursier/core/Project;
   // [scalacheck-shapeless] [error] 	at coursier.sbtcoursier.ResolutionTasks$.$anonfun$resolutionsTask$3(ResolutionTasks.scala:42)
@@ -1961,6 +1976,10 @@ build += {
     extra.exclude: ["scalazTests"]
   }
 
+  // frozen (September 2019) at a April 2019 commit just before a sbt-coursier
+  // version bump that seems to be confusing dbuild during dependency extraction:
+  // java.lang.NoSuchMethodError: lmcoursier.definitions.ToCoursier$.project(Llmcoursier/definitions/Project;)Lcoursier/core/Project;
+  //   at coursier.sbtcoursier.ResolutionTasks$.$anonfun$resolutionsTask$3(ResolutionTasks.scala:42)
   ${vars.base} {
     name: "metaconfig"
     uri:  ${vars.uris.metaconfig-uri}
@@ -2061,6 +2080,10 @@ build += {
     uri:  ${vars.uris.pascal-uri}
   }
 
+  // frozen (September 2019) at an August 2019 commit some time before a sbt-coursier
+  // version bump that seems to be confusing dbuild during dependency extraction:
+  // java.lang.NoSuchMethodError: lmcoursier.definitions.ToCoursier$.project(Llmcoursier/definitions/Project;)Lcoursier/core/Project;
+  //   at coursier.sbtcoursier.ResolutionTasks$.$anonfun$resolutionsTask$3(ResolutionTasks.scala:42)
   ${vars.base} {
     name: "mdoc"
     uri:  ${vars.uris.mdoc-uri}
@@ -2285,7 +2308,7 @@ build += {
     extra.projects: ["autowireJVM"]  // no Scala.js plz
   }
 
-  // dependency of Scaladex
+  // dependency of Scaladex (specifically, akka-http-json4s)
   ${vars.base} {
     name: "akka-http-json"
     uri:  ${vars.uris.akka-http-json-uri}
@@ -2530,6 +2553,10 @@ build += {
   }
 
   // in this space because it depends on pureconfig
+  // frozen (September 2019) at a July 2019 commit before this error occurred:
+  //    Processing subproject: catsJVM
+  //    **** Missing dependency: the library org.typelevel#discipline-scalatest is not provided
+  // let's revisit when we move to ScalaTest 3.1
   ${vars.base} {
     name: "refined"
     uri:  ${vars.uris.refined-uri}
@@ -2557,6 +2584,11 @@ build += {
   }
 
   // depends on atto
+  // frozen (September 2019) at an August 2019 commit some time before this
+  // started happening (during regular build, not during dependency extraction):
+  // [droste] [info] Wrote /home/jenkins/workspace/scala-2.12.x-integrate-community-build/target-0.9.16/project-builds/droste-eb96026c097f9944a71ea72d767bf9b274655ea9/modules/meta/.jvm/target/scala-2.12/droste-meta-0.7.1-dbuildxeb96026c097f9944a71ea72d767bf9b274655ea9.pom
+  // [droste] [error] java.lang.NoSuchMethodError: lmcoursier.definitions.ToCoursier$.project(Llmcoursier/definitions/Project;)Lcoursier/core/Project;
+  // [droste] [error] 	at coursier.sbtcoursier.ResolutionTasks$.$anonfun$resolutionsTask$3(ResolutionTasks.scala:42)
   ${vars.base} {
     name: "droste"
     uri:  ${vars.uris.droste-uri}
@@ -2588,6 +2620,8 @@ build += {
     ]
   }
 
+  // frozen (September 2019) at an August 2019 commit sometime before a silencer
+  // upgrade; we have silencer frozen waiting on ScalaTest 3.1
   ${vars.base} {
     name: "sttp"
     uri:  ${vars.uris.sttp-uri}
