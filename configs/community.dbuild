@@ -2140,6 +2140,8 @@ build += {
     extra.projects: ["finagle-core"]
     extra.commands: ${vars.default-commands} [
       """set finagleCore / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "FailFastFactoryTest.scala""""
+      // not supported on JDK 11+
+      "removeJavaOptions -XX:+UseParNewGC"
     ]
   }
 
@@ -2647,6 +2649,8 @@ build += {
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
       "set every bintrayOmitLicense := true"  // otherwise it complains we don't have one
+      // not supported on JDK 11+
+      "removeJavaOptions -XX:+UseParNewGC"
     ]
     extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
     // ignore missing scripted-sbt (https://github.com/sbt/sbt/issues/3917 ?)
