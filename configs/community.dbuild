@@ -2006,6 +2006,10 @@ build += {
     uri:  ${vars.uris.treehugger-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
     extra.exclude: ["root"]
+    extra.commands: ${vars.default-commands} [
+      // https://github.com/eed3si9n/treehugger/issues/59
+      """set excludeFilter in (Test, unmanagedSources) in library := HiddenFileFilter || "DSL_1BasicDeclSpec.scala""""
+    ]
   }
 
 ]}
