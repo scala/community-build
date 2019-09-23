@@ -266,7 +266,7 @@ build += {
   ${vars.base} {
     name: "scala-collection-contrib"
     uri:  ${vars.uris.scala-collection-contrib-uri}
-    extra.projects: ["scala-collection-contrib"]   // just JVM
+    extra.projects: ["collectionContrib"]   // just JVM
     extra.commands: ${vars.base.extra.commands} [
       // work around https://github.com/scala/community-builds/issues/575
       // (in a community build context, we don't need MiMa to run)
@@ -277,16 +277,6 @@ build += {
   ${vars.base} {
     name: "scala-parallel-collections"
     uri:  ${vars.uris.scala-parallel-collections-uri}
-    // on 1.3.0-RC4, the hamcrest thing below didn't happen, but instead the entire junit dependency
-    // disappeared from the classpath. I couldn't reproduce it outside dbuild, and I couldn't
-    // find a workaround.
-    // perhaps same/related: https://github.com/coursier/coursier/issues/1336
-    extra.sbt-version: "1.2.8"
-    extra.commands: ${vars.base.extra.commands} [
-      // no idea why this would only be required in the community build context, but without it,
-      // we get java.lang.ClassNotFoundException: org.hamcrest.SelfDescribing
-      """set libraryDependencies in junit += "org.hamcrest" % "hamcrest-core" % "1.3" % Test"""
-    ]
   }
 
   ${vars.base} {
@@ -598,6 +588,7 @@ build += {
     ]
   }
 
+  // 2.13: using Lukas's branch until https://github.com/scoverage/scalac-scoverage-plugin/pull/279 is merged
   ${vars.base} {
     name: "scoverage"
     uri:  ${vars.uris.scoverage-uri}
@@ -2315,11 +2306,6 @@ build += {
     // it with right now.
     extra.projects: ["catsJVM", "coreJVM", "evalJVM", "jsonpathJVM", "scalacheckJVM", "shapelessJVM"]
     extra.exclude: ["scalacheck_1_13JVM"]
-    extra.commands: ${vars.default-commands} [
-      // as per https://github.com/fthomas/refined/issues/661 , this test can be re-enabled
-      // once the repo is upgraded to 2.13.1
-      """set coreJVM / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "AdjacentSpec.scala""""
-    ]
   }
 
   // in this space because it depends on refined (though not in core, only in avro4s-refined subproject)
