@@ -189,7 +189,7 @@ build += {
     extra.commands: ${vars.base.extra.commands} [
       // work around https://github.com/scala/community-builds/issues/575
       // (in a community build context, we don't need MiMa to run)
-      "set every ScalaModulePlugin.mimaPreviousVersion := None"
+      "set every scalaModuleMimaPreviousVersion := None"
     ]
   }
 
@@ -259,7 +259,7 @@ build += {
     extra.commands: ${vars.base.extra.commands} [
       // work around https://github.com/scala/community-builds/issues/575
       // (in a community build context, we don't need MiMa to run)
-      "set every ScalaModulePlugin.mimaPreviousVersion := None"
+      "set every scalaModuleMimaPreviousVersion := None"
     ]
   }
 
@@ -270,13 +270,22 @@ build += {
     extra.commands: ${vars.base.extra.commands} [
       // work around https://github.com/scala/community-builds/issues/575
       // (in a community build context, we don't need MiMa to run)
-      "set every ScalaModulePlugin.mimaPreviousVersion := None"
+      "set every scalaModuleMimaPreviousVersion := None"
     ]
   }
 
   ${vars.base} {
     name: "scala-parallel-collections"
     uri:  ${vars.uris.scala-parallel-collections-uri}
+    extra.commands: ${vars.base.extra.commands} [
+      // on sbt 1.3, unless we do this, `junit-4.11.jar` drops off the classpath
+      // and I could not figure out why, or reproduce it outside of build.
+      // downgrading to 1.2 doesn't solve it, because the repo uses a mima version which requires 1.3
+      """set every useCoursier := false"""
+      // no idea why this would only be required in the community build context, but without it,
+      // we get java.lang.ClassNotFoundException: org.hamcrest.SelfDescribing
+      """set libraryDependencies in junit += "org.hamcrest" % "hamcrest-core" % "1.3" % Test"""
+    ]
   }
 
   ${vars.base} {
@@ -502,7 +511,8 @@ build += {
     uri:  ${vars.uris.scala-java8-compat-uri}
   }
 
-  // frozen (May 2019) at May 2019 commit just before ScalaTest 3.1 upgrade
+  // forked (September 2019) for 2.13.1 compatibility. presumably support will be merged
+  // before too much longer and we can unfork
   ${vars.base} {
     name: "silencer"
     uri:  ${vars.uris.silencer-uri}
@@ -575,7 +585,7 @@ build += {
     extra.commands: ${vars.default-commands} [
       // work around https://github.com/scala/community-builds/issues/575
       // (in a community build context, we don't need MiMa to run)
-      "set every ScalaModulePlugin.mimaPreviousVersion := None"
+      "set every scalaModuleMimaPreviousVersion := None"
     ]
   }
 
