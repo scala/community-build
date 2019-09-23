@@ -1154,6 +1154,8 @@ build += {
     name: "squants"
     uri:  ${vars.uris.squants-uri}
     extra.projects: ["squantsJVM"]
+    // tests routinely hang on 2.11 only. it doesn't seem worth digging into
+    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
