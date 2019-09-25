@@ -215,9 +215,6 @@ build += {
     extra.projects: ["verifyJVM"]
   }
 
-  // well, this is a nice problem to have: ScalaCheck is undergoing such active
-  // development at the moment (August 2019) that it's complicating community
-  // build work by causing repeated rebuild-the-worlds. so, froze it for now.
   ${vars.base} {
     name: "scalacheck"
     uri:  ${vars.uris.scalacheck-uri}
@@ -1997,7 +1994,7 @@ build += {
     // I didn't attempt to add any other subprojects
     extra.projects: ["finagle-core"]
     extra.commands: ${vars.default-commands} [
-      """set finagleCore / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "FailFastFactoryTest.scala""""
+      """set finagleCore / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "FailFastFactoryTest.scala" || "StringServerTest.scala""""
       // not supported on JDK 11+
       "removeJavaOptions -XX:+UseParNewGC"
     ]
@@ -2418,6 +2415,9 @@ build += {
     uri:  ${vars.uris.sttp-uri}
     // needed on sbt 1.3 to avoid NoClassDefFoundError after tests run
     extra.options: ["-Dsbt.classloader.close=false"]
+    // on 1.3.1/1.3.2 we get:
+    // java.lang.LinkageError: loader (instance of  sbt/internal/ManagedClassLoader$ZombieClassLoader): attempted  duplicate class definition for name: "akka/event/Logging$Error$NoCause$"
+    extra.sbt-version: ${vars.sbt-1-2-version}
     // aggregates all JVM projects
     extra.projects: ["rootJVM"]
     extra.exclude: [
