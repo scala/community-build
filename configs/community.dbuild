@@ -1665,14 +1665,6 @@ build += {
   }
 
   ${vars.base} {
-    name: "linter"
-    uri:  ${vars.uris.linter-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
-    // test failures; see https://github.com/scala/community-builds/pull/696
-    extra.test-tasks: "compile"
-  }
-
-  ${vars.base} {
     name: "scala-newtype"
     uri:  ${vars.uris.scala-newtype-uri}
     extra.exclude: ["newtypeJS", "catsTestsJS"]  // no Scala.js plz
