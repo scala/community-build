@@ -2431,6 +2431,8 @@ build += {
   ${vars.base} {
     name: "doobie"
     uri:  ${vars.uris.doobie-uri}
+    // java.lang.NoClassDefFoundError: xerial/sbt/Sonatype$
+    extra.sbt-version: ${vars.sbt-1-2-version}
     extra.options: ["-Xss16m"]  // prevent stack overflow when compiling build definition
     extra.exclude: ["docs", "doobie", "bench"]  // out of scope ("doobie" is just an aggregation, and causes missing-tut error)
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
