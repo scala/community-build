@@ -1241,7 +1241,8 @@ build += {
     extra.projects: ["implicitboxJVM"]
   }
 
-  // forked awaiting merge of https://github.com/monix/monix/pull/875
+  // frozen, using a contributor's fork.
+  // until the big ScalaTest move, it's difficult to find a SHA that isn't too new or too old
   ${vars.base} {
     name: "monix"
     uri:  ${vars.uris.monix-uri}
