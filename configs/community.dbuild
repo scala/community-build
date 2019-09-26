@@ -496,7 +496,7 @@ build += {
     uri:  ${vars.uris.silencer-uri}
   }
 
-  // dependency of metrics-scala
+  // dependency of metrics-scala, and of kafka
   ${vars.base} {
     name: "mockito-scala"
     uri:  ${vars.uris.mockito-scala-uri}
@@ -816,7 +816,6 @@ build += {
   }
 
   // frozen (June 2019) at May 2019 commit just before sbt->mill move
-
   ${vars.base} {
     name: "utest"
     uri:  ${vars.uris.utest-uri}
@@ -909,7 +908,6 @@ build += {
     uri:  ${vars.uris.parboiled2-uri}
     extra.projects: ["parboiledJVM", "examples"]
     extra.commands: ${vars.base.extra.commands} [
-      // errors, who knows why
       "set every scalafmtOnCompile := false"
       // otherwise sbt-gpg errors on `publish`
       "set every gpgWarnOnFailure := true"
@@ -1001,10 +999,6 @@ build += {
     name: "mouse"
     uri:  ${vars.uris.mouse-uri}
     extra.projects: ["crossJVM"]  // no Scala.js please
-    deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
-    extra.commands: ${vars.default-commands} [
-      "removeDependency org.spire-math kind-projector"
-    ]
   }
 
   ${vars.base} {
@@ -1116,7 +1110,8 @@ build += {
     uri:  ${vars.uris.play-file-watch-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
     extra.commands: ${vars.default-commands} [
-      // tends to fail on MacOS
+      // tends to fail on MacOS;
+      // also fails on JDK 12; reported upstream at https://github.com/playframework/play-file-watch/issues/46
       """set excludeFilter in (Test, unmanagedSources) := HiddenFileFilter || "FileWatchServiceSpec.scala""""
     ]
   }
@@ -1753,7 +1748,7 @@ build += {
     extra.commands: ${vars.default-commands} [
       "set every bintrayReleaseOnPublish := false"
     ]
-    // Missing dependency: com.dongxiguo#fastring
+    // Missing dependency: com.dongxiguo#fastring. likely out of scope anyway
     extra.exclude: ["fsi-benchmark", "fsi-benchmark-core"]
   }
 
