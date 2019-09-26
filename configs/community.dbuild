@@ -271,6 +271,10 @@ build += {
     ]
   }
 
+  // frozen before upgrade to sbt-scala-module 2.1.x -- it's causing
+  // e.g. "Symbol 'type scala.collection.generic.GenericParTemplate' is missing from the classpath"
+  // downstream. I should definitely investigate, freezing for now so I can finish
+  // the current repo-wide unfreeze/refreeze
   ${vars.base} {
     name: "scala-parallel-collections"
     uri:  ${vars.uris.scala-parallel-collections-uri}
@@ -304,14 +308,6 @@ build += {
   ${vars.base} {
     name: "splain"
     uri:  ${vars.uris.splain-uri}
-  }
-
-  // dependency of cats
-  ${vars.base} {
-    name: "export-hook"
-    uri:  ${vars.uris.export-hook-uri}
-    extra.sbt-version: ${vars.sbt-0-13-version}
-    extra.projects: ["coreJVM"]  // no Scala.js plz
   }
 
   ${vars.base} {
@@ -464,7 +460,8 @@ build += {
       // hopefully avoid intermittent OutOfMemoryErrors with default 1.5G heap?
       "-Xmx2048m"
     ]
-    extra.projects: ["logging", "testSuite", "linker"]
+    // not really sure how this list was arrived at
+    extra.projects: [ "logging", "linker", "testSuite" ]
     extra.commands: ${vars.default-commands} [
       // - We disable source map tests to save ourselves a `npm install source-map-support` on the workers.
       //   Although only `testSuite` actually has tests, dbuild will try to run the tests for all projects
@@ -536,7 +533,7 @@ build += {
       "-Dakka.genjavadoc.enabled=false", "-Dakka.scaladoc.diagrams=false", "-Dakka.build.aggregateSamples=false", "-Dakka.test.tags.exclude=performance,timing,long-running", "-Dakka.test.multi-in-test=false"
     ]
     extra.projects: ["akka-actor", "akka-actor-typed", "akka-testkit", "akka-actor-tests"]
-    extra.commands:  ${vars.default-commands} [
+    extra.commands: ${vars.default-commands} [
       // https://github.com/scala/community-builds/issues/373
       "set every apiURL := None"
       // needed downstream in akka-stream and/or akka-more
@@ -547,7 +544,8 @@ build += {
       // see https://github.com/scala/community-builds/issues/757
       "set scalacOptions in Compile in actor --= Seq(\"-release\", \"8\")"
       // prone to intermittent failure
-      """set actorTests / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "BackoffSupervisorSpec.scala" || "MetricsBasedResizerSpec.scala" || "EventStreamSpec.scala""""
+      // (except ByteStringSpec, which is https://github.com/akka/akka/issues/27793)
+      """set actorTests / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "BackoffSupervisorSpec.scala" || "MetricsBasedResizerSpec.scala" || "EventStreamSpec.scala" || "ByteStringSpec.scala""""
       """set testkit / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "CoronerSpec.scala""""
     ]
   }
@@ -1251,6 +1249,13 @@ build += {
     extra.projects: ["minitestJVM", "lawsJVM", "lawsLegacyJVM"]  // no Scala.js
   }
 
+  // dependency of monix
+  ${vars.base} {
+    name: "implicitbox"
+    uri:  ${vars.uris.implicitbox-uri}
+    extra.projects: ["implicitboxJVM"]
+  }
+
   // forked awaiting merge of https://github.com/monix/monix/pull/875
   ${vars.base} {
     name: "monix"
@@ -1676,11 +1681,7 @@ build += {
   ${vars.base} {
     name: "fast-string-interpolator"
     uri:  ${vars.uris.fast-string-interpolator-uri}
-    extra.options: ["-Dbintray.user=dummy", "-Dbintray.pass=dummy"]
-    extra.commands: ${vars.default-commands} [
-      "set every bintrayReleaseOnPublish := false"
-    ]
-    // Missing dependency: com.dongxiguo#fastring
+    // Missing dependency: com.dongxiguo#fastring. likely out of scope anyway
     extra.exclude: ["fsi-benchmark", "fsi-benchmark-core"]
   }
 
@@ -1864,6 +1865,10 @@ build += {
     ]
   }
 
+  // frozen (Sep 2019) at an Aug 2019 commit before we got this:
+  // Processing subproject: testsJVM
+  // **** Missing dependency: the library io.get-coursier#coursier is not provided
+  // I didn't investigate, we can deal with it in some future unfreeze
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
@@ -2316,6 +2321,8 @@ build += {
   }
 
   // in this space because it depends on refined (though not in core, only in avro4s-refined subproject)
+  // tempoarily forked (September 2019) for Scala 2.13.1 friendliness, pending merge of
+  // https://github.com/sksamuel/avro4s/pull/377
   ${vars.base} {
     name: "avro4s"
     uri:  ${vars.uris.avro4s-uri}
