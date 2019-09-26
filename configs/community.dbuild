@@ -1152,6 +1152,8 @@ build += {
     name: "squants"
     uri:  ${vars.uris.squants-uri}
     extra.projects: ["squantsJVM"]
+    // reenable once fix for https://github.com/typelevel/squants/issues/356 is merged
+    extra.test-tasks: ["compile"]
   }
 
   ${vars.base} {
