@@ -2299,8 +2299,6 @@ build += {
   }
 
   // in this space because it depends on refined (though not in core, only in avro4s-refined subproject)
-  // tempoarily forked (September 2019) for Scala 2.13.1 friendliness, pending merge of
-  // https://github.com/sksamuel/avro4s/pull/377
   ${vars.base} {
     name: "avro4s"
     uri:  ${vars.uris.avro4s-uri}
