@@ -34,7 +34,7 @@ object SuccessReport {
   //   (?!-) = negative lookahead -- next character is not "-"
   val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
-  val jdk8Failures = Set(
+  val jdk8Failures = Set[String](
     "algebra",          // needs ScalaTest 3.1
     "circe-jackson",    // needs ScalaTest 3.1
     "coursier",         // weird git submodule problem when I tried to unfreeze to get 2.13 support. try again I guess
@@ -53,11 +53,11 @@ object SuccessReport {
     "tsec",             // needs ScalaTest 3.1
   )
 
-  val jdk11Failures = Set(
+  val jdk11Failures = Set[String](
     "splain",  // needs scala/bug#11125 workaround
   )
 
-  val jdk12Failures = Set(
+  val jdk12Failures = Set[String](
     "playframework",    // weird javac problem: https://github.com/scala/community-builds/issues/957
   )
 
