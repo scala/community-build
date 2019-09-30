@@ -35,7 +35,6 @@ object SuccessReport {
   val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
   val jdk8Failures = Set(
-    "scala-js", // awaiting fix for https://github.com/scala-js/scala-js/issues/3785
   )
 
   val jdk11Failures = Set(
