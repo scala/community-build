@@ -544,8 +544,7 @@ build += {
       // see https://github.com/scala/community-builds/issues/757
       "set scalacOptions in Compile in actor --= Seq(\"-release\", \"8\")"
       // prone to intermittent failure
-      // (except ByteStringSpec, which is https://github.com/akka/akka/issues/27793)
-      """set actorTests / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "BackoffSupervisorSpec.scala" || "MetricsBasedResizerSpec.scala" || "EventStreamSpec.scala" || "ByteStringSpec.scala""""
+      """set actorTests / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "BackoffSupervisorSpec.scala" || "MetricsBasedResizerSpec.scala" || "EventStreamSpec.scala""""
       """set testkit / Test / unmanagedSources / excludeFilter := HiddenFileFilter || "CoronerSpec.scala""""
     ]
   }
