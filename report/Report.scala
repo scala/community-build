@@ -82,21 +82,21 @@ object SuccessReport {
     if (!unexpectedFailures.isEmpty) {
       val counts = blockerCounts.withDefaultValue(0)
       val uf = unexpectedFailures.sortBy(counts).reverse.mkString(",")
-      println(s"FAILED: $uf")
+      println(s"FAILURES (UNEXPECTED): $uf")
     }
     if (didNotRun > 0) {
       val blockers =
         blockerCounts.toList.sortBy(_._2).reverse
           .collect{case (blocker, count) => s"$blocker ($count)"}
           .mkString(", ")
-      println(s"BLOCKERS: $blockers")
+      println(s"BLOCKING DOWNSTREAM: $blockers")
     }
     if (unexpectedSuccesses.nonEmpty) {
       val us = unexpectedSuccesses.mkString(",")
-      println(s"UNEXPECTED SUCCESSES: $us")
+      println(s"SUCCESSES (UNEXPECTED): $us")
     }
     println(s"FAILED: $failed")
-    println(s"DID NOT RUN: $didNotRun")
+    println(s"BLOCKED, DID NOT RUN: $didNotRun")
     println(s"TOTAL: $total")
     unexpectedFailures.size
   }
