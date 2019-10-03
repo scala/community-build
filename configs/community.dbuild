@@ -1932,8 +1932,9 @@ build += {
     ]
   }
 
+  // on 2.12.x, we're leaving fastparse(1)+scalapb+scalameta+scalafix+scalafmt all frozen
   // forked (June 2018, refreshed October 2018) to disable IntelliJ stuff
-  // we would need an extra resolver for (and is maybe out of scope anyway)
+  // we would need an extra resolver for (and is out of scope anyway)
   ${vars.base} {
     name: "scalafmt"
     uri:  ${vars.uris.scalafmt-uri}
@@ -1943,9 +1944,7 @@ build += {
     ]
   }
 
-  // frozen (September 2018) at a September 2018 commit just before a scalameta
-  // version bump.  we *could* try to move them forward together, and we will
-  // at some point, but for now, choosing stability.
+  // on 2.12.x, we're leaving fastparse(1)+scalapb+scalameta+scalafix+scalafmt all frozen
   ${vars.base} {
     name: "scalafix"
     uri:  ${vars.uris.scalafix-uri}

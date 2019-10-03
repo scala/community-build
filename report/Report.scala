@@ -3,7 +3,7 @@ object Report extends App {
   ClocReport(log)
   val unexpectedFailureCount = SuccessReport(log)
   SplitLog(log)
-  sys.exit(unexpectedFailureCount)
+  sys.exit(unexpectedFailureCount.getOrElse(1))
 }
 
 object ClocReport {
@@ -71,7 +71,7 @@ object SuccessReport {
         jdk8Failures ++ jdk11Failures ++ jdk12Failures
     }
 
-  def apply(log: io.Source): Int = {
+  def apply(log: io.Source): Option[Int] = {
     val lines = log.getLines.dropWhile(!_.contains("---==  Execution Report ==---"))
     var success, failed, didNotRun = 0
     val unexpectedSuccesses = collection.mutable.Buffer[String]()
@@ -79,6 +79,8 @@ object SuccessReport {
     val blockerCounts = collection.mutable.Map[String, Int]()
     for (Regex(name, status, blockers) <- lines)
       status match {
+        case "EXTRACTION FAILED" =>
+          return None
         case "SUCCESS" =>
           success += 1
           if (expectedToFail(name))
@@ -97,23 +99,23 @@ object SuccessReport {
     if (!unexpectedFailures.isEmpty) {
       val counts = blockerCounts.withDefaultValue(0)
       val uf = unexpectedFailures.sortBy(counts).reverse.mkString(",")
-      println(s"FAILED: $uf")
+      println(s"FAILURES (UNEXPECTED): $uf")
     }
     if (didNotRun > 0) {
       val blockers =
         blockerCounts.toList.sortBy(_._2).reverse
           .collect{case (blocker, count) => s"$blocker ($count)"}
           .mkString(", ")
-      println(s"BLOCKERS: $blockers")
+      println(s"BLOCKING DOWNSTREAM: $blockers")
     }
     if (unexpectedSuccesses.nonEmpty) {
       val us = unexpectedSuccesses.mkString(",")
-      println(s"UNEXPECTED SUCCESSES: $us")
+      println(s"SUCCESSES (UNEXPECTED): $us")
     }
     println(s"FAILED: $failed")
-    println(s"DID NOT RUN: $didNotRun")
+    println(s"BLOCKED, DID NOT RUN: $didNotRun")
     println(s"TOTAL: $total")
-    unexpectedFailures.size
+    Some(unexpectedFailures.size)
   }
 
 }
@@ -166,7 +168,7 @@ object SplitLog {
             iterate()
         }
       else
-        throw new IllegalStateException(s"missing end: $sentinel")
+        writer.close()
     iterate()
   }
 

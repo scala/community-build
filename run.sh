@@ -176,8 +176,8 @@ fi
 # And finally, call dbuild
 echo "dbuild-${DBUILDVERSION}/bin/dbuild"  "$dbuild_args" "$DBUILDCONFIG" "${@}"
 ("dbuild-${DBUILDVERSION}/bin/dbuild"  "$dbuild_args" "$DBUILDCONFIG" "${@}" 2>&1 | tee "dbuild-${DBUILDVERSION}/dbuild.out") || STATUS="$?"
-BUILD_ID="$(grep '^\[info\]  uuid = ' "dbuild-${DBUILDVERSION}/dbuild.out" | sed -e 's/\[info\]  uuid = //')"
-echo "The repeatable UUID of this build was: ${BUILD_ID}"
+BUILD_ID="$(grep '^\[info\]  uuid = ' "dbuild-${DBUILDVERSION}/dbuild.out" | sed -e 's/\[info\]  uuid = //')" && \
+  echo "The repeatable UUID of this build was: ${BUILD_ID}"
 
 # we may have run out of disk, so make space ASAP
 echo "removing temporary files..."
@@ -185,7 +185,9 @@ rm -rf target-*/project-builds
 
 # report summary information (line counts, green project counts, ...?)
 cd report
-sbt -Dsbt.supershell=false -Dlog4j.configurationFile=log4j.properties -error "run ../dbuild-${DBUILDVERSION}/dbuild.out"
+sbt -Dsbt.supershell=false -Dlog4j.configurationFile=log4j.properties -error "run ../dbuild-${DBUILDVERSION}/dbuild.out" > ../report.log
+cd ..
+cat report.log
 
 # we've captured $STATUS above, but in this version of the script, it isn't used,
 # instead the reporting stuff is in charge of calling sys.exit if it decides to
