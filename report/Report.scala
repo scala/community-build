@@ -151,7 +151,7 @@ object SplitLog {
             iterate()
         }
       else
-        throw new IllegalStateException(s"missing end: $sentinel")
+        writer.close()
     iterate()
   }
 
