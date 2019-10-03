@@ -1911,12 +1911,10 @@ build += {
     ]
   }
 
+  // on 2.12.x, we're leaving fastparse(1)+scalapb+scalameta+scalafix+scalafmt all frozen
   // forked off v4.0.0-M11 since that's what scalafix currently (Sep 2 2018) expects
   // our fork includes Jason's 2.12.7 changes (which have probably since been merged
   // upstream) and some JDK 11 friendliness changes.
-  // since then, a November 2018 PR (https://github.com/scalameta/scalameta/pull/1810)
-  // added JDK 11 friendliness, so likely we can unfork the next time it's time to
-  // upgrade the scalameta+scalafix+scalafmt combo
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
@@ -1993,8 +1991,9 @@ build += {
     ]
   }
 
+  // on 2.12.x, we're leaving fastparse(1)+scalapb+scalameta+scalafix+scalafmt all frozen
   // forked (June 2018, refreshed October 2018) to disable IntelliJ stuff
-  // we would need an extra resolver for (and is maybe out of scope anyway)
+  // we would need an extra resolver for (and is out of scope anyway)
   ${vars.base} {
     name: "scalafmt"
     uri:  ${vars.uris.scalafmt-uri}
@@ -2004,9 +2003,7 @@ build += {
     ]
   }
 
-  // frozen (September 2018) at a September 2018 commit just before a scalameta
-  // version bump.  we *could* try to move them forward together, and we will
-  // at some point, but for now, choosing stability.
+  // on 2.12.x, we're leaving fastparse(1)+scalapb+scalameta+scalafix+scalafmt all frozen
   ${vars.base} {
     name: "scalafix"
     uri:  ${vars.uris.scalafix-uri}
