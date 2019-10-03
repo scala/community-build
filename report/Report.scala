@@ -101,6 +101,12 @@ object SuccessReport {
     println(s"FAILED: $failed")
     println(s"BLOCKED, DID NOT RUN: $didNotRun")
     println(s"TOTAL: $total")
+    for (url <- Option(System.getenv("BUILD_URL")))
+      if (unexpectedFailures.nonEmpty) {
+        println()
+        for (failed <- unexpectedFailures)
+          println(s"${url}artifact/logs/$failed-build.log")
+      }
     Some(unexpectedFailures.size)
   }
 
