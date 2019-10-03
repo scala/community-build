@@ -1993,15 +1993,10 @@ build += {
     ]
   }
 
-  // forked (June 2018, refreshed October 2018) to disable IntelliJ stuff
-  // we would need an extra resolver for (and is maybe out of scope anyway)
   ${vars.base} {
     name: "scalafmt"
     uri:  ${vars.uris.scalafmt-uri}
     extra.projects: ["coreJVM", "cli", "tests"]
-    extra.options: [
-      "-Dbintray.user=dummy", "-Dbintray.pass=dummy"
-    ]
   }
 
   // frozen (September 2018) at a September 2018 commit just before a scalameta
