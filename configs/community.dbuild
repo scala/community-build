@@ -1911,30 +1911,14 @@ build += {
     ]
   }
 
-  // forked off v4.0.0-M11 since that's what scalafix currently (Sep 2 2018) expects
-  // our fork includes Jason's 2.12.7 changes (which have probably since been merged
-  // upstream) and some JDK 11 friendliness changes.
-  // since then, a November 2018 PR (https://github.com/scalameta/scalameta/pull/1810)
-  // added JDK 11 friendliness, so likely we can unfork the next time it's time to
-  // upgrade the scalameta+scalafix+scalafmt combo
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
     extra.sbt-version: ${vars.sbt-0-13-version}
-    // allow building on JDK 11
-    extra.options: ["-Dscalameta.allow-any-jdk"]
     extra.projects: [
       // holy cow there are a lot of subprojects. it's not super clear what's important
-      // to include.  this is the main thing:
+      // to include.  this is clearly the main thing though:
       "semanticdbScalacPlugin"
-      // and I empirically found scalafix and/or scalafmt to need:
-      "testkit", "contribJVM", "symtab", "metapJVM"
-    ]
-    // use right version-specific source directories regardless of our weird dbuild Scala version numbers
-    extra.commands: ${vars.default-commands} [
-      """set unmanagedSourceDirectories in (commonJVM, Compile) += (baseDirectory in commonJVM).value / "src" / "main" / "scala-2.12""""
-      """set unmanagedSourceDirectories in (dialectsJVM, Compile) += (baseDirectory in dialectsJVM).value / "src" / "main" / "scala-2.12""""
-      """set unmanagedSourceDirectories in (semanticdbScalacCore, Compile) += (baseDirectory in semanticdbScalacCore).value / "src" / "main" / "scala-2.12.6""""
     ]
   }
 
