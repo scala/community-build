@@ -465,26 +465,6 @@ build += {
     check-missing: false
   }
 
-  // keep this stuff separate so the overall dependency tree is
-  // flatter and when dependencies fail they don't take out every
-  // specs2-using project downstream
-  ${vars.base} {
-    name: "specs2-more"
-    uri:  ${vars.uris.specs2-uri}
-    extra.projects: [
-      "shapelessJVM", "catsJVM", "examplesJVM"
-    ]
-    extra.exclude: [
-      // already built in "specs2"
-      "analysisJVM", "commonJVM", "coreJVM", "fpJVM", "matcherExtraJVM", "matcherJVM",
-      "mockJVM", "junitJVM", "scalacheckJVM"
-    ]
-    extra.commands: ${vars.default-commands} [
-      // not sure if necessary, but we have it in the specs entry, so let's have it here too
-      "set every publishMavenStyle := false"
-    ]
-  }
-
   ${vars.base} {
     name: "scala-java8-compat"
     uri:  ${vars.uris.scala-java8-compat-uri}
@@ -872,6 +852,26 @@ build += {
     extra.commands: ${vars.default-commands} [
       "removeDependency org.spire-math kind-projector"
       """set libraryDependencies in ThisBuild += compilerPlugin("org.typelevel" %% "kind-projector" % "0.0.0")"""
+    ]
+  }
+
+  // keep this stuff separate so the overall dependency tree is
+  // flatter and when dependencies fail they don't take out every
+  // specs2-using project downstream
+  ${vars.base} {
+    name: "specs2-more"
+    uri:  ${vars.uris.specs2-uri}
+    extra.projects: [
+      "shapelessJVM", "catsJVM", "examplesJVM"
+    ]
+    extra.exclude: [
+      // already built in "specs2"
+      "analysisJVM", "commonJVM", "coreJVM", "fpJVM", "matcherExtraJVM", "matcherJVM",
+      "mockJVM", "junitJVM", "scalacheckJVM"
+    ]
+    extra.commands: ${vars.default-commands} [
+      // not sure if necessary, but we have it in the specs entry, so let's have it here too
+      "set every publishMavenStyle := false"
     ]
   }
 
