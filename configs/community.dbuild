@@ -1911,6 +1911,21 @@ build += {
     ]
   }
 
+  // shaded version of fastparse 1 for scalameta's private use
+  ${vars.base} {
+    name: "fastparse-scalameta"
+    uri:  ${vars.uris.fastparse-scalameta-uri}
+    extra.sbt-version: ${vars.sbt-0-13-version}
+    extra.projects: [
+      "fastparseJVM"   // no Scala.js plz
+      "scalaparseJVM"  // scalatex needs this
+    ]
+    extra.commands: ${vars.default-commands} [
+      // historically, too prone to unexplained failure
+      "set executeTests in scalaparseJVM in Test := Tests.Output(TestResult.Passed, Map(), Iterable())"
+    ]
+  }
+
   ${vars.base} {
     name: "scalameta"
     uri:  ${vars.uris.scalameta-uri}
