@@ -219,7 +219,7 @@ build += {
     name: "scala-parser-combinators"
     uri:  ${vars.uris.scala-parser-combinators-uri}
     extra.exclude: ["scala-parser-combinatorsJS", "scala-parser-combinatorsNative"]
-    extra.commands: ${vars.base.extra.commands} [
+    extra.commands: ${vars.default-commands} [
       // work around https://github.com/scala/community-builds/issues/575
       // (in a community build context, we don't need MiMa to run)
       "set every ScalaModulePlugin.mimaPreviousVersion := None"
@@ -315,7 +315,7 @@ build += {
     name: "simulacrum"
     uri:  ${vars.uris.simulacrum-uri}
     extra.projects: ["coreJVM", "examplesJVM"] // no Scala.js please
-    extra.commands: ${vars.base.extra.commands} [
+    extra.commands: ${vars.default-commands} [
       // otherwise sbt-gpg errors on `publish`
       "set every gpgWarnOnFailure := true"
       // we have wartremover, but it's better to avoid the dependency if we can, to help
@@ -580,7 +580,7 @@ build += {
     name: "scodec-bits"
     uri:  ${vars.uris.scodec-bits-uri}
     extra.projects: ["coreJVM"]
-    extra.commands: ${vars.base.extra.commands} [
+    extra.commands: ${vars.default-commands} [
       // because scodec-build brings in sbt-gpg which errors on `publish`
       "set every gpgWarnOnFailure := true"
     ]
@@ -590,7 +590,7 @@ build += {
     name: "scodec"
     uri:  ${vars.uris.scodec-uri}
     extra.projects: ["coreJVM"]
-    extra.commands: ${vars.base.extra.commands} [
+    extra.commands: ${vars.default-commands} [
       // because scodec-build brings in sbt-gpg which errors on `publish`
       "set every gpgWarnOnFailure := true"
     ]
@@ -891,7 +891,7 @@ build += {
     // [fs2] [error] 	at com.lucidchart.sbt.scalafmt.CachePlatform$.fileInfo(Platform.scala:24)
     extra.sbt-version: "1.3.0-RC3"
     extra.projects: ["coreJVM", "io", "reactiveStreams"]  // no Scala.js, no benchmarks or docs
-    extra.commands: ${vars.base.extra.commands} [
+    extra.commands: ${vars.default-commands} [
       // otherwise sbt-gpg errors on `publish`
       "set every gpgWarnOnFailure := true"
     ]
@@ -907,7 +907,7 @@ build += {
     name: "parboiled2"
     uri:  ${vars.uris.parboiled2-uri}
     extra.projects: ["parboiledJVM", "examples"]
-    extra.commands: ${vars.base.extra.commands} [
+    extra.commands: ${vars.default-commands} [
       "set every scalafmtOnCompile := false"
       // otherwise sbt-gpg errors on `publish`
       "set every gpgWarnOnFailure := true"
@@ -948,7 +948,7 @@ build += {
     // surely they'll drop this crufty thing from their build eventually,
     // but for the time being we need to fill in something:
     extra.options: ["-Djava7.home="${JAVA_HOME}]
-    extra.commands: ${vars.base.extra.commands} [
+    extra.commands: ${vars.default-commands} [
       // the `-bootclasspath ...` thing their build does doesn't work on Java 9
       "set javacOptions ~= (_.dropRight(2))"
     ]
@@ -1868,7 +1868,7 @@ build += {
     // this is all of spireJVM but omitting "benchmark". just excluding "benchmark" didn't work, idk why
     extra.projects: ["legacyJVM", "dataJVM", "macrosJVM", "utilJVM", "platformJVM", "coreJVM", "extrasJVM", "lawsJVM", "examples", "testsJVM", "spireJVM"]
     extra.exclude: ["benchmark"]
-    extra.commands: ${vars.base.extra.commands} [
+    extra.commands: ${vars.default-commands} [
       "removeDependency org.openjdk.jmh jmh-core"
       "removeDependency org.openjdk.jmh jmh-generator-bytecode"
       "removeDependency org.openjdk.jmh jmh-generator-reflection"
@@ -1902,7 +1902,7 @@ build += {
     name: "multibot"
     uri:  ${vars.uris.multibot-uri}
     deps.inject: ${vars.base.deps.inject} ["org.typelevel#kind-projector"]
-    extra.commands: ${vars.base.extra.commands} [
+    extra.commands: ${vars.default-commands} [
       "removeDependency org.spire-math kind-projector"
       "removeDependency org.scalaz scalaz-iteratee"
       "removeDependency org.scalaz scalaz-effect"
@@ -2447,7 +2447,7 @@ build += {
     name: "http4s-parboiled2"
     uri:  ${vars.uris.http4s-parboiled2-uri}
     extra.projects: ["parboiledJVM"]
-    extra.commands: ${vars.base.extra.commands} [
+    extra.commands: ${vars.default-commands} [
       // otherwise sbt-gpg errors on `publish`
       "set every gpgWarnOnFailure := true"
     ]
