@@ -34,7 +34,10 @@ object SuccessReport {
   //   (?!-) = negative lookahead -- next character is not "-"
   val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
-  val jdk11Failures = Set(
+  val jdk8Failures = Set[String](
+  )
+
+  val jdk11Failures = Set[String](
     "coursier",  // needs scala/bug#11125 workaround
     "doobie",  // needs scala/bug#11125 workaround
     "sbt-util",  // needs scala/bug#11125 workaround
@@ -47,10 +50,9 @@ object SuccessReport {
   val expectedToFail: Set[String] =
     System.getProperty("java.specification.version") match {
       case "1.8" =>
-        Set(
-        )
+        jdk8Failures
       case _ =>
-        jdk11Failures
+        jdk8Failures ++ jdk11Failures
     }
 
   def apply(log: io.Source): Int = {
