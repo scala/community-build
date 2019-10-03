@@ -35,7 +35,6 @@ vars: {
   base: {}
 }
 
-include file(".dbuild/project-refs.conf")
 include file(".dbuild/resolvers.conf")
 
 //// shared settings
