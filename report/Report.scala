@@ -57,7 +57,7 @@ object SuccessReport {
     "splain",  // needs scala/bug#11125 workaround
   )
 
-  val jdk12Failures = Set[String](
+  val jdk13Failures = Set[String](
     "playframework",    // weird javac problem: https://github.com/scala/community-builds/issues/957
   )
 
@@ -68,7 +68,7 @@ object SuccessReport {
       case "11" =>
         jdk8Failures ++ jdk11Failures
       case _ =>
-        jdk8Failures ++ jdk11Failures ++ jdk12Failures
+        jdk8Failures ++ jdk11Failures ++ jdk13Failures
     }
 
   def apply(log: io.Source): Option[Int] = {
