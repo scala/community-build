@@ -3,7 +3,7 @@ object Report extends App {
   ClocReport(log)
   val unexpectedFailureCount = SuccessReport(log)
   SplitLog(log)
-  sys.exit(unexpectedFailureCount)
+  sys.exit(unexpectedFailureCount.getOrElse(1))
 }
 
 object ClocReport {
@@ -56,7 +56,7 @@ object SuccessReport {
         jdk8Failures ++ jdk11Failures
     }
 
-  def apply(log: io.Source): Int = {
+  def apply(log: io.Source): Option[Int] = {
     val lines = log.getLines.dropWhile(!_.contains("---==  Execution Report ==---"))
     var success, failed, didNotRun = 0
     val unexpectedSuccesses = collection.mutable.Buffer[String]()
@@ -64,6 +64,8 @@ object SuccessReport {
     val blockerCounts = collection.mutable.Map[String, Int]()
     for (Regex(name, status, blockers) <- lines)
       status match {
+        case "EXTRACTION FAILED" =>
+          return None
         case "SUCCESS" =>
           success += 1
           if (expectedToFail(name))
@@ -98,7 +100,7 @@ object SuccessReport {
     println(s"FAILED: $failed")
     println(s"BLOCKED, DID NOT RUN: $didNotRun")
     println(s"TOTAL: $total")
-    unexpectedFailures.size
+    Some(unexpectedFailures.size)
   }
 
 }
