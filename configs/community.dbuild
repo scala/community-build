@@ -718,6 +718,11 @@ build += {
   }
 
   ${vars.base} {
+    name: "akka-streams-tcp-chat"
+    uri:  ${vars.uris.akka-streams-tcp-chat-uri}
+  }
+
+  ${vars.base} {
     name: "scalariform"
     uri: ${vars.uris.scalariform-uri}
   }
