@@ -271,7 +271,7 @@ build += {
     extra.commands: ${vars.default-commands} [
       // work around https://github.com/scala/community-builds/issues/575
       // (in a community build context, we don't need MiMa to run)
-      "set every ScalaModulePlugin.mimaPreviousVersion := None"
+      "set every scalaModuleMimaPreviousVersion := None"
     ]
   }
 
@@ -550,7 +550,7 @@ build += {
     extra.commands: ${vars.default-commands} [
       // work around https://github.com/scala/community-builds/issues/575
       // (in a community build context, we don't need MiMa to run)
-      "set every ScalaModulePlugin.mimaPreviousVersion := None"
+      "set every scalaModuleMimaPreviousVersion := None"
     ]
   }
 
@@ -1209,7 +1209,7 @@ build += {
     name: "scala-continuations"
     uri:  ${vars.uris.scala-continuations-uri}
     extra.commands: ${vars.default-commands} [
-      "set every ScalaModulePlugin.mimaPreviousVersion := None"
+      "set every scalaModuleMimaPreviousVersion := None"
     ]
   }
 
