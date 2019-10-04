@@ -711,7 +711,7 @@ build += {
 
   ${vars.base} {
     name: "akka-streams-tcp-chat"
-    uri:  ${vars.uris.akka-stream-tcp-chat-uri}
+    uri:  ${vars.uris.akka-streams-tcp-chat-uri}
   }
 
   ${vars.base} {
