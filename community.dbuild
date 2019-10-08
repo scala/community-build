@@ -1,0 +1,648 @@
+//// about spaces
+
+// we have these spaces:
+// - scala
+//   - scala.main
+//     - scala.main.jawn_0_10
+//     - scala.main.jawn_0_11
+// the jawn split is because sbt 1 uses jawn 0.10.x (via its dependency
+// on sjson-new) and the sbt team doesn't want to break  binary compatibility
+// of sbt plugins. nearly everything else is on jawn 0.11, and the two versions
+// are source-incompatible.
+
+//// from environment
+
+vars: {
+  scala-version: ""
+  scala-version: ${?version}
+  scalac-opts: ""
+  scalac-opts: ${?scalac_opts}
+  node: "node" // node-js
+  node: ${?NODE}
+}
+
+//// vars.base
+
+// Each project is prefixed by ${vars.base} { ...
+// so that common options or settings can be set by the
+// configuration that includes this common file.
+// Note however that += won't work inside vars.base.
+// It's https://github.com/lightbend/config/issues/160.
+// That's why if you override extra.commands you must
+// explicitly include default-commands.
+
+vars: {
+  base: {}
+}
+
+include file("resolvers.conf")
+
+//// shared settings
+
+vars {
+  default-commands: []
+  sbt-0-13-version: "0.13.18"
+  sbt-1-2-version: "1.2.8"
+  sbt-version: "1.3.2"
+}
+
+//// compiler options manipulation
+
+// appendScalacOptions, removeScalacOptions, removeDependency
+// let us work around https://github.com/lightbend/dbuild/issues/144
+vars.default-commands += """
+set commands ++= {
+  def alterSetting[T](s: State, setting: SettingKey[T])(fn: T => T) = alterKeyImpl(s, setting)(fn)
+  def alterTask[T](s: State, task: TaskKey[T])(fn: T => T) = alterKeyImpl(s, task)(fn)
+  def alterKeyImpl[T](s: State, scopedKey: Scoped)(fn: T => T) = {
+    val extracted = sbt.Project extract s
+    import extracted._
+    val r = sbt.Project.relation(extracted.structure, true)
+    val allDefs = r._1s.toSeq
+    val scopes = allDefs.filter(_.key == scopedKey.key).map(_.scope).distinct
+    val redefined = (scopedKey: @unchecked) match {
+      case setting: SettingKey[T @unchecked] => scopes.map(scope => setting in scope ~= fn)
+      case task: TaskKey[T @unchecked]       => scopes.map(scope => task in scope ~= fn)
+    }
+    val session = extracted.session.appendRaw(redefined)
+    BuiltinCommands.reapply(session, structure, s)
+  }
+  def appendScalacOptions(s: State, args: Seq[String]): State = {
+    def appendDistinct[A](x: Seq[A], y: Seq[A]) =
+      x.filterNot(y.contains) ++ y
+    alterTask(s, scalacOptions)(appendDistinct(_, args))
+  }
+  def removeScalacOptions(s: State, args: Seq[String]): State =
+    alterTask(s, scalacOptions)(_.filterNot(args.contains))
+  def removeJavaOptions(s: State, args: Seq[String]): State =
+    alterTask(s, javaOptions)(_.filterNot(args.contains))
+  def removeDependency(s: State, args: Seq[String]): State = {
+    require(args.size == 2)
+    alterSetting(s, libraryDependencies)(
+      _.filterNot(mod => mod.organization == args(0) && mod.name == args(1)))
+  }
+  Seq(
+    Command.args("appendScalacOptions", "<option>")(appendScalacOptions),
+    Command.args("removeScalacOptions", "<option>")(removeScalacOptions),
+    Command.args("removeJavaOptions", "<option>")(removeJavaOptions),
+    Command.args("removeDependency", "<org> <artifact>")(removeDependency))
+}
+"""
+vars.default-commands += "appendScalacOptions "${vars.scalac-opts}
+vars.default-commands += "removeScalacOptions -Xfatal-warnings"
+vars.base.extra.commands = ${vars.default-commands}
+
+//// count lines of code
+
+vars.base.extra.settings = ["""libraryDependencies in ThisBuild += compilerPlugin("com.lightbend" %% "cloc-plugin" % "0")"""]
+vars.base.deps.inject: ["com.lightbend#cloc-plugin"]
+
+//// cache
+
+// new behemoths have much more disk space, so let's try keeping stuff
+// substantially longer (2 weeks instead of 4-5 days) and see what
+// the effect on disk space usage is, starting March 17 2018
+options.cleanup: {
+  extraction: {
+    success: 336
+    failure: 336
+  }
+  build: {
+    success: 336
+    failure: 336
+  }
+}
+
+//// Scala itself
+
+build += {
+  sbt-version: ${vars.sbt-version}
+  extraction-version: ${vars.scala-version}
+
+  space: scala
+
+  projects: [
+  {
+    name: "cloc-plugin"
+    uri:  "https://github.com/SethTisue/cloc-plugin.git"
+  }
+  {
+    name:  "scala"
+    system: assemble
+    cross-version: binary
+    extra.parts.projects: [
+      {
+        set-version: ${vars.scala-version}
+        name:   scala-library
+        system: aether
+        uri:   "aether:org.scala-lang#scala-library;"${vars.scala-version}
+        extra.sources: true  // Scala.js wants this
+      }
+      {
+        set-version: ${vars.scala-version}
+        name:   scala-reflect
+        system: aether
+        uri:   "aether:org.scala-lang#scala-reflect;"${vars.scala-version}
+      }
+      {
+        set-version: ${vars.scala-version}
+        name:   scala-compiler
+        system: aether
+        uri:   "aether:org.scala-lang#scala-compiler;"${vars.scala-version}
+      }
+      {
+        name: "scala-xml"
+        // master has moved to a new 2.x series, but the Scala 2.12 compiler
+        // is going to continue depending on 1.x, in fact Scala 2.12 will
+        // probably stay frozen at 1.0.6 forever. but the v1.0.6 tag won't
+        // build on JDK 11, so let's use the 1.x branch
+        uri: "https://github.com/scala/scala-xml.git#1.x"
+        // this gives us "scala-xml_2.12" which is what we want, sbt 1 will get
+        // upset if there are two different kinds of scala-xml dependencies
+        // floating around (https://github.com/scala/community-builds/issues/679)
+        cross-version: standard
+        // override sbt version here since otherwise we get
+        // whatever random sbt version the module has
+        extra.sbt-version: ${vars.sbt-0-13-version}
+        extra.commands: ${vars.default-commands} [
+          // override scalaVersion here since otherwise we get
+          // whatever random Scala version the module has
+          "set scalaVersion := \""${vars.scala-version}"\""
+          // work around https://github.com/scala/community-builds/issues/575
+          // (in a community build context, we don't need MiMa to run)
+          "set every ScalaModulePlugin.mimaPreviousVersion := None"
+        ]
+        extra.projects: ["xml"]
+      }
+    ]
+  }
+
+]}
+
+///// includes
+
+// it's annoying, but if we want included files to be able to refer to
+// variables, we can only include them at the top level.  and we can't
+// `include "proj/*.conf"`, that's https://github.com/lightbend/config/issues/639
+
+include "proj/acyclic.conf"
+include "proj/airframe.conf"
+include "proj/akka-contrib-extra.conf"
+include "proj/akka-http-cors.conf"
+include "proj/akka-http-json.conf"
+include "proj/akka-http-session.conf"
+include "proj/akka-http.conf"
+include "proj/akka-management.conf"
+include "proj/akka-more.conf"
+include "proj/akka-persistence-cassandra.conf"
+include "proj/akka-persistence-jdbc.conf"
+include "proj/akka-stream.conf"
+include "proj/akka.conf"
+include "proj/algebra.conf"
+include "proj/alpakka-kafka.conf"
+include "proj/atto.conf"
+include "proj/autowire.conf"
+include "proj/avro4s.conf"
+include "proj/base64.conf"
+include "proj/better-files.conf"
+include "proj/better-monadic-for.conf"
+include "proj/blaze.conf"
+include "proj/boopickle.conf"
+include "proj/breeze.conf"
+include "proj/cachecontrol.conf"
+include "proj/case-app.conf"
+include "proj/catalysts.conf"
+include "proj/cats-effect.conf"
+include "proj/cats.conf"
+include "proj/circe-config.conf"
+include "proj/circe-derivation.conf"
+include "proj/circe-jackson.conf"
+include "proj/circe.conf"
+include "proj/claimant.conf"
+include "proj/classutil.conf"
+include "proj/coursier.conf"
+include "proj/curryhoward.conf"
+include "proj/decline.conf"
+include "proj/discipline.conf"
+include "proj/dispatch.conf"
+include "proj/doobie.conf"
+include "proj/doodle.conf"
+include "proj/droste.conf"
+include "proj/eff.conf"
+include "proj/elastic4s.conf"
+include "proj/enumeratum.conf"
+include "proj/euler.conf"
+include "proj/expecty.conf"
+include "proj/export-hook.conf"
+include "proj/expression-evaluator.conf"
+include "proj/fansi.conf"
+include "proj/fast-string-interpolator.conf"
+include "proj/fastparse.conf"
+include "proj/finagle.conf"
+include "proj/fs2.conf"
+include "proj/genjavadoc.conf"
+include "proj/geny.conf"
+include "proj/gigahorse.conf"
+include "proj/giter8.conf"
+include "proj/github4s.conf"
+include "proj/grizzled.conf"
+include "proj/http4s-parboiled2.conf"
+include "proj/http4s.conf"
+include "proj/implicitbox.conf"
+include "proj/jackson-module-scala.conf"
+include "proj/jawn-0-10.conf"
+include "proj/jawn-0-11.conf"
+include "proj/jawn-fs2.conf"
+include "proj/json4s.conf"
+include "proj/jsoniter-scala.conf"
+include "proj/kafka.conf"
+include "proj/kind-projector.conf"
+include "proj/kits.conf"
+include "proj/kittens.conf"
+include "proj/lagom.conf"
+include "proj/libra.conf"
+include "proj/lift-json.conf"
+include "proj/lightbend-emoji.conf"
+include "proj/linter.conf"
+include "proj/log4s.conf"
+include "proj/machinist.conf"
+include "proj/macro-compat.conf"
+include "proj/macro-paradise.conf"
+include "proj/magnolia.conf"
+include "proj/mdoc.conf"
+include "proj/mercator.conf"
+include "proj/metaconfig.conf"
+include "proj/metrics-scala.conf"
+include "proj/mima.conf"
+include "proj/minitest.conf"
+include "proj/mockito-scala.conf"
+include "proj/monix.conf"
+include "proj/monocle.conf"
+include "proj/mouse.conf"
+include "proj/multibot.conf"
+include "proj/nscala-time.conf"
+include "proj/paiges.conf"
+include "proj/paradox.conf"
+include "proj/parboiled.conf"
+include "proj/parboiled2.conf"
+include "proj/pascal.conf"
+include "proj/pcplod.conf"
+include "proj/perfolation.conf"
+include "proj/play-doc.conf"
+include "proj/play-file-watch.conf"
+include "proj/play-json.conf"
+include "proj/play-webgoat.conf"
+include "proj/play-ws.conf"
+include "proj/playframework.conf"
+include "proj/portable-scala-reflect.conf"
+include "proj/pprint.conf"
+include "proj/prog-scala-examples.conf"
+include "proj/pureconfig.conf"
+include "proj/quicklens.conf"
+include "proj/refined.conf"
+include "proj/sbinary.conf"
+include "proj/sbt-io.conf"
+include "proj/sbt-librarymanagement.conf"
+include "proj/sbt-testng.conf"
+include "proj/sbt-util.conf"
+include "proj/sbt.conf"
+include "proj/scala-async.conf"
+include "proj/scala-collection-compat.conf"
+include "proj/scala-collection-laws.conf"
+include "proj/scala-continuations.conf"
+include "proj/scala-debugger.conf"
+include "proj/scala-gopher.conf"
+include "proj/scala-hedgehog.conf"
+include "proj/scala-java-time.conf"
+include "proj/scala-java8-compat.conf"
+include "proj/scala-js-stubs.conf"
+include "proj/scala-js.conf"
+include "proj/scala-logging.conf"
+include "proj/scala-newtype.conf"
+include "proj/scala-parser-combinators.conf"
+include "proj/scala-partest.conf"
+include "proj/scala-pet-store.conf"
+include "proj/scala-records.conf"
+include "proj/scala-refactoring.conf"
+include "proj/scala-sculpt.conf"
+include "proj/scala-ssh.conf"
+include "proj/scala-stm.conf"
+include "proj/scala-swing.conf"
+include "proj/scala-typed-holes.conf"
+include "proj/scala-xml-quote.conf"
+include "proj/scalacheck-shapeless.conf"
+include "proj/scalacheck.conf"
+include "proj/scaladex.conf"
+include "proj/scalafix.conf"
+include "proj/scalafmt.conf"
+include "proj/scalaj-http.conf"
+include "proj/scalajson.conf"
+include "proj/scalameta.conf"
+include "proj/scalameter.conf"
+include "proj/scalamock.conf"
+include "proj/scalapb.conf"
+include "proj/scalaprops.conf"
+include "proj/akka-streams-tcp-chat.conf"
+include "proj/scalariform.conf"
+include "proj/scalasti.conf"
+include "proj/scalastyle.conf"
+include "proj/scalatags.conf"
+include "proj/scalatest-tests.conf"
+include "proj/scalatest.conf"
+include "proj/scalatex.conf"
+include "proj/scalikejdbc.conf"
+include "proj/scallop.conf"
+include "proj/scapegoat.conf"
+include "proj/scodec-bits.conf"
+include "proj/scodec.conf"
+include "proj/sconfig.conf"
+include "proj/scopt.conf"
+include "proj/scoverage.conf"
+include "proj/scribe.conf"
+include "proj/scrooge-shapes.conf"
+include "proj/scrooge.conf"
+include "proj/shaded-scalajson.conf"
+include "proj/shapeless.conf"
+include "proj/silencer.conf"
+include "proj/simulacrum.conf"
+include "proj/singleton-ops.conf"
+include "proj/sjson-new.conf"
+include "proj/sksamuel-exts.conf"
+include "proj/slick.conf"
+include "proj/sourcecode.conf"
+include "proj/specs2-more.conf"
+include "proj/specs2.conf"
+include "proj/spire.conf"
+include "proj/splain.conf"
+include "proj/spray-json.conf"
+include "proj/squants.conf"
+include "proj/ssl-config.conf"
+include "proj/sttp.conf"
+include "proj/treehugger.conf"
+include "proj/tsec.conf"
+include "proj/tut.conf"
+include "proj/twirl.conf"
+include "proj/twitter-util.conf"
+include "proj/twotails.conf"
+include "proj/unfiltered.conf"
+include "proj/unique.conf"
+include "proj/upickle.conf"
+include "proj/utest.conf"
+include "proj/vault.conf"
+include "proj/verify.conf"
+include "proj/wartremover.conf"
+include "proj/zinc.conf"
+
+//// space: scala.main
+
+build += {
+
+  space: scala.main
+
+  check-missing: [ true, false ]
+  cross-version: [ disabled, standard ]
+  extraction-version: ${vars.scala-version}
+  sbt-version: ${vars.sbt-version}
+
+  projects: [
+
+  ${vars.proj.verify}
+  ${vars.proj.scalacheck}
+  ${vars.proj.scalatest}
+  ${vars.proj.scala-parser-combinators}
+  ${vars.proj.scala-js-stubs}
+  ${vars.proj.macro-paradise}
+  ${vars.proj.shapeless}
+  ${vars.proj.kind-projector}
+  ${vars.proj.specs2}
+  ${vars.proj.scala-collection-compat}
+  ${vars.proj.scala-typed-holes}
+  ${vars.proj.scala-hedgehog}
+  ${vars.proj.splain}
+  ${vars.proj.export-hook}
+  ${vars.proj.scala-java-time}
+  ${vars.proj.simulacrum}
+  ${vars.proj.discipline}
+  ${vars.proj.catalysts}
+  ${vars.proj.machinist}
+  ${vars.proj.macro-compat}
+  ${vars.proj.wartremover}
+  ${vars.proj.cats}
+  ${vars.proj.kittens}
+  ${vars.proj.claimant}
+  ${vars.proj.tut}
+  ${vars.proj.genjavadoc}
+  ${vars.proj.scala-js}
+  ${vars.proj.scala-java8-compat}
+  ${vars.proj.silencer}
+  ${vars.proj.mockito-scala}
+  ${vars.proj.akka}
+  ${vars.proj.scalatest-tests}
+  ${vars.proj.scala-partest}
+  ${vars.proj.scala-swing}
+  ${vars.proj.scala-stm}
+  ${vars.proj.scoverage}
+  ${vars.proj.scodec-bits}
+  ${vars.proj.scodec}
+  ${vars.proj.scala-records}
+  ${vars.proj.ssl-config}
+  ${vars.proj.akka-stream}
+  ${vars.proj.akka-more}
+  ${vars.proj.akka-http}
+  ${vars.proj.scalariform}
+  ${vars.proj.scala-async}
+  ${vars.proj.prog-scala-examples}
+  ${vars.proj.slick}
+  ${vars.proj.sbt-testng}
+  ${vars.proj.sbinary}
+  ${vars.proj.acyclic}
+  ${vars.proj.sourcecode}
+  ${vars.proj.portable-scala-reflect}
+  ${vars.proj.utest}
+  ${vars.proj.fastparse}
+  ${vars.proj.geny}
+  ${vars.proj.scala-logging}
+  ${vars.proj.scalaprops}
+  ${vars.proj.cats-effect}
+  ${vars.proj.specs2-more}
+  ${vars.proj.fs2}
+  ${vars.proj.parboiled}
+  ${vars.proj.parboiled2}
+  ${vars.proj.eff}
+  ${vars.proj.jackson-module-scala}
+  ${vars.proj.twitter-util}
+  ${vars.proj.mima}
+  ${vars.proj.mouse}
+  ${vars.proj.spray-json}
+  ${vars.proj.pcplod}
+  ${vars.proj.scalikejdbc}
+  ${vars.proj.scopt}
+  ${vars.proj.expecty}
+  ${vars.proj.twirl}
+  ${vars.proj.play-doc}
+  ${vars.proj.play-json}
+  ${vars.proj.cachecontrol}
+  ${vars.proj.play-ws}
+  ${vars.proj.better-files}
+  ${vars.proj.play-file-watch}
+  ${vars.proj.playframework}
+  ${vars.proj.json4s}
+  ${vars.proj.lift-json}
+  ${vars.proj.squants}
+  ${vars.proj.sconfig}
+  ${vars.proj.scalamock}
+  ${vars.proj.monocle}
+  ${vars.proj.scala-continuations}
+  ${vars.proj.scala-ssh}
+  ${vars.proj.scalameter}
+  ${vars.proj.scalajson}
+  ${vars.proj.scalatags}
+  ${vars.proj.scala-refactoring}
+  ${vars.proj.minitest}
+  ${vars.proj.implicitbox}
+  ${vars.proj.monix}
+  ${vars.proj.akka-contrib-extra}
+  ${vars.proj.unfiltered}
+  ${vars.proj.dispatch}
+  ${vars.proj.log4s}
+  ${vars.proj.blaze}
+  ${vars.proj.fansi}
+  ${vars.proj.pprint}
+  ${vars.proj.algebra}
+  ${vars.proj.scala-xml-quote}
+  ${vars.proj.scalaj-http}
+  ${vars.proj.lightbend-emoji}
+  ${vars.proj.twotails}
+  ${vars.proj.scala-gopher}
+  ${vars.proj.scalapb}
+  ${vars.proj.paiges}
+  ${vars.proj.case-app}
+  ${vars.proj.doodle}
+  ${vars.proj.scala-collection-laws}
+  ${vars.proj.scalastyle}
+  ${vars.proj.play-webgoat}
+  ${vars.proj.gigahorse}
+  ${vars.proj.sbt-io}
+  ${vars.proj.coursier}
+  ${vars.proj.scallop}
+  ${vars.proj.nscala-time}
+  ${vars.proj.elastic4s}
+  ${vars.proj.sksamuel-exts}
+  ${vars.proj.akka-http-cors}
+  ${vars.proj.akka-http-session}
+  ${vars.proj.paradox}
+  ${vars.proj.akka-persistence-cassandra}
+  ${vars.proj.akka-persistence-jdbc}
+  ${vars.proj.akka-management}
+  ${vars.proj.alpakka-kafka}
+  ${vars.proj.lagom}
+  ${vars.proj.scala-sculpt}
+  ${vars.proj.singleton-ops}
+  ${vars.proj.metrics-scala}
+  ${vars.proj.scapegoat}
+  ${vars.proj.linter}
+  ${vars.proj.scala-newtype}
+  ${vars.proj.fast-string-interpolator}
+  ${vars.proj.scalacheck-shapeless}
+  ${vars.proj.curryhoward}
+  ${vars.proj.mercator}
+  ${vars.proj.magnolia}
+  ${vars.proj.scalasti}
+  ${vars.proj.grizzled}
+  ${vars.proj.classutil}
+  ${vars.proj.giter8}
+  ${vars.proj.spire}
+  ${vars.proj.libra}
+  ${vars.proj.breeze}
+  ${vars.proj.multibot}
+  ${vars.proj.scalameta}
+  ${vars.proj.jsoniter-scala}
+  ${vars.proj.expression-evaluator}
+  ${vars.proj.scalatex}
+  ${vars.proj.better-monadic-for}
+  ${vars.proj.metaconfig}
+  ${vars.proj.scalafmt}
+  ${vars.proj.scalafix}
+  ${vars.proj.euler}
+  ${vars.proj.airframe}
+  ${vars.proj.kafka}
+  ${vars.proj.pascal}
+  ${vars.proj.mdoc}
+  ${vars.proj.perfolation}
+  ${vars.proj.scribe}
+  ${vars.proj.quicklens}
+  ${vars.proj.kits}
+  ${vars.proj.finagle}
+  ${vars.proj.treehugger}
+
+]}
+
+//// space: jawn_0_10
+
+build += {
+
+  space: scala.main.jawn_0_10
+
+  check-missing: [ true, false ]
+  cross-version: [ disabled, standard ]
+  extraction-version: ${vars.scala-version}
+  sbt-version: ${vars.sbt-version}
+
+  projects: [
+
+  ${vars.proj.jawn-0-10}
+  ${vars.proj.shaded-scalajson}
+  ${vars.proj.sjson-new}
+  ${vars.proj.sbt-util}
+  ${vars.proj.sbt-librarymanagement}
+  ${vars.proj.zinc}
+  ${vars.proj.sbt}
+  ${vars.proj.upickle}
+  ${vars.proj.autowire}
+  ${vars.proj.akka-http-json}
+  ${vars.proj.scaladex}
+  ${vars.proj.scala-debugger}
+
+]}
+
+//// space: jawn_0_11
+
+build += {
+
+  space: scala.main.jawn_0_11
+
+  check-missing: [ true, false ]
+  cross-version: [ disabled, standard ]
+  extraction-version: ${vars.scala-version}
+  sbt-version: ${vars.sbt-version}
+
+  projects: [
+
+  ${vars.proj.boopickle}
+  ${vars.proj.enumeratum}
+  ${vars.proj.jawn-0-11}
+  ${vars.proj.circe}
+  ${vars.proj.jawn-fs2}
+  ${vars.proj.http4s-parboiled2}
+  ${vars.proj.unique}
+  ${vars.proj.vault}
+  ${vars.proj.http4s}
+  ${vars.proj.base64}
+  ${vars.proj.github4s}
+  ${vars.proj.circe-config}
+  ${vars.proj.pureconfig}
+  ${vars.proj.refined}
+  ${vars.proj.avro4s}
+  ${vars.proj.atto}
+  ${vars.proj.droste}
+  ${vars.proj.decline}
+  ${vars.proj.sttp}
+  ${vars.proj.scrooge}
+  ${vars.proj.scrooge-shapes}
+  ${vars.proj.circe-derivation}
+  ${vars.proj.circe-jackson}
+  ${vars.proj.doobie}
+  ${vars.proj.tsec}
+  ${vars.proj.scala-pet-store}
+
+]}

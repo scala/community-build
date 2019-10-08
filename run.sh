@@ -16,7 +16,7 @@ export HOME="$(pwd)"
 
 # Defaults
 root_dir=$(pwd)
-config_dir="configs"
+config_dir="."
 dbuild_file="$config_dir/community.dbuild"
 resolvers_file_default="$config_dir/resolvers.conf"
 resolvers_file=$resolvers_file_default
