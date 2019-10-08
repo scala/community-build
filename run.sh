@@ -18,7 +18,6 @@ export HOME="$(pwd)"
 root_dir=$(pwd)
 config_dir="configs"
 dbuild_file="$config_dir/community.dbuild"
-project_refs_conf="$config_dir/project-refs.conf"
 resolvers_file_default="$config_dir/resolvers.conf"
 resolvers_file=$resolvers_file_default
 debug="false"
@@ -64,7 +63,6 @@ while getopts c:dD:f:hlnp:r:s:v: c; do
   case $c in
     c) config_dir="$OPTARG"
        dbuild_file="$config_dir/community.dbuild"
-       project_refs_conf="$config_dir/project-refs.conf"
        resolvers_file_default="$config_dir/resolvers.conf"
        resolvers_file=$resolvers_file_default
        ;;
@@ -121,7 +119,6 @@ if [ "$resolvers_file" = "none" ]; then
 else
   cat $resolvers_file > .dbuild/resolvers.conf
 fi
-cat $project_refs_conf > .dbuild/project-refs.conf
 
 # Set dbuild version and config file
 DBUILDVERSION=0.9.16
