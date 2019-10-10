@@ -115,7 +115,10 @@ object SuccessReport {
     println(s"FAILED: $failed")
     println(s"BLOCKED, DID NOT RUN: $didNotRun")
     println(s"TOTAL: $total")
-    Some(unexpectedFailures.size)
+    if (success == 0)
+      Some(1)
+    else
+      Some(unexpectedFailures.size)
   }
 
 }
