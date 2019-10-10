@@ -1,7 +1,9 @@
 object Report extends App {
   def log = io.Source.fromFile(args(0))
   ClocReport(log)
-  SuccessReport(log)
+  val unexpectedFailureCount = SuccessReport(log)
+  SplitLog(log)
+  sys.exit(unexpectedFailureCount.getOrElse(1))
 }
 
 object ClocReport {
@@ -32,32 +34,30 @@ object SuccessReport {
   //   (?!-) = negative lookahead -- next character is not "-"
   val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
-  val jdk11Failures = Set(
+  val jdk8Failures = Set[String](
+  )
+
+  val jdk11Failures = Set[String](
     "coursier",  // needs scala/bug#11125 workaround
     "doobie",  // needs scala/bug#11125 workaround
-    "lagom",  // "javadoc: error - invalid flag: -d"
+    "mima", // (core / apiMappings) java.lang.NullPointerException
     "multibot",  //  - testScalaInterpreter *** FAILED ***; [java.lang.SecurityException: ("java.lang.RuntimePermission" "accessSystemModules")
     "sbt-util",  // needs scala/bug#11125 workaround
     "scala-debugger",  // "object FieldInfo is not a member of package sun.reflect"
     "scala-refactoring",  // needs scala/bug#11125 workaround?
     "scalafix",  // needs scala/bug#11125 workaround
-    "twitter-util",  // "javadoc: error - invalid flag: -d"
+    "splain",  // needs scala/bug#11125 workaround
   )
 
   val expectedToFail: Set[String] =
     System.getProperty("java.specification.version") match {
       case "1.8" =>
-        Set(
-        )
-      case "11" =>
-        jdk11Failures
+        jdk8Failures
       case _ =>
-        jdk11Failures ++ Set(
-          "play-file-watch"  // https://github.com/playframework/play-file-watch/issues/46
-        )
+        jdk8Failures ++ jdk11Failures
     }
 
-  def apply(log: io.Source): Unit = {
+  def apply(log: io.Source): Option[Int] = {
     val lines = log.getLines.dropWhile(!_.contains("---==  Execution Report ==---"))
     var success, failed, didNotRun = 0
     val unexpectedSuccesses = collection.mutable.Buffer[String]()
@@ -65,6 +65,8 @@ object SuccessReport {
     val blockerCounts = collection.mutable.Map[String, Int]()
     for (Regex(name, status, blockers) <- lines)
       status match {
+        case "EXTRACTION FAILED" =>
+          return None
         case "SUCCESS" =>
           success += 1
           if (expectedToFail(name))
@@ -83,23 +85,80 @@ object SuccessReport {
     if (!unexpectedFailures.isEmpty) {
       val counts = blockerCounts.withDefaultValue(0)
       val uf = unexpectedFailures.sortBy(counts).reverse.mkString(",")
-      println(s"FAILED: $uf")
+      println(s"FAILURES (UNEXPECTED): $uf")
     }
     if (didNotRun > 0) {
       val blockers =
         blockerCounts.toList.sortBy(_._2).reverse
           .collect{case (blocker, count) => s"$blocker ($count)"}
           .mkString(", ")
-      println(s"BLOCKERS: $blockers")
+      println(s"BLOCKING DOWNSTREAM: $blockers")
     }
     if (unexpectedSuccesses.nonEmpty) {
       val us = unexpectedSuccesses.mkString(",")
-      println(s"UNEXPECTED SUCCESSES: $us")
+      println(s"SUCCESSES (UNEXPECTED): $us")
     }
     println(s"FAILED: $failed")
-    println(s"DID NOT RUN: $didNotRun")
+    println(s"BLOCKED, DID NOT RUN: $didNotRun")
     println(s"TOTAL: $total")
-    sys.exit(unexpectedFailures.size)
+    if (success == 0)
+      Some(1)
+    else
+      Some(unexpectedFailures.size)
+  }
+
+}
+
+object SplitLog {
+
+  val BeginDependencies = """\[info\] ---== Dependency Information ===---""".r
+  val EndDependencies = """\[info\] ---== ()End Dependency Information ===---""".r
+  val BeginExtract = """\[([^\]]+)\] --== Extracting dependencies for .+ ==--""".r
+  val EndExtract = """\[([^\]]+)\] --== End Extracting dependencies for .+ ==--""".r
+  val BeginBuild = """\[([^\]]+)\] --== Building .+ ==--""".r
+  val EndBuild = """\[([^\]]+)\] --== End Building .+ ==--""".r
+
+  def apply(log: io.Source): Unit = {
+    val dir = new java.io.File("../logs")
+    dir.mkdirs()
+    val lines = log.getLines
+    while (lines.hasNext)
+      lines.next match {
+        case BeginDependencies() =>
+          slurp(lines, makeWriter("../dependencies.log"), EndDependencies)
+        case BeginExtract(name) =>
+          slurp(lines, makeWriter(s"../logs/$name-extract.log"), EndExtract)
+        case BeginBuild(name) =>
+          slurp(lines, makeWriter(s"../logs/$name-build.log"), EndBuild)
+        case _ =>
+      }
+  }
+
+  import java.io.PrintWriter
+
+  private def makeWriter(path: String): PrintWriter = {
+    import java.io._
+    val file = new File(path)
+    val foStream = new FileOutputStream(file, false)  // false = overwrite, don't append
+    val osWriter = new OutputStreamWriter(foStream)
+    new PrintWriter(osWriter)
+  }
+
+  import scala.util.matching.Regex, annotation.tailrec
+
+  def slurp(lines: Iterator[String], writer: java.io.PrintWriter, sentinel: Regex): Unit = {
+    @tailrec def iterate(): Unit =
+      if (lines.hasNext)
+        lines.next match {
+          case sentinel(_) =>
+            writer.close()
+          case line =>
+            writer.println(line)
+            iterate()
+        }
+      else
+        writer.close()
+    iterate()
   }
 
 }
