@@ -107,7 +107,10 @@ object SuccessReport {
         for (failed <- unexpectedFailures)
           println(s"${url}artifact/logs/$failed-build.log")
       }
-    Some(unexpectedFailures.size)
+    if (success == 0)
+      Some(1)
+    else
+      Some(unexpectedFailures.size)
   }
 
 }
