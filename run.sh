@@ -17,7 +17,7 @@ export HOME="$(pwd)"
 # Defaults
 root_dir=$(pwd)
 config_dir="."
-dbuild_file="$config_dir/community.dbuild"
+dbuild_file="$config_dir/community.conf"
 resolvers_file_default="$config_dir/resolvers.conf"
 resolvers_file=$resolvers_file_default
 debug="false"
@@ -29,7 +29,7 @@ dbuild_args=""
 Usage(){
     ex=$1
     shift
-echo >&2 "Usage: `basename $0` [<options>] [projects...]
+echo >&2 "Usage: `basename $0` [<options>] [project,projects...]
 Function: Downloads dbuild if not already installed locally and runs dbuild with defined options.
 
 Options:
@@ -62,7 +62,7 @@ If no Scala version is specified, we use whatever's in nightly.properties.
 while getopts c:dD:f:hlnp:r:s:v: c; do
   case $c in
     c) config_dir="$OPTARG"
-       dbuild_file="$config_dir/community.dbuild"
+       dbuild_file="$config_dir/community.conf"
        resolvers_file_default="$config_dir/resolvers.conf"
        resolvers_file=$resolvers_file_default
        ;;
