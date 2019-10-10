@@ -197,6 +197,7 @@ include "proj/akka-more.conf"
 include "proj/akka-persistence-cassandra.conf"
 include "proj/akka-persistence-jdbc.conf"
 include "proj/akka-stream.conf"
+include "proj/akka-streams-tcp-chat.conf"
 include "proj/akka.conf"
 include "proj/algebra.conf"
 include "proj/alpakka-kafka.conf"
@@ -342,7 +343,6 @@ include "proj/scalameter.conf"
 include "proj/scalamock.conf"
 include "proj/scalapb.conf"
 include "proj/scalaprops.conf"
-include "proj/akka-streams-tcp-chat.conf"
 include "proj/scalariform.conf"
 include "proj/scalasti.conf"
 include "proj/scalastyle.conf"
@@ -449,6 +449,7 @@ build += {
   ${vars.proj.akka-stream}
   ${vars.proj.akka-more}
   ${vars.proj.akka-http}
+  ${vars.proj.akka-streams-tcp-chat}
   ${vars.proj.scalariform}
   ${vars.proj.scala-async}
   ${vars.proj.prog-scala-examples}
