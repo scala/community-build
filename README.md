@@ -4,13 +4,13 @@
 
 This repository contains configuration files that enable us to build and test
 a corpus of Scala open source projects together using Lightbend's
-[dbuild](https://github.com/lightbend/dbuild). This project is financed and 
-primarily maintained by Lightbend, as part of our overall maintenance of the 
+[dbuild](https://github.com/lightbend/dbuild). This project is financed and
+primarily maintained by Lightbend, as part of our overall maintenance of the
 Scala compiler and standard library.
 
 **How big is it?**
 It's **3.6 million lines** of Scala code, total,
-from **199 projects** (as of August 2019),
+from **203 projects** (as of October 2019),
 and takes about **15 hours** to run.
 
 **Why do this?** The main goal is to guard against regressions in new
