@@ -1,8 +1,10 @@
 object Report extends App {
   def log = io.Source.fromFile(args(0))
+  println("<pre>")
   ClocReport(log)
   val unexpectedFailureCount = SuccessReport(log)
   SplitLog(log)
+  println("</pre>")
   sys.exit(unexpectedFailureCount.getOrElse(1))
 }
 
@@ -105,7 +107,7 @@ object SuccessReport {
       if (unexpectedFailures.nonEmpty) {
         println()
         for (failed <- unexpectedFailures)
-          println(s"${url}artifact/logs/$failed-build.log")
+          println(s"""<a href="${url}artifact/logs/$failed-build.log">$failed</a>""")
       }
     if (success == 0)
       Some(1)
