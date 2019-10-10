@@ -1,0 +1,52 @@
+#!/usr/bin/env sbt -Dsbt.version=1.3.2 -Dsbt.main.class=sbt.ScriptMain -Dsbt.supershell=false -error
+
+/***
+scalaVersion := "2.13.1"
+onLoadMessage := ""
+scalacOptions ++= Seq(
+ "-deprecation", "-unchecked", "-feature", "-Xfatal-warnings")
+libraryDependencies ++= Seq(
+  "com.github.pathikrit" %% "better-files" % "3.8.0",
+)
+*/
+
+import better.files._
+
+def munge(l: String, replacement: String): String =
+  if (l.startsWith("""  uri: "https://github"""))
+    s"""  uri: "$replacement""""
+  else
+    l
+
+def getSha(repo: String, ref: String): String =
+  if (ref.matches("\\p{XDigit}{40}"))
+    ref
+  else {
+    import scala.sys.process._
+    val cmd = s"git ls-remote $repo $ref"
+    Process(cmd).lazyLines.headOption match {
+      case Some(line) =>
+        line.split("\\s").head
+      case None =>
+        throw new RuntimeException(s"$repo $ref")
+    }
+  }
+
+// regexes for matching first line of each project's config
+val GitHub = """// (https://github.com/\S*.git)#?(\S*)(\s*.*)""".r
+val Ivy = """// ivy:.*""".r
+
+for (file <- File("proj").list(_.extension == Some(".conf"))) {
+  val lines = file.lines.to(Vector)
+  lines.head match {
+    case GitHub(repo, ref, comment) =>
+      val uri = s"$repo#${getSha(repo, ref)}"
+      println(uri)  // indicate progress
+      file.clear()
+      file.printLines(lines.map(munge(_, uri)))
+    case Ivy() =>
+      // okay to skip
+    case bad =>
+      throw new IllegalArgumentException(bad)
+  }
+}
