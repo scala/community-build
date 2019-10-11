@@ -84,9 +84,10 @@ object SuccessReport {
       }
     val total = success + failed + didNotRun
     println(s"SUCCEEDED: $success")
-    if (!unexpectedFailures.isEmpty) {
-      val counts = blockerCounts.withDefaultValue(0)
-      val uf = unexpectedFailures.sortBy(counts).reverse.mkString(",")
+    val sortedFailures =
+      unexpectedFailures.sortBy(blockerCounts.withDefaultValue(0)).reverse
+    if (unexpectedFailures.nonEmpty) {
+      val uf = sortedFailures.mkString(",")
       println(s"FAILURES (UNEXPECTED): $uf")
     }
     if (didNotRun > 0) {
@@ -106,7 +107,7 @@ object SuccessReport {
     for (url <- Option(System.getenv("BUILD_URL")))
       if (unexpectedFailures.nonEmpty) {
         println()
-        for (failed <- unexpectedFailures)
+        for (failed <- sortedFailures)
           println(s"""<a href="${url}artifact/logs/$failed-build.log">$failed</a>""")
       }
     if (success == 0)
