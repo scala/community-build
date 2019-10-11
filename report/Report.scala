@@ -60,7 +60,15 @@ object SuccessReport {
   )
 
   val jdk13Failures = Set[String](
-    "playframework",    // weird javac problem: https://github.com/scala/community-builds/issues/957
+    "expression-evaluator",  // Unsupported class file major version
+    "jawn-0-11",  // Unsupported class file major version
+    "log4s",  // Unsupported class file major version
+    "mockito-scala",  // "Mockito cannot mock this class"
+    "sbt-io",  // Error during tests: sbt.io.IOSpecification
+    "scala-async",  // Unsupported class file major version
+    "scala-js",  // compile errors from new overloads in Java stdlib
+    "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
+    "utest",  // Unsupported class file major version
   )
 
   val expectedToFail: Set[String] =
