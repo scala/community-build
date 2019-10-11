@@ -51,12 +51,29 @@ object SuccessReport {
     "splain",  // needs scala/bug#11125 workaround
   )
 
+  val jdk13Failures = Set[String](
+    "breeze",   // Unsupported class file major version
+    "curryhoward",  // Unsupported class file major version
+    "expression-evaluator",  // Unsupported class file major version
+    "jawn-0-10",  // Unsupported class file major version
+    "jawn-0-11",  // Unsupported class file major version
+    "log4s",  // Unsupported class file major version
+    "playframework",  // Failed tests: play.mvc.HttpFormsTest
+    "scala-async",  // Unsupported class file major version
+    "scala-js",  // compile errors from new overloads in Java stdlib
+    "scala-partest",  // Unsupported class file major version
+    "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
+    "utest",  // Unsupported class file major version
+  )
+
   val expectedToFail: Set[String] =
     System.getProperty("java.specification.version") match {
       case "1.8" =>
         jdk8Failures
-      case _ =>
+      case "11" =>
         jdk8Failures ++ jdk11Failures
+      case _ =>
+        jdk8Failures ++ jdk11Failures ++ jdk13Failures
     }
 
   def apply(log: io.Source): Option[Int] = {
