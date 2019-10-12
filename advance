@@ -1,5 +1,10 @@
 #!/usr/bin/env sbt -Dsbt.version=1.3.2 -Dsbt.main.class=sbt.ScriptMain -Dsbt.supershell=false -error
 
+// to advance all projects:
+//   % ./advance scalacheck
+// to advance just selected ones:
+//   % ./advance scalacheck scalatest specs2
+
 /***
 scalaVersion := "2.13.1"
 onLoadMessage := ""
@@ -33,10 +38,18 @@ def getSha(repo: String, ref: String): String =
   }
 
 // regexes for matching first line of each project's config
-val GitHub = """// (https://github.com/\S*.git)#?(\S*)(\s*.*)""".r
+// note that we require an explicit tag or branch name,
+// or a SHA (which must be the whole 40 characters).
+// (dbuild defaults to `master`, but I prefer to make it explicit,
+// to avoid confusion over whether the default is `master` or
+// the repo's own default branch, which might be called something else)
+val GitHub = """// (https://github.com/\S*.git)#(\S*)(\s*.*)""".r
 val Ivy = """// ivy:.*""".r
 
-for (file <- File("proj").list(_.extension == Some(".conf"))) {
+for {
+  file <- File("proj").list(_.extension == Some(".conf"))
+  if args.isEmpty || args.contains(file.nameWithoutExtension)
+} {
   val lines = file.lines.to(Vector)
   lines.head match {
     case GitHub(repo, ref, comment) =>
