@@ -157,7 +157,7 @@ object SplitLog {
     while (lines.hasNext)
       lines.next match {
         case BeginDependencies() =>
-          slurp(lines, makeWriter("../dependencies.log"), EndDependencies)
+          slurp(lines, makeWriter("../dependencies.txt"), EndDependencies)
         case BeginExtract(name) =>
           slurp(lines, makeWriter(s"../logs/$name-extract.log"), EndExtract)
         case BeginBuild(name) =>
