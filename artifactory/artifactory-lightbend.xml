@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<config xmlns="http://artifactory.jfrog.org/xsd/2.2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jfrog.org/xsd/artifactory-v2_2_1.xsd">
+<config xmlns="http://artifactory.jfrog.org/xsd/2.2.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jfrog.org/xsd/artifactory-v2_2_3.xsd">
     <offlineMode>false</offlineMode>
     <helpLinksEnabled>true</helpLinksEnabled>
     <fileUploadMaxSizeMb>100</fileUploadMaxSizeMb>
-    <revision>13</revision>
+    <revision>14</revision>
     <dateFormat>dd-MM-yy HH:mm:ss z</dateFormat>
     <addons>
         <showAddonsInfo>true</showAddonsInfo>
@@ -1150,6 +1150,7 @@
             <dockerApiVersion>V2</dockerApiVersion>
             <forceNugetAuthentication>false</forceNugetAuthentication>
             <artifactoryRequestsCanRetrieveRemoteArtifacts>false</artifactoryRequestsCanRetrieveRemoteArtifacts>
+            <resolveDockerTagsByTimestamp>false</resolveDockerTagsByTimestamp>
             <repositories>
                 <repositoryRef>jenkins-ci-releases</repositoryRef>
                 <repositoryRef>ambiata-oss</repositoryRef>
@@ -1331,5 +1332,8 @@
     <signedUrlConfig>
         <maxValidForSeconds>31536000</maxValidForSeconds>
     </signedUrlConfig>
+    <downloadRedirectConfig>
+        <fileMinimumSize>1</fileMinimumSize>
+    </downloadRedirectConfig>
 </config>
 
