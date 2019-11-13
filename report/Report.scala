@@ -69,7 +69,6 @@ object SuccessReport {
     "scala-async",  // Unsupported class file major version
     "scala-js",  // compile errors from new overloads in Java stdlib
     "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
-    "utest",  // Unsupported class file major version
   )
 
   val expectedToFail: Set[String] =
