@@ -38,8 +38,6 @@
 [info]   depends on: cloc-plugin, scala, scalacheck
 [info] Project scala-parallel-collections
 [info]   depends on: cloc-plugin, scala, scalacheck
-[info] Project scala-js
-[info]   depends on: cloc-plugin, scala, scala-parallel-collections, scalacheck
 [info] Project scala-js-stubs
 [info]   depends on: cloc-plugin, scala
 [info] Project tut

@@ -67,7 +67,6 @@ object SuccessReport {
     "playframework",  // https://github.com/playframework/playframework/issues/9586
     "sbt-io",  // Error during tests: sbt.io.IOSpecification
     "scala-async",  // Unsupported class file major version
-    "scala-js",  // compile errors from new overloads in Java stdlib
     "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
   )
 
