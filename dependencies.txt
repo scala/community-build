@@ -6,8 +6,6 @@
 [info]   depends on: scala
 [info] Project expecty
 [info]   depends on: cloc-plugin, scala
-[info] Project scala-js
-[info]   depends on: cloc-plugin, scala
 [info] Project kind-projector
 [info]   depends on: cloc-plugin, scala
 [info] Project scala-hedgehog
