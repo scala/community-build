@@ -198,8 +198,6 @@
 [info]   depends on: cloc-plugin, discipline, kind-projector, macro-compat, scala, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalatest, specs2
 [info] Project scala-parallel-collections
 [info]   depends on: cloc-plugin, scala, scalacheck
-[info] Project scala-js
-[info]   depends on: cloc-plugin, scala, scala-parallel-collections, scalacheck
 [info] Project log4s
 [info]   depends on: cloc-plugin, scala, scala-js-stubs, scala-xml, scalacheck, scalatest
 [info] Project blaze
