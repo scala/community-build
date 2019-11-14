@@ -49,7 +49,6 @@ object SuccessReport {
     "metrics-scala",    // needs ScalaTest 3.1
     "multibot",         // needs ScalaTest 3.1
     "paradox",          // no 2.13 upgrade (checked Aug 6 2019)
-    "scalamock",        // https://github.com/scala/scala-dev/issues/655
     "scalastyle",       // no 2.13 upgrade (checked Aug 6 2019)
     "scrooge-shapes",   // no 2.13 upgrade (checked Aug 12 2019)
     "squants",          // no 2.13 upgrade (checked Sep 16 2019)
@@ -70,7 +69,6 @@ object SuccessReport {
     "scala-async",  // Unsupported class file major version
     "scala-js",  // compile errors from new overloads in Java stdlib
     "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
-    "utest",  // Unsupported class file major version
   )
 
   val expectedToFail: Set[String] =
