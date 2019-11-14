@@ -60,7 +60,6 @@ object SuccessReport {
     "log4s",  // Unsupported class file major version
     "playframework",  // Failed tests: play.mvc.HttpFormsTest
     "scala-async",  // Unsupported class file major version
-    "scala-js",  // compile errors from new overloads in Java stdlib
     "scala-partest",  // Unsupported class file major version
     "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
     "utest",  // Unsupported class file major version

@@ -84,8 +84,6 @@
 [info]   depends on: cloc-plugin, perfolation, scala, scalacheck, scalatest
 [info] Project verify
 [info]   depends on: cloc-plugin, scala
-[info] Project scala-js
-[info]   depends on: cloc-plugin, scala
 [info] Project scalamock
 [info]   depends on: cloc-plugin, scala, scalacheck, scalatest
 [info] Project scala-partest
