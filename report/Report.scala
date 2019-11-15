@@ -43,7 +43,6 @@ object SuccessReport {
     "curryhoward",      // no 2.13 upgrade (checked Aug 6 2019)
     "doobie",           // needs newer cats-effect, which needs ScalaTest 3.1
     "kittens",          // needs ScalaTest 3.1
-    "lagom",            // 2.13 support is in master (not 1.5.x) but also needs Akka 2.6
     "lift-json",        // no 2.13 upgrade (checked Aug 6 2019)
     "metaconfig",       // no 2.13 upgrade (checked Aug 6 2019)
     "metrics-scala",    // needs ScalaTest 3.1
