@@ -28,8 +28,6 @@
 [info]   depends on: cloc-plugin, scala
 [info] Project scalaprops
 [info]   depends on: cloc-plugin, scala
-[info] Project scala-ssh
-[info]   depends on: cloc-plugin, scala
 [info] Project verify
 [info]   depends on: cloc-plugin, scala
 [info] Project portable-scala-reflect
@@ -244,8 +242,6 @@
 [info]   depends on: cloc-plugin, jackson-module-scala, scala, scala-collection-compat, scalacheck, scalatest, twitter-util
 [info] Project scalikejdbc
 [info]   depends on: cloc-plugin, kind-projector, scala, scala-collection-compat, scala-js-stubs, scalacheck, scalatest, specs2
-[info] Project scalameter
-[info]   depends on: cloc-plugin, jackson-module-scala, kind-projector, scala, scala-collection-compat, scala-js-stubs, scalacheck, scalatest, specs2, spray-json
 [info] Project sconfig
 [info]   depends on: cloc-plugin, kind-projector, scala, scala-collection-compat, scala-js-stubs, scalacheck, specs2, spray-json
 [info] Project jawn-0-10
