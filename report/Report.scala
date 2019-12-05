@@ -56,14 +56,12 @@ object SuccessReport {
   )
 
   val jdk11Failures = Set[String](
-    "splain",  // needs scala/bug#11125 workaround
   )
 
   val jdk13Failures = Set[String](
     "expression-evaluator",  // Unsupported class file major version
     "jawn-0-11",  // Unsupported class file major version
     "log4s",  // Unsupported class file major version
-    "mockito-scala",  // "Mockito cannot mock this class"
     "playframework",  // https://github.com/playframework/playframework/issues/9586
     "sbt-io",  // Error during tests: sbt.io.IOSpecification
     "scala-async",  // Unsupported class file major version
