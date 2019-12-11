@@ -384,3 +384,5 @@
 [info]   depends on: akka, akka-more, akka-stream, cloc-plugin, genjavadoc, kind-projector, scala, scala-async, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalatest, silencer, specs2, ssl-config
 [info] Project eff
 [info]   depends on: catalysts, cats, cats-effect, cloc-plugin, discipline, kind-projector, machinist, macro-compat, scala, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalatest, shapeless, simulacrum, specs2, specs2-more
+[info] Project akka-http-webgoat
+[info]   depends on: akka, akka-http, akka-stream, cloc-plugin, genjavadoc, kind-projector, scala, scala-java8-compat, scala-js-stubs, scala-xml, scala-parser-combinators, scalacheck, scalatest, silencer, specs2, spray-json, ssl-config
