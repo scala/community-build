@@ -414,3 +414,5 @@
 [info]   depends on: catalysts, cats, circe, claimant, cloc-plugin, discipline, export-hook, jackson-module-scala, jawn-0-11, json4s, kind-projector, machinist, macro-compat, macro-paradise, play-json, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, scodec-bits, scrooge, shapeless, simulacrum, specs2, spray-json, twitter-util
 [info] Project circe-derivation
 [info]   depends on: catalysts, cats, circe, claimant, cloc-plugin, discipline, export-hook, jackson-module-scala, jawn-0-11, json4s, kind-projector, machinist, macro-compat, macro-paradise, play-json, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, scodec-bits, scrooge, scrooge-shapes, shapeless, simulacrum, specs2, spray-json, twitter-util, wartremover
+[info] Project akka-http-webgoat
+[info]   depends on: akka, akka-http, akka-stream, cloc-plugin, genjavadoc, kind-projector, macro-paradise, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, silencer, specs2, spray-json, ssl-config
