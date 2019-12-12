@@ -386,3 +386,5 @@
 [info]   depends on: cats, cloc-plugin, discipline, kind-projector, machinist, mockito-scala, scala, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalatest, shapeless, simulacrum, specs2
 [info] Project kafka
 [info]   depends on: cats, cloc-plugin, discipline, genjavadoc, jackson-module-scala, kind-projector, machinist, mockito-scala, scala, scala-collection-compat, scala-java8-compat, scala-js-stubs, scala-logging, scala-parser-combinators, scala-xml, scalacheck, scalatest, shapeless, simulacrum, specs2
+[info] Project akka-http-webgoat
+[info]   depends on: akka, akka-http, akka-stream, cloc-plugin, genjavadoc, kind-projector, scala, scala-java8-compat, scala-js-stubs, scala-xml, scala-parser-combinators, scalacheck, scalatest, silencer, specs2, spray-json, ssl-config
