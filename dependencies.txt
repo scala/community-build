@@ -388,3 +388,7 @@
 [info]   depends on: classutil, cloc-plugin, grizzled, scala, scala-collection-compat, scala-xml, scalacheck, scalatest, wartremover
 [info] Project scalajson
 [info]   depends on: cloc-plugin, scala, scala-xml, scalacheck, scalatest
+[info] Project meow-mtl
+[info]   depends on: catalysts, cats, cats-effect, cloc-plugin, discipline, kind-projector, machinist, macro-compat, minitest, monix, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalatest, shapeless, simulacrum, specs2
+[info] Project pfps-shopping-cart
+[info]   depends on: better-monadic-for, catalysts, cats, cats-effect, cloc-plugin, discipline, fs2, json4s, kind-projector, machinist, macro-compat, meow-mtl, minitest, monix, portable-scala-reflect, scala, scala-js-stubs, scala-newtype, scala-parser-combinators, scala-xml, scalacheck, scalatest, scodec-bits, shapeless, simulacrum, specs2, squants, tut
