@@ -49,7 +49,6 @@ object SuccessReport {
     "paradox",          // no 2.13 upgrade (checked Aug 6 2019)
     "scalastyle",       // no 2.13 upgrade (checked Aug 6 2019)
     "scrooge-shapes",   // no 2.13 upgrade (checked Aug 12 2019)
-    "squants",          // no 2.13 upgrade (checked Sep 16 2019)
     "tsec",             // needs ScalaTest 3.1
   )
 
