@@ -41,6 +41,7 @@ object SuccessReport {
     "circe-jackson",    // needs ScalaTest 3.1
     "coursier",         // weird git submodule problem when I tried to unfreeze to get 2.13 support. try again I guess
     "curryhoward",      // no 2.13 upgrade (checked Aug 6 2019)
+    "discipline-scalatest",  // needs ScalaTest 3.1
     "doobie",           // needs newer cats-effect, which needs ScalaTest 3.1
     "kittens",          // needs ScalaTest 3.1
     "metrics-scala",    // needs ScalaTest 3.1
