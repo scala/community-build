@@ -47,6 +47,7 @@ object SuccessReport {
     "metrics-scala",    // needs ScalaTest 3.1
     "multibot",         // needs ScalaTest 3.1
     "paradox",          // no 2.13 upgrade (checked Aug 6 2019)
+    "scalafix",         // no 2.13 upgrade (checked Dec 20 2019)
     "scalafmt",         // needs ScalaTest 3.1
     "scalastyle",       // no 2.13 upgrade (checked Aug 6 2019)
     "scrooge-shapes",   // no 2.13 upgrade (checked Aug 12 2019)
