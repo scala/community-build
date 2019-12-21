@@ -43,6 +43,7 @@ object SuccessReport {
     "curryhoward",      // no 2.13 upgrade (checked Aug 6 2019)
     "doobie",           // needs newer cats-effect, which needs ScalaTest 3.1
     "kittens",          // needs ScalaTest 3.1
+    "lagom",            // pending resolution of https://github.com/lagom/lagom/issues/2579
     "metaconfig",       // no 2.13 upgrade (checked Aug 6 2019)
     "metrics-scala",    // needs ScalaTest 3.1
     "multibot",         // needs ScalaTest 3.1
