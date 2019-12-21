@@ -45,6 +45,7 @@ object SuccessReport {
     "doobie",           // needs newer cats-effect, which needs ScalaTest 3.1
     "kittens",          // needs ScalaTest 3.1
     "meow-mtl",         // needs ScalaTest 3.1
+    "lagom",            // pending resolution of https://github.com/lagom/lagom/issues/2579
     "metrics-scala",    // needs ScalaTest 3.1
     "multibot",         // needs ScalaTest 3.1
     "paradox",          // no 2.13 upgrade (checked Aug 6 2019)
