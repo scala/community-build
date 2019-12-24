@@ -49,7 +49,6 @@ object SuccessReport {
     "metrics-scala",    // needs ScalaTest 3.1
     "multibot",         // needs ScalaTest 3.1
     "paradox",          // no 2.13 upgrade (checked Aug 6 2019)
-    "pureconfig",       // maybe just needs newer cats? (but cats upgrade needs ScalaTest 3.1)
     "scalafix",         // no 2.13 upgrade (checked Dec 20 2019)
     "scalafmt",         // needs ScalaTest 3.1
     "scalastyle",       // no 2.13 upgrade (checked Aug 6 2019)
