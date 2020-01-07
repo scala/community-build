@@ -37,23 +37,12 @@ object SuccessReport {
   val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
   val jdk8Failures = Set[String](
-    "algebra",          // needs ScalaTest 3.1
-    "circe-jackson",    // needs ScalaTest 3.1
     "coursier",         // weird git submodule problem when I tried to unfreeze to get 2.13 support. try again I guess
     "curryhoward",      // no 2.13 upgrade (checked Aug 6 2019)
-    "discipline-scalatest",  // needs ScalaTest 3.1
-    "doobie",           // needs newer cats-effect, which needs ScalaTest 3.1
-    "kittens",          // needs ScalaTest 3.1
-    "meow-mtl",         // needs ScalaTest 3.1
-    "lagom",            // pending resolution of https://github.com/lagom/lagom/issues/2579
-    "metrics-scala",    // needs ScalaTest 3.1
-    "multibot",         // needs ScalaTest 3.1
     "paradox",          // no 2.13 upgrade (checked Aug 6 2019)
     "scalafix",         // no 2.13 upgrade (checked Dec 20 2019)
-    "scalafmt",         // needs ScalaTest 3.1
     "scalastyle",       // no 2.13 upgrade (checked Aug 6 2019)
     "scrooge-shapes",   // no 2.13 upgrade (checked Aug 12 2019)
-    "tsec",             // needs ScalaTest 3.1
   )
 
   val jdk11Failures = Set[String](
