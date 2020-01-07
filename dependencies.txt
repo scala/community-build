@@ -216,10 +216,24 @@
 [info]   depends on: cats, cloc-plugin, discipline, discipline-scalatest, kind-projector, refined, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, shapeless, simulacrum
 [info] Project algebra
 [info]   depends on: cats, cloc-plugin, discipline, discipline-scalatest, kind-projector, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, shapeless, simulacrum
+[info] Project cats-effect
+[info]   depends on: cats, cloc-plugin, discipline, discipline-scalatest, kind-projector, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, shapeless, simulacrum
+[info] Project specs2-more
+[info]   depends on: cats, cats-effect, cloc-plugin, discipline, discipline-scalatest, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, shapeless, simulacrum, specs2
+[info] Project eff
+[info]   depends on: cats, cats-effect, cloc-plugin, discipline, discipline-scalatest, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, shapeless, simulacrum, specs2, specs2-more
+[info] Project unique
+[info]   depends on: better-monadic-for, cats, cats-effect, cloc-plugin, discipline, discipline-scalatest, kind-projector, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, shapeless, simulacrum
+[info] Project vault
+[info]   depends on: better-monadic-for, cats, cats-effect, cloc-plugin, discipline, discipline-scalatest, kind-projector, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, shapeless, simulacrum, unique
 [info] Project mouse
 [info]   depends on: cats, cloc-plugin, discipline, discipline-scalatest, kind-projector, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, shapeless, simulacrum
 [info] Project nscala-time
 [info]   depends on: cloc-plugin, scala, scalacheck
+[info] Project fs2
+[info]   depends on: cats, cats-effect, cloc-plugin, discipline, discipline-scalatest, kind-projector, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, scodec-bits, shapeless, simulacrum
+[info] Project atto
+[info]   depends on: cats, cats-effect, cloc-plugin, discipline, discipline-scalatest, fs2, kind-projector, refined, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, scodec-bits, shapeless, simulacrum, wartremover
 [info] Project spire
 [info]   depends on: algebra, cats, cloc-plugin, discipline, discipline-scalatest, kind-projector, machinist, scala, scala-collection-compat, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, shapeless, simulacrum
 [info] Project breeze
@@ -240,20 +254,6 @@
 [info]   depends on: cloc-plugin, jackson-module-scala, kind-projector, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalatest, scalatest-3-0, specs2, spray-json
 [info] Project pascal
 [info]   depends on: cloc-plugin, kind-projector, scala, scala-xml, scalatest
-[info] Project cats-effect
-[info]   depends on: cats, cloc-plugin, discipline, discipline-scalatest, kind-projector, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, shapeless, simulacrum
-[info] Project specs2-more
-[info]   depends on: cats, cats-effect, cloc-plugin, discipline, discipline-scalatest, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, shapeless, simulacrum, specs2
-[info] Project eff
-[info]   depends on: cats, cats-effect, cloc-plugin, discipline, discipline-scalatest, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, shapeless, simulacrum, specs2, specs2-more
-[info] Project unique
-[info]   depends on: better-monadic-for, cats, cats-effect, cloc-plugin, discipline, discipline-scalatest, kind-projector, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, shapeless, simulacrum
-[info] Project vault
-[info]   depends on: better-monadic-for, cats, cats-effect, cloc-plugin, discipline, discipline-scalatest, kind-projector, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, shapeless, simulacrum, unique
-[info] Project fs2
-[info]   depends on: cats, cats-effect, cloc-plugin, discipline, discipline-scalatest, kind-projector, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, scodec-bits, shapeless, simulacrum
-[info] Project atto
-[info]   depends on: cats, cats-effect, cloc-plugin, discipline, discipline-scalatest, fs2, kind-projector, refined, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, scodec-bits, shapeless, simulacrum, wartremover
 [info] Project silencer
 [info]   depends on: cloc-plugin, scala, scala-xml, scalatest
 [info] Project akka
