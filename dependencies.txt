@@ -226,8 +226,6 @@
 [info]   depends on: cats, cats-effect, cloc-plugin, discipline, discipline-scalatest, kind-projector, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, scodec-bits, shapeless, simulacrum
 [info] Project scodec
 [info]   depends on: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, scodec-bits, shapeless
-[info] Project catalysts
-[info]   depends on: cloc-plugin, macro-compat, scala, scala-xml, scalacheck, scalatest
 [info] Project breeze
 [info]   depends on: algebra, cats, cloc-plugin, discipline, discipline-scalatest, kind-projector, machinist, scala, scala-collection-compat, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, shapeless, simulacrum, spire
 [info] Project scoverage
