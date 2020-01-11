@@ -38,7 +38,7 @@ object SuccessReport {
 
   val jdk8Failures = Set[String](
     "coursier",         // weird git submodule problem when I tried to unfreeze to get 2.13 support. try again I guess
-    "curryhoward",      // no 2.13 upgrade (checked Aug 6 2019)
+    "curryhoward",      // no 2.13 upgrade (checked Jan 2020)
     "paradox",          // no 2.13 upgrade (checked Aug 6 2019)
     "scalafix",         // no 2.13 upgrade (checked Dec 20 2019)
     "scalastyle",       // no 2.13 upgrade (checked Aug 6 2019)
