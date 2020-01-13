@@ -50,8 +50,6 @@
 [info]   depends on: cloc-plugin, scala, scala-xml, scalatest
 [info] Project parboiled
 [info]   depends on: cloc-plugin, scala, scala-xml, scalatest
-[info] Project scalastyle
-[info]   depends on: cloc-plugin, scala, scala-parser-combinators, scala-xml, scalariform, scalatest
 [info] Project scala-java-time
 [info]   depends on: cloc-plugin, scala, scala-xml, scalatest
 [info] Project silencer
@@ -68,8 +66,6 @@
 [info]   depends on: cloc-plugin, scala, scala-xml, scalatest
 [info] Project cachecontrol
 [info]   depends on: cloc-plugin, scala, scala-parser-combinators, scala-xml, scalatest
-[info] Project paradox
-[info]   depends on: cloc-plugin, scala, scala-xml, scalatest
 [info] Project wartremover
 [info]   depends on: cloc-plugin, scala, scala-xml, scalatest
 [info] Project scoverage
@@ -82,8 +78,6 @@
 [info]   depends on: cloc-plugin, scala, verify
 [info] Project scalacheck
 [info]   depends on: cloc-plugin, scala
-[info] Project curryhoward
-[info]   depends on: cloc-plugin, scala, scala-xml, scalacheck, scalatest, tut, wartremover
 [info] Project perfolation
 [info]   depends on: cloc-plugin, scala, scala-xml, scalacheck, scalatest
 [info] Project scalatest-3-0
@@ -282,8 +276,6 @@
 [info]   depends on: cloc-plugin, jackson-module-scala, scala, scala-collection-compat, scala-parallel-collections, scala-parser-combinators, scala-xml, scalacheck, scalatest, scalatest-3-0, twitter-util
 [info] Project scrooge
 [info]   depends on: cloc-plugin, jackson-module-scala, scala, scala-collection-compat, scala-parallel-collections, scala-parser-combinators, scala-xml, scalacheck, scalatest, scalatest-3-0, twitter-util
-[info] Project scrooge-shapes
-[info]   depends on: cloc-plugin, jackson-module-scala, scala, scala-collection-compat, scala-parallel-collections, scala-parser-combinators, scala-xml, scalacheck, scalatest, scalatest-3-0, scrooge, shapeless, twitter-util
 [info] Project akka-stream
 [info]   depends on: akka, akka-protobuf-v3, cloc-plugin, genjavadoc, jackson-module-scala, kind-projector, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalatest, scalatest-3-0, silencer, specs2, ssl-config
 [info] Project alpakka-kafka
@@ -334,8 +326,6 @@
 [info]   depends on: cats, claimant, cloc-plugin, discipline, discipline-scalatest, jawn-0-11, json4s, kind-projector, play-json, scala, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalatest, scalatest-3-0, scalatestplus-scalacheck, scodec-bits, shapeless, silencer, simulacrum, specs2, spray-json
 [info] Project enumeratum
 [info]   depends on: cats, circe, claimant, cloc-plugin, discipline, discipline-scalatest, jawn-0-11, json4s, kind-projector, play-json, scala, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalatest, scalatest-3-0, scalatestplus-scalacheck, scodec-bits, shapeless, silencer, simulacrum, specs2, spray-json
-[info] Project circe-derivation
-[info]   depends on: cats, circe, claimant, cloc-plugin, discipline, discipline-scalatest, jawn-0-11, json4s, kind-projector, play-json, scala, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalatest, scalatest-3-0, scalatestplus-scalacheck, scodec-bits, shapeless, silencer, simulacrum, specs2, spray-json, wartremover
 [info] Project circe-jackson
 [info]   depends on: cats, circe, claimant, cloc-plugin, discipline, discipline-scalatest, jawn-0-11, json4s, kind-projector, play-json, scala, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalatest, scalatest-3-0, scalatestplus-scalacheck, scodec-bits, shapeless, silencer, simulacrum, specs2, spray-json
 [info] Project github4s
