@@ -37,9 +37,10 @@ object SuccessReport {
   val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
   val jdk8Failures = Set[String](
-    "coursier",         // weird git submodule problem when I tried to unfreeze to get 2.13 support. try again I guess
-    "eff",              // no cats 2.1 upgrade (pending https://github.com/atnos-org/eff/pull/224)
-    "scalafix",         // no 2.13 upgrade (checked Dec 20 2019)
+    "coursier",           // weird git submodule problem when I tried to unfreeze to get 2.13 support. try again I guess
+    "eff",                // no cats 2.1 upgrade (pending https://github.com/atnos-org/eff/pull/224)
+    "pfps-shopping-cart", // refined-related macro error: https://github.com/scala/community-build/issues/1039
+    "scalafix",           // no 2.13 upgrade (checked Dec 20 2019)
   )
 
   val jdk11Failures = Set[String](
