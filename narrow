@@ -41,7 +41,6 @@ val projs = File("projs.conf")
 projs.clear()
 projs.append(
   """|build += {
-     |  space: scala.main
      |  check-missing: [ true, false ]
      |  cross-version: [ disabled, standard ]
      |  extraction-version: ${vars.scala-version}
