@@ -41,6 +41,7 @@ object SuccessReport {
     "eff",                // no cats 2.1 upgrade (pending https://github.com/atnos-org/eff/pull/224)
     "pfps-shopping-cart", // refined-related macro error: https://github.com/scala/community-build/issues/1039
     "scalafix",           // no 2.13 upgrade (checked Dec 20 2019)
+    "scalatest-tests",    // needs work; not clear if it's worth the effort
   )
 
   val jdk11Failures = Set[String](
