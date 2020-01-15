@@ -47,6 +47,7 @@ object SuccessReport {
   )
 
   val jdk13Failures = Set[String](
+    "breeze",  // Unsupported class file major version
     "expression-evaluator",  // Unsupported class file major version
     "jawn-0-11",  // Unsupported class file major version
     "log4s",  // Unsupported class file major version
