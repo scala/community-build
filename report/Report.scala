@@ -37,7 +37,6 @@ object SuccessReport {
   val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
   val jdk8Failures = Set[String](
-    "coursier",           // weird git submodule problem when I tried to unfreeze to get 2.13 support. try again I guess
   )
 
   val jdk11Failures = Set[String](

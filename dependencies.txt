@@ -346,8 +346,6 @@
 [info]   depends on: cats, cloc-plugin, discipline, discipline-scalatest, fansi, fastparse, fastparse-scalameta, kind-projector, paiges, portable-scala-reflect, pprint, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalameta, scalapb, scalatest, scalatest-3-0, scalatestplus-scalacheck, sconfig, shapeless, simulacrum, sourcecode, specs2, spray-json, utest
 [info] Project scalafmt
 [info]   depends on: cats, cloc-plugin, discipline, discipline-scalatest, expecty, fansi, fastparse, fastparse-scalameta, kind-projector, metaconfig, minitest, paiges, portable-scala-reflect, pprint, scala, scala-collection-compat, scala-js-stubs, scala-parallel-collections, scala-parser-combinators, scala-xml, scalacheck, scalameta, scalapb, scalatags, scalatest, scalatest-3-0, scalatestplus-scalacheck, sconfig, scopt, shapeless, simulacrum, sourcecode, specs2, spray-json, utest
-[info] Project coursier
-[info]   depends on: cloc-plugin, fastparse, portable-scala-reflect, scala, scala-async, scala-xml, sourcecode, utest
 [info] Project cats-effect
 [info]   depends on: cats, cloc-plugin, discipline, discipline-scalatest, kind-projector, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, shapeless, simulacrum
 [info] Project github4s
