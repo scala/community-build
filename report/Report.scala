@@ -37,7 +37,6 @@ object SuccessReport {
   val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
   val jdk8Failures = Set[String](
-    "pfps-shopping-cart", // refined-related macro error: https://github.com/scala/community-build/issues/1039
   )
 
   val jdk11Failures = Set[String](
