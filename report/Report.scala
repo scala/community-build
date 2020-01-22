@@ -39,7 +39,6 @@ object SuccessReport {
   val jdk8Failures = Set[String](
     "coursier",           // weird git submodule problem when I tried to unfreeze to get 2.13 support. try again I guess
     "pfps-shopping-cart", // refined-related macro error: https://github.com/scala/community-build/issues/1039
-    "scalafix",           // no 2.13 upgrade (checked Dec 20 2019)
   )
 
   val jdk11Failures = Set[String](
