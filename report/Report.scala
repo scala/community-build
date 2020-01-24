@@ -50,7 +50,7 @@ object SuccessReport {
     "scalafix",  // needs scala/bug#11125 workaround
   )
 
-  val jdk13Failures = Set[String](
+  val jdk14Failures = Set[String](
     "breeze",   // Unsupported class file major version
     "curryhoward",  // Unsupported class file major version
     "expression-evaluator",  // Unsupported class file major version
@@ -71,7 +71,7 @@ object SuccessReport {
       case "11" =>
         jdk8Failures ++ jdk11Failures
       case _ =>
-        jdk8Failures ++ jdk11Failures ++ jdk13Failures
+        jdk8Failures ++ jdk11Failures ++ jdk14Failures
     }
 
   def apply(log: io.Source): Option[Int] = {
