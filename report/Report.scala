@@ -42,7 +42,7 @@ object SuccessReport {
   val jdk11Failures = Set[String](
   )
 
-  val jdk13Failures = Set[String](
+  val jdk14Failures = Set[String](
     "breeze",  // Unsupported class file major version
     "expression-evaluator",  // Unsupported class file major version
     "jawn-0-11",  // Unsupported class file major version
@@ -60,7 +60,7 @@ object SuccessReport {
       case "11" =>
         jdk8Failures ++ jdk11Failures
       case _ =>
-        jdk8Failures ++ jdk11Failures ++ jdk13Failures
+        jdk8Failures ++ jdk11Failures ++ jdk14Failures
     }
 
   def apply(log: io.Source): Option[Int] = {
