@@ -121,7 +121,7 @@ else
 fi
 
 # Set dbuild version and config file
-DBUILDVERSION=0.9.16
+DBUILDVERSION=0.9.17-toni22
 echo "dbuild version: $DBUILDVERSION"
 
 DBUILDCONFIG=$dbuild_file
