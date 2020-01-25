@@ -57,6 +57,7 @@ object SuccessReport {
     "jawn-0-10",  // Unsupported class file major version
     "jawn-0-11",  // Unsupported class file major version
     "log4s",  // Unsupported class file major version
+    "paradox",  // Unsupported class file major version
     "playframework",  // Failed tests: play.mvc.HttpFormsTest
     "scala-async",  // Unsupported class file major version
     "scala-partest",  // Unsupported class file major version
