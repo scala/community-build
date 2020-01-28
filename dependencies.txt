@@ -6,6 +6,8 @@
 [info]   depends on: scala
 [info] Project shapeless
 [info]   depends on: cloc-plugin, scala
+[info] Project munit
+[info]   depends on: cloc-plugin, scala
 [info] Project sbt-testng
 [info]   depends on: cloc-plugin, scala
 [info] Project scala-collection-laws
