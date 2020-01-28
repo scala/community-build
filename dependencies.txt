@@ -4,6 +4,8 @@
 [info]   depends on: scala
 [info] Project tut
 [info]   depends on: cloc-plugin, scala
+[info] Project munit
+[info]   depends on: cloc-plugin, scala
 [info] Project sbt-testng
 [info]   depends on: cloc-plugin, scala
 [info] Project scala-collection-compat
