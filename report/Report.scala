@@ -51,18 +51,10 @@ object SuccessReport {
   )
 
   val jdk14Failures = Set[String](
-    "breeze",   // Unsupported class file major version
-    "curryhoward",  // Unsupported class file major version
-    "expression-evaluator",  // Unsupported class file major version
-    "jawn-0-10",  // Unsupported class file major version
-    "jawn-0-11",  // Unsupported class file major version
-    "log4s",  // Unsupported class file major version
+    "blaze",  // test failure (org.http4s.blaze.pipeline.stages.SSLStageSpec)
     "paradox",  // Unsupported class file major version
     "playframework",  // Failed tests: play.mvc.HttpFormsTest
-    "scala-async",  // Unsupported class file major version
-    "scala-partest",  // Unsupported class file major version
     "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
-    "utest",  // Unsupported class file major version
   )
 
   val expectedToFail: Set[String] =
