@@ -40,10 +40,12 @@ object SuccessReport {
   )
 
   val jdk11Failures = Set[String](
+    "blaze",  // test failure (org.http4s.blaze.pipeline.stages.SSLStageSpec)
     "coursier",  // needs scala/bug#11125 workaround
     "doobie",  // needs scala/bug#11125 workaround
     "mima", // (core / apiMappings) java.lang.NullPointerException
     "multibot",  //  - testScalaInterpreter *** FAILED ***; [java.lang.SecurityException: ("java.lang.RuntimePermission" "accessSystemModules")
+    "paradox",  // Unsupported class file major version
     "sbt-util",  // needs scala/bug#11125 workaround
     "scala-debugger",  // "object FieldInfo is not a member of package sun.reflect"
     "scala-refactoring",  // needs scala/bug#11125 workaround?
