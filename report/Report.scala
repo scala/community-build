@@ -43,12 +43,8 @@ object SuccessReport {
   )
 
   val jdk14Failures = Set[String](
-    "breeze",  // Unsupported class file major version
-    "jawn-0-11",  // Unsupported class file major version
-    "log4s",  // Unsupported class file major version
-    "playframework",  // https://github.com/playframework/playframework/issues/9586
-    "sbt-io",  // Error during tests: sbt.io.IOSpecification
-    "scala-async",  // Unsupported class file major version
+    "paradox",  // Unsupported class file major version
+    "playframework",  // Failed tests: play.mvc.HttpFormsTest
     "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
   )
 
