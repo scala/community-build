@@ -22,10 +22,9 @@ import better.files._
 // read dependency information
 val tree: Map[String, Set[String]] = {
   val deps = File("dependencies.txt")
-  val Regex1 = """\[info\] Project (\S+)""".r
-  val Regex2 = """\[info\]   depends on: (.*)""".r
-  deps.lines.toSeq.grouped(2).map{
-    case Seq(Regex1(proj), Regex2(deps)) =>
+  val Regex = """(\S+): (.*)""".r
+  deps.lines.map{
+    case Regex(proj, deps) =>
       proj -> deps.split(", ").toSet
   }.toMap
 }
