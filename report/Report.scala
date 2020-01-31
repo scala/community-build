@@ -3,8 +3,9 @@ object Report extends App {
   println("<pre>")
   ClocReport(log)
   val unexpectedFailureCount = SuccessReport(log)
-  SplitLog(log)
   println("</pre>")
+  SplitLog(log)
+  UpdateDependencies()
   sys.exit(unexpectedFailureCount.getOrElse(1))
 }
 
@@ -142,7 +143,7 @@ object SplitLog {
     while (lines.hasNext)
       lines.next match {
         case BeginDependencies() =>
-          slurp(lines, makeWriter("../dependencies.txt"), EndDependencies)
+          slurp(lines, makeWriter("../logs/_dependencies.log"), EndDependencies)
         case BeginExtract(name) =>
           slurp(lines, makeWriter(s"../logs/$name-extract.log"), EndExtract)
         case BeginBuild(name) =>
@@ -153,7 +154,7 @@ object SplitLog {
 
   import java.io.PrintWriter
 
-  private def makeWriter(path: String): PrintWriter = {
+  def makeWriter(path: String): PrintWriter = {
     import java.io._
     val file = new File(path)
     val foStream = new FileOutputStream(file, false)  // false = overwrite, don't append
@@ -178,4 +179,19 @@ object SplitLog {
     iterate()
   }
 
+}
+
+object UpdateDependencies {
+  val Line1 = """\[info\] Project (\S+)""".r
+  val Line2 = """\[info\]   depends on: (.*)""".r
+  def apply(): Unit = {
+    val in = io.Source.fromFile("../logs/_dependencies.log")
+    val out = SplitLog.makeWriter("../dependencies.txt")
+    val tuples =
+      for (Seq(Line1(project), Line2(depends)) <- in.getLines.grouped(2).toSeq)
+      yield (project, depends)
+    for ((project, depends) <- tuples.sortBy(_._2.length))
+      out.println(s"$project: $depends")
+    out.close()
+  }
 }
