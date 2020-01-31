@@ -190,7 +190,7 @@ object UpdateDependencies {
     val tuples =
       for (Seq(Line1(project), Line2(depends)) <- in.getLines.grouped(2).toSeq)
       yield (project, depends)
-    for ((project, depends) <- tuples.sortBy(_._2.length))
+    for ((project, depends) <- tuples.sortBy(_._1).sortBy(_._2.length))
       out.println(s"$project: $depends")
     out.close()
   }
