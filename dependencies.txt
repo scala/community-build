@@ -1,420 +1,210 @@
-[info] Project scala
-[info]   depends on: 
-[info] Project cloc-plugin
-[info]   depends on: scala
-[info] Project tut
-[info]   depends on: cloc-plugin, scala
-[info] Project munit
-[info]   depends on: cloc-plugin, scala
-[info] Project sbt-testng
-[info]   depends on: cloc-plugin, scala
-[info] Project scala-collection-compat
-[info]   depends on: cloc-plugin, scala
-[info] Project scalaprops
-[info]   depends on: cloc-plugin, scala
-[info] Project sourcecode
-[info]   depends on: cloc-plugin, scala
-[info] Project scala-js-stubs
-[info]   depends on: cloc-plugin, scala
-[info] Project expecty
-[info]   depends on: cloc-plugin, scala
-[info] Project scala-partest
-[info]   depends on: cloc-plugin, scala
-[info] Project genjavadoc
-[info]   depends on: cloc-plugin, scala
-[info] Project scalacheck
-[info]   depends on: cloc-plugin, scala
-[info] Project claimant
-[info]   depends on: cloc-plugin, scala, scalacheck
-[info] Project scala-parser-combinators
-[info]   depends on: cloc-plugin, scala
-[info] Project scala-refactoring
-[info]   depends on: cloc-plugin, scala, scala-parser-combinators
-[info] Project shapeless
-[info]   depends on: cloc-plugin, scala
-[info] Project machinist
-[info]   depends on: cloc-plugin, scala
-[info] Project portable-scala-reflect
-[info]   depends on: cloc-plugin, scala
-[info] Project utest
-[info]   depends on: cloc-plugin, portable-scala-reflect, scala
-[info] Project geny
-[info]   depends on: cloc-plugin, portable-scala-reflect, scala, utest
-[info] Project acyclic
-[info]   depends on: cloc-plugin, portable-scala-reflect, scala, utest
-[info] Project boopickle
-[info]   depends on: cloc-plugin, portable-scala-reflect, scala, shapeless, utest
-[info] Project scalacheck-shapeless
-[info]   depends on: cloc-plugin, portable-scala-reflect, scala, scalacheck, shapeless, utest
-[info] Project scalatags
-[info]   depends on: cloc-plugin, portable-scala-reflect, scala, sourcecode, utest
-[info] Project scalatest
-[info]   depends on: cloc-plugin, scala, scalacheck
-[info] Project jackson-module-scala
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project scalaj-http
-[info]   depends on: cloc-plugin, jackson-module-scala, scala, scalacheck, scalatest
-[info] Project slick
-[info]   depends on: cloc-plugin, sbt-testng, scala, scala-collection-compat, scalacheck, scalatest
-[info] Project scala-ssh
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project scala-java-time
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project scapegoat
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project euler
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project sksamuel-exts
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project scallop
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project scala-records
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project expression-evaluator
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project jsoniter-scala
-[info]   depends on: cloc-plugin, expression-evaluator, scala, scala-collection-compat, scalacheck, scalatest
-[info] Project paradox
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project quicklens
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project silencer
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project perfolation
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project scribe
-[info]   depends on: cloc-plugin, perfolation, scala, scalacheck, scalatest
-[info] Project scalamock
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project scodec-bits
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project scodec
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest, scodec-bits, shapeless
-[info] Project airframe
-[info]   depends on: cloc-plugin, scala, scala-collection-compat, scala-parser-combinators, scalacheck, scalatest
-[info] Project scalariform
-[info]   depends on: cloc-plugin, scala, scala-parser-combinators, scalacheck, scalatest
-[info] Project scalastyle
-[info]   depends on: cloc-plugin, scala, scala-parser-combinators, scalacheck, scalariform, scalatest
-[info] Project mockito-scala
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project parboiled
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project scala-typed-holes
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project scala-logging
-[info]   depends on: cloc-plugin, mockito-scala, scala, scalacheck, scalatest
-[info] Project wartremover
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project curryhoward
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest, tut, wartremover
-[info] Project grizzled
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest, wartremover
-[info] Project mercator
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest, wartremover
-[info] Project magnolia
-[info]   depends on: cloc-plugin, mercator, scala, scalacheck, scalatest, wartremover
-[info] Project pcplod
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project macro-paradise
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project singleton-ops
-[info]   depends on: cloc-plugin, macro-paradise, scala, scalacheck, scalatest, shapeless
-[info] Project minitest
-[info]   depends on: cloc-plugin, macro-paradise, portable-scala-reflect, scala, scalacheck, scalatest
-[info] Project scopt
-[info]   depends on: cloc-plugin, expecty, macro-paradise, minitest, portable-scala-reflect, scala, scala-parser-combinators, scalacheck, scalatest
-[info] Project implicitbox
-[info]   depends on: cloc-plugin, macro-paradise, minitest, portable-scala-reflect, scala, scalacheck, scalatest
-[info] Project macro-compat
-[info]   depends on: cloc-plugin, macro-paradise, scala, scalacheck, scalatest
-[info] Project scalajson
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project sbt-io
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project scala-swing
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project fast-string-interpolator
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project log4s
-[info]   depends on: cloc-plugin, scala, scala-js-stubs, scalacheck, scalatest
-[info] Project scala-stm
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project simulacrum
-[info]   depends on: cloc-plugin, macro-paradise, scala, scalacheck, scalatest, shapeless
-[info] Project verify
-[info]   depends on: cloc-plugin, scala
-[info] Project mima
-[info]   depends on: cloc-plugin, scala, scala-collection-compat, scalacheck, scalatest
-[info] Project kind-projector
-[info]   depends on: cloc-plugin, scala
-[info] Project export-hook
-[info]   depends on: cloc-plugin, kind-projector, macro-compat, macro-paradise, scala, scalacheck, scalatest, shapeless, simulacrum
-[info] Project specs2
-[info]   depends on: cloc-plugin, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck
-[info] Project lift-json
-[info]   depends on: cloc-plugin, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2
-[info] Project spray-json
-[info]   depends on: cloc-plugin, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, specs2
-[info] Project scalameter
-[info]   depends on: cloc-plugin, jackson-module-scala, kind-projector, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2, spray-json
-[info] Project parboiled2
-[info]   depends on: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, shapeless, specs2, spray-json, utest
-[info] Project scala-debugger
-[info]   depends on: cloc-plugin, kind-projector, macro-paradise, parboiled2, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalamock, scalatest, shapeless, specs2, spray-json, utest
-[info] Project http4s-parboiled2
-[info]   depends on: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, specs2, utest
-[info] Project discipline
-[info]   depends on: cloc-plugin, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2
-[info] Project linter
-[info]   depends on: cloc-plugin, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, specs2
-[info] Project json4s
-[info]   depends on: cloc-plugin, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, specs2
-[info] Project squants
-[info]   depends on: cloc-plugin, json4s, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2, tut
-[info] Project treehugger
-[info]   depends on: cloc-plugin, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, specs2
-[info] Project splain
-[info]   depends on: cloc-plugin, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, shapeless, specs2
-[info] Project unfiltered
-[info]   depends on: cloc-plugin, json4s, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2
-[info] Project dispatch
-[info]   depends on: cloc-plugin, json4s, kind-projector, lift-json, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2, unfiltered
-[info] Project ssl-config
-[info]   depends on: cloc-plugin, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, specs2
-[info] Project gigahorse
-[info]   depends on: cloc-plugin, json4s, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2, ssl-config, unfiltered
-[info] Project play-json
-[info]   depends on: cloc-plugin, kind-projector, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, specs2
-[info] Project jawn-0-11
-[info]   depends on: claimant, cloc-plugin, json4s, kind-projector, macro-compat, macro-paradise, play-json, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, specs2, spray-json
-[info] Project scala-hedgehog
-[info]   depends on: cloc-plugin, kind-projector, scala
-[info] Project shaded-scalajson
-[info]   depends on: scala
-[info] Project giter8
-[info]   depends on: cloc-plugin, expecty, macro-paradise, minitest, portable-scala-reflect, sbt-io, scala, scala-parser-combinators, scalacheck, scalatest, scopt
-[info] Project twirl
-[info]   depends on: cloc-plugin, scala, scala-parser-combinators, scalacheck, scalatest
-[info] Project play-doc
-[info]   depends on: cloc-plugin, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2, twirl
-[info] Project sconfig
-[info]   depends on: cloc-plugin, kind-projector, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scalacheck, specs2, spray-json
-[info] Project scala-collection-laws
-[info]   depends on: cloc-plugin, scala
-[info] Project classutil
-[info]   depends on: cloc-plugin, grizzled, scala, scala-collection-compat, scalacheck, scalatest, wartremover
-[info] Project case-app
-[info]   depends on: cloc-plugin, macro-paradise, scala, scalacheck, scalatest, shapeless
-[info] Project sbinary
-[info]   depends on: cloc-plugin, scala, scalacheck
-[info] Project scala-java8-compat
-[info]   depends on: cloc-plugin, genjavadoc, scala
-[info] Project akka
-[info]   depends on: cloc-plugin, genjavadoc, scala, scala-java8-compat, scalacheck, scalatest, silencer
-[info] Project akka-stream
-[info]   depends on: akka, cloc-plugin, genjavadoc, kind-projector, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, silencer, specs2, ssl-config
-[info] Project metrics-scala
-[info]   depends on: akka, cloc-plugin, genjavadoc, scala, scala-java8-compat, scalacheck, scalatest, silencer
-[info] Project better-files
-[info]   depends on: akka, cloc-plugin, genjavadoc, scala, scala-java8-compat, scalacheck, scalatest, shapeless, silencer
-[info] Project play-file-watch
-[info]   depends on: akka, better-files, cloc-plugin, genjavadoc, kind-projector, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, silencer, specs2
-[info] Project akka-more
-[info]   depends on: akka, akka-stream, cloc-plugin, genjavadoc, kind-projector, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, silencer, specs2, ssl-config
-[info] Project akka-persistence-jdbc
-[info]   depends on: akka, akka-more, akka-stream, cloc-plugin, genjavadoc, kind-projector, sbt-testng, scala, scala-collection-compat, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, silencer, slick, specs2, ssl-config
-[info] Project akka-persistence-cassandra
-[info]   depends on: akka, akka-more, akka-stream, cloc-plugin, genjavadoc, kind-projector, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, silencer, specs2, ssl-config
-[info] Project akka-http
-[info]   depends on: akka, akka-stream, cloc-plugin, genjavadoc, kind-projector, macro-paradise, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, silencer, specs2, spray-json, ssl-config
-[info] Project akka-contrib-extra
-[info]   depends on: akka, akka-http, akka-more, akka-stream, cloc-plugin, genjavadoc, kind-projector, macro-paradise, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, silencer, specs2, spray-json, ssl-config
-[info] Project akka-http-webgoat
-[info]   depends on: akka, akka-http, akka-stream, cloc-plugin, genjavadoc, kind-projector, macro-paradise, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, silencer, specs2, spray-json, ssl-config
-[info] Project akka-streams-tcp-chat
-[info]   depends on: akka, akka-stream, cloc-plugin, genjavadoc, kind-projector, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, scodec, scodec-bits, shapeless, silencer, specs2, ssl-config
-[info] Project akka-management
-[info]   depends on: akka, akka-http, akka-more, akka-stream, cloc-plugin, genjavadoc, kind-projector, macro-paradise, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, silencer, specs2, spray-json, ssl-config
-[info] Project akka-http-session
-[info]   depends on: akka, akka-http, akka-stream, cloc-plugin, genjavadoc, kind-projector, macro-paradise, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, silencer, specs2, spray-json, ssl-config, wartremover
-[info] Project kafka
-[info]   depends on: cloc-plugin, genjavadoc, jackson-module-scala, mockito-scala, scala, scala-collection-compat, scala-java8-compat, scala-logging, scalacheck, scalatest
-[info] Project base64
-[info]   depends on: cloc-plugin, portable-scala-reflect, scala, utest
-[info] Project jawn-0-10
-[info]   depends on: cloc-plugin, json4s, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2, spray-json
-[info] Project upickle
-[info]   depends on: acyclic, cloc-plugin, jawn-0-10, json4s, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, sourcecode, specs2, spray-json, utest
-[info] Project autowire
-[info]   depends on: acyclic, cloc-plugin, jawn-0-10, json4s, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, sourcecode, specs2, spray-json, upickle, utest
-[info] Project akka-http-json
-[info]   depends on: acyclic, akka, akka-http, akka-stream, cloc-plugin, expression-evaluator, genjavadoc, jackson-module-scala, jawn-0-10, json4s, jsoniter-scala, kind-projector, macro-compat, macro-paradise, play-json, portable-scala-reflect, scala, scala-collection-compat, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, silencer, sourcecode, specs2, spray-json, ssl-config, upickle, utest
-[info] Project sjson-new
-[info]   depends on: cloc-plugin, jawn-0-10, json4s, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shaded-scalajson, specs2, spray-json
-[info] Project sbt-util
-[info]   depends on: cloc-plugin, jawn-0-10, json4s, kind-projector, sbt-io, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shaded-scalajson, sjson-new, specs2, spray-json
-[info] Project sbt-librarymanagement
-[info]   depends on: cloc-plugin, gigahorse, jawn-0-10, json4s, kind-projector, sbt-io, sbt-util, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shaded-scalajson, sjson-new, specs2, spray-json, ssl-config, unfiltered
-[info] Project zinc
-[info]   depends on: cloc-plugin, gigahorse, jawn-0-10, json4s, kind-projector, sbinary, sbt-io, sbt-librarymanagement, sbt-util, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shaded-scalajson, sjson-new, specs2, spray-json, ssl-config, unfiltered
-[info] Project sbt
-[info]   depends on: cloc-plugin, gigahorse, jawn-0-10, json4s, kind-projector, sbinary, sbt-io, sbt-librarymanagement, sbt-util, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shaded-scalajson, sjson-new, specs2, spray-json, ssl-config, unfiltered, zinc
-[info] Project scalatest-tests
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project twitter-util
-[info]   depends on: cloc-plugin, jackson-module-scala, scala, scala-collection-compat, scala-parser-combinators, scalacheck, scalatest
-[info] Project finagle
-[info]   depends on: cloc-plugin, jackson-module-scala, scala, scala-collection-compat, scala-parser-combinators, scalacheck, scalatest, twitter-util
-[info] Project scrooge
-[info]   depends on: cloc-plugin, jackson-module-scala, scala, scala-collection-compat, scala-parser-combinators, scalacheck, scalatest, twitter-util
-[info] Project nscala-time
-[info]   depends on: cloc-plugin, scala, scalacheck
-[info] Project scala-continuations
-[info]   depends on: cloc-plugin, scala
-[info] Project scala-async
-[info]   depends on: cloc-plugin, scala
-[info] Project prog-scala-examples
-[info]   depends on: akka, akka-more, akka-stream, cloc-plugin, genjavadoc, kind-projector, scala, scala-async, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, silencer, specs2, ssl-config
-[info] Project scala-gopher
-[info]   depends on: akka, cloc-plugin, genjavadoc, scala, scala-async, scala-java8-compat, scalacheck, scalatest, silencer
-[info] Project scoverage
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project akka-http-cors
-[info]   depends on: akka, akka-http, akka-stream, cloc-plugin, genjavadoc, kind-projector, macro-paradise, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, silencer, specs2, spray-json, ssl-config
-[info] Project scalikejdbc
-[info]   depends on: cloc-plugin, kind-projector, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2
-[info] Project fastparse
-[info]   depends on: acyclic, cloc-plugin, portable-scala-reflect, scala, sourcecode, utest
-[info] Project scala-xml-quote
-[info]   depends on: acyclic, cloc-plugin, fastparse, portable-scala-reflect, scala, scalacheck, scalatest, sourcecode, utest
-[info] Project coursier
-[info]   depends on: acyclic, cloc-plugin, fastparse, portable-scala-reflect, scala, sourcecode, utest
-[info] Project scalapb
-[info]   depends on: acyclic, cloc-plugin, fastparse, portable-scala-reflect, scala, scalacheck, scalatest, sourcecode, utest
-[info] Project scalameta
-[info]   depends on: acyclic, cloc-plugin, fastparse, geny, macro-paradise, portable-scala-reflect, scala, scalacheck, scalapb, scalatest, sourcecode, utest
-[info] Project cachecontrol
-[info]   depends on: cloc-plugin, scala, scala-parser-combinators, scalacheck, scalatest
-[info] Project play-ws
-[info]   depends on: akka, akka-stream, cachecontrol, cloc-plugin, genjavadoc, kind-projector, macro-compat, macro-paradise, play-json, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, silencer, specs2, ssl-config
-[info] Project blaze
-[info]   depends on: cloc-plugin, kind-projector, log4s, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2
-[info] Project playframework
-[info]   depends on: akka, akka-http, akka-more, akka-stream, better-files, cachecontrol, cloc-plugin, genjavadoc, kind-projector, macro-compat, macro-paradise, play-file-watch, play-json, play-ws, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, silencer, specs2, spray-json, ssl-config, twirl
-[info] Project play-webgoat
-[info]   depends on: akka, akka-http, akka-more, akka-stream, better-files, cachecontrol, cloc-plugin, genjavadoc, kind-projector, macro-compat, macro-paradise, play-file-watch, play-json, play-ws, playframework, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, silencer, specs2, spray-json, ssl-config, twirl
-[info] Project kits
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project pascal
-[info]   depends on: cloc-plugin, kind-projector, scala, scalacheck, scalatest
-[info] Project twotails
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project scalasti
-[info]   depends on: classutil, cloc-plugin, grizzled, scala, scala-collection-compat, scalacheck, scalatest, wartremover
-[info] Project fansi
-[info]   depends on: cloc-plugin, portable-scala-reflect, scala, sourcecode, utest
-[info] Project pprint
-[info]   depends on: cloc-plugin, fansi, portable-scala-reflect, scala, sourcecode, utest
-[info] Project alpakka-kafka
-[info]   depends on: akka, akka-stream, cloc-plugin, genjavadoc, kind-projector, scala, scala-collection-compat, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, silencer, specs2, ssl-config
-[info] Project lagom
-[info]   depends on: akka, akka-http, akka-management, akka-more, akka-persistence-cassandra, akka-persistence-jdbc, akka-stream, alpakka-kafka, better-files, cachecontrol, cloc-plugin, genjavadoc, kind-projector, macro-compat, macro-paradise, play-file-watch, play-json, play-ws, playframework, sbt-testng, scala, scala-collection-compat, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, silencer, slick, specs2, spray-json, ssl-config, twirl
-[info] Project lightbend-emoji
-[info]   depends on: cloc-plugin, scala, scalacheck, scalatest
-[info] Project catalysts
-[info]   depends on: cloc-plugin, discipline, kind-projector, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2
-[info] Project cats
-[info]   depends on: catalysts, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
-[info] Project refined
-[info]   depends on: catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
-[info] Project scala-newtype
-[info]   depends on: catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
-[info] Project monocle
-[info]   depends on: catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
-[info] Project paiges
-[info]   depends on: catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
-[info] Project metaconfig
-[info]   depends on: acyclic, catalysts, cats, cloc-plugin, discipline, export-hook, fansi, fastparse, geny, kind-projector, machinist, macro-compat, macro-paradise, paiges, portable-scala-reflect, pprint, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalameta, scalapb, scalatest, shapeless, simulacrum, sourcecode, specs2, utest
-[info] Project scalafmt
-[info]   depends on: acyclic, catalysts, cats, cloc-plugin, discipline, expecty, export-hook, fansi, fastparse, geny, kind-projector, machinist, macro-compat, macro-paradise, metaconfig, minitest, paiges, portable-scala-reflect, pprint, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalameta, scalapb, scalatags, scalatest, scopt, shapeless, simulacrum, sourcecode, specs2, utest
-[info] Project mdoc
-[info]   depends on: acyclic, catalysts, cats, cloc-plugin, discipline, export-hook, fansi, fastparse, geny, kind-projector, machinist, macro-compat, macro-paradise, metaconfig, paiges, portable-scala-reflect, pprint, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalameta, scalapb, scalatest, shapeless, simulacrum, sourcecode, specs2, utest
-[info] Project mouse
-[info]   depends on: catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
-[info] Project avro4s
-[info]   depends on: catalysts, cats, cloc-plugin, discipline, export-hook, json4s, kind-projector, machinist, macro-compat, macro-paradise, magnolia, mercator, refined, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2, wartremover
-[info] Project better-monadic-for
-[info]   depends on: catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, pcplod, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
-[info] Project cats-effect
-[info]   depends on: catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
-[info] Project unique
-[info]   depends on: better-monadic-for, catalysts, cats, cats-effect, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, pcplod, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
-[info] Project monix
-[info]   depends on: catalysts, cats, cats-effect, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, minitest, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
-[info] Project fs2
-[info]   depends on: catalysts, cats, cats-effect, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, scodec-bits, shapeless, simulacrum, specs2
-[info] Project atto
-[info]   depends on: catalysts, cats, cats-effect, cloc-plugin, discipline, export-hook, fs2, kind-projector, machinist, macro-compat, macro-paradise, refined, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, scodec-bits, shapeless, simulacrum, specs2, wartremover
-[info] Project jawn-fs2
-[info]   depends on: catalysts, cats, cats-effect, claimant, cloc-plugin, discipline, export-hook, fs2, jawn-0-11, json4s, kind-projector, machinist, macro-compat, macro-paradise, play-json, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, scodec-bits, shapeless, simulacrum, specs2, spray-json
-[info] Project circe
-[info]   depends on: catalysts, cats, claimant, cloc-plugin, discipline, export-hook, jawn-0-11, json4s, kind-projector, machinist, macro-compat, macro-paradise, play-json, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, scodec-bits, shapeless, simulacrum, specs2, spray-json
-[info] Project circe-jackson
-[info]   depends on: catalysts, cats, circe, claimant, cloc-plugin, discipline, export-hook, jawn-0-11, json4s, kind-projector, machinist, macro-compat, macro-paradise, play-json, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, scodec-bits, shapeless, simulacrum, specs2, spray-json
-[info] Project scrooge-shapes
-[info]   depends on: catalysts, cats, circe, claimant, cloc-plugin, discipline, export-hook, jackson-module-scala, jawn-0-11, json4s, kind-projector, machinist, macro-compat, macro-paradise, play-json, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, scodec-bits, scrooge, shapeless, simulacrum, specs2, spray-json, twitter-util
-[info] Project enumeratum
-[info]   depends on: catalysts, cats, circe, claimant, cloc-plugin, discipline, export-hook, jawn-0-11, json4s, kind-projector, machinist, macro-compat, macro-paradise, play-json, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, scodec-bits, shapeless, simulacrum, specs2, spray-json
-[info] Project circe-config
-[info]   depends on: catalysts, cats, cats-effect, circe, claimant, cloc-plugin, discipline, export-hook, jawn-0-11, json4s, kind-projector, machinist, macro-compat, macro-paradise, play-json, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, scodec-bits, shapeless, simulacrum, specs2, spray-json
-[info] Project vault
-[info]   depends on: better-monadic-for, catalysts, cats, cats-effect, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, pcplod, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2, unique
-[info] Project elastic4s
-[info]   depends on: catalysts, cats, cloc-plugin, discipline, export-hook, jackson-module-scala, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, sksamuel-exts, specs2
-[info] Project scaladex
-[info]   depends on: acyclic, akka, akka-http, akka-http-json, akka-more, akka-stream, autowire, better-files, cachecontrol, catalysts, cats, cloc-plugin, discipline, elastic4s, export-hook, expression-evaluator, fastparse, genjavadoc, jackson-module-scala, jawn-0-10, json4s, jsoniter-scala, kind-projector, machinist, macro-compat, macro-paradise, mockito-scala, nscala-time, play-file-watch, play-json, play-ws, playframework, portable-scala-reflect, scala, scala-collection-compat, scala-java8-compat, scala-js-stubs, scala-logging, scala-parser-combinators, scalacheck, scalatags, scalatest, shapeless, silencer, simulacrum, sksamuel-exts, sourcecode, specs2, spray-json, ssl-config, twirl, upickle, utest
-[info] Project circe-derivation
-[info]   depends on: catalysts, cats, circe, claimant, cloc-plugin, discipline, export-hook, jackson-module-scala, jawn-0-11, json4s, kind-projector, machinist, macro-compat, macro-paradise, play-json, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, scodec-bits, scrooge, scrooge-shapes, shapeless, simulacrum, specs2, spray-json, twitter-util, wartremover
-[info] Project doodle
-[info]   depends on: catalysts, cats, cats-effect, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, magnolia, mercator, minitest, monix, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2, wartremover
-[info] Project doobie
-[info]   depends on: catalysts, cats, cats-effect, circe, claimant, cloc-plugin, discipline, export-hook, fs2, jawn-0-11, json4s, kind-projector, machinist, macro-compat, macro-paradise, play-json, refined, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, scodec-bits, shapeless, simulacrum, sourcecode, specs2, spray-json, wartremover
-[info] Project specs2-more
-[info]   depends on: catalysts, cats, cats-effect, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
-[info] Project eff
-[info]   depends on: catalysts, cats, cats-effect, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2, specs2-more
-[info] Project kittens
-[info]   depends on: catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
-[info] Project algebra
-[info]   depends on: catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
-[info] Project droste
-[info]   depends on: algebra, atto, catalysts, cats, cats-effect, cloc-plugin, discipline, export-hook, fs2, kind-projector, machinist, macro-compat, macro-paradise, refined, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, scodec-bits, shapeless, simulacrum, specs2, wartremover
-[info] Project spire
-[info]   depends on: algebra, catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
-[info] Project multibot
-[info]   depends on: algebra, catalysts, cats, cloc-plugin, discipline, export-hook, json4s, kind-projector, linter, machinist, macro-compat, macro-paradise, monocle, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2, spire
-[info] Project breeze
-[info]   depends on: algebra, catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2, spire
-[info] Project libra
-[info]   depends on: algebra, catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, singleton-ops, specs2, spire
-[info] Project github4s
-[info]   depends on: base64, catalysts, cats, cats-effect, circe, circe-jackson, claimant, cloc-plugin, discipline, export-hook, jackson-module-scala, jawn-0-11, json4s, kind-projector, machinist, macro-compat, macro-paradise, play-json, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalaj-http, scalamock, scalatest, scodec-bits, shapeless, simulacrum, specs2, spray-json, utest
-[info] Project http4s
-[info]   depends on: better-monadic-for, blaze, boopickle, catalysts, cats, cats-effect, circe, claimant, cloc-plugin, discipline, export-hook, fs2, http4s-parboiled2, jawn-0-11, jawn-fs2, json4s, kind-projector, log4s, machinist, macro-compat, macro-paradise, pcplod, play-json, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatags, scalatest, scodec-bits, shapeless, simulacrum, sourcecode, specs2, spray-json, twirl, unique, utest, vault
-[info] Project sttp
-[info]   depends on: akka, akka-http, akka-http-cors, akka-stream, better-monadic-for, blaze, boopickle, catalysts, cats, cats-effect, circe, claimant, cloc-plugin, discipline, export-hook, fs2, genjavadoc, http4s, http4s-parboiled2, jawn-0-11, jawn-fs2, json4s, kind-projector, log4s, machinist, macro-compat, macro-paradise, pcplod, play-json, portable-scala-reflect, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatags, scalatest, scodec-bits, shapeless, silencer, simulacrum, sourcecode, specs2, spray-json, ssl-config, twirl, unique, utest, vault, wartremover
-[info] Project tsec
-[info]   depends on: better-monadic-for, blaze, boopickle, catalysts, cats, cats-effect, circe, claimant, cloc-plugin, discipline, export-hook, fs2, http4s, http4s-parboiled2, jawn-0-11, jawn-fs2, json4s, kind-projector, log4s, machinist, macro-compat, macro-paradise, pcplod, play-json, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatags, scalatest, scodec-bits, shapeless, simulacrum, sourcecode, specs2, spray-json, twirl, unique, utest, vault
-[info] Project scala-pet-store
-[info]   depends on: better-monadic-for, blaze, boopickle, catalysts, cats, cats-effect, circe, circe-config, claimant, cloc-plugin, discipline, doobie, enumeratum, export-hook, fs2, http4s, http4s-parboiled2, jawn-0-11, jawn-fs2, json4s, kind-projector, log4s, machinist, macro-compat, macro-paradise, pcplod, play-json, portable-scala-reflect, refined, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatags, scalatest, scodec-bits, shapeless, simulacrum, sourcecode, specs2, spray-json, tsec, tut, twirl, unique, utest, vault, wartremover
-[info] Project pureconfig
-[info]   depends on: acyclic, akka, akka-http, akka-http-cors, akka-stream, better-monadic-for, blaze, boopickle, catalysts, cats, cats-effect, circe, claimant, cloc-plugin, discipline, enumeratum, export-hook, fansi, fastparse, fs2, genjavadoc, geny, http4s, http4s-parboiled2, jawn-0-11, jawn-fs2, json4s, kind-projector, log4s, machinist, macro-compat, macro-paradise, mdoc, metaconfig, paiges, pcplod, play-json, portable-scala-reflect, pprint, scala, scala-collection-compat, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalacheck-shapeless, scalameta, scalapb, scalatags, scalatest, scodec-bits, shapeless, silencer, simulacrum, sourcecode, specs2, spray-json, ssl-config, sttp, tut, twirl, unique, utest, vault, wartremover
-[info] Project scalafix
-[info]   depends on: acyclic, catalysts, cats, cloc-plugin, discipline, export-hook, fansi, fastparse, geny, kind-projector, machinist, macro-compat, macro-paradise, metaconfig, paiges, portable-scala-reflect, pprint, sbt-testng, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalameta, scalapb, scalatest, shapeless, simulacrum, slick, sourcecode, specs2, utest
-[info] Project decline
-[info]   depends on: catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, refined, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
-[info] Project scala-sculpt
-[info]   depends on: cloc-plugin, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, specs2, spray-json, verify
-[info] Project scalatex
-[info]   depends on: acyclic, cloc-plugin, fastparse, portable-scala-reflect, scala, scalatags, sourcecode, utest
+scala: 
+cloc-plugin: scala
+shaded-scalajson: scala
+expecty: cloc-plugin, scala
+genjavadoc: cloc-plugin, scala
+kind-projector: cloc-plugin, scala
+machinist: cloc-plugin, scala
+munit: cloc-plugin, scala
+portable-scala-reflect: cloc-plugin, scala
+sbt-testng: cloc-plugin, scala
+scala-async: cloc-plugin, scala
+scala-collection-compat: cloc-plugin, scala
+scala-collection-laws: cloc-plugin, scala
+scala-continuations: cloc-plugin, scala
+scala-js-stubs: cloc-plugin, scala
+scala-parser-combinators: cloc-plugin, scala
+scala-partest: cloc-plugin, scala
+scalacheck: cloc-plugin, scala
+scalaprops: cloc-plugin, scala
+shapeless: cloc-plugin, scala
+sourcecode: cloc-plugin, scala
+tut: cloc-plugin, scala
+verify: cloc-plugin, scala
+claimant: cloc-plugin, scala, scalacheck
+nscala-time: cloc-plugin, scala, scalacheck
+sbinary: cloc-plugin, scala, scalacheck
+scala-java8-compat: cloc-plugin, genjavadoc, scala
+scalatest: cloc-plugin, scala, scalacheck
+scala-hedgehog: cloc-plugin, kind-projector, scala
+euler: cloc-plugin, scala, scalacheck, scalatest
+expression-evaluator: cloc-plugin, scala, scalacheck, scalatest
+fast-string-interpolator: cloc-plugin, scala, scalacheck, scalatest
+jackson-module-scala: cloc-plugin, scala, scalacheck, scalatest
+kits: cloc-plugin, scala, scalacheck, scalatest
+lightbend-emoji: cloc-plugin, scala, scalacheck, scalatest
+macro-paradise: cloc-plugin, scala, scalacheck, scalatest
+mockito-scala: cloc-plugin, scala, scalacheck, scalatest
+paradox: cloc-plugin, scala, scalacheck, scalatest
+parboiled: cloc-plugin, scala, scalacheck, scalatest
+pcplod: cloc-plugin, scala, scalacheck, scalatest
+perfolation: cloc-plugin, scala, scalacheck, scalatest
+quicklens: cloc-plugin, scala, scalacheck, scalatest
+sbt-io: cloc-plugin, scala, scalacheck, scalatest
+scala-java-time: cloc-plugin, scala, scalacheck, scalatest
+scala-records: cloc-plugin, scala, scalacheck, scalatest
+scala-ssh: cloc-plugin, scala, scalacheck, scalatest
+scala-stm: cloc-plugin, scala, scalacheck, scalatest
+scala-swing: cloc-plugin, scala, scalacheck, scalatest
+scala-typed-holes: cloc-plugin, scala, scalacheck, scalatest
+scalajson: cloc-plugin, scala, scalacheck, scalatest
+scalamock: cloc-plugin, scala, scalacheck, scalatest
+scalatest-tests: cloc-plugin, scala, scalacheck, scalatest
+scallop: cloc-plugin, scala, scalacheck, scalatest
+scapegoat: cloc-plugin, scala, scalacheck, scalatest
+scodec-bits: cloc-plugin, scala, scalacheck, scalatest
+scoverage: cloc-plugin, scala, scalacheck, scalatest
+silencer: cloc-plugin, scala, scalacheck, scalatest
+sksamuel-exts: cloc-plugin, scala, scalacheck, scalatest
+twotails: cloc-plugin, scala, scalacheck, scalatest
+wartremover: cloc-plugin, scala, scalacheck, scalatest
+utest: cloc-plugin, portable-scala-reflect, scala
+scala-refactoring: cloc-plugin, scala, scala-parser-combinators
+acyclic: cloc-plugin, portable-scala-reflect, scala, utest
+base64: cloc-plugin, portable-scala-reflect, scala, utest
+geny: cloc-plugin, portable-scala-reflect, scala, utest
+grizzled: cloc-plugin, scala, scalacheck, scalatest, wartremover
+mercator: cloc-plugin, scala, scalacheck, scalatest, wartremover
+scribe: cloc-plugin, perfolation, scala, scalacheck, scalatest
+scala-logging: cloc-plugin, mockito-scala, scala, scalacheck, scalatest
+log4s: cloc-plugin, scala, scala-js-stubs, scalacheck, scalatest
+macro-compat: cloc-plugin, macro-paradise, scala, scalacheck, scalatest
+pascal: cloc-plugin, kind-projector, scala, scalacheck, scalatest
+curryhoward: cloc-plugin, scala, scalacheck, scalatest, tut, wartremover
+boopickle: cloc-plugin, portable-scala-reflect, scala, shapeless, utest
+fansi: cloc-plugin, portable-scala-reflect, scala, sourcecode, utest
+scalatags: cloc-plugin, portable-scala-reflect, scala, sourcecode, utest
+scalaj-http: cloc-plugin, jackson-module-scala, scala, scalacheck, scalatest
+magnolia: cloc-plugin, mercator, scala, scalacheck, scalatest, wartremover
+scodec: cloc-plugin, scala, scalacheck, scalatest, scodec-bits, shapeless
+mima: cloc-plugin, scala, scala-collection-compat, scalacheck, scalatest
+cachecontrol: cloc-plugin, scala, scala-parser-combinators, scalacheck, scalatest
+scalariform: cloc-plugin, scala, scala-parser-combinators, scalacheck, scalatest
+twirl: cloc-plugin, scala, scala-parser-combinators, scalacheck, scalatest
+case-app: cloc-plugin, macro-paradise, scala, scalacheck, scalatest, shapeless
+pprint: cloc-plugin, fansi, portable-scala-reflect, scala, sourcecode, utest
+simulacrum: cloc-plugin, macro-paradise, scala, scalacheck, scalatest, shapeless
+singleton-ops: cloc-plugin, macro-paradise, scala, scalacheck, scalatest, shapeless
+fastparse: acyclic, cloc-plugin, portable-scala-reflect, scala, sourcecode, utest
+scalacheck-shapeless: cloc-plugin, portable-scala-reflect, scala, scalacheck, shapeless, utest
+slick: cloc-plugin, sbt-testng, scala, scala-collection-compat, scalacheck, scalatest
+scalastyle: cloc-plugin, scala, scala-parser-combinators, scalacheck, scalariform, scalatest
+coursier: acyclic, cloc-plugin, fastparse, portable-scala-reflect, scala, sourcecode, utest
+minitest: cloc-plugin, macro-paradise, portable-scala-reflect, scala, scalacheck, scalatest
+akka: cloc-plugin, genjavadoc, scala, scala-java8-compat, scalacheck, scalatest, silencer
+jsoniter-scala: cloc-plugin, expression-evaluator, scala, scala-collection-compat, scalacheck, scalatest
+specs2: cloc-plugin, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck
+classutil: cloc-plugin, grizzled, scala, scala-collection-compat, scalacheck, scalatest, wartremover
+metrics-scala: akka, cloc-plugin, genjavadoc, scala, scala-java8-compat, scalacheck, scalatest, silencer
+implicitbox: cloc-plugin, macro-paradise, minitest, portable-scala-reflect, scala, scalacheck, scalatest
+airframe: cloc-plugin, scala, scala-collection-compat, scala-parser-combinators, scalacheck, scalatest
+scalatex: acyclic, cloc-plugin, fastparse, portable-scala-reflect, scala, scalatags, sourcecode, utest
+json4s: cloc-plugin, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, specs2
+linter: cloc-plugin, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, specs2
+spray-json: cloc-plugin, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, specs2
+ssl-config: cloc-plugin, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, specs2
+treehugger: cloc-plugin, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, specs2
+better-files: akka, cloc-plugin, genjavadoc, scala, scala-java8-compat, scalacheck, scalatest, shapeless, silencer
+scalasti: classutil, cloc-plugin, grizzled, scala, scala-collection-compat, scalacheck, scalatest, wartremover
+scala-gopher: akka, cloc-plugin, genjavadoc, scala, scala-async, scala-java8-compat, scalacheck, scalatest, silencer
+scala-xml-quote: acyclic, cloc-plugin, fastparse, portable-scala-reflect, scala, scalacheck, scalatest, sourcecode, utest
+scalapb: acyclic, cloc-plugin, fastparse, portable-scala-reflect, scala, scalacheck, scalatest, sourcecode, utest
+discipline: cloc-plugin, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2
+lift-json: cloc-plugin, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2
+splain: cloc-plugin, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, shapeless, specs2
+export-hook: cloc-plugin, kind-projector, macro-compat, macro-paradise, scala, scalacheck, scalatest, shapeless, simulacrum
+blaze: cloc-plugin, kind-projector, log4s, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2
+play-doc: cloc-plugin, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2, twirl
+twitter-util: cloc-plugin, jackson-module-scala, scala, scala-collection-compat, scala-parser-combinators, scalacheck, scalatest
+unfiltered: cloc-plugin, json4s, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2
+scala-sculpt: cloc-plugin, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, specs2, spray-json, verify
+squants: cloc-plugin, json4s, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2, tut
+scopt: cloc-plugin, expecty, macro-paradise, minitest, portable-scala-reflect, scala, scala-parser-combinators, scalacheck, scalatest
+http4s-parboiled2: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, specs2, utest
+jawn-0-10: cloc-plugin, json4s, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2, spray-json
+finagle: cloc-plugin, jackson-module-scala, scala, scala-collection-compat, scala-parser-combinators, scalacheck, scalatest, twitter-util
+scrooge: cloc-plugin, jackson-module-scala, scala, scala-collection-compat, scala-parser-combinators, scalacheck, scalatest, twitter-util
+scalikejdbc: cloc-plugin, kind-projector, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2
+sconfig: cloc-plugin, kind-projector, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scalacheck, specs2, spray-json
+scalameta: acyclic, cloc-plugin, fastparse, geny, macro-paradise, portable-scala-reflect, scala, scalacheck, scalapb, scalatest, sourcecode, utest
+dispatch: cloc-plugin, json4s, kind-projector, lift-json, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2, unfiltered
+gigahorse: cloc-plugin, json4s, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2, ssl-config, unfiltered
+giter8: cloc-plugin, expecty, macro-paradise, minitest, portable-scala-reflect, sbt-io, scala, scala-parser-combinators, scalacheck, scalatest, scopt
+play-json: cloc-plugin, kind-projector, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, specs2
+catalysts: cloc-plugin, discipline, kind-projector, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2
+kafka: cloc-plugin, genjavadoc, jackson-module-scala, mockito-scala, scala, scala-collection-compat, scala-java8-compat, scala-logging, scalacheck, scalatest
+parboiled2: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, shapeless, specs2, spray-json, utest
+sjson-new: cloc-plugin, jawn-0-10, json4s, kind-projector, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shaded-scalajson, specs2, spray-json
+scalameter: cloc-plugin, jackson-module-scala, kind-projector, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2, spray-json
+akka-stream: akka, cloc-plugin, genjavadoc, kind-projector, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, silencer, specs2, ssl-config
+sbt-util: cloc-plugin, jawn-0-10, json4s, kind-projector, sbt-io, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shaded-scalajson, sjson-new, specs2, spray-json
+akka-more: akka, akka-stream, cloc-plugin, genjavadoc, kind-projector, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, silencer, specs2, ssl-config
+play-file-watch: akka, better-files, cloc-plugin, genjavadoc, kind-projector, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, silencer, specs2
+jawn-0-11: claimant, cloc-plugin, json4s, kind-projector, macro-compat, macro-paradise, play-json, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, specs2, spray-json
+upickle: acyclic, cloc-plugin, jawn-0-10, json4s, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, sourcecode, specs2, spray-json, utest
+akka-persistence-cassandra: akka, akka-more, akka-stream, cloc-plugin, genjavadoc, kind-projector, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, silencer, specs2, ssl-config
+autowire: acyclic, cloc-plugin, jawn-0-10, json4s, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, sourcecode, specs2, spray-json, upickle, utest
+scala-debugger: cloc-plugin, kind-projector, macro-paradise, parboiled2, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalamock, scalatest, shapeless, specs2, spray-json, utest
+prog-scala-examples: akka, akka-more, akka-stream, cloc-plugin, genjavadoc, kind-projector, scala, scala-async, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, silencer, specs2, ssl-config
+alpakka-kafka: akka, akka-stream, cloc-plugin, genjavadoc, kind-projector, scala, scala-collection-compat, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, silencer, specs2, ssl-config
+cats: catalysts, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
+akka-http: akka, akka-stream, cloc-plugin, genjavadoc, kind-projector, macro-paradise, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, silencer, specs2, spray-json, ssl-config
+akka-streams-tcp-chat: akka, akka-stream, cloc-plugin, genjavadoc, kind-projector, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, scodec, scodec-bits, shapeless, silencer, specs2, ssl-config
+algebra: catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
+cats-effect: catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
+kittens: catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
+monocle: catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
+mouse: catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
+paiges: catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
+refined: catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
+scala-newtype: catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
+akka-http-cors: akka, akka-http, akka-stream, cloc-plugin, genjavadoc, kind-projector, macro-paradise, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, silencer, specs2, spray-json, ssl-config
+akka-http-webgoat: akka, akka-http, akka-stream, cloc-plugin, genjavadoc, kind-projector, macro-paradise, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, silencer, specs2, spray-json, ssl-config
+sbt-librarymanagement: cloc-plugin, gigahorse, jawn-0-10, json4s, kind-projector, sbt-io, sbt-util, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shaded-scalajson, sjson-new, specs2, spray-json, ssl-config, unfiltered
+better-monadic-for: catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, pcplod, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
+decline: catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, refined, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
+spire: algebra, catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
+specs2-more: catalysts, cats, cats-effect, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
+akka-contrib-extra: akka, akka-http, akka-more, akka-stream, cloc-plugin, genjavadoc, kind-projector, macro-paradise, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, silencer, specs2, spray-json, ssl-config
+akka-management: akka, akka-http, akka-more, akka-stream, cloc-plugin, genjavadoc, kind-projector, macro-paradise, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, silencer, specs2, spray-json, ssl-config
+akka-http-session: akka, akka-http, akka-stream, cloc-plugin, genjavadoc, kind-projector, macro-paradise, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, silencer, specs2, spray-json, ssl-config, wartremover
+akka-persistence-jdbc: akka, akka-more, akka-stream, cloc-plugin, genjavadoc, kind-projector, sbt-testng, scala, scala-collection-compat, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, silencer, slick, specs2, ssl-config
+eff: catalysts, cats, cats-effect, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2, specs2-more
+fs2: catalysts, cats, cats-effect, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, scodec-bits, shapeless, simulacrum, specs2
+libra: algebra, catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, singleton-ops, specs2, spire
+play-ws: akka, akka-stream, cachecontrol, cloc-plugin, genjavadoc, kind-projector, macro-compat, macro-paradise, play-json, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, silencer, specs2, ssl-config
+elastic4s: catalysts, cats, cloc-plugin, discipline, export-hook, jackson-module-scala, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, sksamuel-exts, specs2
+zinc: cloc-plugin, gigahorse, jawn-0-10, json4s, kind-projector, sbinary, sbt-io, sbt-librarymanagement, sbt-util, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shaded-scalajson, sjson-new, specs2, spray-json, ssl-config, unfiltered
+breeze: algebra, catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2, spire
+multibot: algebra, catalysts, cats, cloc-plugin, discipline, export-hook, json4s, kind-projector, linter, machinist, macro-compat, macro-paradise, monocle, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2, spire
+unique: better-monadic-for, catalysts, cats, cats-effect, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, pcplod, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
+sbt: cloc-plugin, gigahorse, jawn-0-10, json4s, kind-projector, sbinary, sbt-io, sbt-librarymanagement, sbt-util, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shaded-scalajson, sjson-new, specs2, spray-json, ssl-config, unfiltered, zinc
+monix: catalysts, cats, cats-effect, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, minitest, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
+vault: better-monadic-for, catalysts, cats, cats-effect, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, pcplod, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2, unique
+avro4s: catalysts, cats, cloc-plugin, discipline, export-hook, json4s, kind-projector, machinist, macro-compat, macro-paradise, magnolia, mercator, refined, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2, wartremover
+atto: catalysts, cats, cats-effect, cloc-plugin, discipline, export-hook, fs2, kind-projector, machinist, macro-compat, macro-paradise, refined, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, scodec-bits, shapeless, simulacrum, specs2, wartremover
+circe: catalysts, cats, claimant, cloc-plugin, discipline, export-hook, jawn-0-11, json4s, kind-projector, machinist, macro-compat, macro-paradise, play-json, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, scodec-bits, shapeless, simulacrum, specs2, spray-json
+droste: algebra, atto, catalysts, cats, cats-effect, cloc-plugin, discipline, export-hook, fs2, kind-projector, machinist, macro-compat, macro-paradise, refined, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, scodec-bits, shapeless, simulacrum, specs2, wartremover
+circe-jackson: catalysts, cats, circe, claimant, cloc-plugin, discipline, export-hook, jawn-0-11, json4s, kind-projector, machinist, macro-compat, macro-paradise, play-json, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, scodec-bits, shapeless, simulacrum, specs2, spray-json
+enumeratum: catalysts, cats, circe, claimant, cloc-plugin, discipline, export-hook, jawn-0-11, json4s, kind-projector, machinist, macro-compat, macro-paradise, play-json, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, scodec-bits, shapeless, simulacrum, specs2, spray-json
+jawn-fs2: catalysts, cats, cats-effect, claimant, cloc-plugin, discipline, export-hook, fs2, jawn-0-11, json4s, kind-projector, machinist, macro-compat, macro-paradise, play-json, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, scodec-bits, shapeless, simulacrum, specs2, spray-json
+circe-config: catalysts, cats, cats-effect, circe, claimant, cloc-plugin, discipline, export-hook, jawn-0-11, json4s, kind-projector, machinist, macro-compat, macro-paradise, play-json, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, scodec-bits, shapeless, simulacrum, specs2, spray-json
+doodle: catalysts, cats, cats-effect, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, magnolia, mercator, minitest, monix, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2, wartremover
+metaconfig: acyclic, catalysts, cats, cloc-plugin, discipline, export-hook, fansi, fastparse, geny, kind-projector, machinist, macro-compat, macro-paradise, paiges, portable-scala-reflect, pprint, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalameta, scalapb, scalatest, shapeless, simulacrum, sourcecode, specs2, utest
+playframework: akka, akka-http, akka-more, akka-stream, better-files, cachecontrol, cloc-plugin, genjavadoc, kind-projector, macro-compat, macro-paradise, play-file-watch, play-json, play-ws, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, silencer, specs2, spray-json, ssl-config, twirl
+doobie: catalysts, cats, cats-effect, circe, claimant, cloc-plugin, discipline, export-hook, fs2, jawn-0-11, json4s, kind-projector, machinist, macro-compat, macro-paradise, play-json, refined, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, scodec-bits, shapeless, simulacrum, sourcecode, specs2, spray-json, wartremover
+mdoc: acyclic, catalysts, cats, cloc-plugin, discipline, export-hook, fansi, fastparse, geny, kind-projector, machinist, macro-compat, macro-paradise, metaconfig, paiges, portable-scala-reflect, pprint, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalameta, scalapb, scalatest, shapeless, simulacrum, sourcecode, specs2, utest
+play-webgoat: akka, akka-http, akka-more, akka-stream, better-files, cachecontrol, cloc-plugin, genjavadoc, kind-projector, macro-compat, macro-paradise, play-file-watch, play-json, play-ws, playframework, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, silencer, specs2, spray-json, ssl-config, twirl
+scrooge-shapes: catalysts, cats, circe, claimant, cloc-plugin, discipline, export-hook, jackson-module-scala, jawn-0-11, json4s, kind-projector, machinist, macro-compat, macro-paradise, play-json, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, scodec-bits, scrooge, shapeless, simulacrum, specs2, spray-json, twitter-util
+scalafmt: acyclic, catalysts, cats, cloc-plugin, discipline, expecty, export-hook, fansi, fastparse, geny, kind-projector, machinist, macro-compat, macro-paradise, metaconfig, minitest, paiges, portable-scala-reflect, pprint, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalameta, scalapb, scalatags, scalatest, scopt, shapeless, simulacrum, sourcecode, specs2, utest
+scalafix: acyclic, catalysts, cats, cloc-plugin, discipline, export-hook, fansi, fastparse, geny, kind-projector, machinist, macro-compat, macro-paradise, metaconfig, paiges, portable-scala-reflect, pprint, sbt-testng, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalameta, scalapb, scalatest, shapeless, simulacrum, slick, sourcecode, specs2, utest
+circe-derivation: catalysts, cats, circe, claimant, cloc-plugin, discipline, export-hook, jackson-module-scala, jawn-0-11, json4s, kind-projector, machinist, macro-compat, macro-paradise, play-json, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, scodec-bits, scrooge, scrooge-shapes, shapeless, simulacrum, specs2, spray-json, twitter-util, wartremover
+github4s: base64, catalysts, cats, cats-effect, circe, circe-jackson, claimant, cloc-plugin, discipline, export-hook, jackson-module-scala, jawn-0-11, json4s, kind-projector, machinist, macro-compat, macro-paradise, play-json, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalaj-http, scalamock, scalatest, scodec-bits, shapeless, simulacrum, specs2, spray-json, utest
+akka-http-json: acyclic, akka, akka-http, akka-stream, cloc-plugin, expression-evaluator, genjavadoc, jackson-module-scala, jawn-0-10, json4s, jsoniter-scala, kind-projector, macro-compat, macro-paradise, play-json, portable-scala-reflect, scala, scala-collection-compat, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, silencer, sourcecode, specs2, spray-json, ssl-config, upickle, utest
+http4s: better-monadic-for, blaze, boopickle, catalysts, cats, cats-effect, circe, claimant, cloc-plugin, discipline, export-hook, fs2, http4s-parboiled2, jawn-0-11, jawn-fs2, json4s, kind-projector, log4s, machinist, macro-compat, macro-paradise, pcplod, play-json, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatags, scalatest, scodec-bits, shapeless, simulacrum, sourcecode, specs2, spray-json, twirl, unique, utest, vault
+lagom: akka, akka-http, akka-management, akka-more, akka-persistence-cassandra, akka-persistence-jdbc, akka-stream, alpakka-kafka, better-files, cachecontrol, cloc-plugin, genjavadoc, kind-projector, macro-compat, macro-paradise, play-file-watch, play-json, play-ws, playframework, sbt-testng, scala, scala-collection-compat, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, silencer, slick, specs2, spray-json, ssl-config, twirl
+tsec: better-monadic-for, blaze, boopickle, catalysts, cats, cats-effect, circe, claimant, cloc-plugin, discipline, export-hook, fs2, http4s, http4s-parboiled2, jawn-0-11, jawn-fs2, json4s, kind-projector, log4s, machinist, macro-compat, macro-paradise, pcplod, play-json, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatags, scalatest, scodec-bits, shapeless, simulacrum, sourcecode, specs2, spray-json, twirl, unique, utest, vault
+scala-pet-store: better-monadic-for, blaze, boopickle, catalysts, cats, cats-effect, circe, circe-config, claimant, cloc-plugin, discipline, doobie, enumeratum, export-hook, fs2, http4s, http4s-parboiled2, jawn-0-11, jawn-fs2, json4s, kind-projector, log4s, machinist, macro-compat, macro-paradise, pcplod, play-json, portable-scala-reflect, refined, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatags, scalatest, scodec-bits, shapeless, simulacrum, sourcecode, specs2, spray-json, tsec, tut, twirl, unique, utest, vault, wartremover
+sttp: akka, akka-http, akka-http-cors, akka-stream, better-monadic-for, blaze, boopickle, catalysts, cats, cats-effect, circe, claimant, cloc-plugin, discipline, export-hook, fs2, genjavadoc, http4s, http4s-parboiled2, jawn-0-11, jawn-fs2, json4s, kind-projector, log4s, machinist, macro-compat, macro-paradise, pcplod, play-json, portable-scala-reflect, scala, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatags, scalatest, scodec-bits, shapeless, silencer, simulacrum, sourcecode, specs2, spray-json, ssl-config, twirl, unique, utest, vault, wartremover
+scaladex: acyclic, akka, akka-http, akka-http-json, akka-more, akka-stream, autowire, better-files, cachecontrol, catalysts, cats, cloc-plugin, discipline, elastic4s, export-hook, expression-evaluator, fastparse, genjavadoc, jackson-module-scala, jawn-0-10, json4s, jsoniter-scala, kind-projector, machinist, macro-compat, macro-paradise, mockito-scala, nscala-time, play-file-watch, play-json, play-ws, playframework, portable-scala-reflect, scala, scala-collection-compat, scala-java8-compat, scala-js-stubs, scala-logging, scala-parser-combinators, scalacheck, scalatags, scalatest, shapeless, silencer, simulacrum, sksamuel-exts, sourcecode, specs2, spray-json, ssl-config, twirl, upickle, utest
+pureconfig: acyclic, akka, akka-http, akka-http-cors, akka-stream, better-monadic-for, blaze, boopickle, catalysts, cats, cats-effect, circe, claimant, cloc-plugin, discipline, enumeratum, export-hook, fansi, fastparse, fs2, genjavadoc, geny, http4s, http4s-parboiled2, jawn-0-11, jawn-fs2, json4s, kind-projector, log4s, machinist, macro-compat, macro-paradise, mdoc, metaconfig, paiges, pcplod, play-json, portable-scala-reflect, pprint, scala, scala-collection-compat, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalacheck-shapeless, scalameta, scalapb, scalatags, scalatest, scodec-bits, shapeless, silencer, simulacrum, sourcecode, specs2, spray-json, ssl-config, sttp, tut, twirl, unique, utest, vault, wartremover
