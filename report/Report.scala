@@ -44,9 +44,13 @@ object SuccessReport {
   )
 
   val jdk14Failures = Set[String](
-    "blaze",  // test failure (org.http4s.blaze.pipeline.stages.SSLStageSpec)
-    "paradox",  // Unsupported class file major version
-    "playframework",  // Failed tests: play.mvc.HttpFormsTest
+    "blaze",         // test failure (org.http4s.blaze.pipeline.stages.SSLStageSpec)
+    "breeze",        // green once optimizer-on-jdk-14 fix is merged from 2.12.x?
+    "jawn-0-11",     // green once optimizer-on-jdk-14 fix is merged from 2.12.x?
+    "log4s",         // green once optimizer-on-jdk-14 fix is merged from 2.12.x?
+    "paradox",       // Unsupported class file major version
+    "playframework", // Failed tests: play.mvc.HttpFormsTest
+    "scala-async",   // green once optimizer-on-jdk-14 fix is merged from 2.12.x?
     "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
   )
 
