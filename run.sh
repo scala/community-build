@@ -6,13 +6,19 @@
 set -e
 set -o pipefail
 
+export LANG="en_US.UTF-8"
+export HOME="$(pwd)"
+
+echo JAVA_HOME=$JAVA_HOME
+echo which java: `which java`
+java -version
+echo
+
 # redundant to delete both at start and end, but just in case
 # these were left lying around...
 echo "removing temporary files..."
 rm -rf target-*/project-builds || true
-
-export LANG="en_US.UTF-8"
-export HOME="$(pwd)"
+echo
 
 # Defaults
 root_dir=$(pwd)
@@ -110,6 +116,7 @@ source nightly.properties
 export version=${version-$nightly}
 echo "re-run as:"
 echo version=$version ./run.sh ${@}
+echo
 
 # In a config, we cannot use a variable in an include statement, so have a workaround
 # whereby we copy the contents of the real file to a temporary file of known name.
