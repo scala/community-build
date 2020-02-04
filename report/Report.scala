@@ -181,13 +181,16 @@ object UpdateDependencies {
   val Line1 = """\[info\] Project (\S+)""".r
   val Line2 = """\[info\]   depends on: (.*)""".r
   def apply(): Unit = {
-    val in = io.Source.fromFile("../logs/_dependencies.log")
-    val out = SplitLog.makeWriter("../dependencies.txt")
-    val tuples =
-      for (Seq(Line1(project), Line2(depends)) <- in.getLines.grouped(2).toSeq)
-      yield (project, depends)
-    for ((project, depends) <- tuples.sortBy(_._1).sortBy(_._2.length))
-      out.println(s"$project: $depends")
-    out.close()
+    val inFile = new java.io.File("../logs/_dependencies.log")
+    if (inFile.exists) {
+      val in = io.Source.fromFile(inFile)
+      val out = SplitLog.makeWriter("../dependencies.txt")
+      val tuples =
+        for (Seq(Line1(project), Line2(depends)) <- in.getLines.grouped(2).toSeq)
+        yield (project, depends)
+      for ((project, depends) <- tuples.sortBy(_._1).sortBy(_._2.length))
+        out.println(s"$project: $depends")
+      out.close()
+    }
   }
 }
