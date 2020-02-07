@@ -52,7 +52,6 @@ object SuccessReport {
   )
 
   val jdk14Failures = Set[String](
-    "blaze",  // test failure (org.http4s.blaze.pipeline.stages.SSLStageSpec)
     "paradox",  // Unsupported class file major version
     "playframework",  // Failed tests: play.mvc.HttpFormsTest
     "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
