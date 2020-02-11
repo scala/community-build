@@ -22,7 +22,7 @@ shapeless: cloc-plugin, scala
 sourcecode: cloc-plugin, scala
 tut: cloc-plugin, scala
 verify: cloc-plugin, scala
-euler: cloc-plugin, scala, verify
+euler: cloc-plugin, munit, scala
 case-app: cloc-plugin, scala, shapeless
 scalatest: cloc-plugin, scala, scala-xml
 claimant: cloc-plugin, scala, scalacheck
