@@ -30,7 +30,7 @@ debug="false"
 jvm_props=""
 local_mode="false"
 notify="false"
-dbuild_args=""
+declare -a dbuild_args
 
 Usage(){
     ex=$1
@@ -157,29 +157,29 @@ fi
 
 # Set the options we want to pass into dbuild
 if [ "$debug" = "true" ];then
-  dbuild_args="$dbuild_args -d"
+  dbuild_args+=("-d")
 fi
 
 if [ -n "$jvm_props" ];then
-  dbuild_args="$dbuild_args -Dkey=\"$jvm_props\""
+  dbuild_args+=("-Dkey=\"$jvm_props\"")
 fi
 
 if [ "$local_mode" = "true" ];then
-  dbuild_args="$dbuild_args -l"
+  dbuild_args+=("-l")
 else
   if [ "$resolvers_file" = "none" ]; then
-    dbuild_args="$dbuild_args -r"
+    dbuild_args+=("-r")
   fi
   # use -n by default since running locally you don't want notifications sent,
   # and on our Jenkins setup it doesn't actually work (for now anyway)
   if [ "$notify" = "false" ];then
-    dbuild_args="$dbuild_args -n"
+    dbuild_args+=("-n")
   fi
 fi
 
 # And finally, call dbuild
-echo "dbuild-${DBUILDVERSION}/bin/dbuild"  "$dbuild_args" "$DBUILDCONFIG" "${@}"
-("dbuild-${DBUILDVERSION}/bin/dbuild"  "$dbuild_args" "$DBUILDCONFIG" "${@}" 2>&1 | tee "dbuild-${DBUILDVERSION}/dbuild.out") || STATUS="$?"
+echo "dbuild-${DBUILDVERSION}/bin/dbuild" "${dbuild_args[@]}" "$DBUILDCONFIG" "${@}"
+("dbuild-${DBUILDVERSION}/bin/dbuild" "${dbuild_args[@]}" "$DBUILDCONFIG" "${@}" 2>&1 | tee "dbuild-${DBUILDVERSION}/dbuild.out") || STATUS="$?"
 BUILD_ID="$(grep '^\[info\]  uuid = ' "dbuild-${DBUILDVERSION}/dbuild.out" | sed -e 's/\[info\]  uuid = //')" && \
   echo "The repeatable UUID of this build was: ${BUILD_ID}"
 
