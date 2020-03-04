@@ -14,12 +14,6 @@ echo which java: `which java`
 java -version
 echo
 
-# redundant to delete both at start and end, but just in case
-# these were left lying around...
-echo "removing temporary files..."
-rm -rf target-*/project-builds || true
-echo
-
 # Defaults
 root_dir=$(pwd)
 config_dir="."
@@ -31,6 +25,16 @@ jvm_props=""
 local_mode="false"
 notify="false"
 declare -a dbuild_args
+
+rm_project_builds() {
+  if [[ "$local_mode" == "false" ]]; then
+    # we may have run out of disk, so make space ASAP
+    echo "removing temporary files..."
+    rm -rf target-*/project-builds
+  else
+    echo "local_mode: [$local_mode] so not removing temporary files in target-*/project-builds"
+  fi
+}
 
 Usage(){
     ex=$1
@@ -177,15 +181,17 @@ else
   fi
 fi
 
+# redundant to delete both at start and end, but just in case
+# these were left lying around...
+rm_project_builds
+
 # And finally, call dbuild
 echo "dbuild-${DBUILDVERSION}/bin/dbuild" "${dbuild_args[@]}" "$DBUILDCONFIG" "${@}"
 ("dbuild-${DBUILDVERSION}/bin/dbuild" "${dbuild_args[@]}" "$DBUILDCONFIG" "${@}" 2>&1 | tee "dbuild-${DBUILDVERSION}/dbuild.out") || STATUS="$?"
 BUILD_ID="$(grep '^\[info\]  uuid = ' "dbuild-${DBUILDVERSION}/dbuild.out" | sed -e 's/\[info\]  uuid = //')" && \
   echo "The repeatable UUID of this build was: ${BUILD_ID}"
 
-# we may have run out of disk, so make space ASAP
-echo "removing temporary files..."
-rm -rf target-*/project-builds
+rm_project_builds
 
 # report summary information (line counts, green project counts, ...?)
 cd report
