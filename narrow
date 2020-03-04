@@ -40,11 +40,17 @@ val projs = File("projs.conf")
 projs.clear()
 projs.append(
   """|build += {
+     |
      |  space: scala.main
+     |
+     |  // true = build project-level dependencies from source
+     |  // false = get build-level dependencies as binaries
      |  check-missing: [ true, false ]
+     |
      |  cross-version: [ disabled, standard ]
      |  extraction-version: ${vars.scala-version}
      |  sbt-version: ${vars.sbt-version}
+     |
      |  projects: [
      |
      |""".stripMargin)
