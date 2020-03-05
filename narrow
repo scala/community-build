@@ -1,4 +1,4 @@
-#!/usr/bin/env sbt -Dsbt.version=1.3.8 -Dsbt.main.class=sbt.ScriptMain -Dsbt.supershell=false -error
+#!/usr/bin/env sbt -sbt-create -Dsbt.version=1.3.8 -Dsbt.main.class=sbt.ScriptMain -Dsbt.supershell=false -error
 
 // to narrow projs.conf to just one project and its dependencies:
 //   % ./narrow scalacheck
@@ -40,10 +40,15 @@ val projs = File("projs.conf")
 projs.clear()
 projs.append(
   """|build += {
+     |
+     |  // true = build project-level dependencies from source
+     |  // false = get build-level dependencies as binaries
      |  check-missing: [ true, false ]
+     |
      |  cross-version: [ disabled, standard ]
      |  extraction-version: ${vars.scala-version}
      |  sbt-version: ${vars.sbt-version}
+     |
      |  projects: [
      |
      |""".stripMargin)

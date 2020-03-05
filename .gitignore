@@ -11,4 +11,5 @@
 /.gnupg/
 /Library/Caches/Coursier/v1/
 /logs/
+/project/
 /report.html
