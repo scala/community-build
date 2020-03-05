@@ -14,12 +14,6 @@ echo which java: `which java`
 java -version
 echo
 
-# redundant to delete both at start and end, but just in case
-# these were left lying around...
-echo "removing temporary files..."
-rm -rf target-*/project-builds || true
-echo
-
 # Defaults
 root_dir=$(pwd)
 config_dir="."
@@ -30,7 +24,17 @@ debug="false"
 jvm_props=""
 local_mode="false"
 notify="false"
-dbuild_args=""
+declare -a dbuild_args
+
+rm_project_builds() {
+  if [[ "$local_mode" == "false" ]]; then
+    # we may have run out of disk, so make space ASAP
+    echo "removing temporary files..."
+    rm -rf target-*/project-builds
+  else
+    echo "local_mode: [$local_mode] so not removing temporary files in target-*/project-builds"
+  fi
+}
 
 Usage(){
     ex=$1
@@ -143,7 +147,7 @@ fi
 # Download and extract dbuild if we haven't already got it
 if [ ! -d "dbuild-${DBUILDVERSION}" ]
 then
-  wget "http://repo.lightbend.com/typesafe/ivy-releases/com.typesafe.dbuild/dbuild/${DBUILDVERSION}/tgzs/dbuild-${DBUILDVERSION}.tgz"
+  curl -LO "http://repo.lightbend.com/typesafe/ivy-releases/com.typesafe.dbuild/dbuild/${DBUILDVERSION}/tgzs/dbuild-${DBUILDVERSION}.tgz"
   tar xfz "dbuild-${DBUILDVERSION}.tgz"
   rm "dbuild-${DBUILDVERSION}.tgz"
 fi
@@ -157,35 +161,37 @@ fi
 
 # Set the options we want to pass into dbuild
 if [ "$debug" = "true" ];then
-  dbuild_args="$dbuild_args -d"
+  dbuild_args+=("-d")
 fi
 
 if [ -n "$jvm_props" ];then
-  dbuild_args="$dbuild_args -Dkey=\"$jvm_props\""
+  dbuild_args+=("-Dkey=\"$jvm_props\"")
 fi
 
 if [ "$local_mode" = "true" ];then
-  dbuild_args="$dbuild_args -l"
+  dbuild_args+=("-l")
 else
   if [ "$resolvers_file" = "none" ]; then
-    dbuild_args="$dbuild_args -r"
+    dbuild_args+=("-r")
   fi
   # use -n by default since running locally you don't want notifications sent,
   # and on our Jenkins setup it doesn't actually work (for now anyway)
   if [ "$notify" = "false" ];then
-    dbuild_args="$dbuild_args -n"
+    dbuild_args+=("-n")
   fi
 fi
 
+# redundant to delete both at start and end, but just in case
+# these were left lying around...
+rm_project_builds
+
 # And finally, call dbuild
-echo "dbuild-${DBUILDVERSION}/bin/dbuild"  "$dbuild_args" "$DBUILDCONFIG" "${@}"
-("dbuild-${DBUILDVERSION}/bin/dbuild"  "$dbuild_args" "$DBUILDCONFIG" "${@}" 2>&1 | tee "dbuild-${DBUILDVERSION}/dbuild.out") || STATUS="$?"
+echo "dbuild-${DBUILDVERSION}/bin/dbuild" "${dbuild_args[@]}" "$DBUILDCONFIG" "${@}"
+("dbuild-${DBUILDVERSION}/bin/dbuild" "${dbuild_args[@]}" "$DBUILDCONFIG" "${@}" 2>&1 | tee "dbuild-${DBUILDVERSION}/dbuild.out") || STATUS="$?"
 BUILD_ID="$(grep '^\[info\]  uuid = ' "dbuild-${DBUILDVERSION}/dbuild.out" | sed -e 's/\[info\]  uuid = //')" && \
   echo "The repeatable UUID of this build was: ${BUILD_ID}"
 
-# we may have run out of disk, so make space ASAP
-echo "removing temporary files..."
-rm -rf target-*/project-builds
+rm_project_builds
 
 # report summary information (line counts, green project counts, ...?)
 cd report
