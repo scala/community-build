@@ -1,27 +1,27 @@
-# Scala Community Build
+# Scala 2 Community Build
 
-This repository contains configuration files that enable us to build and test
-a corpus of Scala open source projects together using Lightbend's
-[dbuild](https://github.com/lightbend/dbuild). This project is financed and
-primarily maintained by Lightbend, as part of our overall maintenance of the
-Scala compiler and standard library.
+In this repository we build and test a large corpus of open-source Scala 2 projects.
+Everything is built from source using Lightbend's [dbuild](https://github.com/lightbend/dbuild).
+
+The project is financed and primarily maintained by Lightbend, as part
+of our overall maintenance of the Scala compiler and standard library.
 
 **How big is it?**
 The 2.13 build is **3.4 million lines** of Scala code, total,
-from **209 repos**
-and takes about **9 hours** to run
-(as of February 2020).
+from **209 repos**, and takes about **9 hours** to run,
+as of March 2020.
 
 **Why do this?** The main goal is to guard against regressions in new
-versions of Scala (language, standard library, and modules), as a complement
-to the regression test suite that we maintain in scala/scala. It's also
-a service to the open source community, providing early notice of
+versions of Scala (language, standard library, and modules). This complements
+the regression test suite we maintain in [scala/scala](https://github.com/scala/scala).
+It's also a service to the open source community, providing early notice of
 issues and incompatibilities.
 
 **Can I run it myself?** Sure, just clone the repo and run `./run.sh`.
 
 ## News
 
+* February 20, 2020: [Scala 2 community build reaches goals](https://www.scala-lang.org/2020/02/20/community-build.html)
 * January 13, 2020: [2.13.x build gets big upgrade](https://contributors.scala-lang.org/t/community-build-progress-report-august-2019/3573/9)
 * October 17, 2019: [Maintainability improvements made](https://contributors.scala-lang.org/t/community-build-progress-report-august-2019/3573/8)
 * August 4, 2019: [Community build progress report](https://contributors.scala-lang.org/t/community-build-progress-report-august-2019/3573/6)
