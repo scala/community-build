@@ -34,7 +34,6 @@ scala-java8-compat: cloc-plugin, genjavadoc, scala
 scala-parallel-collections: cloc-plugin, scala, scalacheck
 context-applied: cloc-plugin, kind-projector, scala
 pureconfig: cloc-plugin, scala, shapeless, tut
-scala-hedgehog: cloc-plugin, kind-projector, scala
 expression-evaluator: cloc-plugin, scala, scala-xml, scalatest
 fast-string-interpolator: cloc-plugin, scala, scala-xml, scalatest
 jwt-scala: cloc-plugin, scala, scala-xml, scalatest
@@ -68,6 +67,7 @@ scalatestplus-scalacheck: cloc-plugin, scala, scala-xml, scalacheck, scalatest
 mercator: cloc-plugin, scala, scala-xml, scalatest, wartremover
 minitest: cloc-plugin, portable-scala-reflect, scala, scalacheck
 pascal: cloc-plugin, kind-projector, scala, scala-xml, scalatest
+scala-hedgehog: cloc-plugin, kind-projector, portable-scala-reflect, scala
 boopickle: cloc-plugin, portable-scala-reflect, scala, shapeless, utest
 fansi: cloc-plugin, portable-scala-reflect, scala, sourcecode, utest
 fastparse: cloc-plugin, portable-scala-reflect, scala, sourcecode, utest
