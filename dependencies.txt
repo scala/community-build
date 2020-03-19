@@ -26,7 +26,6 @@ nscala-time: cloc-plugin, scala, scalacheck
 sbinary: cloc-plugin, scala, scalacheck
 scala-java8-compat: cloc-plugin, genjavadoc, scala
 scalatest: cloc-plugin, scala, scalacheck
-scala-hedgehog: cloc-plugin, kind-projector, scala
 euler: cloc-plugin, scala, scalacheck, scalatest
 expression-evaluator: cloc-plugin, scala, scalacheck, scalatest
 fast-string-interpolator: cloc-plugin, scala, scalacheck, scalatest
@@ -71,6 +70,7 @@ scala-logging: cloc-plugin, mockito-scala, scala, scalacheck, scalatest
 log4s: cloc-plugin, scala, scala-js-stubs, scalacheck, scalatest
 macro-compat: cloc-plugin, macro-paradise, scala, scalacheck, scalatest
 pascal: cloc-plugin, kind-projector, scala, scalacheck, scalatest
+scala-hedgehog: cloc-plugin, kind-projector, portable-scala-reflect, scala
 curryhoward: cloc-plugin, scala, scalacheck, scalatest, tut, wartremover
 boopickle: cloc-plugin, portable-scala-reflect, scala, shapeless, utest
 fansi: cloc-plugin, portable-scala-reflect, scala, sourcecode, utest
