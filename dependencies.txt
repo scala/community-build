@@ -5,7 +5,6 @@ expecty: cloc-plugin, scala
 genjavadoc: cloc-plugin, scala
 kind-projector: cloc-plugin, scala
 machinist: cloc-plugin, scala
-munit: cloc-plugin, scala
 portable-scala-reflect: cloc-plugin, scala
 sbt-testng: cloc-plugin, scala
 scala-async: cloc-plugin, scala
@@ -22,6 +21,7 @@ sourcecode: cloc-plugin, scala
 tut: cloc-plugin, scala
 verify: cloc-plugin, scala
 claimant: cloc-plugin, scala, scalacheck
+munit: cloc-plugin, scala, scalacheck
 nscala-time: cloc-plugin, scala, scalacheck
 sbinary: cloc-plugin, scala, scalacheck
 scala-java8-compat: cloc-plugin, genjavadoc, scala
