@@ -72,6 +72,7 @@ boopickle: cloc-plugin, portable-scala-reflect, scala, shapeless, utest
 fansi: cloc-plugin, portable-scala-reflect, scala, sourcecode, utest
 fastparse: cloc-plugin, portable-scala-reflect, scala, sourcecode, utest
 fastparse-scalameta: cloc-plugin, portable-scala-reflect, scala, sourcecode, utest
+parboiled: cloc-plugin, scala, scala-xml, scalatest, scalatestplus-testng
 magnolia: cloc-plugin, mercator, scala, scala-xml, scalatest, wartremover
 implicitbox: cloc-plugin, minitest, portable-scala-reflect, scala, scalacheck
 scapegoat: cloc-plugin, scala, scala-collection-compat, scala-xml, scalatest
@@ -91,7 +92,6 @@ grizzled: cloc-plugin, scala, scala-collection-compat, scala-xml, scalatest, war
 scodec-bits: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck
 sttp-model: cloc-plugin, kind-projector, scala, scala-xml, scalatest, silencer, wartremover
 classutil: cloc-plugin, grizzled, scala, scala-collection-compat, scala-xml, scalatest, wartremover
-parboiled: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatest-3-0, scalatestplus-testng
 scalaj-http: cloc-plugin, jackson-module-scala, scala, scala-xml, scalacheck, scalatest, scalatest-3-0
 discipline-scalatest: cloc-plugin, discipline, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck
 scalasti: classutil, cloc-plugin, grizzled, scala, scala-collection-compat, scala-xml, scalatest, wartremover
