@@ -14,6 +14,7 @@ scala-continuations: cloc-plugin, scala
 scala-js-stubs: cloc-plugin, scala
 scala-parser-combinators: cloc-plugin, scala
 scala-partest: cloc-plugin, scala
+scala-rewrites: cloc-plugin, scala
 scalacheck: cloc-plugin, scala
 scalaprops: cloc-plugin, scala
 shapeless: cloc-plugin, scala
