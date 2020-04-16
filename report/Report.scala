@@ -44,6 +44,7 @@ object SuccessReport {
   val jdk14Failures = Set[String](
     "playframework", // Failed tests: play.mvc.HttpFormsTest
     "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
+    "zinc",          // sbt.inc.Doc$JavadocGenerationFailed
   )
 
   val expectedToFail: Set[String] =
