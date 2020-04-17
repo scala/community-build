@@ -133,7 +133,6 @@ play-file-watch: akka, better-files, cloc-plugin, genjavadoc, kind-projector, sc
 jawn-0-11: claimant, cloc-plugin, json4s, kind-projector, macro-compat, macro-paradise, play-json, scala, scala-js-stubs, scalacheck, scalatest, shapeless, specs2, spray-json
 upickle: acyclic, cloc-plugin, jawn-0-10, json4s, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scalacheck, scalatest, sourcecode, specs2, spray-json, utest
 akka-persistence-cassandra: akka, akka-more, akka-stream, cloc-plugin, genjavadoc, kind-projector, scala, scala-java8-compat, scala-js-stubs, scalacheck, scalatest, silencer, specs2, ssl-config
-autowire: acyclic, cloc-plugin, jawn-0-10, json4s, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scalacheck, scalatest, sourcecode, specs2, spray-json, upickle, utest
 scala-debugger: cloc-plugin, kind-projector, macro-paradise, parboiled2, portable-scala-reflect, scala, scala-js-stubs, scalacheck, scalamock, scalatest, shapeless, specs2, spray-json, utest
 prog-scala-examples: akka, akka-more, akka-stream, cloc-plugin, genjavadoc, kind-projector, scala, scala-async, scala-java8-compat, scala-js-stubs, scalacheck, scalatest, silencer, specs2, ssl-config
 cats: catalysts, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scalacheck, scalatest, shapeless, simulacrum, specs2
@@ -160,6 +159,7 @@ libra: algebra, catalysts, cats, cloc-plugin, discipline, export-hook, kind-proj
 monocle: catalysts, cats, cloc-plugin, discipline, export-hook, genjavadoc, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-java8-compat, scala-js-stubs, scalacheck, scalatest, shapeless, simulacrum, specs2
 play-ws: akka, akka-stream, cachecontrol, cloc-plugin, genjavadoc, kind-projector, macro-compat, macro-paradise, play-json, scala, scala-java8-compat, scala-js-stubs, scalacheck, scalatest, shapeless, silencer, specs2, ssl-config
 elastic4s: catalysts, cats, cloc-plugin, discipline, export-hook, jackson-module-scala, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-js-stubs, scalacheck, scalatest, shapeless, simulacrum, sksamuel-exts, specs2
+autowire: acyclic, cloc-plugin, jawn-0-10, json4s, kind-projector, macro-compat, macro-paradise, play-json, portable-scala-reflect, scala, scala-js-stubs, scalacheck, scalatest, shapeless, sourcecode, specs2, spray-json, upickle, utest
 zinc: cloc-plugin, gigahorse, jawn-0-10, json4s, kind-projector, sbinary, sbt-io, sbt-librarymanagement, sbt-util, scala, scala-js-stubs, scalacheck, scalatest, shaded-scalajson, sjson-new, specs2, spray-json, ssl-config, unfiltered
 breeze: algebra, catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, scala, scala-collection-compat, scala-js-stubs, scalacheck, scalatest, shapeless, simulacrum, specs2, spire
 unique: better-monadic-for, catalysts, cats, cats-effect, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, pcplod, scala, scala-js-stubs, scalacheck, scalatest, shapeless, simulacrum, specs2
