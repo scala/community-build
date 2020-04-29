@@ -12,6 +12,7 @@ scalacOptions ++= Seq(
  "-deprecation", "-unchecked", "-feature", "-Xfatal-warnings")
 libraryDependencies ++= Seq(
   "com.github.pathikrit" %% "better-files" % "3.8.0",
+  "org.scala-lang.modules" %% "scala-parallel-collections" % "0.2.0",
 )
 */
 
@@ -46,8 +47,10 @@ def getSha(repo: String, ref: String): String =
 val GitHub = """// (https://github.com/\S*.git)#(\S*)(\s*.*)""".r
 val Ivy = """// ivy:.*""".r
 
+import scala.collection.parallel.CollectionConverters._
+
 for {
-  file <- File("proj").list(_.extension == Some(".conf"))
+  file <- File("proj").list(_.extension == Some(".conf")).toSeq.par
   if args.isEmpty || args.contains(file.nameWithoutExtension)
 } {
   val lines = file.lines.to(Vector)
