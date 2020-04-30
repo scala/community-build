@@ -8,7 +8,7 @@
 // dependencies.txt is the source of truth for what dependencies to use
 
 /***
-scalaVersion := "2.13.1"
+scalaVersion := "2.13.2"
 onLoadMessage := ""
 scalacOptions ++= Seq(
  "-deprecation", "-unchecked", "-feature", "-Xfatal-warnings")
