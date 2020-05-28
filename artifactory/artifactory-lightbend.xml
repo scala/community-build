@@ -3,7 +3,7 @@
     <offlineMode>false</offlineMode>
     <helpLinksEnabled>true</helpLinksEnabled>
     <fileUploadMaxSizeMb>100</fileUploadMaxSizeMb>
-    <revision>15</revision>
+    <revision>20</revision>
     <dateFormat>dd-MM-yy HH:mm:ss z</dateFormat>
     <addons>
         <showAddonsInfo>true</showAddonsInfo>
@@ -789,7 +789,7 @@
         </remoteRepository>
         <remoteRepository>
             <key>sbt-plugin-releases</key>
-            <type>ivy</type>
+            <type>sbt</type>
             <includesPattern>**/*</includesPattern>
             <repoLayoutRef>sbt-default</repoLayoutRef>
             <dockerApiVersion>V2</dockerApiVersion>
@@ -803,9 +803,6 @@
             <suppressPomConsistencyChecks>true</suppressPomConsistencyChecks>
             <propertySets/>
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
-            <xray>
-                <enabled>false</enabled>
-            </xray>
             <url>https://repo.scala-sbt.org/scalasbt/sbt-plugin-releases</url>
             <offline>false</offline>
             <hardFail>false</hardFail>
@@ -1187,12 +1184,12 @@
                 <repositoryRef>typesafe-releases</repositoryRef>
                 <repositoryRef>typesafe-ivy-releases</repositoryRef>
                 <repositoryRef>maven-central</repositoryRef>
-                <repositoryRef>sbt-plugin-releases</repositoryRef>
                 <repositoryRef>scala-integration</repositoryRef>
                 <repositoryRef>scala-pr-validation-snapshots</repositoryRef>
                 <repositoryRef>sbt-s3-plugins</repositoryRef>
                 <repositoryRef>triplequote</repositoryRef>
                 <repositoryRef>mm-sbt-plugin-releases</repositoryRef>
+                <repositoryRef>sbt-plugin-releases</repositoryRef>
             </repositories>
             <pomRepositoryReferencesCleanupPolicy>discard_active_reference</pomRepositoryReferencesCleanupPolicy>
             <virtualCacheConfig>
