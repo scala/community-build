@@ -9,8 +9,6 @@ set -o pipefail
 export LANG="en_US.UTF-8"
 export HOME="$(pwd)"
 
-export JAVA_HOME=$(/usr/libexec/java_home -v 11)
-
 echo JAVA_HOME=$JAVA_HOME
 echo which java: `which java`
 java -version
