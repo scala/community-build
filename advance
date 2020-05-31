@@ -1,4 +1,4 @@
-#!/usr/bin/env sbt -sbt-create -Dsbt.version=1.3.11 -Dsbt.main.class=sbt.ScriptMain -Dsbt.supershell=false -error
+#!/usr/bin/env sbt -sbt-create -Dsbt.version=1.3.12 -Dsbt.main.class=sbt.ScriptMain -Dsbt.supershell=false -error
 
 // to advance all projects:
 //   % ./advance scalacheck
