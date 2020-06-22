@@ -110,6 +110,7 @@ export-hook: cloc-plugin, kind-projector, macro-compat, macro-paradise, scala, s
 specs2: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck
 twitter-util: cloc-plugin, jackson-module-scala, scala, scala-collection-compat, scala-parser-combinators, scalacheck, scalatest
 json4s: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, specs2
+linter: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, specs2
 spray-json: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, specs2
 ssl-config: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, specs2
 treehugger: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, specs2
@@ -177,6 +178,7 @@ play-ws: akka, akka-stream, cachecontrol, cloc-plugin, genjavadoc, kind-projecto
 elastic4s: catalysts, cats, cloc-plugin, discipline, export-hook, jackson-module-scala, kind-projector, machinist, macro-compat, macro-paradise, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, sksamuel-exts, specs2
 zinc: cloc-plugin, gigahorse, jawn-0-10, json4s, kind-projector, portable-scala-reflect, sbinary, sbt-io, sbt-librarymanagement, sbt-util, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shaded-scalajson, sjson-new, specs2, spray-json, ssl-config, unfiltered
 breeze: algebra, catalysts, cats, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, portable-scala-reflect, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2, spire
+multibot: algebra, catalysts, cats, cloc-plugin, discipline, export-hook, json4s, kind-projector, linter, machinist, macro-compat, macro-paradise, monocle, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2, spire
 unique: better-monadic-for, catalysts, cats, cats-effect, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, pcplod, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2
 sbt: cloc-plugin, gigahorse, jawn-0-10, json4s, kind-projector, portable-scala-reflect, sbinary, sbt-io, sbt-librarymanagement, sbt-util, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shaded-scalajson, sjson-new, specs2, spray-json, ssl-config, unfiltered, zinc
 vault: better-monadic-for, catalysts, cats, cats-effect, cloc-plugin, discipline, export-hook, kind-projector, machinist, macro-compat, macro-paradise, pcplod, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, shapeless, simulacrum, specs2, unique
