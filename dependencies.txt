@@ -27,6 +27,7 @@ nscala-time: cloc-plugin, scala, scalacheck
 sbinary: cloc-plugin, scala, scalacheck
 scala-java8-compat: cloc-plugin, genjavadoc, scala
 scalatest: cloc-plugin, scala, scalacheck
+mima: cloc-plugin, munit, scala, scalacheck
 euler: cloc-plugin, scala, scalacheck, scalatest
 expression-evaluator: cloc-plugin, scala, scalacheck, scalatest
 fast-string-interpolator: cloc-plugin, scala, scalacheck, scalatest
@@ -79,7 +80,6 @@ scalatags: cloc-plugin, portable-scala-reflect, scala, sourcecode, utest
 scalaj-http: cloc-plugin, jackson-module-scala, scala, scalacheck, scalatest
 magnolia: cloc-plugin, mercator, scala, scalacheck, scalatest, wartremover
 scodec: cloc-plugin, scala, scalacheck, scalatest, scodec-bits, shapeless
-mima: cloc-plugin, scala, scala-collection-compat, scalacheck, scalatest
 cachecontrol: cloc-plugin, scala, scala-parser-combinators, scalacheck, scalatest
 scalariform: cloc-plugin, scala, scala-parser-combinators, scalacheck, scalatest
 twirl: cloc-plugin, scala, scala-parser-combinators, scalacheck, scalatest
