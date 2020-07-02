@@ -6,7 +6,7 @@
 //   % ./advance scalacheck scalatest specs2
 
 /***
-scalaVersion := "2.13.3"
+scalaVersion := "2.13.2"  // until sbt/sbt#5664 is fixed
 onLoadMessage := ""
 scalacOptions ++= Seq(
  "-deprecation", "-unchecked", "-feature", "-Xfatal-warnings")
