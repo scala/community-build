@@ -44,6 +44,7 @@ scala-records: cloc-plugin, scala, scala-xml, scalatest
 scala-ssh: cloc-plugin, scala, scala-xml, scalatest
 scala-swing: cloc-plugin, scala, scala-xml, scalatest
 scala-typed-holes: cloc-plugin, scala, scala-xml, scalatest
+scalafx: cloc-plugin, scala, scala-xml, scalatest
 scalatestplus-junit: cloc-plugin, scala, scala-xml, scalatest
 scalatestplus-mockito: cloc-plugin, scala, scala-xml, scalatest
 scalatestplus-testng: cloc-plugin, scala, scala-xml, scalatest
