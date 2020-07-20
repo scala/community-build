@@ -59,6 +59,7 @@ silencer: cloc-plugin, scala, scalacheck, scalatest
 sksamuel-exts: cloc-plugin, scala, scalacheck, scalatest
 twotails: cloc-plugin, scala, scalacheck, scalatest
 wartremover: cloc-plugin, scala, scalacheck, scalatest
+scalafx: cloc-plugin, scala, scala-xml, scalatest
 utest: cloc-plugin, portable-scala-reflect, scala
 scala-refactoring: cloc-plugin, scala, scala-parser-combinators
 acyclic: cloc-plugin, portable-scala-reflect, scala, utest
