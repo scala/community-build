@@ -15,7 +15,6 @@ scala-js-stubs: cloc-plugin, scala
 scala-parser-combinators: cloc-plugin, scala
 scala-partest: cloc-plugin, scala
 scala-rewrites: cloc-plugin, scala
-scala-swing: cloc-plugin, scala
 scalacheck: cloc-plugin, scala
 scalaprops: cloc-plugin, scala
 shapeless: cloc-plugin, scala
@@ -47,6 +46,7 @@ scala-java-time: cloc-plugin, scala, scalacheck, scalatest
 scala-records: cloc-plugin, scala, scalacheck, scalatest
 scala-ssh: cloc-plugin, scala, scalacheck, scalatest
 scala-stm: cloc-plugin, scala, scalacheck, scalatest
+scala-swing: cloc-plugin, scala, scalacheck, scalatest
 scala-typed-holes: cloc-plugin, scala, scalacheck, scalatest
 scalajson: cloc-plugin, scala, scalacheck, scalatest
 scalamock: cloc-plugin, scala, scalacheck, scalatest
