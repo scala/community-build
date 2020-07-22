@@ -13,7 +13,6 @@ scala-collection-laws: cloc-plugin, scala
 scala-continuations: cloc-plugin, scala
 scala-js-stubs: cloc-plugin, scala
 scala-refactoring: cloc-plugin, scala
-scala-swing: cloc-plugin, scala
 scalacheck: cloc-plugin, scala
 scalaprops: cloc-plugin, scala
 shapeless: cloc-plugin, scala
@@ -42,6 +41,7 @@ sbt-io: cloc-plugin, scala, scalacheck, scalatest
 scala-java-time: cloc-plugin, scala, scalacheck, scalatest
 scala-records: cloc-plugin, scala, scalacheck, scalatest
 scala-stm: cloc-plugin, scala, scalacheck, scalatest
+scala-swing: cloc-plugin, scala, scalacheck, scalatest
 scala-typed-holes: cloc-plugin, scala, scalacheck, scalatest
 scalajson: cloc-plugin, scala, scalacheck, scalatest
 scalamock: cloc-plugin, scala, scalacheck, scalatest
@@ -56,7 +56,6 @@ twirl: cloc-plugin, scala, scalacheck, scalatest
 twotails: cloc-plugin, scala, scalacheck, scalatest
 wartremover: cloc-plugin, scala, scalacheck, scalatest
 utest: cloc-plugin, portable-scala-reflect, scala
-silencer: cloc-plugin, scala, scala-collection-compat
 acyclic: cloc-plugin, portable-scala-reflect, scala, utest
 base64: cloc-plugin, portable-scala-reflect, scala, utest
 geny: cloc-plugin, portable-scala-reflect, scala, utest
@@ -77,6 +76,7 @@ scalaj-http: cloc-plugin, jackson-module-scala, scala, scalacheck, scalatest
 giter8: cloc-plugin, sbt-io, scala, scalacheck, scalatest, scopt, verify
 scodec: cloc-plugin, scala, scalacheck, scalatest, scodec-bits, shapeless
 airframe: cloc-plugin, scala, scala-collection-compat, scalacheck, scalatest
+silencer: cloc-plugin, scala, scala-collection-compat, scalacheck, scalatest
 case-app: cloc-plugin, macro-paradise, scala, scalacheck, scalatest, shapeless
 pprint: cloc-plugin, fansi, portable-scala-reflect, scala, sourcecode, utest
 simulacrum: cloc-plugin, macro-paradise, scala, scalacheck, scalatest, shapeless
