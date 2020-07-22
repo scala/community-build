@@ -15,6 +15,7 @@ scala-js-stubs: cloc-plugin, scala
 scala-parser-combinators: cloc-plugin, scala
 scala-partest: cloc-plugin, scala
 scala-rewrites: cloc-plugin, scala
+scala-swing: cloc-plugin, scala
 scalacheck: cloc-plugin, scala
 scalaprops: cloc-plugin, scala
 shapeless: cloc-plugin, scala
@@ -46,8 +47,8 @@ scala-java-time: cloc-plugin, scala, scalacheck, scalatest
 scala-records: cloc-plugin, scala, scalacheck, scalatest
 scala-ssh: cloc-plugin, scala, scalacheck, scalatest
 scala-stm: cloc-plugin, scala, scalacheck, scalatest
-scala-swing: cloc-plugin, scala, scalacheck, scalatest
 scala-typed-holes: cloc-plugin, scala, scalacheck, scalatest
+scalafx: cloc-plugin, scala, scalacheck, scalatest
 scalajson: cloc-plugin, scala, scalacheck, scalatest
 scalamock: cloc-plugin, scala, scalacheck, scalatest
 scalatest-tests: cloc-plugin, scala, scalacheck, scalatest
@@ -123,8 +124,8 @@ splain: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-js-stu
 scalameta: acyclic, cloc-plugin, fastparse, geny, macro-paradise, portable-scala-reflect, scala, scalacheck, scalapb, scalatest, sourcecode, utest
 blaze: cloc-plugin, kind-projector, log4s, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2
 play-doc: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2, twirl
+scala-sculpt: cloc-plugin, kind-projector, munit, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, specs2, spray-json
 unfiltered: cloc-plugin, json4s, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2
-scala-sculpt: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, specs2, spray-json, verify
 squants: cloc-plugin, json4s, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2, tut
 kafka: cloc-plugin, genjavadoc, jackson-module-scala, mockito-scala, scala, scala-collection-compat, scala-java8-compat, scala-logging, scalacheck, scalatest
 parboiled2: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, shapeless, specs2, spray-json, utest
