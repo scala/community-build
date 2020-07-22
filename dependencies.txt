@@ -48,6 +48,7 @@ scala-ssh: cloc-plugin, scala, scalacheck, scalatest
 scala-stm: cloc-plugin, scala, scalacheck, scalatest
 scala-swing: cloc-plugin, scala, scalacheck, scalatest
 scala-typed-holes: cloc-plugin, scala, scalacheck, scalatest
+scalafx: cloc-plugin, scala, scalacheck, scalatest
 scalajson: cloc-plugin, scala, scalacheck, scalatest
 scalamock: cloc-plugin, scala, scalacheck, scalatest
 scalatest-tests: cloc-plugin, scala, scalacheck, scalatest
@@ -59,7 +60,6 @@ silencer: cloc-plugin, scala, scalacheck, scalatest
 sksamuel-exts: cloc-plugin, scala, scalacheck, scalatest
 twotails: cloc-plugin, scala, scalacheck, scalatest
 wartremover: cloc-plugin, scala, scalacheck, scalatest
-scalafx: cloc-plugin, scala, scalatest
 utest: cloc-plugin, portable-scala-reflect, scala
 scala-refactoring: cloc-plugin, scala, scala-parser-combinators
 acyclic: cloc-plugin, portable-scala-reflect, scala, utest
