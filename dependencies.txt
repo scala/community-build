@@ -48,7 +48,6 @@ scala-records: cloc-plugin, scala, scalacheck, scalatest
 scala-ssh: cloc-plugin, scala, scalacheck, scalatest
 scala-stm: cloc-plugin, scala, scalacheck, scalatest
 scala-typed-holes: cloc-plugin, scala, scalacheck, scalatest
-scalafx: cloc-plugin, scala, scalacheck, scalatest
 scalajson: cloc-plugin, scala, scalacheck, scalatest
 scalamock: cloc-plugin, scala, scalacheck, scalatest
 scalatest-tests: cloc-plugin, scala, scalacheck, scalatest
