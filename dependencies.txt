@@ -116,7 +116,6 @@ lift-json: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-js-
 splain: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, shapeless, specs2
 discipline-specs2: cloc-plugin, discipline, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, specs2
 better-files: akka, cloc-plugin, scala, scala-java8-compat, scala-xml, scalacheck, scalatest, scalatestplus-junit, scalatestplus-scalacheck, shapeless, silencer
-scala-gopher: akka, cloc-plugin, scala, scala-async, scala-java8-compat, scala-xml, scalacheck, scalatest, scalatestplus-junit, scalatestplus-scalacheck, silencer
 blaze: cloc-plugin, kind-projector, log4s, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalatest, specs2
 play-doc: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalatest, specs2, twirl
 scala-sculpt: cloc-plugin, kind-projector, munit, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, specs2, spray-json
