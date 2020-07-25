@@ -98,6 +98,7 @@ elastic4s: cloc-plugin, jackson-module-scala, scala, scala-xml, scalacheck, scal
 slick: cloc-plugin, sbt-testng, scala, scala-collection-compat, scala-xml, scalacheck, scalatest, scalatest-3-0
 sttp-model: cloc-plugin, kind-projector, scala, scala-collection-compat, scala-xml, scalatest, silencer, wartremover
 grizzled: cloc-plugin, scala, scala-collection-compat, scala-xml, scalacheck, scalatest, scalatest-3-0, wartremover
+scalatest-tests: cloc-plugin, scala, scala-parser-combinators, scala-xml, scalatest, scalatestplus-junit, scalatestplus-testng
 scalatex: acyclic, cloc-plugin, fastparse-scalameta, portable-scala-reflect, scala, scala-xml, scalatags, sourcecode, utest
 classutil: cloc-plugin, grizzled, scala, scala-collection-compat, scala-xml, scalacheck, scalatest, scalatest-3-0, wartremover
 scalapb: cloc-plugin, fastparse, portable-scala-reflect, scala, scala-xml, scalacheck, scalatest, scalatest-3-0, sourcecode, utest
