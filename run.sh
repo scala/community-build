@@ -147,7 +147,7 @@ fi
 # Download and extract dbuild if we haven't already got it
 if [ ! -d "dbuild-${DBUILDVERSION}" ]
 then
-  curl -LO "http://repo.lightbend.com/typesafe/ivy-releases/com.typesafe.dbuild/dbuild/${DBUILDVERSION}/tgzs/dbuild-${DBUILDVERSION}.tgz"
+  curl -LO "https://repo.lightbend.com/typesafe/ivy-releases/com.typesafe.dbuild/dbuild/${DBUILDVERSION}/tgzs/dbuild-${DBUILDVERSION}.tgz"
   tar xfz "dbuild-${DBUILDVERSION}.tgz"
   rm "dbuild-${DBUILDVERSION}.tgz"
 fi
