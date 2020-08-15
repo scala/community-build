@@ -73,7 +73,6 @@ scala-logging: cloc-plugin, mockito-scala, scala, scalacheck, scalatest
 log4s: cloc-plugin, scala, scala-js-stubs, scalacheck, scalatest
 macro-compat: cloc-plugin, macro-paradise, scala, scalacheck, scalatest
 pascal: cloc-plugin, kind-projector, scala, scalacheck, scalatest
-scala-hedgehog: cloc-plugin, kind-projector, portable-scala-reflect, scala
 curryhoward: cloc-plugin, scala, scalacheck, scalatest, tut, wartremover
 boopickle: cloc-plugin, portable-scala-reflect, scala, shapeless, utest
 fansi: cloc-plugin, portable-scala-reflect, scala, sourcecode, utest
@@ -107,6 +106,7 @@ scalasti: classutil, cloc-plugin, grizzled, scala, scala-collection-compat, scal
 scala-gopher: akka, cloc-plugin, genjavadoc, scala, scala-async, scala-java8-compat, scalacheck, scalatest, silencer
 scala-xml-quote: acyclic, cloc-plugin, fastparse, portable-scala-reflect, scala, scalacheck, scalatest, sourcecode, utest
 scalapb: acyclic, cloc-plugin, fastparse, portable-scala-reflect, scala, scalacheck, scalatest, sourcecode, utest
+scala-hedgehog: cloc-plugin, kind-projector, macro-paradise, minitest, portable-scala-reflect, scala, scalacheck, scalatest
 export-hook: cloc-plugin, kind-projector, macro-compat, macro-paradise, scala, scalacheck, scalatest, shapeless, simulacrum
 specs2: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck
 twitter-util: cloc-plugin, jackson-module-scala, scala, scala-collection-compat, scala-parser-combinators, scalacheck, scalatest
