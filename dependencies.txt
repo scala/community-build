@@ -125,6 +125,7 @@ scala-sculpt: cloc-plugin, kind-projector, munit, portable-scala-reflect, scala,
 cats: cloc-plugin, discipline, discipline-scalatest, kind-projector, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, shapeless, simulacrum
 scalameta: cloc-plugin, fastparse, fastparse-scalameta, portable-scala-reflect, scala, scala-xml, scalacheck, scalapb, scalatest, scalatest-3-0, sourcecode, utest
 akka: cloc-plugin, scala, scala-collection-compat, scala-java8-compat, scala-xml, scalacheck, scalatest, scalatestplus-junit, scalatestplus-scalacheck, silencer
+squants: cloc-plugin, json4s, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalatest, specs2, tut
 advxml: cats, cloc-plugin, discipline, discipline-scalatest, kind-projector, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, shapeless, simulacrum
 cats-effect: cats, cloc-plugin, discipline, discipline-scalatest, kind-projector, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, shapeless, simulacrum
 cats-testkit-scalatest: cats, cloc-plugin, discipline, discipline-scalatest, kind-projector, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, shapeless, simulacrum
@@ -140,7 +141,6 @@ twitter-util: cloc-plugin, jackson-module-scala, scala, scala-collection-compat,
 better-monadic-for: cats, cloc-plugin, discipline, discipline-scalatest, kind-projector, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, shapeless, simulacrum, wartremover
 cats-retry: cats, cats-effect, cloc-plugin, discipline, discipline-scalatest, kind-projector, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, shapeless, simulacrum
 natchez: cats, cats-effect, cloc-plugin, discipline, discipline-scalatest, kind-projector, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, shapeless, simulacrum
-squants: cloc-plugin, json4s, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalatest, scalatest-3-0, specs2, tut
 better-files: akka, cloc-plugin, scala, scala-collection-compat, scala-java8-compat, scala-xml, scalacheck, scalatest, scalatestplus-junit, scalatestplus-scalacheck, shapeless, silencer
 scala-newtype: cats, cloc-plugin, discipline, discipline-scalatest, kind-projector, scala, scala-xml, scalacheck, scalatest, scalatest-3-0, scalatestplus-scalacheck, shapeless, simulacrum
 munit-cats-effect: cats, cats-effect, cloc-plugin, discipline, discipline-scalatest, kind-projector, munit, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, shapeless, simulacrum
