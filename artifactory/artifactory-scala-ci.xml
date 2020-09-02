@@ -3,7 +3,7 @@
     <offlineMode>false</offlineMode>
     <helpLinksEnabled>true</helpLinksEnabled>
     <fileUploadMaxSizeMb>100</fileUploadMaxSizeMb>
-    <revision>58</revision>
+    <revision>62</revision>
     <dateFormat>dd-MM-yy HH:mm:ss z</dateFormat>
     <addons>
         <showAddonsInfo>true</showAddonsInfo>
@@ -813,6 +813,58 @@
             <enableTokenAuthentication>false</enableTokenAuthentication>
             <propagateQueryParams>false</propagateQueryParams>
         </remoteRepository>
+        <remoteRepository>
+            <key>typesafe-ivy-releases</key>
+            <type>ivy</type>
+            <includesPattern>com.cunei/**,com.eed3si9n/**,com.typesafe.dbuild/**,com.typesafe.sbteclipse/**,org.scala-sbt/**,org.scala-tools.sbinary/**</includesPattern>
+            <repoLayoutRef>ivy-default</repoLayoutRef>
+            <dockerApiVersion>V2</dockerApiVersion>
+            <forceNugetAuthentication>false</forceNugetAuthentication>
+            <blackedOut>false</blackedOut>
+            <handleReleases>true</handleReleases>
+            <handleSnapshots>true</handleSnapshots>
+            <maxUniqueSnapshots>0</maxUniqueSnapshots>
+            <maxUniqueTags>0</maxUniqueTags>
+            <suppressPomConsistencyChecks>true</suppressPomConsistencyChecks>
+            <propertySets/>
+            <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
+            <url>https://repo.lightbend.com/typesafe/ivy-releases/</url>
+            <offline>false</offline>
+            <hardFail>false</hardFail>
+            <storeArtifactsLocally>true</storeArtifactsLocally>
+            <fetchJarsEagerly>false</fetchJarsEagerly>
+            <fetchSourcesEagerly>true</fetchSourcesEagerly>
+            <retrievalCachePeriodSecs>600</retrievalCachePeriodSecs>
+            <assumedOfflinePeriodSecs>300</assumedOfflinePeriodSecs>
+            <missedRetrievalCachePeriodSecs>1800</missedRetrievalCachePeriodSecs>
+            <remoteRepoChecksumPolicyType>generate-if-absent</remoteRepoChecksumPolicyType>
+            <unusedArtifactsCleanupPeriodHours>0</unusedArtifactsCleanupPeriodHours>
+            <shareConfiguration>false</shareConfiguration>
+            <synchronizeProperties>false</synchronizeProperties>
+            <listRemoteFolderItems>true</listRemoteFolderItems>
+            <rejectInvalidJars>false</rejectInvalidJars>
+            <p2OriginalUrl>https://repo.lightbend.com/typesafe/ivy-releases/</p2OriginalUrl>
+            <contentSynchronisation>
+                <enabled>false</enabled>
+                <statistics>
+                    <enabled>false</enabled>
+                </statistics>
+                <properties>
+                    <enabled>false</enabled>
+                </properties>
+                <source>
+                    <originAbsenceDetection>false</originAbsenceDetection>
+                </source>
+            </contentSynchronisation>
+            <blockMismatchingMimeTypes>true</blockMismatchingMimeTypes>
+            <mismatchingMimeTypesOverrideList></mismatchingMimeTypesOverrideList>
+            <bypassHeadRequests>false</bypassHeadRequests>
+            <allowAnyHostAuth>false</allowAnyHostAuth>
+            <socketTimeoutMillis>15000</socketTimeoutMillis>
+            <enableCookieManagement>false</enableCookieManagement>
+            <enableTokenAuthentication>false</enableTokenAuthentication>
+            <propagateQueryParams>false</propagateQueryParams>
+        </remoteRepository>
     </remoteRepositories>
     <virtualRepositories>
         <virtualRepository>
@@ -827,6 +879,8 @@
                 <repositoryRef>maven-central</repositoryRef>
                 <repositoryRef>jcenter</repositoryRef>
                 <repositoryRef>jenkins-ci-releases</repositoryRef>
+                <repositoryRef>scala-integration</repositoryRef>
+                <repositoryRef>scala-pr-validation-snapshots</repositoryRef>
                 <repositoryRef>bintray-scalameta</repositoryRef>
                 <repositoryRef>era7-sbt</repositoryRef>
             </repositories>
@@ -846,6 +900,7 @@
             <forceNugetAuthentication>false</forceNugetAuthentication>
             <artifactoryRequestsCanRetrieveRemoteArtifacts>false</artifactoryRequestsCanRetrieveRemoteArtifacts>
             <repositories>
+                <repositoryRef>typesafe-ivy-releases</repositoryRef>
                 <repositoryRef>ambiata-oss</repositoryRef>
                 <repositoryRef>bintray-eed3si9n-sbt-plugins</repositoryRef>
                 <repositoryRef>bintray-emersonloureiro-sbt-plugins</repositoryRef>
