@@ -415,7 +415,7 @@
         <remoteRepository>
             <key>bintray-scalameta</key>
             <type>maven</type>
-            <includesPattern>**/*</includesPattern>
+            <includesPattern>org/scalameta/**</includesPattern>
             <repoLayoutRef>maven-2-default</repoLayoutRef>
             <dockerApiVersion>V2</dockerApiVersion>
             <forceNugetAuthentication>false</forceNugetAuthentication>
@@ -843,7 +843,7 @@
         <remoteRepository>
             <key>sbt-s3-plugins</key>
             <type>ivy</type>
-            <includesPattern>**/*</includesPattern>
+            <includesPattern>cf.janga/**</includesPattern>
             <repoLayoutRef>ivy-default</repoLayoutRef>
             <dockerApiVersion>V2</dockerApiVersion>
             <forceNugetAuthentication>false</forceNugetAuthentication>
