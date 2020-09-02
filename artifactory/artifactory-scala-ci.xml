@@ -3,7 +3,7 @@
     <offlineMode>false</offlineMode>
     <helpLinksEnabled>true</helpLinksEnabled>
     <fileUploadMaxSizeMb>100</fileUploadMaxSizeMb>
-    <revision>45</revision>
+    <revision>58</revision>
     <dateFormat>dd-MM-yy HH:mm:ss z</dateFormat>
     <addons>
         <showAddonsInfo>true</showAddonsInfo>
@@ -69,7 +69,6 @@
                 <repositoryRef>ambiata-oss</repositoryRef>
                 <repositoryRef>bintray-eed3si9n-sbt-plugins</repositoryRef>
                 <repositoryRef>bintray-emersonloureiro-sbt-plugins</repositoryRef>
-                <repositoryRef>central</repositoryRef>
                 <repositoryRef>jenkins-ci-releases</repositoryRef>
                 <repositoryRef>sbt-plugin-releases</repositoryRef>
             </excludedRepositories>
@@ -379,40 +378,36 @@
             <propagateQueryParams>false</propagateQueryParams>
         </remoteRepository>
         <remoteRepository>
-            <key>central</key>
+            <key>bintray-scalameta</key>
             <type>maven</type>
-            <description>Maven Central (local file cache)</description>
-            <includesPattern>**/*</includesPattern>
+            <includesPattern>com/geirsson/**,org/scalameta/**</includesPattern>
             <repoLayoutRef>maven-2-default</repoLayoutRef>
             <dockerApiVersion>V2</dockerApiVersion>
             <forceNugetAuthentication>false</forceNugetAuthentication>
             <blackedOut>false</blackedOut>
             <handleReleases>true</handleReleases>
-            <handleSnapshots>false</handleSnapshots>
+            <handleSnapshots>true</handleSnapshots>
             <maxUniqueSnapshots>0</maxUniqueSnapshots>
             <maxUniqueTags>0</maxUniqueTags>
             <suppressPomConsistencyChecks>false</suppressPomConsistencyChecks>
             <propertySets/>
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
-            <xray>
-                <enabled>false</enabled>
-            </xray>
-            <url>http://central.maven.org/maven2</url>
+            <url>http://dl.bintray.com/scalameta/maven</url>
             <offline>false</offline>
             <hardFail>false</hardFail>
             <storeArtifactsLocally>true</storeArtifactsLocally>
             <fetchJarsEagerly>false</fetchJarsEagerly>
             <fetchSourcesEagerly>false</fetchSourcesEagerly>
-            <retrievalCachePeriodSecs>43200</retrievalCachePeriodSecs>
+            <retrievalCachePeriodSecs>600</retrievalCachePeriodSecs>
             <assumedOfflinePeriodSecs>300</assumedOfflinePeriodSecs>
-            <missedRetrievalCachePeriodSecs>60</missedRetrievalCachePeriodSecs>
+            <missedRetrievalCachePeriodSecs>1800</missedRetrievalCachePeriodSecs>
             <remoteRepoChecksumPolicyType>generate-if-absent</remoteRepoChecksumPolicyType>
-            <unusedArtifactsCleanupPeriodHours>48</unusedArtifactsCleanupPeriodHours>
+            <unusedArtifactsCleanupPeriodHours>0</unusedArtifactsCleanupPeriodHours>
             <shareConfiguration>false</shareConfiguration>
             <synchronizeProperties>false</synchronizeProperties>
             <listRemoteFolderItems>true</listRemoteFolderItems>
             <rejectInvalidJars>false</rejectInvalidJars>
-            <p2OriginalUrl>http://central.maven.org/maven2</p2OriginalUrl>
+            <p2OriginalUrl>http://dl.bintray.com/scalameta/maven</p2OriginalUrl>
             <contentSynchronisation>
                 <enabled>false</enabled>
                 <statistics>
@@ -428,8 +423,6 @@
             <blockMismatchingMimeTypes>true</blockMismatchingMimeTypes>
             <mismatchingMimeTypesOverrideList></mismatchingMimeTypesOverrideList>
             <bypassHeadRequests>false</bypassHeadRequests>
-            <username></username>
-            <password></password>
             <allowAnyHostAuth>false</allowAnyHostAuth>
             <socketTimeoutMillis>15000</socketTimeoutMillis>
             <enableCookieManagement>false</enableCookieManagement>
@@ -585,6 +578,58 @@
             <listRemoteFolderItems>true</listRemoteFolderItems>
             <rejectInvalidJars>false</rejectInvalidJars>
             <p2OriginalUrl>http://repo.jenkins-ci.org/releases/</p2OriginalUrl>
+            <contentSynchronisation>
+                <enabled>false</enabled>
+                <statistics>
+                    <enabled>false</enabled>
+                </statistics>
+                <properties>
+                    <enabled>false</enabled>
+                </properties>
+                <source>
+                    <originAbsenceDetection>false</originAbsenceDetection>
+                </source>
+            </contentSynchronisation>
+            <blockMismatchingMimeTypes>true</blockMismatchingMimeTypes>
+            <mismatchingMimeTypesOverrideList></mismatchingMimeTypesOverrideList>
+            <bypassHeadRequests>false</bypassHeadRequests>
+            <allowAnyHostAuth>false</allowAnyHostAuth>
+            <socketTimeoutMillis>15000</socketTimeoutMillis>
+            <enableCookieManagement>false</enableCookieManagement>
+            <enableTokenAuthentication>false</enableTokenAuthentication>
+            <propagateQueryParams>false</propagateQueryParams>
+        </remoteRepository>
+        <remoteRepository>
+            <key>maven-central</key>
+            <type>maven</type>
+            <includesPattern>**/*</includesPattern>
+            <repoLayoutRef>maven-2-default</repoLayoutRef>
+            <dockerApiVersion>V2</dockerApiVersion>
+            <forceNugetAuthentication>false</forceNugetAuthentication>
+            <blackedOut>false</blackedOut>
+            <handleReleases>true</handleReleases>
+            <handleSnapshots>true</handleSnapshots>
+            <maxUniqueSnapshots>0</maxUniqueSnapshots>
+            <maxUniqueTags>0</maxUniqueTags>
+            <suppressPomConsistencyChecks>true</suppressPomConsistencyChecks>
+            <propertySets/>
+            <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
+            <url>https://repo1.maven.org/maven2</url>
+            <offline>false</offline>
+            <hardFail>false</hardFail>
+            <storeArtifactsLocally>true</storeArtifactsLocally>
+            <fetchJarsEagerly>false</fetchJarsEagerly>
+            <fetchSourcesEagerly>false</fetchSourcesEagerly>
+            <retrievalCachePeriodSecs>600</retrievalCachePeriodSecs>
+            <assumedOfflinePeriodSecs>300</assumedOfflinePeriodSecs>
+            <missedRetrievalCachePeriodSecs>1800</missedRetrievalCachePeriodSecs>
+            <remoteRepoChecksumPolicyType>generate-if-absent</remoteRepoChecksumPolicyType>
+            <unusedArtifactsCleanupPeriodHours>0</unusedArtifactsCleanupPeriodHours>
+            <shareConfiguration>false</shareConfiguration>
+            <synchronizeProperties>false</synchronizeProperties>
+            <listRemoteFolderItems>true</listRemoteFolderItems>
+            <rejectInvalidJars>false</rejectInvalidJars>
+            <p2OriginalUrl>https://repo1.maven.org/maven2</p2OriginalUrl>
             <contentSynchronisation>
                 <enabled>false</enabled>
                 <statistics>
@@ -775,13 +820,15 @@
             <type>maven</type>
             <includesPattern>**/*</includesPattern>
             <repoLayoutRef>maven-2-default</repoLayoutRef>
-            <dockerApiVersion>V1</dockerApiVersion>
+            <dockerApiVersion>V2</dockerApiVersion>
             <forceNugetAuthentication>false</forceNugetAuthentication>
             <artifactoryRequestsCanRetrieveRemoteArtifacts>false</artifactoryRequestsCanRetrieveRemoteArtifacts>
             <repositories>
-                <repositoryRef>central</repositoryRef>
+                <repositoryRef>maven-central</repositoryRef>
                 <repositoryRef>jcenter</repositoryRef>
                 <repositoryRef>jenkins-ci-releases</repositoryRef>
+                <repositoryRef>bintray-scalameta</repositoryRef>
+                <repositoryRef>era7-sbt</repositoryRef>
             </repositories>
             <pomRepositoryReferencesCleanupPolicy>discard_active_reference</pomRepositoryReferencesCleanupPolicy>
             <virtualCacheConfig>
@@ -805,24 +852,6 @@
                 <repositoryRef>sbt-plugin-releases</repositoryRef>
                 <repositoryRef>mm-sbt-plugin-releases</repositoryRef>
                 <repositoryRef>triplequote</repositoryRef>
-            </repositories>
-            <pomRepositoryReferencesCleanupPolicy>discard_active_reference</pomRepositoryReferencesCleanupPolicy>
-            <virtualCacheConfig>
-                <virtualRetrievalCachePeriodSecs>600</virtualRetrievalCachePeriodSecs>
-            </virtualCacheConfig>
-            <forceMavenAuthentication>false</forceMavenAuthentication>
-            <debianDefaultArchitectures>i386,amd64</debianDefaultArchitectures>
-        </virtualRepository>
-        <virtualRepository>
-            <key>dbuild-unchecked</key>
-            <type>maven</type>
-            <includesPattern>**/*</includesPattern>
-            <repoLayoutRef>maven-2-default</repoLayoutRef>
-            <dockerApiVersion>V1</dockerApiVersion>
-            <forceNugetAuthentication>false</forceNugetAuthentication>
-            <artifactoryRequestsCanRetrieveRemoteArtifacts>false</artifactoryRequestsCanRetrieveRemoteArtifacts>
-            <repositories>
-                <repositoryRef>era7-sbt</repositoryRef>
             </repositories>
             <pomRepositoryReferencesCleanupPolicy>discard_active_reference</pomRepositoryReferencesCleanupPolicy>
             <virtualCacheConfig>
