@@ -35,6 +35,7 @@ nscala-time: cloc-plugin, scala, scalacheck
 scala-collection-laws: cloc-plugin, scala, sourcecode
 scala-parallel-collections: cloc-plugin, scala, scalacheck
 context-applied: cloc-plugin, kind-projector, scala
+shapeless-java-records: cloc-plugin, scala, shapeless
 pureconfig: cloc-plugin, scala, shapeless, tut
 euler: cloc-plugin, munit, scala, scalacheck
 argonaut-shapeless: argonaut, cloc-plugin, scala, shapeless

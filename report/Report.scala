@@ -37,8 +37,22 @@ object SuccessReport {
   //   (?!-) = negative lookahead -- next character is not "-"
   val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
-  val jdk8Failures = Set[String](
-    "fs2",      // build requires JDK 11
+  val jdk11Plus = Set[String](
+    "fs2",  // build requires JDK 11
+  )
+
+  val jdk14Plus = Set[String](
+    "shapeless-java-records",  // inherently requires JDK 14
+  )
+
+  val jdk11Failures = Set[String](
+    "coursier",  // needs scala/bug#11125 workaround
+    "doobie",  // needs scala/bug#11125 workaround
+    "multibot",  //  - testScalaInterpreter *** FAILED ***; [java.lang.SecurityException: ("java.lang.RuntimePermission" "accessSystemModules")
+    "sbt-util",  // needs scala/bug#11125 workaround
+    "scala-debugger",  // "object FieldInfo is not a member of package sun.reflect"
+    "scala-refactoring",  // needs scala/bug#11125 workaround?
+    "scalafix",  // needs scala/bug#11125 workaround
   )
 
   val jdk14Failures = Set[String](
@@ -50,9 +64,9 @@ object SuccessReport {
   val expectedToFail: Set[String] =
     System.getProperty("java.specification.version") match {
       case "1.8" =>
-        jdk8Failures
+        jdk11Plus ++ jdk14Plus
       case "11" =>
-        Set()
+        jdk14Plus
       case _ =>
         jdk14Failures
     }
