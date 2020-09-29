@@ -38,6 +38,7 @@ object SuccessReport {
   val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
   val jdk8Failures = Set[String](
+    "shapeless-java-records",  // requires JDK 14
   )
 
   val jdk11Failures = Set[String](
@@ -64,7 +65,7 @@ object SuccessReport {
       case "11" =>
         jdk8Failures ++ jdk11Failures
       case _ =>
-        jdk8Failures ++ jdk11Failures ++ jdk14Failures
+        jdk11Failures ++ jdk14Failures
     }
 
   def apply(log: io.Source): Option[Int] = {

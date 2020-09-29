@@ -26,6 +26,7 @@ nscala-time: cloc-plugin, scala, scalacheck
 sbinary: cloc-plugin, scala, scalacheck
 scala-java8-compat: cloc-plugin, genjavadoc, scala
 scalatest: cloc-plugin, scala, scalacheck
+shapeless-java-records: cloc-plugin, scala, shapeless
 mima: cloc-plugin, munit, scala, scalacheck
 euler: cloc-plugin, scala, scalacheck, scalatest
 expression-evaluator: cloc-plugin, scala, scalacheck, scalatest
