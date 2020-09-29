@@ -43,7 +43,6 @@ object SuccessReport {
   val jdk11Failures = Set[String](
     "coursier",  // needs scala/bug#11125 workaround
     "doobie",  // needs scala/bug#11125 workaround
-    "mima", // (core / apiMappings) java.lang.NullPointerException
     "multibot",  //  - testScalaInterpreter *** FAILED ***; [java.lang.SecurityException: ("java.lang.RuntimePermission" "accessSystemModules")
     "sbt-util",  // needs scala/bug#11125 workaround
     "scala-debugger",  // "object FieldInfo is not a member of package sun.reflect"
