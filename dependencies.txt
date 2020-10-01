@@ -20,13 +20,13 @@ shapeless: cloc-plugin, scala
 sourcecode: cloc-plugin, scala
 tut: cloc-plugin, scala
 verify: cloc-plugin, scala
+shapeless-java-records: cloc-plugin, scala, shapeless
 claimant: cloc-plugin, scala, scalacheck
 munit: cloc-plugin, scala, scalacheck
 nscala-time: cloc-plugin, scala, scalacheck
 sbinary: cloc-plugin, scala, scalacheck
 scala-java8-compat: cloc-plugin, genjavadoc, scala
 scalatest: cloc-plugin, scala, scalacheck
-shapeless-java-records: cloc-plugin, scala, shapeless
 mima: cloc-plugin, munit, scala, scalacheck
 euler: cloc-plugin, scala, scalacheck, scalatest
 expression-evaluator: cloc-plugin, scala, scalacheck, scalatest
