@@ -38,7 +38,7 @@ object SuccessReport {
   val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
   val jdk8Failures = Set[String](
-    "shapeless-java-records",  // requires JDK 14
+    "shapeless-java-records",  // requires JDK 15
   )
 
   val jdk11Failures = Set[String](
@@ -51,7 +51,7 @@ object SuccessReport {
     "scalafix",  // needs scala/bug#11125 workaround
   )
 
-  val jdk14Failures = Set[String](
+  val jdk15Failures = Set[String](
     "paradox",  // Unsupported class file major version
     "playframework",  // Failed tests: play.mvc.HttpFormsTest
     "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
@@ -64,7 +64,7 @@ object SuccessReport {
       case "11" =>
         jdk8Failures ++ jdk11Failures
       case _ =>
-        jdk11Failures ++ jdk14Failures
+        jdk11Failures ++ jdk15Failures
     }
 
   def apply(log: io.Source): Option[Int] = {
