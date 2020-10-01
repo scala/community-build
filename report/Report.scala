@@ -56,6 +56,7 @@ object SuccessReport {
   )
 
   val jdk14Failures = Set[String](
+    "mima",  // new newFileSystem overload
     "playframework", // Failed tests: play.mvc.HttpFormsTest
     "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
     "zinc",          // sbt.inc.Doc$JavadocGenerationFailed
