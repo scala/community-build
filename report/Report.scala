@@ -52,8 +52,17 @@ object SuccessReport {
   )
 
   val jdk15Failures = Set[String](
+    "akka",          // needs newer sbt-osgi
+    "fs2",           // needs newer sbt-osgi
     "paradox",  // Unsupported class file major version
+    "parboiled2",    // needs newer sbt-osgi
     "playframework",  // Failed tests: play.mvc.HttpFormsTest
+    "scala-async",   // needs newer sbt-scala-module (for newer sbt-osgi)
+    "scala-continuations", // needs newer sbt-scala-module (for newer sbt-osgi)
+    "scala-logging", // needs newer sbt-osgi
+    "scala-swing",   // needs newer sbt-scala-module (for newer sbt-osgi)
+    "scalikejdbc",   // test failure: scalikejdbc.jsr310.StatementExecutorSpec
+    "squants",       // needs newer sbt-osgi
     "ssl-config",  // https://github.com/lightbend/ssl-config/issues/268
     "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
   )
