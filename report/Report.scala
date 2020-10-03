@@ -60,7 +60,7 @@ object SuccessReport {
     "avro4s",        // test failure: com.sksamuel.avro4s.github.GithubIssue387
     "fs2",           // needs newer sbt-osgi
     "ip4s",          // needs newer sbt-osgi
-    "mockito",       // reflection-related test failures
+    "mockito-scala", // reflection-related test failures
     "parboiled2",    // needs newer sbt-osgi
     "playframework", // Failed tests: play.mvc.HttpFormsTest
     "pureconfig",    // needs newer sbt-osgi
