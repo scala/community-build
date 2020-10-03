@@ -54,6 +54,7 @@ object SuccessReport {
   val jdk15Failures = Set[String](
     "paradox",  // Unsupported class file major version
     "playframework",  // Failed tests: play.mvc.HttpFormsTest
+    "ssl-config",  // https://github.com/lightbend/ssl-config/issues/268
     "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
   )
 
