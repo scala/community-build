@@ -56,9 +56,22 @@ object SuccessReport {
   )
 
   val jdk15Failures = Set[String](
+    "akka",          // needs newer sbt-osgi
+    "avro4s",        // test failure: com.sksamuel.avro4s.github.GithubIssue387
+    "fs2",           // needs newer sbt-osgi
+    "ip4s",          // needs newer sbt-osgi
+    "mockito",       // reflection-related test failures
+    "parboiled2",    // needs newer sbt-osgi
     "playframework", // Failed tests: play.mvc.HttpFormsTest
+    "pureconfig",    // needs newer sbt-osgi
+    "scalatestplus-mockito", // needs newer sbt-osgi
+    "scala-async",   // needs newer sbt-scala-module (for newer sbt-osgi)
+    "scala-parallel-collections", // needs newer sbt-scala-module (for newer sbt-osgi)
+    "scala-swing",   // needs newer sbt-scala-module (for newer sbt-osgi)
+    "ssl-config",    // https://github.com/lightbend/ssl-config/issues/268
     "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
     "zinc",          // sbt.inc.Doc$JavadocGenerationFailed
+    "scalikejdbc",   // test failure: scalikejdbc.jsr310.StatementExecutorSpec
   )
 
   val expectedToFail: Set[String] =
