@@ -63,7 +63,6 @@ object SuccessReport {
     "scala-swing",   // needs newer sbt-scala-module (for newer sbt-osgi)
     "scalikejdbc",   // test failure: scalikejdbc.jsr310.StatementExecutorSpec
     "squants",       // needs newer sbt-osgi
-    "ssl-config",  // https://github.com/lightbend/ssl-config/issues/268
     "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
   )
 
