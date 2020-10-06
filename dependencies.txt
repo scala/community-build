@@ -102,6 +102,7 @@ better-files: akka, cloc-plugin, genjavadoc, scala, scala-java8-compat, scalache
 jsoniter-scala: cloc-plugin, expression-evaluator, mima, munit, scala, scala-collection-compat, scalacheck, scalatest
 classutil: cloc-plugin, grizzled, mima, munit, scala, scala-collection-compat, scalacheck, scalatest, wartremover
 scala-gopher: akka, cloc-plugin, genjavadoc, scala, scala-async, scala-java8-compat, scalacheck, scalatest, silencer
+data-class: cloc-plugin, macro-paradise, portable-scala-reflect, scala, scalacheck, scalatest, shapeless, utest
 scala-xml-quote: acyclic, cloc-plugin, fastparse, portable-scala-reflect, scala, scalacheck, scalatest, sourcecode, utest
 scalapb: acyclic, cloc-plugin, fastparse, portable-scala-reflect, scala, scalacheck, scalatest, sourcecode, utest
 airframe: cloc-plugin, mima, munit, scala, scala-collection-compat, scala-parser-combinators, scalacheck, scalatest
