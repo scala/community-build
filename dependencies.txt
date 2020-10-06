@@ -95,6 +95,7 @@ scala-hedgehog: cloc-plugin, kind-projector, minitest, portable-scala-reflect, s
 scribe: cloc-plugin, perfolation, scala, scala-xml, scalacheck, scalatest, scalatest-3-0
 log4s: cloc-plugin, scala, scala-js-stubs, scala-xml, scalacheck, scalatest, scalatest-3-0
 pascal: cloc-plugin, kind-projector, scala, scala-xml, scalacheck, scalatest, scalatest-3-0
+data-class: cloc-plugin, macro-paradise, portable-scala-reflect, scala, scalacheck, scalatest, shapeless, utest
 scalaj-http: cloc-plugin, jackson-module-scala, scala, scala-xml, scalacheck, scalatest, scalatest-3-0
 discipline-scalatest: cloc-plugin, discipline, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck
 cachecontrol: cloc-plugin, scala, scala-parser-combinators, scala-xml, scalacheck, scalatest, scalatest-3-0
