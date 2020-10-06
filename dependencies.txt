@@ -103,6 +103,7 @@ implicitbox: cloc-plugin, macro-paradise, minitest, portable-scala-reflect, scal
 scalatex: acyclic, cloc-plugin, fastparse, portable-scala-reflect, scala, scalatags, sourcecode, utest
 scala-sculpt: cloc-plugin, kind-projector, scala, scala-js-stubs, scalacheck, scalatest, specs2, spray-json
 squants: cloc-plugin, json4s, kind-projector, scala, scala-js-stubs, scalacheck, scalatest, specs2, tut
+data-class: cloc-plugin, macro-paradise, portable-scala-reflect, scala, scalacheck, scalatest, shapeless, utest
 scalasti: classutil, cloc-plugin, grizzled, scala, scala-collection-compat, scalacheck, scalatest, wartremover
 http4s-parboiled2: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scalacheck, specs2, utest
 jawn-0-10: cloc-plugin, json4s, kind-projector, scala, scala-js-stubs, scalacheck, scalatest, specs2, spray-json
