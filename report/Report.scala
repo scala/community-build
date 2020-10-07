@@ -56,7 +56,18 @@ object SuccessReport {
   )
 
   val jdk15Failures = Set[String](
+    "avro4s",        // test failure: com.sksamuel.avro4s.github.GithubIssue387
+    "fs2",           // needs newer sbt-osgi
+    "ip4s",          // needs newer sbt-osgi
+    "mockito-scala", // reflection-related test failures
+    "parboiled2",    // needs newer sbt-osgi
     "playframework", // Failed tests: play.mvc.HttpFormsTest
+    "pureconfig",    // needs newer sbt-osgi
+    "scala-async",   // needs newer sbt-scala-module (for newer sbt-osgi)
+    "scala-parallel-collections", // needs newer sbt-scala-module (for newer sbt-osgi)
+    "scala-swing",   // needs newer sbt-scala-module (for newer sbt-osgi)
+    "scalatestplus-mockito", // needs newer sbt-osgi
+    "scalikejdbc",   // test failure: scalikejdbc.jsr310.StatementExecutorSpec
     "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
     "zinc",          // sbt.inc.Doc$JavadocGenerationFailed
   )
