@@ -41,8 +41,8 @@ object SuccessReport {
     "fs2",  // build requires JDK 11
   )
 
-  val jdk14Plus = Set[String](
-    "shapeless-java-records",  // inherently requires JDK 14
+  val jdk15Plus = Set[String](
+    "shapeless-java-records",  // inherently requires JDK 15
   )
 
   val jdk11Failures = Set[String](
@@ -55,8 +55,19 @@ object SuccessReport {
     "scalafix",  // needs scala/bug#11125 workaround
   )
 
-  val jdk14Failures = Set[String](
+  val jdk15Failures = Set[String](
+    "avro4s",        // test failure: com.sksamuel.avro4s.github.GithubIssue387
+    "fs2",           // needs newer sbt-osgi
+    "ip4s",          // needs newer sbt-osgi
+    "mockito-scala", // reflection-related test failures
+    "parboiled2",    // needs newer sbt-osgi
     "playframework", // Failed tests: play.mvc.HttpFormsTest
+    "pureconfig",    // needs newer sbt-osgi
+    "scala-async",   // needs newer sbt-scala-module (for newer sbt-osgi)
+    "scala-parallel-collections", // needs newer sbt-scala-module (for newer sbt-osgi)
+    "scala-swing",   // needs newer sbt-scala-module (for newer sbt-osgi)
+    "scalatestplus-mockito", // needs newer sbt-osgi
+    "scalikejdbc",   // test failure: scalikejdbc.jsr310.StatementExecutorSpec
     "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
     "zinc",          // sbt.inc.Doc$JavadocGenerationFailed
   )
@@ -64,11 +75,11 @@ object SuccessReport {
   val expectedToFail: Set[String] =
     System.getProperty("java.specification.version") match {
       case "1.8" =>
-        jdk11Plus ++ jdk14Plus
+        jdk11Plus ++ jdk15Plus
       case "11" =>
-        jdk14Plus
+        jdk15Plus
       case _ =>
-        jdk14Failures
+        jdk15Failures
     }
 
   def apply(log: io.Source): Option[Int] = {
