@@ -56,7 +56,6 @@ object SuccessReport {
   )
 
   val jdk15Failures = Set[String](
-    "akka",          // needs newer sbt-osgi
     "avro4s",        // test failure: com.sksamuel.avro4s.github.GithubIssue387
     "fs2",           // needs newer sbt-osgi
     "ip4s",          // needs newer sbt-osgi
