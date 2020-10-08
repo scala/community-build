@@ -52,6 +52,7 @@ object SuccessReport {
     "sbt-util",  // needs scala/bug#11125 workaround
     "scala-debugger",  // "object FieldInfo is not a member of package sun.reflect"
     "scala-refactoring",  // needs scala/bug#11125 workaround?
+    "scaladex",  // type BASE64Decoder is not a member of package sun.misc
     "scalafix",  // needs scala/bug#11125 workaround
   )
 
@@ -76,7 +77,7 @@ object SuccessReport {
       case "1.8" =>
         jdk11Plus ++ jdk15Plus
       case "11" =>
-        jdk15Plus
+        jdk11Failures ++ jdk15Plus
       case _ =>
         jdk15Failures
     }
