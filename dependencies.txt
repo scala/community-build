@@ -67,6 +67,7 @@ mercator: cloc-plugin, scala, scala-xml, scalatest, wartremover
 minitest: cloc-plugin, portable-scala-reflect, scala, scalacheck
 sttp-model: cloc-plugin, kind-projector, scala, scala-xml, scalatest
 boopickle: cloc-plugin, portable-scala-reflect, scala, shapeless, utest
+data-class: cloc-plugin, portable-scala-reflect, scala, shapeless, utest
 fansi: cloc-plugin, portable-scala-reflect, scala, sourcecode, utest
 fastparse: cloc-plugin, portable-scala-reflect, scala, sourcecode, utest
 fastparse-scalameta: cloc-plugin, portable-scala-reflect, scala, sourcecode, utest
