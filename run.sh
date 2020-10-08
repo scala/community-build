@@ -9,6 +9,10 @@ set -o pipefail
 export LANG="en_US.UTF-8"
 export HOME="$(pwd)"
 
+if [ -f "./local.sh" ] ; then
+  source local.sh
+fi
+
 echo JAVA_HOME=$JAVA_HOME
 echo which java: `which java`
 java -version
