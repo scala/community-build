@@ -67,7 +67,6 @@ object SuccessReport {
     "scala-parallel-collections", // needs newer sbt-scala-module (for newer sbt-osgi)
     "scala-swing",   // needs newer sbt-scala-module (for newer sbt-osgi)
     "scalatestplus-mockito", // needs newer sbt-osgi
-    "scalikejdbc",   // test failure: scalikejdbc.jsr310.StatementExecutorSpec
     "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
     "zinc",          // sbt.inc.Doc$JavadocGenerationFailed
   )
