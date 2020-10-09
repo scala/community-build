@@ -46,14 +46,8 @@ object SuccessReport {
   )
 
   val jdk11Failures = Set[String](
-    "coursier",  // needs scala/bug#11125 workaround
-    "doobie",  // needs scala/bug#11125 workaround
-    "multibot",  //  - testScalaInterpreter *** FAILED ***; [java.lang.SecurityException: ("java.lang.RuntimePermission" "accessSystemModules")
-    "sbt-util",  // needs scala/bug#11125 workaround
     "scala-debugger",  // "object FieldInfo is not a member of package sun.reflect"
     "scala-refactoring",  // needs scala/bug#11125 workaround?
-    "scaladex",  // type BASE64Decoder is not a member of package sun.misc
-    "scalafix",  // needs scala/bug#11125 workaround
   )
 
   val jdk15Failures = Set[String](
