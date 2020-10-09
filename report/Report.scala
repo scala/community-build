@@ -58,6 +58,7 @@ object SuccessReport {
 
   val jdk15Failures = Set[String](
     "avro4s",        // test failure: com.sksamuel.avro4s.github.GithubIssue387
+    "elastic4s",     // Unrecognized VM option 'CMSClassUnloadingEnabled'
     "ip4s",          // needs newer sbt-osgi
     "mockito-scala", // reflection-related test failures
     "parboiled2",    // needs newer sbt-osgi
