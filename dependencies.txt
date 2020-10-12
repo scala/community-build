@@ -93,7 +93,6 @@ scalacheck-shapeless: cloc-plugin, portable-scala-reflect, scala, scalacheck, sh
 scalatags: cloc-plugin, portable-scala-reflect, scala, scala-xml, sourcecode, utest
 scodec-bits: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck
 scala-hedgehog: cloc-plugin, kind-projector, minitest, portable-scala-reflect, scala, scalacheck
-scribe: cloc-plugin, perfolation, scala, scala-xml, scalacheck, scalatest, scalatest-3-0
 log4s: cloc-plugin, scala, scala-js-stubs, scala-xml, scalacheck, scalatest, scalatest-3-0
 pascal: cloc-plugin, kind-projector, scala, scala-xml, scalacheck, scalatest, scalatest-3-0
 scalaj-http: cloc-plugin, jackson-module-scala, scala, scala-xml, scalacheck, scalatest, scalatest-3-0
@@ -105,6 +104,7 @@ scodec: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatestplus-scal
 airframe: cloc-plugin, scala, scala-collection-compat, scala-parser-combinators, scala-xml, scalacheck, scalatest
 slick: cloc-plugin, sbt-testng, scala, scala-collection-compat, scala-xml, scalacheck, scalatest, scalatest-3-0
 grizzled: cloc-plugin, scala, scala-collection-compat, scala-xml, scalacheck, scalatest, scalatest-3-0, wartremover
+scribe: cloc-plugin, perfolation, scala, scala-collection-compat, scala-xml, scalacheck, scalatest, scalatest-3-0
 scalatest-tests: cloc-plugin, scala, scala-parser-combinators, scala-xml, scalatest, scalatestplus-junit, scalatestplus-testng
 scalatex: acyclic, cloc-plugin, fastparse-scalameta, portable-scala-reflect, scala, scala-xml, scalatags, sourcecode, utest
 classutil: cloc-plugin, grizzled, scala, scala-collection-compat, scala-xml, scalacheck, scalatest, scalatest-3-0, wartremover
