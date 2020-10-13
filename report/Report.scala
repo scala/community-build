@@ -59,9 +59,7 @@ object SuccessReport {
     "playframework", // Failed tests: play.mvc.HttpFormsTest
     "pureconfig",    // needs newer sbt-osgi
     "scala-async",   // needs newer sbt-scala-module (for newer sbt-osgi)
-    "scala-parallel-collections", // needs newer sbt-scala-module (for newer sbt-osgi)
     "scala-swing",   // needs newer sbt-scala-module (for newer sbt-osgi)
-    "scalatestplus-mockito", // needs newer sbt-osgi
     "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
     "zinc",          // sbt.inc.Doc$JavadocGenerationFailed
   )
