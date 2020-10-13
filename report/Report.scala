@@ -58,8 +58,6 @@ object SuccessReport {
     "parboiled2",    // needs newer sbt-osgi
     "playframework", // Failed tests: play.mvc.HttpFormsTest
     "pureconfig",    // needs newer sbt-osgi
-    "scala-async",   // needs newer sbt-scala-module (for newer sbt-osgi)
-    "scala-swing",   // needs newer sbt-scala-module (for newer sbt-osgi)
     "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
     "zinc",          // sbt.inc.Doc$JavadocGenerationFailed
   )
