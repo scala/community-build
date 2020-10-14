@@ -51,11 +51,11 @@ object SuccessReport {
   )
 
   val jdk15Failures = Set[String](
+    "akka-persistence-cassandra", // needs newer sbt-osgi
     "avro4s",        // test failure: com.sksamuel.avro4s.github.GithubIssue387
     "elastic4s",     // Unrecognized VM option 'CMSClassUnloadingEnabled'
     "ip4s",          // needs newer sbt-osgi
     "mockito-scala", // reflection-related test failures
-    "parboiled2",    // needs newer sbt-osgi
     "playframework", // Failed tests: play.mvc.HttpFormsTest
     "pureconfig",    // needs newer sbt-osgi
     "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
