@@ -43,7 +43,6 @@ expression-evaluator: cloc-plugin, scala, scala-xml, scalatest
 fast-string-interpolator: cloc-plugin, scala, scala-xml, scalatest
 lightbend-emoji: cloc-plugin, scala, scala-xml, scalatest
 quicklens: cloc-plugin, scala, scala-xml, scalatest
-runtime-scaladoc-reader: cloc-plugin, scala, scalacheck, scalatest
 scala-java-time: cloc-plugin, scala, scala-xml, scalatest
 scala-ssh: cloc-plugin, scala, scala-xml, scalatest
 scala-swing: cloc-plugin, scala, scala-xml, scalatest
@@ -82,7 +81,7 @@ jackson-module-scala: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scal
 jwt-scala: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatest-3-0
 kits: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatest-3-0
 perfolation: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatest-3-0
-runtime-scaladoc-reader: cloc-plugin, scala, scala-xml, scalacheck, scalatest-3-0
+runtime-scaladoc-reader: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatest-3-0
 sbt-io: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatest-3-0
 scala-records: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatest-3-0
 scala-typed-holes: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatest-3-0
@@ -146,6 +145,7 @@ scalamock: cloc-plugin, fastparse, fastparse-scalameta, geny, kind-projector, po
 cats: cloc-plugin, discipline, discipline-munit, fastparse, fastparse-scalameta, geny, kind-projector, munit, portable-scala-reflect, scala, scala-xml, scalacheck, scalameta, scalapb, scalatest, scalatest-3-0, simulacrum-scalafix, sourcecode, utest
 jawn: claimant, cloc-plugin, json4s, kind-projector, play-json, portable-scala-reflect, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalatest, scalatest-3-0, shapeless, silencer, specs2, spray-json
 scala-newtype: cats, cloc-plugin, discipline, discipline-munit, fastparse, fastparse-scalameta, geny, kind-projector, munit, portable-scala-reflect, scala, scala-xml, scalacheck, scalameta, scalapb, scalatest, scalatest-3-0, simulacrum-scalafix, sourcecode, utest
+scalalib: cats, cloc-plugin, discipline, discipline-munit, fastparse, fastparse-scalameta, geny, kind-projector, munit, portable-scala-reflect, scala, scala-xml, scalacheck, scalameta, scalapb, scalatest, scalatest-3-0, simulacrum-scalafix, sourcecode, utest
 monocle: cats, cloc-plugin, discipline, discipline-munit, fastparse, fastparse-scalameta, geny, kind-projector, munit, portable-scala-reflect, scala, scala-xml, scalacheck, scalameta, scalapb, scalatest, scalatest-3-0, shapeless, simulacrum-scalafix, sourcecode, utest
 scalastyle: cloc-plugin, fastparse, fastparse-scalameta, geny, munit, portable-scala-reflect, scala, scala-collection-compat, scala-parser-combinators, scala-xml, scalacheck, scalameta, scalapb, scalariform, scalatest, scalatest-3-0, scalatestplus-junit, sourcecode, utest
 better-monadic-for: cats, cloc-plugin, discipline, discipline-munit, fastparse, fastparse-scalameta, geny, kind-projector, munit, portable-scala-reflect, scala, scala-xml, scalacheck, scalameta, scalapb, scalatest, scalatest-3-0, simulacrum-scalafix, sourcecode, utest, wartremover
@@ -191,6 +191,7 @@ breeze: algebra, cats, cats-testkit-scalatest, cloc-plugin, discipline, discipli
 akka-more: akka, akka-protobuf-v3, akka-stream, cloc-plugin, jackson-module-scala, kind-projector, portable-scala-reflect, scala, scala-collection-compat, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalatest, scalatest-3-0, scalatestplus-junit, scalatestplus-mockito, scalatestplus-scalacheck, scalatestplus-testng, silencer, specs2, ssl-config
 cats-time: better-monadic-for, cats, cats-testkit-scalatest, cloc-plugin, discipline, discipline-munit, discipline-scalatest, fastparse, fastparse-scalameta, geny, kind-projector, munit, portable-scala-reflect, scala, scala-collection-compat, scala-xml, scalacheck, scalameta, scalapb, scalatest, scalatest-3-0, scalatestplus-scalacheck, simulacrum-scalafix, sourcecode, utest, wartremover
 log4cats: better-monadic-for, cats, cats-effect, cloc-plugin, discipline, discipline-munit, fastparse, fastparse-scalameta, geny, kind-projector, munit, portable-scala-reflect, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalameta, scalapb, scalatest, scalatest-3-0, silencer, simulacrum-scalafix, sourcecode, specs2, utest, wartremover
+scalachess: cats, cats-effect, cloc-plugin, discipline, discipline-munit, fastparse, fastparse-scalameta, geny, kind-projector, munit, portable-scala-reflect, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalalib, scalameta, scalapb, scalatest, scalatest-3-0, shapeless, silencer, simulacrum-scalafix, sourcecode, specs2, specs2-more, utest
 cats-effect-testing: cats, cats-effect, cloc-plugin, discipline, discipline-munit, fastparse, fastparse-scalameta, geny, kind-projector, minitest, munit, portable-scala-reflect, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalameta, scalapb, scalatest, scalatest-3-0, scalatestplus-scalacheck, silencer, simulacrum-scalafix, sourcecode, specs2, utest
 akka-persistence-cassandra: akka, akka-more, akka-protobuf-v3, akka-stream, cloc-plugin, jackson-module-scala, kind-projector, portable-scala-reflect, scala, scala-collection-compat, scala-java8-compat, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalatest, scalatest-3-0, scalatestplus-junit, scalatestplus-mockito, scalatestplus-scalacheck, scalatestplus-testng, silencer, specs2, ssl-config
 libra: algebra, cats, cats-testkit-scalatest, cloc-plugin, discipline, discipline-munit, discipline-scalatest, fastparse, fastparse-scalameta, geny, kind-projector, munit, portable-scala-reflect, scala, scala-collection-compat, scala-xml, scalacheck, scalameta, scalapb, scalatest, scalatest-3-0, scalatestplus-scalacheck, shapeless, simulacrum-scalafix, singleton-ops, sourcecode, spire, utest
