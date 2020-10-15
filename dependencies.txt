@@ -43,6 +43,7 @@ expression-evaluator: cloc-plugin, scala, scala-xml, scalatest
 fast-string-interpolator: cloc-plugin, scala, scala-xml, scalatest
 lightbend-emoji: cloc-plugin, scala, scala-xml, scalatest
 quicklens: cloc-plugin, scala, scala-xml, scalatest
+runtime-scaladoc-reader: cloc-plugin, scala, scalacheck, scalatest
 scala-java-time: cloc-plugin, scala, scala-xml, scalatest
 scala-ssh: cloc-plugin, scala, scala-xml, scalatest
 scala-swing: cloc-plugin, scala, scala-xml, scalatest
@@ -81,6 +82,7 @@ jackson-module-scala: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scal
 jwt-scala: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatest-3-0
 kits: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatest-3-0
 perfolation: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatest-3-0
+runtime-scaladoc-reader: cloc-plugin, scala, scala-xml, scalacheck, scalatest-3-0
 sbt-io: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatest-3-0
 scala-records: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatest-3-0
 scala-typed-holes: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatest-3-0
