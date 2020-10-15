@@ -40,6 +40,7 @@ parboiled: cloc-plugin, scala, scalacheck, scalatest
 pcplod: cloc-plugin, scala, scalacheck, scalatest
 perfolation: cloc-plugin, scala, scalacheck, scalatest
 quicklens: cloc-plugin, scala, scalacheck, scalatest
+runtime-scaladoc-reader: cloc-plugin, scala, scalacheck, scalatest
 sbt-io: cloc-plugin, scala, scalacheck, scalatest
 scala-java-time: cloc-plugin, scala, scalacheck, scalatest
 scala-records: cloc-plugin, scala, scalacheck, scalatest
