@@ -1,4 +1,4 @@
-#!/usr/bin/env sbt -sbt-create -Dsbt.version=1.4.0 -Dsbt.main.class=sbt.ScriptMain -Dsbt.supershell=false -error
+#!/usr/bin/env sbt -sbt-create -Dsbt.version=1.4.1 -Dsbt.main.class=sbt.ScriptMain -Dsbt.supershell=false -error
 
 // to advance all projects:
 //   % ./advance scalacheck
@@ -6,7 +6,7 @@
 //   % ./advance scalacheck scalatest specs2
 
 /***
-scalaVersion := "2.13.2"  // until sbt/sbt#5664 is fixed
+scalaVersion := "2.13.2"  // until 2.13.4, as per https://github.com/sbt/sbt/issues/5664
 onLoadMessage := ""
 scalacOptions ++= Seq(
  "-deprecation", "-unchecked", "-feature", "-Xfatal-warnings")
