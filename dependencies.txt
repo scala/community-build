@@ -42,7 +42,6 @@ euler: cloc-plugin, munit, scala, scalacheck
 argonaut-shapeless: argonaut, cloc-plugin, scala, shapeless
 expression-evaluator: cloc-plugin, scala, scala-xml, scalatest
 fast-string-interpolator: cloc-plugin, scala, scala-xml, scalatest
-kamon: cloc-plugin, scala, scala-xml, scalatest
 lightbend-emoji: cloc-plugin, scala, scala-xml, scalatest
 quicklens: cloc-plugin, scala, scala-xml, scalatest
 scala-java-time: cloc-plugin, scala, scala-xml, scalatest
@@ -82,6 +81,7 @@ twirl: cloc-plugin, scala, scala-parser-combinators, scala-xml, scalatest
 fastparse: cloc-plugin, geny, portable-scala-reflect, scala, sourcecode, utest
 jackson-module-scala: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatest-3-0
 jwt-scala: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatest-3-0
+kamon: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatest-3-0
 kits: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatest-3-0
 perfolation: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatest-3-0
 runtime-scaladoc-reader: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatest-3-0
