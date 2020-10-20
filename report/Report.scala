@@ -46,7 +46,8 @@ object SuccessReport {
   )
 
   val jdk11Failures = Set[String](
-    "scala-debugger",  // "object FieldInfo is not a member of package sun.reflect"
+    "kamon",              // uses com.sun stuff
+    "scala-debugger",     // "object FieldInfo is not a member of package sun.reflect"
     "scala-refactoring",  // needs scala/bug#11125 workaround?
   )
 
