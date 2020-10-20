@@ -70,7 +70,7 @@ object SuccessReport {
       case "11" =>
         jdk11Failures ++ jdk15Plus
       case _ =>
-        jdk15Failures
+        jdk11Failures ++ jdk15Failures
     }
 
   def apply(log: io.Source): Option[Int] = {
