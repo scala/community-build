@@ -35,6 +35,7 @@ discipline: cloc-plugin, scala, scalacheck
 munit: cloc-plugin, scala, scalacheck
 nscala-time: cloc-plugin, scala, scalacheck
 scala-collection-laws: cloc-plugin, scala, sourcecode
+scala-library-next: cloc-plugin, scala, scalacheck
 scala-parallel-collections: cloc-plugin, scala, scalacheck
 context-applied: cloc-plugin, kind-projector, scala
 pureconfig: cloc-plugin, scala, shapeless, tut
