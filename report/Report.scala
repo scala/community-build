@@ -66,14 +66,23 @@ object SuccessReport {
     "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
   )
 
+  val scala_2_12_13_Failures = Set[String](
+    "scalameta",
+    "zinc",
+    "linter",
+    "splain",
+    "scala-rewrites",
+    "scala-refactoring",
+  )
+
   val expectedToFail: Set[String] =
     System.getProperty("java.specification.version") match {
       case "1.8" =>
-        jdk8Failures
+        jdk8Failures ++ scala_2_12_13_Failures
       case "11" =>
-        jdk8Failures ++ jdk11Failures
+        jdk8Failures ++ jdk11Failures ++ scala_2_12_13_Failures
       case _ =>
-        jdk11Failures ++ jdk15Failures
+        jdk11Failures ++ jdk15Failures ++ scala_2_12_13_Failures
     }
 
   def apply(log: io.Source): Option[Int] = {
