@@ -69,7 +69,6 @@ object SuccessReport {
   val scala_2_12_13_Failures = Set[String](
     "scalameta",
     "zinc",
-    "linter",
     "scala-rewrites",
     "scala-refactoring",
   )
