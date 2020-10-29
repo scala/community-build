@@ -70,7 +70,6 @@ object SuccessReport {
     "scalameta",
     "zinc",
     "linter",
-    "splain",
     "scala-rewrites",
     "scala-refactoring",
   )
