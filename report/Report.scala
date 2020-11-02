@@ -70,7 +70,6 @@ object SuccessReport {
     "scalameta",
     "zinc",
     "scala-rewrites",
-    "scala-refactoring",
   )
 
   val expectedToFail: Set[String] =
