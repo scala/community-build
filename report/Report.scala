@@ -67,8 +67,9 @@ object SuccessReport {
   )
 
   val scala_2_12_13_Failures = Set[String](
-    "scalameta",
     "zinc",
+    "silencer",
+    "mdoc",
   )
 
   val expectedToFail: Set[String] =
