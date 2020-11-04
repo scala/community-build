@@ -67,7 +67,7 @@ object SuccessReport {
   )
 
   val scala_2_12_13_Failures = Set[String](
-    "zinc",
+    "zinc", // fixed pending scala/scala#9298 being merged and nightly.properties bump
     "silencer",
     "mdoc",
   )
