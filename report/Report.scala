@@ -70,6 +70,7 @@ object SuccessReport {
     "zinc", // fixed pending scala/scala#9298 being merged and nightly.properties bump
     "silencer",
     "mdoc",
+    "scalafix",
   )
 
   val expectedToFail: Set[String] =
