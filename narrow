@@ -1,4 +1,4 @@
-#!/usr/bin/env sbt -sbt-create -Dsbt.version=1.4.1 -Dsbt.main.class=sbt.ScriptMain -Dsbt.supershell=false -error
+#!/usr/bin/env sbt -sbt-create -Dsbt.version=1.4.2 -Dsbt.main.class=sbt.ScriptMain -Dsbt.supershell=false -error
 
 // to narrow projs.conf to just one project and its dependencies:
 //   % ./narrow scalacheck
