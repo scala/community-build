@@ -2,6 +2,7 @@
 
 set -e
 
+unset JAVA_OPTS
 printenv
 
 # the `projects` jenkins job param can be used to limit the projects to build
