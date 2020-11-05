@@ -70,6 +70,7 @@ object SuccessReport {
     "silencer",
     "mdoc",
     "scalafix",
+    "scala-refactoring", // scala/community-build#1274 PC threading issue ExtractionsTest.findExtractionTargets 
   )
 
   val expectedToFail: Set[String] =
