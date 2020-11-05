@@ -55,7 +55,6 @@ object SuccessReport {
     "akka",          // needs newer sbt-osgi
     "fs2",           // needs newer sbt-osgi
     "paradox",  // Unsupported class file major version
-    "parboiled2",    // needs newer sbt-osgi
     "playframework",  // Failed tests: play.mvc.HttpFormsTest
     "scala-async",   // needs newer sbt-scala-module (for newer sbt-osgi)
     "scala-continuations", // needs newer sbt-scala-module (for newer sbt-osgi)
