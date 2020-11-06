@@ -66,7 +66,13 @@ object SuccessReport {
   )
 
   val scala_2_12_13_Failures = Set[String](
-    "scalafix",
+    // The following 2 projects get:
+    //     java.lang.NoSuchMethodError: scala.tools.nsc.Global.reporter()Lscala/tools/nsc/reporters/Reporter;
+    // scala-rewrites depends on scalafix/scalameta which is in a state in the 2.12 CB,
+    //   so it uses binary dependencies instead of rebuilding from source, which is why it hits this
+    // sbt hits this via its use of kind-projector - didn't look why that isn't a just-compiled kind-projector
+    "scala-rewrites", // Global#reporter https://scala-ci.typesafe.com/job/scala-2.12.x-jdk8-integrate-community-build/6206/artifact/logs/scala-rewrites-build.log
+    "sbt",            // Global#reporter https://scala-ci.typesafe.com/job/scala-2.12.x-jdk8-integrate-community-build/6206/artifact/logs/sbt-build.log
   )
 
   val expectedToFail: Set[String] =
