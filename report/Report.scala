@@ -1,5 +1,5 @@
-object Report extends App {
-  def log = io.Source.fromFile(args(0))
+@main def report(logPath: String) = {
+  def log = io.Source.fromFile(logPath)
   println("<pre>")
   ClocReport(log)
   val unexpectedFailureCount = SuccessReport(log)
