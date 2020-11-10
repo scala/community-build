@@ -114,7 +114,7 @@ object SplitLog:
   val EndBuild = """\[([^\]]+)\] --== End Building .+ ==--""".r
 
   def apply(log: io.Source): Unit =
-    val dir = new java.io.File("../logs")
+    val dir = java.io.File("../logs")
     dir.mkdirs()
     val lines = log.getLines
     while lines.hasNext do
@@ -131,10 +131,10 @@ object SplitLog:
 
   def makeWriter(path: String): PrintWriter =
     import java.io._
-    val file = new File(path)
-    val foStream = new FileOutputStream(file, false)  // false = overwrite, don't append
-    val osWriter = new OutputStreamWriter(foStream)
-    new PrintWriter(osWriter)
+    val file = File(path)
+    val foStream = FileOutputStream(file, false)  // false = overwrite, don't append
+    val osWriter = OutputStreamWriter(foStream)
+    PrintWriter(osWriter)
 
   import scala.util.matching.Regex, annotation.tailrec
 
@@ -155,7 +155,7 @@ object UpdateDependencies:
   val Line1 = """\[info\] Project (\S+)""".r
   val Line2 = """\[info\]   depends on: (.*)""".r
   def apply(): Unit =
-    val inFile = new java.io.File("../logs/_dependencies.log")
+    val inFile = java.io.File("../logs/_dependencies.log")
     if inFile.exists then
       val in = io.Source.fromFile(inFile)
       val out = SplitLog.makeWriter("../dependencies.txt")
