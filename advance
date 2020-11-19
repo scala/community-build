@@ -6,13 +6,13 @@
 //   % ./advance scalacheck scalatest specs2
 
 /***
-scalaVersion := "2.13.2"  // until 2.13.4, as per https://github.com/sbt/sbt/issues/5664
+scalaVersion := "2.13.4"
 onLoadMessage := ""
 scalacOptions ++= Seq(
  "-deprecation", "-unchecked", "-feature", "-Xfatal-warnings")
 libraryDependencies ++= Seq(
   "com.github.pathikrit" %% "better-files" % "3.8.0",
-  "org.scala-lang.modules" %% "scala-parallel-collections" % "1.0.0-RC1",
+  "org.scala-lang.modules" %% "scala-parallel-collections" % "1.0.0",
 )
 */
 
