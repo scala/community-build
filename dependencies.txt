@@ -13,7 +13,6 @@ expecty: cloc-plugin, scala
 genjavadoc: cloc-plugin, scala
 kind-projector: cloc-plugin, scala
 machinist: cloc-plugin, scala
-macro-compat: cloc-plugin, scala
 portable-scala-reflect: cloc-plugin, scala
 sbt-testng: cloc-plugin, scala
 scala-async: cloc-plugin, scala
