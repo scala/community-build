@@ -62,6 +62,7 @@ scalatest-3-0: cloc-plugin, scala, scala-xml, scalacheck
 singleton-ops: cloc-plugin, scala, scalacheck, shapeless
 utest: cloc-plugin, portable-scala-reflect, scala
 coursier-core: cloc-plugin, coursier-util, scala, scala-xml
+typename: cloc-plugin, munit, scala, scalacheck
 acyclic: cloc-plugin, portable-scala-reflect, scala, utest
 base64: cloc-plugin, portable-scala-reflect, scala, utest
 discipline-munit: cloc-plugin, discipline, munit, scala, scalacheck
