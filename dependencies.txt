@@ -61,6 +61,7 @@ sksamuel-exts: cloc-plugin, scala, scalacheck, scalatest
 twotails: cloc-plugin, scala, scalacheck, scalatest
 wartremover: cloc-plugin, scala, scalacheck, scalatest
 utest: cloc-plugin, portable-scala-reflect, scala
+typename: cloc-plugin, munit, scala, scalacheck
 scala-collection-compat: cloc-plugin, mima, munit, scala, scalacheck
 scala-refactoring: cloc-plugin, scala, scala-parser-combinators
 acyclic: cloc-plugin, portable-scala-reflect, scala, utest
