@@ -122,7 +122,6 @@ classutil: cloc-plugin, grizzled, scala, scala-collection-compat, scala-xml, sca
 coursier: argonaut, argonaut-shapeless, cloc-plugin, coursier-cache, coursier-core, coursier-util, scala, scala-xml, shapeless
 specs2: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck
 jsoniter-scala: cloc-plugin, expression-evaluator, scala, scala-collection-compat, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck
-scalasti: classutil, cloc-plugin, grizzled, scala, scala-collection-compat, scala-xml, scalacheck, scalatest, scalatest-3-0, wartremover
 json4s: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, specs2
 spray-json: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, specs2
 ssl-config: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, specs2
