@@ -78,6 +78,7 @@ scaffeine: cloc-plugin, scala, scala-java8-compat, scala-xml, scalatest
 fansi: cloc-plugin, portable-scala-reflect, scala, sourcecode, utest
 fastparse-scalameta: cloc-plugin, portable-scala-reflect, scala, sourcecode, utest
 jackson-module-scala: cloc-plugin, scala, scala-xml, scalatest, scalatestplus-junit
+os-lib: cloc-plugin, geny, portable-scala-reflect, scala, utest
 scala-stm: cloc-plugin, scala, scala-xml, scalatest, scalatestplus-junit
 parboiled: cloc-plugin, scala, scala-xml, scalatest, scalatestplus-testng
 magnolia: cloc-plugin, mercator, scala, scala-xml, scalatest, wartremover
