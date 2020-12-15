@@ -62,6 +62,7 @@ geny: cloc-plugin, portable-scala-reflect, scala, utest
 grizzled: cloc-plugin, scala, scalacheck, scalatest, wartremover
 scalastyle: cloc-plugin, scala, scalacheck, scalariform, scalatest
 scribe: cloc-plugin, perfolation, scala, scalacheck, scalatest
+airframe: cloc-plugin, scala, scala-collection-compat, scalacheck
 scala-logging: cloc-plugin, mockito-scala, scala, scalacheck, scalatest
 log4s: cloc-plugin, scala, scala-js-stubs, scalacheck, scalatest
 macro-compat: cloc-plugin, macro-paradise, scala, scalacheck, scalatest
@@ -74,7 +75,6 @@ specs2: cloc-plugin, kind-projector, scala, scala-js-stubs, scalacheck
 scalaj-http: cloc-plugin, jackson-module-scala, scala, scalacheck, scalatest
 giter8: cloc-plugin, sbt-io, scala, scalacheck, scalatest, scopt, verify
 scodec: cloc-plugin, scala, scalacheck, scalatest, scodec-bits, shapeless
-airframe: cloc-plugin, scala, scala-collection-compat, scalacheck, scalatest
 silencer: cloc-plugin, scala, scala-collection-compat, scalacheck, scalatest
 case-app: cloc-plugin, macro-paradise, scala, scalacheck, scalatest, shapeless
 pprint: cloc-plugin, fansi, portable-scala-reflect, scala, sourcecode, utest
