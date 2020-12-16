@@ -106,6 +106,7 @@ castor: cloc-plugin, geny, os-lib, portable-scala-reflect, scala, sourcecode, ut
 scodec-bits: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck
 pascal: cloc-plugin, kind-projector, scala, scala-xml, scalacheck, scalatest, scalatest-3-0
 scalaj-http: cloc-plugin, jackson-module-scala, scala, scala-xml, scalatest, scalatestplus-junit
+ammonite-ops: cloc-plugin, geny, os-lib, portable-scala-reflect, scala, scala-collection-compat, utest
 upickle: acyclic, cloc-plugin, geny, portable-scala-reflect, scala, scala-collection-compat, utest
 discipline-scalatest: cloc-plugin, discipline, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck
 twirl: cloc-plugin, scala, scala-collection-compat, scala-parser-combinators, scala-xml, scalatest
