@@ -1,7 +1,6 @@
 scala: 
 cloc-plugin: scala
 shaded-scalajson: scala
-expecty: cloc-plugin, scala
 genjavadoc: cloc-plugin, scala
 kind-projector: cloc-plugin, scala
 machinist: cloc-plugin, scala
@@ -19,6 +18,7 @@ shapeless: cloc-plugin, scala
 sourcecode: cloc-plugin, scala
 tut: cloc-plugin, scala
 verify: cloc-plugin, scala
+expecty: cloc-plugin, scala, verify
 shapeless-java-records: cloc-plugin, scala, shapeless
 claimant: cloc-plugin, scala, scalacheck
 munit: cloc-plugin, scala, scalacheck
@@ -98,12 +98,12 @@ giter8: cloc-plugin, sbt-io, scala, scala-parser-combinators, scalacheck, scalat
 implicitbox: cloc-plugin, macro-paradise, minitest, portable-scala-reflect, scala, scalacheck, scalatest
 slick: cloc-plugin, mima, munit, sbt-testng, scala, scala-collection-compat, scalacheck, scalatest
 scalatex: acyclic, cloc-plugin, fastparse, portable-scala-reflect, scala, scalatags, sourcecode, utest
-airframe: cloc-plugin, mima, munit, scala, scala-collection-compat, scala-parser-combinators, scalacheck
 data-class: cloc-plugin, macro-paradise, portable-scala-reflect, scala, scalacheck, scalatest, shapeless, utest
 jsoniter-scala: cloc-plugin, expression-evaluator, mima, munit, scala, scala-collection-compat, scalacheck, scalatest
 classutil: cloc-plugin, grizzled, mima, munit, scala, scala-collection-compat, scalacheck, scalatest, wartremover
 scala-xml-quote: acyclic, cloc-plugin, fastparse, portable-scala-reflect, scala, scalacheck, scalatest, sourcecode, utest
 scalapb: acyclic, cloc-plugin, fastparse, portable-scala-reflect, scala, scalacheck, scalatest, sourcecode, utest
+airframe: cloc-plugin, mima, munit, scala, scala-collection-compat, scala-parser-combinators, scalacheck, scalatest
 export-hook: cloc-plugin, kind-projector, macro-compat, macro-paradise, scala, scalacheck, scalatest, shapeless, simulacrum
 specs2: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck
 scalasti: classutil, cloc-plugin, grizzled, mima, munit, scala, scala-collection-compat, scalacheck, scalatest, wartremover
