@@ -61,24 +61,14 @@ object SuccessReport:
     "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
   )
 
-  val scala_2_12_13_Failures = Set[String](
-    // The following 2 projects get:
-    //     java.lang.NoSuchMethodError: scala.tools.nsc.Global.reporter()Lscala/tools/nsc/reporters/Reporter;
-    // scala-rewrites depends on scalafix/scalameta which is in a state in the 2.12 CB,
-    //   so it uses binary dependencies instead of rebuilding from source, which is why it hits this
-    // sbt hits this via its use of kind-projector - didn't look why that isn't a just-compiled kind-projector
-    "scala-rewrites", // Global#reporter https://scala-ci.typesafe.com/job/scala-2.12.x-jdk8-integrate-community-build/6206/artifact/logs/scala-rewrites-build.log
-    "sbt",            // Global#reporter https://scala-ci.typesafe.com/job/scala-2.12.x-jdk8-integrate-community-build/6206/artifact/logs/sbt-build.log
-  )
-
   val expectedToFail: Set[String] =
     System.getProperty("java.specification.version") match
       case "1.8" =>
-        jdk8Failures ++ scala_2_12_13_Failures
+        jdk8Failures
       case "11" =>
-        jdk8Failures ++ jdk11Failures ++ scala_2_12_13_Failures
+        jdk8Failures ++ jdk11Failures
       case _ =>
-        jdk11Failures ++ jdk15Failures ++ scala_2_12_13_Failures
+        jdk11Failures ++ jdk15Failures
 
   def apply(log: io.Source): Option[Int] =
     val lines = log.getLines.dropWhile(!_.contains("---==  Execution Report ==---"))
