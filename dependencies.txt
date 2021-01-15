@@ -61,6 +61,7 @@ sbinary: cloc-plugin, scala, scala-xml, scalacheck
 scalatest-3-0: cloc-plugin, scala, scala-xml, scalacheck
 singleton-ops: cloc-plugin, scala, scalacheck, shapeless
 utest: cloc-plugin, portable-scala-reflect, scala
+airspec: cloc-plugin, scala, scala-collection-compat
 scala-parser-combinators: cloc-plugin, scala, scala-collection-compat
 coursier-core: cloc-plugin, coursier-util, scala, scala-xml
 acyclic: cloc-plugin, portable-scala-reflect, scala, utest
@@ -108,6 +109,7 @@ pascal: cloc-plugin, kind-projector, scala, scala-xml, scalacheck, scalatest, sc
 scalaj-http: cloc-plugin, jackson-module-scala, scala, scala-xml, scalatest, scalatestplus-junit
 mainargs: cloc-plugin, geny, os-lib, portable-scala-reflect, scala, scala-collection-compat, utest
 upickle: acyclic, cloc-plugin, geny, portable-scala-reflect, scala, scala-collection-compat, utest
+airframe: airspec, cloc-plugin, scala, scala-collection-compat, scala-parser-combinators, scalacheck
 discipline-scalatest: cloc-plugin, discipline, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck
 twirl: cloc-plugin, scala, scala-collection-compat, scala-parser-combinators, scala-xml, scalatest
 slick: cloc-plugin, scala, scala-collection-compat, scala-xml, scalacheck, scalatest, scalatest-3-0
@@ -115,7 +117,6 @@ log4s: cloc-plugin, scala, scala-js-stubs, scala-xml, scalacheck, scalatest, sca
 requests-scala: acyclic, cloc-plugin, geny, portable-scala-reflect, scala, scala-collection-compat, upickle, utest
 bijection: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatestplus-junit, scalatestplus-scalacheck
 scodec: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, scodec-bits, shapeless
-airframe: cloc-plugin, scala, scala-collection-compat, scala-parser-combinators, scala-xml, scalacheck, scalatest
 grizzled: cloc-plugin, scala, scala-collection-compat, scala-xml, scalacheck, scalatest, scalatest-3-0, wartremover
 scalatex: acyclic, cloc-plugin, fastparse-scalameta, portable-scala-reflect, scala, scala-xml, scalatags, sourcecode, utest
 classutil: cloc-plugin, grizzled, scala, scala-collection-compat, scala-xml, scalacheck, scalatest, scalatest-3-0, wartremover
