@@ -51,6 +51,7 @@ object SuccessReport:
     "fs2",           // needs newer sbt-osgi
     "paradox",  // Unsupported class file major version
     "playframework",  // Failed tests: play.mvc.HttpFormsTest
+    "sbt-io",        // sbt.io.IOSpecification fails
     "scala-async",   // needs newer sbt-scala-module (for newer sbt-osgi)
     "scala-continuations", // needs newer sbt-scala-module (for newer sbt-osgi)
     "scala-logging", // needs newer sbt-osgi
