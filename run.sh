@@ -198,7 +198,7 @@ BUILD_ID="$(grep '^\[info\]  uuid = ' "dbuild-${DBUILDVERSION}/dbuild.out" | sed
 rm_project_builds
 
 # report summary information (line counts, green project counts, ...?)
-cd report
+cd scripts
 sbt -Dsbt.supershell=false -Dlog4j.configurationFile=log4j.properties -error "run ../dbuild-${DBUILDVERSION}/dbuild.out" | tee ../report.html
 
 # we've captured $STATUS above, but in this version of the script, it isn't used,
