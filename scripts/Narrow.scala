@@ -3,14 +3,13 @@ import better.files._
 @main def narrow(args: String*) =
 
   // read dependency information
-  val tree: Map[String, Set[String]] = {
+  val tree: Map[String, Set[String]] =
     val deps = File("../dependencies.txt")
     val Regex = """(\S+): (.*)""".r
     deps.lines.map{
       case Regex(proj, deps) =>
         proj -> deps.split(", ").toSet
     }.toMap
-  }
 
   // build list of targets
   val targets: Set[String] =

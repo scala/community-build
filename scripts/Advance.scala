@@ -10,12 +10,12 @@ import better.files._
   // the repo's own default branch, which might be called something else)
   val GitHub = """// (https://github.com/\S*.git)#(\S*)(\s*.*)""".r
   val Ivy = """// ivy:.*""".r
-  for {
+  for
     file <- File("../proj").list(_.extension == Some(".conf")).toSeq.par
     if args.isEmpty || args.contains(file.nameWithoutExtension)
-  } {
+  do
     val lines = file.lines.to(Vector)
-    lines.head match {
+    lines.head match
       case GitHub(repo, ref, comment) =>
         val uri = s"$repo#${getSha(repo, ref)}"
         println(uri)  // indicate progress
@@ -25,25 +25,20 @@ import better.files._
         // okay to skip
       case bad =>
         throw new IllegalArgumentException(bad)
-    }
-  }
 
 def munge(l: String, replacement: String): String =
   if (l.startsWith("""  uri: "https://github"""))
-    s"""  uri: "$replacement""""
-  else
-    l
+  then s"""  uri: "$replacement""""
+  else l
 
 def getSha(repo: String, ref: String): String =
   if (ref.matches("\\p{XDigit}{40}"))
-    ref
-  else {
+  then ref
+  else
     import scala.sys.process._
     val cmd = s"git ls-remote $repo $ref"
-    Process(cmd).lazyLines.headOption match {
+    Process(cmd).lazyLines.headOption match
       case Some(line) =>
         line.split("\\s").head
       case None =>
         throw new RuntimeException(s"$repo $ref")
-    }
-  }
