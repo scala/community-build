@@ -33,12 +33,12 @@ object SuccessReport:
   //   (?!-) = negative lookahead -- next character is not "-"
   val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
-  val jdk11Plus = Set[String](
+  val requiresJdk11Plus = Set[String](
     "airframe",  // code requires JDK 11 (getPackageName)
     "fs2",       // build requires JDK 11
   )
 
-  val jdk15Plus = Set[String](
+  val requiresJdk15Plus = Set[String](
     "shapeless-java-records",  // inherently requires JDK 15
   )
 
@@ -60,14 +60,27 @@ object SuccessReport:
     "zinc",          // sbt.inc.Doc$JavadocGenerationFailed
   )
 
+  val jdk16Failures = Set[String](
+    "akka",                     // Unable to make field private static java.util.IdentityHashMap java.lang.ApplicationShutdownHooks.hooks accessible: module java.base does not "opens java.lang" to unnamed module @60e89085
+    "classutil",                // Unable to make protected final java.lang.Class java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int) throws java.lang.ClassFormatError accessible: module java.base does not "opens java.lang" to unnamed module @60e89085
+    "jawn",                     // optimizer: "Unsupported class file major version 60"
+    "log4s",                    // Unsupported class file major version 60"
+    "play-doc",                 // Error creating extended parser class: Could not determine whether class 'play.doc.CodeReferenceParser$$parboiled' has already been loaded (Parboiled.java:58)
+    "scala-async",              // Unsupported class file major version 60
+    "shapeless-java-records",   // value permittedSubclasses is not a member of Class[?0]
+    "specs2-more",              // Error creating extended parser class: Could not determine whether class 'org.pegdown.Parser$$parboiled' has already been loaded (Parboiled.java:58)
+  )
+
   val expectedToFail: Set[String] =
     System.getProperty("java.specification.version") match
       case "1.8" =>
-        jdk11Plus ++ jdk15Plus
+        requiresJdk11Plus ++ requiresJdk15Plus
       case "11" =>
-        jdk11Failures ++ jdk15Plus
-      case _ =>
+        jdk11Failures ++ requiresJdk15Plus
+      case "15" =>
         jdk11Failures ++ jdk15Failures
+      case _ =>
+        jdk11Failures ++ jdk15Failures ++ jdk16Failures
 
   def apply(log: io.Source): Option[Int] =
     val lines = log.getLines.dropWhile(!_.contains("---==  Execution Report ==---"))
