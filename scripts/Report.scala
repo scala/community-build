@@ -62,8 +62,6 @@ object SuccessReport:
   )
 
   val jdk16Failures = Set[String](
-    "airframe",                 // Unable to make private java.nio.DirectByteBuffer(long,int) accessible: module java.base does not "opens java.nio" to unnamed module @e98ea45
-    "classutil",                // Unable to make protected final java.lang.Class java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int) throws java.lang.ClassFormatError accessible: module java.base does not "opens java.lang" to unnamed module @60e89085
     "dispatch",                 // java.lang.ExceptionInInitializerError: null
     "play-doc",                 // Error creating extended parser class: Could not determine whether class 'play.doc.CodeReferenceParser$$parboiled' has already been loaded (Parboiled.java:58)
     "scala-rewrites",           // scalameta: Unsupported class file major version 60
