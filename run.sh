@@ -199,7 +199,7 @@ rm_project_builds
 
 # report summary information (line counts, green project counts, ...?)
 cd scripts
-sbt -Dsbt.supershell=false -Dlog4j.configurationFile=log4j.properties -error "runMain report ../dbuild-${DBUILDVERSION}/dbuild.out" | tee ../report.html
+sbt -Dsbt.supershell=false -Dlog4j.configurationFile=log4j.properties -error "runMain report ../dbuild-${DBUILDVERSION}/dbuild.out" < /dev/null | tee ../report.html
 
 # we've captured $STATUS above, but in this version of the script, it isn't used,
 # instead the reporting stuff is in charge of calling sys.exit if it decides to
