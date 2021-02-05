@@ -65,7 +65,6 @@ object SuccessReport:
     "dispatch",                 // java.lang.ExceptionInInitializerError: null
     "play-doc",                 // Error creating extended parser class: Could not determine whether class 'play.doc.CodeReferenceParser$$parboiled' has already been loaded (Parboiled.java:58)
     "scalatest-tests",          // Error creating extended parser class: Could not determine whether class 'org.pegdown.Parser$$parboiled' has already been loaded
-    "shapeless-java-records",   // value permittedSubclasses is not a member of Class[?0]
     "specs2-more",              // Error creating extended parser class: Could not determine whether class 'org.pegdown.Parser$$parboiled' has already been loaded (Parboiled.java:58)
   )
 
