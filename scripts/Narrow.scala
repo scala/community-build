@@ -23,8 +23,6 @@ import better.files._
   projs.append(
     """|build += {
        |
-       |  space: scala.main
-       |
        |  // true = build project-level dependencies from source
        |  // false = get build-level dependencies as binaries
        |  check-missing: [ true, false ]
