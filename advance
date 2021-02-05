@@ -7,4 +7,4 @@
 
 set -e
 cd scripts
-sbt -Dsbt.supershell=false -error "runMain advance $*"
+sbt -Dsbt.supershell=false -error "runMain advance $*" < /dev/null

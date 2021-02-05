@@ -9,4 +9,4 @@
 
 set -e
 cd scripts
-sbt -Dsbt.supershell=false -error "runMain narrow $*"
+sbt -Dsbt.supershell=false -error "runMain narrow $*" < /dev/null
