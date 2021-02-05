@@ -63,7 +63,6 @@ object SuccessReport:
   val jdk16Failures = Set[String](
     "play-doc",                 // Error creating extended parser class: Could not determine whether class 'play.doc.CodeReferenceParser$$parboiled' has already been loaded (Parboiled.java:58)
     "requests-scala",           // requests.RequestTests fails, unclear why
-    "shapeless-java-records",   // value permittedSubclasses is not a member of Class[?0]
     "specs2-more",              // Error creating extended parser class: Could not determine whether class 'org.pegdown.Parser$$parboiled' has already been loaded (Parboiled.java:58)
   )
 
