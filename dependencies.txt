@@ -42,6 +42,7 @@ scala-parallel-collections: cloc-plugin, scala, scalacheck
 context-applied: cloc-plugin, kind-projector, scala
 pureconfig: cloc-plugin, scala, shapeless, tut
 euler: cloc-plugin, munit, scala, scalacheck
+literally: cloc-plugin, munit, scala, scalacheck
 typename: cloc-plugin, munit, scala, scalacheck
 argonaut-shapeless: argonaut, cloc-plugin, scala, shapeless
 expression-evaluator: cloc-plugin, scala, scala-xml, scalatest
