@@ -19,6 +19,10 @@ issues and incompatibilities.
 
 **Can I run it myself?** Sure, just clone the repo and run `./run.sh`.
 
+## Scala 3?
+
+here: https://github.com/lampepfl/dotty/blob/master/community-build/README.md
+
 ## News
 
 * February 20, 2020: [Scala 2 community build reaches goals](https://www.scala-lang.org/2020/02/20/community-build.html)
