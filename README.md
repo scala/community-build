@@ -7,9 +7,9 @@ The project is financed and primarily maintained by Lightbend, as part
 of our overall maintenance of the Scala compiler and standard library.
 
 **How big is it?**
-The 2.13 build is **3.4 million lines** of Scala code, total,
-from **209 repos**, and takes about **9 hours** to run,
-as of March 2020.
+The 2.13 build contains **over 3 million lines** of Scala code
+from **240 repos**, and it takes about **10 hours** to run,
+as of March 2021.
 
 **Why do this?** The main goal is to guard against regressions in new
 versions of Scala (language, standard library, and modules). This complements
