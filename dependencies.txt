@@ -113,13 +113,13 @@ mainargs: cloc-plugin, geny, os-lib, portable-scala-reflect, scala, scala-collec
 upickle: acyclic, cloc-plugin, geny, portable-scala-reflect, scala, scala-collection-compat, utest
 discipline-scalatest: cloc-plugin, discipline, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck
 twirl: cloc-plugin, scala, scala-collection-compat, scala-parser-combinators, scala-xml, scalatest
-slick: cloc-plugin, scala, scala-collection-compat, scala-xml, scalacheck, scalatest, scalatest-3-0
 log4s: cloc-plugin, scala, scala-js-stubs, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck
 requests-scala: acyclic, cloc-plugin, geny, portable-scala-reflect, scala, scala-collection-compat, upickle, utest
 bijection: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatestplus-junit, scalatestplus-scalacheck
 scodec: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, scodec-bits, shapeless
 grizzled: cloc-plugin, scala, scala-collection-compat, scala-xml, scalacheck, scalatest, scalatest-3-0, wartremover
 scalatex: acyclic, cloc-plugin, fastparse-scalameta, portable-scala-reflect, scala, scala-xml, scalatags, sourcecode, utest
+slick: cloc-plugin, scala, scala-collection-compat, scala-xml, scalacheck, scalatest, scalatest-3-0, scalatestplus-testng
 classutil: cloc-plugin, grizzled, scala, scala-collection-compat, scala-xml, scalacheck, scalatest, scalatest-3-0, wartremover
 coursier: argonaut, argonaut-shapeless, cloc-plugin, coursier-cache, coursier-core, coursier-util, scala, scala-xml, shapeless
 airframe: airspec, cloc-plugin, scala, scala-collection-compat, scala-parallel-collections, scala-parser-combinators, scalacheck
