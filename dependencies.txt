@@ -89,10 +89,10 @@ case-app: cloc-plugin, macro-paradise, scala, scalacheck, scalatest, shapeless
 pprint: cloc-plugin, fansi, portable-scala-reflect, scala, sourcecode, utest
 simulacrum: cloc-plugin, macro-paradise, scala, scalacheck, scalatest, shapeless
 singleton-ops: cloc-plugin, macro-paradise, scala, scalacheck, scalatest, shapeless
-slick: cloc-plugin, mima, munit, scala, scala-collection-compat, scalacheck
 fastparse: acyclic, cloc-plugin, portable-scala-reflect, scala, sourcecode, utest
 scalacheck-shapeless: cloc-plugin, portable-scala-reflect, scala, scalacheck, shapeless, utest
 silencer: cloc-plugin, mima, munit, scala, scala-collection-compat, scalacheck, scalatest
+slick: cloc-plugin, mima, munit, scala, scala-collection-compat, scalacheck, scalatest
 scalastyle: cloc-plugin, scala, scala-parser-combinators, scalacheck, scalariform, scalatest
 coursier: acyclic, cloc-plugin, fastparse, portable-scala-reflect, scala, sourcecode, utest
 minitest: cloc-plugin, macro-paradise, portable-scala-reflect, scala, scalacheck, scalatest
