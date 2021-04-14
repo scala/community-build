@@ -39,7 +39,7 @@ object SuccessReport:
   )
 
   val requiresJdk15Plus = Set[String](
-    "shapeless-java-records",  // inherently requires JDK 15
+    "shapeless-java-records",  // inherently requires JDK 15+
   )
 
   val jdk11Failures = Set[String](
@@ -48,22 +48,19 @@ object SuccessReport:
     "scala-refactoring",  // needs scala/bug#11125 workaround?
   )
 
-  val jdk15Failures = Set[String](
+  val jdk16Failures = Set[String](
     "akka-persistence-cassandra", // needs newer sbt-osgi
     "avro4s",        // test failure: com.sksamuel.avro4s.github.GithubIssue387
     "elastic4s",     // Unrecognized VM option 'CMSClassUnloadingEnabled'
     "ip4s",          // needs newer sbt-osgi
     "mockito-scala", // reflection-related test failures
+    "play-doc",                 // Error creating extended parser class: Could not determine whether class 'play.doc.CodeReferenceParser$$parboiled' has already been loaded (Parboiled.java:58)
     "playframework", // Failed tests: play.mvc.HttpFormsTest
     "pureconfig",    // needs newer sbt-osgi
-    "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
-    "zinc",          // sbt.inc.Doc$JavadocGenerationFailed
-  )
-
-  val jdk16Failures = Set[String](
-    "play-doc",                 // Error creating extended parser class: Could not determine whether class 'play.doc.CodeReferenceParser$$parboiled' has already been loaded (Parboiled.java:58)
     "requests-scala",           // requests.RequestTests fails, unclear why
     "specs2-more",              // Error creating extended parser class: Could not determine whether class 'org.pegdown.Parser$$parboiled' has already been loaded (Parboiled.java:58)
+    "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
+    "zinc",          // sbt.inc.Doc$JavadocGenerationFailed
   )
 
   val expectedToFail: Set[String] =
@@ -72,10 +69,8 @@ object SuccessReport:
         requiresJdk11Plus ++ requiresJdk15Plus
       case "11" =>
         jdk11Failures ++ requiresJdk15Plus
-      case "15" =>
-        jdk11Failures ++ jdk15Failures
       case _ =>
-        jdk11Failures ++ jdk15Failures ++ jdk16Failures
+        jdk11Failures ++ jdk16Failures
 
   def apply(log: io.Source): Option[Int] =
     val lines = log.getLines.dropWhile(!_.contains("---==  Execution Report ==---"))
