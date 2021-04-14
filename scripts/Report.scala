@@ -49,7 +49,6 @@ object SuccessReport:
   val jdk15Failures = Set[String](
     "akka",          // needs newer sbt-osgi
     "fs2",           // needs newer sbt-osgi
-    "mdoc",          // sbt 1.2 issue? gory details at scala/community-build#1386
     "paradox",  // Unsupported class file major version
     "playframework",  // Failed tests: play.mvc.HttpFormsTest
     "sbt-io",        // sbt.io.IOSpecification fails
