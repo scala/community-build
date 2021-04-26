@@ -140,7 +140,6 @@ http4s-parboiled2: cloc-plugin, kind-projector, portable-scala-reflect, scala, s
 scalapb: cloc-plugin, fastparse, geny, portable-scala-reflect, scala, scala-collection-compat, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, sourcecode, utest
 lift-json: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalatest, specs2
 scalamock: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalatest, specs2
-splain: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, shapeless, specs2
 discipline-specs2: cloc-plugin, discipline, kind-projector, portable-scala-reflect, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, specs2
 sconfig: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, specs2, spray-json
 play-doc: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, scalatest, specs2, twirl
