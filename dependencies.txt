@@ -42,7 +42,6 @@ scala-parallel-collections: cloc-plugin, scala, scalacheck
 context-applied: cloc-plugin, kind-projector, scala
 pureconfig: cloc-plugin, scala, shapeless, tut
 euler: cloc-plugin, munit, scala, scalacheck
-mima: cloc-plugin, munit, scala, scalacheck
 spliff: cloc-plugin, munit, scala, scalacheck
 typename: cloc-plugin, munit, scala, scalacheck
 argonaut-shapeless: argonaut, cloc-plugin, scala, shapeless
@@ -133,6 +132,7 @@ akka: cloc-plugin, scala, scala-java8-compat, scala-xml, scalacheck, scalatest, 
 scribe: cloc-plugin, moduload, perfolation, scala, scala-collection-compat, scala-xml, scalacheck, scalatest, scalatest-3-0, sourcecode
 scalatest-tests: cloc-plugin, scala, scala-collection-compat, scala-parser-combinators, scala-xml, scalatest, scalatestplus-junit, scalatestplus-testng
 better-files: akka, cloc-plugin, scala, scala-java8-compat, scala-xml, scalacheck, scalatest, scalatestplus-junit, scalatestplus-scalacheck, shapeless
+mima: argonaut, argonaut-shapeless, cloc-plugin, coursier, coursier-cache, coursier-core, coursier-util, munit, scala, scala-xml, scalacheck, shapeless
 specs2: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck
 macwire: akka, cloc-plugin, scala, scala-common, scala-java8-compat, scala-xml, scalacheck, scalatest, scalatest-3-0, scalatestplus-junit, scalatestplus-scalacheck
 json4s: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-collection-compat, scala-js-stubs, scala-parser-combinators, scala-xml, scalacheck, specs2
