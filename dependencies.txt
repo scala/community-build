@@ -41,12 +41,12 @@ scala-library-next: cloc-plugin, scala, scalacheck
 scala-parallel-collections: cloc-plugin, scala, scalacheck
 context-applied: cloc-plugin, kind-projector, scala
 pureconfig: cloc-plugin, scala, shapeless, tut
+better-tostring: cloc-plugin, munit, scala, scalacheck
 euler: cloc-plugin, munit, scala, scalacheck
 spliff: cloc-plugin, munit, scala, scalacheck
 typename: cloc-plugin, munit, scala, scalacheck
 unindent: cloc-plugin, munit, scala, scalacheck
 argonaut-shapeless: argonaut, cloc-plugin, scala, shapeless
-better-tostring: cloc-plugin, scala, scala-xml, scalatest
 expression-evaluator: cloc-plugin, scala, scala-xml, scalatest
 fast-string-interpolator: cloc-plugin, scala, scala-xml, scalatest
 lightbend-emoji: cloc-plugin, scala, scala-xml, scalatest
