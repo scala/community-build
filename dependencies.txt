@@ -63,7 +63,6 @@ sbinary: cloc-plugin, scala, scala-xml, scalacheck
 scalatest-3-0: cloc-plugin, scala, scala-xml, scalacheck
 singleton-ops: cloc-plugin, scala, scalacheck, shapeless
 utest: cloc-plugin, portable-scala-reflect, scala
-airspec: cloc-plugin, scala, scala-collection-compat
 scala-parser-combinators: cloc-plugin, scala, scala-collection-compat
 coursier-core: cloc-plugin, coursier-util, scala, scala-xml
 acyclic: cloc-plugin, portable-scala-reflect, scala, utest
