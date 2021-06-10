@@ -34,8 +34,8 @@ object SuccessReport:
   val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
   val requiresJdk11Plus = Set[String](
-    "airframe",  // code requires JDK 11 (getPackageName)
-    "fs2",       // build requires JDK 11
+    "airframe",  // they require JDK 11 for building
+    "fs2",       // they require JDK 11 for building
   )
 
   val requiresJdk15Plus = Set[String](
