@@ -63,7 +63,6 @@ sbinary: cloc-plugin, scala, scala-xml, scalacheck
 scalatest-3-0: cloc-plugin, scala, scala-xml, scalacheck
 singleton-ops: cloc-plugin, scala, scalacheck, shapeless
 utest: cloc-plugin, portable-scala-reflect, scala
-airspec: cloc-plugin, scala, scala-collection-compat
 scala-parser-combinators: cloc-plugin, scala, scala-collection-compat
 coursier-core: cloc-plugin, coursier-util, scala, scala-xml
 acyclic: cloc-plugin, portable-scala-reflect, scala, utest
@@ -120,11 +119,11 @@ requests-scala: acyclic, cloc-plugin, geny, portable-scala-reflect, scala, scala
 bijection: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatestplus-junit, scalatestplus-scalacheck
 scodec: cloc-plugin, scala, scala-xml, scalacheck, scalatest, scalatestplus-scalacheck, scodec-bits, shapeless
 grizzled: cloc-plugin, scala, scala-collection-compat, scala-xml, scalacheck, scalatest, scalatest-3-0, wartremover
+airframe: cloc-plugin, scala, scala-collection-compat, scala-parallel-collections, scala-parser-combinators, scalacheck
 scalatex: acyclic, cloc-plugin, fastparse-scalameta, portable-scala-reflect, scala, scala-xml, scalatags, sourcecode, utest
 slick: cloc-plugin, scala, scala-collection-compat, scala-xml, scalacheck, scalatest, scalatest-3-0, scalatestplus-testng
 classutil: cloc-plugin, grizzled, scala, scala-collection-compat, scala-xml, scalacheck, scalatest, scalatest-3-0, wartremover
 coursier: argonaut, argonaut-shapeless, cloc-plugin, coursier-cache, coursier-core, coursier-util, scala, scala-xml, shapeless
-airframe: airspec, cloc-plugin, scala, scala-collection-compat, scala-parallel-collections, scala-parser-combinators, scalacheck
 cachecontrol: cloc-plugin, scala, scala-collection-compat, scala-parser-combinators, scala-xml, scalacheck, scalatest, scalatest-3-0
 scalariform: cloc-plugin, scala, scala-collection-compat, scala-parser-combinators, scala-xml, scalacheck, scalatest, scalatest-3-0
 akka: cloc-plugin, scala, scala-java8-compat, scala-xml, scalacheck, scalatest, scalatestplus-junit, scalatestplus-scalacheck
