@@ -37,7 +37,7 @@ def getSha(repo: String, ref: String): String =
   else
     import scala.sys.process._
     val cmd = s"git ls-remote $repo $ref"
-    Process(cmd).lazyLines.headOption match
+    Process(cmd).lazyLines.find(_.containsSlice("refs/heads/")) match
       case Some(line) =>
         line.split("\\s").head
       case None =>
