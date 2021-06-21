@@ -9,7 +9,7 @@
 /.npm/
 /dbuild-*.tgz
 /.gnupg/
-/Library/Caches/Coursier/v1/
+/Library/Caches/
 /logs/
 /project/
 /report.html
