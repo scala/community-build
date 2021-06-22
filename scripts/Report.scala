@@ -48,11 +48,15 @@ object SuccessReport:
     "scala-refactoring",  // needs scala/bug#11125 workaround?
   )
 
-  val jdk16Failures = Set[String](
+  val jdk17Failures = Set[String](
+    "akka-http",     // runs afoul of JEP 403
+    "akka-more",     // runs afoul of JEP 403
     "akka-persistence-cassandra", // needs newer sbt-osgi
     "avro4s",        // test failure: com.sksamuel.avro4s.github.GithubIssue387
+    "classutil",     // runs afoul of JEP 403
     "elastic4s",     // Unrecognized VM option 'CMSClassUnloadingEnabled'
     "ip4s",          // needs newer sbt-osgi
+    "macwire",       // runs afoul of JEP 403
     "mockito-scala", // reflection-related test failures
     "play-doc",                 // Error creating extended parser class: Could not determine whether class 'play.doc.CodeReferenceParser$$parboiled' has already been loaded (Parboiled.java:58)
     "playframework", // Failed tests: play.mvc.HttpFormsTest
@@ -69,7 +73,7 @@ object SuccessReport:
       case "11" =>
         jdk11Failures ++ requiresJdk15Plus
       case _ =>
-        jdk11Failures ++ jdk16Failures
+        jdk11Failures ++ jdk17Failures
 
   def apply(log: io.Source): Option[Int] =
     val lines = log.getLines.dropWhile(!_.contains("---==  Execution Report ==---"))
