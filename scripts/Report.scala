@@ -47,21 +47,22 @@ object SuccessReport:
   )
 
   val jdk17Failures = Set[String](
+    "airframe" ,     // runs afoul of JEP 403
     "akka",          // needs newer sbt-osgi
     "classutil",     // runs afoul of JEP 403
-    "dispatch",                 // java.lang.ExceptionInInitializerError: null
+    "dispatch",      // java.lang.ExceptionInInitializerError: null
     "fs2",           // needs newer sbt-osgi
-    "paradox",  // Unsupported class file major version
-    "play-doc",                 // Error creating extended parser class: Could not determine whether class 'play.doc.CodeReferenceParser$$parboiled' has already been loaded (Parboiled.java:58)
-    "playframework",  // Failed tests: play.mvc.HttpFormsTest
+    "paradox",       // Unsupported class file major version
+    "play-doc",      // Error creating extended parser class: Could not determine whether class 'play.doc.CodeReferenceParser$$parboiled' has already been loaded (Parboiled.java:58)
+    "playframework", // Failed tests: play.mvc.HttpFormsTest
     "sbt-io",        // sbt.io.IOSpecification fails
     "scala-async",   // needs newer sbt-scala-module (for newer sbt-osgi)
     "scala-continuations", // needs newer sbt-scala-module (for newer sbt-osgi)
     "scala-logging", // needs newer sbt-osgi
     "scala-swing",   // needs newer sbt-scala-module (for newer sbt-osgi)
-    "scalatest-tests",          // Error creating extended parser class: Could not determine whether class 'org.pegdown.Parser$$parboiled' has already been loaded
+    "scalatest-tests", // Error creating extended parser class: Could not determine whether class 'org.pegdown.Parser$$parboiled' has already been loaded
     "scalikejdbc",   // test failure: scalikejdbc.jsr310.StatementExecutorSpec
-    "specs2-more",              // Error creating extended parser class: Could not determine whether class 'org.pegdown.Parser$$parboiled' has already been loaded (Parboiled.java:58)
+    "specs2-more",   // Error creating extended parser class: Could not determine whether class 'org.pegdown.Parser$$parboiled' has already been loaded (Parboiled.java:58)
     "squants",       // needs newer sbt-osgi
     "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
   )
