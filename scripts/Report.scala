@@ -46,8 +46,9 @@ object SuccessReport:
     "scalafix",  // needs scala/bug#11125 workaround
   )
 
-  val jdk16Failures = Set[String](
+  val jdk17Failures = Set[String](
     "akka",          // needs newer sbt-osgi
+    "classutil",     // runs afoul of JEP 403
     "dispatch",                 // java.lang.ExceptionInInitializerError: null
     "fs2",           // needs newer sbt-osgi
     "paradox",  // Unsupported class file major version
@@ -72,7 +73,7 @@ object SuccessReport:
       case "11" =>
         jdk8Failures ++ jdk11Failures
       case _ =>
-        jdk11Failures ++ jdk16Failures
+        jdk11Failures ++ jdk17Failures
 
   def apply(log: io.Source): Option[Int] =
     val lines = log.getLines.dropWhile(!_.contains("---==  Execution Report ==---"))
