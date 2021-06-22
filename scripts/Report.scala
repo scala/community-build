@@ -46,21 +46,23 @@ object SuccessReport:
     "scalafix",  // needs scala/bug#11125 workaround
   )
 
-  val jdk16Failures = Set[String](
+  val jdk17Failures = Set[String](
+    "airframe" ,     // runs afoul of JEP 403
     "akka",          // needs newer sbt-osgi
-    "dispatch",                 // java.lang.ExceptionInInitializerError: null
+    "classutil",     // runs afoul of JEP 403
+    "dispatch",      // java.lang.ExceptionInInitializerError: null
     "fs2",           // needs newer sbt-osgi
-    "paradox",  // Unsupported class file major version
-    "play-doc",                 // Error creating extended parser class: Could not determine whether class 'play.doc.CodeReferenceParser$$parboiled' has already been loaded (Parboiled.java:58)
-    "playframework",  // Failed tests: play.mvc.HttpFormsTest
+    "paradox",       // Unsupported class file major version
+    "play-doc",      // Error creating extended parser class: Could not determine whether class 'play.doc.CodeReferenceParser$$parboiled' has already been loaded (Parboiled.java:58)
+    "playframework", // Failed tests: play.mvc.HttpFormsTest
     "sbt-io",        // sbt.io.IOSpecification fails
     "scala-async",   // needs newer sbt-scala-module (for newer sbt-osgi)
     "scala-continuations", // needs newer sbt-scala-module (for newer sbt-osgi)
     "scala-logging", // needs newer sbt-osgi
     "scala-swing",   // needs newer sbt-scala-module (for newer sbt-osgi)
-    "scalatest-tests",          // Error creating extended parser class: Could not determine whether class 'org.pegdown.Parser$$parboiled' has already been loaded
+    "scalatest-tests", // Error creating extended parser class: Could not determine whether class 'org.pegdown.Parser$$parboiled' has already been loaded
     "scalikejdbc",   // test failure: scalikejdbc.jsr310.StatementExecutorSpec
-    "specs2-more",              // Error creating extended parser class: Could not determine whether class 'org.pegdown.Parser$$parboiled' has already been loaded (Parboiled.java:58)
+    "specs2-more",   // Error creating extended parser class: Could not determine whether class 'org.pegdown.Parser$$parboiled' has already been loaded (Parboiled.java:58)
     "squants",       // needs newer sbt-osgi
     "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
   )
@@ -72,7 +74,7 @@ object SuccessReport:
       case "11" =>
         jdk8Failures ++ jdk11Failures
       case _ =>
-        jdk11Failures ++ jdk16Failures
+        jdk11Failures ++ jdk17Failures
 
   def apply(log: io.Source): Option[Int] =
     val lines = log.getLines.dropWhile(!_.contains("---==  Execution Report ==---"))
