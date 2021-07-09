@@ -59,7 +59,6 @@ object SuccessReport:
     "macwire",       // runs afoul of JEP 403
     "mockito-scala", // reflection-related test failures
     "play-doc",                 // Error creating extended parser class: Could not determine whether class 'play.doc.CodeReferenceParser$$parboiled' has already been loaded (Parboiled.java:58)
-    "playframework", // Failed tests: play.mvc.HttpFormsTest
     "requests-scala",           // requests.RequestTests fails, unclear why
     "specs2-more",              // Error creating extended parser class: Could not determine whether class 'org.pegdown.Parser$$parboiled' has already been loaded (Parboiled.java:58)
     "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
