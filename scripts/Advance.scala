@@ -9,9 +9,10 @@ import scala.collection.parallel.CollectionConverters._  // for .par
   // to avoid confusion over whether the default is `master` or
   // the repo's own default branch, which might be called something else)
   val GitHub = """// (https://github.com/\S*.git)#(\S*)(\s*.*)""".r
-  val Ivy = """// ivy:.*""".r
+  def filesIn(dir: String): Seq[File] =
+    File(dir).list(_.extension == Some(".conf")).toSeq
   for
-    file <- File("proj").list(_.extension == Some(".conf")).toSeq.par
+    file <- (filesIn("core") ++ filesIn("proj")).par
     if args.isEmpty || args.contains(file.nameWithoutExtension)
   do
     val lines = file.lines.to(Vector)
@@ -21,8 +22,6 @@ import scala.collection.parallel.CollectionConverters._  // for .par
         println(uri)  // indicate progress
         file.clear()
         file.printLines(lines.map(munge(_, uri)))
-      case Ivy() =>
-        // okay to skip
       case bad =>
         throw new IllegalArgumentException(bad)
 

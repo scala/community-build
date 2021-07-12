@@ -5,7 +5,6 @@
   val unexpectedFailureCount = SuccessReport(log)
   println("</pre>")
   SplitLog(log)
-  UpdateDependencies()
   sys.exit(unexpectedFailureCount.getOrElse(1))
 
 object ClocReport:
@@ -49,17 +48,14 @@ object SuccessReport:
   )
 
   val jdk17Failures = Set[String](
-    "akka-more",     // runs afoul of JEP 403 (https://github.com/akka/akka/issues/30341)
+    "akka",          // runs afoul of JEP 403 (https://github.com/akka/akka/issues/30341); also needs newer sbt-osgi?
     "akka-persistence-cassandra", // needs newer sbt-osgi
     "avro4s",        // test failure: com.sksamuel.avro4s.github.GithubIssue387
     "classutil",     // runs afoul of JEP 403
-    "elastic4s",     // Unrecognized VM option 'CMSClassUnloadingEnabled'
     "ip4s",          // needs newer sbt-osgi
     "mockito-scala", // reflection-related test failures
-    "play-doc",                 // Error creating extended parser class: Could not determine whether class 'play.doc.CodeReferenceParser$$parboiled' has already been loaded (Parboiled.java:58)
     "playframework", // Failed tests: play.mvc.HttpFormsTest
     "requests-scala",           // requests.RequestTests fails, unclear why
-    "specs2-more",              // Error creating extended parser class: Could not determine whether class 'org.pegdown.Parser$$parboiled' has already been loaded (Parboiled.java:58)
     "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
     "zinc",          // sbt.inc.Doc$JavadocGenerationFailed
   )
@@ -170,18 +166,3 @@ object SplitLog:
       else
         writer.close()
     iterate()
-
-object UpdateDependencies:
-  val Line1 = """\[info\] Project (\S+)""".r
-  val Line2 = """\[info\]   depends on: (.*)""".r
-  def apply(): Unit =
-    val inFile = java.io.File("logs/_dependencies.log")
-    if inFile.exists then
-      val in = io.Source.fromFile(inFile)
-      val out = SplitLog.makeWriter("dependencies.txt")
-      val tuples =
-        for Seq(Line1(project), Line2(depends)) <- in.getLines.grouped(2).toSeq
-        yield (project, depends)
-      for (project, depends) <- tuples.sortBy(_._1).sortBy(_._2.length) do
-        out.println(s"$project: $depends")
-      out.close()
