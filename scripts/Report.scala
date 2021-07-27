@@ -49,7 +49,6 @@ object SuccessReport:
   )
 
   val jdk17Failures = Set[String](
-    "akka-http",     // runs afoul of JEP 403 (https://github.com/akka/akka-http/issues/3852)
     "akka-more",     // runs afoul of JEP 403 (https://github.com/akka/akka/issues/30341)
     "akka-persistence-cassandra", // needs newer sbt-osgi
     "avro4s",        // test failure: com.sksamuel.avro4s.github.GithubIssue387
