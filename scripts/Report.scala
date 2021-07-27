@@ -56,7 +56,6 @@ object SuccessReport:
     "classutil",     // runs afoul of JEP 403
     "elastic4s",     // Unrecognized VM option 'CMSClassUnloadingEnabled'
     "ip4s",          // needs newer sbt-osgi
-    "macwire",       // runs afoul of JEP 403
     "mockito-scala", // reflection-related test failures
     "play-doc",                 // Error creating extended parser class: Could not determine whether class 'play.doc.CodeReferenceParser$$parboiled' has already been loaded (Parboiled.java:58)
     "playframework", // Failed tests: play.mvc.HttpFormsTest
