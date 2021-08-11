@@ -8,5 +8,7 @@ set -e
 # I'm trying to rock the boat as little as possible.  To mix metaphors.
 export JAVA_OPTS="-Dfile.encoding=UTF-8 -Xmx2G -Xss1M -Djava.io.tmpdir=/home/jenkins/tmp"
 
+export PATH="$PATH:/home/jenkins/.local/share/coursier/bin"
+
 # the `projects` jenkins job param can be used to limit the projects to build
 ./run.sh $projects
