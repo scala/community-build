@@ -137,17 +137,17 @@ object SplitLog:
   val EndBuild = """\[([^\]]+)\] --== End Building .+ ==--""".r
 
   def apply(log: io.Source): Unit =
-    val dir = java.io.File("../logs")
+    val dir = java.io.File("logs")
     dir.mkdirs()
     val lines = log.getLines
     while lines.hasNext do
       lines.next match
         case BeginDependencies() =>
-          slurp(lines, makeWriter("../logs/_dependencies.log"), EndDependencies)
+          slurp(lines, makeWriter("logs/_dependencies.log"), EndDependencies)
         case BeginExtract(name) =>
-          slurp(lines, makeWriter(s"../logs/$name-extract.log"), EndExtract)
+          slurp(lines, makeWriter(s"logs/$name-extract.log"), EndExtract)
         case BeginBuild(name) =>
-          slurp(lines, makeWriter(s"../logs/$name-build.log"), EndBuild)
+          slurp(lines, makeWriter(s"logs/$name-build.log"), EndBuild)
         case _ =>
 
   import java.io.PrintWriter
@@ -178,10 +178,10 @@ object UpdateDependencies:
   val Line1 = """\[info\] Project (\S+)""".r
   val Line2 = """\[info\]   depends on: (.*)""".r
   def apply(): Unit =
-    val inFile = java.io.File("../logs/_dependencies.log")
+    val inFile = java.io.File("logs/_dependencies.log")
     if inFile.exists then
       val in = io.Source.fromFile(inFile)
-      val out = SplitLog.makeWriter("../dependencies.txt")
+      val out = SplitLog.makeWriter("dependencies.txt")
       val tuples =
         for Seq(Line1(project), Line2(depends)) <- in.getLines.grouped(2).toSeq
         yield (project, depends)

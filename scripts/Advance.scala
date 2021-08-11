@@ -1,7 +1,7 @@
 import better.files._
+import scala.collection.parallel.CollectionConverters._  // for .par
 
 @main def advance(args: String*) =
-  import scala.collection.parallel.CollectionConverters._
   // regexes for matching first line of each project's config
   // note that we require an explicit tag or branch name,
   // or a SHA (which must be the whole 40 characters).
@@ -11,7 +11,7 @@ import better.files._
   val GitHub = """// (https://github.com/\S*.git)#(\S*)(\s*.*)""".r
   val Ivy = """// ivy:.*""".r
   for
-    file <- File("../proj").list(_.extension == Some(".conf")).toSeq.par
+    file <- File("proj").list(_.extension == Some(".conf")).toSeq.par
     if args.isEmpty || args.contains(file.nameWithoutExtension)
   do
     val lines = file.lines.to(Vector)

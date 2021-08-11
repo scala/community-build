@@ -4,7 +4,7 @@ import better.files._
 
   // read dependency information
   val tree: Map[String, Set[String]] =
-    val deps = File("../dependencies.txt")
+    val deps = File("dependencies.txt")
     val Regex = """(\S+): (.*)""".r
     deps.lines.map{
       case Regex(proj, deps) =>
@@ -18,7 +18,7 @@ import better.files._
       -- Set("scala", "cloc-plugin"))
 
   // write results
-  val projs = File("../projs.conf")
+  val projs = File("projs.conf")
   projs.clear()
   projs.append(
     """|build += {
