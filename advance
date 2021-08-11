@@ -6,5 +6,11 @@
 #   % ./advance scalacheck scalatest specs2
 
 set -e
-cd scripts
-sbt -Dsbt.supershell=false -error "runMain advance $*" < /dev/null
+
+# as per https://github.com/coursier/coursier/issues/2058
+cs launch \
+  scala3-compiler:3+ \
+  -M dotty.tools.MainGenericRunner \
+  --extra-jars $(cs fetch --intransitive org.scala-lang.modules:scala-parallel-collections_3:1.0.3) \
+  --extra-jars $(cs fetch --intransitive com.github.pathikrit:better-files_2.13:3.9.1) \
+  -- scripts/Advance.scala $*
