@@ -2,5 +2,7 @@
 
 set -e
 
+export PATH="$PATH:/home/jenkins/.local/share/coursier/bin"
+
 # the `projects` jenkins job param can be used to limit the projects to build
 ./run.sh $projects
