@@ -8,5 +8,10 @@
 # dependencies.txt is the source of truth for what dependencies to use
 
 set -e
-cd scripts
-sbt -Dsbt.supershell=false -error "runMain narrow $*" < /dev/null
+
+# as per https://github.com/coursier/coursier/issues/2058
+cs launch \
+  scala3-compiler:3+ \
+  -M dotty.tools.MainGenericRunner \
+  --extra-jars $(cs fetch --intransitive com.github.pathikrit:better-files_2.13:3.9.1) \
+  -- scripts/Narrow.scala $*
