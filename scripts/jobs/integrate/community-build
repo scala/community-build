@@ -6,7 +6,7 @@ set -e
 # aren't applicable on JDK 11+.  So let's override it to stuff that seems reasonable.
 # It's tempting to just `unset JAVA_OPTS` and let the cards fall where they may, but
 # I'm trying to rock the boat as little as possible.  To mix metaphors.
-export JAVA_OPTS="-Dfile.encoding=UTF-8 -Xmx2G -Xss8M -Djava.io.tmpdir=/home/jenkins/tmp"
+export JAVA_OPTS="-Dfile.encoding=UTF-8 -Xmx2G -Xss16M -Djava.io.tmpdir=/home/jenkins/tmp"
 
 export PATH="$PATH:/home/jenkins/.local/share/coursier/bin"
 
