@@ -192,7 +192,7 @@ rm_project_builds
 # munge the dbuild script to increase the stack size, otherwise
 # dbuild chokes on our large projs.conf. I cannot figure out
 # any less hack-ish way to do this.
-perl -pi -e 's/^java .$/java -Xss8M \\/' dbuild-${DBUILDVERSION}/bin/dbuild
+perl -pi -e 's/^java .$/java -Xss16M \\/' dbuild-${DBUILDVERSION}/bin/dbuild
 
 # And finally, call dbuild
 echo "dbuild-${DBUILDVERSION}/bin/dbuild" "${dbuild_args[@]}" "$DBUILDCONFIG" "${@}"
