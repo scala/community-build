@@ -50,16 +50,20 @@ object SuccessReport:
   )
 
   val jdk17Failures = Set[String](
-    "akka",          // runs afoul of JEP 403 (https://github.com/akka/akka/issues/30341); also needs newer sbt-osgi?
-    "akka-persistence-cassandra", // needs newer sbt-osgi
-    "avro4s",        // test failure: com.sksamuel.avro4s.github.GithubIssue387
-    "classutil",     // runs afoul of JEP 403
-    "ip4s",          // needs newer sbt-osgi
-    "mockito-scala", // reflection-related test failures
-    "playframework", // Failed tests: play.mvc.HttpFormsTest
-    "requests-scala",           // requests.RequestTests fails, unclear why
-    "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
-    "zinc",          // sbt.inc.Doc$JavadocGenerationFailed
+    "akka",            // runs afoul of JEP 403 (https://github.com/akka/akka/issues/30341); also needs newer sbt-osgi?
+    "alpakka-kafka",   // deps not found?! sbt-dependency-graph, sbt-docker-compose -- how can it be JDK related?
+    "avro4s",          // test failure: com.sksamuel.avro4s.github.GithubIssue387
+    "classutil",       // runs afoul of JEP 403
+    "finagle",         // Unrecognized VM option 'AggressiveOpts'
+    "http4s",          // CSRFSuite.scala:42:9: `override` modifier required to override concrete member
+    "mockito-scala",   // reflection-related test failures
+    "playframework",   // Failed tests: play.mvc.HttpFormsTest
+    "requests-scala",  // requests.RequestTests fails, unclear why
+    "scrooge",         // Unrecognized VM option 'AggressiveOpts'
+    "specs2",          // org.specs2.text.MarkdownSpec fails (cause: sirthias/parboiled#175)
+    "sttp",            // sttp.client3.SttpBackendOptionsProxyTest2 fails (not investigated)
+    "twitter-util",    // Unrecognized VM option 'AggressiveOpts'
+    "zinc",            // sbt.inc.Doc$JavadocGenerationFailed
   )
 
   val expectedToFail: Set[String] =
