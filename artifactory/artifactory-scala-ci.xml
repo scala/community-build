@@ -4,7 +4,7 @@
     <archiveIndexEnabled>true</archiveIndexEnabled>
     <helpLinksEnabled>true</helpLinksEnabled>
     <fileUploadMaxSizeMb>100</fileUploadMaxSizeMb>
-    <revision>91</revision>
+    <revision>97</revision>
     <dateFormat>dd-MM-yy HH:mm:ss z</dateFormat>
     <addons>
         <showAddonsInfo>true</showAddonsInfo>
@@ -73,7 +73,6 @@
                 <repositoryRef>scala-release-temp</repositoryRef>
                 <repositoryRef>ambiata-oss</repositoryRef>
                 <repositoryRef>jenkins-ci-releases</repositoryRef>
-                <repositoryRef>sbt-plugin-releases</repositoryRef>
             </excludedRepositories>
             <sendMailOnError>true</sendMailOnError>
             <excludeNewRepositories>false</excludeNewRepositories>
@@ -631,66 +630,8 @@
             <propagateQueryParams>false</propagateQueryParams>
         </remoteRepository>
         <remoteRepository>
-            <key>mm-sbt-plugin-releases</key>
-            <type>sbt</type>
-            <includesPattern>com.github.ehsanyou/sbt-docker-compose/**,net.virtual-void/sbt-dependency-graph/**</includesPattern>
-            <repoLayoutRef>sbt-default</repoLayoutRef>
-            <dockerApiVersion>V2</dockerApiVersion>
-            <forceNugetAuthentication>false</forceNugetAuthentication>
-            <blackedOut>false</blackedOut>
-            <handleReleases>true</handleReleases>
-            <handleSnapshots>true</handleSnapshots>
-            <maxUniqueSnapshots>0</maxUniqueSnapshots>
-            <maxUniqueTags>0</maxUniqueTags>
-            <blockPushingSchema1>true</blockPushingSchema1>
-            <suppressPomConsistencyChecks>true</suppressPomConsistencyChecks>
-            <propertySets/>
-            <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
-            <xray>
-                <enabled>false</enabled>
-            </xray>
-            <priorityResolution>false</priorityResolution>
-            <url>https://dl.bintray.com/2m/sbt-plugins/</url>
-            <offline>false</offline>
-            <hardFail>false</hardFail>
-            <storeArtifactsLocally>true</storeArtifactsLocally>
-            <fetchJarsEagerly>false</fetchJarsEagerly>
-            <fetchSourcesEagerly>false</fetchSourcesEagerly>
-            <retrievalCachePeriodSecs>600</retrievalCachePeriodSecs>
-            <metadataRetrievalTimeoutSecs>60</metadataRetrievalTimeoutSecs>
-            <assumedOfflinePeriodSecs>300</assumedOfflinePeriodSecs>
-            <missedRetrievalCachePeriodSecs>1800</missedRetrievalCachePeriodSecs>
-            <remoteRepoChecksumPolicyType>generate-if-absent</remoteRepoChecksumPolicyType>
-            <unusedArtifactsCleanupPeriodHours>720</unusedArtifactsCleanupPeriodHours>
-            <shareConfiguration>false</shareConfiguration>
-            <synchronizeProperties>false</synchronizeProperties>
-            <listRemoteFolderItems>true</listRemoteFolderItems>
-            <rejectInvalidJars>false</rejectInvalidJars>
-            <p2OriginalUrl>https://dl.bintray.com/2m/sbt-plugins/</p2OriginalUrl>
-            <contentSynchronisation>
-                <enabled>false</enabled>
-                <statistics>
-                    <enabled>false</enabled>
-                </statistics>
-                <properties>
-                    <enabled>false</enabled>
-                </properties>
-                <source>
-                    <originAbsenceDetection>false</originAbsenceDetection>
-                </source>
-            </contentSynchronisation>
-            <blockMismatchingMimeTypes>true</blockMismatchingMimeTypes>
-            <mismatchingMimeTypesOverrideList></mismatchingMimeTypesOverrideList>
-            <bypassHeadRequests>false</bypassHeadRequests>
-            <allowAnyHostAuth>false</allowAnyHostAuth>
-            <socketTimeoutMillis>15000</socketTimeoutMillis>
-            <enableCookieManagement>false</enableCookieManagement>
-            <enableTokenAuthentication>false</enableTokenAuthentication>
-            <propagateQueryParams>false</propagateQueryParams>
-        </remoteRepository>
-        <remoteRepository>
             <key>sbt-plugin-releases</key>
-            <type>ivy</type>
+            <type>sbt</type>
             <includesPattern>**/*</includesPattern>
             <repoLayoutRef>sbt-default</repoLayoutRef>
             <dockerApiVersion>V2</dockerApiVersion>
@@ -704,27 +645,24 @@
             <suppressPomConsistencyChecks>true</suppressPomConsistencyChecks>
             <propertySets/>
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
-            <xray>
-                <enabled>false</enabled>
-            </xray>
             <priorityResolution>false</priorityResolution>
-            <url>https://dl.bintray.com/sbt/sbt-plugin-releases/</url>
+            <url>https://repo.scala-sbt.org/scalasbt/sbt-plugin-releases</url>
             <offline>false</offline>
             <hardFail>false</hardFail>
             <storeArtifactsLocally>true</storeArtifactsLocally>
-            <fetchJarsEagerly>true</fetchJarsEagerly>
+            <fetchJarsEagerly>false</fetchJarsEagerly>
             <fetchSourcesEagerly>false</fetchSourcesEagerly>
-            <retrievalCachePeriodSecs>43200</retrievalCachePeriodSecs>
+            <retrievalCachePeriodSecs>7200</retrievalCachePeriodSecs>
             <metadataRetrievalTimeoutSecs>60</metadataRetrievalTimeoutSecs>
             <assumedOfflinePeriodSecs>300</assumedOfflinePeriodSecs>
-            <missedRetrievalCachePeriodSecs>7200</missedRetrievalCachePeriodSecs>
+            <missedRetrievalCachePeriodSecs>1800</missedRetrievalCachePeriodSecs>
             <remoteRepoChecksumPolicyType>generate-if-absent</remoteRepoChecksumPolicyType>
-            <unusedArtifactsCleanupPeriodHours>720</unusedArtifactsCleanupPeriodHours>
+            <unusedArtifactsCleanupPeriodHours>0</unusedArtifactsCleanupPeriodHours>
             <shareConfiguration>false</shareConfiguration>
             <synchronizeProperties>false</synchronizeProperties>
             <listRemoteFolderItems>true</listRemoteFolderItems>
             <rejectInvalidJars>false</rejectInvalidJars>
-            <p2OriginalUrl>https://dl.bintray.com/sbt/sbt-plugin-releases/</p2OriginalUrl>
+            <p2OriginalUrl>https://repo.scala-sbt.org/scalasbt/sbt-plugin-releases</p2OriginalUrl>
             <contentSynchronisation>
                 <enabled>false</enabled>
                 <statistics>
@@ -953,10 +891,9 @@
             <repositories>
                 <repositoryRef>typesafe-ivy-releases</repositoryRef>
                 <repositoryRef>ambiata-oss</repositoryRef>
-                <repositoryRef>sbt-plugin-releases</repositoryRef>
                 <repositoryRef>cchantep</repositoryRef>
-                <repositoryRef>mm-sbt-plugin-releases</repositoryRef>
                 <repositoryRef>triplequote</repositoryRef>
+                <repositoryRef>sbt-plugin-releases</repositoryRef>
             </repositories>
             <pomRepositoryReferencesCleanupPolicy>discard_active_reference</pomRepositoryReferencesCleanupPolicy>
             <virtualCacheConfig>
