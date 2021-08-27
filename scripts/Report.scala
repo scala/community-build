@@ -51,7 +51,6 @@ object SuccessReport:
 
   val jdk17Failures = Set[String](
     "akka",            // runs afoul of JEP 403 (https://github.com/akka/akka/issues/30341); also needs newer sbt-osgi?
-    "alpakka-kafka",   // deps not found?! sbt-dependency-graph, sbt-docker-compose -- how can it be JDK related?
     "avro4s",          // test failure: com.sksamuel.avro4s.github.GithubIssue387
     "classutil",       // runs afoul of JEP 403
     "finagle",         // Unrecognized VM option 'AggressiveOpts'
