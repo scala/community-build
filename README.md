@@ -7,9 +7,9 @@ The project is financed and primarily maintained by Lightbend, as part
 of our overall maintenance of the Scala compiler and standard library.
 
 **How big is it?**
-The 2.13 build contains **over 3 million lines** of Scala code
-from **240 repos**, and it takes about **10 hours** to run,
-as of March 2021.
+The 2.13 build contains **over 2 million lines** of Scala code
+from **232 repos**, and it takes about **15 hours** to run,
+as of August 2021.
 
 **Why do this?** The main goal is to guard against regressions in new
 versions of Scala (language, standard library, and modules). This complements
@@ -25,6 +25,7 @@ here: https://github.com/lampepfl/dotty/blob/master/community-build/README.md
 
 ## News
 
+* August 31, 2021: [Scala 2.13 community build radically simplified](https://contributors.scala-lang.org/t/scala-2-13-community-build-radically-simplified/5244)
 * February 20, 2020: [Scala 2 community build reaches goals](https://www.scala-lang.org/2020/02/20/community-build.html)
 * January 13, 2020: [2.13.x build gets big upgrade](https://contributors.scala-lang.org/t/community-build-progress-report-august-2019/3573/9)
 * October 17, 2019: [Maintainability improvements made](https://contributors.scala-lang.org/t/community-build-progress-report-august-2019/3573/8)
