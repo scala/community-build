@@ -68,6 +68,7 @@ acyclic: cloc-plugin, portable-scala-reflect, scala, utest
 base64: cloc-plugin, portable-scala-reflect, scala, utest
 geny: cloc-plugin, portable-scala-reflect, scala, utest
 scopt: cloc-plugin, scala, scala-parser-combinators, verify
+curryhoward: cloc-plugin, scala, scalacheck, scalatest, wartremover
 grizzled: cloc-plugin, scala, scalacheck, scalatest, wartremover
 mercator: cloc-plugin, scala, scalacheck, scalatest, wartremover
 scribe: cloc-plugin, perfolation, scala, scalacheck, scalatest
@@ -75,7 +76,6 @@ scala-logging: cloc-plugin, mockito-scala, scala, scalacheck, scalatest
 log4s: cloc-plugin, scala, scala-js-stubs, scalacheck, scalatest
 macro-compat: cloc-plugin, macro-paradise, scala, scalacheck, scalatest
 pascal: cloc-plugin, kind-projector, scala, scalacheck, scalatest
-curryhoward: cloc-plugin, scala, scalacheck, scalatest, tut, wartremover
 boopickle: cloc-plugin, portable-scala-reflect, scala, shapeless, utest
 fansi: cloc-plugin, portable-scala-reflect, scala, sourcecode, utest
 scalatags: cloc-plugin, portable-scala-reflect, scala, sourcecode, utest
