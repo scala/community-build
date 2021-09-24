@@ -54,7 +54,6 @@ object SuccessReport:
     "akka-http",       // runs afoul of JEP 403
     "classutil",       // runs afoul of JEP 403
     "finagle",         // Unrecognized VM option 'AggressiveOpts'
-    "http4s",          // CSRFSuite.scala:42:9: `override` modifier required to override concrete member
     "mockito-scala",   // reflection-related test failures
     "playframework",   // Failed tests: play.mvc.HttpFormsTest
     "requests-scala",  // requests.RequestTests fails, unclear why
