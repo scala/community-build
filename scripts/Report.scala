@@ -52,10 +52,8 @@ object SuccessReport:
   val jdk17Failures = Set[String](
     "akka",            // runs afoul of JEP 403 (https://github.com/akka/akka/issues/30341); also needs newer sbt-osgi?
     "akka-http",       // runs afoul of JEP 403
-    "avro4s",          // test failure: com.sksamuel.avro4s.github.GithubIssue387
     "classutil",       // runs afoul of JEP 403
     "finagle",         // Unrecognized VM option 'AggressiveOpts'
-    "http4s",          // CSRFSuite.scala:42:9: `override` modifier required to override concrete member
     "mockito-scala",   // reflection-related test failures
     "playframework",   // Failed tests: play.mvc.HttpFormsTest
     "requests-scala",  // requests.RequestTests fails, unclear why
