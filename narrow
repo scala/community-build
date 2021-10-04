@@ -11,7 +11,7 @@ set -e
 
 # as per https://github.com/coursier/coursier/issues/2058
 cs launch \
-  scala3-compiler:3.1.0-RC1 \
+  scala3-compiler:3.1.0-RC3 \
   -M dotty.tools.MainGenericRunner \
   --extra-jars $(cs fetch --intransitive com.github.pathikrit:better-files_2.13:3.9.1) \
   -- scripts/Narrow.scala $*
