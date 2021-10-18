@@ -200,7 +200,7 @@ rm_project_builds
 # report summary information (line counts, green project counts, ...?)
 # (Scala 3 script support is as per https://github.com/coursier/coursier/issues/2058)
 cs launch \
-  scala3-compiler:3.1.0-RC3 \
+  scala3-compiler:3.1.1-RC1 \
   -M dotty.tools.MainGenericRunner \
   -D log4j.configurationFile=scripts/log4j.properties \
   -- scripts/Report.scala dbuild-${DBUILDVERSION}/dbuild.out \
