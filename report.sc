@@ -1,4 +1,4 @@
-#!/usr/bin/env -S scala-cli shebang -O -source:future
+#!/usr/local/bin/env -S scala-cli shebang -O -source:future
 
 using scala 3.1.1-RC1
 
