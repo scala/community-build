@@ -1,12 +1,6 @@
-@main def report(logPath: String) =
-  def log = io.Source.fromFile(logPath)
-  println("<pre>")
-  ClocReport(log)
-  val unexpectedFailureCount = SuccessReport(log)
-  println("</pre>")
-  SplitLog(log)
-  UpdateDependencies()
-  sys.exit(unexpectedFailureCount.getOrElse(1))
+#!/usr/local/bin/env -S scala-cli shebang -O -source:future
+
+using scala 3.1.1-RC1
 
 object ClocReport:
 
@@ -15,7 +9,7 @@ object ClocReport:
 
   def apply(log: io.Source): Unit =
     val results = collection.mutable.Map.empty[String, Int].withDefaultValue(0)
-    for Regex(project, count) <- log.getLines do
+    for case Regex(project, count) <- log.getLines do
       results(project) += count.toInt
     println("Lines of Scala code recompiled during this run only:")
     for (project, sum) <- results.toSeq.sortBy(_._2).reverse do
@@ -82,10 +76,10 @@ object SuccessReport:
     val unexpectedSuccesses = collection.mutable.Buffer[String]()
     val unexpectedFailures = collection.mutable.Buffer[String]()
     val blockerCounts = collection.mutable.Map[String, Int]()
-    for Regex(name, status, blockers) <- lines do
+    for case Regex(name, status, blockers) <- lines do
       status match
         case "EXTRACTION FAILED" =>
-          return None
+          success = -1000
         case "SUCCESS" =>
           success += 1
           if expectedToFail(name) then
@@ -98,6 +92,7 @@ object SuccessReport:
           didNotRun += 1
           for blocker <- blockers.split(',').map(_.trim) do
             blockerCounts(blocker) = 1 + blockerCounts.getOrElse(blocker, 0)
+    if success < 0 then return None
     val total = success + failed + didNotRun
     println(s"SUCCEEDED: $success")
     val sortedFailures =
@@ -153,7 +148,7 @@ object SplitLog:
   import java.io.PrintWriter
 
   def makeWriter(path: String): PrintWriter =
-    import java.io._
+    import java.io.*
     val file = File(path)
     val foStream = FileOutputStream(file, false)  // false = overwrite, don't append
     val osWriter = OutputStreamWriter(foStream)
@@ -183,8 +178,18 @@ object UpdateDependencies:
       val in = io.Source.fromFile(inFile)
       val out = SplitLog.makeWriter("dependencies.txt")
       val tuples =
-        for Seq(Line1(project), Line2(depends)) <- in.getLines.grouped(2).toSeq
+        for case Seq(Line1(project), Line2(depends)) <- in.getLines.grouped(2).toSeq
         yield (project, depends)
       for (project, depends) <- tuples.sortBy(_._1).sortBy(_._2.length) do
         out.println(s"$project: $depends")
       out.close()
+
+// main
+def log = io.Source.fromFile(args(0))
+println("<pre>")
+ClocReport(log)
+val unexpectedFailureCount = SuccessReport(log)
+println("</pre>")
+SplitLog(log)
+UpdateDependencies()
+sys.exit(unexpectedFailureCount.getOrElse(1))
