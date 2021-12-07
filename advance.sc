@@ -1,4 +1,4 @@
-#!/usr/bin/env scala-cli shebang -O -source:future
+#!/usr/bin/env -S scala-cli shebang -O -source:future
 
 // to advance all projects:
 //   % ./advance.sc scalacheck
