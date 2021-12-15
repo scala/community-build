@@ -203,12 +203,9 @@ BUILD_ID="$(grep '^\[info\]  uuid = ' "dbuild-${DBUILDVERSION}/dbuild.out" | sed
 rm_project_builds
 
 # report summary information (line counts, green project counts, ...?)
-# (Scala 3 script support is as per https://github.com/coursier/coursier/issues/2058)
-cs launch \
-  scala3-compiler:3.1.1-RC1 \
-  -M dotty.tools.MainGenericRunner \
-  -D log4j.configurationFile=scripts/log4j.properties \
-  -- scripts/Report.scala dbuild-${DBUILDVERSION}/dbuild.out \
+./report.sc \
+  -Dlog4j.configurationFile=scripts/log4j.properties \
+  dbuild-${DBUILDVERSION}/dbuild.out \
   | tee report.html
 
 # we've captured $STATUS above, but in this version of the script, it isn't used,
