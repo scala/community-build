@@ -1,6 +1,6 @@
 #!/usr/local/bin/env -S scala-cli shebang -O -source:future
 
-using scala 3.1.1-RC1
+// using scala 3.1.1-RC1
 
 object ClocReport:
 
@@ -25,40 +25,41 @@ object SuccessReport:
   //   \w    = word character
   //   ?:    = not a capturing group
   //   (?!-) = negative lookahead -- next character is not "-"
-  val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
+  val Regex =
+    """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
   val jdk8Failures = Set[String](
-    "shapeless-java-records",  // requires JDK 15
+    "shapeless-java-records", // requires JDK 15
   )
 
   val jdk11Failures = Set[String](
-    "coursier",  // needs scala/bug#11125 workaround
-    "doobie",  // needs scala/bug#11125 workaround
-    "multibot",  //  - testScalaInterpreter *** FAILED ***; [java.lang.SecurityException: ("java.lang.RuntimePermission" "accessSystemModules")
-    "scala-debugger",  // "object FieldInfo is not a member of package sun.reflect"
-    "scala-refactoring",  // needs scala/bug#11125 workaround?
-    "scalafix",  // needs scala/bug#11125 workaround
+    "coursier", // needs scala/bug#11125 workaround
+    "doobie", // needs scala/bug#11125 workaround
+    "multibot", //  - testScalaInterpreter *** FAILED ***; [java.lang.SecurityException: ("java.lang.RuntimePermission" "accessSystemModules")
+    "scala-debugger", // "object FieldInfo is not a member of package sun.reflect"
+    "scala-refactoring", // needs scala/bug#11125 workaround?
+    "scalafix", // needs scala/bug#11125 workaround
   )
 
   val jdk17Failures = Set[String](
-    "airframe" ,     // runs afoul of JEP 403
-    "akka",          // needs newer sbt-osgi
-    "classutil",     // runs afoul of JEP 403
-    "dispatch",      // java.lang.ExceptionInInitializerError: null
-    "fs2",           // needs newer sbt-osgi
-    "paradox",       // Unsupported class file major version
-    "play-doc",      // Error creating extended parser class: Could not determine whether class 'play.doc.CodeReferenceParser$$parboiled' has already been loaded (Parboiled.java:58)
+    "airframe", // runs afoul of JEP 403
+    "akka", // needs newer sbt-osgi
+    "classutil", // runs afoul of JEP 403
+    "dispatch", // java.lang.ExceptionInInitializerError: null
+    "fs2", // needs newer sbt-osgi
+    "paradox", // Unsupported class file major version
+    "play-doc", // Error creating extended parser class: Could not determine whether class 'play.doc.CodeReferenceParser$$parboiled' has already been loaded (Parboiled.java:58)
     "playframework", // Failed tests: play.mvc.HttpFormsTest
-    "sbt-io",        // sbt.io.IOSpecification fails
-    "scala-async",   // needs newer sbt-scala-module (for newer sbt-osgi)
+    "sbt-io", // sbt.io.IOSpecification fails
+    "scala-async", // needs newer sbt-scala-module (for newer sbt-osgi)
     "scala-continuations", // needs newer sbt-scala-module (for newer sbt-osgi)
     "scala-logging", // needs newer sbt-osgi
-    "scala-swing",   // needs newer sbt-scala-module (for newer sbt-osgi)
+    "scala-swing", // needs newer sbt-scala-module (for newer sbt-osgi)
     "scalatest-tests", // Error creating extended parser class: Could not determine whether class 'org.pegdown.Parser$$parboiled' has already been loaded
-    "scalikejdbc",   // test failure: scalikejdbc.jsr310.StatementExecutorSpec
-    "specs2-more",   // Error creating extended parser class: Could not determine whether class 'org.pegdown.Parser$$parboiled' has already been loaded (Parboiled.java:58)
-    "squants",       // needs newer sbt-osgi
-    "twitter-util",  // Unrecognized VM option 'AggressiveOpts'
+    "scalikejdbc", // test failure: scalikejdbc.jsr310.StatementExecutorSpec
+    "specs2-more", // Error creating extended parser class: Could not determine whether class 'org.pegdown.Parser$$parboiled' has already been loaded (Parboiled.java:58)
+    "squants", // needs newer sbt-osgi
+    "twitter-util", // Unrecognized VM option 'AggressiveOpts'
   )
 
   val expectedToFail: Set[String] =
@@ -100,10 +101,10 @@ object SuccessReport:
     if unexpectedFailures.nonEmpty then
       val uf = sortedFailures.mkString(",")
       println(s"FAILURES (UNEXPECTED): $uf")
-    if  didNotRun > 0 then
+    if didNotRun > 0 then
       val blockers =
         blockerCounts.toList.sortBy(_._2).reverse
-          .collect{case (blocker, count) => s"$blocker ($count)"}
+          .collect { case (blocker, count) => s"$blocker ($count)" }
           .mkString(", ")
       println(s"BLOCKING DOWNSTREAM: $blockers")
     if unexpectedSuccesses.nonEmpty then
@@ -150,7 +151,7 @@ object SplitLog:
   def makeWriter(path: String): PrintWriter =
     import java.io.*
     val file = File(path)
-    val foStream = FileOutputStream(file, false)  // false = overwrite, don't append
+    val foStream = FileOutputStream(file, false) // false = overwrite, don't append
     val osWriter = OutputStreamWriter(foStream)
     PrintWriter(osWriter)
 

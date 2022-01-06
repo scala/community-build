@@ -7,8 +7,8 @@
 
 // dependencies.txt is the source of truth for what dependencies to use
 
-using scala 3.1.1-RC1
-using lib com.github.pathikrit:better-files_2.13:3.9.1
+// using scala 3.1.1-RC1
+// using lib com.github.pathikrit:better-files_2.13:3.9.1
 
 import better.files.*
 
@@ -16,7 +16,7 @@ import better.files.*
 val tree: Map[String, Set[String]] =
   val deps = File("dependencies.txt")
   val Regex = """(\S+): (.*)""".r
-  deps.lines.map{
+  deps.lines.map {
     case Regex(proj, deps) =>
       proj -> deps.split(", ").toSet
   }.toMap
@@ -48,6 +48,5 @@ projs.append(
      |
      |""".stripMargin)
 projs.printLines(
-  targets.toSeq.sorted.iterator.map(
-    p => "  ${vars.proj." + p + "}"))
+  targets.toSeq.sorted.iterator.map(p => "  ${vars.proj." + p + "}"))
 projs.append("\n]}\n")

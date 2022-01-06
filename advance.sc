@@ -5,12 +5,12 @@
 // to advance just selected ones:
 //   % ./advance.sc scalacheck scalatest specs2
 
-using scala 3.1.1-RC1
+// using scala 3.1.1-RC1
 
-using lib org.scala-lang.modules::scala-parallel-collections:1.0.3
-using lib com.github.pathikrit:better-files_2.13:3.9.1
+// using lib org.scala-lang.modules::scala-parallel-collections:1.0.3
+// using lib com.github.pathikrit:better-files_2.13:3.9.1
 
-import scala.collection.parallel.CollectionConverters.*  // for .par
+import scala.collection.parallel.CollectionConverters.* // for .par
 import better.files.*
 
 def munge(l: String, replacement: String): String =
@@ -54,10 +54,9 @@ do
   lines.head match
     case GitHub(repo, ref, comment) =>
       val uri = s"$repo#${getSha(repo, ref)}"
-      println(uri)  // indicate progress
+      println(uri) // indicate progress
       file.clear()
       file.printLines(lines.map(munge(_, uri)))
-    case Ivy() =>
-      // okay to skip
+    case Ivy() => // okay to skip
     case bad =>
       throw new IllegalArgumentException(bad)
