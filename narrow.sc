@@ -7,9 +7,8 @@
 // to un-narrow, pass no arguments:
 //   % ./narrow.sc
 
-using scala 3.1.1-RC1
-
-using lib com.github.pathikrit:better-files_2.13:3.9.1
+// using scala 3.1.1-RC1
+// using lib com.github.pathikrit:better-files_2.13:3.9.1
 
 import better.files.*
 

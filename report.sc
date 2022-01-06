@@ -1,6 +1,6 @@
 #!/usr/local/bin/env -S scala-cli shebang -O -source:future
 
-using scala 3.1.1-RC1
+// using scala 3.1.1-RC1
 
 object ClocReport:
 
@@ -25,39 +25,40 @@ object SuccessReport:
   //   \w    = word character
   //   ?:    = not a capturing group
   //   (?!-) = negative lookahead -- next character is not "-"
-  val Regex = """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
+  val Regex =
+    """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
   val requiresJdk11Plus = Set[String](
-    "airframe",   // they require JDK 11 for building
+    "airframe", // they require JDK 11 for building
     "doobie",
-    "fs2",        // they require JDK 11 for building
-    "scaffeine",  // they seem to be on a caffeine version that requires JDK 11
+    "fs2", // they require JDK 11 for building
+    "scaffeine", // they seem to be on a caffeine version that requires JDK 11
     "unfiltered", // they seem to be on a jetty version that requires JDK 11+
   )
 
   val requiresJdk15Plus = Set[String](
-    "shapeless-java-records",  // inherently requires JDK 15+
+    "shapeless-java-records", // inherently requires JDK 15+
   )
 
   val jdk11Failures = Set[String](
-    "kamon",              // uses com.sun stuff
-    "scala-debugger",     // "object FieldInfo is not a member of package sun.reflect"
-    "scala-refactoring",  // needs scala/bug#11125 workaround?
+    "kamon", // uses com.sun stuff
+    "scala-debugger", // "object FieldInfo is not a member of package sun.reflect"
+    "scala-refactoring", // needs scala/bug#11125 workaround?
   )
 
   val jdk17Failures = Set[String](
-    "akka",            // runs afoul of JEP 403 (https://github.com/akka/akka/issues/30341); also needs newer sbt-osgi?
-    "akka-http",       // runs afoul of JEP 403
-    "classutil",       // runs afoul of JEP 403
-    "finagle",         // Unrecognized VM option 'AggressiveOpts'
-    "mockito-scala",   // reflection-related test failures
-    "playframework",   // Failed tests: play.mvc.HttpFormsTest
-    "requests-scala",  // requests.RequestTests fails, unclear why
-    "scrooge",         // Unrecognized VM option 'AggressiveOpts'
-    "specs2",          // org.specs2.text.MarkdownSpec fails (cause: sirthias/parboiled#175)
-    "sttp",            // sttp.client3.SttpBackendOptionsProxyTest2 fails (not investigated)
-    "twitter-util",    // Unrecognized VM option 'AggressiveOpts'
-    "zinc",            // sbt.inc.Doc$JavadocGenerationFailed
+    "akka", // runs afoul of JEP 403 (https://github.com/akka/akka/issues/30341); also needs newer sbt-osgi?
+    "akka-http", // runs afoul of JEP 403
+    "classutil", // runs afoul of JEP 403
+    "finagle", // Unrecognized VM option 'AggressiveOpts'
+    "mockito-scala", // reflection-related test failures
+    "playframework", // Failed tests: play.mvc.HttpFormsTest
+    "requests-scala", // requests.RequestTests fails, unclear why
+    "scrooge", // Unrecognized VM option 'AggressiveOpts'
+    "specs2", // org.specs2.text.MarkdownSpec fails (cause: sirthias/parboiled#175)
+    "sttp", // sttp.client3.SttpBackendOptionsProxyTest2 fails (not investigated)
+    "twitter-util", // Unrecognized VM option 'AggressiveOpts'
+    "zinc", // sbt.inc.Doc$JavadocGenerationFailed
   )
 
   val expectedToFail: Set[String] =
@@ -99,10 +100,10 @@ object SuccessReport:
     if unexpectedFailures.nonEmpty then
       val uf = sortedFailures.mkString(",")
       println(s"FAILURES (UNEXPECTED): $uf")
-    if  didNotRun > 0 then
+    if didNotRun > 0 then
       val blockers =
         blockerCounts.toList.sortBy(_._2).reverse
-          .collect{case (blocker, count) => s"$blocker ($count)"}
+          .collect { case (blocker, count) => s"$blocker ($count)" }
           .mkString(", ")
       println(s"BLOCKING DOWNSTREAM: $blockers")
     if unexpectedSuccesses.nonEmpty then
@@ -149,7 +150,7 @@ object SplitLog:
   def makeWriter(path: String): PrintWriter =
     import java.io.*
     val file = File(path)
-    val foStream = FileOutputStream(file, false)  // false = overwrite, don't append
+    val foStream = FileOutputStream(file, false) // false = overwrite, don't append
     val osWriter = OutputStreamWriter(foStream)
     PrintWriter(osWriter)
 
