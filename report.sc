@@ -47,7 +47,7 @@ object SuccessReport:
   )
 
   val jdk17Failures = Set[String](
-    "akka", // runs afoul of JEP 403 (https://github.com/akka/akka/issues/30341); also needs newer sbt-osgi?
+    "akka", // needs newer sbt-osgi; not sure about status w/r/t JEP 403
     "akka-http", // runs afoul of JEP 403
     "classutil", // runs afoul of JEP 403
     "finagle", // Unrecognized VM option 'AggressiveOpts'
