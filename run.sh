@@ -204,7 +204,6 @@ rm_project_builds
 
 # report summary information (line counts, green project counts, ...?)
 ./report.sc \
-  -Dlog4j.configurationFile=scripts/log4j.properties \
   dbuild-${DBUILDVERSION}/dbuild.out \
   | tee report.html
 
