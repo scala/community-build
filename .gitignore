@@ -1,3 +1,4 @@
+.scala-build/
 .dbuild/
 .ivy2/
 .m2/
