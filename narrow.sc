@@ -7,8 +7,8 @@
 
 // dependencies.txt is the source of truth for what dependencies to use
 
-// using scala 3.1.1
-// using lib com.github.pathikrit:better-files_2.13:3.9.1
+//> using scala "3.1.1"
+//> using lib "com.github.pathikrit:better-files_2.13:3.9.1"
 
 import better.files.*
 
