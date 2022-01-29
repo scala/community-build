@@ -29,10 +29,11 @@ object SuccessReport:
     """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
   val requiresJdk11Plus = Set[String](
-    "airframe", // they require JDK 11 for building
+    "airframe",
     "doobie",
-    "fs2", // they require JDK 11 for building
+    "fs2",
     "scaffeine", // they seem to be on a caffeine version that requires JDK 11
+    "scalachess",
     "unfiltered", // they seem to be on a jetty version that requires JDK 11+
   )
 
