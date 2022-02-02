@@ -30,7 +30,6 @@ object SuccessReport:
 
   val requiresJdk11Plus = Set[String](
     "airframe",
-    "doobie",
     "fs2",
     "scaffeine", // they seem to be on a caffeine version that requires JDK 11
     "scalachess",
