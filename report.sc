@@ -55,7 +55,6 @@ object SuccessReport:
     "playframework", // Failed tests: play.mvc.HttpFormsTest
     "requests-scala", // requests.RequestTests fails, unclear why
     "scrooge", // Unrecognized VM option 'AggressiveOpts'
-    "specs2", // org.specs2.text.MarkdownSpec fails (cause: sirthias/parboiled#175)
     "sttp", // sttp.client3.SttpBackendOptionsProxyTest2 fails (not investigated)
     "twitter-util", // Unrecognized VM option 'AggressiveOpts'
     "zinc", // sbt.inc.Doc$JavadocGenerationFailed
