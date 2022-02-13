@@ -56,7 +56,6 @@ object SuccessReport:
     "scrooge", // Unrecognized VM option 'AggressiveOpts'
     "sttp", // sttp.client3.SttpBackendOptionsProxyTest2 fails (not investigated)
     "twitter-util", // Unrecognized VM option 'AggressiveOpts'
-    "zinc", // sbt.inc.Doc$JavadocGenerationFailed
   )
 
   val expectedToFail: Set[String] =
