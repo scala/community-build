@@ -32,6 +32,7 @@ object SuccessReport:
   val requiresJdk11Plus = Set[String](
     "airframe",
     "fs2",
+    "jsoniter-scala", // JDK 8 support dropped (February 2022)
     "scaffeine", // they seem to be on a caffeine version that requires JDK 11
     "scalachess",
     "unfiltered", // they seem to be on a jetty version that requires JDK 11+
