@@ -1,4 +1,4 @@
-#!/usr/local/bin/env -S scala-cli shebang -O -source:future
+#!/usr/local/bin/env -S scala-cli shebang
 
 // to narrow projs.conf to one project:
 //   % ./narrow.sc scalacheck
