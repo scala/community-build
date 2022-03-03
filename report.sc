@@ -50,7 +50,6 @@ object SuccessReport:
 
   val jdk17Failures = Set[String](
     "akka", // needs newer sbt-osgi; not sure about status w/r/t JEP 403
-    "akka-http", // runs afoul of JEP 403
     "finagle", // Unrecognized VM option 'AggressiveOpts'
     "mockito-scala", // reflection-related test failures
     "playframework", // Failed tests: play.mvc.HttpFormsTest
