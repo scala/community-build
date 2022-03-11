@@ -33,6 +33,7 @@ object SuccessReport:
     "airframe",
     "fs2",
     "jsoniter-scala", // JDK 8 support dropped (February 2022)
+    "parboiled",      // JDK 8 support dropped (March 2022)
     "scaffeine", // they seem to be on a caffeine version that requires JDK 11
     "scalachess",
     "unfiltered", // they seem to be on a jetty version that requires JDK 11+
