@@ -30,6 +30,7 @@ object SuccessReport:
     """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
   val jdk8Failures = Set[String](
+    "parboiled",              // requires JDK 11 (since sirthias/parboiled#195)
     "shapeless-java-records", // requires JDK 15
   )
 
