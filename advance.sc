@@ -5,7 +5,7 @@
 // to advance just selected ones:
 //   % ./advance.sc scalacheck scalatest specs2
 
-//> using scala "3.1.1"
+//> using scala "3.1.2"
 //> using option "-source:future"
 //> using lib "org.scala-lang.modules::scala-parallel-collections:1.0.3"
 //> using lib "com.github.pathikrit:better-files_2.13:3.9.1"
