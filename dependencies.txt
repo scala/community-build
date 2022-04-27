@@ -122,7 +122,6 @@ http4s-parboiled2: cloc-plugin, kind-projector, portable-scala-reflect, scala, s
 finagle: cloc-plugin, jackson-module-scala, scala, scala-collection-compat, scala-parser-combinators, scalacheck, scalatest, twitter-util
 scrooge: cloc-plugin, jackson-module-scala, scala, scala-collection-compat, scala-parser-combinators, scalacheck, scalatest, twitter-util
 discipline: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2
-discipline-munit: cloc-plugin, munit, scala, scalacheck, discipline
 lift-json: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, scalatest, specs2
 splain: cloc-plugin, kind-projector, portable-scala-reflect, scala, scala-js-stubs, scala-parser-combinators, scalacheck, shapeless, specs2
 scalameta: acyclic, cloc-plugin, fastparse, geny, macro-paradise, portable-scala-reflect, scala, scalacheck, scalapb, scalatest, sourcecode, utest
