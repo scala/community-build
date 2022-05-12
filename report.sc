@@ -36,6 +36,7 @@ object SuccessReport:
     "parboiled",      // JDK 8 support dropped (March 2022)
     "scaffeine", // they seem to be on a caffeine version that requires JDK 11
     "scalachess",
+    "sttp",       // uses java.net.http
     "unfiltered", // they seem to be on a jetty version that requires JDK 11+
   )
 
