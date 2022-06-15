@@ -7,7 +7,7 @@
 
 // dependencies.txt is the source of truth for what dependencies to use
 
-//> using scala "3.1.3-RC4"
+//> using scala "3.1.3"
 //> using option "-source:future"
 //> using lib "com.github.pathikrit:better-files_2.13:3.9.1"
 
