@@ -7,7 +7,7 @@
 // to un-narrow, pass no arguments:
 //   % ./narrow.sc
 
-//> using scala "3.1.3-RC4"
+//> using scala "3.1.3"
 //> using option "-deprecation"
 //> using option "-source:future"
 //> using lib "com.github.pathikrit:better-files_2.13:3.9.1"
