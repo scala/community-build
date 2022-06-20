@@ -30,7 +30,6 @@ object SuccessReport:
     """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
   val requiresJdk11Plus = Set[String](
-    "airframe",
     "fs2",
     "jsoniter-scala", // JDK 8 support dropped (February 2022)
     "parboiled",      // JDK 8 support dropped (March 2022)
