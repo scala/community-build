@@ -34,6 +34,7 @@ object SuccessReport:
     "fs2",
     "jsoniter-scala", // JDK 8 support dropped (February 2022)
     "parboiled",      // JDK 8 support dropped (March 2022)
+    "pass4s",
     "scaffeine", // they seem to be on a caffeine version that requires JDK 11
     "scalachess",
     "sttp",       // uses java.net.http
