@@ -31,6 +31,7 @@ object SuccessReport:
 
   val requiresJdk11Plus = Set[String](
     "airframe",
+    "americium",
     "fs2",
     "jsoniter-scala", // JDK 8 support dropped (February 2022)
     "parboiled",      // JDK 8 support dropped (March 2022)
