@@ -42,7 +42,8 @@ object SuccessReport:
     "unfiltered", // they seem to be on a jetty version that requires JDK 11+
   )
 
-  val requiresJdk15Plus = Set[String](
+  val requiresJdk17Plus = Set[String](
+    "scastie",
     "shapeless-java-records", // inherently requires JDK 15+
   )
 
@@ -66,9 +67,9 @@ object SuccessReport:
   val expectedToFail: Set[String] =
     System.getProperty("java.specification.version") match
       case "1.8" =>
-        requiresJdk11Plus ++ requiresJdk15Plus
+        requiresJdk11Plus ++ requiresJdk17Plus
       case "11" =>
-        jdk11Failures ++ requiresJdk15Plus
+        jdk11Failures ++ requiresJdk17Plus
       case _ =>
         jdk11Failures ++ jdk17Failures
 
