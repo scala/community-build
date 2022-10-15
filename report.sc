@@ -32,13 +32,18 @@ object SuccessReport:
   val requiresJdk11Plus = Set[String](
     "airframe",
     "americium",
+    "cachecontrol", // JDK 8 support dropped (October 2022)
     "fs2",
     "jsoniter-scala", // JDK 8 support dropped (February 2022)
-    "parboiled",      // JDK 8 support dropped (March 2022)
+    "parboiled", // JDK 8 support dropped (March 2022)
     "pass4s",
+    "play-file-watch", // JDK 8 support dropped (October 2022)
+    "play-ws", // JDK 8 support dropped (October 2022)
     "scaffeine", // they seem to be on a caffeine version that requires JDK 11
     "scalachess",
-    "sttp",       // uses java.net.http
+    "slick", // JDK 8 support dropped (October 2022)
+    "sttp", // uses java.net.http
+    "twirl", // JDK 8 support dropped (October 2022)
     "unfiltered", // they seem to be on a jetty version that requires JDK 11+
   )
 
