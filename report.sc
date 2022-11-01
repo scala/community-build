@@ -35,6 +35,7 @@ object SuccessReport:
     "cachecontrol", // JDK 8 support dropped (October 2022)
     "fs2",
     "jsoniter-scala", // JDK 8 support dropped (February 2022)
+    "metals",  // test failures that are known to the maintainers
     "parboiled", // JDK 8 support dropped (March 2022)
     "pass4s",
     "play-file-watch", // JDK 8 support dropped (October 2022)
@@ -57,7 +58,6 @@ object SuccessReport:
     "mdoc",  // uses sun.misc.Unsafe
     "scala-debugger", // "object FieldInfo is not a member of package sun.reflect"
     "scala-refactoring", // needs scala/bug#11125 workaround?
-    "scalafix",  // uses sun.misc.Unsafe
   )
 
   val jdk17Failures = Set[String](
