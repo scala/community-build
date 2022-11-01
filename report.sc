@@ -57,7 +57,6 @@ object SuccessReport:
     "mdoc",  // uses sun.misc.Unsafe
     "scala-debugger", // "object FieldInfo is not a member of package sun.reflect"
     "scala-refactoring", // needs scala/bug#11125 workaround?
-    "scalafix",  // uses sun.misc.Unsafe
   )
 
   val jdk17Failures = Set[String](
