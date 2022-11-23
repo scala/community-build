@@ -4,7 +4,7 @@
     <archiveIndexEnabled>true</archiveIndexEnabled>
     <helpLinksEnabled>true</helpLinksEnabled>
     <fileUploadMaxSizeMb>100</fileUploadMaxSizeMb>
-    <revision>97</revision>
+    <revision>105</revision>
     <dateFormat>dd-MM-yy HH:mm:ss z</dateFormat>
     <addons>
         <showAddonsInfo>true</showAddonsInfo>
@@ -143,7 +143,7 @@
             <description>Internal repo used during Scala PR validation</description>
             <includesPattern>**/*</includesPattern>
             <repoLayoutRef>maven-2-default</repoLayoutRef>
-            <dockerApiVersion>V1</dockerApiVersion>
+            <dockerApiVersion>V2</dockerApiVersion>
             <forceNugetAuthentication>false</forceNugetAuthentication>
             <blackedOut>false</blackedOut>
             <handleReleases>true</handleReleases>
@@ -163,7 +163,7 @@
             <calculateYumMetadata>false</calculateYumMetadata>
             <yumRootDepth>0</yumRootDepth>
             <debianTrivialLayout>false</debianTrivialLayout>
-            <enableFileListsIndexing>true</enableFileListsIndexing>
+            <enableFileListsIndexing>false</enableFileListsIndexing>
             <dockerTagRetention>1</dockerTagRetention>
         </localRepository>
         <localRepository>
@@ -498,6 +498,61 @@
             <listRemoteFolderItems>true</listRemoteFolderItems>
             <rejectInvalidJars>false</rejectInvalidJars>
             <p2OriginalUrl>http://repo.jenkins-ci.org/releases/</p2OriginalUrl>
+            <contentSynchronisation>
+                <enabled>false</enabled>
+                <statistics>
+                    <enabled>false</enabled>
+                </statistics>
+                <properties>
+                    <enabled>false</enabled>
+                </properties>
+                <source>
+                    <originAbsenceDetection>false</originAbsenceDetection>
+                </source>
+            </contentSynchronisation>
+            <blockMismatchingMimeTypes>true</blockMismatchingMimeTypes>
+            <mismatchingMimeTypesOverrideList></mismatchingMimeTypesOverrideList>
+            <bypassHeadRequests>false</bypassHeadRequests>
+            <allowAnyHostAuth>false</allowAnyHostAuth>
+            <socketTimeoutMillis>15000</socketTimeoutMillis>
+            <enableCookieManagement>false</enableCookieManagement>
+            <enableTokenAuthentication>false</enableTokenAuthentication>
+            <propagateQueryParams>false</propagateQueryParams>
+        </remoteRepository>
+        <remoteRepository>
+            <key>lightbend-maven</key>
+            <type>maven</type>
+            <includesPattern>com.typesafe.dbuild/**</includesPattern>
+            <repoLayoutRef>maven-2-default</repoLayoutRef>
+            <dockerApiVersion>V2</dockerApiVersion>
+            <forceNugetAuthentication>false</forceNugetAuthentication>
+            <blackedOut>false</blackedOut>
+            <handleReleases>true</handleReleases>
+            <handleSnapshots>true</handleSnapshots>
+            <maxUniqueSnapshots>0</maxUniqueSnapshots>
+            <maxUniqueTags>0</maxUniqueTags>
+            <blockPushingSchema1>true</blockPushingSchema1>
+            <suppressPomConsistencyChecks>false</suppressPomConsistencyChecks>
+            <propertySets/>
+            <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
+            <priorityResolution>false</priorityResolution>
+            <url>https://dl.cloudsmith.io/public/lightbend/maven-releases/maven/</url>
+            <offline>false</offline>
+            <hardFail>false</hardFail>
+            <storeArtifactsLocally>true</storeArtifactsLocally>
+            <fetchJarsEagerly>false</fetchJarsEagerly>
+            <fetchSourcesEagerly>false</fetchSourcesEagerly>
+            <retrievalCachePeriodSecs>7200</retrievalCachePeriodSecs>
+            <metadataRetrievalTimeoutSecs>60</metadataRetrievalTimeoutSecs>
+            <assumedOfflinePeriodSecs>300</assumedOfflinePeriodSecs>
+            <missedRetrievalCachePeriodSecs>1800</missedRetrievalCachePeriodSecs>
+            <remoteRepoChecksumPolicyType>generate-if-absent</remoteRepoChecksumPolicyType>
+            <unusedArtifactsCleanupPeriodHours>0</unusedArtifactsCleanupPeriodHours>
+            <shareConfiguration>false</shareConfiguration>
+            <synchronizeProperties>false</synchronizeProperties>
+            <listRemoteFolderItems>true</listRemoteFolderItems>
+            <rejectInvalidJars>false</rejectInvalidJars>
+            <p2OriginalUrl>https://dl.cloudsmith.io/public/lightbend/maven-releases/maven/</p2OriginalUrl>
             <contentSynchronisation>
                 <enabled>false</enabled>
                 <statistics>
@@ -870,6 +925,7 @@
                 <repositoryRef>cchantep</repositoryRef>
                 <repositoryRef>era7-sbt</repositoryRef>
                 <repositoryRef>lila-maven</repositoryRef>
+                <repositoryRef>lightbend-maven</repositoryRef>
             </repositories>
             <pomRepositoryReferencesCleanupPolicy>discard_active_reference</pomRepositoryReferencesCleanupPolicy>
             <virtualCacheConfig>
@@ -1087,4 +1143,3 @@
         <artifactLifecyclePolicies/>
     </artifactLifecycleSettings>
 </config>
-
