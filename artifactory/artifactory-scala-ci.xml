@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<config xmlns="http://artifactory.jfrog.org/xsd/2.2.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jfrog.org/xsd/artifactory-v2_2_2.xsd">
+<config xmlns="http://artifactory.jfrog.org/xsd/3.1.15" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jfrog.org/xsd/artifactory-v3_1_15.xsd">
     <offlineMode>false</offlineMode>
+    <archiveIndexEnabled>true</archiveIndexEnabled>
     <helpLinksEnabled>true</helpLinksEnabled>
     <fileUploadMaxSizeMb>100</fileUploadMaxSizeMb>
-    <revision>62</revision>
+    <revision>105</revision>
     <dateFormat>dd-MM-yy HH:mm:ss z</dateFormat>
     <addons>
         <showAddonsInfo>true</showAddonsInfo>
         <showAddonsInfoCookie>1430275670992</showAddonsInfoCookie>
     </addons>
-    <bintrayConfig>
-        <fileUploadLimit>0</fileUploadLimit>
-    </bintrayConfig>
     <security>
         <anonAccessEnabled>true</anonAccessEnabled>
         <hideUnauthorizedResources>false</hideUnauthorizedResources>
@@ -30,6 +28,12 @@
         </passwordSettings>
         <ldapSettings/>
         <ldapGroupSettings/>
+        <oauthSettings>
+            <enableIntegration>false</enableIntegration>
+            <allowUserToAccessProfile>false</allowUserToAccessProfile>
+            <persistUsers>false</persistUsers>
+            <oauthProvidersSettings/>
+        </oauthSettings>
         <userLockPolicy>
             <enabled>false</enabled>
             <loginAttempts>5</loginAttempts>
@@ -40,6 +44,7 @@
         </accessClientSettings>
         <buildGlobalBasicReadAllowed>true</buildGlobalBasicReadAllowed>
         <buildGlobalBasicReadForAnonymous>true</buildGlobalBasicReadForAnonymous>
+        <basicAuthEnabled>true</basicAuthEnabled>
     </security>
     <backups>
         <backup>
@@ -67,10 +72,7 @@
                 <repositoryRef>scala-release-private</repositoryRef>
                 <repositoryRef>scala-release-temp</repositoryRef>
                 <repositoryRef>ambiata-oss</repositoryRef>
-                <repositoryRef>bintray-eed3si9n-sbt-plugins</repositoryRef>
-                <repositoryRef>bintray-emersonloureiro-sbt-plugins</repositoryRef>
                 <repositoryRef>jenkins-ci-releases</repositoryRef>
-                <repositoryRef>sbt-plugin-releases</repositoryRef>
             </excludedRepositories>
             <sendMailOnError>true</sendMailOnError>
             <excludeNewRepositories>false</excludeNewRepositories>
@@ -93,15 +95,18 @@
             <handleSnapshots>true</handleSnapshots>
             <maxUniqueSnapshots>0</maxUniqueSnapshots>
             <maxUniqueTags>0</maxUniqueTags>
+            <blockPushingSchema1>true</blockPushingSchema1>
             <suppressPomConsistencyChecks>true</suppressPomConsistencyChecks>
             <propertySets/>
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
+            <priorityResolution>false</priorityResolution>
             <snapshotVersionBehavior>unique</snapshotVersionBehavior>
             <localRepoChecksumPolicyType>client-checksums</localRepoChecksumPolicyType>
             <calculateYumMetadata>false</calculateYumMetadata>
             <yumRootDepth>0</yumRootDepth>
             <debianTrivialLayout>false</debianTrivialLayout>
             <enableFileListsIndexing>false</enableFileListsIndexing>
+            <dockerTagRetention>1</dockerTagRetention>
         </localRepository>
         <localRepository>
             <key>scala-integration</key>
@@ -116,18 +121,21 @@
             <handleSnapshots>true</handleSnapshots>
             <maxUniqueSnapshots>0</maxUniqueSnapshots>
             <maxUniqueTags>0</maxUniqueTags>
+            <blockPushingSchema1>true</blockPushingSchema1>
             <suppressPomConsistencyChecks>false</suppressPomConsistencyChecks>
             <propertySets/>
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
             <xray>
                 <enabled>false</enabled>
             </xray>
+            <priorityResolution>false</priorityResolution>
             <snapshotVersionBehavior>unique</snapshotVersionBehavior>
             <localRepoChecksumPolicyType>client-checksums</localRepoChecksumPolicyType>
             <calculateYumMetadata>false</calculateYumMetadata>
             <yumRootDepth>0</yumRootDepth>
             <debianTrivialLayout>false</debianTrivialLayout>
             <enableFileListsIndexing>true</enableFileListsIndexing>
+            <dockerTagRetention>1</dockerTagRetention>
         </localRepository>
         <localRepository>
             <key>scala-pr-validation-snapshots</key>
@@ -135,25 +143,28 @@
             <description>Internal repo used during Scala PR validation</description>
             <includesPattern>**/*</includesPattern>
             <repoLayoutRef>maven-2-default</repoLayoutRef>
-            <dockerApiVersion>V1</dockerApiVersion>
+            <dockerApiVersion>V2</dockerApiVersion>
             <forceNugetAuthentication>false</forceNugetAuthentication>
             <blackedOut>false</blackedOut>
             <handleReleases>true</handleReleases>
             <handleSnapshots>true</handleSnapshots>
             <maxUniqueSnapshots>0</maxUniqueSnapshots>
             <maxUniqueTags>0</maxUniqueTags>
+            <blockPushingSchema1>true</blockPushingSchema1>
             <suppressPomConsistencyChecks>false</suppressPomConsistencyChecks>
             <propertySets/>
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
             <xray>
                 <enabled>false</enabled>
             </xray>
+            <priorityResolution>false</priorityResolution>
             <snapshotVersionBehavior>unique</snapshotVersionBehavior>
             <localRepoChecksumPolicyType>client-checksums</localRepoChecksumPolicyType>
             <calculateYumMetadata>false</calculateYumMetadata>
             <yumRootDepth>0</yumRootDepth>
             <debianTrivialLayout>false</debianTrivialLayout>
-            <enableFileListsIndexing>true</enableFileListsIndexing>
+            <enableFileListsIndexing>false</enableFileListsIndexing>
+            <dockerTagRetention>1</dockerTagRetention>
         </localRepository>
         <localRepository>
             <key>scala-release-private</key>
@@ -168,18 +179,21 @@
             <handleSnapshots>true</handleSnapshots>
             <maxUniqueSnapshots>0</maxUniqueSnapshots>
             <maxUniqueTags>0</maxUniqueTags>
+            <blockPushingSchema1>true</blockPushingSchema1>
             <suppressPomConsistencyChecks>false</suppressPomConsistencyChecks>
             <propertySets/>
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
             <xray>
                 <enabled>false</enabled>
             </xray>
+            <priorityResolution>false</priorityResolution>
             <snapshotVersionBehavior>unique</snapshotVersionBehavior>
             <localRepoChecksumPolicyType>client-checksums</localRepoChecksumPolicyType>
             <calculateYumMetadata>false</calculateYumMetadata>
             <yumRootDepth>0</yumRootDepth>
             <debianTrivialLayout>false</debianTrivialLayout>
             <enableFileListsIndexing>true</enableFileListsIndexing>
+            <dockerTagRetention>1</dockerTagRetention>
         </localRepository>
         <localRepository>
             <key>scala-release-temp</key>
@@ -194,18 +208,21 @@
             <handleSnapshots>true</handleSnapshots>
             <maxUniqueSnapshots>0</maxUniqueSnapshots>
             <maxUniqueTags>0</maxUniqueTags>
+            <blockPushingSchema1>true</blockPushingSchema1>
             <suppressPomConsistencyChecks>false</suppressPomConsistencyChecks>
             <propertySets/>
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
             <xray>
                 <enabled>false</enabled>
             </xray>
+            <priorityResolution>false</priorityResolution>
             <snapshotVersionBehavior>unique</snapshotVersionBehavior>
             <localRepoChecksumPolicyType>client-checksums</localRepoChecksumPolicyType>
             <calculateYumMetadata>false</calculateYumMetadata>
             <yumRootDepth>0</yumRootDepth>
             <debianTrivialLayout>false</debianTrivialLayout>
             <enableFileListsIndexing>true</enableFileListsIndexing>
+            <dockerTagRetention>1</dockerTagRetention>
         </localRepository>
     </localRepositories>
     <remoteRepositories>
@@ -222,12 +239,14 @@
             <handleSnapshots>true</handleSnapshots>
             <maxUniqueSnapshots>0</maxUniqueSnapshots>
             <maxUniqueTags>0</maxUniqueTags>
+            <blockPushingSchema1>true</blockPushingSchema1>
             <suppressPomConsistencyChecks>true</suppressPomConsistencyChecks>
             <propertySets/>
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
             <xray>
                 <enabled>false</enabled>
             </xray>
+            <priorityResolution>false</priorityResolution>
             <url>https://ambiata-oss.s3.amazonaws.com/</url>
             <offline>false</offline>
             <hardFail>false</hardFail>
@@ -235,10 +254,11 @@
             <fetchJarsEagerly>true</fetchJarsEagerly>
             <fetchSourcesEagerly>false</fetchSourcesEagerly>
             <retrievalCachePeriodSecs>600</retrievalCachePeriodSecs>
+            <metadataRetrievalTimeoutSecs>60</metadataRetrievalTimeoutSecs>
             <assumedOfflinePeriodSecs>300</assumedOfflinePeriodSecs>
             <missedRetrievalCachePeriodSecs>1800</missedRetrievalCachePeriodSecs>
             <remoteRepoChecksumPolicyType>generate-if-absent</remoteRepoChecksumPolicyType>
-            <unusedArtifactsCleanupPeriodHours>0</unusedArtifactsCleanupPeriodHours>
+            <unusedArtifactsCleanupPeriodHours>720</unusedArtifactsCleanupPeriodHours>
             <shareConfiguration>false</shareConfiguration>
             <synchronizeProperties>false</synchronizeProperties>
             <listRemoteFolderItems>true</listRemoteFolderItems>
@@ -266,11 +286,10 @@
             <propagateQueryParams>false</propagateQueryParams>
         </remoteRepository>
         <remoteRepository>
-            <key>bintray-eed3si9n-sbt-plugins</key>
-            <type>sbt</type>
-            <notes>temporary, enables the fix of sbt/sbt-web#107 seee sbt/sbt-web/#107#issuecomment-94004046</notes>
-            <includesPattern>com.eed3si9n/**</includesPattern>
-            <repoLayoutRef>sbt-default</repoLayoutRef>
+            <key>cchantep</key>
+            <type>ivy</type>
+            <includesPattern>cchantep/**/*</includesPattern>
+            <repoLayoutRef>ivy-default</repoLayoutRef>
             <dockerApiVersion>V2</dockerApiVersion>
             <forceNugetAuthentication>false</forceNugetAuthentication>
             <blackedOut>false</blackedOut>
@@ -278,136 +297,28 @@
             <handleSnapshots>true</handleSnapshots>
             <maxUniqueSnapshots>0</maxUniqueSnapshots>
             <maxUniqueTags>0</maxUniqueTags>
+            <blockPushingSchema1>true</blockPushingSchema1>
             <suppressPomConsistencyChecks>true</suppressPomConsistencyChecks>
             <propertySets/>
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
-            <xray>
-                <enabled>false</enabled>
-            </xray>
-            <url>https://dl.bintray.com/eed3si9n/sbt-plugins</url>
-            <offline>false</offline>
-            <hardFail>false</hardFail>
-            <storeArtifactsLocally>true</storeArtifactsLocally>
-            <fetchJarsEagerly>true</fetchJarsEagerly>
-            <fetchSourcesEagerly>false</fetchSourcesEagerly>
-            <retrievalCachePeriodSecs>600</retrievalCachePeriodSecs>
-            <assumedOfflinePeriodSecs>300</assumedOfflinePeriodSecs>
-            <missedRetrievalCachePeriodSecs>1800</missedRetrievalCachePeriodSecs>
-            <remoteRepoChecksumPolicyType>generate-if-absent</remoteRepoChecksumPolicyType>
-            <unusedArtifactsCleanupPeriodHours>0</unusedArtifactsCleanupPeriodHours>
-            <shareConfiguration>false</shareConfiguration>
-            <synchronizeProperties>false</synchronizeProperties>
-            <listRemoteFolderItems>true</listRemoteFolderItems>
-            <rejectInvalidJars>false</rejectInvalidJars>
-            <p2OriginalUrl>https://dl.bintray.com/eed3si9n/sbt-plugins</p2OriginalUrl>
-            <contentSynchronisation>
-                <enabled>false</enabled>
-                <statistics>
-                    <enabled>false</enabled>
-                </statistics>
-                <properties>
-                    <enabled>false</enabled>
-                </properties>
-                <source>
-                    <originAbsenceDetection>false</originAbsenceDetection>
-                </source>
-            </contentSynchronisation>
-            <blockMismatchingMimeTypes>true</blockMismatchingMimeTypes>
-            <mismatchingMimeTypesOverrideList></mismatchingMimeTypesOverrideList>
-            <bypassHeadRequests>false</bypassHeadRequests>
-            <allowAnyHostAuth>false</allowAnyHostAuth>
-            <socketTimeoutMillis>15000</socketTimeoutMillis>
-            <enableCookieManagement>false</enableCookieManagement>
-            <enableTokenAuthentication>false</enableTokenAuthentication>
-            <propagateQueryParams>false</propagateQueryParams>
-        </remoteRepository>
-        <remoteRepository>
-            <key>bintray-emersonloureiro-sbt-plugins</key>
-            <type>sbt</type>
-            <notes>context: https://github.com/scala/community-builds/pull/808</notes>
-            <includesPattern>com.emersonloureiro/**</includesPattern>
-            <repoLayoutRef>sbt-default</repoLayoutRef>
-            <dockerApiVersion>V2</dockerApiVersion>
-            <forceNugetAuthentication>false</forceNugetAuthentication>
-            <blackedOut>false</blackedOut>
-            <handleReleases>true</handleReleases>
-            <handleSnapshots>true</handleSnapshots>
-            <maxUniqueSnapshots>0</maxUniqueSnapshots>
-            <maxUniqueTags>0</maxUniqueTags>
-            <suppressPomConsistencyChecks>true</suppressPomConsistencyChecks>
-            <propertySets/>
-            <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
-            <xray>
-                <enabled>false</enabled>
-            </xray>
-            <url>https://dl.bintray.com/emersonloureiro/sbt-plugins</url>
-            <offline>false</offline>
-            <hardFail>false</hardFail>
-            <storeArtifactsLocally>true</storeArtifactsLocally>
-            <fetchJarsEagerly>true</fetchJarsEagerly>
-            <fetchSourcesEagerly>false</fetchSourcesEagerly>
-            <retrievalCachePeriodSecs>600</retrievalCachePeriodSecs>
-            <assumedOfflinePeriodSecs>300</assumedOfflinePeriodSecs>
-            <missedRetrievalCachePeriodSecs>1800</missedRetrievalCachePeriodSecs>
-            <remoteRepoChecksumPolicyType>generate-if-absent</remoteRepoChecksumPolicyType>
-            <unusedArtifactsCleanupPeriodHours>0</unusedArtifactsCleanupPeriodHours>
-            <shareConfiguration>false</shareConfiguration>
-            <synchronizeProperties>false</synchronizeProperties>
-            <listRemoteFolderItems>true</listRemoteFolderItems>
-            <rejectInvalidJars>false</rejectInvalidJars>
-            <p2OriginalUrl>https://dl.bintray.com/emersonloureiro/sbt-plugins</p2OriginalUrl>
-            <contentSynchronisation>
-                <enabled>false</enabled>
-                <statistics>
-                    <enabled>false</enabled>
-                </statistics>
-                <properties>
-                    <enabled>false</enabled>
-                </properties>
-                <source>
-                    <originAbsenceDetection>false</originAbsenceDetection>
-                </source>
-            </contentSynchronisation>
-            <blockMismatchingMimeTypes>true</blockMismatchingMimeTypes>
-            <mismatchingMimeTypesOverrideList></mismatchingMimeTypesOverrideList>
-            <bypassHeadRequests>false</bypassHeadRequests>
-            <allowAnyHostAuth>false</allowAnyHostAuth>
-            <socketTimeoutMillis>15000</socketTimeoutMillis>
-            <enableCookieManagement>false</enableCookieManagement>
-            <enableTokenAuthentication>false</enableTokenAuthentication>
-            <propagateQueryParams>false</propagateQueryParams>
-        </remoteRepository>
-        <remoteRepository>
-            <key>bintray-scalameta</key>
-            <type>maven</type>
-            <includesPattern>com/geirsson/**,org/scalameta/**</includesPattern>
-            <repoLayoutRef>maven-2-default</repoLayoutRef>
-            <dockerApiVersion>V2</dockerApiVersion>
-            <forceNugetAuthentication>false</forceNugetAuthentication>
-            <blackedOut>false</blackedOut>
-            <handleReleases>true</handleReleases>
-            <handleSnapshots>true</handleSnapshots>
-            <maxUniqueSnapshots>0</maxUniqueSnapshots>
-            <maxUniqueTags>0</maxUniqueTags>
-            <suppressPomConsistencyChecks>false</suppressPomConsistencyChecks>
-            <propertySets/>
-            <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
-            <url>http://dl.bintray.com/scalameta/maven</url>
+            <priorityResolution>false</priorityResolution>
+            <url>https://raw.github.com/cchantep/tatami/master/releases</url>
             <offline>false</offline>
             <hardFail>false</hardFail>
             <storeArtifactsLocally>true</storeArtifactsLocally>
             <fetchJarsEagerly>false</fetchJarsEagerly>
             <fetchSourcesEagerly>false</fetchSourcesEagerly>
             <retrievalCachePeriodSecs>600</retrievalCachePeriodSecs>
+            <metadataRetrievalTimeoutSecs>60</metadataRetrievalTimeoutSecs>
             <assumedOfflinePeriodSecs>300</assumedOfflinePeriodSecs>
             <missedRetrievalCachePeriodSecs>1800</missedRetrievalCachePeriodSecs>
             <remoteRepoChecksumPolicyType>generate-if-absent</remoteRepoChecksumPolicyType>
-            <unusedArtifactsCleanupPeriodHours>0</unusedArtifactsCleanupPeriodHours>
+            <unusedArtifactsCleanupPeriodHours>720</unusedArtifactsCleanupPeriodHours>
             <shareConfiguration>false</shareConfiguration>
             <synchronizeProperties>false</synchronizeProperties>
             <listRemoteFolderItems>true</listRemoteFolderItems>
             <rejectInvalidJars>false</rejectInvalidJars>
-            <p2OriginalUrl>http://dl.bintray.com/scalameta/maven</p2OriginalUrl>
+            <p2OriginalUrl>https://raw.github.com/cchantep/tatami/master/releases</p2OriginalUrl>
             <contentSynchronisation>
                 <enabled>false</enabled>
                 <statistics>
@@ -441,12 +352,14 @@
             <handleSnapshots>true</handleSnapshots>
             <maxUniqueSnapshots>0</maxUniqueSnapshots>
             <maxUniqueTags>0</maxUniqueTags>
+            <blockPushingSchema1>true</blockPushingSchema1>
             <suppressPomConsistencyChecks>true</suppressPomConsistencyChecks>
             <propertySets/>
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
             <xray>
                 <enabled>false</enabled>
             </xray>
+            <priorityResolution>false</priorityResolution>
             <url>http://releases.era7.com.s3.amazonaws.com</url>
             <offline>false</offline>
             <hardFail>false</hardFail>
@@ -454,10 +367,11 @@
             <fetchJarsEagerly>false</fetchJarsEagerly>
             <fetchSourcesEagerly>false</fetchSourcesEagerly>
             <retrievalCachePeriodSecs>600</retrievalCachePeriodSecs>
+            <metadataRetrievalTimeoutSecs>60</metadataRetrievalTimeoutSecs>
             <assumedOfflinePeriodSecs>300</assumedOfflinePeriodSecs>
             <missedRetrievalCachePeriodSecs>1800</missedRetrievalCachePeriodSecs>
             <remoteRepoChecksumPolicyType>generate-if-absent</remoteRepoChecksumPolicyType>
-            <unusedArtifactsCleanupPeriodHours>0</unusedArtifactsCleanupPeriodHours>
+            <unusedArtifactsCleanupPeriodHours>720</unusedArtifactsCleanupPeriodHours>
             <shareConfiguration>false</shareConfiguration>
             <synchronizeProperties>false</synchronizeProperties>
             <listRemoteFolderItems>true</listRemoteFolderItems>
@@ -498,12 +412,14 @@
             <handleSnapshots>false</handleSnapshots>
             <maxUniqueSnapshots>0</maxUniqueSnapshots>
             <maxUniqueTags>0</maxUniqueTags>
+            <blockPushingSchema1>true</blockPushingSchema1>
             <suppressPomConsistencyChecks>false</suppressPomConsistencyChecks>
             <propertySets/>
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
             <xray>
                 <enabled>false</enabled>
             </xray>
+            <priorityResolution>false</priorityResolution>
             <url>https://jcenter.bintray.com</url>
             <offline>false</offline>
             <hardFail>false</hardFail>
@@ -511,10 +427,11 @@
             <fetchJarsEagerly>false</fetchJarsEagerly>
             <fetchSourcesEagerly>false</fetchSourcesEagerly>
             <retrievalCachePeriodSecs>43200</retrievalCachePeriodSecs>
+            <metadataRetrievalTimeoutSecs>60</metadataRetrievalTimeoutSecs>
             <assumedOfflinePeriodSecs>300</assumedOfflinePeriodSecs>
             <missedRetrievalCachePeriodSecs>60</missedRetrievalCachePeriodSecs>
             <remoteRepoChecksumPolicyType>generate-if-absent</remoteRepoChecksumPolicyType>
-            <unusedArtifactsCleanupPeriodHours>0</unusedArtifactsCleanupPeriodHours>
+            <unusedArtifactsCleanupPeriodHours>720</unusedArtifactsCleanupPeriodHours>
             <shareConfiguration>false</shareConfiguration>
             <synchronizeProperties>false</synchronizeProperties>
             <listRemoteFolderItems>true</listRemoteFolderItems>
@@ -549,19 +466,21 @@
             <description>for akka via org.kohsuke:github-api (local file cache)</description>
             <includesPattern>**/*</includesPattern>
             <repoLayoutRef>maven-2-default</repoLayoutRef>
-            <dockerApiVersion>V1</dockerApiVersion>
+            <dockerApiVersion>V2</dockerApiVersion>
             <forceNugetAuthentication>false</forceNugetAuthentication>
             <blackedOut>false</blackedOut>
             <handleReleases>true</handleReleases>
             <handleSnapshots>true</handleSnapshots>
             <maxUniqueSnapshots>0</maxUniqueSnapshots>
             <maxUniqueTags>0</maxUniqueTags>
+            <blockPushingSchema1>true</blockPushingSchema1>
             <suppressPomConsistencyChecks>false</suppressPomConsistencyChecks>
             <propertySets/>
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
             <xray>
                 <enabled>false</enabled>
             </xray>
+            <priorityResolution>false</priorityResolution>
             <url>http://repo.jenkins-ci.org/releases/</url>
             <offline>false</offline>
             <hardFail>false</hardFail>
@@ -569,6 +488,62 @@
             <fetchJarsEagerly>false</fetchJarsEagerly>
             <fetchSourcesEagerly>false</fetchSourcesEagerly>
             <retrievalCachePeriodSecs>600</retrievalCachePeriodSecs>
+            <metadataRetrievalTimeoutSecs>60</metadataRetrievalTimeoutSecs>
+            <assumedOfflinePeriodSecs>300</assumedOfflinePeriodSecs>
+            <missedRetrievalCachePeriodSecs>1800</missedRetrievalCachePeriodSecs>
+            <remoteRepoChecksumPolicyType>generate-if-absent</remoteRepoChecksumPolicyType>
+            <unusedArtifactsCleanupPeriodHours>720</unusedArtifactsCleanupPeriodHours>
+            <shareConfiguration>false</shareConfiguration>
+            <synchronizeProperties>false</synchronizeProperties>
+            <listRemoteFolderItems>true</listRemoteFolderItems>
+            <rejectInvalidJars>false</rejectInvalidJars>
+            <p2OriginalUrl>http://repo.jenkins-ci.org/releases/</p2OriginalUrl>
+            <contentSynchronisation>
+                <enabled>false</enabled>
+                <statistics>
+                    <enabled>false</enabled>
+                </statistics>
+                <properties>
+                    <enabled>false</enabled>
+                </properties>
+                <source>
+                    <originAbsenceDetection>false</originAbsenceDetection>
+                </source>
+            </contentSynchronisation>
+            <blockMismatchingMimeTypes>true</blockMismatchingMimeTypes>
+            <mismatchingMimeTypesOverrideList></mismatchingMimeTypesOverrideList>
+            <bypassHeadRequests>false</bypassHeadRequests>
+            <allowAnyHostAuth>false</allowAnyHostAuth>
+            <socketTimeoutMillis>15000</socketTimeoutMillis>
+            <enableCookieManagement>false</enableCookieManagement>
+            <enableTokenAuthentication>false</enableTokenAuthentication>
+            <propagateQueryParams>false</propagateQueryParams>
+        </remoteRepository>
+        <remoteRepository>
+            <key>lightbend-maven</key>
+            <type>maven</type>
+            <includesPattern>com.typesafe.dbuild/**</includesPattern>
+            <repoLayoutRef>maven-2-default</repoLayoutRef>
+            <dockerApiVersion>V2</dockerApiVersion>
+            <forceNugetAuthentication>false</forceNugetAuthentication>
+            <blackedOut>false</blackedOut>
+            <handleReleases>true</handleReleases>
+            <handleSnapshots>true</handleSnapshots>
+            <maxUniqueSnapshots>0</maxUniqueSnapshots>
+            <maxUniqueTags>0</maxUniqueTags>
+            <blockPushingSchema1>true</blockPushingSchema1>
+            <suppressPomConsistencyChecks>false</suppressPomConsistencyChecks>
+            <propertySets/>
+            <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
+            <priorityResolution>false</priorityResolution>
+            <url>https://dl.cloudsmith.io/public/lightbend/maven-releases/maven/</url>
+            <offline>false</offline>
+            <hardFail>false</hardFail>
+            <storeArtifactsLocally>true</storeArtifactsLocally>
+            <fetchJarsEagerly>false</fetchJarsEagerly>
+            <fetchSourcesEagerly>false</fetchSourcesEagerly>
+            <retrievalCachePeriodSecs>7200</retrievalCachePeriodSecs>
+            <metadataRetrievalTimeoutSecs>60</metadataRetrievalTimeoutSecs>
             <assumedOfflinePeriodSecs>300</assumedOfflinePeriodSecs>
             <missedRetrievalCachePeriodSecs>1800</missedRetrievalCachePeriodSecs>
             <remoteRepoChecksumPolicyType>generate-if-absent</remoteRepoChecksumPolicyType>
@@ -577,7 +552,62 @@
             <synchronizeProperties>false</synchronizeProperties>
             <listRemoteFolderItems>true</listRemoteFolderItems>
             <rejectInvalidJars>false</rejectInvalidJars>
-            <p2OriginalUrl>http://repo.jenkins-ci.org/releases/</p2OriginalUrl>
+            <p2OriginalUrl>https://dl.cloudsmith.io/public/lightbend/maven-releases/maven/</p2OriginalUrl>
+            <contentSynchronisation>
+                <enabled>false</enabled>
+                <statistics>
+                    <enabled>false</enabled>
+                </statistics>
+                <properties>
+                    <enabled>false</enabled>
+                </properties>
+                <source>
+                    <originAbsenceDetection>false</originAbsenceDetection>
+                </source>
+            </contentSynchronisation>
+            <blockMismatchingMimeTypes>true</blockMismatchingMimeTypes>
+            <mismatchingMimeTypesOverrideList></mismatchingMimeTypesOverrideList>
+            <bypassHeadRequests>false</bypassHeadRequests>
+            <allowAnyHostAuth>false</allowAnyHostAuth>
+            <socketTimeoutMillis>15000</socketTimeoutMillis>
+            <enableCookieManagement>false</enableCookieManagement>
+            <enableTokenAuthentication>false</enableTokenAuthentication>
+            <propagateQueryParams>false</propagateQueryParams>
+        </remoteRepository>
+        <remoteRepository>
+            <key>lila-maven</key>
+            <type>maven</type>
+            <includesPattern>**/*</includesPattern>
+            <repoLayoutRef>maven-2-default</repoLayoutRef>
+            <dockerApiVersion>V2</dockerApiVersion>
+            <forceNugetAuthentication>false</forceNugetAuthentication>
+            <blackedOut>false</blackedOut>
+            <handleReleases>true</handleReleases>
+            <handleSnapshots>true</handleSnapshots>
+            <maxUniqueSnapshots>0</maxUniqueSnapshots>
+            <maxUniqueTags>0</maxUniqueTags>
+            <blockPushingSchema1>true</blockPushingSchema1>
+            <suppressPomConsistencyChecks>false</suppressPomConsistencyChecks>
+            <propertySets/>
+            <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
+            <priorityResolution>false</priorityResolution>
+            <url>https://raw.githubusercontent.com/ornicar/lila-maven/master</url>
+            <offline>false</offline>
+            <hardFail>false</hardFail>
+            <storeArtifactsLocally>true</storeArtifactsLocally>
+            <fetchJarsEagerly>false</fetchJarsEagerly>
+            <fetchSourcesEagerly>false</fetchSourcesEagerly>
+            <retrievalCachePeriodSecs>7200</retrievalCachePeriodSecs>
+            <metadataRetrievalTimeoutSecs>60</metadataRetrievalTimeoutSecs>
+            <assumedOfflinePeriodSecs>300</assumedOfflinePeriodSecs>
+            <missedRetrievalCachePeriodSecs>1800</missedRetrievalCachePeriodSecs>
+            <remoteRepoChecksumPolicyType>generate-if-absent</remoteRepoChecksumPolicyType>
+            <unusedArtifactsCleanupPeriodHours>0</unusedArtifactsCleanupPeriodHours>
+            <shareConfiguration>false</shareConfiguration>
+            <synchronizeProperties>false</synchronizeProperties>
+            <listRemoteFolderItems>true</listRemoteFolderItems>
+            <rejectInvalidJars>false</rejectInvalidJars>
+            <p2OriginalUrl>https://raw.githubusercontent.com/ornicar/lila-maven/master</p2OriginalUrl>
             <contentSynchronisation>
                 <enabled>false</enabled>
                 <statistics>
@@ -611,9 +641,11 @@
             <handleSnapshots>true</handleSnapshots>
             <maxUniqueSnapshots>0</maxUniqueSnapshots>
             <maxUniqueTags>0</maxUniqueTags>
+            <blockPushingSchema1>true</blockPushingSchema1>
             <suppressPomConsistencyChecks>true</suppressPomConsistencyChecks>
             <propertySets/>
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
+            <priorityResolution>false</priorityResolution>
             <url>https://repo1.maven.org/maven2</url>
             <offline>false</offline>
             <hardFail>false</hardFail>
@@ -621,10 +653,11 @@
             <fetchJarsEagerly>false</fetchJarsEagerly>
             <fetchSourcesEagerly>false</fetchSourcesEagerly>
             <retrievalCachePeriodSecs>600</retrievalCachePeriodSecs>
+            <metadataRetrievalTimeoutSecs>60</metadataRetrievalTimeoutSecs>
             <assumedOfflinePeriodSecs>300</assumedOfflinePeriodSecs>
             <missedRetrievalCachePeriodSecs>1800</missedRetrievalCachePeriodSecs>
             <remoteRepoChecksumPolicyType>generate-if-absent</remoteRepoChecksumPolicyType>
-            <unusedArtifactsCleanupPeriodHours>0</unusedArtifactsCleanupPeriodHours>
+            <unusedArtifactsCleanupPeriodHours>720</unusedArtifactsCleanupPeriodHours>
             <shareConfiguration>false</shareConfiguration>
             <synchronizeProperties>false</synchronizeProperties>
             <listRemoteFolderItems>true</listRemoteFolderItems>
@@ -652,9 +685,9 @@
             <propagateQueryParams>false</propagateQueryParams>
         </remoteRepository>
         <remoteRepository>
-            <key>mm-sbt-plugin-releases</key>
+            <key>sbt-plugin-releases</key>
             <type>sbt</type>
-            <includesPattern>com.github.ehsanyou/sbt-docker-compose/**,net.virtual-void/sbt-dependency-graph/**</includesPattern>
+            <includesPattern>**/*</includesPattern>
             <repoLayoutRef>sbt-default</repoLayoutRef>
             <dockerApiVersion>V2</dockerApiVersion>
             <forceNugetAuthentication>false</forceNugetAuthentication>
@@ -663,19 +696,19 @@
             <handleSnapshots>true</handleSnapshots>
             <maxUniqueSnapshots>0</maxUniqueSnapshots>
             <maxUniqueTags>0</maxUniqueTags>
+            <blockPushingSchema1>true</blockPushingSchema1>
             <suppressPomConsistencyChecks>true</suppressPomConsistencyChecks>
             <propertySets/>
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
-            <xray>
-                <enabled>false</enabled>
-            </xray>
-            <url>https://dl.bintray.com/2m/sbt-plugins/</url>
+            <priorityResolution>false</priorityResolution>
+            <url>https://repo.scala-sbt.org/scalasbt/sbt-plugin-releases</url>
             <offline>false</offline>
             <hardFail>false</hardFail>
             <storeArtifactsLocally>true</storeArtifactsLocally>
             <fetchJarsEagerly>false</fetchJarsEagerly>
             <fetchSourcesEagerly>false</fetchSourcesEagerly>
-            <retrievalCachePeriodSecs>600</retrievalCachePeriodSecs>
+            <retrievalCachePeriodSecs>7200</retrievalCachePeriodSecs>
+            <metadataRetrievalTimeoutSecs>60</metadataRetrievalTimeoutSecs>
             <assumedOfflinePeriodSecs>300</assumedOfflinePeriodSecs>
             <missedRetrievalCachePeriodSecs>1800</missedRetrievalCachePeriodSecs>
             <remoteRepoChecksumPolicyType>generate-if-absent</remoteRepoChecksumPolicyType>
@@ -684,7 +717,7 @@
             <synchronizeProperties>false</synchronizeProperties>
             <listRemoteFolderItems>true</listRemoteFolderItems>
             <rejectInvalidJars>false</rejectInvalidJars>
-            <p2OriginalUrl>https://dl.bintray.com/2m/sbt-plugins/</p2OriginalUrl>
+            <p2OriginalUrl>https://repo.scala-sbt.org/scalasbt/sbt-plugin-releases</p2OriginalUrl>
             <contentSynchronisation>
                 <enabled>false</enabled>
                 <statistics>
@@ -707,39 +740,39 @@
             <propagateQueryParams>false</propagateQueryParams>
         </remoteRepository>
         <remoteRepository>
-            <key>sbt-plugin-releases</key>
-            <type>ivy</type>
-            <includesPattern>**/*</includesPattern>
-            <repoLayoutRef>sbt-default</repoLayoutRef>
-            <dockerApiVersion>V1</dockerApiVersion>
+            <key>sonatype-snapshots</key>
+            <type>maven</type>
+            <includesPattern>com.roundeights/**</includesPattern>
+            <repoLayoutRef>maven-2-default</repoLayoutRef>
+            <dockerApiVersion>V2</dockerApiVersion>
             <forceNugetAuthentication>false</forceNugetAuthentication>
             <blackedOut>false</blackedOut>
             <handleReleases>true</handleReleases>
             <handleSnapshots>true</handleSnapshots>
             <maxUniqueSnapshots>0</maxUniqueSnapshots>
             <maxUniqueTags>0</maxUniqueTags>
-            <suppressPomConsistencyChecks>true</suppressPomConsistencyChecks>
+            <blockPushingSchema1>true</blockPushingSchema1>
+            <suppressPomConsistencyChecks>false</suppressPomConsistencyChecks>
             <propertySets/>
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
-            <xray>
-                <enabled>false</enabled>
-            </xray>
-            <url>https://dl.bintray.com/sbt/sbt-plugin-releases/</url>
+            <priorityResolution>false</priorityResolution>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
             <offline>false</offline>
             <hardFail>false</hardFail>
             <storeArtifactsLocally>true</storeArtifactsLocally>
-            <fetchJarsEagerly>true</fetchJarsEagerly>
+            <fetchJarsEagerly>false</fetchJarsEagerly>
             <fetchSourcesEagerly>false</fetchSourcesEagerly>
-            <retrievalCachePeriodSecs>43200</retrievalCachePeriodSecs>
+            <retrievalCachePeriodSecs>7200</retrievalCachePeriodSecs>
+            <metadataRetrievalTimeoutSecs>60</metadataRetrievalTimeoutSecs>
             <assumedOfflinePeriodSecs>300</assumedOfflinePeriodSecs>
-            <missedRetrievalCachePeriodSecs>7200</missedRetrievalCachePeriodSecs>
+            <missedRetrievalCachePeriodSecs>1800</missedRetrievalCachePeriodSecs>
             <remoteRepoChecksumPolicyType>generate-if-absent</remoteRepoChecksumPolicyType>
             <unusedArtifactsCleanupPeriodHours>0</unusedArtifactsCleanupPeriodHours>
             <shareConfiguration>false</shareConfiguration>
             <synchronizeProperties>false</synchronizeProperties>
             <listRemoteFolderItems>true</listRemoteFolderItems>
             <rejectInvalidJars>false</rejectInvalidJars>
-            <p2OriginalUrl>https://dl.bintray.com/sbt/sbt-plugin-releases/</p2OriginalUrl>
+            <p2OriginalUrl>https://oss.sonatype.org/content/repositories/snapshots</p2OriginalUrl>
             <contentSynchronisation>
                 <enabled>false</enabled>
                 <statistics>
@@ -773,9 +806,11 @@
             <handleSnapshots>true</handleSnapshots>
             <maxUniqueSnapshots>0</maxUniqueSnapshots>
             <maxUniqueTags>0</maxUniqueTags>
+            <blockPushingSchema1>true</blockPushingSchema1>
             <suppressPomConsistencyChecks>true</suppressPomConsistencyChecks>
             <propertySets/>
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
+            <priorityResolution>false</priorityResolution>
             <url>https://repo.triplequote.com/artifactory/sbt-plugins-release/</url>
             <offline>false</offline>
             <hardFail>false</hardFail>
@@ -783,10 +818,11 @@
             <fetchJarsEagerly>false</fetchJarsEagerly>
             <fetchSourcesEagerly>false</fetchSourcesEagerly>
             <retrievalCachePeriodSecs>38400</retrievalCachePeriodSecs>
+            <metadataRetrievalTimeoutSecs>60</metadataRetrievalTimeoutSecs>
             <assumedOfflinePeriodSecs>300</assumedOfflinePeriodSecs>
             <missedRetrievalCachePeriodSecs>38400</missedRetrievalCachePeriodSecs>
             <remoteRepoChecksumPolicyType>generate-if-absent</remoteRepoChecksumPolicyType>
-            <unusedArtifactsCleanupPeriodHours>0</unusedArtifactsCleanupPeriodHours>
+            <unusedArtifactsCleanupPeriodHours>720</unusedArtifactsCleanupPeriodHours>
             <shareConfiguration>false</shareConfiguration>
             <synchronizeProperties>false</synchronizeProperties>
             <listRemoteFolderItems>true</listRemoteFolderItems>
@@ -825,9 +861,11 @@
             <handleSnapshots>true</handleSnapshots>
             <maxUniqueSnapshots>0</maxUniqueSnapshots>
             <maxUniqueTags>0</maxUniqueTags>
+            <blockPushingSchema1>true</blockPushingSchema1>
             <suppressPomConsistencyChecks>true</suppressPomConsistencyChecks>
             <propertySets/>
             <archiveBrowsingEnabled>false</archiveBrowsingEnabled>
+            <priorityResolution>false</priorityResolution>
             <url>https://repo.lightbend.com/typesafe/ivy-releases/</url>
             <offline>false</offline>
             <hardFail>false</hardFail>
@@ -835,10 +873,11 @@
             <fetchJarsEagerly>false</fetchJarsEagerly>
             <fetchSourcesEagerly>true</fetchSourcesEagerly>
             <retrievalCachePeriodSecs>600</retrievalCachePeriodSecs>
+            <metadataRetrievalTimeoutSecs>60</metadataRetrievalTimeoutSecs>
             <assumedOfflinePeriodSecs>300</assumedOfflinePeriodSecs>
             <missedRetrievalCachePeriodSecs>1800</missedRetrievalCachePeriodSecs>
             <remoteRepoChecksumPolicyType>generate-if-absent</remoteRepoChecksumPolicyType>
-            <unusedArtifactsCleanupPeriodHours>0</unusedArtifactsCleanupPeriodHours>
+            <unusedArtifactsCleanupPeriodHours>720</unusedArtifactsCleanupPeriodHours>
             <shareConfiguration>false</shareConfiguration>
             <synchronizeProperties>false</synchronizeProperties>
             <listRemoteFolderItems>true</listRemoteFolderItems>
@@ -874,15 +913,19 @@
             <repoLayoutRef>maven-2-default</repoLayoutRef>
             <dockerApiVersion>V2</dockerApiVersion>
             <forceNugetAuthentication>false</forceNugetAuthentication>
+            <hideUnauthorizedResources>false</hideUnauthorizedResources>
             <artifactoryRequestsCanRetrieveRemoteArtifacts>false</artifactoryRequestsCanRetrieveRemoteArtifacts>
+            <resolveDockerTagsByTimestamp>false</resolveDockerTagsByTimestamp>
             <repositories>
                 <repositoryRef>maven-central</repositoryRef>
                 <repositoryRef>jcenter</repositoryRef>
                 <repositoryRef>jenkins-ci-releases</repositoryRef>
                 <repositoryRef>scala-integration</repositoryRef>
                 <repositoryRef>scala-pr-validation-snapshots</repositoryRef>
-                <repositoryRef>bintray-scalameta</repositoryRef>
+                <repositoryRef>cchantep</repositoryRef>
                 <repositoryRef>era7-sbt</repositoryRef>
+                <repositoryRef>lila-maven</repositoryRef>
+                <repositoryRef>lightbend-maven</repositoryRef>
             </repositories>
             <pomRepositoryReferencesCleanupPolicy>discard_active_reference</pomRepositoryReferencesCleanupPolicy>
             <virtualCacheConfig>
@@ -898,15 +941,15 @@
             <repoLayoutRef>sbt-default</repoLayoutRef>
             <dockerApiVersion>V2</dockerApiVersion>
             <forceNugetAuthentication>false</forceNugetAuthentication>
+            <hideUnauthorizedResources>false</hideUnauthorizedResources>
             <artifactoryRequestsCanRetrieveRemoteArtifacts>false</artifactoryRequestsCanRetrieveRemoteArtifacts>
+            <resolveDockerTagsByTimestamp>false</resolveDockerTagsByTimestamp>
             <repositories>
                 <repositoryRef>typesafe-ivy-releases</repositoryRef>
                 <repositoryRef>ambiata-oss</repositoryRef>
-                <repositoryRef>bintray-eed3si9n-sbt-plugins</repositoryRef>
-                <repositoryRef>bintray-emersonloureiro-sbt-plugins</repositoryRef>
-                <repositoryRef>sbt-plugin-releases</repositoryRef>
-                <repositoryRef>mm-sbt-plugin-releases</repositoryRef>
+                <repositoryRef>cchantep</repositoryRef>
                 <repositoryRef>triplequote</repositoryRef>
+                <repositoryRef>sbt-plugin-releases</repositoryRef>
             </repositories>
             <pomRepositoryReferencesCleanupPolicy>discard_active_reference</pomRepositoryReferencesCleanupPolicy>
             <virtualCacheConfig>
@@ -916,11 +959,14 @@
             <debianDefaultArchitectures>i386,amd64</debianDefaultArchitectures>
         </virtualRepository>
     </virtualRepositories>
-    <distributionRepositories/>
+    <federatedRepositories/>
     <releaseBundlesRepositories/>
     <proxies/>
     <reverseProxies/>
     <propertySets/>
+    <systemProperties/>
+    <urlBase>https://scala-ci.typesafe.com</urlBase>
+    <logo></logo>
     <repoLayouts>
         <repoLayout>
             <name>maven-2-default</name>
@@ -963,7 +1009,7 @@
         </repoLayout>
         <repoLayout>
             <name>npm-default</name>
-            <artifactPathPattern>[orgPath]/[module]/[module]-[baseRev](-[fileItegRev]).tgz</artifactPathPattern>
+            <artifactPathPattern>[orgPath]/-/[module]-[baseRev](-[fileItegRev]).tgz</artifactPathPattern>
             <distinctiveDescriptorPathPattern>false</distinctiveDescriptorPathPattern>
             <folderIntegrationRevisionRegExp>.*</folderIntegrationRevisionRegExp>
             <fileIntegrationRevisionRegExp>.*</fileIntegrationRevisionRegExp>
@@ -1006,7 +1052,7 @@
         </repoLayout>
         <repoLayout>
             <name>conan-default</name>
-            <artifactPathPattern>[org]/[module]/[baseRev]/[channel&lt;[^/]+&gt;]/[folderItegRev]/(package/[package_id&lt;[^/]+&gt;]/[fileItegRev]/)?[remainder&lt;(?:.+)&gt;]</artifactPathPattern>
+            <artifactPathPattern>[org]/[module]/[baseRev]/[channel&lt;[^/]+&gt;]/[folderItegRev]/(package/[package_id&lt;[^/]+&gt;]/[fileItegRev]/)[remainder&lt;(?:.+)&gt;]</artifactPathPattern>
             <distinctiveDescriptorPathPattern>false</distinctiveDescriptorPathPattern>
             <folderIntegrationRevisionRegExp>[^/]+</folderIntegrationRevisionRegExp>
             <fileIntegrationRevisionRegExp>[^/]+</fileIntegrationRevisionRegExp>
@@ -1020,7 +1066,7 @@
         </repoLayout>
         <repoLayout>
             <name>go-default</name>
-            <artifactPathPattern>[orgPath]/[module]/@v/v[refs].zip</artifactPathPattern>
+            <artifactPathPattern>[orgPath]/[module]/@v/v[baseRev](-[fileItegRev]).[ext]</artifactPathPattern>
             <distinctiveDescriptorPathPattern>false</distinctiveDescriptorPathPattern>
             <folderIntegrationRevisionRegExp>.*</folderIntegrationRevisionRegExp>
             <fileIntegrationRevisionRegExp>.*</fileIntegrationRevisionRegExp>
@@ -1028,6 +1074,13 @@
         <repoLayout>
             <name>build-default</name>
             <artifactPathPattern>[orgPath]/[module](-[fileItegRev]).[ext]</artifactPathPattern>
+            <distinctiveDescriptorPathPattern>false</distinctiveDescriptorPathPattern>
+            <folderIntegrationRevisionRegExp>.*</folderIntegrationRevisionRegExp>
+            <fileIntegrationRevisionRegExp>.*</fileIntegrationRevisionRegExp>
+        </repoLayout>
+        <repoLayout>
+            <name>cargo-default</name>
+            <artifactPathPattern>crates/[module]/[module]-[baseRev].[ext]</artifactPathPattern>
             <distinctiveDescriptorPathPattern>false</distinctiveDescriptorPathPattern>
             <folderIntegrationRevisionRegExp>.*</folderIntegrationRevisionRegExp>
             <fileIntegrationRevisionRegExp>.*</fileIntegrationRevisionRegExp>
@@ -1051,7 +1104,9 @@
     </quotaConfig>
     <systemMessageConfig>
         <enabled>false</enabled>
+        <title></title>
         <titleColor>#429F46</titleColor>
+        <message></message>
         <showOnAllPages>false</showOnAllPages>
     </systemMessageConfig>
     <folderDownloadConfig>
@@ -1060,6 +1115,7 @@
         <maxDownloadSizeMb>1024</maxDownloadSizeMb>
         <maxFiles>5000</maxFiles>
         <maxConcurrentRequests>10</maxConcurrentRequests>
+        <enabledEmptyDirectories>false</enabledEmptyDirectories>
     </folderDownloadConfig>
     <trashcanConfig>
         <enabled>true</enabled>
@@ -1070,7 +1126,6 @@
         <blockPushReplications>false</blockPushReplications>
         <blockPullReplications>false</blockPullReplications>
     </replicationsConfig>
-    <bintrayApplications/>
     <sumoLogicConfig>
         <enabled>false</enabled>
     </sumoLogicConfig>
@@ -1083,5 +1138,8 @@
     <downloadRedirectConfig>
         <fileMinimumSize>1</fileMinimumSize>
     </downloadRedirectConfig>
+    <keyPairs/>
+    <artifactLifecycleSettings>
+        <artifactLifecyclePolicies/>
+    </artifactLifecycleSettings>
 </config>
-
