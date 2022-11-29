@@ -1,7 +1,7 @@
 # Scala 2 Community Build
 
 In this repository we build and test a large corpus of open-source Scala 2 projects.
-Everything is built from source using Lightbend's [dbuild](https://github.com/lightbend/dbuild).
+Everything is built from source using Lightbend's [dbuild](https://github.com/lightbend-labs/dbuild).
 
 The project is financed and primarily maintained by Lightbend, as part
 of our overall maintenance of the Scala compiler and standard library.
