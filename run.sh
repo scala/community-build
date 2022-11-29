@@ -136,7 +136,7 @@ else
 fi
 
 # Set dbuild version and config file
-DBUILDVERSION=0.9.17
+DBUILDVERSION=0.9.20
 echo "dbuild version: $DBUILDVERSION"
 
 DBUILDCONFIG=$dbuild_file
@@ -151,7 +151,7 @@ fi
 # Download and extract dbuild if we haven't already got it
 if [ ! -d "dbuild-${DBUILDVERSION}" ]
 then
-  curl -LO "https://repo.lightbend.com/typesafe/ivy-releases/com.typesafe.dbuild/dbuild/${DBUILDVERSION}/tgzs/dbuild-${DBUILDVERSION}.tgz"
+  curl -LO "https://github.com/lightbend-labs/dbuild/releases/download/v${DBUILDVERSION}/dbuild-${DBUILDVERSION}.tgz"
   tar xfz "dbuild-${DBUILDVERSION}.tgz"
   rm "dbuild-${DBUILDVERSION}.tgz"
 fi
