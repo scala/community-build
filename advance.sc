@@ -49,8 +49,19 @@ import Regexes.*
 def filesIn(dir: String): Seq[File] =
   File(dir).list(_.extension == Some(".conf")).toSeq
 
+val allFiles = filesIn("core") ++ filesIn("proj")
+val selectedFiles =
+  if args.isEmpty then
+    allFiles
+  else
+    allFiles.filter(file => args.contains(file.nameWithoutExtension))
+
+if selectedFiles.isEmpty then
+  println("no matches")
+  sys.exit(1)
+
 for
-  file <- (filesIn("core") ++ filesIn("proj")).par
+  file <- selectedFiles.par
   if args.isEmpty || args.contains(file.nameWithoutExtension)
 do
   val lines = file.lines.to(Vector)
