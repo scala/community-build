@@ -46,8 +46,19 @@ object Regexes:
   val Ivy = """// ivy:.*""".r
 import Regexes.*
 
+val allFiles = File("proj").list(_.extension == Some(".conf")).toSeq
+val selectedFiles =
+  if args.isEmpty then
+    allFiles
+  else
+    allFiles.filter(file => args.contains(file.nameWithoutExtension))
+
+if selectedFiles.isEmpty then
+  println("no matches")
+  sys.exit(1)
+
 for
-  file <- File("proj").list(_.extension == Some(".conf")).toSeq.par
+  file <- selectedFiles.par
   if args.isEmpty || args.contains(file.nameWithoutExtension)
 do
   val lines = file.lines.to(Vector)
