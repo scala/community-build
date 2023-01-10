@@ -60,9 +60,7 @@ if selectedFiles.isEmpty then
   println("no matches")
   sys.exit(1)
 
-for
-  file <- selectedFiles.par
-  if args.isEmpty || args.contains(file.nameWithoutExtension)
+for file <- selectedFiles.par
 do
   val lines = file.lines.to(Vector)
   lines.head match
