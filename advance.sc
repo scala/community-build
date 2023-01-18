@@ -1,4 +1,4 @@
-#!/usr/local/bin/env -S scala-cli shebang
+#!/usr/local/bin/env -S scala-cli shebang --quiet
 
 // to advance all projects:
 //   % ./advance.sc scalacheck

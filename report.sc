@@ -1,4 +1,4 @@
-#!/usr/local/bin/env -S scala-cli -Dlog4j.configurationFile=scripts/log4j.properties shebang
+#!/usr/local/bin/env -S scala-cli -Dlog4j.configurationFile=scripts/log4j.properties shebang --quiet
 
 //> using scala "3.2.1"
 //> using option "-source:future"
