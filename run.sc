@@ -20,16 +20,14 @@ println()
 os.proc("java", "-version").call(stdout = os.Inherit)
 println()
 
+val dbuildVersion = "0.9.20"
+println(s"dbuild version: $dbuildVersion")
 def readNightly(): String =
   val prop = new java.util.Properties
   prop.load(os.read.inputStream(os.pwd / "nightly.properties"))
   Option(prop.getProperty("nightly")).get
 val scalaVersion = sys.env.get("version").getOrElse(readNightly())
 println(s"Scala version: $scalaVersion")
-println()
-
-val dbuildVersion = "0.9.20"
-println(s"dbuild version: $dbuildVersion")
 println()
 
 def removeProjectBuilds(): Unit =
