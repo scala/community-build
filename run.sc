@@ -16,7 +16,6 @@
 println(s"""JAVA_HOME=${sys.env("JAVA_HOME")}""")
 print("which java: ")
 os.proc("which", "java").call(stdout = os.Inherit)
-println()
 os.proc("java", "-version").call(stdout = os.Inherit)
 println()
 
