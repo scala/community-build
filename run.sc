@@ -1,6 +1,4 @@
-#!/usr/local/bin/env -S scala-cli shebang
-
-// TODO: re-add `--quiet` above
+#!/usr/local/bin/env -S scala-cli shebang --quiet
 
 // This script is suitable for local use.
 // It is also invoked by Jenkins (from scripts/jobs/integrate/community-build).
