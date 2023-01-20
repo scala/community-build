@@ -54,7 +54,7 @@ val dbuildArgs = Seq("-n", "community.conf")
 
 // sigh, Ubuntu has `nodejs` but MacOS has `node`
 def onPath(cmd: String): Boolean =
-  os.proc("hash", cmd)
+  os.proc("sh", "-c", s"hash $cmd")
     .call(stderr = os.Pipe, check = false)
     .exitCode == 0
 val node =
