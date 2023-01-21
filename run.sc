@@ -73,6 +73,10 @@ val dbuild =
       "version" -> scalaVersion,
       "NODE" -> node),
   )
+// we use `tee` so we can see the output live as well as redirecting it to a
+// file for later reference. unfortunately the live output is buffered so we
+// don't see it a line at a time, but in bursts. presumably that's fixable;
+// the old shell script that this Scala script replaced didn't have this problem
 val tee = os.proc("tee", dbuildOut).call(stdin = dbuild.stdout, stdout = os.Inherit)
 dbuild.join()
 
