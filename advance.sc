@@ -8,10 +8,9 @@
 //> using scala "3.2.1"
 //> using option "-source:future"
 //> using lib "org.scala-lang.modules::scala-parallel-collections:1.0.4"
-//> using lib "com.github.pathikrit:better-files_2.13:3.9.1"
+//> using lib "com.lihaoyi::os-lib:0.9.0"
 
 import scala.collection.parallel.CollectionConverters.* // for .par
-import better.files.*
 
 def munge(l: String, replacement: String): String =
   if (l.startsWith("""  uri: "https://github"""))
@@ -46,15 +45,14 @@ object Regexes:
   val Ivy = """// ivy:.*""".r
 import Regexes.*
 
-def filesIn(dir: String): Seq[File] =
-  File(dir).list(_.extension == Some(".conf")).toSeq
-
+def filesIn(dir: String): Seq[os.Path] =
+  os.list(os.pwd / dir).filter(_.ext == "conf").toSeq
 val allFiles = filesIn("core") ++ filesIn("proj")
 val selectedFiles =
   if args.isEmpty then
     allFiles
   else
-    allFiles.filter(file => args.contains(file.nameWithoutExtension))
+    allFiles.filter(file => args.contains(file.baseName))
 
 if selectedFiles.isEmpty then
   println("no matches")
@@ -62,12 +60,12 @@ if selectedFiles.isEmpty then
 
 for file <- selectedFiles.par
 do
-  val lines = file.lines.to(Vector)
+  val lines = os.read.lines(file).to(Vector)
   lines.head match
     case GitHub(repo, ref, comment) =>
       val uri = s"$repo#${getSha(repo, ref)}"
       println(uri) // indicate progress
-      file.clear()
-      file.printLines(lines.map(munge(_, uri)))
+      os.write.over(file,
+        lines.map(munge(_, uri)).mkString("", "\n", "\n"))
     case bad =>
       throw new IllegalArgumentException(bad)
