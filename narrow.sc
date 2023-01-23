@@ -9,15 +9,13 @@
 
 //> using scala "3.2.1"
 //> using option "-source:future"
-//> using lib "com.github.pathikrit:better-files_2.13:3.9.1"
-
-import better.files.*
+//> using lib "com.lihaoyi::os-lib:0.9.0"
 
 // read dependency information
 val tree: Map[String, Set[String]] =
-  val deps = File("dependencies.txt")
+  val deps = os.pwd / "dependencies.txt"
   val Regex = """(\S+): (.*)""".r
-  deps.lines.map {
+  os.read.lines(deps).map {
     case Regex(proj, deps) =>
       proj -> deps.split(", ").toSet
   }.toMap
@@ -29,9 +27,8 @@ val targets: Set[String] =
     -- Set("scala", "cloc-plugin"))
 
 // write results
-val projs = File("projs.conf")
-projs.clear()
-projs.append(
+val projs = os.pwd / "projs.conf"
+os.write.over(projs,
   """|build += {
      |
      |  space: scala.main
@@ -48,6 +45,7 @@ projs.append(
      |  projects: [
      |
      |""".stripMargin)
-projs.printLines(
-  targets.toSeq.sorted.iterator.map(p => "  ${vars.proj." + p + "}"))
-projs.append("\n]}\n")
+os.write.append(projs,
+  targets.toSeq.sorted.iterator.map(p => "  ${vars.proj." + p + "}\n"))
+os.write.append(projs,
+  "\n]}\n")
