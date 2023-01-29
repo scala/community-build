@@ -42,7 +42,6 @@ object SuccessReport:
     "play-ws", // JDK 8 support dropped (October 2022)
     "scaffeine", // they seem to be on a caffeine version that requires JDK 11
     "scalachess",
-    "slick", // JDK 8 support dropped (October 2022)
     "sttp", // uses java.net.http
     "twirl", // JDK 8 support dropped (October 2022)
     "unfiltered", // they seem to be on a jetty version that requires JDK 11+
