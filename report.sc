@@ -64,7 +64,6 @@ object SuccessReport:
     "finagle", // Unrecognized VM option 'AggressiveOpts'
     "mockito-scala", // reflection-related test failures
     "playframework", // Failed tests: play.mvc.HttpFormsTest
-    "requests-scala", // requests.RequestTests fails, unclear why
     "scrooge", // Unrecognized VM option 'AggressiveOpts'
     "twitter-util", // Unrecognized VM option 'AggressiveOpts'
   )
