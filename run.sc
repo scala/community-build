@@ -7,7 +7,7 @@
 // I didn't port every feature of that script to this version.
 // We can add things back later as needed, I figure.
 
-//> using scala "3.2.1"
+//> using scala "3.2.2"
 //> using option "-source:future"
 //> using lib "com.lihaoyi::os-lib:0.9.0"
 
