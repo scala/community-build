@@ -66,7 +66,6 @@ object SuccessReport:
     "playframework", // Failed tests: play.mvc.HttpFormsTest
     "requests-scala", // requests.RequestTests fails, unclear why
     "scrooge", // Unrecognized VM option 'AggressiveOpts'
-    "sttp", // sttp.client3.SttpBackendOptionsProxyTest2 fails (not investigated)
     "twitter-util", // Unrecognized VM option 'AggressiveOpts'
   )
 
