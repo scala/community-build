@@ -7,7 +7,7 @@
 // I didn't port every feature of that script to this version.
 // We can add things back later as needed, I figure.
 
-//> using scala "3.2.2"
+//> using scala "3.3.0-RC2"
 //> using option "-source:future"
 //> using lib "com.lihaoyi::os-lib:0.9.0"
 
@@ -82,9 +82,10 @@ dbuild.join()
 
 // helpfully repeat the build's UUID at the end of the log
 // [info]  uuid = 03c94c9f9b185c7bbdb4b66be9ecf99b3cd8d73e
-val idOption = os.read.lines(os.pwd / os.SubPath(dbuildOut)).collectFirst {
-  case s"[info]  uuid = $id" => id
-}
+val idOption =
+  os.read.lines(os.pwd / os.SubPath(dbuildOut))
+    .collectFirst:
+      case s"[info]  uuid = $id" => id
 for id <- idOption do
   println(s"The repeatable UUID of this build was: $id")
 println()

@@ -7,7 +7,7 @@
 
 // dependencies.txt is the source of truth for what dependencies to use
 
-//> using scala "3.2.2"
+//> using scala "3.3.0-RC2"
 //> using option "-source:future"
 //> using lib "com.lihaoyi::os-lib:0.9.0"
 
@@ -15,10 +15,10 @@
 val tree: Map[String, Set[String]] =
   val deps = os.pwd / "dependencies.txt"
   val Regex = """(\S+): (.*)""".r
-  os.read.lines(deps).map {
+  os.read.lines(deps).map:
     case Regex(proj, deps) =>
       proj -> deps.split(", ").toSet
-  }.toMap
+  .toMap
 
 // build list of targets
 val targets: Set[String] =
