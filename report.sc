@@ -31,7 +31,6 @@ object SuccessReport:
 
   val requiresJdk11Plus = Set[String](
     "airframe",
-    "americium",
     "cachecontrol", // JDK 8 support dropped (October 2022)
     "fs2",
     "jsoniter-scala", // JDK 8 support dropped (February 2022)
@@ -48,6 +47,7 @@ object SuccessReport:
   )
 
   val requiresJdk17Plus = Set[String](
+    "americium",  // some test code uses `String#translateEscapes`
     "scastie",
     "shapeless-java-records", // inherently requires JDK 15+
   )
