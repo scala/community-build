@@ -1,16 +1,16 @@
 #!/usr/local/bin/env -S scala-cli shebang --quiet
 
 // to narrow projs.conf to one project:
-//   % ./narrow.sc scalacheck
+//   % ./narrow scalacheck
 // or several:
-//   % ./narrow.sc scalacheck scalatest specs2
+//   % ./narrow scalacheck scalatest specs2
 // to un-narrow, pass no arguments:
-//   % ./narrow.sc
+//   % ./narrow
 
 //> using scala "3.2.2"
 //> using option "-deprecation"
 //> using option "-source:future"
-//> using lib "com.lihaoyi::os-lib:0.9.0"
+//> using dep "com.lihaoyi::os-lib:0.9.0"
 
 val projs: Seq[String] =
   if args.isEmpty then

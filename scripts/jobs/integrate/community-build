@@ -11,4 +11,4 @@ export JAVA_OPTS="-Dfile.encoding=UTF-8 -Xmx2G -Xss16M -Djava.io.tmpdir=/home/je
 export PATH="$PATH:/home/jenkins/.local/share/coursier/bin"
 
 # the `projects` jenkins job param can be used to limit the projects to build
-./run.sc $projects
+./run $projects
