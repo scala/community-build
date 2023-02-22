@@ -17,7 +17,7 @@ to the regression test suite that we maintain in scala/scala. It's also
 a service to the open source community, providing early notice of
 issues and incompatibilities.
 
-**Can I run it myself?** Sure, just clone the repo and `./run.sc`.
+**Can I run it myself?** Sure, just clone the repo and `./run`.
 
 ## News
 
