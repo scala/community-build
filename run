@@ -9,7 +9,7 @@
 
 //> using scala "3.2.2"
 //> using option "-source:future"
-//> using lib "com.lihaoyi::os-lib:0.9.0"
+//> using dep "com.lihaoyi::os-lib:0.9.0"
 
 println(s"""JAVA_HOME=${sys.env("JAVA_HOME")}""")
 print("which java: ")
@@ -93,7 +93,7 @@ println()
 removeProjectBuilds()
 
 // report summary information (line counts, green project counts, ...?)
-val reporter = os.proc("./report.sc", dbuildOut).call(check = false)
+val reporter = os.proc("./report", dbuildOut).call(check = false)
 os.write.over(os.pwd / "report.html", reporter.out.text())
 println(reporter.out.text())
 sys.exit(reporter.exitCode)
