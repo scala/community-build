@@ -1,4 +1,4 @@
-#!/usr/local/bin/env -S scala-cli shebang --quiet
+#!/usr/local/bin/env -S scala-cli shebang --quiet --bloop-jvm 17
 
 // This script is suitable for local use.
 // It is also invoked by Jenkins (from scripts/jobs/integrate/community-build).
