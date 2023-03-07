@@ -10,7 +10,7 @@
 //> using scala "3.2.2"
 //> using option "-deprecation"
 //> using option "-source:future"
-//> using dep "com.lihaoyi::os-lib:0.9.0"
+//> using dep "com.lihaoyi::os-lib:0.9.1"
 
 val projs: Seq[String] =
   if args.isEmpty then
