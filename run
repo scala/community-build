@@ -72,11 +72,15 @@ val command =
 println(command.mkString(" "))
 println()
 val dbuildOut = s"dbuild-$dbuildVersion/dbuild.out"
+val moreEnv =
+  if scala.util.Properties.isJavaAtLeast("17")
+  then Map("SECURITY_MANAGER" -> "-Djava.security.manager=allow")
+  else Map()
 val dbuild =
   os.proc(command).spawn(
     stdout = os.Pipe,
     mergeErrIntoOut = true,
-    env = Map(
+    env = moreEnv ++ Map(
       "version" -> scalaVersion,
       "NODE" -> node),
   )
