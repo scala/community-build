@@ -63,14 +63,20 @@ object SuccessReport:
     "twitter-util", // Unrecognized VM option 'AggressiveOpts'
   )
 
+  val jdk20Failures = Set[String](
+    "ssl-config", // compilation errors involving sun.security.x509
+  )
+
   val expectedToFail: Set[String] =
     System.getProperty("java.specification.version") match
       case "1.8" =>
         jdk8Failures
       case "11" =>
         jdk8Failures ++ jdk11Failures
-      case _ =>
+      case "17" =>
         jdk11Failures ++ jdk17Failures
+      case _ =>
+        jdk11Failures ++ jdk17Failures ++ jdk20Failures
 
   def apply(log: io.Source): Option[Int] =
     val lines = log.getLines.dropWhile(!_.contains("---==  Execution Report ==---"))
