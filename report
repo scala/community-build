@@ -48,6 +48,7 @@ object SuccessReport:
 
   val requiresJdk17Plus = Set[String](
     "americium",  // some test code uses `String#translateEscapes`
+    "scalafx",
     "scastie",
     "shapeless-java-records", // inherently requires JDK 15+
   )
