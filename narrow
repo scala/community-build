@@ -1,15 +1,15 @@
 #!/usr/local/bin/env -S scala-cli shebang --quiet
 
 // to narrow projs.conf to just one project and its dependencies:
-//   % ./narrow.sc scalacheck
+//   % ./narrow scalacheck
 // or several
-//   % ./narrow.sc scalacheck scalatest specs2
+//   % ./narrow scalacheck scalatest specs2
 
 // dependencies.txt is the source of truth for what dependencies to use
 
 //> using scala "3.3.0-RC4"
 //> using option "-source:future"
-//> using lib "com.lihaoyi::os-lib:0.9.1"
+//> using dep "com.lihaoyi::os-lib:0.9.1"
 
 // read dependency information
 val tree: Map[String, Set[String]] =

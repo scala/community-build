@@ -1,4 +1,4 @@
-#!/usr/local/bin/env -S scala-cli shebang --quiet
+#!/usr/local/bin/env -S scala-cli shebang --quiet --bloop-jvm 17
 
 // This script is suitable for local use.
 // It is also invoked by Jenkins (from scripts/jobs/integrate/community-build).
@@ -9,7 +9,7 @@
 
 //> using scala "3.3.0-RC4"
 //> using option "-source:future"
-//> using lib "com.lihaoyi::os-lib:0.9.1"
+//> using dep "com.lihaoyi::os-lib:0.9.1"
 
 println(s"""JAVA_HOME=${sys.env("JAVA_HOME")}""")
 print("which java: ")
@@ -65,11 +65,15 @@ val command =
 println(command.mkString(" "))
 println()
 val dbuildOut = s"dbuild-$dbuildVersion/dbuild.out"
+val moreEnv =
+  if scala.util.Properties.isJavaAtLeast("17")
+  then Map("SECURITY_MANAGER" -> "-Djava.security.manager=allow")
+  else Map()
 val dbuild =
   os.proc(command).spawn(
     stdout = os.Pipe,
     mergeErrIntoOut = true,
-    env = Map(
+    env = moreEnv ++ Map(
       "version" -> scalaVersion,
       "NODE" -> node),
   )
@@ -94,7 +98,7 @@ println()
 removeProjectBuilds()
 
 // report summary information (line counts, green project counts, ...?)
-val reporter = os.proc("./report.sc", dbuildOut).call(check = false)
+val reporter = os.proc("./report", dbuildOut).call(check = false)
 os.write.over(os.pwd / "report.html", reporter.out.text())
 println(reporter.out.text())
 sys.exit(reporter.exitCode)
