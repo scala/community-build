@@ -7,9 +7,9 @@
 // I didn't port every feature of that script to this version.
 // We can add things back later as needed, I figure.
 
-//> using scala "3.3.0-RC3"
+//> using scala "3.3.0-RC4"
 //> using option "-source:future"
-//> using lib "com.lihaoyi::os-lib:0.9.0"
+//> using lib "com.lihaoyi::os-lib:0.9.1"
 
 println(s"""JAVA_HOME=${sys.env("JAVA_HOME")}""")
 print("which java: ")

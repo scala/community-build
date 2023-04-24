@@ -5,10 +5,10 @@
 // to advance just selected ones:
 //   % ./advance.sc scalacheck scalatest specs2
 
-//> using scala "3.3.0-RC3"
+//> using scala "3.3.0-RC4"
 //> using option "-source:future"
 //> using lib "org.scala-lang.modules::scala-parallel-collections:1.0.4"
-//> using lib "com.lihaoyi::os-lib:0.9.0"
+//> using lib "com.lihaoyi::os-lib:0.9.1"
 
 import scala.collection.parallel.CollectionConverters.* // for .par
 
