@@ -1,6 +1,6 @@
 #!/usr/local/bin/env -S scala-cli -Dlog4j.configurationFile=scripts/log4j.properties shebang --quiet
 
-//> using scala "3.2.2"
+//> using scala "3.3.0-RC5"
 //> using option "-source:future"
 
 object ClocReport:
@@ -119,7 +119,8 @@ object SuccessReport:
     if didNotRun > 0 then
       val blockers =
         blockerCounts.toList.sortBy(_._2).reverse
-          .collect { case (blocker, count) => s"$blocker ($count)" }
+          .collect: (blocker, count) =>
+            s"$blocker ($count)"
           .mkString(", ")
       println(s"BLOCKING DOWNSTREAM: $blockers")
     if unexpectedSuccesses.nonEmpty then
