@@ -7,10 +7,9 @@
 // to un-narrow, pass no arguments:
 //   % ./narrow
 
-//> using scala "3.3.0-RC5"
-//> using option "-deprecation"
-//> using option "-source:future"
-//> using dep "com.lihaoyi::os-lib:0.9.1"
+//> using scala 3.3.0-RC5
+//> using option -deprecation -source:future
+//> using dep com.lihaoyi::os-lib:0.9.1
 
 val projs: Seq[String] =
   if args.isEmpty then
