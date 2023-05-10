@@ -7,9 +7,9 @@
 
 // dependencies.txt is the source of truth for what dependencies to use
 
-//> using scala "3.3.0-RC5"
-//> using option "-source:future"
-//> using dep "com.lihaoyi::os-lib:0.9.1"
+//> using scala 3.3.0-RC5
+//> using option -source:future
+//> using dep com.lihaoyi::os-lib:0.9.1
 
 // read dependency information
 val tree: Map[String, Set[String]] =
