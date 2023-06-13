@@ -1,5 +1,9 @@
 #!/usr/local/bin/env -S scala-cli shebang --quiet --bloop-jvm 17
 
+// Usage:
+// * ./run
+// * ./run specs2 scalatest munit
+
 // This script is suitable for local use.
 // It is also invoked by Jenkins (from scripts/jobs/integrate/community-build).
 
@@ -65,10 +69,10 @@ os.write.over(dbuildScript,
     "java -Xss16M \\\\"))
 
 // we're ready to run dbuild
-val command =
-  dbuildScript.toString +:
-  "-n" +: "./community.conf" +:
-  args
+val command = Seq(
+  dbuildScript.toString,
+  "-n", "./community.conf",
+  args.mkString(","))
 println(command.mkString(" "))
 println()
 val dbuildOut = s"dbuild-$dbuildVersion/dbuild.out"
