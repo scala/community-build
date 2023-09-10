@@ -8,8 +8,8 @@ of our overall maintenance of the Scala compiler and standard library.
 
 **How big is it?**
 The 2.13 build contains **over 2 million lines** of Scala code
-from **232 repos**, and it takes about **15 hours** to run,
-as of August 2021.
+from **250 repos**, and it takes about **14 hours** to run,
+as of September 2023.
 
 **Why do this?** The main goal is to guard against regressions in new
 versions of Scala (language, standard library, and modules). This complements
