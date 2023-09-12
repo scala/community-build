@@ -7,7 +7,7 @@
 
 // dependencies.txt is the source of truth for what dependencies to use
 
-//> using scala 3.3.0
+//> using scala 3.3.1
 //> using option -source:future
 //> using dep com.lihaoyi::os-lib:0.9.1
 
