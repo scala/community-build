@@ -71,7 +71,6 @@ object SuccessReport:
   val jdk20Failures = Set[String](
     "kafka",      // cannot override final member Thread#threadId
     "ssl-config", // compilation errors involving sun.security.x509
-    "zinc",       // "Unsupported class file major version 64" during shading
   )
 
   val expectedToFail: Set[String] =
