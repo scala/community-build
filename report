@@ -68,9 +68,17 @@ object SuccessReport:
     "twitter-util", // Unrecognized VM option 'AggressiveOpts'
   )
 
-  val jdk20Failures = Set[String](
+  val jdk21Failures = Set[String](
     "kafka",      // cannot override final member Thread#threadId
     "ssl-config", // compilation errors involving sun.security.x509
+  )
+
+  val jdk22Failures = Set[String](
+    "americium",     // (strange javac failure, reported upstream)
+    "metrics-scala", // Java 22 (66) is not supported by the current version of Byte Buddy
+    "play-ws",       // Java 22 (66) is not supported by the current version of Byte Buddy
+    "twirl",         // Unsupported class file major version 66
+    "zinc",          // Unsupported class file major version 66
   )
 
   val expectedToFail: Set[String] =
@@ -81,8 +89,10 @@ object SuccessReport:
         jdk11Failures ++ requiresJdk17Plus
       case "17" =>
         jdk11Failures ++ jdk17Failures
+      case "21" =>
+        jdk11Failures ++ jdk17Failures ++ jdk21Failures
       case _ =>
-        jdk11Failures ++ jdk17Failures ++ jdk20Failures
+        jdk11Failures ++ jdk17Failures ++ jdk21Failures ++ jdk22Failures
 
   def apply(log: io.Source): Option[Int] =
     val lines = log.getLines.dropWhile(!_.contains("---==  Execution Report ==---"))
