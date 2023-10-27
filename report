@@ -74,7 +74,6 @@ object SuccessReport:
   )
 
   val jdk22Failures = Set[String](
-    "americium",     // (strange javac failure, reported upstream)
     "metrics-scala", // Java 22 (66) is not supported by the current version of Byte Buddy
     "play-ws",       // Java 22 (66) is not supported by the current version of Byte Buddy
     "twirl",         // Unsupported class file major version 66
