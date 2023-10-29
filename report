@@ -78,7 +78,6 @@ object SuccessReport:
     "metrics-scala", // Java 22 (66) is not supported by the current version of Byte Buddy
     "play-ws",       // Java 22 (66) is not supported by the current version of Byte Buddy
     "twirl",         // Unsupported class file major version 66
-    "zinc",          // Unsupported class file major version 66
   )
 
   val expectedToFail: Set[String] =
