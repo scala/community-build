@@ -69,7 +69,7 @@ object SuccessReport:
 
   val expectedToFail: Set[String] =
     sys.env.get("jvmVersion") match
-      case Some("1.8") =>
+      case Some("8") =>
         jdk8Failures
       case Some("11") =>
         jdk8Failures ++ jdk11Failures
