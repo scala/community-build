@@ -77,9 +77,9 @@ println(command.mkString(" "))
 println()
 val dbuildOut = s"dbuild-$dbuildVersion/dbuild.out"
 val moreEnv =
-  if scala.util.Properties.isJavaAtLeast("17")
-  then Map("SECURITY_MANAGER" -> "-Djava.security.manager=allow")
-  else Map()
+  if sys.env.get("jvmVersion").map(_.toInt).exists(_ < 17)
+  then Map()
+  else Map("SECURITY_MANAGER" -> "-Djava.security.manager=allow")
 val dbuild =
   os.proc(command).spawn(
     stdout = os.Pipe,
