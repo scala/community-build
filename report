@@ -68,15 +68,17 @@ object SuccessReport:
   )
 
   val expectedToFail: Set[String] =
-    System.getProperty("java.specification.version") match
-      case "1.8" =>
+    sys.env.get("jvmVersion") match
+      case Some("1.8") =>
         jdk8Failures
-      case "11" =>
+      case Some("11") =>
         jdk8Failures ++ jdk11Failures
-      case "17" =>
+      case Some("17") =>
         jdk11Failures ++ jdk17Failures
-      case _ =>
+      case Some(_) =>
         jdk11Failures ++ jdk17Failures ++ jdk20Failures
+      case None => // we're not running on Jenkins, apparently
+        Set()
 
   def apply(log: io.Source): Option[Int] =
     val lines = log.getLines.dropWhile(!_.contains("---==  Execution Report ==---"))
