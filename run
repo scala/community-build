@@ -1,4 +1,4 @@
-#!/usr/local/bin/env -S scala-cli shebang --quiet --bloop-jvm 17
+#!/usr/local/bin/env -S scala-cli shebang --quiet --jvm 17
 
 // Usage:
 // * ./run
