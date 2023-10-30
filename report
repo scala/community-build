@@ -70,14 +70,14 @@ object SuccessReport:
   )
 
   val jdk21Failures = Set[String](
-    "kafka",      // cannot override final member Thread#threadId
-    "ssl-config", // compilation errors involving sun.security.x509
+    "kafka",         // cannot override final member Thread#threadId
+    "playframework", // seems like https://github.com/playframework/playframework/issues/11209 should have fixed it? oh well
+    "ssl-config",    // compilation errors involving sun.security.x509
   )
 
   val jdk22Failures = Set[String](
     "metrics-scala", // Java 22 (66) is not supported by the current version of Byte Buddy
     "play-ws",       // Java 22 (66) is not supported by the current version of Byte Buddy
-    "playframework", // Java 22 (66) is not supported by the current version of Byte Buddy
     "twirl",         // Unsupported class file major version 66
   )
 
