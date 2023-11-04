@@ -74,31 +74,43 @@ do
 
 // now handle "scala"
 
-def nightly(branch: String = "2.13.x"): String =
+val formatter =
+  java.time.format.DateTimeFormatter.ofPattern(
+    "MMMM d, yyyy")
+
+// returns: (version number, date)
+def nightly(branch: String = "2.13.x"): (String, String) =
   val sha =
     ujson.read(
       os.proc("gh", "api", s"repos/scala/scala/git/ref/heads/$branch")
         .call()
         .out.text())
       ("object")("sha").str
-  val baseVersion =
+  val dateString =
+    ujson.read(
+      os.proc("gh", "api", s"repos/scala/scala/branches/$branch")
+        .call()
+        .out.text())
+      ("commit")("commit")("author")("date").str
+  val date = java.time.ZonedDateTime.parse(dateString).format(formatter)
+  val version =
     os.proc("gh", "api",
       "-H", "Accept: application/vnd.github.v3.raw",
       s"repos/scala/scala/contents/build.sbt?ref=$branch")
       .call().out.lines()
       .collectFirst:
-        case s"""${_}Global / baseVersion${_}"$base"${_}""" => base
+        case s"""${_}Global / baseVersion${_}"$base"${_}""" =>
+          s"$base-bin-${sha.take(7)}"
       .get
-  s"$baseVersion-bin-${sha.take(7)}"
+  (version, date)
 
 if args.isEmpty || args.contains("scala") then
   val today =
-    java.time.LocalDate.now()
-      .format(java.time.format.DateTimeFormatter.ofPattern(
-        "MMMM d, yyyy"))
-  val version = nightly()
-  os.write.over(os.pwd / "nightly.properties",
-    s"""|# $today
+    java.time.LocalDate.now().format(formatter)
+  val (version, versionDate) = nightly()
+  val file = os.pwd / "nightly.properties"
+  os.write.over(file,
+    s"""|# $versionDate (latest as of $today)
         |nightly=$version
         |""".stripMargin)
-  println(version)
+  print(os.read(file))
