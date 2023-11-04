@@ -10,7 +10,7 @@
 //> using scala 3.3.1
 //> using option -source:future
 //> using dep org.scala-lang.modules::scala-parallel-collections:1.0.4
-//> using toolkit 0.2.1
+//> using dep com.lihaoyi::os-lib:0.9.1
 
 import scala.collection.parallel.CollectionConverters.* // for .par
 
@@ -80,17 +80,13 @@ val formatter =
 // returns: (version number, date)
 def nightly(branch: String = "2.13.x"): (String, String) =
   val sha =
-    ujson.read(
-      os.proc("gh", "api", s"repos/scala/scala/git/ref/heads/$branch")
-        .call()
-        .out.text())
-      ("object")("sha").str
+    os.proc("gh", "api", s"repos/scala/scala/git/ref/heads/$branch",
+      "--jq", ".object.sha")
+      .call().out.lines().head
   val dateString =
-    ujson.read(
-      os.proc("gh", "api", s"repos/scala/scala/branches/$branch")
-        .call()
-        .out.text())
-      ("commit")("commit")("author")("date").str
+    os.proc("gh", "api", s"repos/scala/scala/branches/$branch",
+        "--jq", ".commit.commit.author.date")
+      .call().out.lines().head
   val date = java.time.ZonedDateTime.parse(dateString).format(formatter)
   val version =
     os.proc("gh", "api",
