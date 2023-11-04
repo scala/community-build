@@ -1,14 +1,16 @@
 #!/usr/local/bin/env -S scala-cli shebang --quiet --jvm 17
 
 // to advance all projects:
-//   % ./advance scalacheck
+//   % ./advance
 // to advance just selected ones:
 //   % ./advance scalacheck scalatest specs2
+
+// "scala" is handled specially and updates nightly.properties
 
 //> using scala 3.3.1
 //> using option -source:future
 //> using dep org.scala-lang.modules::scala-parallel-collections:1.0.4
-//> using dep com.lihaoyi::os-lib:0.9.1
+//> using toolkit 0.2.1
 
 import scala.collection.parallel.CollectionConverters.* // for .par
 
@@ -52,7 +54,7 @@ val selectedFiles =
   else
     allFiles.filter(file => args.contains(file.baseName))
 
-if selectedFiles.isEmpty then
+if selectedFiles.isEmpty && !args.contains("scala") then
   println("no matches")
   sys.exit(1)
 
@@ -68,3 +70,34 @@ do
     case Ivy() => // okay to skip
     case bad =>
       throw new IllegalArgumentException(bad)
+
+// now handle "scala"
+
+def nightly(branch: String = "2.13.x"): String =
+  val sha =
+    ujson.read(
+      os.proc("gh", "api", s"repos/scala/scala/git/ref/heads/$branch")
+        .call()
+        .out.text())
+      ("object")("sha").str
+  val baseVersion =
+    os.proc("gh", "api",
+      "-H", "Accept: application/vnd.github.v3.raw",
+      s"repos/scala/scala/contents/build.sbt?ref=$branch")
+      .call().out.lines()
+      .collectFirst:
+        case s"""${_}Global / baseVersion${_}"$base"${_}""" => base
+      .get
+  s"$baseVersion-bin-${sha.take(7)}"
+
+if args.isEmpty || args.contains("scala") then
+  val today =
+    java.time.LocalDate.now()
+      .format(java.time.format.DateTimeFormatter.ofPattern(
+        "MMMM d, yyyy"))
+  val version = nightly("2.12.x")
+  os.write.over(os.pwd / "nightly.properties",
+    s"""|# $today
+        |nightly=$version
+        |""".stripMargin)
+  println(version)
