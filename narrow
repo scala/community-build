@@ -1,4 +1,4 @@
-#!/usr/local/bin/env -S scala-cli shebang --quiet --jvm 17
+#!/usr/local/bin/env -S scala-cli shebang --quiet
 
 // to narrow projs.conf to one project:
 //   % ./narrow scalacheck
