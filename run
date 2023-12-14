@@ -1,4 +1,8 @@
-#!/usr/local/bin/env -S scala-cli shebang --quiet
+#!/usr/local/bin/env -S scala-cli shebang -v -v -v
+
+// TODO the `-v -v -v` above is to help troubleshoot the issues
+// we've been having with the script intermittently failing to launch
+// on Jenkins
 
 // Usage:
 // * ./run
