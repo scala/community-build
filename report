@@ -32,6 +32,7 @@ object SuccessReport:
   val requiresJdk11Plus = Set[String](
     "airframe",
     "cachecontrol", // JDK 8 support dropped (October 2022)
+    "doobie",       // JDK 8 support dropped (January 2024)
     "fs2",
     "jsoniter-scala", // JDK 8 support dropped (February 2022)
     "metrics-scala", // JDK 8 support dropped (August 2023)
