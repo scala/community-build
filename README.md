@@ -21,7 +21,7 @@ issues and incompatibilities.
 
 ## Scala 3?
 
-here: https://github.com/lampepfl/dotty/blob/master/community-build/README.md
+here: [VirtusLab/community-build3](https://github.com/VirtusLab/community-build3)
 
 ## News
 
