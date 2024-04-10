@@ -79,6 +79,7 @@ object SuccessReport:
   )
 
   val jdk22Failures = Set[String](
+    "metals",        // test failure: https://github.com/scalameta/metals/issues/6295
     "metrics-scala", // Java 22 (66) is not supported by the current version of Byte Buddy
     "play-ws",       // Java 22 (66) is not supported by the current version of Byte Buddy
     "twirl",         // Unsupported class file major version 66
