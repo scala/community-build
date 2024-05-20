@@ -1,6 +1,6 @@
 #!/usr/local/bin/env -S scala-cli -Dlog4j.configurationFile=scripts/log4j.properties shebang --quiet
 
-//> using scala 3.4.1
+//> using scala 3.4.2
 //> using option -source:future
 
 object ClocReport:
