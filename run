@@ -17,7 +17,7 @@
 
 //> using scala 3.4.2
 //> using option -source:future
-//> using dep com.lihaoyi::os-lib:0.10.1
+//> using dep com.lihaoyi::os-lib:0.10.2
 
 println(s"""JAVA_HOME=${sys.env("JAVA_HOME")}""")
 print("which java: ")
