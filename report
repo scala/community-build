@@ -43,6 +43,7 @@ object SuccessReport:
     "play-file-watch", // JDK 8 support dropped (October 2022)
     "play-ws", // JDK 8 support dropped (October 2022)
     "playframework", // JDK 8 support dropped (September 2022)
+    "requests-scala", // JDK 8 support dropped (June 2024)
     "scaffeine", // they seem to be on a caffeine version that requires JDK 11
     "scalachess",
     "scalafmt",  // uses mdoc, which dropped JDK 8
