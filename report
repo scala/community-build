@@ -47,6 +47,7 @@ object SuccessReport:
     "scaffeine", // they seem to be on a caffeine version that requires JDK 11
     "scalachess",
     "scalafmt",  // uses mdoc, which dropped JDK 8
+    "slick",  // JDK 8 support dropped (June 2024)
     "sttp", // uses java.net.http
     "twirl", // JDK 8 support dropped (October 2022)
     "unfiltered", // they seem to be on a jetty version that requires JDK 11+
