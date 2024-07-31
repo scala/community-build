@@ -31,7 +31,6 @@ object SuccessReport:
 
   val requiresJdk11Plus = Set[String](
     "airframe",
-    "cachecontrol", // JDK 8 support dropped (October 2022)
     "doobie",       // JDK 8 support dropped (January 2024)
     "fs2",
     "jsoniter-scala", // JDK 8 support dropped (February 2022)
@@ -41,7 +40,6 @@ object SuccessReport:
     "parboiled", // JDK 8 support dropped (March 2022)
     "pass4s",
     "play-file-watch", // JDK 8 support dropped (October 2022)
-    "play-ws", // JDK 8 support dropped (October 2022)
     "playframework", // JDK 8 support dropped (September 2022)
     "requests-scala", // JDK 8 support dropped (June 2024)
     "scaffeine", // they seem to be on a caffeine version that requires JDK 11
@@ -49,15 +47,17 @@ object SuccessReport:
     "scalafmt",  // uses mdoc, which dropped JDK 8
     "slick",  // JDK 8 support dropped (June 2024)
     "sttp", // uses java.net.http
-    "twirl", // JDK 8 support dropped (October 2022)
     "unfiltered", // they seem to be on a jetty version that requires JDK 11+
   )
 
   val requiresJdk17Plus = Set[String](
     "americium",  // some test code uses `String#translateEscapes`
+    "cachecontrol", // JDK 11 support dropped (July 2024)
+    "play-ws", // JDK 11 support dropped (July 2024)
     "scalafx",
     "scastie",
     "shapeless-java-records", // inherently requires JDK 15+
+    "twirl", // JDK 11 support dropped (July 2024)
   )
 
   val jdk11Failures = Set[String](
