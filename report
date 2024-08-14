@@ -83,6 +83,10 @@ object SuccessReport:
     "playframework", // Java 22 (66) is not supported by the current version of Byte Buddy
   )
 
+  val jdk23Failures = Set[String](
+    // populate this once we have results from ASM 9.7 upgrade
+  )
+
   val expectedToFail: Set[String] =
     sys.env.get("jvmVersion") match
       case Some("8") =>
@@ -93,8 +97,10 @@ object SuccessReport:
         jdk11Failures ++ jdk17Failures
       case Some("21") =>
         jdk11Failures ++ jdk17Failures ++ jdk21Failures
-      case Some(_) =>
+      case Some("22") =>
         jdk11Failures ++ jdk17Failures ++ jdk21Failures ++ jdk22Failures
+      case Some(_) =>
+        jdk11Failures ++ jdk17Failures ++ jdk21Failures ++ jdk22Failures ++ jdk23Failures
       case None => // we're not running on Jenkins, apparently
         Set()
 
