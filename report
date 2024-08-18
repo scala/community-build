@@ -37,6 +37,7 @@ object SuccessReport:
     "coursier", // needs scala/bug#11125 workaround
     "doobie", // needs scala/bug#11125 workaround
     "multibot", //  - testScalaInterpreter *** FAILED ***; [java.lang.SecurityException: ("java.lang.RuntimePermission" "accessSystemModules")
+    "playframework", // compilation error (sun.security.x509.AlgorithmId)
     "scala-debugger", // "object FieldInfo is not a member of package sun.reflect"
     "scala-refactoring", // needs scala/bug#11125 workaround?
     "scalafix", // needs scala/bug#11125 workaround
@@ -50,7 +51,6 @@ object SuccessReport:
     "fs2", // needs newer sbt-osgi
     "paradox", // Unsupported class file major version
     "play-doc", // Error creating extended parser class: Could not determine whether class 'play.doc.CodeReferenceParser$$parboiled' has already been loaded (Parboiled.java:58)
-    "playframework", // Failed tests: play.mvc.HttpFormsTest
     "sbt-io", // sbt.io.IOSpecification fails
     "scala-async", // needs newer sbt-scala-module (for newer sbt-osgi)
     "scala-continuations", // needs newer sbt-scala-module (for newer sbt-osgi)
