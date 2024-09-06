@@ -89,7 +89,6 @@ object SuccessReport:
     "fpinscala",            // import conflict involving java.io.IO
     "metrics-scala",        // Java 23 (67) is not supported by the current version of Byte Buddy
     "monix",                // import conflict involving java.io.IO
-    "sbt-io",               // import conflict involving java.io.IO
     "zinc",                 // Unsupported class file major version 67
   )
 
