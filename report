@@ -87,7 +87,6 @@ object SuccessReport:
     "cats-effect-tutorial", // import conflict involving java.io.IO
     "fetch",                // import conflict involving java.io.IO
     "fpinscala",            // import conflict involving java.io.IO
-    "metrics-scala",        // Java 23 (67) is not supported by the current version of Byte Buddy
     "monix",                // import conflict involving java.io.IO
     "zinc",                 // Unsupported class file major version 67
   )
