@@ -35,7 +35,6 @@ object SuccessReport:
     "fs2",
     "jsoniter-scala", // JDK 8 support dropped (February 2022)
     "metrics-scala", // JDK 8 support dropped (August 2023)
-    "metals", // test failures on JDK 8 (they don't test on 8 on their own CI)
     "mdoc", // JDK 8 support dropped (October 2023)
     "parboiled", // JDK 8 support dropped (March 2022)
     "pass4s",
@@ -53,6 +52,7 @@ object SuccessReport:
   val requiresJdk17Plus = Set[String](
     "americium",  // some test code uses `String#translateEscapes`
     "cachecontrol", // JDK 11 support dropped (July 2024)
+    "metals", // JDK 11 support dropped (August 2024)
     "play-ws", // JDK 11 support dropped (July 2024)
     "scalafx",
     "scastie",
