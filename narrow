@@ -9,7 +9,7 @@
 
 //> using scala 3.5.2
 //> using option -deprecation -source:future
-//> using dep com.lihaoyi::os-lib:0.10.2
+//> using dep com.lihaoyi::os-lib:0.11.2
 
 // read dependency information
 val tree: Map[String, Set[String]] =

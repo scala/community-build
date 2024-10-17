@@ -10,7 +10,7 @@
 //> using scala 3.5.2
 //> using option -source:future
 //> using dep org.scala-lang.modules::scala-parallel-collections:1.0.4
-//> using dep com.lihaoyi::os-lib:0.10.2
+//> using dep com.lihaoyi::os-lib:0.11.2
 
 import scala.collection.parallel.CollectionConverters.* // for .par
 
