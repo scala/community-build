@@ -15,7 +15,7 @@
 // I didn't port every feature of that script to this version.
 // We can add things back later as needed, I figure.
 
-//> using scala 3.5.2
+//> using scala 3.6.1
 //> using option -source:future
 //> using dep com.lihaoyi::os-lib:0.11.2
 
