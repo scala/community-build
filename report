@@ -54,10 +54,13 @@ object SuccessReport:
     "cachecontrol", // JDK 11 support dropped (July 2024)
     "metals", // JDK 11 support dropped (August 2024)
     "play-ws", // JDK 11 support dropped (July 2024)
-    "scalafx",
     "scastie",
     "shapeless-java-records", // inherently requires JDK 15+
     "twirl", // JDK 11 support dropped (July 2024)
+  )
+
+  val requiresJdk21Plus = Set[String](
+    "scalafx",  // uses -release:21
   )
 
   val jdk11Failures = Set[String](
@@ -94,11 +97,11 @@ object SuccessReport:
   val expectedToFail: Set[String] =
     sys.env.get("jvmVersion") match
       case Some("8") =>
-        requiresJdk11Plus ++ requiresJdk17Plus
+        requiresJdk11Plus ++ requiresJdk17Plus ++ requiresJdk21Plus
       case Some("11") =>
-        jdk11Failures ++ requiresJdk17Plus
+        jdk11Failures ++ requiresJdk17Plus ++ requiresJdk21Plus
       case Some("17") =>
-        jdk11Failures ++ jdk17Failures
+        jdk11Failures ++ jdk17Failures ++ requiresJdk21Plus
       case Some("21") =>
         jdk11Failures ++ jdk17Failures ++ jdk21Failures
       case Some("22") =>
