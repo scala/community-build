@@ -43,7 +43,6 @@ object SuccessReport:
     "playframework", // JDK 8 support dropped (September 2022)
     "requests-scala", // JDK 8 support dropped (June 2024)
     "scaffeine", // they seem to be on a caffeine version that requires JDK 11
-    "scala-commons",
     "scalachess",
     "scalafmt",  // uses mdoc, which dropped JDK 8
     "slick",  // JDK 8 support dropped (June 2024)
@@ -56,6 +55,7 @@ object SuccessReport:
     "cachecontrol", // JDK 11 support dropped (July 2024)
     "metals", // JDK 11 support dropped (August 2024)
     "play-ws", // JDK 11 support dropped (July 2024)
+    "scala-commons",
     "scastie",
     "shapeless-java-records", // inherently requires JDK 15+
     "twirl", // JDK 11 support dropped (July 2024)
