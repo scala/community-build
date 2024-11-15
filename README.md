@@ -1,10 +1,12 @@
 # Scala 2 Community Build
 
-In this repository we build and test a large corpus of open-source Scala 2 projects.
-Everything is built from source using Lightbend's [dbuild](https://github.com/lightbend-labs/dbuild).
+In the 2.13.x branch of this repository we build and test a large
+corpus of open-source Scala 2.13 projects. Everything is built from
+source using Akka's [dbuild](https://github.com/lightbend-labs/dbuild)
+tool.
 
-The project is financed and primarily maintained by Lightbend, as part
-of our overall maintenance of the Scala compiler and standard library.
+This project is maintained by the Scala team at Akka Inc., as part of
+our overall maintenance of the Scala compiler and standard library.
 
 **How big is it?**
 The 2.13 build contains **over 2 million lines** of Scala code
