@@ -63,7 +63,7 @@ object SuccessReport:
     "twitter-util", // Unrecognized VM option 'AggressiveOpts'
   )
 
-  val jdk20Failures = Set[String](
+  val jdk21Failures = Set[String](
     "ssl-config", // compilation errors involving sun.security.x509
   )
 
@@ -76,7 +76,7 @@ object SuccessReport:
       case Some("17") =>
         jdk11Failures ++ jdk17Failures
       case Some(_) =>
-        jdk11Failures ++ jdk17Failures ++ jdk20Failures
+        jdk11Failures ++ jdk17Failures ++ jdk21Failures
       case None => // we're not running on Jenkins, apparently
         Set()
 
