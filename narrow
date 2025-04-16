@@ -7,7 +7,7 @@
 // to un-narrow, pass no arguments:
 //   % ./narrow
 
-//> using scala 3.7.0-RC2
+//> using scala 3.7.0-RC3
 //> using option -deprecation -source:future
 //> using dep com.lihaoyi::os-lib:0.11.3
 
