@@ -38,7 +38,6 @@ object SuccessReport:
     "metrics-scala", // JDK 8 support dropped (August 2023)
     "mdoc", // JDK 8 support dropped (October 2023)
     "parboiled", // JDK 8 support dropped (March 2022)
-    "pass4s",
     "play-file-watch", // JDK 8 support dropped (October 2022)
     "playframework", // JDK 8 support dropped (September 2022)
     "pureconfig", // errors on JDK 8 in zio/internal/stacktracer (June 2025)
