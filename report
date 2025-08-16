@@ -80,6 +80,7 @@ object SuccessReport:
 
   val jdk21Failures = Set[String](
     "kafka",         // cannot override final member Thread#threadId
+    "scallop",       // trapExit; https://github.com/scallop/scallop/issues/254
     "ssl-config",    // compilation errors involving sun.security.x509
   )
 
