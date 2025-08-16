@@ -84,7 +84,7 @@ object SuccessReport:
     "ssl-config",    // compilation errors involving sun.security.x509
   )
 
-  val jdk23Failures = Set[String](
+  val jdk25Failures = Set[String](
     "cats-effect-tutorial", // import conflict involving java.io.IO
     "fetch",                // import conflict involving java.io.IO
     "fpinscala",            // import conflict involving java.io.IO
@@ -105,7 +105,7 @@ object SuccessReport:
       case Some("21") =>
         jdk11Failures ++ jdk17Failures ++ jdk21Failures
       case Some(_) =>
-        jdk11Failures ++ jdk17Failures ++ jdk21Failures ++ jdk23Failures
+        jdk11Failures ++ jdk17Failures ++ jdk21Failures ++ jdk25Failures
       case None => // we're not running on Jenkins, apparently
         Set()
 
