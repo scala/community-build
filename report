@@ -85,7 +85,10 @@ object SuccessReport:
   )
 
   val jdk25Failures = Set[String](
+    "cats-effect",          // test failure; https://github.com/typelevel/cats-effect/issues/4471
     "playframework",        // not supported by the current version of Byte Buddy
+    "refined",              // test failure; https://github.com/fthomas/refined/issues/1368
+    "slick",                // trapExit; https://github.com/slick/slick/issues/3265
     "twirl",                // Unsupported class file major version
     "zinc",                 // Unsupported class file major version
   )
