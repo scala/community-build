@@ -85,10 +85,6 @@ object SuccessReport:
   )
 
   val jdk25Failures = Set[String](
-    "cats-effect-tutorial", // import conflict involving java.io.IO
-    "fetch",                // import conflict involving java.io.IO
-    "fpinscala",            // import conflict involving java.io.IO
-    "monix",                // import conflict involving java.io.IO
     "playframework",        // not supported by the current version of Byte Buddy
     "twirl",                // Unsupported class file major version
     "zinc",                 // Unsupported class file major version
