@@ -54,6 +54,7 @@ object SuccessReport:
   val requiresJdk17Plus = Set[String](
     "americium",  // some test code uses `String#translateEscapes`
     "cachecontrol", // JDK 11 support dropped (July 2024)
+    "json4s", // Jackson dependency requires 17+ (October 2025)
     "metals", // JDK 11 support dropped (August 2024)
     "play-ws", // JDK 11 support dropped (July 2024)
     "scala-commons",
