@@ -46,6 +46,7 @@ object SuccessReport:
     "scalachess",
     "scalafmt",  // uses mdoc, which dropped JDK 8
     "slick",  // JDK 8 support dropped (June 2024)
+    "ssl-config",    // compilation errors involving sun.security.x509
     "sttp", // uses java.net.http
     "unfiltered", // they seem to be on a jetty version that requires JDK 11+
     "utest",  // JDK 8 support dropped (when fork updated August 2025)
@@ -82,7 +83,6 @@ object SuccessReport:
 
   val jdk21Failures = Set[String](
     "kafka",         // cannot override final member Thread#threadId
-    "ssl-config",    // compilation errors involving sun.security.x509
   )
 
   val jdk25Failures = Set[String](
