@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<config xmlns="http://artifactory.jfrog.org/xsd/3.3.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://releases.jfrog.io/artifactory/static-release-virtual/xsd/artifactory/artifactory-v3_3_9.xsd">
+<config xmlns="http://artifactory.jfrog.org/xsd/3.4.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://releases.jfrog.io/artifactory/static-release-virtual/xsd/artifactory/artifactory-v3_4_2.xsd">
     <repositoriesGeneralConfig>
         <helm>
             <forceOciFirstUiFlow>true</forceOciFirstUiFlow>
+            <forceMetadataNameVersion>false</forceMetadataNameVersion>
+            <forceNonDuplicateChart>false</forceNonDuplicateChart>
         </helm>
+        <nuget>
+            <enableGlobalNormalization>false</enableGlobalNormalization>
+        </nuget>
     </repositoriesGeneralConfig>
     <forceNativeDbLocksMechanismInAutoMode>false</forceNativeDbLocksMechanismInAutoMode>
     <useOnlyTokenForIdentifyingXrayUser>true</useOnlyTokenForIdentifyingXrayUser>
     <offlineMode>false</offlineMode>
     <archiveIndexEnabled>true</archiveIndexEnabled>
     <fileUploadMaxSizeMb>100</fileUploadMaxSizeMb>
-    <revision>111</revision>
+    <revision>112</revision>
     <addons>
         <showAddonsInfo>true</showAddonsInfo>
         <showAddonsInfoCookie>1430275670992</showAddonsInfoCookie>
