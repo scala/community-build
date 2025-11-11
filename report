@@ -33,29 +33,26 @@ object SuccessReport:
     "shapeless-java-records", // requires JDK 15
   )
 
-  val jdk11Failures = Set[String](
-    "coursier", // needs scala/bug#11125 workaround
-    "doobie", // needs scala/bug#11125 workaround
-    "multibot", //  - testScalaInterpreter *** FAILED ***; [java.lang.SecurityException: ("java.lang.RuntimePermission" "accessSystemModules")
-    "playframework", // compilation error (sun.security.x509.AlgorithmId)
-    "scala-debugger", // "object FieldInfo is not a member of package sun.reflect"
-    "scala-refactoring", // needs scala/bug#11125 workaround?
-    "scalafix", // needs scala/bug#11125 workaround
-  )
-
   val jdk17Failures = Set[String](
     "airframe", // runs afoul of JEP 403
     "akka", // needs newer sbt-osgi
     "classutil", // runs afoul of JEP 403
+    "coursier", // needs scala/bug#11125 workaround
     "dispatch", // java.lang.ExceptionInInitializerError: null
+    "doobie", // needs scala/bug#11125 workaround
     "fs2", // needs newer sbt-osgi
+    "multibot", //  - testScalaInterpreter *** FAILED ***; [java.lang.SecurityException: ("java.lang.RuntimePermission" "accessSystemModules")
     "paradox", // Unsupported class file major version
     "play-doc", // Error creating extended parser class: Could not determine whether class 'play.doc.CodeReferenceParser$$parboiled' has already been loaded (Parboiled.java:58)
+    "playframework", // compilation error (sun.security.x509.AlgorithmId)
     "sbt-io", // sbt.io.IOSpecification fails
     "scala-async", // needs newer sbt-scala-module (for newer sbt-osgi)
     "scala-continuations", // needs newer sbt-scala-module (for newer sbt-osgi)
+    "scala-debugger", // "object FieldInfo is not a member of package sun.reflect"
     "scala-logging", // needs newer sbt-osgi
+    "scala-refactoring", // needs scala/bug#11125 workaround?
     "scala-swing", // needs newer sbt-scala-module (for newer sbt-osgi)
+    "scalafix", // needs scala/bug#11125 workaround
     "scalatest-tests", // Error creating extended parser class: Could not determine whether class 'org.pegdown.Parser$$parboiled' has already been loaded
     "scalikejdbc", // test failure: scalikejdbc.jsr310.StatementExecutorSpec
     "specs2-more", // Error creating extended parser class: Could not determine whether class 'org.pegdown.Parser$$parboiled' has already been loaded (Parboiled.java:58)
@@ -71,12 +68,10 @@ object SuccessReport:
     sys.env.get("jvmVersion") match
       case Some("8") =>
         jdk8Failures
-      case Some("11") =>
-        jdk8Failures ++ jdk11Failures
       case Some("17") =>
-        jdk11Failures ++ jdk17Failures
+        jdk17Failures
       case Some(_) =>
-        jdk11Failures ++ jdk17Failures ++ jdk21Failures
+        jdk17Failures ++ jdk21Failures
       case None => // we're not running on Jenkins, apparently
         Set()
 
