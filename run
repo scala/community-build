@@ -13,7 +13,7 @@
 
 //> using scala 3.7.4
 //> using option -source:future
-//> using dep com.lihaoyi::os-lib:0.11.5
+//> using dep com.lihaoyi::os-lib:0.11.6
 
 println(s"""JAVA_HOME=${sys.env("JAVA_HOME")}""")
 print("which java: ")
