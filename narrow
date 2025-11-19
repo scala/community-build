@@ -1,4 +1,4 @@
-#!/usr/local/bin/env -S scala-cli shebang --quiet
+#!/usr/local/bin/env -S scala shebang --quiet
 
 // to narrow projs.conf to just one project and its dependencies:
 //   % ./narrow scalacheck
@@ -7,7 +7,7 @@
 
 // dependencies.txt is the source of truth for what dependencies to use
 
-//> using scala 3.8.0-RC1
+//> using scala 3.7.4
 //> using option -deprecation -source:future
 //> using dep com.lihaoyi::os-lib:0.11.6
 
