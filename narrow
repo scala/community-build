@@ -7,6 +7,7 @@
 
 // dependencies.txt is the source of truth for what dependencies to use
 
+// scripts must work on JDK 8 so we can't go past Scala 3.7
 //> using scala 3.7.4
 //> using option -deprecation -source:future
 //> using dep com.lihaoyi::os-lib:0.11.6
