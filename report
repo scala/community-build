@@ -1,5 +1,6 @@
 #!/usr/local/bin/env -S scala -Dlog4j.configurationFile=scripts/log4j.properties shebang --quiet
 
+// scripts must work on JDK 8 so we can't go past Scala 3.7
 //> using scala 3.7.4
 //> using option -source:future
 
