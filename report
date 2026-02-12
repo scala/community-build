@@ -32,6 +32,7 @@ object SuccessReport:
 
   val jdk8Failures = Set[String](
     "shapeless-java-records", // requires JDK 15
+    "scala-logging",          // requires JDK 11
   )
 
   val jdk17Failures = Set[String](
