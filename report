@@ -31,6 +31,7 @@ object SuccessReport:
     """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
   val jdk8Failures = Set[String](
+    "better-tostring",        // requires JDK 17
     "shapeless-java-records", // requires JDK 15
     "scala-logging",          // requires JDK 11
   )
