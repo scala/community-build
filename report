@@ -30,9 +30,14 @@ object SuccessReport:
   val Regex =
     """\[info\] Project ((?:\w|-(?!-))+)-*: ([^\(]+) \((?:stuck on broken dependencies: )?(.*)\)""".r
 
+  val requiresJdk11Plus = Set[String](
+    "scala-logging",  // JDK 8 support dropped (February 2026)
+  )
+
   val requiresJdk17Plus = Set[String](
     "airframe",
     "americium",  // some test code uses `String#translateEscapes`
+    "better-tostring",  // JDK 8 and 11 support dropped (February 2026)
     "cachecontrol", // JDK 11 support dropped (July 2024)
     "doobie",       // JDK 8 support dropped (January 2024)
     "fastscala",
@@ -91,7 +96,7 @@ object SuccessReport:
   val expectedToFail: Set[String] =
     sys.env.get("jvmVersion") match
       case Some("8") =>
-        requiresJdk17Plus ++ requiresJdk21Plus
+        requiresJdk11Plus ++ requiresJdk17Plus ++ requiresJdk21Plus
       case Some("11") =>
         requiresJdk17Plus ++ requiresJdk21Plus
       case Some("17") =>
