@@ -67,7 +67,6 @@ object SuccessReport:
   )
 
   val requiresJdk21Plus = Set[String](
-    "scalafx",  // uses -release:21
   )
 
   val jdk17Failures = Set[String](
@@ -93,16 +92,20 @@ object SuccessReport:
     "zinc",                 // Unsupported class file major version
   )
 
+  val requiresJdk25Plus = Set[String](
+    "scalafx",  // uses -release:23
+  )
+
   val expectedToFail: Set[String] =
     sys.env.get("jvmVersion") match
       case Some("8") =>
-        requiresJdk11Plus ++ requiresJdk17Plus ++ requiresJdk21Plus
+        requiresJdk11Plus ++ requiresJdk17Plus ++ requiresJdk21Plus ++ requiresJdk25Plus
       case Some("11") =>
-        requiresJdk17Plus ++ requiresJdk21Plus
+        requiresJdk17Plus ++ requiresJdk21Plus ++ requiresJdk25Plus
       case Some("17") =>
-        jdk17Failures ++ requiresJdk21Plus
+        jdk17Failures ++ requiresJdk21Plus ++ requiresJdk25Plus
       case Some("21") =>
-        jdk17Failures ++ jdk21Failures
+        jdk17Failures ++ jdk21Failures ++ requiresJdk25Plus
       case Some(_) =>
         jdk17Failures ++ jdk21Failures ++ jdk25Failures
       case None => // we're not running on Jenkins, apparently
