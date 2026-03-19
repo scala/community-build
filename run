@@ -69,6 +69,25 @@ os.write.over(dbuildScript,
     "(?m)^java .$",  // (?m) enables multiline mode
     "java -Xss16M \\\\"))
 
+// set up rt.jar; cribbed from sbt launch script; relies on `jvmVersion`
+// being set which is true on Jenkins but might not be true locally
+// (as of March 2026, the only repo that actually requires this is
+// cat-effect-direct, because it accesses `jdk.internal.vm`)
+val extDir =
+  if sys.env.get("jvmVersion").map(_.toInt).exists(_ > 8) then
+    val extDir = os.Path(
+      os.proc("sbt", "--allow-empty", "--rt-ext-dir")
+        .call().out.text().trim)
+    val rtJar = extDir / "rt.jar"
+    if !os.exists(rtJar) then
+      os.makeDir.all(extDir)
+      println("Copying rt.jar")
+      os.proc("sbt", "--allow-empty", "--export-rt", rtJar).call()
+      assert(os.exists(rtJar))
+    extDir.toString
+  else
+    ""
+
 // we're ready to run dbuild
 val command = Seq(
   dbuildScript.toString,
@@ -87,6 +106,7 @@ val dbuild =
     mergeErrIntoOut = true,
     env = moreEnv ++ Map(
       "version" -> scalaVersion,
+      "EXT_DIR" -> extDir,
       "NODE" -> node),
   )
 // we use `tee` so we can see the output live as well as redirecting it to a
