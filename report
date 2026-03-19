@@ -67,6 +67,7 @@ object SuccessReport:
   )
 
   val requiresJdk21Plus = Set[String](
+    "cats-effect-direct",  // uses jdk.internal.vm.Continuation
   )
 
   val jdk17Failures = Set[String](
