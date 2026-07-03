@@ -44,7 +44,7 @@ removeProjectBuilds()
 
 // Download and extract dbuild if we haven't already got it
 if !os.isDir(os.pwd / s"dbuild-$dbuildVersion") then
-  val url = s"https://github.com/lightbend-labs/dbuild/releases/download/v$dbuildVersion/dbuild-$dbuildVersion.tgz"
+  val url = s"https://github.com/scala-garden/dbuild/releases/download/v$dbuildVersion/dbuild-$dbuildVersion.tgz"
   os.proc("curl", "-L", "-O", url).call(stdout = os.Inherit)
   os.proc("tar", "xfz", s"dbuild-$dbuildVersion.tgz").call(stdout = os.Inherit)
   os.remove(os.pwd / s"dbuild-$dbuildVersion.tgz")
@@ -63,7 +63,7 @@ val node =
   then "nodejs"
   else "node"
 
-// work around https://github.com/lightbend-labs/dbuild/issues/241
+// work around https://github.com/scala-garden/dbuild/issues/241
 os.write.over(dbuildScript,
   os.read(dbuildScript).replaceFirst(
     "(?m)^java .$",  // (?m) enables multiline mode

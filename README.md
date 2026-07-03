@@ -2,8 +2,7 @@
 
 In the 2.13.x branch of this repository we build and test a large
 corpus of open-source Scala 2.13 projects. Everything is built from
-source using Akka's [dbuild](https://github.com/lightbend-labs/dbuild)
-tool.
+source using [dbuild](https://github.com/scala-garden/dbuild).
 
 This project is maintained by the Scala team at Akka Inc., as part of
 our overall maintenance of the Scala compiler and standard library.
