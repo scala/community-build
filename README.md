@@ -2,8 +2,7 @@
 
 The 2.12.x branch of this repository contains configuration files that
 enable us to build and test a corpus of Scala 2.12 open source
-projects together using Akka's
-[dbuild](https://github.com/lightbend-labs/dbuild).
+projects together using [dbuild](https://github.com/scala-garden/dbuild).
 
 This project is maintained by the Scala team at Akka Inc., as part of
 our overall maintenance of the Scala compiler and standard library.
