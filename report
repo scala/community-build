@@ -39,6 +39,7 @@ object SuccessReport:
     "americium",  // some test code uses `String#translateEscapes`
     "better-tostring",  // JDK 8 and 11 support dropped (February 2026)
     "cachecontrol", // JDK 11 support dropped (July 2024)
+    "difflicious",  // JDK 8 support dropped (July 2026)
     "doobie",       // JDK 8 support dropped (January 2024)
     "fastscala",
     "fs2",
