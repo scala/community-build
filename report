@@ -53,6 +53,7 @@ object SuccessReport:
     "play-ws", // JDK 11 support dropped (July 2024)
     "playframework", // JDK 8 support dropped (September 2022)
     "pureconfig", // errors on JDK 8 in zio/internal/stacktracer (June 2025)
+    "refined", // test failure on JDK 8; their own CI uses 17
     "requests-scala", // JDK 8 support dropped (June 2024)
     "scaffeine", // they seem to be on a caffeine version that requires JDK 11
     "scala-commons",
