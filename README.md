@@ -4,7 +4,7 @@ The 2.12.x branch of this repository contains configuration files that
 enable us to build and test a corpus of Scala 2.12 open source
 projects together using [dbuild](https://github.com/scala-garden/dbuild).
 
-This project is maintained by the Scala team at Akka Inc., as part of
+This project is maintained by the Scala 2 team at VirtusLab, as part of
 our overall maintenance of the Scala compiler and standard library.
 
 **How big is it?**
