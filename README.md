@@ -4,7 +4,7 @@ In the 2.13.x branch of this repository we build and test a large
 corpus of open-source Scala 2.13 projects. Everything is built from
 source using [dbuild](https://github.com/scala-garden/dbuild).
 
-This project is maintained by the Scala team at Akka Inc., as part of
+This project is maintained by the Scala 2 team at VirtusLab, as part of
 our overall maintenance of the Scala compiler and standard library.
 
 **How big is it?**
