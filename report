@@ -76,8 +76,6 @@ object SuccessReport:
     "akka", // needs newer sbt-osgi; not sure about status w/r/t JEP 403
     "finagle", // Unrecognized VM option 'AggressiveOpts'
     "mockito-scala", // reflection-related test failures
-    "scala-debugger", // "object FieldInfo is not a member of package sun.reflect"
-    "scala-refactoring", // needs scala/bug#11125 workaround?
     "scrooge", // Unrecognized VM option 'AggressiveOpts'
     "ssl-config",    // compilation errors involving sun.security.x509
     "twitter-util", // Unrecognized VM option 'AggressiveOpts'
