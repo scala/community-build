@@ -74,22 +74,14 @@ object SuccessReport:
 
   val jdk17Failures = Set[String](
     "akka", // needs newer sbt-osgi; not sure about status w/r/t JEP 403
-    "finagle", // Unrecognized VM option 'AggressiveOpts'
     "mockito-scala", // reflection-related test failures
-    "scrooge", // Unrecognized VM option 'AggressiveOpts'
     "ssl-config",    // compilation errors involving sun.security.x509
-    "twitter-util", // Unrecognized VM option 'AggressiveOpts'
   )
 
   val jdk21Failures = Set[String](
-    "kafka",         // cannot override final member Thread#threadId
   )
 
   val jdk25Failures = Set[String](
-    "cats-effect",          // test failure; https://github.com/typelevel/cats-effect/issues/4471
-    "playframework",        // not supported by the current version of Byte Buddy
-    "twirl",                // Unsupported class file major version
-    "zinc",                 // Unsupported class file major version
   )
 
   val requiresJdk25Plus = Set[String](
@@ -98,10 +90,9 @@ object SuccessReport:
 
   val jdk27Failures = Set[String](
     "ammonite",    // value stop is not a member of Thread
-    "fs2",         // test expects the ConnectException message "Connection refused"
     "metals",      // value stop is not a member of Thread
+    "scalafix-rules", // metacp: Unsupported class file major version 71
     "scalatest",   // value stop is not a member of Thread
-    "scala-swing", // object JApplet is not a member of package javax.swing
   )
 
   val expectedToFail: Set[String] =
