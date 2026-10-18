@@ -74,7 +74,6 @@ object SuccessReport:
 
   val jdk17Failures = Set[String](
     "mockito-scala", // reflection-related test failures
-    "ssl-config",    // compilation errors involving sun.security.x509
   )
 
   val jdk21Failures = Set[String](
