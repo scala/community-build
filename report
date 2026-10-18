@@ -98,8 +98,9 @@ object SuccessReport:
     "scalafx",  // uses -release:23
   )
 
-  val jdk26Failures = Set[String](
+  val jdk27Failures = Set[String](
     "ammonite",    // value stop is not a member of Thread
+    "fs2",         // test expects the ConnectException message "Connection refused"
     "metals",      // value stop is not a member of Thread
     "scalatest",   // value stop is not a member of Thread
     "scala-swing", // object JApplet is not a member of package javax.swing
@@ -118,7 +119,7 @@ object SuccessReport:
       case Some("25") =>
         jdk17Failures ++ jdk21Failures ++ jdk25Failures
       case Some(_) =>
-        jdk17Failures ++ jdk21Failures ++ jdk25Failures ++ jdk26Failures
+        jdk17Failures ++ jdk21Failures ++ jdk25Failures ++ jdk27Failures
       case None => // we're not running on Jenkins, apparently
         Set()
 
