@@ -87,10 +87,7 @@ object SuccessReport:
   )
 
   val jdk27Failures = Set[String](
-    "ammonite",    // value stop is not a member of Thread
-    "metals",      // value stop is not a member of Thread
     "scalafix-rules", // metacp: Unsupported class file major version 71
-    "scalatest",   // value stop is not a member of Thread
   )
 
   val expectedToFail: Set[String] =
