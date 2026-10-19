@@ -73,8 +73,6 @@ object SuccessReport:
   )
 
   val jdk17Failures = Set[String](
-    "mockito-scala", // reflection-related test failures
-    "ssl-config",    // compilation errors involving sun.security.x509
   )
 
   val jdk21Failures = Set[String](
@@ -88,10 +86,6 @@ object SuccessReport:
   )
 
   val jdk27Failures = Set[String](
-    "ammonite",    // value stop is not a member of Thread
-    "metals",      // value stop is not a member of Thread
-    "scalafix-rules", // metacp: Unsupported class file major version 71
-    "scalatest",   // value stop is not a member of Thread
   )
 
   val expectedToFail: Set[String] =
