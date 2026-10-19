@@ -73,7 +73,6 @@ object SuccessReport:
   )
 
   val jdk17Failures = Set[String](
-    "mockito-scala", // reflection-related test failures
   )
 
   val jdk21Failures = Set[String](
