@@ -86,7 +86,6 @@ object SuccessReport:
   )
 
   val jdk27Failures = Set[String](
-    "scalafix-rules", // metacp: Unsupported class file major version 71
   )
 
   val expectedToFail: Set[String] =
